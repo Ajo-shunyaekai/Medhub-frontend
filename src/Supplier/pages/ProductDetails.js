@@ -133,90 +133,38 @@ const ProductDetails = () => {
                         </div>
 
                         <div className='product-details-container'>
-                            {/* <div className="product-details-section-two-img">
-                                <div className="product-details-sec-img-left">
-                                    <img src={para} alt="" className="responsive-image" />
-                                </div>
-                                <div className="product-details-sec-img-left">
-                                    <img src={para} alt="" className="responsive-image" />
-                                </div>
-                                <div className="product-details-sec-img-left">
-                                    <img src={para} alt="" className="responsive-image" />
-                                </div>
-                                <div className="product-details-sec-img-left">
-                                    <img src={para} alt="" className="responsive-image" />
-                                </div>
-                            </div> */}
                             <div className="product-details-section-two-img"> 
-                                        {medicineDetails?.medicine_image?.map((image, j) => (
-                                            <div className="product-details-sec-img-left" key={j}>
-                                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${image.medicine_name} ${j}`} className="responsive-image" />
-                                            </div>
-                                
-                                        ))}
-                                 </div>
+                                {medicineDetails?.medicine_image?.map((image, j) => (
+                                    <div className="product-details-sec-img-left" key={j}>
+                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} 
+                                               alt={`${image.medicine_name} ${j}`} className="responsive-image" />
+                                    </div>
+                        
+                                ))}
+                            </div>
                         </div>
 
-                        {/* <div className='product-details-container'>
-                            <div className="product-range-container">
-                                <div className="product-range-heading">Quantity</div>
-                                <div className="product-range-heading">Unit Price</div>
-                                <div className="product-range-heading">Total Price</div>
-                                <div className="product-range-heading">Est. Delivery Time</div>
-                            </div>
-
-                            
-                            <div className="product-range-details">
-                                <div className="product-range-text"> <input className="product-range-input" type=" text" value='0 to 500' /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="24 AED" /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="399 AED" /> </div>
-                                <div className="product-range-text"> <input className="product-range-input" type="text" value="10 Days" /></div>
-                            </div>
-
-                            <div className="product-range-details">
-                                <div className="product-range-text"> <input className="product-range-input" type=" text" value='500 to 1000' /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="22 AED" /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="340 AED" /> </div>
-                                <div className="product-range-text"> <input className="product-range-input" type="text" value="14 Days" /></div>
-                            </div>
-
-                            <div className="product-range-details">
-                                <div className="product-range-text"> <input className="product-range-input" type=" text" value='1000 to 2000' /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="20 AED" /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="300 AED" /> </div>
-                                <div className="product-range-text"> <input className="product-range-input" type="text" value="16 Days" /></div>
-                            </div>
-
-                            <div className="product-range-details">
-                                <div className="product-range-text"> <input className="product-range-input" type=" text" value='2000 to 5000' /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="18 AED" /> </div>
-                                <div className="product-range-text"><input className="product-range-input" type="text" value="280 AED" /> </div>
-                                <div className="product-range-text"> <input className="product-range-input" type="text" value="18 Days" /></div>
-                            </div>
-
-
-                        </div> */}
                          <div className='product-details-container'>
-                                    <div className="product-range-container">
-                                    <div className="product-range-heading">Quantity</div>
-                                    <div className="product-range-heading">Unit Price</div>
-                                    <div className="product-range-heading">Total Price</div>
-                                    <div className="product-range-heading">Est. Delivery Time</div>
-                                    </div>
+                            <div className="product-range-container">
+                            <div className="product-range-heading">Quantity</div>
+                            <div className="product-range-heading">Unit Price</div>
+                            <div className="product-range-heading">Total Price</div>
+                            <div className="product-range-heading">Est. Delivery Time</div>
+                            </div>
 
-                                       {
-                                            medicineDetails?.inventory_info?.map((info,k) => {
-                                                return (
-                                                    <div className="product-range-details">
-                                                        <div className="product-range-text"> <input className="product-range-input" type=" text" value={info.quantity} /> </div>
-                                                        <div className="product-range-text"><input className="product-range-input" type="text" value="24 AED" /> </div>
-                                                        <div className="product-range-text"><input className="product-range-input" type="text" value={info.unit_price} /> </div>
-                                                        <div className="product-range-text"> <input className="product-range-input" type="text" value={info.est_delivery_days} /></div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                </div>
+                                {
+                                    medicineDetails?.inventory_info?.map((info,k) => {
+                                        return (
+                                            <div className="product-range-details">
+                                                <div className="product-range-text"> <input className="product-range-input" type=" text" value={info?.quantity} /> </div>
+                                                <div className="product-range-text"><input className="product-range-input" type="text" value={info?.unit_price} /> </div>
+                                                <div className="product-range-text"><input className="product-range-input" type="text" value={info?.total_price} /> </div>
+                                                <div className="product-range-text"> <input className="product-range-input" type="text" value={info?.est_delivery_days} /></div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         <div className='product-details-container'>
                             <div className="product-details-country-section">
                                 <div className="product-details-county">
@@ -241,7 +189,6 @@ const ProductDetails = () => {
                             </div>
                         </div>
                         <div className='product-details-containers'>
-
                             <div className="product-details-mfg-container">
                                 <div className="product-details-mfg-heading">{medicineDetails?.supplier?.supplier_name }</div>
                                 <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>

@@ -193,10 +193,6 @@
 // export default SendInquiry;
 
 
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import '../style/sendinruiry.css';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
@@ -204,6 +200,8 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../api/Requests';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SendInquiry = () => {
   const itemsPerPage = 2;
@@ -211,6 +209,7 @@ const SendInquiry = () => {
   const [checkedState, setCheckedState] = useState({});
   const [list, setList] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   const handleCheckboxChange = (id) => {
     setCheckedState(prevState => ({
@@ -225,22 +224,26 @@ const SendInquiry = () => {
 
   const handleRemoveItem = (listId, itemId) => {
     const obj = {
-      buyer_id: 'BYR-jmn98sdanx',
-      list_id : listId,
-      item_id : [itemId],
-      pageNo : currentPage,
-      pageSize: itemsPerPage
+      buyer_id : 'BYR-jmn98sdanx',
+      list_id  : listId,
+      item_id  : [itemId],
+      pageNo   : currentPage,
+      pageSize : itemsPerPage
 
     };
 
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
       if (response.code === 200) {
-        // setList(response.result.data);
-        // setTotalItems(response.result.totalItems);
+        toast(response.message, { type: "success" });
+        setCheckedState({})
+        setRefreshTrigger(prev => !prev);
       } else {
+        toast(response.message, { type: "error" });
         console.log('error in order list api', response);
       }
     });
+
+
     // setList(prevList =>
     //   prevList.map(supplier =>
     //     supplier.list_id === listId
@@ -253,7 +256,7 @@ const SendInquiry = () => {
     // );
 
   };
-
+  
   const groupedProducts = groupBySupplier(list);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -271,12 +274,55 @@ const SendInquiry = () => {
         setList(response?.result?.data);
         setTotalItems(response?.result?.totalItems);
       } else {
+        toast(response.message, { type: "error" });
         console.log('error in order list api', response);
       }
     });
-  }, [currentPage]);
+  }, [currentPage, refreshTrigger]);
 
-  // console.log('GROUP', groupedProducts);
+
+  const handleSendEnquiry = () => {
+    console.log(checkedState);
+    if(Object.keys(checkedState).length === 0) {
+      return toast('Select atleast one item', { type: "error" });
+    }
+    
+    const selectedItems = [];
+    Object.entries(groupedProducts).forEach(([supplierName, supplierData]) => {
+      const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
+      if (selectedItemDetails.length > 0) {
+        selectedItems.push({
+          supplier_id  : supplierData.supplier_details.supplier_id,
+          list_id      : supplierData.list_id,
+          item_details : selectedItemDetails.map(item => ({
+            item_id           : item._id,
+            medicine_id       : item.medicine_id,
+            unit_price        : item.unit_price,
+            quantity_required : item.quantity_required,
+            est_delivery_days : item.est_delivery_days,
+            target_price      : item.target_price
+          }))
+        });
+      } 
+    });
+
+    const enquiryPayload = {
+      buyer_id: 'BYR-jmn98sdanx',
+      items: selectedItems
+    };
+
+    postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {
+      if (response.code === 200) {
+        toast(response.message, { type: "success" });
+        setCheckedState({})
+        setRefreshTrigger(prev => !prev);
+      } else {
+        toast(response.message, { type: "error" });
+        console.log('error in send-enquiry api', response);
+      }
+    });
+    
+  }
 
   return (
     <div className='send-enquiry-container'>
@@ -292,7 +338,7 @@ const SendInquiry = () => {
                 <span className='send-enquiry-upper-right-total'>Total:</span>
                 <span className='send-enquiry-upper-right-number'>{totalItems} Enquiries</span>
               </div>
-              <div className='send-enquiry-upper-right-button-sec'>
+              <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
                 <span className='send-enquiry-upper-right-button'>Send Enquiry</span>
               </div>
             </div>
@@ -305,7 +351,6 @@ const SendInquiry = () => {
                   <div className='send-enquiry-supplier-list-text'>{supplierName}</div>
                 </div>
                 {supplierData.items.map(product => {
-                  console.log('product._id',product);
                   return (
                     <div key={product?._id} className='send-enquiry-inner-bottom-section-container'>
                     <div className='send-enquiry-inner-checkbox'>

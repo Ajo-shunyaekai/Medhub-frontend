@@ -23,7 +23,6 @@ import AdminSidebar from './Admin/components/AdminSidebar.js';
         if (res === '/') {
             res = '/buyer';
         }
-        console.log(res,'sdfdsfsf');
         return res
     }
     
