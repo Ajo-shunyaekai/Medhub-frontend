@@ -1,0 +1,158 @@
+
+.pdf-upload-area {
+  margin-top: 18px;
+    width: 380px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    cursor: pointer;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .pdf-image-name {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  .pdf-image-uploader {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    /* border: 2px solid red; */
+  }
+  
+  .pdf-uploaded-image {
+    transition: transform 0.3s ease;
+    width: 150px;
+    height: auto;
+  }
+  /*
+    .uploaded-image:hover {
+      transform: scale(1.5);
+    } */
+  
+  .pdf-remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+  
+  }
+  
+  .pdf-upload-icon {
+    width: 30px;
+  }
+  
+  .pdf-upload-text {
+    font-size: 14px;
+  }
+  .pdf-uploaded-image {
+    max-width: 100%;
+    cursor: pointer;
+  }
+  
+  
+  .modal-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  
+  .pdf-image-previews{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    /* border: 2px solid green; */
+  }
+  
+  .pdf-image-preview{
+    position: relative;
+    width: 150px;
+    /* width: 48%; */
+    height: auto;
+    margin-top: 0.5rem;
+    /* border: 2px solid blue; */
+  }
+  
+  
+  .pdf-image-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+  
+  
+  .pdf-close-icon {
+    position: absolute !important;
+    top: 14px !important;
+    width: 20px !important;
+    cursor: pointer !important;
+    color: #5e676f !important;
+    left: 350px !important;
+    font-size: 16px !important;
+  }
+  .pdf-file-name{
+    width: 380px;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  }
+  /* =================================== */
+  /* App.css */
+  
+  .modalBody{
+    /* border: 1px solid red; */
+  position: relative;
+  top: 1rem;
+  }
+  
+  .modalBody img{
+    width: 100%;
+  }
+  
+  .modalCloseBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+  }
+  /* =================================== */
+  @media screen and (max-width: 992px) {  
+    .pdf-image-preview{
+      width: 220px;
+    }
+  }
+  
+  @media screen and (max-width: 580px) {  
+    .pdf-image-preview{
+      width: 45%;
+    }
+  }

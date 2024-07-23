@@ -1,0 +1,85 @@
+.pending-invo-container {
+    color: blue;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif !important;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif !important;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  .table-row {
+    border-collapse: separate !important;
+    border-spacing: 0 10px !important;
+  }
+  .pending-invoies-tbody-section {
+    background-color: white;
+  }
+  .invoice-th {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px;
+  }
+  .item-title {
+    font-size: 13px;
+    color: #99a0ac;
+  }
+  
+  .invoice-details-button-row {
+    display: flex;
+    column-gap: 14px;
+    justify-content: start;
+    cursor: pointer;
+  }
+  .invoice-details-button-column {
+    background-color: #31c971;
+    border-radius: 4px;
+    color: #ffffff;
+    width: 34px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .invoice-details-button-column-pay {
+    background-color: #f54394;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .invoices-details-button-pay {
+    font-size: 13px;
+  }
+  .invoice-details-button-column-download {
+    background-color: #f4c414;
+    border-radius: 4px;
+    color: #ffffff;
+    width: 34px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pending-invoices-td {
+    width: 12vw !important;
+  }
+  .invoice-view {
+    width: 18px !important;
+  }
+  .pending-invoice-pagination-conatiner-section{
+    margin-bottom: 10rem;
+  }      

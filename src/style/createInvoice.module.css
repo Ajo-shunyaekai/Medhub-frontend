@@ -1,0 +1,70 @@
+.create-invoice-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: #5e676f;
+  row-gap: 20px;
+  height: 100vh;
+  overflow: scroll;
+}
+.create-invoice-container::-webkit-scrollbar {
+  display: none;
+}
+.create-invoice-heading {
+  font-size: 20px;
+  font-weight: 500;
+  width: 100%;
+  max-width: 94%;
+}
+.create-invoice-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  background-color: white;
+  padding: 40px;
+}
+.create-invoice-supplier-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  background-color: white;
+  padding: 40px;
+}
+.craete-invoice-form {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px !important;
+}
+.create-invoice-div-container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+.create-invoice-div-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+.create-invoice-div-input {
+  width: 100%;
+  outline: none !important;
+  border-radius: 4px;
+  padding: 8px 11px !important;
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+  border: 2px solid rgba(135, 150, 165, 0.15) !important;
+}
+.craete-invoices-button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+.create-invoices-cancel {
+}
+.create-invoices-submit {
+}

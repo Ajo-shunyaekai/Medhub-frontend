@@ -1,0 +1,53 @@
+p {
+  margin-bottom: 0px !important;
+}
+h1 {
+  margin-bottom: 0px !important;
+}
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif !important;
+}
+.invoice-template-download {
+  position: sticky;
+  top: 0%;
+  z-index: 1;
+  background-color: #f9f9fa !important;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: end;
+  width: 100%;
+  max-width: 99.4%;
+  margin-bottom: 30px;
+}
+.invoice-template-button {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 5px 18px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.invoice-template-design {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* Hide native scrollbars */
+}
+
+/* Inner wrapper for scrolling content */
+.scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; 
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-x: hidden; 
+  -webkit-overflow-scrolling: touch; 
+}
+
+/* Hide scrollbar in WebKit-based browsers */ 
+.scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,189 @@
+.pending-invo-container {
+  color: blue;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif !important;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif !important;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.table-row {
+  border-collapse: separate !important;
+  border-spacing: 0 10px !important;
+}
+.pending-invoices-tbody-section {
+  background-color: white;
+}
+.invoice-th {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px;
+}
+.item-title {
+  font-size: 13px;
+  color: #99a0ac;
+}
+
+.invoice-details-button-row {
+  display: flex;
+  column-gap: 14px;
+  justify-content: start;
+  cursor: pointer;
+}
+.invoice-details-button-column {
+  background-color: #31c971;
+  border-radius: 4px;
+  color: #ffffff;
+  width: 34px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.invoice-details-button-column-pay {
+  background-color: #f54394;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.invoices-details-button-pay {
+  font-size: 13px;
+}
+.invoice-details-button-column-download {
+  background-color: #f4c414;
+  border-radius: 4px;
+  color: #ffffff;
+  width: 34px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pending-invoices-td {
+  width: 12vw !important;
+}
+.invoice-view {
+  width: 18px !important;
+}
+/* Modal class css */
+.modal-handle-close {
+  color: #ffffff !important;
+  background-color: #f4c414 !important;
+  border-color: #f4c414 !important;
+  font-size: 13px !important;
+  padding: 6px 16px !important;
+  box-shadow: unset !important;
+}
+.modal-handle-close:hover {
+  color: #ffffff !important;
+  background-color: #f4c414 !important;
+  border-color: #f4c414 !important;
+}
+.modal-handle-save {
+  background-color: #31c971 !important;
+  color: #ffffff !important;
+  padding: 5px 18px !important;
+  border-radius: 4px !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+}
+.modal-handle-save:hover {
+  border-color: #31c971 !important;
+  background-color: #31c971 !important;
+  color: #ffffff !important;
+}
+.btn:focus-visible {
+  color: #ffffff !important;
+  background-color: #31c971 !important;
+  border-color: #31c971 !important;
+  outline: 0;
+  box-shadow: unset !important;
+}
+.modal-footer {
+  column-gap: 10px !important;
+  border-top: unset !important;
+}
+.modal-title {
+  font-size: 16px !important;
+}
+.modal-header {
+  border-bottom: unset !important;
+}
+.modal-payment-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+.modal-payment-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.modal-class-head {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modal-pay-dropdown {
+  padding: 8px !important;
+  border: none !important;
+  border-bottom: 1px solid #99a0ac !important;
+  font-size: 14px !important;
+  color: #5e676f !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%235e676f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"%3e%3cpolyline points="6 9 12 15 18 9"/%3e%3c/svg%3e')
+    no-repeat right 8px center !important;
+  background-color: #fff !important;
+}
+.error {
+  font-size: 12px;
+  color: #ff0000;
+}
+.pending-invoice-pagination-conatiner-section{
+  margin-bottom: 10rem;
+}  
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .modal-pay-dropdown {
+    padding: 8px !important;
+    border-radius: 0px !important;
+  }
+}
+
+@-moz-document url-prefix() {
+  .modal-pay-dropdown {
+    padding: 8px !important;
+  }
+}
+
+.modal-class-input {
+  width: 100% !important;
+  padding: 8px 0px !important;
+  border: none !important;
+  border-bottom: 1px solid #99a0ac !important;
+  font-size: 14px !important;
+  color: #5e676f !important;
+  outline: none !important;
+}
+.react-datepicker-popper {
+  transform: translate(31px, 98px) !important;
+  top: -10px;
+}

@@ -1,0 +1,157 @@
+
+.add-upload-area {
+    /* width: 100%; */
+    width: 380px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    cursor: pointer;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .add-image-name {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  .add-image-uploader {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    /* border: 2px solid red; */
+  }
+  
+  .add-uploaded-image {
+    transition: transform 0.3s ease;
+    width: 150px;
+    height: auto;
+  }
+  /*
+    .uploaded-image:hover {
+      transform: scale(1.5);
+    } */
+  
+  .add-remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+  
+  }
+  
+  .add-upload-icon {
+    width: 30px;
+  }
+  
+  .add-upload-text {
+    font-size: 14px;
+  }
+  .add-uploaded-image {
+    max-width: 100%;
+    cursor: pointer;
+  }
+  
+  
+  .modal-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  
+  .add-image-previews{
+    width: 380px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  .add-image-preview{
+    position: relative;
+    width: 110px;
+    height: auto;
+    margin-top: 0.5rem;
+    /* border: 2px solid blue; */
+  }
+  
+  
+  .add-image-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+  
+  
+  .add-close-icon {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px; /* Adjust as needed */
+    cursor: pointer;
+    color: #5e676f;
+  }
+  .pdf-file-name{
+    width: 380px;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  }
+  /* =================================== */
+  /* App.css */
+  
+  .modalBody{
+    /* border: 1px solid red; */
+  position: relative;
+  top: 1rem;
+  }
+  
+  .modalBody img{
+    width: 100%;
+  }
+  
+  .modalCloseBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+  }
+  /* =================================== */
+  @media screen and (max-width: 992px) {  
+    .add-image-preview{
+      width: 220px;
+    }
+  }
+  
+  @media screen and (max-width: 580px) {  
+    .add-image-preview{
+      /* width: 100%; */
+      width: 45%;
+    }
+  }

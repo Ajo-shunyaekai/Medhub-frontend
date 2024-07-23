@@ -1,0 +1,102 @@
+.membership-main-section {
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+    height: 100vh;
+    overflow: scroll;
+    background-attachment: fixed;
+    scrollbar-width: none;
+    -ms-overflow-style: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
+.membership-main-heading {
+    width: 100%;
+    padding-top: 5px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #5e676f;
+    text-transform: capitalize;
+}
+
+.subscription-card-container {
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 4px;
+    padding: 20px 0px;
+}
+
+.subscription-plan-head {
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.subscription-plan-section-cont {
+    padding: 14px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.subscription-basic-paln {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.subscription-next-payment {
+    font-size: 14px;
+    color: #5e676f;
+}
+
+.subscription-footer-link {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.subscription-footer-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px 0px;
+    position: relative;
+}
+
+.subscription-footer-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 0.5px;
+    background-color: #d3d3d3;
+}
+
+.subscriprion-footer-head {
+    font-size: 16px;
+    line-height: 0px;
+    font-weight: 500;
+    color: #5e676f !important;
+}
+
+.subscription-footer-icon {
+    color: #5e676f !important;
+}

@@ -1,0 +1,141 @@
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+
+import SignUp from '../signup/SignUp.js';
+import Login from '../signup/Login.js';
+
+import Sidebar from './Sidebar.js';
+import Dashboard from './Dashboard';
+import Buy from './Buy'
+import Order from './Order.js';
+import MySupplier from './MySupplier.js';
+import Invoice from './Invoice.js';
+import Support from './Support.js';
+import PopupModal from './orders/PopupModal.js';
+import ActiveOrder from './orders/ActiveOrder.js';
+import CompleteOrder from './orders/CompleteOrder.js';
+import DeletedOrder from './orders/DeletedOrder.js';
+import OrderCancel from './orders/OrderCancel.js';
+import LineChart from './chart/LineChart';
+import ProgressBar from './chart/ProgressBar';
+import OrderDetails from './OrderDetails.js';
+import PendingDetails from './PendingDetails.js';
+import ProductDetails from './ProductDetails.js'
+import OrderDetailsCircularBar from './chart/OrderDetailsCircularBar.js';
+import SupplierDetails from './SupplierDetails.js';
+import CompletedOrders from './dashboard/CompletedOrders.js';
+import OngoingOrders from './dashboard/OngoingOrders.js';
+import PendingOrders from './dashboard/PendingOrders.js';
+import SupplyOrderList from './orders/SupplyOrderList.js';
+import CompleteInvoice from './invoice/CompleteInvoice.js';
+import OngoingInvoice from './invoice/OngoingInvoice.js';
+import PendingInvoice from './invoice/PendingInvoice.js';
+import PayModal from './pay/PayModal'
+import UploadDocument from './pay/UploadDocument'
+import InvoiceDesign from './pay/invoiceDesign.js';
+import CustomModal from './pay/CustomModal.js';
+import InvoiceCardDesign from './pay/InvoiceCardDesign.js'
+import ProductDetailsCard from './ProductDetailsCard.js';
+
+import SupplierCompleted from './supplier/SuplierCompleted.js'
+import SupplierActive from './supplier/SupplierActive.js'
+import SupplierPending from './supplier/SupplierPending.js'
+import ImageUploader from '../signup/ImageUploader.js';
+import SuccessModal from '../signup/SuccessModal.js';
+
+import Buy2ndMarket from './sections/Buy2ndMarket.js'
+import MarketProductDetails from './MarketProductDetails.js';
+import SupplyProductList from './orders/SupplyProductList.js'
+import SupplierPurchaseInvoice from './pay/SupplierPurchaseInvoice.js'
+import SendInquiry from './SendInquiry';
+import SearchProductDetails from './SearchProductDetails.js';
+import Subscription from './Subscription.js';
+import TableMembership from './membership/TableMembership.js';
+import SubscriptionMembership from './SubscriptionMembership.js';
+import SearchMarketProductDetails from './SearchMarketProductDetails.js';
+
+const BuyerSidebar = () => {
+    const navigate = useNavigate();
+    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+    useEffect( () => { 
+        
+        if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate("/buyer/login");
+        }
+    },[]) ;
+
+    if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
+        return (<>
+            <Routes>
+                <Route path="/buyer/sign-up" element={<SignUp />} />
+                <Route path="/buyer/login" element={<Login />} />
+            </Routes> 
+        </>)
+    } else {
+        return ( <>
+            <div>
+                <Sidebar>
+                    <Routes>
+                        <Route path="/buyer" element={<Dashboard />} />
+                        <Route path="/buyer/order/active" element={<Order />} />
+                        <Route path="/buyer/order/completed" element={<Order />} />
+                        <Route path="/buyer/order/pending" element={<Order />} />
+                        <Route path="/buyer/order" element={<Navigate to="/buyer/order/active" />} />
+                        <Route path="/buyer/buy/seller" element={<Buy />} />
+                        <Route path="/buyer/buy/product" element={<Buy />} />
+                        <Route path="/buyer/buy/market" element={<Buy />} />
+                        <Route path="/buyer/buy" element={<Navigate to="/buyer/buy/seller" />} />
+                        <Route path="/buyer/my-supplier" element={<MySupplier />} />
+                        <Route path="/buyer/invoice/pending" element={<Invoice />} />
+                        <Route path="/buyer/invoice/paid" element={<Invoice />} />
+                        <Route path="/buyer/invoice" element={<Navigate to="/buyer/invoice/pending" />} />
+                        <Route path="/buyer/support" element={<Support />} />
+                        <Route path="/buyer/active-order" element={<ActiveOrder />} />
+                        <Route path="/buyer/complete-order" element={<CompleteOrder />} />
+                        <Route path="/buyer/deleted-order" element={<DeletedOrder />} />
+                        <Route path="/buyer/popup-Modal" element={<PopupModal />} />
+                        <Route path="/buyer/ordercancel" element={<OrderCancel />} />
+                        <Route path="/buyer/line-chart" element={<LineChart />} />
+                        <Route path="/buyer/progress-bar" element={<ProgressBar />} />
+                        <Route path="/buyer/order-details/:orderId" element={<OrderDetails />} />
+                        <Route path="/buyer/pending-details/:orderId" element={<PendingDetails />} />
+                        <Route path="/buyer/medicine-details/:medicineId" element={<ProductDetails />} />
+                        <Route path="/buyer/supplier-details/products/:supplierId" element={<SupplierDetails />} />
+                        <Route path="/buyer/supplier-details/orders/:supplierId" element={<SupplierDetails />} />
+                        <Route path="/buyer/supplier-details/:supplierId" element={<SupplierDetails />}  />
+                        <Route path="/buyer/completed-orders" element={<CompletedOrders />} />
+                        <Route path="/buyer/ongoing-orders" element={<OngoingOrders />} />
+                        <Route path="/buyer/supply-order-list" element={<SupplyOrderList />} />
+                        <Route path="/buyer/pending-orders" element={<PendingOrders />} />
+                        <Route path="/buyer/order-details-circular-bar" element={<OrderDetailsCircularBar />} />
+                        <Route path="/complete-invoice" element={<CompleteInvoice />} />
+                        <Route path="/buyer/ongoing-invoice" element={<OngoingInvoice />} />
+                        <Route path="/buyer/pending-invoice" element={<PendingInvoice />} />
+                        <Route path="/buyer/upload-document" element={<UploadDocument />} />
+                        <Route path="/buyer/invoice-design/:orderId" element={<InvoiceDesign />} />
+                        <Route path="/buyer/custom-modal" element={<CustomModal />} />
+                        <Route path="/buyer/invoice-card-design" element={<InvoiceCardDesign />} />
+                        <Route path="/buyer/product-details-card" element={<ProductDetailsCard />} />
+                        <Route path="/buyer/supplier-completed/:supplierId" element={<SupplierCompleted />} />
+                        <Route path="/buyer/supplier-active/:supplierId" element={<SupplierActive />} />
+                        <Route path="/buyer/supplier-pending/:supplierId" element={<SupplierPending />} />
+                        <Route path="/buyer/supply-product-list" element={<SupplyProductList />} />
+                        <Route path="/buyer/buy-2nd-market" element={<Buy2ndMarket />} />
+                        <Route path="/buyer/market-product-details/:medicineId" element={<MarketProductDetails />} />  
+                        <Route path="/buyer/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />  
+                        <Route path="/buyer/send-inquiry" element={<SendInquiry/>} />
+                        <Route path="/buyer/search-product-details/:medicineId" element={<SearchProductDetails/>} />
+                        <Route path="/buyer/subscription" element={<Subscription/>} />
+                        <Route path="/buyer/subscription-membership" element={<SubscriptionMembership/>} />
+                        <Route path="/buyer/table-membership" element={<TableMembership/>} />
+                        <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails/>} /> 
+                    </Routes>
+                </Sidebar>
+            </div>
+        </> )
+    }
+
+}
+
+export default BuyerSidebar;
