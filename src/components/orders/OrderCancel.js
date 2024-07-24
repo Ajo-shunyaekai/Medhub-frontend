@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import orderCancel from '../../style/orderCancel.css';
+import orderCancel from '../../style/orderCancel.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import { postRequestWithToken } from '../../api/Requests';
 import { useNavigate } from 'react-router-dom';

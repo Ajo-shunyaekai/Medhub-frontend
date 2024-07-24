@@ -36,7 +36,7 @@ const AssignDriver = ({orderItems}) => {
                                 <tr>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
-                                        
+                                            <span className="table-g-driver-name">Product ID</span>
                                             <span className="table-g-not-names">{item.product_id || item.productId}</span>
                                         </div>
                                     </td>
@@ -57,11 +57,16 @@ const AssignDriver = ({orderItems}) => {
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
-                                            <span className="table-g-driver-name">Price</span>
+                                            <span className="table-g-driver-name">Total Price</span>
                                             <span className="table-g-not-name">{item.price || item.totalAmount}</span>
                                         </div>
                                     </td>
-                                    
+                                    <td className='tables-td'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Est. Delivery Time</span>
+                                            <span className="table-g-not-name">{item.time || '15 days'}</span>
+                                        </div>
+                                    </td>
                                     <td>
 
                                     </td>

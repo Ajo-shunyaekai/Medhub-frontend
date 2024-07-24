@@ -11,8 +11,32 @@
   height: 100vh;
   margin: auto;
 }
+.create-invoice-form-main-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+}
+.create-po-main-form-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+}
+.create-invoice-div-textarea{
+  width: 100%;
+}
+.create-invoice-div-textarea{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
 .create-invoice-container::-webkit-scrollbar {
   display: none;
+}
+.create-invoice-upload-purchase{
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
 }
 .create-invoice-form-heading {
   font-size: 18px;
@@ -33,6 +57,7 @@
   justify-content: start;
   flex-wrap: wrap;
   gap: 16px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .craete-invoice-form {
   width: 100%;

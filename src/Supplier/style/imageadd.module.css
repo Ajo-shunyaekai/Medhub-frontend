@@ -79,10 +79,9 @@
   
   .add-image-preview{
     position: relative;
-    width: 110px;
-    height: auto;
+    width: 100px;
+    height: 100px;
     margin-top: 0.5rem;
-    /* border: 2px solid blue; */
   }
   
   

@@ -54,6 +54,17 @@ import TableMembership from './membership/TableMembership.js';
 import SubscriptionMembership from './SubscriptionMembership.js';
 import SearchMarketProductDetails from './SearchMarketProductDetails.js';
 
+import CreatePO from './CreatePO.js';
+import CreatePOImageUpload from './CreatePOImageUpload.js';
+import PurchasedOrderDetails from './PurchasedOrderDetails.js'
+import OnGoingInquiriesDetails from './OnGoingInquiriesDetails.js'
+import OnGoingList from './OnGoingList.js'
+import InquiryPurchaseOrders from './InquiryPurchaseOrders.js'
+import OnGoingOrder from './inquiry/OnGoingOrder.js'
+import PurchasedOrder from './inquiry/PurchasedOrder.js'
+import SuccessfulInquiryModal from './SuccessfulInquiryModal.js'
+
+
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -130,6 +141,19 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/subscription-membership" element={<SubscriptionMembership/>} />
                         <Route path="/buyer/table-membership" element={<TableMembership/>} />
                         <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails/>} /> 
+                        <Route path="/buyer/Create-PO" element={<CreatePO/>} /> 
+                        <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload/>} /> 
+                        <Route path="/buyer/purchased-order-details" element={<PurchasedOrderDetails/>} />
+                        <Route path="/buyer/ongoing-inquiries-details" element={<OnGoingInquiriesDetails/>} />
+                        <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
+          
+                        {/* start the inquiry orders */}
+                        <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />
+                        <Route path="/buyer/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders/>} />
+                        <Route path="/buyer/inquiry-purchase-orders" element={<Navigate to="/buyer/inquiry-purchase-orders/ongoing" />} />
+                        <Route path="/buyer/on-going-order" element={<OnGoingOrder/>} />   
+                        <Route path="/buyer/purchased-order" element={<PurchasedOrder/>} />
+                        <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal/>} />
                     </Routes>
                 </Sidebar>
             </div>

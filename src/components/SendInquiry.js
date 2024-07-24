@@ -256,7 +256,7 @@ const SendInquiry = () => {
     // );
 
   };
-  
+
   const groupedProducts = groupBySupplier(list);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -280,9 +280,7 @@ const SendInquiry = () => {
     });
   }, [currentPage, refreshTrigger]);
 
-
   const handleSendEnquiry = () => {
-    console.log(checkedState);
     if(Object.keys(checkedState).length === 0) {
       return toast('Select atleast one item', { type: "error" });
     }

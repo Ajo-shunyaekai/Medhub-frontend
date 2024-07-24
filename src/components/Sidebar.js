@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import sidebar from '../style/sidebar.css';
 import styles from '../style/sidebar.module.css'; // Import the CSS file
-
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
 import order_list from '../assest/dashboard/order_list.svg'
 import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
@@ -17,7 +17,7 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
-// Mobile sidebar
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
@@ -229,6 +229,9 @@ const Sidebar = ({ children, dragWindow }) => {
                         </div> 
                         <div className={styles.nav_notifi_right}>
                             <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
+                            <Link to='/buyer/send-inquiry'>
+                                <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
+                            </Link>
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
                             <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} />
                             {isNotificationOpen && (
@@ -361,6 +364,10 @@ const Sidebar = ({ children, dragWindow }) => {
                         <Link to="/buyer/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
+                        </Link>
+                        <Link to="/buyer/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
                         </Link>
 
                         <div className={styles.mobile_order_btn}>

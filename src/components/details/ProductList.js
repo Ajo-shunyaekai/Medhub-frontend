@@ -38,13 +38,13 @@ const ProductList = ({orderItems}) => {
         currentOrders?.map((item,i) => {
             return (
                     <tr>
-                        <td className='tables-td'>
+                        <td className='tables-tds'>
                             <div className="table-g-section-content">
-                            
+                                <span className="table-g-driver-name">Product ID</span>
                                 <span className="table-g-not-names">{item.product_id || item.productId}</span>
                             </div>
                         </td>
-                        <td className='tables-td-cont' >
+                        <td className='tables-tds-cont' >
                             <div className="table-second-container">
                                 <span className="table-g-section">{item?.product_name?.charAt(0) || item?.productName?.charAt(0) }</span>
                                 <div className="table-g-section-content">
@@ -53,36 +53,37 @@ const ProductList = ({orderItems}) => {
                                 </div>
                             </div>
                         </td>
-                        <td className='tables-td'>
+                        <td className='tables-tds'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Quantity</span>
                                 <span className="table-g-not-name">{item.quantity || item.quantity}</span>
                             </div>
                         </td>
-                        <td className='tables-td'>
+                        <td className='tables-tds'>
                             <div className="table-g-section-content">
-                                <span className="table-g-driver-name">Price</span>
-                                <span className="table-g-not-name">{item.price || item.totalAmount}</span>
+                                <span className="table-g-driver-name">Target Price</span>
+                                <span className="table-g-not-name">{item.price || item.totalAmount || '30 AED'}</span>
                             </div>
                         </td>
 
                         <td className='tables-tds'>
-                            <div className="table-g-section-content">
-                              
-                                <span className="table-g-not-name-buttons">Pending</span>
-                            </div>
+                                <div className="table-g-section-content">
+                                    <span className="table-g-driver-name">Counter Price</span>
+                                    <span className="table-g-not-name">{item.counterprice || '35 AED'}</span>
+                                </div>
+                        </td>
+                        <td className='tables-tds'>
+                                <div className="table-g-section-content-button">
+                                    <span className="table-g-not-name-button">Accept</span>
+                                    <span className="table-g-not-reject-buttons">Reject</span>
+                                </div>
                         </td>
                         
-                        <td>
-
-                        </td>
+                        <td></td>
                     </tr>
-                )
-          })
-    }
-
-
-
+                    )
+            })
+        }
 
                 </tbody>
             </table>

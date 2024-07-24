@@ -17,6 +17,11 @@
     font-weight: 500;
     color: #5e676f;
   }
+  .search-details-card-containers-heading{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
   /* button container code */
   .search-details-sec-two-button-cont{
     display: flex;
