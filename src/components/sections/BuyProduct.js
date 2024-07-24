@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import buyproduct from '../../style/buyproduct.css';
+import '../../style/buyproduct.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Generics from '../../assest/Buy/generics.svg'
 import Orignals from '../../assest/Buy/orignals.svg'
@@ -8,7 +8,6 @@ import MedicalDevices from '../../assest/Buy/medicaldevices.svg'
 import Nutraceutical from '../../assest/Buy/neutraceutical.svg'
 import Arrow from '../../assest/Buy/arrow.svg'
 import Search from '../../assest/Buy/search-icon.svg'
-import MedicineOne from '../../assest/Buy/paracetamol.png';
 import { postRequestWithToken } from '../../api/Requests';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
