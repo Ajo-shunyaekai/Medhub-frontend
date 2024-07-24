@@ -121,10 +121,10 @@ const SupplierSidebar = () => {
                     <Route path="/supplier/invoice-design" element={<InvoiceDesign />} />
                     <Route path="/supplier/active-orders-details/:orderId" element={<ActiveOrdersDetails />} />
                     <Route path="/supplier/active-assign-driver" element={<ActiveAssignDriver />} />
-                    <Route path="/supplier/buyer-details" element={<BuyerDetails />} />
-                    <Route path="/supplier/buyer-completed-list" element={<BuyerCompletedList />} />
-                    <Route path="/supplier/buyer-active-list" element={<BuyerActiveList />} />
-                    <Route path="/supplier/buyer-pending-list" element={<BuyerPendingList />} />
+                    <Route path="/supplier/buyer-details/:buyerId" element={<BuyerDetails />} />
+                    <Route path="/supplier/buyer-completed-list/:buyerId" element={<BuyerCompletedList />} />
+                    <Route path="/supplier/buyer-active-list/:buyerId" element={<BuyerActiveList />} />
+                    <Route path="/supplier/buyer-pending-list/:buyerId" element={<BuyerPendingList />} />
                     <Route path="/supplier/add-product" element={<AddProduct/>} />
                     <Route path="/supplier/edit-product/:medicineId" element={<EditAddProduct/>} /> 
                     <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
@@ -142,7 +142,7 @@ const SupplierSidebar = () => {
           <Route path="/supplier/inquiry-purchase-orders" element={<Navigate to="/supplier/inquiry-purchase-orders/ongoing" />} />
           <Route path="/supplier/on-going-order" element={<OnGoingOrder />} />
           <Route path="/supplier/purchased-order" element={<PurchasedOrder />} />
-          <Route path="/supplier/inquiry-request-details" element={<InquiryRequestDetails/>} />
+          <Route path="/supplier/inquiry-request-details/:inquiryId" element={<InquiryRequestDetails/>} />
           <Route path="/supplier/inquiry-product-list" element={<InquiryProductList/>} />
           
           {/* End the inquiry orders */}

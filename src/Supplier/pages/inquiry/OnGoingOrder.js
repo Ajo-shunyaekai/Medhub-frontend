@@ -6,6 +6,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import '../../style/ongoingorders.css';
+import moment from 'moment/moment';
 
 const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,handlePageChange,activeLink}) => {
   const [modal, setModal] = useState(false);
@@ -67,16 +68,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
     },
   ];
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const ongoingsPerPage = 4;
 
-  // const indexOfLastongoing = currentPage * ongoingsPerPage;
-  // const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
-  // const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
 
   return (
     <>
@@ -101,7 +93,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.enquiry_id}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.created_at}</div>
+                        <div className="ongoing-section-heading">{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
                       </td>
                       <td className='ongoing-section-large-td'>
                         <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
@@ -114,7 +106,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>
-                          <Link to='/supplier/inquiry-request-details'>
+                          <Link to={`/supplier/inquiry-request-details/${ongoing?.enquiry_id}`}>
                             <div className='ongoing-section-view'>
                               <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                             </div>

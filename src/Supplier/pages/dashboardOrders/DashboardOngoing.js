@@ -9,7 +9,7 @@ import OrderCancel from '../OrderCancel';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-
+import { Table } from 'react-bootstrap';
 
 const DashboardOngoing = () => {
     const navigate = useNavigate()
@@ -63,73 +63,78 @@ const DashboardOngoing = () => {
           })
     },[currentPage])
 
-
     return (
         <>
-            <div className='request-main-container'>
-                <div className="request-name"> Ongoing Orders</div>
-                <div className="request-container">
-                    <div className="request-container-section">
-                        <div className='request-inner-container-section'>
-                            <table className="table-request">
-                                <thead className='request-container-thead'>
-                                    <tr className='request-container-tr'>
-                                        <th className="request-container-th"><div className="request-container-head"> Order ID</div></th>
-                                        <th className="request-container-th"> <div className="request-container-head"> Date</div></th>
-                                        <th className="request-container-ths"><div className="request-container-heads">Buyer Name</div></th>
-                                        <th className="request-container-th"><div className="request-container-head">Quantity</div></th>
-                                        <th className="request-container-th"><div className="request-container-head">Status</div></th>
-                                        <th className="request-container-th-action"><div className="request-container-head">Action</div></th>
-                                    </tr>
-                                </thead>
-                                
+            <div className='completed-order-main-container'>
+                <div className="completed-order-main-head">Ongoing Orders</div>
+                <div className="completed-order-container">
+                    <div className="completed-order-container-right-2">
+                        <Table responsive="xxl" className='completed-order-table-responsive'>
+                            <thead>
+                                <div className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }} >
+                                    < div className='table-row-item table-order-1' >
+                                        <span className='completed-header-text-color' >Order ID	</span>
+                                    </div>
+                                    <div className='completed-table-row-item completed-table-order-1'>
+                                        <span className='completed-header-text-color'>Date	</span>
+                                    </div>
+                                    <div className='completed-table-row-item completed-table-order-2'>
+                                        <span className='completed-header-text-color'>Buyer Name</span>
+                                    </div>
+                                    <div className='completed-table-row-item completed-table-order-1'>
+                                        <span className='completed-header-text-color'>Quantity</span>
+                                    </div>
+                                    <div className='completed-table-row-item completed-table-order-1'>
+                                        <span className='completed-header-text-color'>Status	</span>
+                                    </div>
+                                    <div className='completed-table-row-item completed-table-order-1'>
+                                        <span className='completed-header-text-color'>Action	</span>
+                                    </div>
 
-                                {
-                                    orderList && orderList.length > 0 ? (
+                                </div>
+                            </thead>
+
+                            <tbody className='bordered'>
+                               {
+                            orderList && orderList.length > 0 ? (
                                         orderList.map((order, i) => {
                                             const totalQuantity = order.items.reduce((total, item) => {
                                                 return total + item.quantity;
                                               }, 0);
                                               const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
-                                                <tbody className='request-container-tbody'>
-                                                <tr className="request-section-tr">
-                                                    <td className='request-section-td'>
-                                                        <div className="request-section-heading">{order.order_id}</div>
-                                                    </td>
-                                                    <td className='request-section-td'>
-                                                        <div className="request-section-heading">{orderedDate}</div>
-                                                    </td>
-                                                    <td className='request-section-tds'>
-                                                        <div className="request-section-heading">{order.buyer.buyer_name}</div>
-                                                    </td>
-                                                    <td className='request-section-td'>
-                                                        <div className="request-section-heading">{totalQuantity}</div>
-                                                    </td>
-                                                    <td className='request-section-td'>
-                                                        <div className="request-section-heading">{order.order_status}</div>
-                                                    </td>
-                                                    <td className='request-section-button-cont'>
-                                                        <div className='request-section-button'>
-                                                            <Link to={`/supplier/order-details/${order.order_id}`}>
-                                                                <div className='request-section-view'>
-                                                                    <RemoveRedEyeOutlinedIcon className='request-section-eye' />
-                                                                </div>
-                                                            </Link>
-                                                                <div className='request-section-delete' onClick={() => showModal(order.order_id)}>
-                                                                    <HighlightOffIcon className='request-section-off' />
-                                                                </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            ) 
-                                        })
-                                    ) : 'no orders'
-                                }
-                            </table>
-                        </div>
+                                    <div className='completed-table-row-container'>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <div className='completed-table-text-color'>{order.order_id}</div>
+                                        </div>
 
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <div className='completed-table-text-color'>{orderedDate}</div>
+                                        </div>
+                                        <div className='completed-table-row-item  completed-table-order-2'>
+                                            <div className='table-text-color'>{order.buyer.buyer_name}</div>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <div className='completed-table-text-color'>{totalQuantity}</div>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <div className='completed-table-text-color'>{order.order_status}</div>
+                                        </div>
+                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                            <Link to={`/supplier/active-orders-details/${order.order_id}`}>
+                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                            </Link>
+                                            {/* <div className='request-section-delete' onClick={() => showModal(order.order_id)}>
+                                                <HighlightOffIcon className='request-section-off' />
+                                            </div> */}
+                                        </div>
+                                    </div>
+                                 ) 
+                                })
+                            ) : 'no orders'
+                        }
+                            </tbody>
+                        </Table>
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -153,13 +158,24 @@ const DashboardOngoing = () => {
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
                         }
-
                     </div>
                 </div>
             </div>
+
+
 
         </>
     )
 }
 
 export default DashboardOngoing
+
+
+
+
+
+
+
+
+
+

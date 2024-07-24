@@ -3,12 +3,13 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const InquiryProductList = () => {
+const InquiryProductList = ({items}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [acceptedOrders, setAcceptedOrders] = useState([]);
     const [rejectedOrders, setRejectedOrders] = useState([]);
     const [prices, setPrices] = useState({});
     const ordersPerPage = 10; 
+
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 AED' },
         { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 AED' },
@@ -60,12 +61,12 @@ const InquiryProductList = () => {
             </div>
             <table className="table">
                 <tbody>
-                    {currentOrders.map((order, index) => (
+                    {items?.map((item, index) => (
                         <tr key={index}>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Product ID</span>
-                                    <span className="table-g-not-names">{order.productId}</span>
+                                    <span className="table-g-not-names">{item.medicine_id}</span>
                                 </div>
                             </td>
                             <td className='tables-td-cont'>
@@ -73,20 +74,20 @@ const InquiryProductList = () => {
                                     <span className="table-g-section">G</span>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product Name</span>
-                                        <span className="table-g-not-name">{order.productName}</span>
+                                        <span className="table-g-not-name">{item.medicine_details.meidicine_name}</span>
                                     </div>
                                 </div>
                             </td>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Quantity</span>
-                                    <span className="table-g-not-name">{order.quantity}</span>
+                                    <span className="table-g-not-name">{item.quantity_required}</span>
                                 </div>
                             </td>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Target Price</span>
-                                    <span className="table-g-not-name">{order.targetprice}</span>
+                                    <span className="table-g-not-name">{item.target_price}</span>
                                 </div>
                             </td>
                             <td className='tables-status'>
@@ -95,8 +96,8 @@ const InquiryProductList = () => {
                                         <input
                                         className='inquiry-input-section'
                                             type="checkbox"
-                                            checked={acceptedOrders.includes(order.productId)}
-                                            onChange={() => handleAcceptChange(order.productId)}
+                                            checked={acceptedOrders.includes(item._id)}
+                                            onChange={() => handleAcceptChange(item._id)}
                                         />
                                         Accept
                                     </label>
@@ -105,16 +106,16 @@ const InquiryProductList = () => {
                                             <input
                                              className='inquiry-input-section'
                                                 type="checkbox"
-                                                checked={rejectedOrders.includes(order.productId)}
-                                                onChange={() => handleRejectChange(order.productId)}
+                                                checked={rejectedOrders.includes(item._id)}
+                                                onChange={() => handleRejectChange(item._id)}
                                             />
                                         </label>
                                         <input
                                         className='inquiry-text-input-section'
                                             type="text"
-                                            value={prices[order.productId] || ''}
-                                            onChange={(e) => handlePriceChange(order.productId, e.target.value)}
-                                            disabled={!rejectedOrders.includes(order.productId)}
+                                            value={prices[item._id] || ''}
+                                            onChange={(e) => handlePriceChange(item._id, e.target.value)}
+                                            disabled={!rejectedOrders.includes(item._id)}
                                             maxLength="9"
                                             placeholder='Enter Counter Price'
                                         />

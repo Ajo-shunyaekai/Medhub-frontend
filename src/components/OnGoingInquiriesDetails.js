@@ -1,30 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../style/orderdetails.css'
 import OnGoingList from './OnGoingList';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../api/Requests';
+import moment from 'moment/moment';
 
 const OnGoingInquiriesDetails = () => {
+    const {inquiryId} = useParams()
+    const navigate = useNavigate();
+
+    const [inquiryDetails, setInquiryDetails] = useState()
+
+    useEffect(() => {
+        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+        navigate("/buyer/login");
+        return;
+        }
+       
+        const obj = {
+            supplier_id  : buyerIdSessionStorage || buyerIdLocalStorage,
+            enquiry_id   : inquiryId
+        }
+
+        postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
+            if (response.code === 200) {
+                setInquiryDetails(response?.result)
+                // setTotalInquiries(response.result.totalItems)
+            } else {
+               console.log('error in order list api',response);
+            }
+          })
+    },[])
+
     return (
         <div className='order-details-container'>
-            <div className='order-details-conatiner-heading'>Inquiry ID: <span>987456321</span></div>
+            <div className='order-details-conatiner-heading'>Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span></div>
             <div className='order-details-section'>
                 <div className='order-details-left-section'>
                     <div className='order-details-top-inner-section'>
                         <div className='order-details-left-inner-section-container'>
                             <div className='order-details-left-top-containers'>
-                                <Link to='/supplier-details'>
+                                <Link to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}>
                                     <div className='order-details-top-order-cont'>
                                         <div className='order-details-left-top-main-heading'> Supplier Name</div>
-                                        <div className='order-details-left-top-main-contents'> Pharmaceuticals Pvt Ltd</div>
+                                        <div className='order-details-left-top-main-contents'> {inquiryDetails?.supplier.supplier_name}</div>
                                     </div>
                                 </Link>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'>Type</div>
-                                    <div className='order-details-left-top-main-contents'>Manufacturer</div>
+                                    <div className='order-details-left-top-main-contents'>{inquiryDetails?.supplier.supplier_type || 'Manufacturer'}</div>
                                 </div>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'> Date & Time</div>
-                                    <div className='order-details-left-top-main-contents'>27-07-2024 04:20 PM</div>
+                                    <div className='order-details-left-top-main-contents'>{moment(inquiryDetails?.created_at).format("DD/MM/YYYY")}</div>
                                 </div>
                             </div>
                             {/* <div className='order-details-left-bottom-containers'>
@@ -80,7 +111,7 @@ const OnGoingInquiriesDetails = () => {
             </div>
             {/* start the assign driver section */}
             <div className='order-details-assign-driver-section'>
-                <OnGoingList/>
+                <OnGoingList items = {inquiryDetails?.items}/>
             </div>
             {/* end the assign driver section */}
             {/* Start the end section */}
