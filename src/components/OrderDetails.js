@@ -61,6 +61,17 @@ const OrderDetails = () => {
                                     <div className='order-details-left-top-main-contents'> </div>
                                 </div>
                             </div>
+                            <div className='order-details-left-bottom-containers'>
+                                <div className='order-details-left-bottom-vehichle'>
+                                    <div className='order-details-left-bottom-vehicle-head'>Date & Time</div>
+                                    <div className='order-details-left-bottom-vehicle-text'>27-07-2024 04:20 PM</div>
+                                </div>
+                                <div className='order-details-left-bottom-vehichle-no'>
+                                    <div className='order-details-left-bottom-vehichle-no-head'>Payment Status</div>
+                                    <div className='order-details-left-bottom-vehichle-no-text'>30% payment done.</div>
+                                </div>
+
+                            </div>
                             {/* <div className='order-details-left-bottom-containers'>
                                 <div className='order-details-left-bottom-vehichle'>
                                     <div className='order-details-left-bottom-vehicle-head'>Vehicle Type</div>
@@ -121,28 +132,45 @@ const OrderDetails = () => {
             <div className='order-details-payment-container'>
                 <div className='order-details-payment-left-section'>
                     <div className='order-details-payment-terms-cont'>
-                        <div className='order-details-payment-first-terms-cont'>
+                        {/* <div className='order-details-payment-first-terms-cont'>
                             <div className='order-details-payment-first-terms-heading'>Payment Terms</div>
                             <div className='order-details-payment-first-terms-text'>{orderDetails?.payment_terms || '20 Days'}</div>
-                        </div>
+                            <div className='order-details-payment-first-terms-text'>
+                                <ul className='order-details-payment-ul-section'>
+                                    <li className='order-details-payment-li-section'>30% advance payment 70% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>70% advance payment 30% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>100% advance payment.</li>
+                                    <li className='order-details-payment-li-section'>100% payment on delivery.</li>
+                                </ul>
+                            </div>
+                        </div> */}
                         <div className='order-details-payment-first-terms-cont'>
-                            <div className='order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='order-details-payment-first-terms-text'>{orderDetails?.est_delivery_time || '15 Days'}</div>
+                            <div className='order-details-payment-first-terms-heading'>Payment Terms</div>
+                            <div className='order-details-payment-first-terms-text'>
+                                <ul className='order-details-payment-ul-section'>
+                                    <li className='order-details-payment-li-section'>30% advance payment 70% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>70% advance payment 30% on delivery.</li>
+                                    <li className='order-details-payment-li-section'>100% advance payment.</li>
+                                    <li className='order-details-payment-li-section'>100% payment on delivery.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div className='order-details-payment-detention-cont'>
+                    {/* <div className='order-details-payment-detention-cont'>
                         <div className='order-details-payment-detention-head'>Due Invoices</div>
                         <div className='order-details-payment-detention-content'>
                             <div className='order-details-payment-detention-date'>20</div>
-                            {/* <div className='order-details-payment-detention-time'>AED 300</div> */}
+                          
                         </div>
-                    </div>
-                    <div className='order-details-payment-remark-cont'>
+                    </div> */}
+                    {/* <div className='order-details-payment-remark-cont'>
                         <div className='order-details-payment-remark-head'>Remarks</div>
-                        {/* <div className='order-details-payment-remark-text'>Marketing and TV ads</div> */}
+                      
                         <div className='order-details-payment-remark-text'>{orderDetails?.remarks ? orderDetails?.remarks : 'N/A'}</div>
-                        {/* <div className='order-details-payment-remark-text'>E-marketing maintenance</div> */}
-                    </div>
+                        
+                    </div> */}
                 </div>
                 <div className='order-details-payment-right-section'>
                     <div className='order-details-payment-right-section-heading'>Shipping Details</div>

@@ -59,12 +59,12 @@ const ActiveOrdersDetails = () => {
                             </div>
                             <div className='order-details-left-bottom-containers'>
                                 <div className='order-details-left-bottom-vehichle'>
-                                    <div className='order-details-left-bottom-vehicle-head'>Vehicle Type</div>
-                                    <div className='order-details-left-bottom-vehicle-text'>20 FT Flatbed Open Body</div>
+                                    <div className='order-details-left-bottom-vehicle-head'>Country of Origin</div>
+                                    <div className='order-details-left-bottom-vehicle-text'>India</div>
                                 </div>
                                 <div className='order-details-left-bottom-vehichle-no'>
-                                    <div className='order-details-left-bottom-vehichle-no-head'>Total Cost</div>
-                                    <div className='order-details-left-bottom-vehichle-no-text'>4000 AED</div>
+                                    <div className='order-details-left-bottom-vehichle-no-head'>Type</div>
+                                    <div className='order-details-left-bottom-vehichle-no-text'>End User</div>
                                 </div>
 
                             </div>
@@ -80,7 +80,7 @@ const ActiveOrdersDetails = () => {
                             </div>
                         </div> */}
                     </div>
-                    <div className='order-details-top-bottom-sction'>
+                    {/* <div className='order-details-top-bottom-sction'>
                         <div className='order-details-top-bottom-order-sect'>
                             <div className='order-details-top-bottom-order-heading'>Commodity</div>
                             <div className='order-details-top-bottom-order-content'>Steel Plates - 20 Ton</div>
@@ -93,7 +93,7 @@ const ActiveOrdersDetails = () => {
                             <div className='order-details-top-bottom-order-heading'>Order Date & Time</div>
                             <div className='order-details-top-bottom-order-content'>24/12/2019, 12:00 PM</div>
                         </div>
-                    </div>
+                    </div> */}
 
 
                 </div>
@@ -119,15 +119,15 @@ const ActiveOrdersDetails = () => {
                 <div className='order-details-payment-left-section'>
                     <div className='order-details-payment-terms-cont'>
                         <div className='order-details-payment-first-terms-cont'>
-                            <div className='order-details-payment-detention-head'>Due Invoices</div>
+                            <div className='order-details-payment-detention-head'>Payment Status</div>
                             <div className='order-details-payment-detention-content'>
-                                <div className='order-details-payment-detention-date'>20</div>
+                                <div className='order-details-payment-detention-date'>70% payment done</div>
                                 {/* <div className='order-details-payment-detention-time'>AED 300</div> */}
                             </div>
                         </div>
                         <div className='order-details-payment-first-terms-cont'>
                             <div className='order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='order-details-payment-first-terms-text'>22 Hour</div>
+                            <div className='order-details-payment-first-terms-text'>14 Days</div>
                         </div>
                     </div>
                     <div className='order-details-payment-detention-cont'>
@@ -143,10 +143,10 @@ const ActiveOrdersDetails = () => {
                         </div>
 
                     </div>
-                    <div className='order-details-payment-remark-cont'>
+                    {/* <div className='order-details-payment-remark-cont'>
                         <div className='order-details-payment-remark-head'>Remarks</div>
                         <div className='order-details-payment-remark-text'>Increase 2.5% conversion rate Increase 2.5% conversion rate Increase 2.5% conversion rate</div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='order-details-payment-right-section'>
                     <div className='order-details-payment-right-section-heading'>Shipping Details</div>
@@ -165,7 +165,7 @@ const ActiveOrdersDetails = () => {
                                 <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
                             </div>
                         </div>
-                        <hr className='order-details-right-pickupdata-hr' />
+                        {/* <hr className='order-details-right-pickupdata-hr' />
                         <div className='order-details-right-details-row-one'>
                             <div className='order-details-right-pickupdata'>
                                 <div className='order-details-right-pickdata-head'>Consignor Name</div>
@@ -179,7 +179,7 @@ const ActiveOrdersDetails = () => {
                                 <div className='order-details-right-pickdata-head'>Address</div>
                                 <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
                             </div>
-                        </div>
+                        </div> */}
                         {/* <hr className='order-details-right-pickupdata-hr' /> */}
                         {/* <div className='order-details-payment-right-section-heading'>Drop Details</div>
                         <div className='order-details-right-details-row-one'>

@@ -15,7 +15,6 @@ import { postRequestWithToken } from '../api/Requests';
 const Order = () => {
     const location = useLocation();
     const navigate = useNavigate();
-   
 
 
     // const [activeLink, setActiveLink]   = useState('order-request');
@@ -26,8 +25,8 @@ const Order = () => {
 
      const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/supplier/order/order-request':
-                return 'order-request';
+            // case '/supplier/order/order-request':
+            //     return 'order-request';
             case '/supplier/order/active':
                 return 'active';
             case '/supplier/order/completed':
@@ -42,9 +41,9 @@ const Order = () => {
     const handleLinkClick = (link) => {
         setCurrentPage(1);
         switch (link) {
-            case 'order-request':
-                navigate('/supplier/order/order-request');
-                break;
+            // case 'order-request':
+            //     navigate('/supplier/order/order-request');
+            //     break;
             case 'active':
                 navigate('/supplier/order/active');
                 break;
@@ -137,13 +136,13 @@ const Order = () => {
                     </div> */}
 
                    <div className="order-container-left">
-                    <div
+                    {/* <div
                         onClick={() => handleLinkClick('pending')}
                         className={activeLink === 'order-request' ? 'active order-left-wrapper' : 'order-left-wrapper'}
                     >
                         <img src={order_list} alt="order icon" />
                         <div>Order Request</div>
-                    </div>
+                    </div> */}
                     <div
                         onClick={() => handleLinkClick('active')}
                         className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}

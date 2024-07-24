@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import sidebar from '../style/sidebar.css';
 import styles from '../style/sidebar.module.css'; // Import the CSS file
-
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Link, useNavigate } from 'react-router-dom';
 import order_list from '../assest/dashboard/order_list.svg'
 import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
@@ -355,6 +355,10 @@ const SupSidebar = ({ children, dragWindow }) => {
                         <Link to="/supplier/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
+                        </Link>
+                        <Link to="/supplier/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '22px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
                         </Link>
 
                         <div className={styles.mobile_order_btn}>

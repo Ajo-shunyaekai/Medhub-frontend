@@ -1,6 +1,7 @@
 .order-name {
   padding-top: 5px;
   font-size: 20px;
+  font-weight: 500;
   color: #5e676f;
   text-transform: capitalize;
 }

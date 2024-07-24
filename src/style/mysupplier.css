@@ -38,6 +38,7 @@
   row-gap: 14px;
   border-radius: 4px;
   padding: 28px 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .mysupplier-pagination-section-main{
   margin-bottom: 8rem;
@@ -75,7 +76,6 @@
   justify-content: start;
   margin-top: 10px;
 }
-
 .mysupplier-card-button-details {
   background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
@@ -97,6 +97,7 @@
 width: 100%;
 height: auto;
 }
+
 @media (max-width: 1480px) {
   .mysupplier-main-container {
     max-width: 100%;

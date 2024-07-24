@@ -147,6 +147,7 @@ ul {
   outline: none !important;
 }
 .buy-seller-search {
+  cursor: pointer;
   position: absolute;
   background-color: #5e676f;
   right: 28%;
@@ -201,6 +202,7 @@ ul {
   row-gap: 14px;
   border-radius: 4px;
   padding: 28px 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .buy-seller-company-container {
   display: flex;

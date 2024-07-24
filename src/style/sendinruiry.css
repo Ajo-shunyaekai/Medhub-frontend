@@ -302,7 +302,54 @@
     color: white !important;
     border-radius: 4px !important;
 }
-
+/* start the modal code */
+.modal-overlay-inquiry {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: +2147483647;
+  }
+  
+  .modal-content-inquiry {
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 400px;
+  }
+  
+  .modal-close-button-inquiry {
+   display: flex;
+   justify-content: center;
+   width: 100%;
+  }
+  .model-content-heading{
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .modal-ok-button{
+    border: none !important;
+    outline: none !important;
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+/* end the modal code */
 @media screen and (max-width: 1420px) {
     .send-enquiry-container {
         max-width: 1000px;

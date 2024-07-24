@@ -193,7 +193,7 @@ const countryToCodeMapping = {
     "Yemen": "YE",
     "Zambia": "ZM",
     "Zimbabwe": "ZW"
-  };
+};
 
   const convertCountryToCode = (apiResponse) => {
     return apiResponse.map(item => {

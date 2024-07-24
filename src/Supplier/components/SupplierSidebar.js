@@ -46,6 +46,16 @@ import EditAddProduct from '../pages/EditAddProduct.js';
 import SecondaryProductDetails from '../pages/SecondaryProductDetails.js';
 import SupplierPurchaseInvoice from '../pages/invoice/SupplierPurchaseInvoice.js';
 
+import EditSecondaryProduct from '../pages/EditSecondaryProduct.js';
+import InquiryPurchaseOrders from '../pages/InquiryPurchaseOrders.js'
+import OnGoingOrder from '../pages/inquiry/OnGoingOrder'
+import PurchasedOrder from '../pages/inquiry/PurchasedOrder.js';
+import InquiryRequestDetails from '../pages/inquiry/InquiryRequestDetails';
+import InquiryProductList from '../pages/inquiry/InquiryProductList.js';
+import CreatePO from '../pages/CreatePO.js';
+import CreatePOImageUpload from '../pages/CreatePOImageUpload.js';
+import PurchasedOrderDetails from '../pages/PurchasedOrderDetails.js';
+
 
 import SupplierLogin from '../signup/SupplierLogin.js';
 import SupplierSignUp from '../signup/SupplierSignUp.js';
@@ -79,7 +89,7 @@ const SupplierSidebar = () => {
                     <Route path="/supplier/order/active" element={<Order />} />
                     <Route path="/supplier/order/completed" element={<Order />} />
                     <Route path="/supplier/order/order-request" element={<Order />} />
-                    <Route path="/supplier/order" element={<Navigate to="/supplier/order/order-request" />} />
+                    <Route path="/supplier/order" element={<Navigate to="/supplier/order/active" />} />
                     <Route path="/supplier/product/newproduct" element={<Product />} />
                     <Route path="/supplier/product/secondarymarket" element={<Product />} />
                     <Route path="/supplier/product" element={<Navigate to="/supplier/product/newproduct" />} />
@@ -118,7 +128,24 @@ const SupplierSidebar = () => {
                     <Route path="/supplier/add-product" element={<AddProduct/>} />
                     <Route path="/supplier/edit-product/:medicineId" element={<EditAddProduct/>} /> 
                     <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
+                    <Route path="/supplier/edit-secondary-product" element={<EditSecondaryProduct />} />
                     <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice/>} />
+
+                    <Route path="/supplier/create-PO" element={<CreatePO/>} />
+          <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload/>} />
+          <Route path="/supplier/purchased-order-details" element={<PurchasedOrderDetails/>} />
+          
+          
+          {/* start the inquiry orders */}
+          <Route path="/supplier/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
+          <Route path="/supplier/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders />} />
+          <Route path="/supplier/inquiry-purchase-orders" element={<Navigate to="/supplier/inquiry-purchase-orders/ongoing" />} />
+          <Route path="/supplier/on-going-order" element={<OnGoingOrder />} />
+          <Route path="/supplier/purchased-order" element={<PurchasedOrder />} />
+          <Route path="/supplier/inquiry-request-details" element={<InquiryRequestDetails/>} />
+          <Route path="/supplier/inquiry-product-list" element={<InquiryProductList/>} />
+          
+          {/* End the inquiry orders */}
                 </Routes>
                 </SupSidebar>
             </div>
