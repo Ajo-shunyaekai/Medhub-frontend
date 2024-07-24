@@ -7,7 +7,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import '../../style/ongoingorders.css';
 
-const OnGoingongoing = () => {
+const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,handlePageChange,activeLink}) => {
   const [modal, setModal] = useState(false);
   const [selectedongoing, setSelectedongoing] = useState(null);
 
@@ -67,16 +67,16 @@ const OnGoingongoing = () => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const ongoingsPerPage = 4;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const ongoingsPerPage = 4;
 
-  const indexOfLastongoing = currentPage * ongoingsPerPage;
-  const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
-  const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
+  // const indexOfLastongoing = currentPage * ongoingsPerPage;
+  // const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
+  // const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   return (
     <>
@@ -94,23 +94,23 @@ const OnGoingongoing = () => {
                     <th className="ongoing-container-th">Action</th>
                   </tr>
                 </thead>
-                {currentongoings.map(ongoing => (
+                {inquiryList.map(ongoing => (
                   <tbody key={ongoing.ongoing_id} className='ongoing-container-tbody'>
                     <tr className="ongoing-section-tr">
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.inquiry_id}</div>
+                        <div className="ongoing-section-heading">{ongoing?.enquiry_id}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.date}</div>
+                        <div className="ongoing-section-heading">{ongoing?.created_at}</div>
                       </td>
                       <td className='ongoing-section-large-td'>
-                        <div className="ongoing-section-heading">{ongoing.buyer_name}</div>
+                        <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.qty}</div>
+                        <div className="ongoing-section-heading">{ongoing?.qty}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.unit_price}</div>
+                        <div className="ongoing-section-heading">{ongoing?.unit_price}</div>
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>
@@ -130,8 +130,8 @@ const OnGoingongoing = () => {
             <div className='pagi-container'>
               <Pagination
                 activePage={currentPage}
-                itemsCountPerPage={ongoingsPerPage}
-                totalItemsCount={activeongoings.length}
+                itemsCountPerPage={inquiryPerPage}
+                totalItemsCount={totalInquiries}
                 pageRangeDisplayed={5}
                 onChange={handlePageChange}
                 itemClass="page-item"
@@ -141,7 +141,7 @@ const OnGoingongoing = () => {
                 hideFirstLastPages={true}
               />
               <div className='pagi-total'>
-                Total Items: {activeongoings.length}
+                Total Items: {totalInquiries}
               </div>
             </div>
           </div>

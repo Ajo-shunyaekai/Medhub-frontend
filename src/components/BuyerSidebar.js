@@ -54,15 +54,15 @@ import TableMembership from './membership/TableMembership.js';
 import SubscriptionMembership from './SubscriptionMembership.js';
 import SearchMarketProductDetails from './SearchMarketProductDetails.js';
 
-import CreatePO from './CreatePO.js';
-import CreatePOImageUpload from './CreatePOImageUpload.js';
-import PurchasedOrderDetails from './PurchasedOrderDetails.js'
-import OnGoingInquiriesDetails from './OnGoingInquiriesDetails.js'
-import OnGoingList from './OnGoingList.js'
-import InquiryPurchaseOrders from './InquiryPurchaseOrders.js'
-import OnGoingOrder from './inquiry/OnGoingOrder.js'
-import PurchasedOrder from './inquiry/PurchasedOrder.js'
-import SuccessfulInquiryModal from './SuccessfulInquiryModal.js'
+import CreatePO from '../components/CreatePO.js';
+import CreatePOImageUpload from '../components/CreatePOImageUpload.js';
+import PurchasedOrderDetails from '../components/PurchasedOrderDetails.js'
+import OnGoingInquiriesDetails from '../components/OnGoingInquiriesDetails.js'
+import OnGoingList from '../components/OnGoingList.js'
+import InquiryPurchaseOrders from '../components/InquiryPurchaseOrders.js'
+import OnGoingOrder from '../components/inquiry/OnGoingOrder.js'
+import PurchasedOrder from '../components/inquiry/PurchasedOrder.js'
+import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
 
 
 const BuyerSidebar = () => {
