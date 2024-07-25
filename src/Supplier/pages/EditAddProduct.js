@@ -44,7 +44,7 @@ const AddProduct = () => {
     
     const productTypeOptions = [
         { value: 'new_product', label: 'New Product' },
-        { value: 'secondary_market', label: 'Secondary Market' }
+        // { value: 'secondary_market', label: 'Secondary Market' }
     ];
 
     const formTypes = [
@@ -72,6 +72,7 @@ const AddProduct = () => {
     ];
 
     const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' });
+   
     const [formSections, setFormSections] = useState([
         {
             strength: '',
@@ -172,6 +173,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='productName'
+                                    defaultValue={medicineDetails?.medicine_name}
                                     placeholder='Enter Product Name'
                                     autoComplete='off'
                                 />
@@ -225,6 +227,7 @@ const AddProduct = () => {
                                     type='text'
                                     name='composition'
                                     placeholder='Enter Composition'
+                                    defaultValue={medicineDetails?.composition}
                                     autoComplete='off'
                                 />
                             </div>
@@ -234,6 +237,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='strength'
+                                    defaultValue={medicineDetails?.strength}
                                     placeholder='Enter Strength'
                                     autoComplete='off'
                                 />
@@ -252,6 +256,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='shelfLife'
+                                    defaultValue={medicineDetails?.shelf_life}
                                     placeholder='Enter Shelf Life'
                                     autoComplete='off'
                                 />
@@ -262,6 +267,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='dossierType'
+                                    defaultValue={medicineDetails?.dossier_type}
                                     placeholder='Enter Dossier Type'
                                     autoComplete='off'
                                 />
@@ -272,6 +278,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='dossierStatus'
+                                    defaultValue={medicineDetails?.dossier_status}
                                     placeholder='Enter Dossier Status'
                                     autoComplete='off'
                                 />
@@ -292,6 +299,7 @@ const AddProduct = () => {
                                             className={styles['create-invoice-div-input']}
                                             type='text'
                                             name='gmpApprovals'
+                                            defaultValue={medicineDetails?.total_quantity}
                                             placeholder='Enter Total Quantity'
                                             autoComplete='off'
                                         />
@@ -304,6 +312,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='gmpApprovals'
+                                    defaultValue={medicineDetails?.gmp_approvals}
                                     placeholder='Enter GMP Approvals'
                                     autoComplete='off'
                                 />
@@ -314,6 +323,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='shippingTime'
+                                    defaultValue={medicineDetails?.shipping_time}
                                     placeholder='Enter Shipping Time'
                                 />
                             </div>
@@ -340,6 +350,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='availableFor'
+                                    defaultValue={medicineDetails?.available_for}
                                     placeholder='Enter Available For'
                                 />
                             </div>
@@ -349,6 +360,7 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='availableFor'
+                                    defaultValue={medicineDetails?.tags}
                                     placeholder='Enter Tags'
                                 />
                             </div>
@@ -357,6 +369,7 @@ const AddProduct = () => {
                                 <textarea
                                     className={styles['create-invoice-div-input']}
                                     name="description"
+                                    defaultValue={medicineDetails?.description}
                                     rows="4"
                                     cols="50"
                                     placeholder='Enter Description'

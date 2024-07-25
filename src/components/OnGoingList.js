@@ -59,6 +59,12 @@ const AssignDriver = ({ items }) => {
                   <span className="table-g-not-name">{item.target_price}</span>
                 </div>
               </td>
+              <td className='tables-td'>
+                <div className="table-g-section-content">
+                  <span className="table-g-driver-name">Status</span>
+                  <span className="table-g-not-name">{item.status}</span>
+                </div>
+              </td>
               <td>
                 {/* Any additional actions */}
               </td>
