@@ -236,6 +236,7 @@ const SendInquiry = () => {
       if (response.code === 200) {
         toast(response.message, { type: "success" });
         setCheckedState({})
+        setCurrentPage(1)
         setRefreshTrigger(prev => !prev);
       } else {
         toast(response.message, { type: "error" });
@@ -313,6 +314,7 @@ const SendInquiry = () => {
       if (response.code === 200) {
         toast(response.message, { type: "success" });
         setCheckedState({})
+        setCurrentPage(1)
         setRefreshTrigger(prev => !prev);
       } else {
         toast(response.message, { type: "error" });

@@ -253,7 +253,7 @@ const SupplierDetails = () => {
                                 <Link to={`/buyer/supplier-completed/${supplierId}`}>
                                     <div className='supplier-details-card-container-contents'>
                                         <div className='supplier-details-card-conteianer-head'>Completed Orders</div>
-                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.completedCount || 20}</div>
+                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.completedCount || 0}</div>
                                     </div>
                                     </Link>
 
@@ -263,7 +263,7 @@ const SupplierDetails = () => {
                                 <Link to={`/buyer/supplier-active/${supplierId}`}>
                                     <div className='supplier-details-card-container-contents'>
                                         <div className='supplier-details-card-conteianer-head'>Active Orders</div>
-                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.activeCount || 10}</div>
+                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.activeCount || 0}</div>
                                     </div>
                                 </Link>
 
@@ -273,7 +273,7 @@ const SupplierDetails = () => {
                                 <Link to={`/buyer/supplier-pending/${supplierId}`}>
                                     <div className='supplier-details-card-container-contents'>
                                         <div className='supplier-details-card-conteianer-head'>Pending Orders</div>
-                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.pendingCount || 25}</div>
+                                        <div className='supplier-details-card-conteianer-text'>{buyerSupplierOrder?.pendingCount || 0}</div>
                                     </div>
                                  </Link>
                                 </div>

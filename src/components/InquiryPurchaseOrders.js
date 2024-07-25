@@ -14,7 +14,7 @@ const InquiryPurchaseOrder = () => {
     const [inquiryList, setInquiryList] = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const inquiryPerPage = 2;
+    const inquiryPerPage = 3;
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {

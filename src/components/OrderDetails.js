@@ -46,7 +46,7 @@ const OrderDetails = () => {
                     <div className='order-details-top-inner-section'>
                         <div className='order-details-left-inner-section-container'>
                             <div className='order-details-left-top-containers'>
-                                <Link to='/buyer/supplier-details/86756'>
+                                <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
                                     <div className='order-details-top-order-cont'>
                                         <div className='order-details-left-top-main-heading'> Seller Name</div>
                                         <div className='order-details-left-top-main-contents'> {orderDetails?.supplier?.supplier_name || 'Pharmaceuticals Pvt Ltd'}</div>

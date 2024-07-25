@@ -99,10 +99,10 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.qty}</div>
+                        <div className="ongoing-section-heading">{ongoing?.qty || '500'}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.unit_price}</div>
+                        <div className="ongoing-section-heading">{ongoing?.unit_price || '1 AED'}</div>
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>
