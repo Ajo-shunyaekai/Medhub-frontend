@@ -4,7 +4,7 @@ import SearchDetailsCard from './SearchDetailsCard';
 import SearchFilterSection from './SearchFilterSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
-
+import Search from '../assest/Buy/search-icon.svg';
 
 const SearchsearchDetails = () => {
     const { medicineId } = useParams()
@@ -152,22 +152,71 @@ const SearchsearchDetails = () => {
                         </div>
                         {/* End the description section */}
                         {/* Start the filter section */}
-                        {/* start the search container code */}
-                        <div className='buy-seller-search-container'>
-                            <input className='buy-seller-search-input' type='text' placeholder='Search Product' />
-                            <div className='buy-seller-search' >
-                                <img className='buy-seller-search-icon' src={Search} alt='img' />
-                                Search
+                        <div className='search-details-container'>
+                            <div className="search-details-mfg-heading">Manufacturer Details</div>
+                            <div className="search-details-section-two">
+                                <div className="search-details-sec-two-left">
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Supplier name :</div>
+                                        <div className='search-details-two-right-text'>Medical Pvt Ltd</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Company type :</div>
+                                        <div className='search-details-two-right-text'>Manufacturer</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Email :</div>
+                                        <div className='search-details-two-right-text'>medical@gmail.com</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Mobile no :</div>
+                                        <div className='search-details-two-right-text'>+971 123456789</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Country of origin :</div>
+                                        <div className='search-details-two-right-text'>UK</div>
+                                    </div>
+
+                                </div>
+                                <div className="search-details-sec-two-left">
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Contact person :</div>
+                                        <div className='search-details-two-right-text'>Mr. Mohammad Shaikh</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>License no :</div>
+                                        <div className='search-details-two-right-text'>1233SEDE</div>
+                                    </div>
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Tax no :</div>
+                                        <div className='search-details-two-right-text'>14785SDDSS</div>
+                                    </div>
+                                    
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Country of operation :</div>
+                                        <div className='search-details-two-right-text'>UK USA India</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className='search-filter-section'>
-                            <SearchFilterSection
-                                handlePriceRange={setPriceRange}
-                                handleDeliveryTime={setDeliveryTime}
-                                handleStockedIn={setStockedIn}
-                                handleQuantity={setTotalQuantity}
-                                handleReset={handleReset}
-                            />
+                        {/* start the search container code */}
+                        <div className='search-product-search-details'>
+                            <div className='buy-seller-search-container'>
+                                <input className='buy-seller-search-input' type='text' placeholder='Search Product' />
+                                <div className='buy-seller-search' >
+                                    <img className='buy-seller-search-icon' src={Search} alt='img' />
+                                    Search
+                                </div>
+                            </div>
+                            <div className='search-filter-section'>
+                                <SearchFilterSection
+                                    handlePriceRange={setPriceRange}
+                                    handleDeliveryTime={setDeliveryTime}
+                                    handleStockedIn={setStockedIn}
+                                    handleQuantity={setTotalQuantity}
+                                    handleReset={handleReset}
+                                />
+                            </div>
                         </div>
                         {/* End the filter section */}
                         {/* start the ecommerce card */}

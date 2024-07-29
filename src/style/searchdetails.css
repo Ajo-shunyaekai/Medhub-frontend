@@ -86,6 +86,9 @@
   }
   
   .search-details-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
     border-radius: 4px;
     background-color: #ffffff;
     padding: 1rem;
@@ -580,6 +583,10 @@
   .search-details-card-test-text {
     font-size: 13px;
     color: #99a0ac;
+  }
+  /* Start the search container styling */
+  .search-product-search-details{
+    margin-top: 20px;
   }
   /* start the media query */
   @media screen and (max-width: 1500px) {
