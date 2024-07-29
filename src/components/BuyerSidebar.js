@@ -64,27 +64,30 @@ import OnGoingOrder from '../components/inquiry/OnGoingOrder.js'
 import PurchasedOrder from '../components/inquiry/PurchasedOrder.js'
 import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
 
-
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+
     useEffect( () => { 
         
         if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
         }
+
     },[]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
-        return (<>
+        return (
+        <>
             <Routes>
                 <Route path="/buyer/sign-up" element={<SignUp />} />
                 <Route path="/buyer/login" element={<Login />} />
             </Routes> 
         </>)
     } else {
-        return ( <>
+        return ( 
+        <>
             <div>
                 <Sidebar>
                     <Routes>
