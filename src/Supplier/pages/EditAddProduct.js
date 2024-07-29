@@ -9,6 +9,30 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
 
 
+// const MultiSelectOption = ({ children, ...props }) => (
+//     <components.Option {...props}>
+//         <input
+//             type="checkbox"
+//             checked={props.isSelected}
+//             onChange={() => null}
+//         />{" "}
+//         <label>{children}</label>
+//     </components.Option>
+// );
+
+// const MultiSelectDropdown = ({ options, value, onChange }) => {
+//     return (
+//         <Select
+//             options={options}
+//             isMulti
+//             closeMenuOnSelect={false}
+//             hideSelectedOptions={false}
+//             components={{ Option: MultiSelectOption }}
+//             onChange={onChange}
+//             value={value}
+//         />
+//     );
+// };
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
         <input
@@ -32,7 +56,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
             value={value}
         />
     );
-};
+}
 
 const AddProduct = () => {
 
@@ -161,6 +185,8 @@ const AddProduct = () => {
     const [defaultFormType, setDefaultFormType] = useState(null);
     const [defaultCategory, setDefaultCategory] = useState(null)
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
+    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
+    const [inventoryInfo, setInventoryInfo] = useState([]);
 
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
@@ -176,6 +202,15 @@ const AddProduct = () => {
             console.log(countries);
             const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
             setDefaultCountryOfOrigin(selectedCountryOrigin)
+        }
+        if (medicineDetails?.registered_in) {
+            const selectedRegisteredIn = countries.filter(option => 
+                medicineDetails?.registered_in.includes(option.label)
+            );
+            setDefaultRegisteredIn(selectedRegisteredIn);
+        }
+        if (medicineDetails?.inventory_info) {
+            setInventoryInfo(medicineDetails.inventory_info);
         }
     }, [medicineDetails]);
 
@@ -228,6 +263,7 @@ const AddProduct = () => {
                                         <MultiSelectDropdown
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
+                                            // value={defaultCountryAvailableIn}
                                         />
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
@@ -372,9 +408,9 @@ const AddProduct = () => {
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
                                     value={defaultCountryOfOrigin}
-                                    // onChange={(selectedOption) => {
-                                    //     setDefaultCategory(selectedOption);
-                                    // }}
+                                    onChange={(selectedOption) => {
+                                        setDefaultCountryOfOrigin(selectedOption);
+                                    }}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -382,6 +418,8 @@ const AddProduct = () => {
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
+                                    value={defaultRegisteredIn}
+                                    onChange={setDefaultRegisteredIn}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>

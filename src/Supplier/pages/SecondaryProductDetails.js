@@ -60,12 +60,14 @@ const SecondaryProductDetails = () => {
         
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response.result)
+                setMedicineDetails(response?.result?.data)
             } else {
                console.log('error in med details api');
             }
           })
     },[])
+
+   
 
     return (
         <>
@@ -82,7 +84,7 @@ const SecondaryProductDetails = () => {
                                 {medicineDetails?.composition}
                                 </p>
                             </div>
-                          <Link to='/supplier/edit-secondary-product'>
+                          <Link to={`/supplier/edit-secondary-product/${medicineDetails?.medicine_id}`}>
                             <div className="product-details-sec-one-right">
                                 <button className='product-details-send-btn'>Edit</button>
                             </div>

@@ -128,7 +128,7 @@ const SupplierSidebar = () => {
                     <Route path="/supplier/add-product" element={<AddProduct/>} />
                     <Route path="/supplier/edit-product/:medicineId" element={<EditAddProduct/>} /> 
                     <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
-                    <Route path="/supplier/edit-secondary-product" element={<EditSecondaryProduct />} />
+                    <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
                     <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice/>} />
 
                     <Route path="/supplier/create-PO" element={<CreatePO/>} />

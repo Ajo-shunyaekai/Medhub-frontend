@@ -5,6 +5,8 @@ import countryList from 'react-select-country-list';
 import ImageAddUploader from './ImageAppUploader';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPdfUpload from './AddPdfUpload';
+import { useNavigate, useParams } from 'react-router-dom';
+import { postRequest } from '../api/Requests';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -32,6 +34,13 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const EditSecondaryProduct = () => {
+
+    const { medicineId } = useParams()
+    const navigate       = useNavigate()
+
+    const [medicineDetails, setMedicineDetails] = useState()
+    const [medId, setMedId] = useState(medicineId)
+
     const productTypeOptions = [
         { value: 'secondary_market', label: 'Secondary Market' }
     ];
@@ -121,6 +130,61 @@ const EditSecondaryProduct = () => {
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
     };
+
+    useEffect(() => {
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
+        
+        const obj = {
+            medicine_id : medId,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage 
+        }
+        
+        postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+            if (response.code === 200) {
+                setMedicineDetails(response?.result?.data)
+            } else {
+               console.log('error in med details api');
+            }
+          })
+    },[])
+
+    const [defaultFormType, setDefaultFormType] = useState(null);
+    const [defaultCategory, setDefaultCategory] = useState(null)
+    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
+    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
+    const [inventoryInfo, setInventoryInfo] = useState([]);
+
+    useEffect(() => {
+        if (medicineDetails?.type_of_form) {
+            const selectedFormType = formTypes.find(option => option.label === medicineDetails?.type_of_form);
+            setDefaultFormType(selectedFormType);
+        }
+        if(medicineDetails?.medicine_category) {
+            const selectedCategory = productCategoryOptions.find(option => option.label === medicineDetails?.medicine_category )
+            setDefaultCategory(selectedCategory)
+        }
+        if(medicineDetails?.country_of_origin) {
+            console.log('uyess');
+            console.log(countries);
+            const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
+            setDefaultCountryOfOrigin(selectedCountryOrigin)
+        }
+        if (medicineDetails?.registered_in) {
+            const selectedRegisteredIn = countries.filter(option => 
+                medicineDetails?.registered_in.includes(option.label)
+            );
+            setDefaultRegisteredIn(selectedRegisteredIn);
+        }
+        if (medicineDetails?.inventory_info) {
+            setInventoryInfo(medicineDetails.inventory_info);
+        }
+    }, [medicineDetails]);
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -139,6 +203,7 @@ const EditSecondaryProduct = () => {
                                     name='productName'
                                     placeholder='Enter Product Name'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.medicine_name}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -202,6 +267,7 @@ const EditSecondaryProduct = () => {
                                             name='purchasedOn'
                                             placeholder='Enter Purchased On'
                                             autoComplete='off'
+                                            defaultValue={medicineDetails?.purchased_on}
                                         />
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
@@ -212,6 +278,7 @@ const EditSecondaryProduct = () => {
                                             name='minPurchaseUnit'
                                             placeholder='Enter Min Purchase Unit'
                                             autoComplete='off'
+                                            defaultValue={medicineDetails?.min_purchase_unit}
                                         />
                                     </div>
                                     
