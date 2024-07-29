@@ -72,9 +72,9 @@ const MarketProductDetails = () => {
         
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setDetails(response.result)
-                setMedicineName(response.result?.medicine_name)
-                setSupplierId(response.result?.supplier_id)
+                setDetails(response.result?.data)
+                setMedicineName(response.result?.data?.medicine_name)
+                setSupplierId(response.result?.data?.supplier_id)
             } else {
                console.log('error in med details api');
             }
@@ -94,7 +94,7 @@ const MarketProductDetails = () => {
         }
         postRequestWithToken('buyer/medicine/other-medicine-list', obj, async (response) => {
             if (response.code === 200) {
-                setSimilarMedicinesList(response.result)
+                setSimilarMedicinesList(response?.result?.data)
                 setTotalitems(response.result.totalItems)
             } else {
                console.log('error in similar-medicine-list api');
@@ -265,8 +265,8 @@ const MarketProductDetails = () => {
                         </div>
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
-                                <div className="product-details-mfg-heading">About Supplier #124321</div>
-                                <div className="product-details-mfg-details">{details?.supplier.description}</div>
+                                <div className="product-details-mfg-heading">About Supplier #{details?.supplier?.supplier_id}</div>
+                                <div className="product-details-mfg-details">{details?.supplier?.description}</div>
                             </div>
                         </div>
                         <div className='product-details-company-section'>
@@ -274,23 +274,23 @@ const MarketProductDetails = () => {
                                 <div className='product-details-inner-company'>
                                     <Link to='/buyer/supplier-details'>
                                         <div className='product-details-inner-copmany-head'>Supplier name :</div>
-                                        <div className='product-details-inner-copmany-text'>{details?.supplier.supplier_name}</div>
+                                        <div className='product-details-inner-copmany-text'>{details?.supplier?.supplier_name}</div>
                                     </Link>
                                 </div>
                                 <div className='product-details-inner-company'>
                                     <div className='product-details-inner-copmany-head'>License no. :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier.license_no}</div>
+                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
                                 </div>
                                 
                             </div>
                             <div className='product-details-company-conatiner'>
                             <div className='product-details-inner-company'>
                                     <div className='product-details-inner-copmany-head'>Address :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier.supplier_address}</div>
+                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.supplier_address}</div>
                                 </div>
                                 <div className='product-details-inner-company'>
                                     <div className='product-details-inner-copmany-head'>Payment terms :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier.payment_terms}</div>
+                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.payment_terms}</div>
                                 </div>
                             </div>
                         </div>

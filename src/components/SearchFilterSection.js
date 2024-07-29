@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../style/searcjhfilter.css';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
-const SearchFilterSection = ({handlePriceRange, handleDeliveryTime, handleStockedIn, handleQuantity, handleReset}) => {
+const SearchFilterSection = ({countryAvailable, handlePriceRange, handleDeliveryTime, handleStockedIn, handleQuantity, handleReset}) => {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [checkedItems, setCheckedItems] = useState({
         price: {},
@@ -131,12 +131,17 @@ const SearchFilterSection = ({handlePriceRange, handleDeliveryTime, handleStocke
                     </div>
                     {openDropdown === 'stockedIn' && (
                         <ul className='search-seller-inner-dropdown'>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="India" label="India" /></li>
+                            {countryAvailable?.map(country => (
+                                <li className='search-seller-li-cont' key={country}>
+                                    <Checkbox category="stockedIn" item={country} label={country} />
+                                </li>
+                            ))}
+                            {/* <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="India" label="India" /></li>
                             <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="United Arab Emirates" label="United Arab Emirates" /></li>
                             <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Australia" label="Australia" /></li>
                             <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Nepal" label="Nepal" /></li>
                             <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Pakistan" label="Pakistan" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="SouthKorea" label="South Korea" /></li>
+                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="SouthKorea" label="South Korea" /></li> */}
                         </ul>
                     )}
                 </li>

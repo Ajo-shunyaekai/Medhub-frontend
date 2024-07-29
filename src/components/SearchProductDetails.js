@@ -15,6 +15,7 @@ const SearchsearchDetails = () => {
     const [supplierId, setSupplierId] = useState()
     const [medicineName, setMedicineName] = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
+    const [countryAvailableIn, setCountryAvailableIn]     = useState([])
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState()
@@ -50,8 +51,9 @@ const SearchsearchDetails = () => {
 
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setDetails(response.result)
-                setMedicineName(response.result?.medicine_name)
+                setDetails(response?.result?.data)
+                setCountryAvailableIn(response?.result?.countryAvailable)
+                setMedicineName(response.result?.data?.medicine_name)
                 setSupplierId(response.result?.supplier_id)
             } else {
                 console.log('error in med details api');
@@ -86,7 +88,6 @@ const SearchsearchDetails = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
 
     return (
         <>
@@ -161,12 +162,13 @@ const SearchsearchDetails = () => {
                             </div>
                         </div>
                         <div className='search-filter-section'>
-                            <SearchFilterSection
-                                handlePriceRange={setPriceRange}
-                                handleDeliveryTime={setDeliveryTime}
-                                handleStockedIn={setStockedIn}
-                                handleQuantity={setTotalQuantity}
-                                handleReset={handleReset}
+                            <SearchFilterSection 
+                              countryAvailable = {countryAvailableIn}
+                              handlePriceRange = {setPriceRange}
+                              handleDeliveryTime = {setDeliveryTime}
+                              handleStockedIn = {setStockedIn}
+                              handleQuantity = {setTotalQuantity}
+                              handleReset = {handleReset}
                             />
                         </div>
                         {/* End the filter section */}
