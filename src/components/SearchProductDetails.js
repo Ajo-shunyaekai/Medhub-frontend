@@ -152,6 +152,14 @@ const SearchsearchDetails = () => {
                         </div>
                         {/* End the description section */}
                         {/* Start the filter section */}
+                        {/* start the search container code */}
+                        <div className='buy-seller-search-container'>
+                            <input className='buy-seller-search-input' type='text' placeholder='Search Product' />
+                            <div className='buy-seller-search' >
+                                <img className='buy-seller-search-icon' src={Search} alt='img' />
+                                Search
+                            </div>
+                        </div>
                         <div className='search-filter-section'>
                             <SearchFilterSection
                                 handlePriceRange={setPriceRange}
