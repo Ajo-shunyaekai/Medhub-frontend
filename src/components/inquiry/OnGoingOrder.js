@@ -6,7 +6,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import '../../style/ongoingorders.css';
-import moment from 'moment/moment';
+import moment from 'moment-timezone';
 
 const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,handlePageChange,activeLink}) => {
   const [modal, setModal] = useState(false);

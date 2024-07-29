@@ -3,7 +3,7 @@ import '../style/orderdetails.css'
 import OnGoingList from './OnGoingList';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
-import moment from 'moment/moment';
+import moment from 'moment-timezone';
 
 const OnGoingInquiriesDetails = () => {
     const {inquiryId} = useParams()
@@ -55,7 +55,7 @@ const OnGoingInquiriesDetails = () => {
                                 </div>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'> Date & Time</div>
-                                    <div className='order-details-left-top-main-contents'>{moment(inquiryDetails?.created_at).format("DD/MM/YYYY")}</div>
+                                    <div className='order-details-left-top-main-contents'>{moment(inquiryDetails?.created_at).tz('Asia/Kolkata').format("DD/MM/YYYY HH:mm")}</div>
                                 </div>
                             </div>
                             {/* <div className='order-details-left-bottom-containers'>

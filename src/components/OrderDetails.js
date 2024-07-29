@@ -3,6 +3,7 @@ import Orderdetails from '../style/orderdetails.css'
 import AssignDriver from './details/AssignDriver';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
+import moment from 'moment-timezone';
 
 const OrderDetails = () => {
     const { orderId } = useParams()
@@ -64,7 +65,7 @@ const OrderDetails = () => {
                             <div className='order-details-left-bottom-containers'>
                                 <div className='order-details-left-bottom-vehichle'>
                                     <div className='order-details-left-bottom-vehicle-head'>Date & Time</div>
-                                    <div className='order-details-left-bottom-vehicle-text'>27-07-2024 04:20 PM</div>
+                                    <div className='order-details-left-bottom-vehicle-text'>{moment(orderDetails?.created_at).tz('Asia/Kolkata').format("DD-MM-YYYY HH:mm")}</div>
                                 </div>
                                 <div className='order-details-left-bottom-vehichle-no'>
                                     <div className='order-details-left-bottom-vehichle-no-head'>Payment Status</div>

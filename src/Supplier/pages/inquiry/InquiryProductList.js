@@ -3,8 +3,8 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const InquiryProductList = ({items}) => {
-    const [currentPage, setCurrentPage] = useState(1);
+const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuotationItems}) => {
+    const [currentPage, setCurrentPage]       = useState(1);
     const [acceptedOrders, setAcceptedOrders] = useState([]);
     const [rejectedOrders, setRejectedOrders] = useState([]);
     const [prices, setPrices] = useState({});
@@ -16,40 +16,96 @@ const InquiryProductList = ({items}) => {
         { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 AED' },
     ];
 
-    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const handleAcceptChange = (productId) => {
-        setAcceptedOrders((prev) => 
-            prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    // const handleAcceptChange = (itemId) => {
+    //     console.log('handleAcceptChange', itemId);
+    //     setAcceptedOrders((prev) => 
+    //         prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
+    //     );
+    //     setRejectedOrders((prev) => prev.filter((id) => id !== itemId));
+        
+    //     setPrices((prev) => ({ ...prev, [itemId]: '' }));
+    //     setQuotationItems((prev) => prev.filter((id) => id !== itemId))
+    // };
+
+    const handleAcceptChange = (itemId) => {
+        const item = items.find((item) => item._id === itemId);
+        setAcceptedOrders((prev) =>
+            prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
         );
-        setRejectedOrders((prev) => prev.filter((id) => id !== productId));
-        setPrices((prev) => ({ ...prev, [productId]: '' }));
+        setRejectedOrders((prev) => prev.filter((id) => id !== itemId));
+
+        setPrices((prev) => ({ ...prev, [itemId]: '' }));
+        setQuotationItems((prev) => prev.filter((order) => order._id !== itemId));
+
+        if (!acceptedOrders.includes(itemId)) {
+            setQuotationItems((prev) => [...prev, { ...item, accepted: true }]);
+        }
     };
 
-    const handleRejectChange = (productId) => {
-        setRejectedOrders((prev) => 
-            prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    // const handleRejectChange = (itemId) => {
+    //     console.log('handleRejectChange', itemId);
+    //     setRejectedOrders((prev) => 
+    //         prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
+    //     );
+    //     setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
+    //     setQuotationItems((prev) => prev.filter((id) => id !== itemId))
+    // };
+
+    const handleRejectChange = (itemId) => {
+        const item = items.find((item) => item._id === itemId);
+        setRejectedOrders((prev) =>
+            prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
         );
-        setAcceptedOrders((prev) => prev.filter((id) => id !== productId));
+        setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
+        setQuotationItems((prev) => prev.filter((order) => order._id !== itemId));
+
+        if (!rejectedOrders.includes(itemId)) {
+            setQuotationItems((prev) => [...prev, { ...item, accepted: false }]);
+        }
     };
 
-    const handlePriceChange = (productId, value) => {
+    // const handlePriceChange = (itemId, value) => {
+    //     console.log('handlePriceChange', itemId, value);
+         
+    //     if (/^\d{0,9}$/.test(value)) {
+    //         setPrices((prev) => ({ ...prev, [itemId]: value }));
+    //         if (value.length > 0) {
+    //             setRejectedOrders((prev) => {
+    //                 if (!prev.includes(itemId)) {
+    //                     return [...prev, itemId];
+    //                 }
+    //                 return prev;
+    //             });
+               
+    //             setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
+    //         }
+    //     }
+    // };
+
+    const handlePriceChange = (itemId, value) => {
         if (/^\d{0,9}$/.test(value)) {
-            setPrices((prev) => ({ ...prev, [productId]: value }));
+            setPrices((prev) => ({ ...prev, [itemId]: value }));
             if (value.length > 0) {
                 setRejectedOrders((prev) => {
-                    if (!prev.includes(productId)) {
-                        return [...prev, productId];
+                    if (!prev.includes(itemId)) {
+                        return [...prev, itemId];
                     }
                     return prev;
                 });
-                setAcceptedOrders((prev) => prev.filter((id) => id !== productId));
+
+                setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
+
+                setQuotationItems((prev) =>
+                    prev.map((order) => (order._id === itemId ? { ...order, counterPrice: value } : order))
+                );
             }
         }
     };
@@ -94,7 +150,7 @@ const InquiryProductList = ({items}) => {
                                 <div className='tables-button-conatiner'>
                                     <label className='inquiry-label-section'>
                                         <input
-                                        className='inquiry-input-section'
+                                            className='inquiry-input-section'
                                             type="checkbox"
                                             checked={acceptedOrders.includes(item._id)}
                                             onChange={() => handleAcceptChange(item._id)}
@@ -118,6 +174,7 @@ const InquiryProductList = ({items}) => {
                                             disabled={!rejectedOrders.includes(item._id)}
                                             maxLength="9"
                                             placeholder='Enter Counter Price'
+                                        
                                         />
                                     </div>
                                 </div>

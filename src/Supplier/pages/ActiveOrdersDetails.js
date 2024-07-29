@@ -36,21 +36,21 @@ const ActiveOrdersDetails = () => {
 
     return (
         <div className='order-details-container'>
-            <div className='order-details-conatiner-heading'>Order ID:<span>987456321</span></div>
+            <div className='order-details-conatiner-heading'>Order ID:<span>{orderDetails?.order_id}</span></div>
             <div className='order-details-section'>
                 <div className='order-details-left-section'>
                     <div className='order-details-top-inner-section'>
                         <div className='order-details-left-inner-section-container'>
                             <div className='order-details-left-top-containers'>
-                                <Link to='/supplier/buyer-details'>
+                                <Link to={`/supplier/buyer-details/${orderDetails?.buyer_id}`}>
                                     <div className='order-details-top-order-cont'>
                                         <div className='order-details-left-top-main-heading'> Buyer Name</div>
-                                        <div className='order-details-left-top-main-contents'> Mr. Abdul Shaikh</div>
+                                        <div className='order-details-left-top-main-contents'> {orderDetails?.buyer?.buyer_name || 'MedicalLink Globals'}</div>
                                     </div>
                                 </Link>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'> Order Status</div>
-                                    <div className='order-details-left-top-main-contents'> Transmit Order</div>
+                                    <div className='order-details-left-top-main-contents'> {orderDetails?.order_status}</div>
                                 </div>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading-button'> Tracking</div>
@@ -60,7 +60,7 @@ const ActiveOrdersDetails = () => {
                             <div className='order-details-left-bottom-containers'>
                                 <div className='order-details-left-bottom-vehichle'>
                                     <div className='order-details-left-bottom-vehicle-head'>Country of Origin</div>
-                                    <div className='order-details-left-bottom-vehicle-text'>India</div>
+                                    <div className='order-details-left-bottom-vehicle-text'>{orderDetails?.country_of_origin || 'India'}</div>
                                 </div>
                                 <div className='order-details-left-bottom-vehichle-no'>
                                     <div className='order-details-left-bottom-vehichle-no-head'>Type</div>

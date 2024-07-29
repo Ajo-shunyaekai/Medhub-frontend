@@ -216,7 +216,7 @@ const MarketProductDetails = () => {
                         </div>
 
                         <div className='product-details-container'>
-                            <div className="product-details-section-two-img">
+                            {/* <div className="product-details-section-two-img">
                                 <div className="product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
@@ -229,16 +229,16 @@ const MarketProductDetails = () => {
                                 <div className="product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
-                            </div>
+                            </div> */}
 
-                            {/* <div className="product-details-section-two-img"> 
+                            <div className="product-details-section-two-img"> 
                                          {details?.medicine_image?.map((image, j) => (
                                             <div className="product-details-sec-img-left" key={j}>
                                                 <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${image.medicine_name} ${j}`} className="responsive-image" />
                                             </div>
                                 
                                         ))} 
-                            </div>  */}
+                            </div> 
 
                         </div>
                         <div className='product-details-container'>

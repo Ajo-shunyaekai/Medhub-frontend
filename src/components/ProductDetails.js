@@ -47,6 +47,8 @@ const ProductDetails = () => {
   }, [details]);
 
   const handleSelectChange = (selectedOption) => {
+    setQuantityRequired('')
+    setTargetPrice('')
     setSelectedOption(selectedOption);
     setSelectedDetails(details.inventory_info[selectedOption.value]);
   };
@@ -127,9 +129,9 @@ const ProductDetails = () => {
         buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
         quantity_required: quantityRequired,
         target_price: targetPrice,
-        quantity: selectedDetails.quantity,  // Assuming 'quantity' is the correct property
+        quantity: selectedDetails.quantity,  
         unit_price: selectedDetails.unit_price,
-        est_delivery_time: selectedDetails.est_delivery_days  // Assuming 'est_delivery_days' holds the correct information
+        est_delivery_time: selectedDetails.est_delivery_days  
       };
       console.log(obj);
 
@@ -145,19 +147,18 @@ const ProductDetails = () => {
         }
       });
       
-    //   try {
-    //     const response = await postRequestWithToken('buyer/medicine/add-to-list', obj);
-    //     if (response.code === 200) {
-    //       navigate('/buyer/send-inquiry');
-    //     } else {
-    //       console.log('Error in add to list API:', response.message);
-    //     }
-    //   } catch (error) {
-    //     console.error('API request failed:', error);
-    //   }
+      // try {
+      //   const response = await postRequestWithToken('buyer/add-to-list', obj);
+      //   if (response.code === 200) {
+      //     navigate('/buyer/send-inquiry');
+      //   } else {
+      //     console.log('Error in add to list API:', response.message);
+      //   }
+      // } catch (error) {
+      //   console.error('API request failed:', error);
+      // }
     }
   };
-  
 
   return (
     <div className='main-product-details-container'>
@@ -197,7 +198,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="product-details-two">
                   <div className='product-details-two-left-text'>Total quantity :</div>
-                  <div className='product-details-two-right-text'>{details?.total_quantity}</div>
+                  <div className='product-details-two-right-text'>{details?.total_quantity || 1000}</div>
                 </div>
               </div>
               <div className="product-details-sec-two-left">
