@@ -7,26 +7,26 @@ import { postRequestWithToken } from '../api/Requests';
 
 
 const SearchsearchDetails = () => {
-    const { medicineId }        = useParams()
-    const navigate              = useNavigate();
+    const { medicineId } = useParams()
+    const navigate = useNavigate();
 
-    const [details, setDetails]                           = useState()
-    const [medId, setMedId]                               = useState(medicineId)
-    const [supplierId, setSupplierId]                     = useState()
-    const [medicineName, setMedicineName]                 = useState()
+    const [details, setDetails] = useState()
+    const [medId, setMedId] = useState(medicineId)
+    const [supplierId, setSupplierId] = useState()
+    const [medicineName, setMedicineName] = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
 
-    const [currentPage, setCurrentPage]   = useState(1);
-    const [totalItems, setTotalitems]     = useState()
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalitems] = useState()
     const itemsPerPage = 2;
 
     //filter state variables
-    const [priceRange, setPriceRange]     = useState([])
+    const [priceRange, setPriceRange] = useState([])
     const [deliveryTime, setDeliveryTime] = useState([])
-    const [stockedIn, setStockedIn]       = useState([])
+    const [stockedIn, setStockedIn] = useState([])
     const [totalQuantity, setTotalQuantity] = useState([])
     const [reset, setReset] = useState()
-    
+
     const handleReset = () => {
         setPriceRange([])
         setDeliveryTime([])
@@ -36,52 +36,52 @@ const SearchsearchDetails = () => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
-        
+
         const obj = {
-            medicine_id : medId,
-            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage
+            medicine_id: medId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
         }
-        
+
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setDetails(response.result)
                 setMedicineName(response.result?.medicine_name)
                 setSupplierId(response.result?.supplier_id)
             } else {
-               console.log('error in med details api');
+                console.log('error in med details api');
             }
-          })
-    },[medId])
+        })
+    }, [medId])
 
     useEffect(() => {
         const obj = {
-            medicine_id   : medicineId, 
-            medicine_type : 'new',
+            medicine_id: medicineId,
+            medicine_type: 'new',
             // supplier_id   : supplierId,
-            medicine_name : medicineName,
-            status        : 1,
-            price_range  : priceRange,
-            delivery_time : deliveryTime,
-            in_stock  :stockedIn,
-            quantity_range : totalQuantity,
-            pageNo          : currentPage, 
-            pageSize        : itemsPerPage
+            medicine_name: medicineName,
+            status: 1,
+            price_range: priceRange,
+            delivery_time: deliveryTime,
+            in_stock: stockedIn,
+            quantity_range: totalQuantity,
+            pageNo: currentPage,
+            pageSize: itemsPerPage
         }
         postRequestWithToken('buyer/medicine/similar-medicine-list', obj, async (response) => {
             if (response.code === 200) {
                 setSimilarMedicinesList(response.result)
                 setTotalitems(response.result.totalItems)
             } else {
-               console.log('error in similar-medicine-list api');
+                console.log('error in similar-medicine-list api');
             }
-          })
-    },[medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
+        })
+    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -99,7 +99,7 @@ const SearchsearchDetails = () => {
                                     {details?.medicine_name}<span className='search-details-stength'>({details?.strength})</span>
                                 </h4>
                                 <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
-                                     {details?.composition}
+                                    {details?.composition}
                                 </p>
                             </div>
                         </div>
@@ -125,7 +125,6 @@ const SearchsearchDetails = () => {
                                         <div className='search-details-two-left-text'>Country of origin :</div>
                                         <div className='search-details-two-right-text'>{details?.country_of_origin}</div>
                                     </div>
-
                                 </div>
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
@@ -134,7 +133,7 @@ const SearchsearchDetails = () => {
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Shelf life :</div>
-                                        <div className='search-details-two-right-text'>{details?.shelf_life }</div>
+                                        <div className='search-details-two-right-text'>{details?.shelf_life}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>GMP approvals :</div>
@@ -154,24 +153,27 @@ const SearchsearchDetails = () => {
                         {/* End the description section */}
                         {/* Start the filter section */}
                         <div className='search-filter-section'>
-                            <SearchFilterSection 
-                              handlePriceRange = {setPriceRange}
-                              handleDeliveryTime = {setDeliveryTime}
-                              handleStockedIn = {setStockedIn}
-                              handleQuantity = {setTotalQuantity}
-                              handleReset = {handleReset}
+                            <SearchFilterSection
+                                handlePriceRange={setPriceRange}
+                                handleDeliveryTime={setDeliveryTime}
+                                handleStockedIn={setStockedIn}
+                                handleQuantity={setTotalQuantity}
+                                handleReset={handleReset}
                             />
                         </div>
                         {/* End the filter section */}
                         {/* start the ecommerce card */}
-                        <div className='search-details-card-container'>
-                            <SearchDetailsCard 
-                                similarMedicines = {similarMedicinesList}
-                                totalItems = {totalItems}
-                                currentPage = {currentPage}
-                                itemsPerPage = {itemsPerPage}
-                                handlePageChange = {handlePageChange}
-                            />
+                        <div className='search-details-card-main-section-cont'>
+                            <div className='search-details-card-containers-heading'>Suppliers List</div>
+                            <div className='search-details-card-container'>
+                                <SearchDetailsCard
+                                    similarMedicines={similarMedicinesList}
+                                    totalItems={totalItems}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    handlePageChange={handlePageChange}
+                                />
+                            </div>
                         </div>
                         {/* end the ecommerce card */}
                     </div>
