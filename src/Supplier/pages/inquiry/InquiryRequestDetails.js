@@ -7,6 +7,9 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 
 const InquiryRequestDetails = () => {
+    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+
     const {inquiryId} = useParams()
     const navigate = useNavigate();
     const [paymentTerms, setPaymentTerms] = useState(['']); 
@@ -29,9 +32,6 @@ const InquiryRequestDetails = () => {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         navigate("/supplier/login");
         return;
@@ -45,7 +45,6 @@ const InquiryRequestDetails = () => {
         postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
-                // setTotalInquiries(response.result.totalItems)
             } else {
                console.log('error in order list api',response);
             }
@@ -56,22 +55,27 @@ const InquiryRequestDetails = () => {
     const [counterChecked, setCounterChecked] = useState(false)
     const [quotationItems, setQuotationItems] = useState([])
 
-    
+    const email = inquiryDetails?.buyer?.contact_person_email; // This could also be derived from props or context
+    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; // Ensure inquiryId is included if it's available
+
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
     const handleSubmitQuotation = () => {
-
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
             return;
         }
-console.log(quotationItems);
+
+        if(quotationItems.length !== inquiryDetails?.items.length) {
+            return toast('Please accept or enter the counter price to proceed', {type: 'error'})
+        }
+       
+        if (paymentTerms.length === 0 || paymentTerms.every(term => term.trim() === '')) {
+            return toast('Payment term is required', { type: 'error' });
+        }
         const validationErrors = quotationItems.some(item => !item.accepted && item.counterPrice === undefined);
 
         if (validationErrors) {
-            // alert("Error: Counter price must be provided for items that are not accepted.");
             toast('Counter price must be provided for items that are not accepted.', {type: 'error'})
             return;
         }
@@ -86,10 +90,6 @@ console.log(quotationItems);
             target_price      : item.target_price,
             accepted          : item.accepted
         }));
-
-        // if(transformedQuotationItems.) {
-
-        // }
         
         const obj = {
             supplier_id       : supplierIdSessionStorage || supplierIdLocalStorage,
@@ -99,14 +99,18 @@ console.log(quotationItems);
             payment_terms     : paymentTerms
         }
 
-        // postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
-        //     if (response.code === 200) {
-        //        toast(response.message, {type: 'success'})
-        //     } else {
-        //         toast(response.message, {type: 'error'})
-        //        console.log('error in enquiry/submit-quotation api',response);
-        //     }
-        //   })
+        postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
+            if (response.code === 200) {
+               toast(response.message, {type: 'success'})
+               setTimeout(() => {
+                navigate('/supplier/inquiry-purchase-orders/ongoing')
+              }, 1000);
+               
+            } else {
+                toast(response.message, {type: 'error'})
+               console.log('error in enquiry/submit-quotation api',response);
+            }
+          })
     }
 
     return (
@@ -182,7 +186,7 @@ console.log(quotationItems);
                 </div>
             </div>
             <div className='inquiry-details-button-section'>
-                <a href='mailto:supplier@example.com?subject=Inquiry%20about%20Order%20987456321' className='inquiry-details-cancel-button'>
+                <a href={mailtoLink} className='inquiry-details-cancel-button'>
                     Contact Buyer
                 </a>
                 <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>Submit Quotation</div>

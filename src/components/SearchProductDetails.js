@@ -15,6 +15,7 @@ const SearchsearchDetails = () => {
     const [supplierId, setSupplierId] = useState()
     const [medicineName, setMedicineName] = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
+    const [countryAvailableIn, setCountryAvailableIn]     = useState([])
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState()
@@ -50,8 +51,9 @@ const SearchsearchDetails = () => {
 
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setDetails(response.result)
-                setMedicineName(response.result?.medicine_name)
+                setDetails(response?.result?.data)
+                setCountryAvailableIn(response?.result?.countryAvailable)
+                setMedicineName(response.result?.data?.medicine_name)
                 setSupplierId(response.result?.supplier_id)
             } else {
                 console.log('error in med details api');
@@ -86,7 +88,6 @@ const SearchsearchDetails = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
 
     return (
         <>
@@ -199,6 +200,7 @@ const SearchsearchDetails = () => {
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         {/* start the search container code */}
                         <div className='search-product-search-details'>
                             <div className='buy-seller-search-container'>
@@ -217,6 +219,17 @@ const SearchsearchDetails = () => {
                                     handleReset={handleReset}
                                 />
                             </div>
+=======
+                        <div className='search-filter-section'>
+                            <SearchFilterSection 
+                              countryAvailable = {countryAvailableIn}
+                              handlePriceRange = {setPriceRange}
+                              handleDeliveryTime = {setDeliveryTime}
+                              handleStockedIn = {setStockedIn}
+                              handleQuantity = {setTotalQuantity}
+                              handleReset = {handleReset}
+                            />
+>>>>>>> 52b7f6877ad6d5778ec9ab5a93a5306235f222fa
                         </div>
                         {/* End the filter section */}
                         {/* start the ecommerce card */}

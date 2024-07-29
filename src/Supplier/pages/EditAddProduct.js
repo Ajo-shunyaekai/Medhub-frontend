@@ -5,7 +5,7 @@ import countryList from 'react-select-country-list';
 import ImageAddUploader from './ImageAppUploader';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPdfUpload from './AddPdfUpload';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
 
 
@@ -37,6 +37,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 const AddProduct = () => {
 
     const { medicineId } = useParams()
+    const navigate       = useNavigate()
 
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
@@ -64,11 +65,11 @@ const AddProduct = () => {
         { value: '2000-5000', label: '2000-5000' },
     ];
     const productCategoryOptions = [
-        { value: 'generies', label: 'Generies' },
+        { value: 'generies', label: 'Generics' },
         { value: 'orignals', label: 'Orignals' },
         { value: 'biosimilars', label: 'Biosimilars' },
         { value: 'medicaldevices', label: 'Medical Devices' },
-        { value: 'nutraceuticals', label: 'Nutraceuticals' }
+        { value: 'nutraceuticals', label: 'Nutraceutical' }
     ];
 
     const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' });
@@ -135,27 +136,48 @@ const AddProduct = () => {
     };
 
     useEffect(() => {
-        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        // navigate("/supplier/login");
-        // return;
-        // }
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
         
         const obj = {
             medicine_id : medId,
-            // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage 
         }
         
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response.result)
+                setMedicineDetails(response?.result?.data)
             } else {
                console.log('error in med details api');
             }
           })
     },[])
+
+    const [defaultFormType, setDefaultFormType] = useState(null);
+    const [defaultCategory, setDefaultCategory] = useState(null)
+    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
+
+    useEffect(() => {
+        if (medicineDetails?.type_of_form) {
+            const selectedFormType = formTypes.find(option => option.label === medicineDetails?.type_of_form);
+            setDefaultFormType(selectedFormType);
+        }
+        if(medicineDetails?.medicine_category) {
+            const selectedCategory = productCategoryOptions.find(option => option.label === medicineDetails?.medicine_category )
+            setDefaultCategory(selectedCategory)
+        }
+        if(medicineDetails?.country_of_origin) {
+            console.log('uyess');
+            console.log(countries);
+            const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
+            setDefaultCountryOfOrigin(selectedCountryOrigin)
+        }
+    }, [medicineDetails]);
 
     return (
         <>
@@ -244,11 +266,21 @@ const AddProduct = () => {
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Type of form</label>
-                                <Select
+                                {/* <Select
                                     className={styles['create-invoice-div-input-select']}
                                     options={formTypes}
                                     placeholder="Select Type of Form"
-                                />
+                                /> */}
+                                <Select
+                                className={styles['create-invoice-div-input-select']}
+                                options={formTypes}
+                                placeholder="Select Type of Form"
+                                value={defaultFormType}
+                                onChange={(selectedOption) => {
+                                    setDefaultFormType(selectedOption);
+                                    console.log('Selected form type:', selectedOption);
+                                }}
+                            />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
@@ -289,6 +321,10 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input-select']}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
+                                    value={defaultCategory}
+                                    onChange={(selectedOption) => {
+                                        setDefaultCategory(selectedOption);
+                                    }}
                                 />
                             </div>
                             {productType && productType.value === 'new_product' && (
@@ -335,6 +371,10 @@ const AddProduct = () => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
+                                    value={defaultCountryOfOrigin}
+                                    // onChange={(selectedOption) => {
+                                    //     setDefaultCategory(selectedOption);
+                                    // }}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>

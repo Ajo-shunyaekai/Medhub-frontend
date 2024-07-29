@@ -19,6 +19,7 @@ const SearchMarketProductDetails = () => {
     const [medicineName, setMedicineName]                 = useState()
     const [newMedicineName, setNewMedicineName]           = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
+    const [countryAvailableIn, setCountryAvailableIn]     = useState([])
 
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalItems, setTotalitems]     = useState()
@@ -83,8 +84,9 @@ const SearchMarketProductDetails = () => {
         
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setDetails(response.result)
-                setMedicineName(response.result?.medicine_name)
+                setDetails(response?.result?.data)
+                setMedicineName(response?.result?.data?.medicine_name)
+                setCountryAvailableIn(response?.result?.countryAvailable)
                 setSupplierId(response.result?.supplier_id)
             } else {
                console.log('error in med details api');
@@ -207,6 +209,7 @@ const SearchMarketProductDetails = () => {
                         {/* Start the filter section */}
                         <div className='search-filter-section'>
                             <SearchFilterSection 
+                                countryAvailable = {countryAvailableIn}
                                 handlePriceRange = {setPriceRange}
                                 handleDeliveryTime = {setDeliveryTime}
                                 handleStockedIn = {setStockedIn}

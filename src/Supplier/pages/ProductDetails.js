@@ -54,7 +54,7 @@ const ProductDetails = () => {
         
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response.result)
+                setMedicineDetails(response.result.data)
             } else {
                console.log('error in med details api');
             }
