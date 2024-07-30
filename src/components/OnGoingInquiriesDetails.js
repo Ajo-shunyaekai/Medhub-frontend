@@ -7,34 +7,36 @@ import moment from 'moment-timezone';
 import ProductList from './details/ProductList';
 
 const OnGoingInquiriesDetails = () => {
+    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+
     const { inquiryId } = useParams()
-    const navigate = useNavigate();
+    const navigate      = useNavigate();
 
     const [inquiryDetails, setInquiryDetails] = useState()
 
     useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
-
         const obj = {
-            supplier_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            enquiry_id: inquiryId
+            supplier_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            enquiry_id  : inquiryId
         }
-
         postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
-                // setTotalInquiries(response.result.totalItems)
             } else {
                 console.log('error in order list api', response);
             }
         })
     }, [])
+
+    const email   = inquiryDetails?.supplier?.contact_person_email; 
+    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`;
+
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
     return (
         <div className='order-details-container'>
@@ -47,12 +49,12 @@ const OnGoingInquiriesDetails = () => {
                                 <Link to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}>
                                     <div className='order-details-top-order-cont'>
                                         <div className='order-details-left-top-main-heading'> Supplier Name</div>
-                                        <div className='order-details-left-top-main-contents'> {inquiryDetails?.supplier.supplier_name}</div>
+                                        <div className='order-details-left-top-main-contents'> {inquiryDetails?.supplier?.supplier_name}</div>
                                     </div>
                                 </Link>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'>Type</div>
-                                    <div className='order-details-left-top-main-contents'>{inquiryDetails?.supplier.supplier_type || 'Manufacturer'}</div>
+                                    <div className='order-details-left-top-main-contents'>{inquiryDetails?.supplier?.supplier_type || 'Manufacturer'}</div>
                                 </div>
                                 <div className='order-details-top-order-cont'>
                                     <div className='order-details-left-top-main-heading'> Date & Time</div>
@@ -69,15 +71,21 @@ const OnGoingInquiriesDetails = () => {
             </div>
             {/* end the assign driver section */}
             {/* Start the return enquiry section */}
-            <div className='order-details-assign-driver-section'>
-                <ProductList/>
-            </div>
-            <div className='order-details-payment-pending-container'>
+            {
+                inquiryDetails?.quotation_items.length > 0 ?
+                <div className='order-details-assign-driver-section'>
+                   <ProductList quotationItems = {inquiryDetails?.quotation_items}/>
+                </div> : ''
+            }
+            
+            {
+                inquiryDetails?.quotation_items.length > 0 && inquiryDetails?.payment_terms?.length > 0 ?
+                <div className='order-details-payment-pending-container'>
                 <div className='order-details-payment-pending-left-section'>
                     <div className='order-details-payment-pending-terms-cont'>
                         <div className='order-details-payment-pending-first-terms-cont'>
                             <div className='order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='order-details-payment-first-terms-text'>15 Days</div>
+                            <div className='order-details-payment-first-terms-text'>{inquiryDetails?.supplier?.estimated_delivery_time}</div>
                         </div>
                     </div>
                 </div>
@@ -86,25 +94,35 @@ const OnGoingInquiriesDetails = () => {
                         <div className='order-details-payment-first-terms-heading'>Payment Terms</div>
                         <div className='order-details-payment-first-terms-text'>
                             <ul className='order-details-payment-ul-section'>
-                                <li className='order-details-payment-li-section'>30% advance payment 70% on delivery.</li>
-                                <li className='order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
+                                {
+                                    inquiryDetails?.payment_terms?.map((terms, i) => {
+                                        return (
+                                            <li className='order-details-payment-li-section'>{terms}</li>
+                                        )
+                                    })
+                                }
+                               
+                                {/* <li className='order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
                                 <li className='order-details-payment-li-section'>70% advance payment 30% on delivery.</li>
                                 <li className='order-details-payment-li-section'>100% advance payment.</li>
-                                <li className='order-details-payment-li-section'>100% payment on delivery.</li>
+                                <li className='order-details-payment-li-section'>100% payment on delivery.</li> */}
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className='pending-order-button-section'>
-                <a href='mailto:supplier@example.com?subject=Inquiry%20about%20Order%20987456321' className='pending-order-contact-order'>
+            </div> : ''
+            }
+            {
+                inquiryDetails?.quotation_items.length > 0 && inquiryDetails?.payment_terms.length > 0 ?
+                <div className='pending-order-button-section'>
+                <a href={mailtoLink} className='pending-order-contact-order'>
                     Contact Supplier
                 </a>
                 <Link to='/buyer/Create-PO'>
                     <div className='pending-order-create-order'>Create Purchased Order</div>
                 </Link>
-            </div>
-
+            </div> : ''
+            }
 
             {/* End the return enquiry section */}
         </div>

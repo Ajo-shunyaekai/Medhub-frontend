@@ -77,16 +77,16 @@ const AssignDriver = ({ items }) => {
       {/* Pagination section */}
       <div className='pagi-container'>
         <Pagination
-          activePage={currentPage}
-          itemsCountPerPage={ordersPerPage}
-          totalItemsCount={items?.length}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-          prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-          nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-          hideFirstLastPages={true}
+          activePage         = {currentPage}
+          itemsCountPerPage  = {ordersPerPage}
+          totalItemsCount    = {items?.length}
+          pageRangeDisplayed = {5}
+          onChange           = {handlePageChange}
+          itemClass          = "page-item"
+          linkClass          = "page-link"
+          prevPageText       = {<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+          nextPageText       = {<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+          hideFirstLastPages = {true}
         />
         <div className='pagi-total'>
           Total Items: {items?.length}

@@ -63,7 +63,7 @@ const Login = () => {
                     sessionStorage.setItem('license_image',response.result.license_image)
                     sessionStorage.setItem('tax_image',response.result.tax_image)
                     sessionStorage.setItem('token',response.result.token)
-
+                    sessionStorage.setItem('list_count',response.result.list_count)
                     setTimeout(() => {
                         navigate("/buyer");
                     }, 1000);
