@@ -5,11 +5,11 @@ import SearchDetailsCard from './SearchDetailsCard';
 import SearchFilterSection from './SearchFilterSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
-import Search from '../assest/Buy/search-icon.svg';
+// import Search from '../assest/Buy/search-icon.svg';
 
 const SearchsearchDetails = () => {
     const { medicineId } = useParams()
-    const navigate = useNavigate();
+    const navigate       = useNavigate();
 
     const [details, setDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
@@ -28,6 +28,28 @@ const SearchsearchDetails = () => {
     const [stockedIn, setStockedIn] = useState([])
     const [totalQuantity, setTotalQuantity] = useState([])
     const [reset, setReset] = useState()
+    //searchkey
+    const [inputValue, setInputValue]     = useState('')
+    const [searchKey, setSearchKey]       = useState(null)
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value)
+
+        if (e.target.value === '') {
+            setSearchKey('');
+        }
+    }
+
+    const handleProductSearch = () => {
+        setSearchKey(inputValue)
+        setCurrentPage(1)
+    }   
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleProductSearch();
+        }
+    };
 
     const handleReset = () => {
         setPriceRange([])
@@ -46,8 +68,8 @@ const SearchsearchDetails = () => {
         }
 
         const obj = {
-            medicine_id: medId,
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
+            medicine_id : medId,
+            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage
         }
 
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
@@ -64,17 +86,18 @@ const SearchsearchDetails = () => {
 
     useEffect(() => {
         const obj = {
-            medicine_id: medicineId,
-            medicine_type: 'new',
-            // supplier_id   : supplierId,
-            medicine_name: medicineName,
-            status: 1,
-            price_range: priceRange,
-            delivery_time: deliveryTime,
-            in_stock: stockedIn,
-            quantity_range: totalQuantity,
-            pageNo: currentPage,
-            pageSize: itemsPerPage
+            medicine_id    : medicineId,
+            medicine_type  : 'new',
+            medicine_name  : medicineName,
+            status         : 1,
+            searchKey      : searchKey,
+            price_range    : priceRange,
+            delivery_time  : deliveryTime,
+            in_stock       : stockedIn,
+            quantity_range : totalQuantity,
+            pageNo         : currentPage,
+            pageSize       : itemsPerPage
+            // supplier_id   : supplierId
         }
         postRequestWithToken('buyer/medicine/similar-medicine-list', obj, async (response) => {
             if (response.code === 200) {
@@ -84,7 +107,7 @@ const SearchsearchDetails = () => {
                 console.log('error in similar-medicine-list api');
             }
         })
-    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
+    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity, searchKey])
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -160,58 +183,61 @@ const SearchsearchDetails = () => {
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Supplier name :</div>
-                                        <div className='search-details-two-right-text'>Medical Pvt Ltd</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.supplier_name}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Company type :</div>
-                                        <div className='search-details-two-right-text'>Manufacturer</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.supplier_type}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Email :</div>
-                                        <div className='search-details-two-right-text'>medical@gmail.com</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.contact_person_email}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Mobile no :</div>
-                                        <div className='search-details-two-right-text'>+971 123456789</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.contact_person_country_code} {details?.supplier?.contact_person_mobile_no}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Country of origin :</div>
-                                        <div className='search-details-two-right-text'>UK</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.country_of_origin}</div>
                                     </div>
 
                                 </div>
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Contact person :</div>
-                                        <div className='search-details-two-right-text'>Mr. Mohammad Shaikh</div>
+                                        <div className='search-details-two-right-text'>Mr{details?.supplier?.contact_person_name}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>License no :</div>
-                                        <div className='search-details-two-right-text'>1233SEDE</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.license_no}</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Tax no :</div>
-                                        <div className='search-details-two-right-text'>14785SDDSS</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.tax_no}</div>
                                     </div>
                                     
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Country of operation :</div>
-                                        <div className='search-details-two-right-text'>UK USA India</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.country_of_operation?.join(', ')}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
                         {/* start the search container code */}
                         <div className='search-product-search-details'>
                             <div className='buy-seller-search-container'>
-                                <input className='buy-seller-search-input' type='text' placeholder='Search Product' />
-                                <div className='buy-seller-search' >
+                                <input className='buy-seller-search-input' type='text' 
+                                placeholder='Search Product' 
+                                onChange={(e) => handleInputChange(e)}
+                                onKeyDown={handleKeyDown}
+                                />
+                                <div className='buy-seller-search' onClick={() => handleProductSearch() } >
                                     <img className='buy-seller-search-icon' src={Search} alt='img' />
                                     Search
                                 </div>
                             </div>
-                            <div className='search-filter-section'>
+                            {/* <div className='search-filter-section'>
                                 <SearchFilterSection
                                     handlePriceRange={setPriceRange}
                                     handleDeliveryTime={setDeliveryTime}
@@ -219,18 +245,16 @@ const SearchsearchDetails = () => {
                                     handleQuantity={setTotalQuantity}
                                     handleReset={handleReset}
                                 />
-                            </div>
-=======
+                            </div> */}
                         <div className='search-filter-section'>
                             <SearchFilterSection 
-                              countryAvailable = {countryAvailableIn}
-                              handlePriceRange = {setPriceRange}
+                              countryAvailable   = {countryAvailableIn}
+                              handlePriceRange   = {setPriceRange}
                               handleDeliveryTime = {setDeliveryTime}
-                              handleStockedIn = {setStockedIn}
-                              handleQuantity = {setTotalQuantity}
-                              handleReset = {handleReset}
+                              handleStockedIn    = {setStockedIn}
+                              handleQuantity     = {setTotalQuantity}
+                              handleReset        = {handleReset}
                             />
->>>>>>> 52b7f6877ad6d5778ec9ab5a93a5306235f222fa
                         </div>
                         {/* End the filter section */}
                         {/* start the ecommerce card */}
@@ -238,17 +262,18 @@ const SearchsearchDetails = () => {
                             <div className='search-details-card-containers-heading'>Suppliers List</div>
                             <div className='search-details-card-container'>
                                 <SearchDetailsCard
-                                    similarMedicines={similarMedicinesList}
-                                    totalItems={totalItems}
-                                    currentPage={currentPage}
-                                    itemsPerPage={itemsPerPage}
-                                    handlePageChange={handlePageChange}
+                                    similarMedicines ={similarMedicinesList}
+                                    totalItems       ={totalItems}
+                                    currentPage      ={currentPage}
+                                    itemsPerPage     ={itemsPerPage}
+                                    handlePageChange ={handlePageChange}
                                 />
                             </div>
                         </div>
                         {/* end the ecommerce card */}
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )

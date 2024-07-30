@@ -68,7 +68,6 @@ const SecondaryProductDetails = () => {
     },[])
 
    
-
     return (
         <>
             {console.log("showModal state:", showModal)}
@@ -103,7 +102,7 @@ const SecondaryProductDetails = () => {
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Country available in :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.country_availabe_in}</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.country_available_in?.join(', ')}</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Total quantity :</div>

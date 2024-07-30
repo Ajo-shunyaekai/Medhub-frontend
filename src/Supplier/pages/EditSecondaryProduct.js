@@ -159,6 +159,8 @@ const EditSecondaryProduct = () => {
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
     const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
     const [inventoryInfo, setInventoryInfo] = useState([]);
+    const [defaultStockedIn, setDefaultStockedIn] = useState([])
+    const [defaultCountryAvailableIn, setDefaultCountryAvailableIn] = useState([])
 
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
@@ -170,8 +172,6 @@ const EditSecondaryProduct = () => {
             setDefaultCategory(selectedCategory)
         }
         if(medicineDetails?.country_of_origin) {
-            console.log('uyess');
-            console.log(countries);
             const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
             setDefaultCountryOfOrigin(selectedCountryOrigin)
         }
@@ -183,6 +183,18 @@ const EditSecondaryProduct = () => {
         }
         if (medicineDetails?.inventory_info) {
             setInventoryInfo(medicineDetails.inventory_info);
+        }
+        if (medicineDetails?.registered_in) {
+            const selectedStockedIn = countries.filter(option => 
+                medicineDetails?.stocked_in.includes(option.label)
+            );
+            setDefaultStockedIn(selectedStockedIn)
+        }
+        if (medicineDetails?.country_available_in) {
+            const selectedCountryAvailableIn = countries.filter(option => 
+                medicineDetails?.country_available_in.includes(option.label)
+            );
+            setDefaultCountryAvailableIn(selectedCountryAvailableIn)
         }
     }, [medicineDetails]);
     return (
@@ -222,6 +234,10 @@ const EditSecondaryProduct = () => {
                                     className={styles['create-invoice-div-input-select']}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
+                                    value={defaultCategory}
+                                    onChange={(selectedOption) => {
+                                        setDefaultCategory(selectedOption);
+                                    }}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -232,6 +248,10 @@ const EditSecondaryProduct = () => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
+                                    value={defaultCountryOfOrigin}
+                                    onChange={(selectedOption) => {
+                                        setDefaultCountryOfOrigin(selectedOption);
+                                    }}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -239,6 +259,8 @@ const EditSecondaryProduct = () => {
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
+                                    value={defaultRegisteredIn}
+                                    onChange={setDefaultRegisteredIn}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -246,6 +268,8 @@ const EditSecondaryProduct = () => {
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
+                                    value={defaultStockedIn}
+                                    onChange={setDefaultRegisteredIn}
                                 />
                             </div>
 
@@ -257,6 +281,8 @@ const EditSecondaryProduct = () => {
                                         <MultiSelectDropdown
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
+                                            value={defaultCountryAvailableIn}
+                                            onChange={setDefaultCountryAvailableIn}
                                         />
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
@@ -292,6 +318,7 @@ const EditSecondaryProduct = () => {
                                     name='composition'
                                     placeholder='Enter Composition'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.composition}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -302,6 +329,7 @@ const EditSecondaryProduct = () => {
                                     name='strength'
                                     placeholder='Enter Strength'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.strength}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -310,6 +338,10 @@ const EditSecondaryProduct = () => {
                                     className={styles['create-invoice-div-input-select']}
                                     options={formTypes}
                                     placeholder="Select Type of Form"
+                                    value={defaultFormType}
+                                    onChange={(selectedOption) => {
+                                        setDefaultFormType(selectedOption);
+                                    }}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -320,6 +352,7 @@ const EditSecondaryProduct = () => {
                                     name='shelfLife'
                                     placeholder='Enter Shelf Life'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.shelf_life}
                                 />
                             </div>
                             {productType && productType.value === 'new_product' && (
@@ -343,6 +376,7 @@ const EditSecondaryProduct = () => {
                                     type='text'
                                     name='shippingTime'
                                     placeholder='Enter Shipping Time'
+                                    defaultValue={medicineDetails?.shipping_time}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -353,6 +387,7 @@ const EditSecondaryProduct = () => {
                                     name='dossierType'
                                     placeholder='Enter Dossier Type'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.dossier_type}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -363,6 +398,7 @@ const EditSecondaryProduct = () => {
                                     name='dossierStatus'
                                     placeholder='Enter Dossier Status'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.dossier_status}
                                 />
                             </div>
 
@@ -375,6 +411,7 @@ const EditSecondaryProduct = () => {
                                     name='gmpApprovals'
                                     placeholder='Enter GMP Approvals'
                                     autoComplete='off'
+                                    defaultValue={medicineDetails?.gmp_approvals}
                                 />
                             </div>
 
@@ -386,6 +423,7 @@ const EditSecondaryProduct = () => {
                                     type='text'
                                     name='availableFor'
                                     placeholder='Enter Available For'
+                                    defaultValue={medicineDetails?.available_for}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
@@ -395,6 +433,7 @@ const EditSecondaryProduct = () => {
                                     type='text'
                                     name='availableFor'
                                     placeholder='Enter Tags'
+                                    defaultValue={medicineDetails?.tags}
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container-description']}>
@@ -405,6 +444,7 @@ const EditSecondaryProduct = () => {
                                     rows="4"
                                     cols="50"
                                     placeholder='Enter Description'
+                                    defaultValue={medicineDetails?.description}
                                 />
                             </div>
                         </div>

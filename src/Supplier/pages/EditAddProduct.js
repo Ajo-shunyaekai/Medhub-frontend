@@ -8,31 +8,6 @@ import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
 
-
-// const MultiSelectOption = ({ children, ...props }) => (
-//     <components.Option {...props}>
-//         <input
-//             type="checkbox"
-//             checked={props.isSelected}
-//             onChange={() => null}
-//         />{" "}
-//         <label>{children}</label>
-//     </components.Option>
-// );
-
-// const MultiSelectDropdown = ({ options, value, onChange }) => {
-//     return (
-//         <Select
-//             options={options}
-//             isMulti
-//             closeMenuOnSelect={false}
-//             hideSelectedOptions={false}
-//             components={{ Option: MultiSelectOption }}
-//             onChange={onChange}
-//             value={value}
-//         />
-//     );
-// };
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
         <input
@@ -198,8 +173,6 @@ const AddProduct = () => {
             setDefaultCategory(selectedCategory)
         }
         if(medicineDetails?.country_of_origin) {
-            console.log('uyess');
-            console.log(countries);
             const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
             setDefaultCountryOfOrigin(selectedCountryOrigin)
         }
@@ -302,21 +275,16 @@ const AddProduct = () => {
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Type of form</label>
-                                {/* <Select
+                                <Select
                                     className={styles['create-invoice-div-input-select']}
                                     options={formTypes}
                                     placeholder="Select Type of Form"
-                                /> */}
-                                <Select
-                                className={styles['create-invoice-div-input-select']}
-                                options={formTypes}
-                                placeholder="Select Type of Form"
-                                value={defaultFormType}
-                                onChange={(selectedOption) => {
-                                    setDefaultFormType(selectedOption);
-                                    console.log('Selected form type:', selectedOption);
-                                }}
-                            />
+                                    value={defaultFormType}
+                                    onChange={(selectedOption) => {
+                                        setDefaultFormType(selectedOption);
+                                        console.log('Selected form type:', selectedOption);
+                                    }}
+                                />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>

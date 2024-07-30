@@ -69,9 +69,9 @@ const ProductDetails = () => {
 
     postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
       if (response.code === 200) {
-        setDetails(response.result);
-        setMedicineName(response.result.medicine_name);
-        setSupplierId(response.result.supplier_id);
+        setDetails(response.result.data);
+        setMedicineName(response.result.data.medicine_name);
+        setSupplierId(response.result.data.supplier_id);
       } else {
         console.log('error in med details api');
       }
