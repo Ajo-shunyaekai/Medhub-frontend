@@ -4,8 +4,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const ProductList = ({orderItems, quotationItems}) => {
-    console.log(quotationItems)
+const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 2; 
@@ -26,6 +25,24 @@ const ProductList = ({orderItems, quotationItems}) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    const [acceptedItems, setAcceptedItems] = useState([]);
+    const [rejectedItems, setRejectedItems] = useState([]);
+
+    const handleAcceptClick = (item) => {
+        setAcceptedItems([...acceptedItems, item]);
+        setRejectedItems(rejectedItems.filter(rejItem => rejItem._id !== item._id));
+        handleAccept(item); 
+    };
+
+    const handleRejectClick = (item) => {
+        setRejectedItems([...rejectedItems, item]);
+        setAcceptedItems(acceptedItems.filter(accItem => accItem._id !== item._id));
+        handleReject(item); 
+    };
+
+    const isAccepted = (item) => acceptedItems.some(accItem => accItem._id === item._id);
+    const isRejected = (item) => rejectedItems.some(rejItem => rejItem._id === item._id);
     
     return (
         <div className="card-body">
@@ -70,15 +87,29 @@ const ProductList = ({orderItems, quotationItems}) => {
                         <td className='tables-tds'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Counter Price</span>
-                                    <span className="table-g-not-name">{item.counterprice || item.counter_price || '35 AED'}</span>
+                                    <span className="table-g-not-name">{item.counterprice || item.counter_price || '-'}</span>
                                 </div>
                         </td>
+                        {/* <td className='tables-tds'>
+                                <div className="table-g-section-content-button">
+                                    <span className="table-g-not-name-button" onClick={() => handleAccept(item.medicine_id, item._id)}>Accept</span>
+                                    <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.medicine_id, item._id)}>Reject</span>
+                                </div>
+                        </td> */}
                         <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
-                                    <span className="table-g-not-name-button">Accept</span>
-                                    <span className="table-g-not-reject-buttons">Reject</span>
+                                    {isAccepted(item) ? (
+                                        <span className="table-g-not-name-button accepted">Accepted</span>
+                                    ) : isRejected(item) ? (
+                                        <span className="table-g-not-reject-buttons rejected">Rejected</span>
+                                    ) : (
+                                        <>
+                                            <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item)}>Accept</span>
+                                            <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item)}>Reject</span>
+                                        </>
+                                    )}
                                 </div>
-                        </td>
+                            </td>
                         
                         <td></td>
                     </tr>

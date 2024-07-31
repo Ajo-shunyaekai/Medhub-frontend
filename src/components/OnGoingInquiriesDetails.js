@@ -21,7 +21,7 @@ const OnGoingInquiriesDetails = () => {
             return;
         }
         const obj = {
-            supplier_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
             enquiry_id  : inquiryId
         }
         postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
@@ -37,6 +37,57 @@ const OnGoingInquiriesDetails = () => {
     const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`;
 
     const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+
+    useEffect(() => {
+
+    },[])
+
+    const [acceptedItems, setAcceptedItems] = useState([]);
+    const [rejectedItems, setRejectedItems] = useState([]);
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            sessionStorage.removeItem('acceptedQuotationItems');
+            sessionStorage.removeItem('rejectedQuotationItems');
+        };
+    
+        window.addEventListener('beforeunload', handleBeforeUnload);
+    
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+    
+
+    const handleAccept = (item) => {
+        setAcceptedItems(prevItems => {
+            const updatedItems = [...prevItems, item];
+            sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
+            return updatedItems;
+        });
+        setRejectedItems(prevItems => {
+            const updatedItems = prevItems.filter(rejItem => rejItem._id !== item._id);
+            sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
+            return updatedItems;
+        });
+    };
+
+    const handleReject = (item) => {
+        setRejectedItems(prevItems => {
+            const updatedItems = [...prevItems, item];
+            sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
+            return updatedItems;
+        });
+        setAcceptedItems(prevItems => {
+            const updatedItems = prevItems.filter(accItem => accItem._id !== item._id);
+            sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
+            return updatedItems;
+        });
+    };
+
+
+    console.log('acceptedItems',acceptedItems)
+    console.log('rejectedItems',rejectedItems)
 
     return (
         <div className='order-details-container'>
@@ -74,7 +125,11 @@ const OnGoingInquiriesDetails = () => {
             {
                 inquiryDetails?.quotation_items.length > 0 ?
                 <div className='order-details-assign-driver-section'>
-                   <ProductList quotationItems = {inquiryDetails?.quotation_items}/>
+                   <ProductList 
+                        quotationItems = {inquiryDetails?.quotation_items}
+                        handleAccept   = {handleAccept}
+                        handleReject   = {handleReject}
+                   />
                 </div> : ''
             }
             
@@ -118,9 +173,16 @@ const OnGoingInquiriesDetails = () => {
                 <a href={mailtoLink} className='pending-order-contact-order'>
                     Contact Supplier
                 </a>
-                <Link to='/buyer/Create-PO'>
+                {/* <Link to={`/buyer/Create-PO/${inquiryId}`}>
+                    <div className='pending-order-create-order'>Create Purchased Order</div>
+                </Link> */}
+                {acceptedItems.length > 0 ? (
+                <Link to={`/buyer/Create-PO/${inquiryId}`}>
                     <div className='pending-order-create-order'>Create Purchased Order</div>
                 </Link>
+            ) : (
+                <div className='pending-order-create-order'>Create Purchased Order</div>
+            )}
             </div> : ''
             }
 

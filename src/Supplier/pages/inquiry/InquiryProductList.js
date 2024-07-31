@@ -24,17 +24,6 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
         setCurrentPage(pageNumber);
     };
 
-    // const handleAcceptChange = (itemId) => {
-    //     console.log('handleAcceptChange', itemId);
-    //     setAcceptedOrders((prev) => 
-    //         prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
-    //     );
-    //     setRejectedOrders((prev) => prev.filter((id) => id !== itemId));
-        
-    //     setPrices((prev) => ({ ...prev, [itemId]: '' }));
-    //     setQuotationItems((prev) => prev.filter((id) => id !== itemId))
-    // };
-
     const handleAcceptChange = (itemId) => {
         const item = items.find((item) => item._id === itemId);
         setAcceptedOrders((prev) =>
@@ -50,15 +39,6 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
         }
     };
 
-    // const handleRejectChange = (itemId) => {
-    //     console.log('handleRejectChange', itemId);
-    //     setRejectedOrders((prev) => 
-    //         prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
-    //     );
-    //     setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
-    //     setQuotationItems((prev) => prev.filter((id) => id !== itemId))
-    // };
-
     const handleRejectChange = (itemId) => {
         const item = items.find((item) => item._id === itemId);
         setRejectedOrders((prev) =>
@@ -72,24 +52,6 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
         }
     };
 
-    // const handlePriceChange = (itemId, value) => {
-    //     console.log('handlePriceChange', itemId, value);
-         
-    //     if (/^\d{0,9}$/.test(value)) {
-    //         setPrices((prev) => ({ ...prev, [itemId]: value }));
-    //         if (value.length > 0) {
-    //             setRejectedOrders((prev) => {
-    //                 if (!prev.includes(itemId)) {
-    //                     return [...prev, itemId];
-    //                 }
-    //                 return prev;
-    //             });
-               
-    //             setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
-    //         }
-    //     }
-    // };
-
     const handlePriceChange = (itemId, value) => {
         if (/^\d{0,9}$/.test(value)) {
             setPrices((prev) => ({ ...prev, [itemId]: value }));
@@ -102,7 +64,6 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                 });
 
                 setAcceptedOrders((prev) => prev.filter((id) => id !== itemId));
-
                 setQuotationItems((prev) =>
                     prev.map((order) => (order._id === itemId ? { ...order, counterPrice: value } : order))
                 );

@@ -144,7 +144,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/subscription-membership" element={<SubscriptionMembership/>} />
                         <Route path="/buyer/table-membership" element={<TableMembership/>} />
                         <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails/>} /> 
-                        <Route path="/buyer/Create-PO" element={<CreatePO/>} /> 
+                        <Route path="/buyer/Create-PO/:inquiryId" element={<CreatePO/>} /> 
                         <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload/>} /> 
                         <Route path="/buyer/purchased-order-details" element={<PurchasedOrderDetails/>} />
                         <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails/>} />
