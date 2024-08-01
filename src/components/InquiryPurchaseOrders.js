@@ -16,6 +16,9 @@ const InquiryPurchaseOrder = () => {
     const [currentPage, setCurrentPage] = useState(1); 
     const inquiryPerPage = 3;
 
+    const [poList, setPOList] = useState([])
+    const [totalPoList, setTotalPoList] = useState()
+
     const getActiveLinkFromPath = (path) => {
         switch (path) {
             case '/buyer/inquiry-purchase-orders/ongoing':
@@ -49,19 +52,17 @@ const InquiryPurchaseOrder = () => {
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
         const status = activeLink === 'ongoing' ? 'pending' : 'completed'
         const obj = {
-            buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            status    : status,
-            pageNo    : currentPage, 
-            pageSize  : inquiryPerPage,
+            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            status   : status,
+            pageNo   : currentPage, 
+            pageSize : inquiryPerPage,
         }
-
         postRequestWithToken('buyer/enquiry/enquiry-list', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryList(response.result.data)
@@ -69,7 +70,18 @@ const InquiryPurchaseOrder = () => {
             } else {
                console.log('error in order list api',response);
             }
-          })
+        })
+        if (activeLink === 'purchased') {
+            obj.status = 'pending'
+            postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setPOList(response.result.data)
+                    setTotalPoList(response.result.totalItems)
+                } else {
+                    console.log('error in purchased order list api', response);
+                }
+            });
+        } 
     },[activeLink, currentPage])
 
     return (
@@ -96,7 +108,8 @@ const InquiryPurchaseOrder = () => {
                 </div>
                 <div className="inquiry-purchase-container-right">
                     <div responsive="xl" className='inquiry-purchase-table-responsive'>
-                        {activeLink === 'ongoing' && <OnGoingOrder
+                        {activeLink === 'ongoing' && 
+                        <OnGoingOrder
                         inquiryList        = {inquiryList} 
                         totalInquiries      = {totalInquiries} 
                         currentPage      = {currentPage}
@@ -104,7 +117,15 @@ const InquiryPurchaseOrder = () => {
                         handlePageChange = {handlePageChange}
                         activeLink       = {activeLink}
                         />}
-                        {activeLink === 'purchased' && <PurchasedOrder/>}
+                        {activeLink === 'purchased' && 
+                        <PurchasedOrder
+                            poList          = {poList}
+                            totalPoList      = {totalPoList} 
+                            currentPage      = {currentPage}
+                            inquiryPerPage   = {inquiryPerPage}
+                            handlePageChange = {handlePageChange}
+                            activeLink       = {activeLink}
+                        />}
                     </div>
                 </div>
             </div>

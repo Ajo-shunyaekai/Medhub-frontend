@@ -29,16 +29,17 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
     const [acceptedItems, setAcceptedItems] = useState([]);
     const [rejectedItems, setRejectedItems] = useState([]);
 
-    const handleAcceptClick = (item) => {
+    const handleAcceptClick = (item, status) => {
         setAcceptedItems([...acceptedItems, item]);
         setRejectedItems(rejectedItems.filter(rejItem => rejItem._id !== item._id));
-        handleAccept(item); 
+        handleAccept(item, status);   
+        
     };
 
-    const handleRejectClick = (item) => {
+    const handleRejectClick = (item, status) => {
         setRejectedItems([...rejectedItems, item]);
         setAcceptedItems(acceptedItems.filter(accItem => accItem._id !== item._id));
-        handleReject(item); 
+        handleReject(item, status); 
     };
 
     const isAccepted = (item) => acceptedItems.some(accItem => accItem._id === item._id);
@@ -64,10 +65,10 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
                         </td>
                         <td className='tables-tds-cont' >
                             <div className="table-second-container">
-                                <span className="table-g-section">{item?.product_name?.charAt(0) || item.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0) }</span>
+                                <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0) }</span>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Product Name</span>
-                                    <span className="table-g-not-name">{item.product_name || item.medicine_details?.medicine_name || item.product_name} ({item.composition || item.medicine_details?.composition || 'Claritin'}) </span>
+                                    <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name} ({item.composition || item.medicine_details?.composition || 'Claritin'}) </span>
                                 </div>
                             </div>
                         </td>
@@ -96,7 +97,8 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
                                     <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.medicine_id, item._id)}>Reject</span>
                                 </div>
                         </td> */}
-                        <td className='tables-tds'>
+
+                        {/* <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
                                     {isAccepted(item) ? (
                                         <span className="table-g-not-name-button accepted">Accepted</span>
@@ -109,7 +111,22 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
                                         </>
                                     )}
                                 </div>
-                            </td>
+                            </td> */}
+
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content-button">
+                                            {item.status === 'pending' ? (
+                                                <>
+                                                    <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item,'accepted')}>Accept</span>
+                                                    <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item,'rejected')}>Reject</span>
+                                                </>
+                                            ) : item.status === 'accepted' ? (
+                                                <span className="table-g-not-name-button accepted" onClick={() => handleRejectClick(item,'rejected')}>Accepted</span>
+                                            ) : item.status === 'rejected' ? (
+                                                <span className="table-g-not-reject-buttons rejected" onClick={() => handleAcceptClick(item,'accepted')}>Rejected</span>
+                                            ) : null}
+                                        </div>
+                                    </td>
                         
                         <td></td>
                     </tr>

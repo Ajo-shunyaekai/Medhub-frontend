@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment-timezone';
 import ProductList from './details/ProductList';
+import { toast } from 'react-toastify';
 
 const OnGoingInquiriesDetails = () => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -14,6 +15,12 @@ const OnGoingInquiriesDetails = () => {
     const navigate      = useNavigate();
 
     const [inquiryDetails, setInquiryDetails] = useState()
+    const [acceptedItems, setAcceptedItems]   = useState([]);
+    const [rejectedItems, setRejectedItems]   = useState([]);
+
+    const email      = inquiryDetails?.supplier?.contact_person_email; 
+    const subject    = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`;
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -27,23 +34,28 @@ const OnGoingInquiriesDetails = () => {
         postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
+                const acceptedItems = [];
+                const rejectedItems = [];
+
+                response?.result?.quotation_items?.forEach(item => {
+                    if (item.status === 'accepted') {
+                        acceptedItems.push(item);
+                    } else if (item.status === 'rejected') {
+                        rejectedItems.push(item);
+                    }
+                });
+                setAcceptedItems(acceptedItems);
+                setRejectedItems(rejectedItems);
+
+                sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(acceptedItems));
+                sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(rejectedItems));
+
+
             } else {
                 console.log('error in order list api', response);
             }
         })
-    }, [])
-
-    const email   = inquiryDetails?.supplier?.contact_person_email; 
-    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`;
-
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-
-    useEffect(() => {
-
-    },[])
-
-    const [acceptedItems, setAcceptedItems] = useState([]);
-    const [rejectedItems, setRejectedItems] = useState([]);
+    }, [inquiryDetails])
 
     useEffect(() => {
         const handleBeforeUnload = () => {
@@ -58,36 +70,85 @@ const OnGoingInquiriesDetails = () => {
         };
     }, []);
     
-
-    const handleAccept = (item) => {
-        setAcceptedItems(prevItems => {
-            const updatedItems = [...prevItems, item];
-            sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
-            return updatedItems;
-        });
-        setRejectedItems(prevItems => {
-            const updatedItems = prevItems.filter(rejItem => rejItem._id !== item._id);
-            sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
-            return updatedItems;
-        });
+    const handleAccept = (item, status) => {
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate("/buyer/login");
+            return;
+        }
+        const obj = {
+            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+            enquiry_id  : inquiryId,
+            item_id     : item._id,
+            new_status  : status
+        }
+        postRequestWithToken('buyer/enquiry/accept-reject-quotation', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, {type: 'success'})
+                postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setInquiryDetails(response?.result)
+                        // setInquiryDetails(response?.result)
+                setAcceptedItems(prevItems => {
+                    const updatedItems = [...prevItems, item];
+                    sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
+                    return updatedItems;
+                });
+                setRejectedItems(prevItems => {
+                    const updatedItems = prevItems.filter(rejItem => rejItem._id !== item._id);
+                    sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
+                    return updatedItems;
+                });
+                    } else {
+                        console.log('error in order list api', response);
+                    }
+                })
+                
+            } else {
+                toast(response.message, {type: 'error'})
+                console.log('error in accept-reject-quotation api', response);
+            }
+        })
+        
     };
 
-    const handleReject = (item) => {
-        setRejectedItems(prevItems => {
-            const updatedItems = [...prevItems, item];
-            sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
-            return updatedItems;
-        });
-        setAcceptedItems(prevItems => {
-            const updatedItems = prevItems.filter(accItem => accItem._id !== item._id);
-            sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
-            return updatedItems;
-        });
+    const handleReject = (item, status) => {
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate("/buyer/login");
+            return;
+        }
+        const obj = {
+            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+            enquiry_id  : inquiryId,
+            item_id     : item._id,
+            new_status  : status
+        }
+        postRequestWithToken('buyer/enquiry/accept-reject-quotation', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, {type: 'success'})
+                postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setInquiryDetails(response?.result)
+                setRejectedItems(prevItems => {
+                    const updatedItems = [...prevItems, item];
+                    sessionStorage.setItem('rejectedQuotationItems', JSON.stringify(updatedItems));
+                    return updatedItems;
+                });
+                setAcceptedItems(prevItems => {
+                    const updatedItems = prevItems.filter(accItem => accItem._id !== item._id);
+                    sessionStorage.setItem('acceptedQuotationItems', JSON.stringify(updatedItems));
+                    return updatedItems;
+                });
+                    } else {
+                        console.log('error in order list api', response);
+                    }
+                })
+            } else {
+                toast(response.message, {type: 'error'})
+                console.log('error in accept-reject-quotation api', response);
+            }
+        })
+        
     };
-
-
-    console.log('acceptedItems',acceptedItems)
-    console.log('rejectedItems',rejectedItems)
 
     return (
         <div className='order-details-container'>

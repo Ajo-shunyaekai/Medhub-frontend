@@ -7,7 +7,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import '../../style/ongoingorders.css';
 
-const PurchasedOrder = () => {
+const PurchasedOrder = ({ }) => {
   const [modal, setModal] = useState(false);
   const [selectedongoing, setSelectedongoing] = useState(null);
 
