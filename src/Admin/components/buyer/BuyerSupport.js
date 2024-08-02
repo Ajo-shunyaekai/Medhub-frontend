@@ -9,6 +9,8 @@ import { postRequestWithToken } from '../../api/Requests';
 const SellerSupport = () => {
     const location = useLocation();
     const navigate = useNavigate();
+       const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+        const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
@@ -47,15 +49,12 @@ const SellerSupport = () => {
     }
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        navigate("/admin/login");
+        return;
+        }
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7',
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : 'buyer',
             supportType : activeLink,
             pageNo    : currentPage, 

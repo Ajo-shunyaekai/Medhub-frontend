@@ -70,11 +70,9 @@ const BuyerSidebar = () => {
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
     useEffect( () => { 
-        
         if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
         }
-
     },[]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
@@ -146,7 +144,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails/>} /> 
                         <Route path="/buyer/Create-PO/:inquiryId" element={<CreatePO/>} /> 
                         <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload/>} /> 
-                        <Route path="/buyer/purchased-order-details" element={<PurchasedOrderDetails/>} />
+                        <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails/>} />
                         <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails/>} />
                         <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
           

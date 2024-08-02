@@ -43,8 +43,8 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                // "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
+                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
+                // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
                 "Content-Type" : "application/json"
             } 
         });

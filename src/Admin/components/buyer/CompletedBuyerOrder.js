@@ -6,8 +6,9 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import moment from 'moment/moment';
 
-const CompletedBuyerOrder = () => {
+const CompletedBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
     const actives = [
         {
            id: "125251",
@@ -47,15 +48,15 @@ const CompletedBuyerOrder = () => {
 
     ];
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const ordersPerPage = 4;
+    // const indexOfLastOrder = currentPage * ordersPerPage;
+    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
     return (
         <>
@@ -86,22 +87,27 @@ const CompletedBuyerOrder = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {currentOrders?.map((active, index) => (
-                                    <div className={styles['actives-table-row-container']} key={index}>
+                                {orderList?.map((order, index) => {
+                                    const totalQuantity = order.items.reduce((total, item) => {
+                                        return total + item.quantity;
+                                      }, 0);
+                                      const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                    return (
+                                        <div className={styles['actives-table-row-container']} key={index}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{active.id}</div>
+                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{active.date}</div>
+                                            <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{active.supplier_name}</div>
+                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.supplier?.supplier_name}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{active.quantity}</div>
+                                            <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{active.status}</div>
+                                            <div className={styles['actives-table-text-color']}>{order.order_status ? 'Completed' : ''}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
                                             <Link to='/order-details'>
@@ -111,14 +117,16 @@ const CompletedBuyerOrder = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                    )
+                                   
+                                })}
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={actives.length}
+                                totalItemsCount={totalOrders}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles['page-item']}
@@ -128,7 +136,7 @@ const CompletedBuyerOrder = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['actives-pagi-total']}>
-                                <div>Total Items: {actives.length}</div>
+                                <div>Total Items: {totalOrders}</div>
                             </div>
                         </div>
                     </div>

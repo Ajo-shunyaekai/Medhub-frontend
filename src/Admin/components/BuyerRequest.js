@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../style/request.module.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { postRequestWithToken } from '../api/Requests';
 
 const BuyerRequest = () => {
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
     const buyerRequest = [
         {
             type: "Distributor",
@@ -67,15 +71,40 @@ const BuyerRequest = () => {
         },
     ];
 
+    const [buyerRequestList, setBuyerRequestList] = useState([])
+    const [totalRequests, setTotalRequests] = useState()
+
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const listPerPage = 4;
+    const indexOfLastOrder = currentPage * listPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - listPerPage;
     const currentOrders = buyerRequest.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
+            filterKey : 'pending',
+            pageNo    : currentPage, 
+            pageSize  : listPerPage,
+        }
+
+        postRequestWithToken('admin/get-buyer-reg-req-list', obj, async (response) => {
+            if (response.code === 200) {
+                setBuyerRequestList(response.result.data)
+                setTotalRequests(response.result.totalItems)
+            } else {
+               console.log('error in get-buyer-reg-req-list api',response);
+            }
+        })
+    },[currentPage])
 
     return (
         <>
@@ -107,25 +136,25 @@ const BuyerRequest = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {currentOrders?.map((request, index) => (
+                                {buyerRequestList?.map((buyer, index) => (
                                     <div className={styles['rejected-table-row-container']} key={index}>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.type}</div>
+                                            <div className={styles['rejected-table-text-color']}>{buyer.buyer_type}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.name}</div>
+                                            <div className={styles['rejected-table-text-color']}>{buyer.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['table-text-color']}>{request.origin}</div>
+                                            <div className={styles['table-text-color']}>{buyer.country_of_origin}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.license}</div>
+                                            <div className={styles['rejected-table-text-color']}>{buyer.license_no}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.tax}</div>
+                                            <div className={styles['rejected-table-text-color']}>{buyer.tax_no}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-btn']} ${styles['rejected-table-order-1']}`}>
-                                            <Link to='/admin/buyer-request-details'>
+                                            <Link to={`/admin/buyer-request-details/${buyer.buyer_id}`}>
                                                 <div className={`${styles['rejected-table']} ${styles['rejected-table-view']}`}><RemoveRedEyeOutlinedIcon className={styles["table-icon"]} /></div>
                                             </Link>
                                         </div>
@@ -136,8 +165,8 @@ const BuyerRequest = () => {
                         <div className={styles['rejected-pagi-container']}>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={buyerRequest.length}
+                                itemsCountPerPage={listPerPage}
+                                totalItemsCount={totalRequests}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles["page-item"]}
@@ -147,7 +176,7 @@ const BuyerRequest = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['rejected-pagi-total']}>
-                                <div>Total Items: {buyerRequest.length}</div>
+                                <div>Total Items: {totalRequests}</div>
                             </div>
                         </div>
                     </div>

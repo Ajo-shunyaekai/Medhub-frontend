@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../style/request.module.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { postRequestWithToken } from '../api/Requests';
 
 const SellerRequest = () => {
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
     const buyerRequest = [
         {
             type: "Distributor",
@@ -67,15 +71,40 @@ const SellerRequest = () => {
         },
     ];
 
+    const [sellerRequestList, setSellerRequestList] = useState([])
+    const [totalRequests, setTotalRequests]         = useState()
+
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const listPerPage = 4;
+    const indexOfLastOrder = currentPage * listPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - listPerPage;
     const currentOrders = buyerRequest.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
+            filterKey : 'pending',
+            pageNo    : currentPage, 
+            pageSize  : listPerPage,
+        }
+
+        postRequestWithToken('admin/get-supplier-reg-req-list', obj, async (response) => {
+            if (response.code === 200) {
+                setSellerRequestList(response.result.data)
+                setTotalRequests(response.result.totalItems)
+            } else {
+               console.log('error in get-supplier-reg-req-list api',response);
+            }
+        })
+    },[currentPage])
 
     return (
         <>
@@ -107,22 +136,22 @@ const SellerRequest = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {currentOrders?.map((request, index) => (
+                                {sellerRequestList?.map((seller, index) => (
                                     <div className={styles['rejected-table-row-container']} key={index}>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.type}</div>
+                                            <div className={styles['rejected-table-text-color']}>{seller.supplier_type}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.name}</div>
+                                            <div className={styles['rejected-table-text-color']}>{seller.supplier_name}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['table-text-color']}>{request.origin}</div>
+                                            <div className={styles['table-text-color']}>{seller.country_of_origin}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.license}</div>
+                                            <div className={styles['rejected-table-text-color']}>{seller.license_no}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                            <div className={styles['rejected-table-text-color']}>{request.tax}</div>
+                                            <div className={styles['rejected-table-text-color']}>{seller.tax_no}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-btn']} ${styles['rejected-table-order-1']}`}>
                                             <Link to='/order-details'>
@@ -134,10 +163,10 @@ const SellerRequest = () => {
                             </tbody>
                         </Table>
                         <div className={styles['rejected-pagi-container']}>
-                            <Pagination
+                        <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={buyerRequest.length}
+                                itemsCountPerPage={listPerPage}
+                                totalItemsCount={totalRequests}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles["page-item"]}
@@ -147,7 +176,7 @@ const SellerRequest = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['rejected-pagi-total']}>
-                                <div>Total Items: {buyerRequest.length}</div>
+                            <div>Total Items: {totalRequests}</div>
                             </div>
                         </div>
                     </div>

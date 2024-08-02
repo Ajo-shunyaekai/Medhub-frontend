@@ -43,9 +43,8 @@ const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    
     useEffect( () => { 
-        
-
         if( !adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
         }
@@ -87,7 +86,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/approved-product" element={<ApprovedProduct/>} />
                   <Route path="/admin/rejected-product" element={<RejectedProduct/>} />
                   <Route path="/admin/product-requests" element={<ProductRequests/>} />
-                  <Route path="/admin/buyer-request-details" element={<DetailsBuyerRequest/>} />
+                  <Route path="/admin/buyer-request-details/:buyerId" element={<DetailsBuyerRequest/>} />
 
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />

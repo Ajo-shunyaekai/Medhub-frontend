@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../style/detailsrequest.css'
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
@@ -6,8 +6,33 @@ import CompanyLogo from '../assest/companylogo.png'
 import TradeLicense from '../assest/certificate.jpg'
 import TaxCertificate from '../assest/tax-certificate.jpg'
 import Certificate from '../assest/Medical_certificate.jpg'
+import { useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../api/Requests';
 
 const DetailsBuyerRequest = () => {
+    const {buyerId} = useParams()
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const [buyerDetails, setBuyerDetails] = useState()
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
+            buyer_id  : buyerId,
+        }
+        postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
+            if (response.code === 200) {
+                setBuyerDetails(response.result)
+            } else {
+               console.log('error in get-buyer-details api',response);
+            }
+        })
+    },[])
     return (
         <>
             <div className='buyer-details-container'>
@@ -18,26 +43,27 @@ const DetailsBuyerRequest = () => {
                             <div className='buyer-details-uppar-main-logo-section'>
                                 <div className='buyer-details-company-logo-container'>
                                     <div className='buyer-details-company-logo-section'>
-                                        <img src={CompanyLogo} alt='CompanyLogo' />
+                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image[0]}`} alt='CompanyLogo' />
+                                        {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details[0]?.buyer_image[0]}`} */}
                                     </div>
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
                                     <div className='buyer-details-uppar-main-containers'>
                                         <div className='buyer-details-upper-section-container'>
-                                            <div className='buyer-details-left-uppar-head'>Pharmaceuticals Pvt Ltd</div>
+                                            <div className='buyer-details-left-uppar-head'>{buyerDetails?.buyer_name}</div>
                                         </div>
                                         <div className='buyer-details-left-inner-section'>
                                             <div className='buyer-details-left-company-type'>
-                                                <div className='buyer-details-left-inner-sec-text'>Buyer ID: BU12398765</div>
+                                                <div className='buyer-details-left-inner-sec-text'>Buyer ID: {buyerDetails?.buyer_id}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
                                                     <PhoneInTalkOutlinedIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>+971 120 2541 25</span>
+                                                    <span className='tooltip buyer-tooltip'>{buyerDetails?.buyer_country_code} {buyerDetails?.buyer_mobile_no}</span>
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
                                                     <MailOutlineIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>buyer@example.com</span>
+                                                    <span className='tooltip buyer-tooltip'>{buyerDetails?.buyer_email}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -45,11 +71,11 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-uppar-right-container-section'>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Company Type:</div>
-                                            <div className='buyer-details-company-type-sec-text'> Distributor</div>
+                                            <div className='buyer-details-company-type-sec-text'> {buyerDetails?.buyer_type}</div>
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
-                                            <div className='buyer-details-company-type-sec-text'>C-12 Birlagram Nagda</div>
+                                            <div className='buyer-details-company-type-sec-text'>{buyerDetails?.buyer_address}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -57,56 +83,56 @@ const DetailsBuyerRequest = () => {
                         </div>
                         <div className='buyer-details-description-section'>
                             <div className='buyer-details-description-head'>Description</div>
-                            <div className='buyer-details-description-content'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</div>
+                            <div className='buyer-details-description-content'>{buyerDetails?.description}</div>
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
-                                    <div className='buyer-details-inner-text'>Mr. Satish Kumar</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Designation :</div>
-                                    <div className='buyer-details-inner-text'>Market General Manager</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.designation}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Email ID :</div>
-                                    <div className='buyer-details-inner-text'>Pvt@gmail.com</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_email}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
-                                    <div className='buyer-details-inner-text'>+971 1408767</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
-                                    <div className='buyer-details-inner-text'>455SD78954</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License Expiry Date :</div>
-                                    <div className='buyer-details-inner-text'>12/09/2030</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
                             </div>
                             <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
-                                    <div className='buyer-details-inner-text'>5655565FDA6</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
-                                    <div className='buyer-details-inner-text'>250</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.approx_yearly_purchase_value}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Origin :</div>
-                                    <div className='buyer-details-inner-text'>Dubai</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_origin}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
-                                    <div className='buyer-details-inner-text'>Dubai, London, Singapur</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
 
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Interested In :</div>
-                                    <div className='buyer-details-inner-text'>Nutraceuticals, Biosimilars</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
                                 </div>
                             </div>
 

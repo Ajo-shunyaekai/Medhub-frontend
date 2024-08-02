@@ -1,68 +1,54 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { postRequestWithToken } from '../../api/Requests';
 
 const ProductRequests = () => {
-    const product = [
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "India"
-        },
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "UAE"
-        },
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "UK"
-        },
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "USA"
-        },
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "Europe"
-        },
-        {
-            supplier_id: "000001",
-            product_id: "012122",
-            product_name: "Migon",
-            strength: "500 Mg",
-            origin: "UAE"
-        },
-    
-    ];
-
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = product.slice(indexOfFirstOrder, indexOfLastOrder);
+    const productsPerPage = 4;
+
+     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+     const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
+    const [productList, setProductList] = useState([])
+    const [totalItems, setTotalItems] = useState()
+
+
+    // const indexOfLastOrder = currentPage * ordersPerPage;
+    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // const currentOrders = product.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
+            status    : 0,
+            pageNo    : currentPage, 
+            pageSize  : productsPerPage,
+        }
+
+        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
+            if (response.code === 200) {
+                setProductList(response.result.data)
+                setTotalItems(response.result.totalItems)
+            } else {
+               console.log('error in get-medicine-list api',response);
+            }
+          })
+    }, [currentPage])
 
     return (
         <>
@@ -94,22 +80,37 @@ const ProductRequests = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                {currentOrders?.map((product, index) => (
+                            {productList?.map((product, index) => (
                                     <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{product.supplier_id}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.product_id}</div>
+                                            <div className='rejected-table-text-color'>{product.medicine_id}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='table-text-color'>{product.product_name}</div>
+                                            <div className='table-text-color'>{product.medicine_name}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{product.strength}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.origin}</div>
+                                            {/* <div className='rejected-table-text-color'>{product.status}</div> */}
+                                            <div className='rejected-table-text-color'>
+                                                {(() => {
+                                                    switch (product.status) {
+                                                    case 0:
+                                                        return 'pending';
+                                                    case 1:
+                                                        return 'approved';
+                                                    case 2:
+                                                        return 'rejected';
+                                                    default:
+                                                        return '';
+                                                    }
+                                                })()}
+                                                </div>
+
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
                                             <Link to='/order-details'>
@@ -123,8 +124,8 @@ const ProductRequests = () => {
                         <div className='rejected-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={product.length}
+                                itemsCountPerPage={productsPerPage}
+                                totalItemsCount={totalItems}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -134,7 +135,7 @@ const ProductRequests = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className='rejected-pagi-total'>
-                                <div>Total Items: {product.length}</div>
+                                <div>Total Items: {totalItems}</div>
                             </div>
                         </div>
                     </div>

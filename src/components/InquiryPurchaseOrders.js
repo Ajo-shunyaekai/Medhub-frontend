@@ -119,7 +119,7 @@ const InquiryPurchaseOrder = () => {
                         />}
                         {activeLink === 'purchased' && 
                         <PurchasedOrder
-                            poList          = {poList}
+                            poList           = {poList}
                             totalPoList      = {totalPoList} 
                             currentPage      = {currentPage}
                             inquiryPerPage   = {inquiryPerPage}

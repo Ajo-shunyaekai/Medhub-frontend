@@ -55,7 +55,7 @@ const OnGoingInquiriesDetails = () => {
                 console.log('error in order list api', response);
             }
         })
-    }, [inquiryDetails])
+    }, [])
 
     useEffect(() => {
         const handleBeforeUnload = () => {

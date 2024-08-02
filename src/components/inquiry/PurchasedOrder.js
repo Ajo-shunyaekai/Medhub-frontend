@@ -7,7 +7,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import '../../style/ongoingorders.css';
 
-const PurchasedOrder = ({ }) => {
+const PurchasedOrder = ({poList, totalPoList, currentPage, inquiryPerPage, handlePageChange, activeLink }) => {
   const [modal, setModal] = useState(false);
   const [selectedongoing, setSelectedongoing] = useState(null);
 
@@ -61,16 +61,16 @@ const PurchasedOrder = ({ }) => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const ongoingsPerPage = 4;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const ongoingsPerPage = 4;
 
-  const indexOfLastongoing = currentPage * ongoingsPerPage;
-  const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
-  const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
+  // const indexOfLastongoing = currentPage * ongoingsPerPage;
+  // const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
+  // const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   return (
     <>
@@ -89,47 +89,53 @@ const PurchasedOrder = ({ }) => {
                     <th className="ongoing-container-th">Action</th>
                   </tr>
                 </thead>
-                {currentongoings.map(ongoing => (
-                  <tbody key={ongoing.ongoing_id} className='ongoing-container-tbody'>
-                    <tr className="ongoing-section-tr">
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.inquiry_id}</div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.date}</div>
-                      </td>
-                      <td className='ongoing-section-large-td'>
-                        <div className="ongoing-section-heading">{ongoing.supplier_name}</div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.unit_price}</div>
-                      </td>
-                      {/* <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.status}</div>
-                      </td> */}
-                      <td className='ongoing-section-td'>
-                        <div className='ongoing-section-button'>
-                          <Link to='/buyer/purchased-order-details'>
-                            <div className='ongoing-section-view'>
-                              <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
-                            </div>
-                          </Link>
-                          <div className='ongoing-section-delete' onClick={() => showModal(ongoing)}>
-                            <HighlightOffIcon className='ongoing-section-off' />
-                          </div>
+                    {poList?.length > 0 ? (
+                        poList.map((data, i) => {
+                          const totalAmount = data.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+                          return (
+                            <tbody key={data._id} className='ongoing-container-tbody'>
+                              <tr className="ongoing-section-tr">
+                                <td className='ongoing-section-td'>
+                                  <div className="ongoing-section-heading">{data.enquiry_id}</div>
+                                </td>
+                                <td className='ongoing-section-td'>
+                                  <div className="ongoing-section-heading">{data.po_date}</div>
+                                </td>
+                                <td className='ongoing-section-large-td'>
+                                  <div className="ongoing-section-heading">{data.supplier_name}</div>
+                                </td>
+                                <td className='ongoing-section-td'>
+                                  <div className="ongoing-section-heading">{totalAmount} AED</div>
+                                </td>
+                                <td className='ongoing-section-td'>
+                                  <div className='ongoing-section-button'>
+                                    <Link to={`/buyer/purchased-order-details/${data.purchaseOrder_id}`}>
+                                      <div className='ongoing-section-view'>
+                                        <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
+                                      </div>
+                                    </Link>
+                                    <div className='ongoing-section-delete' onClick={() => showModal(data)}>
+                                      <HighlightOffIcon className='ongoing-section-off' />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          );
+                        })
+                      ) : (
+                        <div className='no-purchase-orders'>
+                          No purchase orders available
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                ))}
+                      )}
               </table>
             </div>
             {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}
             <div className='pagi-container'>
               <Pagination
                 activePage={currentPage}
-                itemsCountPerPage={ongoingsPerPage}
-                totalItemsCount={activeongoings.length}
+                itemsCountPerPage={inquiryPerPage}
+                totalItemsCount={totalPoList}
                 pageRangeDisplayed={5}
                 onChange={handlePageChange}
                 itemClass="page-item"
@@ -139,7 +145,7 @@ const PurchasedOrder = ({ }) => {
                 hideFirstLastPages={true}
               />
               <div className='pagi-total'>
-                Total Items: {activeongoings.length}
+                Total Items: {totalPoList}
               </div>
             </div>
           </div>

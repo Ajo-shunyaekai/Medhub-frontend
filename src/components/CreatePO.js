@@ -285,6 +285,7 @@ const CreatePO = () => {
     const [poNumber, setPONumber] = useState();
     const [orderItems, setOrderItems] = useState([]);
     const [inquiryDetails, setInquiryDetails] = useState();
+    const [itemId, setItemId] = useState([])
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
@@ -326,6 +327,8 @@ const CreatePO = () => {
                 const parsedItems = JSON.parse(storedItems);
                 setOrderItems(parsedItems);
                 setValue('orderItems', parsedItems);
+                const itemIds = parsedItems.map(item => item._id);
+                setItemId(itemIds);
             } catch (error) {
                 console.error('Error parsing stored items:', error);
             }
@@ -339,7 +342,9 @@ const CreatePO = () => {
         }
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            enquiry_id: inquiryId
+            enquiry_id: inquiryId,
+            
+
         };
         postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
@@ -368,6 +373,7 @@ const CreatePO = () => {
             buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
             enquiry_id  : inquiryId,
             supplier_id : inquiryDetails?.supplier?.supplier_id,
+            itemIds     : itemId,
             data
         };
         postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
@@ -536,7 +542,7 @@ const CreatePO = () => {
                         <div className={styles['create-invoice-form-heading']}>Order Details</div>
                     </div>
                     {orderItems?.map((item, index) => (
-                        <div className={styles['form-item-container']} key={item.id}>
+                        <div className={styles['form-item-container']} key={item._id}>
                             <div className={styles['craete-invoice-form']}>
                                 <div className={styles['create-invoice-div-container']}>
                                     <label className={styles['create-invoice-div-label']}>Product Name</label>

@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../../style/order.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ActiveBuyerOrder from './ActiveBuyerOrder';
 import CompletedBuyerOrder from './CompletedBuyerOrder';
 import PendingBuyerOrder from './PendingBuyerOrder';
+import { postRequestWithToken } from '../../api/Requests';
 const BuyerOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
             case '/admin/buyer-order/active':
                 return 'active';
                 case '/admin/buyer-order/complete':
-                return 'complete';
+                return 'completed';
             case '/admin/buyer-order/pending':
                 return 'pending';
             default:
@@ -25,11 +29,12 @@ const BuyerOrder = () => {
     const activeLink = getActiveLinkFromPath(location.pathname);
 
     const handleLinkClick = (link) => {
+        setCurrentPage(1)
         switch (link) {
             case 'active':
                 navigate('/admin/buyer-order/active');
                 break;
-                case 'complete':
+                case 'completed':
                 navigate('/admin/buyer-order/complete');
                 break;
             case 'pending':
@@ -39,6 +44,37 @@ const BuyerOrder = () => {
                 navigate('/admin/buyer-order/active');
         }
     };
+
+    const [orderList, setOrderList]     = useState([])
+    const [totalOrders, setTotalOrders] = useState()
+    const [currentPage, setCurrentPage] = useState(1); 
+    const ordersPerPage = 2;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
+            filterKey : activeLink,
+            page_no   : currentPage, 
+            limit     : ordersPerPage,
+        }
+
+        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+            if (response.code === 200) {
+                setOrderList(response.result.data)
+                setTotalOrders(response.result.totalItems)
+            } else {
+               console.log('error in order list api',response);
+            }
+          })
+    },[activeLink, currentPage])
 
     return (
         <>
@@ -56,8 +92,8 @@ const BuyerOrder = () => {
                             <div>Active Orders</div>
                         </div>
                         <div
-                            onClick={() => handleLinkClick('complete')}
-                            className={`${activeLink === 'complete' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
+                            onClick={() => handleLinkClick('completed')}
+                            className={`${activeLink === 'completed' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
                             <div>Completed Orders</div>
@@ -71,9 +107,33 @@ const BuyerOrder = () => {
                         </div>
                     </div>
                     <div className={styles[`order-wrapper-right`]}>
-                        {activeLink === 'active' && <ActiveBuyerOrder/>}
-                        {activeLink === 'complete' && <CompletedBuyerOrder/>}
-                        {activeLink === 'pending' && <PendingBuyerOrder/>}
+                        {activeLink === 'active' &&
+                         <ActiveBuyerOrder
+                            orderList        = {orderList} 
+                            totalOrders      = {totalOrders} 
+                            currentPage      = {currentPage}
+                            ordersPerPage    = {ordersPerPage}
+                            handlePageChange = {handlePageChange}
+                            activeLink       = {activeLink}
+                         />}
+                        {activeLink === 'completed' && 
+                        <CompletedBuyerOrder
+                            orderList        = {orderList} 
+                            totalOrders      = {totalOrders} 
+                            currentPage      = {currentPage}
+                            ordersPerPage    = {ordersPerPage}
+                            handlePageChange = {handlePageChange}
+                            activeLink       = {activeLink}
+                        />}
+                        {activeLink === 'pending' &&
+                         <PendingBuyerOrder
+                            orderList        = {orderList} 
+                            totalOrders      = {totalOrders} 
+                            currentPage      = {currentPage}
+                            ordersPerPage    = {ordersPerPage}
+                            handlePageChange = {handlePageChange}
+                            activeLink       = {activeLink}
+                         />}
                     </div>
                 </div>
             </div>
