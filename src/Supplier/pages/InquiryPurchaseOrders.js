@@ -11,10 +11,13 @@ const InquiryPurchaseOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [inquiryList, setInquiryList] = useState([])
+    const [inquiryList, setInquiryList]       = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
-    const [currentPage, setCurrentPage] = useState(1); 
-    const inquiryPerPage = 2;
+    const [currentPage, setCurrentPage]       = useState(1); 
+    const inquiryPerPage = 3;
+
+    const [poList, setPOList]           = useState([])
+    const [totalPoList, setTotalPoList] = useState()
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
@@ -56,10 +59,10 @@ const InquiryPurchaseOrder = () => {
         }
         const status = activeLink === 'ongoing' ? 'pending' : 'completed'
         const obj = {
-            supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
-            status    : status,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            status      : status,
             pageNo      : currentPage, 
-            pageSize        : inquiryPerPage,
+            pageSize    : inquiryPerPage,
         }
 
         postRequestWithToken('supplier/enquiry/enquiry-list', obj, async (response) => {
@@ -69,7 +72,18 @@ const InquiryPurchaseOrder = () => {
             } else {
                console.log('error in order list api',response);
             }
-          })
+        })
+        if (activeLink === 'purchased') {
+            obj.status = 'pending'
+            postRequestWithToken('supplier/purchaseorder/get-po-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setPOList(response.result.data)
+                    setTotalPoList(response.result.totalItems)
+                } else {
+                    console.log('error in purchased order list api', response);
+                }
+            });
+        } 
     },[activeLink, currentPage])
 
     return (
@@ -104,7 +118,15 @@ const InquiryPurchaseOrder = () => {
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}
-                        {activeLink === 'purchased' && <PurchasedOrder/>}
+                        {activeLink === 'purchased' && 
+                        <PurchasedOrder
+                            poList           = {poList}
+                            totalPoList      = {totalPoList} 
+                            currentPage      = {currentPage}
+                            inquiryPerPage   = {inquiryPerPage}
+                            handlePageChange = {handlePageChange}
+                            activeLink       = {activeLink}
+                        />}
                     </div>
                 </div>
             </div>

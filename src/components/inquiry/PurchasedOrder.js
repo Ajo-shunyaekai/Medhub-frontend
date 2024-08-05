@@ -96,7 +96,7 @@ const PurchasedOrder = ({poList, totalPoList, currentPage, inquiryPerPage, handl
                             <tbody key={data._id} className='ongoing-container-tbody'>
                               <tr className="ongoing-section-tr">
                                 <td className='ongoing-section-td'>
-                                  <div className="ongoing-section-heading">{data.enquiry_id}</div>
+                                  <div className="ongoing-section-heading">{data.purchaseOrder_id}</div>
                                 </td>
                                 <td className='ongoing-section-td'>
                                   <div className="ongoing-section-heading">{data.po_date}</div>

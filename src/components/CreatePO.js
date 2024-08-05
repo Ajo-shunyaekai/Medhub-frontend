@@ -351,10 +351,12 @@ const CreatePO = () => {
                 setValue('supplierAddress', response?.result?.supplier?.supplier_address);
                 setValue('supplierEmail', response?.result?.supplier?.contact_person_email);
                 setValue('supplierMobile', response?.result?.supplier?.contact_person_mobile_no);
+                setValue('supplierRegNo',response?.result?.supplier?.registration_no)
                 setValue('buyerName', response?.result?.buyer?.buyer_name);
                 setValue('buyerAddress', response?.result?.buyer?.buyer_address);
                 setValue('buyerEmail', response?.result?.buyer?.contact_person_email);
                 setValue('buyerMobile', response?.result?.buyer?.contact_person_mobile);
+                setValue('buyerRegNo',response?.result?.buyer?.registration_no)
             } else {
                 console.log('error in order list api', response);
             }
