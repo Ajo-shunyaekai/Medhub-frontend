@@ -51,8 +51,8 @@ const Order = () => {
                 return 'active';
             case '/buyer/order/completed':
                 return 'completed';
-            case '/buyer/order/pending':
-                return 'pending';
+            // case '/buyer/order/pending':
+            //     return 'pending';
             default:
                 return 'active';
         }
@@ -69,9 +69,9 @@ const Order = () => {
             case 'completed':
                 navigate('/buyer/order/completed');
                 break;
-            case 'pending':
-                navigate('/buyer/order/pending');
-                break;
+            // case 'pending':
+            //     navigate('/buyer/order/pending');
+            //     break;
             default:
                 navigate('/buyer/order/active');
         }
@@ -127,10 +127,10 @@ const Order = () => {
                             <div>Completed Orders</div>
                         </div>
 
-                        <div onClick={() => handleLinkClick('pending')} className={activeLink === 'pending' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
+                        {/* <div onClick={() => handleLinkClick('pending')} className={activeLink === 'pending' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
                             <div>Pending Orders</div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Order Right side table  */}

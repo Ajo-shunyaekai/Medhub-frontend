@@ -55,10 +55,10 @@ import InquiryProductList from '../pages/inquiry/InquiryProductList.js';
 import CreatePO from '../pages/CreatePO.js';
 import CreatePOImageUpload from '../pages/CreatePOImageUpload.js';
 import PurchasedOrderDetails from '../pages/PurchasedOrderDetails.js';
-
-
 import SupplierLogin from '../signup/SupplierLogin.js';
 import SupplierSignUp from '../signup/SupplierSignUp.js';
+import ProformaInvoice from '../pages/ProformaInvoice.js';
+
 
 
 const SupplierSidebar = () => {
@@ -130,7 +130,8 @@ const SupplierSidebar = () => {
                     <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
                     <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
                     <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice/>} />
-
+                    <Route path="/supplier/proforma-invoice" element={<ProformaInvoice/>} />
+                    
                     <Route path="/supplier/create-PO" element={<CreatePO/>} />
           <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload/>} />
           <Route path="/supplier/purchased-order-details" element={<PurchasedOrderDetails/>} />

@@ -1,4 +1,4 @@
-.order-details-container {
+.buyer-order-details-container {
   width: 100%;
   height: 100vh;
   overflow: scroll;
@@ -12,22 +12,22 @@
   margin: auto;
 }
 
-.order-details-container::-webkit-scrollbar {
+.buyer-order-details-container::-webkit-scrollbar {
   display: none;
 }
 
-.order-details-conatiner-heading {
+.buyer-order-details-conatiner-heading {
   font-size: 20px;
   font-weight: 600;
 }
 
-.order-details-section {
+.buyer-order-details-section {
   width: 100%;
   display: flex;
   gap: 20px;
 }
 
-.order-details-left-section {
+.buyer-order-details-left-section {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -35,14 +35,14 @@
   width: 100%;
 }
 
-.order-details-top-inner-section {
+.buyer-order-details-top-inner-section {
   display: flex;
   justify-content: start;
   gap: 20px;
   width: 100%;
 }
 
-.order-details-left-inner-section-container {
+.buyer-order-details-left-inner-section-container {
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -50,7 +50,7 @@
   width: 100%;
 }
 
-.order-details-left-top-containers {
+.buyer-order-details-left-top-containers {
   width: 100%;
   background-color: white;
   padding: 24px 22px;
@@ -62,13 +62,13 @@
   border-radius: 4px;
 }
 
-.order-details-top-order-cont {
+.buyer-order-details-top-order-cont {
   display: flex;
   flex-direction: column;
   row-gap: 8px;
 }
 
-/* .order-details-left-bottom-containers {
+/* .buyer-order-details-left-bottom-containers {
   width: 100%;
   display: flex;
   gap: 20px;
@@ -76,7 +76,7 @@
   align-items: center;
 } */
 
-.order-details-left-bottom-containers {
+.buyer-order-details-left-bottom-containers {
   width: 100%;
   gap: 20px;
   display: flex;
@@ -84,7 +84,7 @@
   border-radius: 4px;
 }
 
-.order-details-left-bottom-vehichle {
+.buyer-order-details-left-bottom-vehichle {
   width: 57vw;
   background-color: white;
   padding: 24px 22px;
@@ -97,7 +97,7 @@
   border-radius: 4px;
 }
 
-.order-details-left-bottom-vehichle-no {
+.buyer-order-details-left-bottom-vehichle-no {
   width: 28vw;
   background-color: white;
   padding: 24px 22px;
@@ -110,7 +110,7 @@
   row-gap: 10px;
 }
 
-.order-details-right-inner-section-container {
+.buyer-order-details-right-inner-section-container {
   width: 39vw;
   background-color: white;
   padding: 18px 30px;
@@ -122,14 +122,14 @@
   border-radius: 4px;
 }
 
-.order-details-top-bottom-sction {
+.buyer-order-details-top-bottom-sction {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   width: 100%;
 }
 
-.order-details-top-bottom-order-sect {
+.buyer-order-details-top-bottom-order-sect {
   width: 28vw;
   background-color: white;
   padding: 24px 20px;
@@ -142,7 +142,7 @@
   row-gap: 10px;
 }
 
-.order-details-right-section {
+.buyer-order-details-right-section {
   width: 24vw;
   background-color: white;
   padding: 12px 12px;
@@ -155,7 +155,7 @@
   border-radius: 4px;
 }
 
-.order-details-map-container {
+.buyer-order-details-map-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -164,7 +164,7 @@
   /* border: 1px solid red; */
 }
 
-.order-details-left-top-main-heading-button {
+.buyer-order-details-left-top-main-heading-button {
   background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
@@ -173,11 +173,12 @@
   align-items: center;
   column-gap: 8px;
   font-size: 14px;
+  line-height: 20px;
   cursor: pointer;
 }
 
 /* start the assign driver table list */
-.order-details-assign-driver-section {
+.buyer-order-details-assign-driver-section {
   width: 100%;
   background-color: white;
   padding: 12px 12px;
@@ -235,7 +236,7 @@
 }
 
 /* start the pickup section */
-.order-details-payment-container {
+.buyer-order-details-payment-container {
   width: 100%;
   display: flex;
   justify-content: start;
@@ -244,7 +245,7 @@
   margin-bottom: 100px;
 }
 
-.order-details-payment-left-section {
+.buyer-order-details-payment-left-section {
   width: 34vw;
   display: flex;
   flex-direction: column;
@@ -252,7 +253,7 @@
   row-gap: 20px;
 }
 
-.order-details-payment-terms-cont {
+.buyer-order-details-payment-terms-cont {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -260,7 +261,7 @@
   gap: 20px;
 }
 
-.order-details-payment-first-terms-cont {
+.buyer-order-details-payment-first-terms-cont {
   width: 23vw;
   background-color: white;
   padding: 20px;
@@ -273,7 +274,7 @@
   row-gap: 6px;
 }
 
-.order-details-payment-detention-cont {
+.buyer-order-details-payment-detention-cont {
   width: 33.4vw;
   background-color: white;
   padding: 20px;
@@ -286,7 +287,7 @@
   row-gap: 6px;
 }
 
-.order-details-payment-remark-cont {
+.buyer-order-details-payment-remark-cont {
   width: 33.4vw;
   background-color: white;
   padding: 20px;
@@ -299,7 +300,7 @@
   row-gap: 20px;
 }
 
-.order-details-payment-right-section {
+.buyer-order-details-payment-right-section {
   width: 100%;
   background-color: white;
   padding: 30px 20px;
@@ -311,7 +312,7 @@
   border-radius: 4px;
 }
 
-.order-details-right-details-row-one {
+.buyer-order-details-right-details-row-one {
   width: 100%;
   display: flex;
   justify-content: start;
@@ -319,19 +320,19 @@
   margin-top: 10px;
 }
 
-.order-details-right-pickupdata {
+.buyer-order-details-right-pickupdata {
   width: 180px;
   display: flex;
   flex-direction: column;
   row-gap: 6px;
 }
 
-.order-details-left-top-main-heading {
+.buyer-order-details-left-top-main-heading {
   color: #99a0ac;
   font-size: 12px;
 }
 
-.order-details-left-top-main-contents {
+.buyer-order-details-left-top-main-contents {
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
@@ -339,39 +340,39 @@
   cursor: pointer;
 }
 
-.order-details-left-bottom-vehicle-head {
+.buyer-order-details-left-bottom-vehicle-head {
   color: #99a0ac;
   font-size: 12px;
 }
 
-.order-details-left-bottom-vehichle-no-head {
+.buyer-order-details-left-bottom-vehichle-no-head {
   color: #99a0ac;
   font-size: 12px;
 }
 
-.order-details-right-inner-section-heading {
+.buyer-order-details-right-inner-section-heading {
   color: #99a0ac;
   font-size: 13px;
 }
 
-.order-details-left-bottom-vehicle-text {
+.buyer-order-details-left-bottom-vehicle-text {
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
 }
 
-.order-details-left-bottom-vehichle-no-text {
+.buyer-order-details-left-bottom-vehichle-no-text {
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
 }
 
-.order-details-top-bottom-order-heading {
+.buyer-order-details-top-bottom-order-heading {
   color: #99a0ac;
   font-size: 12px;
 }
 
-.order-details-top-bottom-order-content {
+.buyer-order-details-top-bottom-order-content {
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
@@ -399,60 +400,60 @@
   font-weight: 500;
 }
 
-.order-details-payment-first-terms-heading {
+.buyer-order-details-payment-first-terms-heading {
   color: #5e676f;
   font-size: 14px;
 }
 
-.order-details-payment-first-terms-text {
+.buyer-order-details-payment-first-terms-text {
   font-size: 13px;
   font-weight: 500;
 }
 
-.order-details-payment-detention-head {
+.buyer-order-details-payment-detention-head {
   color: #5e676f;
   font-size: 14px;
 }
 
-.order-details-payment-detention-content {
+.buyer-order-details-payment-detention-content {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 
-.order-details-payment-detention-date {
+.buyer-order-details-payment-detention-date {
   font-size: 13px;
   font-weight: 500;
 }
 
-.order-details-payment-detention-time {
+.buyer-order-details-payment-detention-time {
   font-size: 15px;
   font-weight: 500;
 }
 
-.order-details-payment-remark-head {
+.buyer-order-details-payment-remark-head {
   font-size: 15px;
   font-weight: 500;
 }
 
-.order-details-payment-remark-text {
+.buyer-order-details-payment-remark-text {
   color: #99a0ac;
   font-size: 14px;
 }
 
-.order-details-payment-right-section-heading {
+.buyer-order-details-payment-right-section-heading {
   color: #192039;
   font-size: 16px;
   font-weight: 500;
 }
 
-.order-details-right-pickdata-head {
+.buyer-order-details-right-pickdata-head {
   color: #5e676f;
   font-size: 13px;
 }
 
-.order-details-right-pickdata-text {
+.buyer-order-details-right-pickdata-text {
   color: #5e676f;
   font-size: 13px;
   font-weight: 500;
@@ -512,28 +513,34 @@
   align-items: center;
 
 }
+
 /* Pending order css */
-.order-details-payment-pending-container{
+.buyer-order-details-payment-pending-container {
   display: flex;
   gap: 20px;
   width: 100%;
 }
-.order-details-payment-pending-left-section{
+
+.buyer-order-details-payment-pending-left-section {
   width: 50%;
 }
-.order-details-payment-pending-first-terms-cont{
+
+.buyer-order-details-payment-pending-first-terms-cont {
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
 }
-.order-details-paymen-pending-right-section{
+
+.buyer-order-details-paymen-pending-right-section {
   width: 50%;
 }
-.order-details-payment-first-terms-containers {
+
+.buyer-order-details-payment-first-terms-containers {
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
 }
+
 .pending-order-button-section {
   margin-top: 40px;
   margin-bottom: 10rem;
@@ -542,92 +549,136 @@
   justify-content: center;
   align-items: center;
 }
-.pending-order-create-order{
+
+.pending-order-create-order {
   border: none !important;
-    outline: none !important;
-    background: linear-gradient(to left, #00dcff, #0075ce);
-    color: white;
-    padding: 6px 22px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
+  outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
 }
-.pending-order-contact-order  {
+
+.pending-order-contact-order {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-    background-color: #ffffff;
-    border: 1px solid #5e676f;
-    color: #5e676f;
-    padding: 6px 22px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #5e676f;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
 }
+
+/* ongoing inquiries styling */
+.ongoing-enguiries-details-button-sec {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.ongoing-enguiries-details-buttons {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1450px) {
-  .order-details-container {
+  .buyer-order-details-container {
     max-width: 100%;
   }
 
-  .order-details-left-bottom-vehichle {
+  .buyer-order-details-left-bottom-vehichle {
     width: 70%;
   }
 
-  .order-details-left-bottom-vehichle-no {
+  .buyer-order-details-left-bottom-vehichle-no {
     width: 28%;
   }
 
-  .order-details-top-bottom-order-sect {
+  .buyer-order-details-top-bottom-order-sect {
     width: 34%;
   }
 }
 
 @media screen and (max-width: 1220px) {
-  .order-details-section {
+  .buyer-order-details-section {
     flex-direction: column;
   }
 }
 
 @media screen and (max-width: 992px) {
-  .order-details-left-bottom-vehichle {
+  .buyer-order-details-left-bottom-vehichle {
     width: 62vw;
   }
 
-  .order-details-left-bottom-vehichle-no {
+  .buyer-order-details-left-bottom-vehichle-no {
     width: 35vw;
   }
 
-  .order-details-top-bottom-order-sect {
+  .buyer-order-details-top-bottom-order-sect {
     width: 32.4vw;
   }
 
-  .order-details-payment-container {
+  .buyer-order-details-payment-container {
     flex-direction: column;
   }
 
-  .order-details-payment-left-section {
+  .buyer-order-details-payment-left-section {
     width: 100%;
   }
 
-  .order-details-payment-first-terms-cont {
+  .buyer-order-details-payment-first-terms-cont {
     width: 50%;
   }
 
-  .order-details-payment-detention-cont {
+  .buyer-order-details-payment-detention-cont {
     width: 100%;
   }
 
-  .order-details-payment-terms-cont {
+  .buyer-order-details-payment-terms-cont {
     width: 100%;
   }
 
-  .order-details-payment-remark-cont {
+  .buyer-order-details-payment-remark-cont {
     width: 100%;
   }
 }
 
 /* start the ongoing list styling */
+
+.order-details-payment-pending-container {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: start;
+}
+.order-details-payment-pending-left-section{
+  background-color: #ffffff;
+  width: 50%;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.order-details-paymen-pending-right-section{
+  background-color: #ffffff;
+  width: 50%;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}

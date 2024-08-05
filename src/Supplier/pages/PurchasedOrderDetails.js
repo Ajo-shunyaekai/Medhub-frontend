@@ -80,11 +80,12 @@ const PurchasedOrderDetails = () => {
                                                 <td colSpan="3">
                                                     <table style={{ width: '100%', borderSpacing: 0, }}>
                                                         <thead>
-                                                            <tr style={{ textTransform: 'uppercase' }}>
+                                                        <tr style={{ textTransform: 'uppercase' }}>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Item Name</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Price</td>
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total Price</td>
                                                             </tr>
                                                         </thead>
@@ -98,6 +99,9 @@ const PurchasedOrderDetails = () => {
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px' }}>
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>50</p>
+                                                                </td>
+                                                                <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
@@ -117,6 +121,9 @@ const PurchasedOrderDetails = () => {
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>100</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
+                                                                </td>
+                                                                <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>60 AED</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
@@ -128,32 +135,23 @@ const PurchasedOrderDetails = () => {
                                                     <table>
                                                         <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                             <tr>
-                                                                <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
-                                                                    <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
-                                                                    <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>1234567890123456</p>
-                                                                    </tr>
-                                                                    <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>147852</p>
-                                                                    </tr>
-                                                                </td>
-                                                                <td style={{ width: '550px' }} >
+                                                               
+                                                            <td style={{ width: '750px' }} >
                                                                     <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                         <tbody>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>50 AED</p>
                                                                             </tr>
-                                                                            {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 AED</p>
+                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>5 AED</p>
                                                                             </tr>
-                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
-                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>1425500 AED</p>
-                                                                            </tr> */}
+                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>2500 AED </p>
+                                                                            </tr>
+                                                                            
                                                                         </tbody>
                                                                     </table>
                                                                 </td>

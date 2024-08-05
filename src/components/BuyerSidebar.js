@@ -63,6 +63,8 @@ import InquiryPurchaseOrders from '../components/InquiryPurchaseOrders.js'
 import OnGoingOrder from '../components/inquiry/OnGoingOrder.js'
 import PurchasedOrder from '../components/inquiry/PurchasedOrder.js'
 import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
+import EditCreatePO from '../components/EditCreatePO.js'
+import CustomOrderModal from './CustomOrderModal.js';
 
 const BuyerSidebar = () => {
     const navigate = useNavigate();
@@ -147,7 +149,9 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails/>} />
                         <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails/>} />
                         <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
-          
+                        <Route path="/buyer/edit-create-PO" element={<EditCreatePO/>} />
+                        <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
+                        
                         {/* start the inquiry orders */}
                         <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />
                         <Route path="/buyer/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders/>} />

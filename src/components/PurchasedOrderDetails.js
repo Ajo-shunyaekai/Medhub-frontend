@@ -166,7 +166,7 @@ const PurchasedOrderDetails = () => {
                                                     <table>
                                                         <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                             <tr>
-                                                                <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
+                                                                {/* <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
                                                                     <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                     <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                         <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
@@ -176,8 +176,8 @@ const PurchasedOrderDetails = () => {
                                                                         <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
                                                                         <p style={{ fontSize: '14px', fontWeight: '500' }}>147852</p>
                                                                     </tr>
-                                                                </td>
-                                                                <td style={{ width: '550px' }} >
+                                                                </td> */}
+                                                                <td style={{ width: '750px' }} >
                                                                     <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                         <tbody>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>

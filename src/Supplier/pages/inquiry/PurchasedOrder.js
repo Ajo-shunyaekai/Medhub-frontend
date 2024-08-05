@@ -94,11 +94,17 @@ const PurchasedOrder = () => {
                     </td>
                     <td className='ongoing-section-td'>
                       <div className='ongoing-section-button'>
+                        <Link to='/supplier/proforma-invoice'>
+                          <div className='ongoing-section-make-order-button'>
+                            <span className='ongoing-section-orders-button'>Make Order</span>
+                          </div>
+                        </Link>
                         <Link to='/supplier/purchased-order-details'>
                           <div className='ongoing-section-view'>
                             <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                           </div>
                         </Link>
+
                       </div>
                     </td>
                   </tr>

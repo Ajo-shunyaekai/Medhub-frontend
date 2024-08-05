@@ -485,6 +485,8 @@
 /* start the payment terms section */
 .order-details-payment-ul-section {
   padding-left: 18px !important;
+  list-style: circle !important;
+  text-decoration: solid !important;
 }
 .order-details-payment-li-section {
   font-size: 13px;

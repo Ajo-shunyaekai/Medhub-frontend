@@ -120,7 +120,7 @@ const SupSidebar = ({ children, dragWindow }) => {
 
     {/* Mobile sidebar */ }
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(true)} >
+        <Box sx={{ width: 200 }} role="presentation" onClick={toggleDrawer(true)} >
             <Link to="/supplier/dashboard" className={styles.sidebar_text} activeclassname={styles.active}>
                 <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
@@ -131,7 +131,7 @@ const SupSidebar = ({ children, dragWindow }) => {
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
             </Link>
 
-            <Box sx={{ width: 250 }} role="presentation" >
+            <Box sx={{ width: 200 }} role="presentation" >
                 <div className={styles.mobile_order_btn}>
                     <div className={styles.sidebar_text} onClick={toggleAccordion}>
                         <div className={styles.icon}> <TocOutlinedIcon style={{ color: '#31c971' }} /></div>
@@ -339,7 +339,7 @@ const SupSidebar = ({ children, dragWindow }) => {
             {/*Desktop Sidebar code start from here */}
             < div div className={styles.sidebar_container} >
                 {
-                    isIcon ? <div style={{ width: isOpen ? "250px" : "50px" }
+                    isIcon ? <div style={{ width: isOpen ? "200px" : "50px" }
                     }
                         className={styles.sidebar} >
                         <Link to="/supplier/" className={styles.sidebar_text} activeclassname={styles.active}>
