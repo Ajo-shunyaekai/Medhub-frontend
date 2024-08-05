@@ -1,0 +1,136 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #5e676f !important;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 400px;
+    position: relative;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.dropdownButton {
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+    padding: 4px;
+    border: none;
+    border-bottom: 1px solid #99a0ac;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdownIcon {
+    margin-left: auto;
+}
+
+.dropdownContent {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdownItem {
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.dropdownItem:hover {
+    background-color: #f0f0f0;
+}
+
+.selectInputGroups {
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    padding: 4px;
+    border: none;
+    border-bottom: 1px solid #99a0ac;
+    box-sizing: border-box;
+}
+.modalHeading{
+    font-size: 16px;
+    font-weight: 500;
+}
+.modalCustomContent{
+    padding: 16px 0px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.modalFormGroup{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+.modalContentText{
+font-size: 14px;
+}
+.selectModalText{
+    font-size: 14px;
+    font-weight: 500;
+}
+.custom-modal-input-container{
+    display: flex;
+    flex-direction: column;
+}
+.custom-modal-label-heading{
+    font-size: 14px;
+    font-weight: 500;
+}
+.custom-modal-input-form-containers-section{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.modalcustombuttonsec{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.custom-modal-label-button-section{
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none !important;
+}
