@@ -54,8 +54,8 @@ const InquiryPurchaseOrder = () => {
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
         const status = activeLink === 'ongoing' ? 'pending' : 'completed'
         const obj = {
