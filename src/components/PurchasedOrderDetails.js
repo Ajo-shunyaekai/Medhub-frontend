@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../style/PurchasedOrderDetails.module.css'
 import CompanyLogo from '../assest/CompanyLogo.png'
+import html2pdf from 'html2pdf.js'
 import { useNavigate, useParams } from 'react-router-dom'
 import { postRequestWithToken } from '../api/Requests'
 
@@ -41,19 +42,33 @@ const PurchasedOrderDetails = () => {
 
     const totalAmount = orderItems.reduce((sum, item) => sum + item.total_amount, 0);
     const totalTaxAmount = orderItems.reduce((sum, item) => {
-        const unitTaxRate = parseFloat(item.unit_tax || '0') / 100;
+        const unitTaxRate     = parseFloat(item.unit_tax || '0') / 100;
         const itemTotalAmount = parseFloat(item.total_amount);
         return sum + (itemTotalAmount * unitTaxRate);
     }, 0);
     const grandTotal = totalAmount + totalTaxAmount;
 
+    const handleDownload = () => {
+        const element = document.getElementById('po-content');
+        const options = {
+            margin: 0.5,
+            filename: `purchaseOrder-${poDetails?.po_number}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().from(element).set(options).save()
+        
+    };
+
     return (
         <div className={styles['purchased-template-design']}>
             <div className={styles['purchased-scroll-wrapper']}>
                 <div className={styles['purchased-template-download']}>
-                    <div className={styles['purchased-template-button']}>Download</div>
+                    <div className={styles['purchased-template-button']} onClick={handleDownload}>Download</div>
                 </div>
-                <div style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
+                <div id='po-content' style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
                     <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Purchase Order</div>
                     <table style={{ fontSize: '12px' }}>
                         <thead>

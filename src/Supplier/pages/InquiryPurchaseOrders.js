@@ -110,13 +110,14 @@ const InquiryPurchaseOrder = () => {
                 </div>
                 <div className="inquiry-purchase-container-right">
                     <div responsive="xl" className='inquiry-purchase-table-responsive'>
-                        {activeLink === 'ongoing' && <OnGoingOrder
-                            inquiryList        = {inquiryList} 
-                            totalInquiries      = {totalInquiries} 
-                            currentPage      = {currentPage}
+                        {activeLink === 'ongoing' &&
+                        <OnGoingOrder
+                            inquiryList       = {inquiryList} 
+                            totalInquiries    = {totalInquiries} 
+                            currentPage       = {currentPage}
                             inquiryPerPage    = {inquiryPerPage}
-                            handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
+                            handlePageChange  = {handlePageChange}
+                            activeLink        = {activeLink}
                         />}
                         {activeLink === 'purchased' && 
                         <PurchasedOrder
