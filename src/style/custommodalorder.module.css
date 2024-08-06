@@ -99,6 +99,7 @@
 }
 .modalContentText{
 font-size: 14px;
+font-weight: 500;
 }
 .selectModalText{
     font-size: 14px;
@@ -133,4 +134,9 @@ font-size: 14px;
     font-size: 14px;
     cursor: pointer;
     border: none !important;
+}
+.custom-modal-checkbox-sections{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

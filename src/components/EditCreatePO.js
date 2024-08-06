@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../style/createInvoice.module.css';
-import CloseIcon from '@mui/icons-material/Close';
-import Select from 'react-select';
-import CreatePOImageUpload from './CreatePOImageUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller } from 'react-hook-form';

@@ -41,21 +41,23 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                 <span className={styles.close} onClick={onClose}>&times;</span>
                 <div className={styles.modalHeading}>Book Logistics</div>
                 <div className={styles.modalCustomContent}>
-                    <div className={styles.modalFormGroup}>
-                        <input
-                            type="checkbox"
-                            checked={doorToDoor}
-                            onChange={() => setDoorToDoor(!doorToDoor)}
-                        />
-                        <label className={styles.modalContentText}>Door to Door (Mandatory)</label>
-                    </div>
-                    <div className={styles.modalFormGroup}>
-                        <input
-                            type="checkbox"
-                            checked={customClearance}
-                            onChange={() => setCustomClearance(!customClearance)}
-                        />
-                        <label className={styles.modalContentText}>Include Custom Clearance</label>
+                    <div className={styles['custom-modal-checkbox-sections']}>
+                        <div className={styles.modalFormGroup}>
+                            <input
+                                type="checkbox"
+                                checked={doorToDoor}
+                                onChange={() => setDoorToDoor(!doorToDoor)}
+                            />
+                            <label className={styles.modalContentText}>Door to Door</label>
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <input
+                                type="checkbox"
+                                checked={customClearance}
+                                onChange={() => setCustomClearance(!customClearance)}
+                            />
+                            <label className={styles.modalContentText}>Include Custom Clearance</label>
+                        </div>
                     </div>
                     <div className={styles.selectFormGroup}>
                         <label className={styles.selectModalText}>Preferred Mode of Transport</label>
