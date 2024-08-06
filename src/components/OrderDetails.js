@@ -8,26 +8,24 @@ import moment from 'moment-timezone';
 
 const OrderDetails = () => {
     const { orderId } = useParams();
-    const navigate = useNavigate();
+    const navigate    = useNavigate();
+
+    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
 
     const [activeButton, setActiveButton] = useState('1h');
     const [orderDetails, setOrderDetails] = useState();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen]   = useState(false);
 
     useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
-        const buyerIdLocalStorage = localStorage.getItem('buyer_id');
-
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate('/buyer/login');
             return;
         }
-
         const obj = {
-            order_id: orderId,
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            order_id : orderId,
+            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
         };
-
         postRequestWithToken('buyer/order/order-details', obj, (response) => {
             if (response.code === 200) {
                 setOrderDetails(response.result);
@@ -42,22 +40,23 @@ const OrderDetails = () => {
     };
 
     const handleModalSubmit = (data) => {
-        // Handle the data from the modal
         console.log('Modal Data:', data);
-
-        // Update order status (Assuming we have an API to update the order status)
-        const updateData = {
-            order_id: orderId,
-            status: 'Awaiting Details from Seller',
-            logistics_details: data,
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate('/buyer/login');
+            return;
+        }
+        const obj = {
+            order_id          : orderId,
+            buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
+            status            : 'Awaiting Details from Supplierr',
+            logistics_details : data,
         };
 
-        postRequestWithToken('buyer/order/update-status', updateData, (response) => {
+        postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
-                // Update the orderDetails state with the new status
                 setOrderDetails((prevDetails) => ({
                     ...prevDetails,
-                    order_status: 'Awaiting Details from Seller',
+                    order_status : 'Awaiting Details from Seller',
                 }));
             } else {
                 console.log('Error updating order status');
@@ -110,9 +109,7 @@ const OrderDetails = () => {
                                         Date & Time
                                     </div>
                                     <div className="buyer-order-details-left-bottom-vehicle-text">
-                                        {moment(orderDetails?.created_at)
-                                            .tz('Asia/Kolkata')
-                                            .format('DD-MM-YYYY HH:mm')}
+                                        {moment(orderDetails?.created_at).tz('Asia/Kolkata').format('DD-MM-YYYY HH:mm:ss')}
                                     </div>
                                 </div>
                                 <div className="buyer-order-details-left-bottom-vehichle-no">

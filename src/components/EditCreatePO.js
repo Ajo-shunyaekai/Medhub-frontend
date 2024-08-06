@@ -4,18 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
-const EditCreatePO = () => {
-    const { inquiryId } = useParams();
-    const navigate = useNavigate();
 
-    const [currentDate, setCurrentDate] = useState('');
-    const [poNumber, setPONumber] = useState();
-    const [orderItems, setOrderItems] = useState([]);
-    const [inquiryDetails, setInquiryDetails] = useState();
-    const [itemId, setItemId] = useState([])
+
+const EditCreatePO = () => {
+    const { purchaseOrderId } = useParams()
+    const navigate            = useNavigate();
+
+    const [poDetails, setPoDetails] = useState();
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -37,85 +35,65 @@ const EditCreatePO = () => {
     });
 
     useEffect(() => {
-        const today = new Date();
-        const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-        const year = today.getFullYear();
-        setCurrentDate(`${day}-${month}-${year}`);
-        setValue('poDate', `${day}-${month}-${year}`);
-
-        const generateRandomNumber = () => Math.floor(10000000 + Math.random() * 90000000);
-        setPONumber(generateRandomNumber());
-        setValue('poNumber', generateRandomNumber());
-
-        const storedItems = sessionStorage.getItem('acceptedQuotationItems');
-        if (storedItems) {
-            try {
-                const parsedItems = JSON.parse(storedItems);
-                setOrderItems(parsedItems);
-                setValue('orderItems', parsedItems);
-                const itemIds = parsedItems.map(item => item._id);
-                setItemId(itemIds);
-            } catch (error) {
-                console.error('Error parsing stored items:', error);
-            }
-        }
-    }, [setValue]);
-
-    useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
         const obj = {
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            enquiry_id: inquiryId,
-            
-
+            buyer_id         : buyerIdSessionStorage || buyerIdLocalStorage,
+            purchaseOrder_id : purchaseOrderId,
         };
-        postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
+        postRequestWithToken('buyer/purchaseorder/get-po-details', obj, async (response) => {
             if (response.code === 200) {
-                setInquiryDetails(response?.result);
-                setValue('supplierName', response?.result?.supplier?.supplier_name);
-                setValue('supplierAddress', response?.result?.supplier?.supplier_address);
-                setValue('supplierEmail', response?.result?.supplier?.contact_person_email);
-                setValue('supplierMobile', response?.result?.supplier?.contact_person_mobile_no);
-                setValue('buyerName', response?.result?.buyer?.buyer_name);
-                setValue('buyerAddress', response?.result?.buyer?.buyer_address);
-                setValue('buyerEmail', response?.result?.buyer?.contact_person_email);
-                setValue('buyerMobile', response?.result?.buyer?.contact_person_mobile);
+                setPoDetails(response?.result);
+                setValue('poId', response?.result?.purchaseOrder_id);
+                setValue('poDate', response?.result?.po_date);
+                setValue('poNumber', response?.result?.po_number);
+                setValue('description', response?.result?.additional_instructions);
+                setValue('poStatus', response?.result?.po_status);
+                setValue('buyerName', response?.result?.buyer_name);
+                setValue('buyerEmail', response?.result?.buyer_email);
+                setValue('buyerMobile', response?.result?.buyer_mobile);
+                setValue('buyerAddress', response?.result?.buyer_address);
+                setValue('buyerRegNo', response?.result?.buyer_regNo);
+                setValue('supplierName', response?.result?.supplier_name);
+                setValue('supplierEmail', response?.result?.supplier_email);
+                setValue('supplierMobile', response?.result?.supplier_mobile);
+                setValue('supplierAddress', response?.result?.supplier_address);
+                setValue('supplierRegNo', response?.result?.supplier_regNo);
+                setValue('orderItems', response?.result?.order_items);
             } else {
                 console.log('error in order list api', response);
             }
         });
-    }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, inquiryId, setValue]);
+    }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, purchaseOrderId, setValue]);
 
     const onSubmit = (data) => {
-        console.log(data);
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
+        const supplierId = poDetails?.supplier_details[0]?.supplier_id;  
+        const enquiryId  = poDetails?.enquiry_id;    
+
         const obj = {
-            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
-            enquiry_id  : inquiryId,
-            supplier_id : inquiryDetails?.supplier?.supplier_id,
-            itemIds     : itemId,
+            buyer_id         : buyerIdSessionStorage || buyerIdLocalStorage,
+            purchaseOrder_id : purchaseOrderId,
+            supplier_id      : supplierId,
+            enquiry_id       : enquiryId,
             data
         };
-        postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
+        postRequestWithToken('buyer/purchaseorder/edit-po', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
                     navigate('/buyer/inquiry-purchase-orders/purchased')
                 },1000)
-                
             } else {
                 console.log('error in order list api', response);
                 toast(response.message, {type: 'error'})
             }
         });
-        // Handle form submission with data
     };
 
     return (
@@ -131,7 +109,7 @@ const EditCreatePO = () => {
                                 className={styles['create-invoice-div-input']}
                                 type='text'
                                 name='poDate'
-                                value={currentDate}
+                                // value={currentDate}
                                 readOnly
                                 {...register('poDate')}
                             />
@@ -142,7 +120,7 @@ const EditCreatePO = () => {
                                 className={styles['create-invoice-div-input']}
                                 type='text'
                                 name='poNumber'
-                                value={poNumber}
+                                // value={poNumber}
                                 readOnly
                                 {...register('poNumber')}
                             />
@@ -268,7 +246,7 @@ const EditCreatePO = () => {
                     <div className={styles['create-invoice-add-item-cont']}>
                         <div className={styles['create-invoice-form-heading']}>Order Details</div>
                     </div>
-                    {orderItems?.map((item, index) => (
+                    {poDetails?.order_items?.map((item, index) => (
                         <div className={styles['form-item-container']} key={item._id}>
                             <div className={styles['craete-invoice-form']}>
                                 <div className={styles['create-invoice-div-container']}>
@@ -278,8 +256,6 @@ const EditCreatePO = () => {
                                         type='text'
                                         name={`orderItems[${index}].productName`}
                                         placeholder='Item Name'
-                                        // defaultValue={item?.medicine_details?.medicine_name}
-                                        // {...register(`orderItems[${index}].productName`, { validate: value => value.trim() !== '' || 'Product name is required' })}
                                         value = {item?.medicine_details?.medicine_name}
                                         readOnly
                                     />
@@ -292,8 +268,6 @@ const EditCreatePO = () => {
                                         type='text'
                                         name={`orderItems[${index}].quantity`}
                                         placeholder='Enter Quantity'
-                                        // defaultValue={item?.quantity_required}
-                                        // {...register(`orderItems[${index}].quantity`, { validate: value => value.trim() !== '' || 'Quantity is required' })}
                                         value = {item?.quantity_required}
                                         readOnly
                                     />
@@ -306,8 +280,6 @@ const EditCreatePO = () => {
                                         type='text'
                                         name={`orderItems[${index}].unitPrice`}
                                         placeholder='Enter Unit Price'
-                                        // defaultValue={item?.unit_price}
-                                        // {...register(`orderItems[${index}].unitPrice`, { validate: value => value.trim() !== '' || 'Unit price is required' })}
                                         value = {item?.unit_price}
                                         readOnly
                                     />
@@ -320,9 +292,7 @@ const EditCreatePO = () => {
                                         type='text'
                                         name={`orderItems[${index}].totalAmount`}
                                         placeholder='Enter Total Amount'
-                                        // defaultValue={item?.counter_price || item?.target_price}
-                                        // {...register(`orderItems[${index}].totalAmount`, { validate: value => value.trim() !== '' || 'Total amount is required' })}
-                                        value = {item?.counter_price || item?.target_price}
+                                        value = {item?.total_amount || item?.counter_price} 
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.totalAmount && <p>{errors.orderItems[index].totalAmount.message}</p>}

@@ -12,11 +12,11 @@ const OnGoingInquiriesDetails = () => {
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
   const { inquiryId } = useParams();
-  const navigate = useNavigate();
+  const navigate      = useNavigate();
 
   const [inquiryDetails, setInquiryDetails] = useState();
-  const [acceptedItems, setAcceptedItems] = useState([]);
-  const [rejectedItems, setRejectedItems] = useState([]);
+  const [acceptedItems, setAcceptedItems]   = useState([]);
+  const [rejectedItems, setRejectedItems]   = useState([]);
 
   const email = inquiryDetails?.supplier?.contact_person_email;
   const subject = `Inquiry about Inquiry ${
@@ -30,13 +30,10 @@ const OnGoingInquiriesDetails = () => {
       return;
     }
     const obj = {
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id: inquiryId,
+      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id : inquiryId,
     };
-    postRequestWithToken(
-      "buyer/enquiry/enquiry-details",
-      obj,
-      async (response) => {
+    postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
         if (response.code === 200) {
           setInquiryDetails(response?.result);
           const acceptedItems = [];
@@ -52,14 +49,8 @@ const OnGoingInquiriesDetails = () => {
           setAcceptedItems(acceptedItems);
           setRejectedItems(rejectedItems);
 
-          sessionStorage.setItem(
-            "acceptedQuotationItems",
-            JSON.stringify(acceptedItems)
-          );
-          sessionStorage.setItem(
-            "rejectedQuotationItems",
-            JSON.stringify(rejectedItems)
-          );
+          sessionStorage.setItem("acceptedQuotationItems",JSON.stringify(acceptedItems));
+          sessionStorage.setItem("rejectedQuotationItems",JSON.stringify(rejectedItems));
         } else {
           console.log("error in order list api", response);
         }
@@ -86,39 +77,27 @@ const OnGoingInquiriesDetails = () => {
       return;
     }
     const obj = {
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id: inquiryId,
-      item_id: item._id,
-      new_status: status,
+      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id : inquiryId,
+      item_id    : item._id,
+      new_status : status,
     };
-    postRequestWithToken(
-      "buyer/enquiry/accept-reject-quotation",
-      obj,
-      async (response) => {
+    postRequestWithToken("buyer/enquiry/accept-reject-quotation", obj, async (response) => {
         if (response.code === 200) {
           toast(response.message, { type: "success" });
-          postRequestWithToken(
-            "buyer/enquiry/enquiry-details",
-            obj,
-            async (response) => {
+          postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
               if (response.code === 200) {
                 setInquiryDetails(response?.result);
-                // setInquiryDetails(response?.result)
                 setAcceptedItems((prevItems) => {
                   const updatedItems = [...prevItems, item];
-                  sessionStorage.setItem(
-                    "acceptedQuotationItems",
-                    JSON.stringify(updatedItems)
-                  );
+                  sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
                   return updatedItems;
                 });
                 setRejectedItems((prevItems) => {
                   const updatedItems = prevItems.filter(
                     (rejItem) => rejItem._id !== item._id
                   );
-                  sessionStorage.setItem(
-                    "rejectedQuotationItems",
-                    JSON.stringify(updatedItems)
+                  sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
                   );
                   return updatedItems;
                 });
@@ -189,6 +168,39 @@ const OnGoingInquiriesDetails = () => {
     );
   };
 
+  const hasPendingItems = inquiryDetails?.items?.some(item => item.status === 'pending');
+
+  const handleCancel = () => {
+    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      navigate("/buyer/login");
+      return;
+    }
+    const obj = {
+      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id : inquiryId,
+    };
+
+    postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
+        if (response.code === 200) {
+          toast(response.message, { type: "success" });
+          setInquiryDetails((prevDetails) => ({
+            ...prevDetails,
+            status: 'cancelled', 
+            items: prevDetails.items.map(item => ({
+              ...item,
+              status: 'cancelled' 
+            }))
+          }));
+          
+        } else {
+          toast(response.message, { type: "error" });
+          console.log("error in cancel-enquiry api", response);
+        }
+      }
+    );
+
+  }
+
   return (
     <div className="order-details-container">
       <div className="order-details-conatiner-heading">
@@ -229,7 +241,7 @@ const OnGoingInquiriesDetails = () => {
                   <div className="order-details-left-top-main-contents">
                     {moment(inquiryDetails?.created_at)
                       .tz("Asia/Kolkata")
-                      .format("DD/MM/YYYY HH:mm")}
+                      .format("DD/MM/YYYY HH:mm:ss")}
                   </div>
                 </div>
               </div>
@@ -244,9 +256,11 @@ const OnGoingInquiriesDetails = () => {
       {/* end the assign driver section */}
       {/* start the button container */}
       <div className="ongoing-enguiries-details-button-sec">
-        <div className="ongoing-enguiries-details-buttons">
-          Cancel Inquiries
-        </div>
+        {hasPendingItems && (
+            <div className="ongoing-enguiries-details-buttons" onClick={handleCancel}>
+              Cancel Inquiries
+            </div>
+          )}
       </div>
       {/* end the button container */}
       {/* Start the return enquiry section */}
@@ -291,11 +305,6 @@ const OnGoingInquiriesDetails = () => {
                       </li>
                     );
                   })}
-
-                  {/* <li className='order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
-                                <li className='order-details-payment-li-section'>70% advance payment 30% on delivery.</li>
-                                <li className='order-details-payment-li-section'>100% advance payment.</li>
-                                <li className='order-details-payment-li-section'>100% payment on delivery.</li> */}
                 </ul>
               </div>
             </div>
@@ -310,9 +319,6 @@ const OnGoingInquiriesDetails = () => {
           <a href={mailtoLink} className="pending-order-contact-order">
             Contact Supplier
           </a>
-          {/* <Link to={`/buyer/Create-PO/${inquiryId}`}>
-                    <div className='pending-order-create-order'>Create Purchased Order</div>
-                </Link> */}
           {acceptedItems.length > 0 ? (
             <Link to={`/buyer/Create-PO/${inquiryId}`}>
               <div className="pending-order-create-order">
@@ -328,8 +334,6 @@ const OnGoingInquiriesDetails = () => {
       ) : (
         ""
       )}
-
-      {/* End the return enquiry section */}
     </div>
   );
 };

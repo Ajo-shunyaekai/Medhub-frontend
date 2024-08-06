@@ -15,43 +15,6 @@ const PurchasedOrder = ({poList, totalPoList, currentPage, inquiryPerPage, handl
     setModal(true);
   };
 
-  const activeongoings = [
-    {
-      pono: "123456",
-      podate: "12-07-2024",
-      buyer_name: "Divya Pharma Distributors",
-      unit_price: "5000 USD",
-    },
-    {
-      pono: "123456",
-      podate: "12-07-2024",
-      buyer_name: "Divya Pharma Distributors",
-      unit_price: "8000 USD",
-    },
-    {
-      pono: "123456",
-      podate: "12-07-2024",
-      buyer_name: "Divya Pharma Distributors",
-      unit_price: "10000 USD",
-    },
-    {
-      pono: "123456",
-      podate: "12-07-2024",
-      buyer_name: "Divya Pharma Distributors",
-      unit_price: "22000 USD",
-    },
-  ];
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const ongoingsPerPage = 4;
-
-  // const indexOfLastongoing = currentPage * ongoingsPerPage;
-  // const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
-  // const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
 
   return (
     <>
@@ -97,7 +60,7 @@ const PurchasedOrder = ({poList, totalPoList, currentPage, inquiryPerPage, handl
                     </td>
                     <td className='ongoing-section-td'>
                       <div className='ongoing-section-button'>
-                        <Link to='/supplier/purchased-order-details'>
+                        <Link to={`/supplier/purchased-order-details/${data.purchaseOrder_id}`}>
                           <div className='ongoing-section-view'>
                             <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                           </div>
