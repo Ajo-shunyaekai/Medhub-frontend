@@ -36,8 +36,8 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                         </div>
                         <div className='search-details-card-right-container'>
                             <div className='search-details-card-upper-section'>
-                                <div className='search-details-card-medicine-head'>{med?.supplier[0]?.supplier_name}</div>
-                                <div className='search-details-card-medicine-text'>{med?.supplier[0]?.description} </div>
+                                <div className='search-details-card-medicine-head'>{med?.supplier?.supplier_name}</div>
+                                <div className='search-details-card-medicine-text'>{med?.supplier?.description} </div>
 
                             </div>
                             <div className='search-details-card-text-section'>

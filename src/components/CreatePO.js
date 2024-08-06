@@ -9,16 +9,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 const CreatePO = () => {
     const { inquiryId } = useParams();
-    const navigate = useNavigate();
+    const navigate      = useNavigate();
 
     const [currentDate, setCurrentDate] = useState('');
-    const [poNumber, setPONumber] = useState();
-    const [orderItems, setOrderItems] = useState([]);
+    const [poNumber, setPONumber]       = useState();
+    const [orderItems, setOrderItems]   = useState([]);
     const [inquiryDetails, setInquiryDetails] = useState();
-    const [itemId, setItemId] = useState([])
+    const [itemId, setItemId]                 = useState([])
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-    const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -73,8 +73,6 @@ const CreatePO = () => {
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             enquiry_id: inquiryId,
-            
-
         };
         postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
@@ -83,10 +81,12 @@ const CreatePO = () => {
                 setValue('supplierAddress', response?.result?.supplier?.supplier_address);
                 setValue('supplierEmail', response?.result?.supplier?.contact_person_email);
                 setValue('supplierMobile', response?.result?.supplier?.contact_person_mobile_no);
+                setValue('supplierRegNo',response?.result?.supplier?.registration_no)
                 setValue('buyerName', response?.result?.buyer?.buyer_name);
                 setValue('buyerAddress', response?.result?.buyer?.buyer_address);
                 setValue('buyerEmail', response?.result?.buyer?.contact_person_email);
                 setValue('buyerMobile', response?.result?.buyer?.contact_person_mobile);
+                setValue('buyerRegNo',response?.result?.buyer?.registration_no)
             } else {
                 console.log('error in order list api', response);
             }
@@ -94,7 +94,6 @@ const CreatePO = () => {
     }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, inquiryId, setValue]);
 
     const onSubmit = (data) => {
-        console.log(data);
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
@@ -106,13 +105,13 @@ const CreatePO = () => {
             itemIds     : itemId,
             data
         };
+        console.log(obj);
         postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
                     navigate('/buyer/inquiry-purchase-orders/purchased')
                 },1000)
-                
             } else {
                 console.log('error in order list api', response);
                 toast(response.message, {type: 'error'})

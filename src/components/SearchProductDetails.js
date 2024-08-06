@@ -224,6 +224,7 @@ const SearchsearchDetails = () => {
                                 </div>
                             </div>
                         </div>
+<<<<<<< Updated upstream
                         {/* start the search container code */}
                         <div className='search-product-search-details'>
                             <div className='buy-seller-search-container'>
@@ -246,6 +247,8 @@ const SearchsearchDetails = () => {
                                     handleReset={handleReset}
                                 />
                             </div> */}
+=======
+>>>>>>> Stashed changes
                         <div className='search-filter-section'>
                             <SearchFilterSection 
                               countryAvailable   = {countryAvailableIn}

@@ -29,23 +29,22 @@ const MySuplier = () => {
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
             const obj = {
-                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-                pageNo : currentPage,
+                buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+                pageNo   : currentPage,
                 pageSize : itemsPerPage
             }
-
             postRequestWithToken('buyer/supplier-list', obj, async (response) => {
                 if (response.code === 200) {
                     setMySuppliers(response.result.suppliers)
                     setTotalItems(response.result.totalItems)
                 } else {
-                   console.log();
+                   console.log('error in  buyer/supplier-list api');
                 }
-              })
+            })
     },[currentPage])
 
     return (
