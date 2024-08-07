@@ -118,19 +118,8 @@
 .ongoing-section-eye {
   width: 18px !important;
 }
-.ongoing-section-delete {
-  background-color: #f4c414;
-  cursor: pointer;
-  border-radius: 4px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  height: 26px;
-  justify-content: center;
-  width: 34px;
-}
-.ongoing-section-off {
-  width: 18px !important;
+.ongoing-section-button-section-cont{
+  
 }
 .ongoing-section-orders-button{
   background: linear-gradient(to left, #00dcff, #0075ce);

@@ -1,38 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import Orderdetails from '../style/orderdetails.css'
+import '../style/orderdetails.css'
 import ActiveAssignDriver from '../pages/details/ActiveAssignDriver';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
-
+import OrderCustomModal from './OrderCustomModal';
 
 const ActiveOrdersDetails = () => {
-    const { orderId } = useParams()
-    const navigate    = useNavigate()
+    const { orderId } = useParams();
+    const navigate = useNavigate();
 
-    const [orderDetails, setOrderDetails] = useState()
+    const [orderDetails, setOrderDetails] = useState();
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
 
         const obj = {
-            order_id    : orderId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
-        }
+            order_id: orderId,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
+        };
 
         postRequestWithToken('buyer/order/supplier-order-details', obj, async (response) => {
             if (response.code === 200) {
-                setOrderDetails(response.result)
+                setOrderDetails(response.result);
             } else {
-               console.log('error in order details api');
+                console.log('error in order details api');
             }
-          })
-    },[])
+        });
+    }, [orderId, navigate]);
+
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className='order-details-container'>
@@ -53,7 +62,7 @@ const ActiveOrdersDetails = () => {
                                     <div className='order-details-left-top-main-contents'> {orderDetails?.order_status}</div>
                                 </div>
                                 <div className='order-details-top-order-cont'>
-                                    <div className='order-details-left-top-main-heading-button'> Tracking</div>
+                                    <div className='order-details-left-top-main-heading-button' onClick={openModal}>Submit Details</div>
                                     <div className='order-details-left-top-main-contents'> </div>
                                 </div>
                             </div>
@@ -69,48 +78,13 @@ const ActiveOrdersDetails = () => {
 
                             </div>
                         </div>
-                        {/* <div className='order-details-right-inner-section-container'>
-                            <div className='order-details-right-inner-circular-bar-section'>
-                                <div className='order-details-right-inner-section-heading'>Order Status</div>
-
-                            </div>
-                            <div className='order-details-right-inner-circular-bar-section'>
-                                <div className='order-details-right-inner-section-heading'>Tracking</div>
-
-                            </div>
-                        </div> */}
                     </div>
-                    {/* <div className='order-details-top-bottom-sction'>
-                        <div className='order-details-top-bottom-order-sect'>
-                            <div className='order-details-top-bottom-order-heading'>Commodity</div>
-                            <div className='order-details-top-bottom-order-content'>Steel Plates - 20 Ton</div>
-                        </div>
-                        <div className='order-details-top-bottom-order-sect'>
-                            <div className='order-details-top-bottom-order-heading'>Order Rate</div>
-                            <div className='order-details-top-bottom-order-content'>AED 2152/TRWB</div>
-                        </div>
-                        <div className='order-details-top-bottom-order-sect'>
-                            <div className='order-details-top-bottom-order-heading'>Order Date & Time</div>
-                            <div className='order-details-top-bottom-order-content'>24/12/2019, 12:00 PM</div>
-                        </div>
-                    </div> */}
-
 
                 </div>
-                {/* <div className='order-details-right-section'>
-                    <div className='order-details-map-container'>
-                        <WorldMap
-                            color="red"
-                            value-suffix="people"
-                            size="sm"
-                            data={countryData}
-                        />
-                    </div>
-                </div> */}
             </div>
             {/* start the assign driver section */}
             <div className='order-details-assign-driver-section'>
-                <ActiveAssignDriver productList = {orderDetails?.items} />
+                <ActiveAssignDriver productList={orderDetails?.items} />
             </div>
             {/* end the assign driver section */}
 
@@ -143,10 +117,6 @@ const ActiveOrdersDetails = () => {
                         </div>
 
                     </div>
-                    {/* <div className='order-details-payment-remark-cont'>
-                        <div className='order-details-payment-remark-head'>Remarks</div>
-                        <div className='order-details-payment-remark-text'>Increase 2.5% conversion rate Increase 2.5% conversion rate Increase 2.5% conversion rate</div>
-                    </div> */}
                 </div>
                 <div className='order-details-payment-right-section'>
                     <div className='order-details-payment-right-section-heading'>Shipping Details</div>
@@ -165,64 +135,26 @@ const ActiveOrdersDetails = () => {
                                 <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
                             </div>
                         </div>
-                        {/* <hr className='order-details-right-pickupdata-hr' />
-                        <div className='order-details-right-details-row-one'>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Consignor Name</div>
-                                <div className='order-details-right-pickdata-text'>Ashok kumar chauhan</div>
-                            </div>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Phone No.</div>
-                                <div className='order-details-right-pickdata-text'>+971 562145214</div>
-                            </div>
-                            <div className='order-details-right-pickupdata-address'>
-                                <div className='order-details-right-pickdata-head'>Address</div>
-                                <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                            </div>
-                        </div> */}
-                        {/* <hr className='order-details-right-pickupdata-hr' /> */}
-                        {/* <div className='order-details-payment-right-section-heading'>Drop Details</div>
-                        <div className='order-details-right-details-row-one'>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Consignee Name</div>
-                                <div className='order-details-right-pickdata-text'>Mustfa Zaved khan</div>
-                            </div>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Phone No.</div>
-                                <div className='order-details-right-pickdata-text'>+971 587452154</div>
-                            </div>
-                            <div className='order-details-right-pickupdata-address'>
-                                <div className='order-details-right-pickdata-head'>Address</div>
-                                <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                            </div>
-                        </div>
-                        <hr className='order-details-right-pickupdata-hr' />
-                        <div className='order-details-right-details-row-one'>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Consignee Name</div>
-                                <div className='order-details-right-pickdata-text'>John Hancko</div>
-                            </div>
-                            <div className='order-details-right-pickupdata'>
-                                <div className='order-details-right-pickdata-head'>Phone No.</div>
-                                <div className='order-details-right-pickdata-text'>+971 585421542</div>
-                            </div>
-                            <div className='order-details-right-pickupdata-address'>
-                                <div className='order-details-right-pickdata-head'>Address</div>
-                                <div className='order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                            </div>
-                        </div> */}
+
                     </div>
                 </div>
             </div>
             {/* end the section */}
             {/* Start the button section */}
             <div className='order-details-button-section'>
-                {/* <div className='order-details-cancel-button'>Cancel</div>
-                <div className='order-details-submit-button'>Submit Quotation</div> */}
             </div>
             {/* End the button section */}
+
+            {/* Modal Component */}
+            {showModal && (
+                <OrderCustomModal 
+                    closeModal={closeModal} 
+                    orderDetails={orderDetails} 
+                    // Add any other props the modal needs
+                />
+            )}
         </div>
     )
 }
 
-export default ActiveOrdersDetails
+export default ActiveOrdersDetails;

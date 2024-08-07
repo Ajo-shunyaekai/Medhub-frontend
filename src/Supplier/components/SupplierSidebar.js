@@ -58,7 +58,9 @@ import PurchasedOrderDetails from '../pages/PurchasedOrderDetails.js';
 import SupplierLogin from '../signup/SupplierLogin.js';
 import SupplierSignUp from '../signup/SupplierSignUp.js';
 import ProformaInvoice from '../pages/ProformaInvoice.js';
-
+import ProformaList from '../pages/invoice/ProformaList.js';
+import ProformaDetailsPage from '../pages/ProformaDetailsPage.js';
+import OrderCustomModal from '../pages/OrderCustomModal.js';
 
 
 const SupplierSidebar = () => {
@@ -95,7 +97,9 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/product" element={<Navigate to="/supplier/product/newproduct" />} />
                         <Route path="/supplier/invoice/pending" element={<Invoice />} />
                         <Route path="/supplier/invoice/paid" element={<Invoice />} />
+                        <Route path="/supplier/invoice/proforma" element={<Invoice />} />
                         <Route path="/supplier/invoice" element={<Navigate to="/supplier/invoice/pending" />} />
+                        <Route path="/supplier/proforma-list" element={<ProformaList/>} />                      
                         <Route path="/supplier/invoice" element={<Invoice />} />
                         <Route path="/supplier/support" element={<Support />} />
                         <Route path="/supplier/header" element={<Header />} />
@@ -131,12 +135,13 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
                         <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
                         <Route path="/supplier/proforma-invoice" element={<ProformaInvoice />} />
-
+                        <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
+                        
                         <Route path="/supplier/create-PO" element={<CreatePO />} />
                         <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload />} />
                         <Route path="/supplier/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />
-
-
+                        
+                        <Route path="/supplier/proforma-invoice-details" element={<ProformaDetailsPage/>} />
                         {/* start the inquiry orders */}
                         <Route path="/supplier/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
                         <Route path="/supplier/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders />} />

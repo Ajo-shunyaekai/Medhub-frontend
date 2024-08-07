@@ -39,7 +39,7 @@ const ProformaInvoice = () => {
 
     return (
         <div className={styles['create-invoice-container']}>
-            <div className={styles['create-invoice-heading']}>Create Invoice</div>
+            <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
             <div className={styles['create-invoice-section']}>
                 <div className={styles['create-invoice-form-heading']}>Supplier</div>
                 <form className={styles['craete-invoice-form']}>
@@ -52,25 +52,30 @@ const ProformaInvoice = () => {
                         <input className={styles['create-invoice-div-input']} type='text' name='InvoiceNumber' placeholder='Enter Invoice Number' />
                     </div>
                     <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Invoice Date</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Invoice Date' />
+                        <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Invoice Generate Date' />
+                    </div>
+                    <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Payment Due Date' />
+                    </div>
+                     <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Total Due Amount' />
+                    </div>
+
+                    
+                    <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Email ID</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Email ID' />
+                    </div>
+                    <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Mobile No.' />
                     </div>
                     <div className={styles['create-invoice-div-container']}>
                         <label className={styles['create-invoice-div-label']}>Address</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Address' />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Country</label>
-                        <Select
-                            className='signup-forms-sections-select'
-                            options={countries}
-                            value={countries.find(option => option.value === formData.originCountry)}
-                            onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='VatRegNo' placeholder='Enter Vat Reg No.' />
+                        <input className={styles['create-invoice-div-input']} type='text' name='VatRegNo' placeholder='Enter Address' />
                     </div>
                 </form>
             </div>
@@ -82,21 +87,16 @@ const ProformaInvoice = () => {
                         <input className={styles['create-invoice-div-input']} type='text' name='Name' placeholder='Enter Name' />
                     </div>
                     <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Email ID</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Email ID' />
+                    </div>
+                    <div className={styles['create-invoice-div-container']}>
+                        <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                        <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Mobile No.' />
+                    </div>
+                    <div className={styles['create-invoice-div-container']}>
                         <label className={styles['create-invoice-div-label']}>Address</label>
                         <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Address' />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Country</label>
-                        <Select
-                            className='signup-forms-sections-select'
-                            options={countries}
-                            value={countries.find(option => option.value === formData.originCountry)}
-                            onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='VatRegNo' placeholder='Enter Vat Reg No' />
                     </div>
                 </form>
             </div>
@@ -122,8 +122,12 @@ const ProformaInvoice = () => {
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`} placeholder='Enter Quantity' />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                <label className={styles['create-invoice-div-label']}>Listed Price</label>
                                 <input className={styles['create-invoice-div-input']} type='text' name={`UnitPrice-${item.id}`} placeholder='Enter Unit Price' />
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Tax Percentage</label>
+                                <input className={styles['create-invoice-div-input']} type='text' name={`UnitPrice-${item.id}`} placeholder='Enter Tax Percentage' />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Total Amount</label>
@@ -138,30 +142,9 @@ const ProformaInvoice = () => {
                     </div>
                 ))}
             </div>
-            <div className={styles['create-invoice-section']}>
-                <div className={styles['create-invoice-form-heading']}></div>
-                <form className={styles['craete-invoice-form']}>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>VAT @ 20%</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='VAT' placeholder='Enter Vat @ 20%' />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='TotalPayableAmount' placeholder='Enter Total Payable Amount' />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Account Number</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='AccountNumber' placeholder='Enter Account Number' />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Sort Code</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='SortCode' placeholder='Enter Sort Code' />
-                    </div>
-                </form>
-            </div>
             <div className={styles['craete-invoices-button']}>
                 <div className={styles['create-invoices-cancel']}>Cancel</div>
-                <div className={styles['create-invoices-submit']}>Create Invoice</div>
+                <div className={styles['create-invoices-submit']}>Create Proforma Invoice</div>
             </div>
         </div>
     );

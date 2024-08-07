@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../style/PurchasedOrderDetails.module.css'
-import CompanyLogo from '../assest/CompanyLogo.png'
 import html2pdf from 'html2pdf.js'
 import { useNavigate, useParams } from 'react-router-dom'
 import { postRequestWithToken } from '../api/Requests'
@@ -103,7 +102,7 @@ const PurchasedOrderDetails = () => {
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                                                     <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{poDetails?.buyer_details[0]?.buyer_name}</p>
                                                     <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{poDetails?.buyer_details[0]?.buyer_address}</p>
-                                                    {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
+                                                    
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_details[0]?.contact_person_country_code} {poDetails?.buyer_details[0]?.contact_person_mobile}</p>
@@ -121,7 +120,7 @@ const PurchasedOrderDetails = () => {
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
                                                     <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{poDetails?.supplier_details[0]?.supplier_name}</p>
                                                     <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', textAlign: 'end' }}>{poDetails?.supplier_details[0]?.supplier_address}</p>
-                                                    {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
+                                                   
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_details[0]?.contact_person_country_code} {poDetails?.supplier_details[0]?.contact_person_mobile_no}</p>
@@ -165,40 +164,12 @@ const PurchasedOrderDetails = () => {
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_price.toFixed(2)}</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>5%</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>5000 AED </p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED </p>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td style={{ paddingBlock: '12px', display: 'flex', alignItems: 'baseline' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>2.</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>Migon (650mg)</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>100</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>60 AED</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>6000 AED</p>
-
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
-
-                                                                    </td>
-                                                                </tr>
-
                                                             </tbody>
                                                         ))}
                                                     </table>
@@ -210,50 +181,27 @@ const PurchasedOrderDetails = () => {
                                                                 <td style={{ width: '750px' }} >
                                                                     <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                         <tbody>
-                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>50 AED</p>
-                                                                            </tr>
-                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>5 AED</p>
-                                                                            </tr>
-                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>2500 AED </p>
-                                                                                <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
-                                                                                    <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
-                                                                                    <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
-                                                                                        <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>1234567890123456</p>
-                                                                                    </tr>
-                                                                                    <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
-                                                                                        <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
-                                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>147852</p>
-                                                                                    </tr>
-                                                                                </td>
-                                                                                <td style={{ width: '550px' }} >
-                                                                                    <table style={{ width: '100%', borderSpacing: 0, }}>
-                                                                                        <tbody>
-                                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
-                                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
-                                                                                            </tr>
-                                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
-                                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} AED</p>
-                                                                                            </tr>
-                                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                                <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
-                                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{grandTotal.toFixed(2)} AED </p>
 
-                                                                                            </tr>
+                                                                            <td style={{ width: '750px' }} >
+                                                                                <table style={{ width: '100%', borderSpacing: 0, }}>
+                                                                                    <tbody>
+                                                                                        <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                            <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
+                                                                                            <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
+                                                                                        </tr>
+                                                                                        <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                            <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
+                                                                                            <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} AED</p>
+                                                                                        </tr>
+                                                                                        <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                            <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
+                                                                                            <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{grandTotal.toFixed(2)} AED </p>
 
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </td>
+                                                                                        </tr>
 
-                                                                            </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
                                                                         </tbody>
                                                                     </table>
                                                                 </td>
@@ -263,37 +211,37 @@ const PurchasedOrderDetails = () => {
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <tfoot>
-                                            <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
-                                                <tr>
-                                                    <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
-                                                        <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Additional Instruction :</h1>
-                                                        <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
-                                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                            </p>
-                                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                            </p>
-                                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                            </p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </tfoot>
                                     </table>
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                <tr>
+                                    <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
+                                        <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Additional Instruction :</h1>
+                                        <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
+                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                            </p>
+                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                            </p>
+                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </tfoot>
                     </table>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
 
     )
 }
