@@ -171,6 +171,10 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-left-text'>GMP approvals :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
+                                    <div className="product-details-two">
+                                        <div className='product-details-two-left-text'>Tax :</div>
+                                        <div className='product-details-two-right-text'>5%</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

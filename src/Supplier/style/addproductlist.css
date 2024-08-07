@@ -87,7 +87,9 @@
   }
   .buy-product-card-first-medicine-image {
     width: 160px;
-    height: auto;
+    height: 140px;
+    display: flex;
+    align-items: center;
   }
   .buy-product-card-first-medicine-image img {
     width: 100%;
