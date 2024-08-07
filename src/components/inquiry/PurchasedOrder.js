@@ -16,62 +16,6 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
     setModal(true);
   };
 
-  const activeongoings = [
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Divya Pharma Distributors",
-      unit_price: "20000 USD",
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Crystal Medicines Group",
-      unit_price: "80000 USD",
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Fourtrek Healthcare",
-      unit_price: "14000 USD",
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Ganga Pharma Distributors",
-      unit_price: "30000 USD",
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Numera Lifesciences",
-      unit_price: "10000 USD",
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      supplier_name: "Tradeco Pharmaceuticals",
-      unit_price: "8000 USD",
-
-    },
-  ];
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const ongoingsPerPage = 4;
-
-  // const indexOfLastongoing = currentPage * ongoingsPerPage;
-  // const indexOfFirstongoing = indexOfLastongoing - ongoingsPerPage;
-  // const currentongoings = activeongoings.slice(indexOfFirstongoing, indexOfLastongoing);
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
   return (
     <>
       <div className="ongoing-container">
@@ -94,7 +38,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                     <tbody key={data._id} className='ongoing-container-tbody'>
                       <tr className="ongoing-section-tr">
                         <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.enquiry_id}</div>
+                          <div className="ongoing-section-heading">{data.purchaseOrder_id}</div>
                         </td>
                         <td className='ongoing-section-td'>
                           <div className="ongoing-section-heading">{data.po_date}</div>
@@ -112,7 +56,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                                 <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                               </div>
                             </Link>
-                            <Link to='/buyer/edit-create-PO'>
+                            <Link to={`/buyer/edit-create-PO/${data.purchaseOrder_id}`}>
                               <div className='ongoing-section-delete' onClick={() => showModal(data)}>
                                 <EditIcon className='ongoing-section-off' />
                               </div>

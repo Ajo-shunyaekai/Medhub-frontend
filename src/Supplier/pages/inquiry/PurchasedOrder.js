@@ -55,6 +55,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                         {/* <td className='ongoing-section-td'>
                       <div className="ongoing-section-heading">{ongoing.qty}</div>
                     </td> */}
+<<<<<<< HEAD
                         <td className='ongoing-section-td'>
                           <div className="ongoing-section-heading">{totalAmount} AED</div>
                         </td>
@@ -70,6 +71,18 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                                 <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                               </div>
                             </Link>
+=======
+                    <td className='ongoing-section-td'>
+                      <div className="ongoing-section-heading">{totalAmount} AED</div>
+                    </td>
+                    <td className='ongoing-section-td'>
+                      <div className='ongoing-section-button'>
+                        <Link to={`/supplier/purchased-order-details/${data.purchaseOrder_id}`}>
+                          <div className='ongoing-section-view'>
+                            <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
+                          </div>
+                        </Link>
+>>>>>>> eb71ab5f14837de2d1842f8ced329bfaa1043e17
 
                           </div>
                         </td>

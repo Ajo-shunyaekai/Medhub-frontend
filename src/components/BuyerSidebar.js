@@ -149,7 +149,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails/>} />
                         <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails/>} />
                         <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
-                        <Route path="/buyer/edit-create-PO" element={<EditCreatePO/>} />
+                        <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO/>} />
                         <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
                         
                         {/* start the inquiry orders */}
