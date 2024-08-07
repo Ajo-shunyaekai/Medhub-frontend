@@ -19,11 +19,6 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
   return (
     <>
       <div className="ongoing-container">
-        {/* <Link to='/create-PO'>
-          <div className='ongoing-order-container-heading-button'>
-            <span className='ongoing-order-button-span'>Create Purchased Order</span>
-          </div>
-        </Link> */}
         <div className="ongoing-container-right-section">
           <div className='ongoing-inner-container-section'>
             <table className="table-ongoing-container">
@@ -52,10 +47,6 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                         <td className='ongoing-section-large-td'>
                           <div className="ongoing-section-heading">{data.buyer_name}</div>
                         </td>
-                        {/* <td className='ongoing-section-td'>
-                      <div className="ongoing-section-heading">{ongoing.qty}</div>
-                    </td> */}
-<<<<<<< HEAD
                         <td className='ongoing-section-td'>
                           <div className="ongoing-section-heading">{totalAmount} AED</div>
                         </td>
@@ -71,19 +62,6 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                                 <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                               </div>
                             </Link>
-=======
-                    <td className='ongoing-section-td'>
-                      <div className="ongoing-section-heading">{totalAmount} AED</div>
-                    </td>
-                    <td className='ongoing-section-td'>
-                      <div className='ongoing-section-button'>
-                        <Link to={`/supplier/purchased-order-details/${data.purchaseOrder_id}`}>
-                          <div className='ongoing-section-view'>
-                            <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
-                          </div>
-                        </Link>
->>>>>>> eb71ab5f14837de2d1842f8ced329bfaa1043e17
-
                           </div>
                         </td>
                       </tr>

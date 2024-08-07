@@ -103,19 +103,14 @@ const ProformaInvoice = () => {
             <div className={styles['create-invoice-section']}>
                 <div className={styles['create-invoice-add-item-cont']}>
                     <div className={styles['create-invoice-form-heading']}>Add Item</div>
-                    <span className={styles['create-invoice-add-tem-button']} onClick={addFormItem}>Add More</span>
+                    {/* <span className={styles['create-invoice-add-tem-button']} onClick={addFormItem}>Add More</span> */}
                 </div>
                 {formItems.map((item, index) => (
                     <div className={styles['form-item-container']} key={item.id}>
                         <form className={styles['craete-invoice-form']}>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Name</label>
-                                <Select
-                                    className={styles['create-invoice-div-selects']}
-                                    options={productOptions}
-                                    value={productOptions.find(option => option.value === item.productName)}
-                                    onChange={(selectedOption) => handleProductChange(selectedOption, index)}
-                                />
+                                <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`} placeholder='Enter Product Name' />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Quantity</label>

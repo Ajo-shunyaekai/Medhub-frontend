@@ -1,7 +1,7 @@
 import React from 'react';
-import InvoiceDesignss from '../../style/invoiceDesign.css'
+import '../../style/invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
-import { useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment/moment';
 
 function ProformaDetailsPage() {
@@ -22,7 +22,7 @@ function ProformaDetailsPage() {
         <div className='invoice-template-design'>
             <div className='scroll-wrapper'>
                 <div className='invoice-template-download'>
-                    <div className='invoice-template-button'  onClick={handleDownload}>Download</div>
+                    <div className='invoice-template-button' onClick={handleDownload}>Download</div>
                 </div>
                 <div id='invoice-content'>
                     <div style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
@@ -118,17 +118,6 @@ function ProformaDetailsPage() {
                                                         <table>
                                                             <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                                 <tr>
-                                                                    <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
-                                                                        {/* <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1> */}
-                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', width: '120px' }}>Deposit Amount :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>30% Advance Done</p>
-                                                                        </tr>
-                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Amount Due :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>70% Amount Due</p>
-                                                                        </tr>
-                                                                    </td>
                                                                     <td style={{ width: '750px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                             <tbody>
@@ -143,6 +132,26 @@ function ProformaDetailsPage() {
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>1425500 AED</p>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+
+                                                            <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                                                <tr>
+                                                                    <td style={{ width: '750px' }} >
+                                                                        <table style={{ width: '100%', borderSpacing: 0, }}>
+                                                                            <tbody>
+                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>30% Advance</p>
+                                                                                </tr>
+                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
+                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>70% Due</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>

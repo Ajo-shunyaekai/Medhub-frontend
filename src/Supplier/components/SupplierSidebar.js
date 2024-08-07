@@ -61,6 +61,8 @@ import ProformaInvoice from '../pages/ProformaInvoice.js';
 import ProformaList from '../pages/invoice/ProformaList.js';
 import ProformaDetailsPage from '../pages/ProformaDetailsPage.js';
 import OrderCustomModal from '../pages/OrderCustomModal.js';
+import ActiveCodinator from '../pages/ActiveCodinator.js';
+import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 
 
 const SupplierSidebar = () => {
@@ -136,6 +138,8 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
                         <Route path="/supplier/proforma-invoice" element={<ProformaInvoice />} />
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
+                        <Route path="/supplier/active-codinator" element={<ActiveCodinator/>} />
+                        <Route path="/supplier/active-invoice-list" element={<ActiveInvoiceList/>} />
                         
                         <Route path="/supplier/create-PO" element={<CreatePO />} />
                         <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload />} />

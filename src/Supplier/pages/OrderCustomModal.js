@@ -2,79 +2,81 @@ import React, { useState } from 'react';
 import styles from '../style/ordermodal.module.css';
 
 const OrderCustomModal = ({ show, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    pickupTime: '',
-    packages: '',
-    weight: '',
-    volume: '',
-  });
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        pickupTime: '',
+        packages: '',
+        weight: '',
+        volume: '',
+    });
 
-  if (!show) return null;
+    if (!show) return null;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic
-    console.log('Submitted data:', formData);
-    onClose(); // Close the modal after submission
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission logic
+        console.log('Submitted data:', formData);
+        onClose(); // Close the modal after submission
+    };
 
-  return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>×</button>
-        <form onSubmit={handleSubmit}>
-          <h2>Pickup Details</h2>
-          <div className={styles.formGroup}>
-            <label>Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Email:</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Phone No:</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Address:</label>
-            <textarea name="address" value={formData.address} onChange={handleChange} required></textarea>
-          </div>
-          <div className={styles.formGroup}>
-            <label>Preferred Time Of Pickup:</label>
-            <input type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
-          </div>
+    return (
+        <div className={styles['order-modal-overlay']}>
+            <div className={styles['order-modal-content-section']}>
+                <button className={styles.closeButton} onClick={onClose}>×</button>
+                <form className={styles['main-modal-form-container']} onSubmit={handleSubmit}>
+                    <div className={styles['order-modal-main-heading']}>Pickup Details</div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Name</label>
+                        <input placeholder='Enter Name' type="text" name="name" value={formData.name} onChange={handleChange} className={styles['order-modal-input']} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Email ID</label>
+                        <input placeholder='Enter Email ID' className={styles['order-modal-input']} type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Mobile No</label>
+                        <input placeholder='Enter Mobile No.' className={styles['order-modal-input']} type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Full Address</label>
+                        <input placeholder='Enter Full Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Preferred Time Of Pickup</label>
+                        <input placeholder='Enter Preferred Time Of Pickup ' className={styles['order-modal-input']} type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
+                    </div>
 
-          <h2>Shipment Details</h2>
-          <div className={styles.formGroup}>
-            <label>No of Packages:</label>
-            <input type="number" name="packages" value={formData.packages} onChange={handleChange} required />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Total Weight:</label>
-            <input type="text" name="weight" value={formData.weight} onChange={handleChange} required />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Total Volume (LxBxH):</label>
-            <input type="text" name="volume" value={formData.volume} onChange={handleChange} required />
-          </div>
-          <button type="submit" className={styles.submitButton}>Submit</button>
-        </form>
-      </div>
-    </div>
-  );
+                    <div className={styles['order-modal-main-heading']}>Buyer Details</div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Buyer Name</label>
+                        <input placeholder='Enter Buyer Name' className={styles['order-modal-input']} type="text" name="packages" value={formData.packages} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Company Type</label>
+                        <input placeholder='Enter Company Type' className={styles['order-modal-input']} type="text" name="weight" value={formData.weight} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Mobile No.</label>
+                        <input placeholder='Enter Mobile No.' className={styles['order-modal-input']} type="text" name="volume" value={formData.volume} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['modal-order-button-section']}>
+                        <button type="submit" className={styles.submitButton}>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
 };
 
 export default OrderCustomModal;
