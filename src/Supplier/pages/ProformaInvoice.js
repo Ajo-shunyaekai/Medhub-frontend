@@ -5,7 +5,7 @@ import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 const ProformaInvoice = () => {
@@ -84,17 +84,7 @@ const ProformaInvoice = () => {
         setValue('invoiceNumber', generateRandomNumber());
 
         const storedItems = sessionStorage.getItem('acceptedQuotationItems');
-        // if (storedItems) {
-        //     try {
-        //         const parsedItems = JSON.parse(storedItems);
-        //         setOrderItems(parsedItems);
-        //         setValue('orderItems', parsedItems);
-        //         const itemIds = parsedItems.map(item => item._id);
-        //         setItemId(itemIds);
-        //     } catch (error) {
-        //         console.error('Error parsing stored items:', error);
-        //     }
-        // }
+        
     }, [setValue]);
 
     useEffect(() => {
@@ -123,16 +113,7 @@ const ProformaInvoice = () => {
                 const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
                 setValue('totalDueAmount', totalDueAmount);
 
-                // const orderItems = response?.result?.order_items.map((item, index) => ({
-                //     id: item._id,
-                //     productName: item.medicine_name,
-                //     quantity: item.quantity_required,
-                //     unitPrice: item.unit_price,
-                //     taxPercentage: item.medicine_details?.unit_tax || 0, // Assuming unit_tax is available in medicine_details
-                //     totalAmount: item.total_amount
-                // }));
-                // setFormItems(orderItems);
-                // setValue('orderItems', orderItems);
+                
                 setOrderItems(response?.result?.order_items)
             } else {
                 console.log('error in order list api', response);

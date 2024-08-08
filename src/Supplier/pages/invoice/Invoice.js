@@ -44,9 +44,11 @@ const Invoice = () => {
         navigate("/supplier/login");
         return;
         }
+        const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
+
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey: activeIndex === 0 ? 'pending' : 'completed',
+            filterKey: filterKey,
             page_no: currentPage,
             limit: invoicesPerPage,
         };
@@ -73,7 +75,7 @@ const Invoice = () => {
                 setActiveIndex(1);
                 navigate('/supplier/invoice/paid');
                 break;
-                case 'proforma':
+                case 'active':
                     setActiveIndex(2);
                     navigate('/supplier/invoice/proforma');
                     break;
@@ -117,7 +119,7 @@ const Invoice = () => {
                     </div>
 
                     <div
-                        onClick={() => handleLinkClick('proforma')}
+                        onClick={() => handleLinkClick('active')}
                         className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                     >
                         <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
