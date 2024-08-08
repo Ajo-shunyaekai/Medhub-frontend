@@ -44,6 +44,7 @@ const Invoice = () => {
         navigate("/supplier/login");
         return;
         }
+        console.log(activeIndex);
         const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
 
         const obj = {
