@@ -21,7 +21,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 
-const SupSidebar = ({ children, dragWindow }) => {
+const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
     const navigate = useNavigate()
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
@@ -204,6 +204,35 @@ const SupSidebar = ({ children, dragWindow }) => {
         navigate('/supplier/login')
     }
 
+    const updateStatusApi = (id) => {
+        // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+        //             if (response.code === 200) {
+        //                 // setNotificationList(response.result.data);
+        //                 // setCount(response.result.totalItems || 0)
+        //             } else {
+        //                 console.log('error in order details api');
+        //             }
+        //         });
+    }
+
+    const handleNavigation = (notificationId,event) => {
+        switch (event) {
+          case 'enquiry':
+            setIsNotificationOpen(false)
+            navigate('/supplier/inquiry-purchase-orders/ongoing');
+            updateStatusApi(notificationId)
+            break;
+          case 'order':
+            setIsNotificationOpen(false)
+            navigate('/supplier/order/active');
+            break;
+          // Add more cases as needed
+          default:
+            navigate('/supplier/'); 
+            break;
+        }
+      };
+
     return (
         <>
             {/* Header Bar Code start from here  */}
@@ -231,17 +260,22 @@ const SupSidebar = ({ children, dragWindow }) => {
                                     <div className={styles.noti_wrapper}>
                                         <div className={styles.noti_top_wrapper}>
 
-
-                                            <div className={styles.noti_profile_wrapper}>
+                                        {
+                                                notificationList?.map((data,i) => {
+                                                    return (
+                                            <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event)}>
                                                 <div className={styles.noti_profile}>
-                                                    A
+                                                {data.event_type.charAt(0)}
                                                 </div>
                                                 <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
+                                                {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}
                                                 </div>
                                             </div>
+                                            )
+                                        })
+                                    }
 
-                                            <div className={styles.noti_profile_wrapper}>
+                                            {/* <div className={styles.noti_profile_wrapper}>
                                                 <div className={styles.noti_profile}>
                                                     B
                                                 </div>
@@ -275,7 +309,7 @@ const SupSidebar = ({ children, dragWindow }) => {
                                                 <div className={styles.noti_profile_text}>
                                                     {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         <div className={styles.noti_bottom_wrapper}>

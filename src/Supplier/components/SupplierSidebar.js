@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';  Hai
 // import 'mdb-react-ui-kit/dist/css/mdb.min.css';  Hai
@@ -63,6 +63,7 @@ import ProformaDetailsPage from '../pages/ProformaDetailsPage.js';
 import OrderCustomModal from '../pages/OrderCustomModal.js';
 import ActiveCodinator from '../pages/ActiveCodinator.js';
 import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
+import { postRequestWithToken } from '../api/Requests.js';
 
 const SupplierSidebar = () => {
 
@@ -70,10 +71,28 @@ const SupplierSidebar = () => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
+    const [notificationList, setNotificationList] = useState([])
+    const [count, setCount] = useState()
+
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
         }
+
+        const obj = {
+            // order_id : orderId,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            pageNo : 1,
+            pageSize : 5
+        };
+        postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems || 0)
+            } else {
+                console.log('error in order details api');
+            }
+        });
     }, []);
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -86,7 +105,7 @@ const SupplierSidebar = () => {
     } else {
         return (<>
             <div>
-                <SupSidebar >
+                <SupSidebar notificationList={notificationList} count={count} >
                     <Routes>
                         <Route path="/supplier" element={<SupplierDashboard />} />
                         <Route path="/supplier/order/active" element={<Order />} />
