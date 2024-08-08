@@ -171,120 +171,6 @@ const ProformaInvoice = () => {
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
-<<<<<<< Updated upstream
-            <div className={styles['create-invoice-section']}>
-                <div className={styles['create-invoice-form-heading']}>Supplier</div>
-                <form className={styles['craete-invoice-form']} onSubmit={handleSubmit(onSubmit)}>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Name</label>
-                        <input className={styles['create-invoice-div-input']} type='text'
-                         name='supplierName' placeholder='Enter Name' 
-                         {...register('supplierName', { validate: value => value.trim() !== '' || 'Supplier name is required' })}
-                         />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Invoice Number</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='invoiceNumber' 
-                        placeholder='Enter Invoice Number' 
-                        value={invoiceNumber}
-                        readOnly
-                          {...register('invoiceNumber')}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='invoiceDate' placeholder='Enter Invoice Generate Date'
-                        value={currentDate}
-                                readOnly
-                                {...register('invoiceDate')}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
-                        <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Payment Due Date' />
-                    </div>
-                     <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='totalDueAmount' 
-                        placeholder='Enter Total Due Amount'
-                        {...register('totalDueAmount', { validate: value => value.trim() !== '' || 'Due amount is required' })}
-                         />
-                    </div>
-
-                    
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Email ID</label>
-                        <input className={styles['create-invoice-div-input']} type='text'
-                         name='supplierEmail' 
-                         placeholder='Enter Email ID' 
-                         {...register('supplierEmail', { validate: value => value.trim() !== '' || 'Supplier email is required' })}
-                         />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                        <input className={styles['create-invoice-div-input']} type='text'
-                          name='supplierMobile'
-                           placeholder='Enter Mobile No.'
-                           {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile no. is required' })}
-                          />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Address</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='supplierAddress'
-                         placeholder='Enter Address'
-                         {...register('supplierAddress', { validate: value => value.trim() !== '' || 'Supplier address is required' })}
-                          />
-                    </div>
-                </form>
-            </div>
-            <div className={styles['create-invoice-section']}>
-                <div className={styles['create-invoice-form-heading']}>Buyer</div>
-                <form className={styles['craete-invoice-form']}>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Name</label>
-                        <input className={styles['create-invoice-div-input']} type='text'
-                        name='buyerName' placeholder='Enter Name' 
-                        {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Email ID</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='buyerEmail' 
-                        placeholder='Enter Email ID' 
-                        {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='buyerMobile' 
-                        placeholder='Enter Mobile No.' 
-                        {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile no. is required' })}
-                        />
-                    </div>
-                    <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Address</label>
-                        <input className={styles['create-invoice-div-input']} type='text' 
-                        name='buyerAddress'
-                         placeholder='Enter Address' 
-                         {...register('buyerAddress', { validate: value => value.trim() !== '' || 'Buyer address is required' })}
-                         />
-                    </div>
-                </form>
-            </div>
-            <div className={styles['create-invoice-section']}>
-                <div className={styles['create-invoice-add-item-cont']}>
-                    <div className={styles['create-invoice-form-heading']}>Add Item</div>
-                    {/* <span className={styles['create-invoice-add-tem-button']} onClick={addFormItem}>Add More</span> */}
-                </div>
-                {orderItems.map((item, index) => (
-                    <div className={styles['form-item-container']} key={item.id}>
-                        <form className={styles['craete-invoice-form']}>
-=======
             <form className={styles['craete-invoice-form']}>
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-form-heading']}>Supplier</div>
@@ -350,7 +236,6 @@ const ProformaInvoice = () => {
                     </div>
                     {formItems.map((item, index) => (
                         <div className={styles['form-item-container']} key={item.id}>
->>>>>>> Stashed changes
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Name</label>
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`} 
@@ -394,22 +279,6 @@ const ProformaInvoice = () => {
                                         readOnly
                                  />
                             </div>
-<<<<<<< Updated upstream
-                        </form>
-                        {formItems.length > 1 && (
-                            <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
-                                <CloseIcon />
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
-            <div className={styles['craete-invoices-button']}>
-                <div className={styles['create-invoices-cancel']}>Cancel</div>
-                <button type='submit' className={styles['create-invoices-submit']}>Create Proforma Invoice</button>
-            </div>
-        </div>
-=======
                             {formItems.length > 1 && (
                                 <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
                                     <CloseIcon />
@@ -425,7 +294,6 @@ const ProformaInvoice = () => {
                 </div>
             </form>
         </div >
->>>>>>> Stashed changes
     );
 }
 
