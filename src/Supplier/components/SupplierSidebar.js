@@ -136,7 +136,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails />} />
                         <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
                         <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
-                        <Route path="/supplier/proforma-invoice" element={<ProformaInvoice />} />
+                        <Route path="/supplier/proforma-invoice/:purchaseOrderId" element={<ProformaInvoice />} />
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
                         <Route path="/supplier/active-codinator" element={<ActiveCodinator/>} />
                         <Route path="/supplier/active-invoice-list" element={<ActiveInvoiceList/>} />

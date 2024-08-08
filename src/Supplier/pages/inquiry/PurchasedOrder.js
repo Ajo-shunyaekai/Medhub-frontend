@@ -52,7 +52,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                         </td>
                         <td className='ongoing-section-td'>
                           <div className='ongoing-section-button'>
-                            <Link to={`/supplier/proforma-invoice`}>
+                            <Link to={`/supplier/proforma-invoice/${data.purchaseOrder_id}`}>
                               <div className='ongoing-section-button-section-cont'>
                                 <span className='ongoing-section-orders-button'>Make Order</span>
                               </div>
