@@ -112,8 +112,8 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                 {
                                     orderList && orderList.length > 0 ? (
                                         orderList?.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + item.quantity;
+                                            const totalQuantity = order?.items?.reduce((total, item) => {
+                                                return total + (item?.quantity || item?.quantity_required);
                                               }, 0);
                                               const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (

@@ -144,7 +144,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload />} />
                         <Route path="/supplier/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />
                         
-                        <Route path="/supplier/proforma-invoice-details" element={<ProformaDetailsPage/>} />
+                        <Route path="/supplier/proforma-invoice-details/:orderId" element={<ProformaDetailsPage/>} />
                         {/* start the inquiry orders */}
                         <Route path="/supplier/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
                         <Route path="/supplier/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders />} />

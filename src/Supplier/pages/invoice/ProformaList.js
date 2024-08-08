@@ -96,7 +96,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                                 </td>
                                                 <td className='pending-invoices-td'>
                                                     <div className='invoice-details-button-row'>
-                                                        <Link to='/supplier/proforma-invoice-details'>
+                                                        <Link to={`/supplier/proforma-invoice-details/${invoice.order_id}`}>
                                                             <div className='invoice-details-button-column'>
                                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                                             </div>

@@ -80,7 +80,7 @@ const ActiveOrdersDetails = () => {
                                 </div>
                                 <div className='active-order-details-left-bottom-vehichle-no'>
                                     <div className='active-order-details-left-bottom-vehichle-no-head'>Type</div>
-                                    <div className='active-order-details-left-bottom-vehichle-no-text'>End User</div>
+                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type}</div>
                                 </div>
                             </div>
                         </div>
