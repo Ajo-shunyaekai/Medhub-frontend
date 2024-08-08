@@ -149,8 +149,8 @@ const SupplierActive = () => {
                                             return total + item.quantity;
                                           }, 0);
 
-                                          const totalPrice = order.items.reduce((price, item) => {
-                                            const itemPrice = parseFloat(item.price.match(/[\d.]+/)[0]);
+                                          const totalPrice = order.items?.reduce((price, item) => {
+                                            const itemPrice = parseFloat(item.price?.match(/[\d.]+/)[0]);
                                             return price + itemPrice;
                                           }, 0);
 

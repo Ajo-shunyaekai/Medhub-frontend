@@ -46,19 +46,45 @@ const OrderDetails = () => {
             navigate('/buyer/login');
             return;
         }
+        let type = '';
+    if (data.doorToDoor) {
+        type = 'door to door';
+    } else if (data.customClearance) {
+        type = 'custom clearance';
+    }
+
+    // Create the logistics_details object
+    const logisticsDetails = {
+        type: type,
+        prefered_mode: data.transportMode,
+        drop_location: {
+            name: data.dropLocation.name,
+            mobile: data.dropLocation.contact,
+            address: data.dropLocation.address
+        },
+        status: 'pending'
+    };
         const obj = {
             order_id          : orderId,
             buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
-            status            : 'Awaiting Details from Supplierr',
-            logistics_details : data,
+            supplier_id       : orderDetails?.supplier_id,
+            status            : 'Awaiting Details from Supplier',
+            logistics_details : [logisticsDetails],
         };
 
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
-                setOrderDetails((prevDetails) => ({
-                    ...prevDetails,
-                    order_status : 'Awaiting Details from Seller',
-                }));
+                // setOrderDetails((prevDetails) => ({
+                //     ...prevDetails,
+                //     order_status : 'Awaiting Details from Seller',
+                // }));
+                postRequestWithToken('buyer/order/order-details', obj, (response) => {
+                    if (response.code === 200) {
+                        setOrderDetails(response.result);
+                    } else {
+                        console.log('error in order details api');
+                    }
+                });
             } else {
                 console.log('Error updating order status');
             }
@@ -91,7 +117,7 @@ const OrderDetails = () => {
                                         Order Status
                                     </div>
                                     <div className="buyer-order-details-left-top-main-contents">
-                                        {orderDetails?.order_status || 'In-Transit'}
+                                        {orderDetails?.status}
                                     </div>
                                 </div>
                                 <div className="buyer-order-details-top-order-cont">

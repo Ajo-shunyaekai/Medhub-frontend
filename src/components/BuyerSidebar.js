@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
@@ -61,16 +61,35 @@ import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
 import EditCreatePO from '../components/EditCreatePO.js'
 import CustomOrderModal from './CustomOrderModal.js';
 import ProformaInvoice from './invoice/ProformaInvoice.js';
+import { postRequestWithToken } from '../api/Requests.js';
+
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
+    const [notificationList, setNotificationList] = useState([])
+    const [count, setCount] = useState()
+
     useEffect( () => { 
         if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
         }
+        const obj = {
+            // order_id : orderId,
+            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+        };
+        postRequestWithToken('buyer/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems || 0)
+            } else {
+                console.log('error in order details api');
+            }
+        });
     },[]) ;
+
+
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
         return (
@@ -84,7 +103,7 @@ const BuyerSidebar = () => {
         return ( 
         <>
             <div>
-                <Sidebar>
+                <Sidebar notificationList={notificationList} count={count}>
                     <Routes>
                         <Route path="/buyer" element={<Dashboard />} />
                         <Route path="/buyer/order/active" element={<Order />} />

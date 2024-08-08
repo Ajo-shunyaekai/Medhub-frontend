@@ -8,6 +8,7 @@ import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
+import Badge from '@mui/material/Badge';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -20,9 +21,10 @@ import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import { postRequestWithToken } from '../api/Requests';
 
 
-const Sidebar = ({ children, dragWindow }) => {
+const Sidebar = ({ children, dragWindow, notificationList, count }) => {
     const navigate = useNavigate()
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
@@ -210,6 +212,60 @@ const Sidebar = ({ children, dragWindow }) => {
 
 
     // ======================
+    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+
+    // const [notificationList, setNotificationList] = useState([])
+    // const [count, setCount] = useState()
+    // useEffect(() => {
+    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+    //         navigate('/buyer/login');
+    //         return;
+    //     }
+    //     const obj = {
+    //         // order_id : orderId,
+    //         buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+    //     };
+    //     postRequestWithToken('buyer/get-notification-list', obj, (response) => {
+    //         if (response.code === 200) {
+    //             setNotificationList(response.result.data);
+    //             setCount(response.result.totalItems || 0)
+    //         } else {
+    //             console.log('error in order details api');
+    //         }
+    //     });
+    // }, []);
+
+    const updateStatusApi = (id) => {
+        // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+        //             if (response.code === 200) {
+        //                 // setNotificationList(response.result.data);
+        //                 // setCount(response.result.totalItems || 0)
+        //             } else {
+        //                 console.log('error in order details api');
+        //             }
+        //         });
+    }
+
+    const handleNavigation = (notificationId,event) => {
+        switch (event) {
+          case 'enquiry':
+            setIsNotificationOpen(false)
+            navigate('/buyer/inquiry-purchase-orders/ongoing');
+            updateStatusApi(notificationId)
+            break;
+          case 'order':
+            setIsNotificationOpen(false)
+            navigate('/buyer/order/active');
+            break;
+          // Add more cases as needed
+          default:
+            navigate('/buyer/'); // Default to home or another page if event_type doesn't match
+            break;
+        }
+      };
+    
+
     return (
         <>
             {/* Header Bar Code start from here  */}
@@ -233,33 +289,46 @@ const Sidebar = ({ children, dragWindow }) => {
                                 <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                             </Link>
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
-                            <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} />
+                            {/* <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} /> */}
+                            <Badge badgeContent={count} color="secondary">
+                                <NotificationsNoneOutlinedIcon 
+                                    className={styles.nav_icon_color} 
+                                    onClick={NotificationDropdown} 
+                                />
+                                </Badge>
+
                             {isNotificationOpen && (
                                 <div className={styles.noti_container}>
                                     {/* Notificatio content goes here */}
                                     <div className={styles.noti_wrapper}>
                                         <div className={styles.noti_top_wrapper}>
 
+                                            {
+                                                notificationList?.map((data,i) => {
+                                                    return (
+                                                        <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event)}>
+                                                            <div className={styles.noti_profile}>
+                                                            {data.event_type.charAt(0)}
+                                                            </div>
+                                                            <div className={styles.noti_profile_text}>
+                                                                {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            
 
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    A
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
+                                            {/* <div className={styles.noti_profile_wrapper}>
                                                 <div className={styles.noti_profile}>
                                                     B
                                                 </div>
                                                 <div className={styles.noti_profile_text}>
                                                     {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className={styles.noti_profile_wrapper}>
+                                            {/* <div className={styles.noti_profile_wrapper}>
                                                 <div className={styles.noti_profile}>
                                                     C
                                                 </div>
@@ -284,12 +353,12 @@ const Sidebar = ({ children, dragWindow }) => {
                                                 <div className={styles.noti_profile_text}>
                                                     {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                6 Notifications
+                                                {count} Notifications
                                             </div>
 
                                             <Link to='#'>
