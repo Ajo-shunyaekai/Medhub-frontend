@@ -44,10 +44,10 @@ const Invoice = () => {
         navigate("/buyer/login");
         return;
         }
-
+        const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
         const obj = {
             buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : '',
+            filterKey : filterKey,
             page_no   : currentPage, 
             limit     : invoicesPerPage,
         }
@@ -73,7 +73,7 @@ const Invoice = () => {
                 setActiveIndex(1);
                 navigate('/buyer/invoice/paid');
                 break;
-                case 'proforma':
+                case 'active':
                 setActiveIndex(2);
                 navigate('/buyer/invoice/proforma');
                 break;
@@ -112,7 +112,7 @@ const Invoice = () => {
                             <div>Paid Invoices</div>
                         </div>
                         <div
-                            onClick={() => handleLinkClick('proforma')}
+                            onClick={() => handleLinkClick('active')}
                             className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />

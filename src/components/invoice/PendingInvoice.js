@@ -86,7 +86,7 @@ const PendingInvoice = ({invoiceList}) => {
                             </td>
                             <td>
                                 <div className="mx-0">
-                                    <span className="item-title text-color">{invoice.shipping_details.consignor_name}</span>
+                                    <span className="item-title text-color">{invoice?.supplier?.supplier_name}</span>
                                 </div>
                             </td>
 

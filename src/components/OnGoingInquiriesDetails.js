@@ -264,7 +264,7 @@ const OnGoingInquiriesDetails = () => {
       </div>
       {/* end the button container */}
       {/* Start the return enquiry section */}
-      {inquiryDetails?.quotation_items.length > 0 ? (
+      {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="order-details-assign-driver-section">
           <ProductList
             quotationItems={inquiryDetails?.quotation_items}
@@ -276,7 +276,7 @@ const OnGoingInquiriesDetails = () => {
         ""
       )}
 
-      {inquiryDetails?.quotation_items.length > 0 &&
+      {inquiryDetails?.quotation_items?.length > 0 &&
       inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="order-details-payment-pending-container">
           <div className="order-details-payment-pending-left-section">
@@ -313,8 +313,8 @@ const OnGoingInquiriesDetails = () => {
       ) : (
         ""
       )}
-      {inquiryDetails?.quotation_items.length > 0 &&
-      inquiryDetails?.payment_terms.length > 0 ? (
+      {inquiryDetails?.quotation_items?.length > 0 &&
+      inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="pending-order-button-section">
           <a href={mailtoLink} className="pending-order-contact-order">
             Contact Supplier

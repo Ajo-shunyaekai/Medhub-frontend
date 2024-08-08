@@ -5,7 +5,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const ActiveAssignDriver = ({productList}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 1; 
+    const ordersPerPage = 2; 
     
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
@@ -37,7 +37,7 @@ const ActiveAssignDriver = ({productList}) => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product ID</span>
-                                        <span className="table-g-not-names">{order.productId || order.product_id}</span>
+                                        <span className="table-g-not-names">{order.medicine_id}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td-cont' >
@@ -45,20 +45,20 @@ const ActiveAssignDriver = ({productList}) => {
                                         <span className="table-g-section">G</span>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product Name</span>
-                                            <span className="table-g-not-name">{order.productName || order.product_name}</span>
+                                            <span className="table-g-not-name">{order.medicine_name}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Quantity</span>
-                                        <span className="table-g-not-name">{order.quantity}</span>
+                                        <span className="table-g-not-name">{order.quantity_required}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Total Amount</span>
-                                        <span className="table-g-not-name">{order.totalAmount || order.price}</span>
+                                        <span className="table-g-not-name">{order.total_amount} AED</span>
                                     </div>
                                 </td>
                                 {/* <td className='tables-status'>

@@ -84,7 +84,7 @@ const CompleteInvoice = ({invoiceList}) => {
                                     <span className="item-title">{invoice.order_id}</span>
                                 </td>
                                 <td>
-                                    <span className="item-title">{invoice.shipping_details.consignor_name}</span>
+                                    <span className="item-title">{invoice?.supplier?.supplier_name}</span>
                                 </td>
                                 <td>
                                     <div className="mx-0">

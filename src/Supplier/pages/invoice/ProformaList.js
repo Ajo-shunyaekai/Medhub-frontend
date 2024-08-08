@@ -81,7 +81,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                         <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                             <tr className='table-row v-middle'>
                                                 <td>
-                                                    <span className="item-title">{invoice.invoice_number}</span>
+                                                    <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                                 </td>
                                                 <td>
                                                     <span className="item-title">{invoice.order_id}</span>
