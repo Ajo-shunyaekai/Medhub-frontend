@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../style/createInvoice.module.css';
+import styles from '../style/proformainvoice.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
@@ -171,6 +171,7 @@ const ProformaInvoice = () => {
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
+<<<<<<< Updated upstream
             <div className={styles['create-invoice-section']}>
                 <div className={styles['create-invoice-form-heading']}>Supplier</div>
                 <form className={styles['craete-invoice-form']} onSubmit={handleSubmit(onSubmit)}>
@@ -283,6 +284,73 @@ const ProformaInvoice = () => {
                 {orderItems.map((item, index) => (
                     <div className={styles['form-item-container']} key={item.id}>
                         <form className={styles['craete-invoice-form']}>
+=======
+            <form className={styles['craete-invoice-form']}>
+                <div className={styles['create-invoice-section']}>
+                    <div className={styles['create-invoice-form-heading']}>Supplier</div>
+                    <div className={styles['create-invoice-inner-form-container']}>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Name</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Name' placeholder='Enter Name' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Invoice Number</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='InvoiceNumber' placeholder='Enter Invoice Number' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Invoice Generate Date' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Payment Due Date' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='InvoiceDate' placeholder='Enter Total Due Amount' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Email ID</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Email ID' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Mobile No.' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Address</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='VatRegNo' placeholder='Enter Address' />
+                        </div>
+                    </div>
+                </div>
+                <div className={styles['create-invoice-section']}>
+                    <div className={styles['create-invoice-form-heading']}>Buyer</div>
+                    <div className={styles['create-invoice-inner-form-container']}>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Name</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Name' placeholder='Enter Name' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Email ID</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Email ID' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Mobile No.' />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Address</label>
+                            <input className={styles['create-invoice-div-input']} type='text' name='Address' placeholder='Enter Address' />
+                        </div>
+                    </div>
+                </div>
+                <div className={styles['create-invoice-section']}>
+                    <div className={styles['create-invoice-add-item-cont']}>
+                        <div className={styles['create-invoice-form-heading']}>Add Item</div>
+                    </div>
+                    {formItems.map((item, index) => (
+                        <div className={styles['form-item-container']} key={item.id}>
+>>>>>>> Stashed changes
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Name</label>
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`} 
@@ -326,6 +394,7 @@ const ProformaInvoice = () => {
                                         readOnly
                                  />
                             </div>
+<<<<<<< Updated upstream
                         </form>
                         {formItems.length > 1 && (
                             <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
@@ -340,6 +409,23 @@ const ProformaInvoice = () => {
                 <button type='submit' className={styles['create-invoices-submit']}>Create Proforma Invoice</button>
             </div>
         </div>
+=======
+                            {formItems.length > 1 && (
+                                <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
+                                    <CloseIcon />
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+                <div className={styles['craete-invoices-button']}>
+                    <div className={styles['create-invoices-cancel']}>Cancel</div>
+                    <div className={styles['create-invoices-submit']}>Create Proforma Invoice</div>
+                </div>
+            </form>
+        </div >
+>>>>>>> Stashed changes
     );
 }
 

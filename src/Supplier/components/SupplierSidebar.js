@@ -64,7 +64,6 @@ import OrderCustomModal from '../pages/OrderCustomModal.js';
 import ActiveCodinator from '../pages/ActiveCodinator.js';
 import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 
-
 const SupplierSidebar = () => {
 
     const navigate = useNavigate();

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
-
 import Sidebar from './Sidebar.js';
 import Dashboard from './Dashboard';
 import Buy from './Buy'
@@ -36,13 +34,11 @@ import InvoiceDesign from './pay/invoiceDesign.js';
 import CustomModal from './pay/CustomModal.js';
 import InvoiceCardDesign from './pay/InvoiceCardDesign.js'
 import ProductDetailsCard from './ProductDetailsCard.js';
-
 import SupplierCompleted from './supplier/SuplierCompleted.js'
 import SupplierActive from './supplier/SupplierActive.js'
 import SupplierPending from './supplier/SupplierPending.js'
 import ImageUploader from '../signup/ImageUploader.js';
 import SuccessModal from '../signup/SuccessModal.js';
-
 import Buy2ndMarket from './sections/Buy2ndMarket.js'
 import MarketProductDetails from './MarketProductDetails.js';
 import SupplyProductList from './orders/SupplyProductList.js'
@@ -53,7 +49,6 @@ import Subscription from './Subscription.js';
 import TableMembership from './membership/TableMembership.js';
 import SubscriptionMembership from './SubscriptionMembership.js';
 import SearchMarketProductDetails from './SearchMarketProductDetails.js';
-
 import CreatePO from '../components/CreatePO.js';
 import CreatePOImageUpload from '../components/CreatePOImageUpload.js';
 import PurchasedOrderDetails from '../components/PurchasedOrderDetails.js'
@@ -65,7 +60,7 @@ import PurchasedOrder from '../components/inquiry/PurchasedOrder.js'
 import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
 import EditCreatePO from '../components/EditCreatePO.js'
 import CustomOrderModal from './CustomOrderModal.js';
-
+import ProformaInvoice from './invoice/ProformaInvoice.js';
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -103,8 +98,10 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/my-supplier" element={<MySupplier />} />
                         <Route path="/buyer/invoice/pending" element={<Invoice />} />
                         <Route path="/buyer/invoice/paid" element={<Invoice />} />
+                        <Route path="/buyer/invoice/proforma" element={<Invoice />} />
                         <Route path="/buyer/invoice" element={<Navigate to="/buyer/invoice/pending" />} />
                         <Route path="/buyer/support" element={<Support />} />
+                        <Route path="/buyer/proforma-invoice" element={<ProformaInvoice/>} />
                         <Route path="/buyer/active-order" element={<ActiveOrder />} />
                         <Route path="/buyer/complete-order" element={<CompleteOrder />} />
                         <Route path="/buyer/deleted-order" element={<DeletedOrder />} />

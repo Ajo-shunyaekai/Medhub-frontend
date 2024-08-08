@@ -298,6 +298,22 @@ ul {
     max-width: 100%;
   }
 }
+@media screen and (max-width: 1400px) {
+.buy-seller-copmany-name {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+.buy-seller-company-country-name {
+  font-size: 13px;
+}
+.buy-seller-company-description-text {
+  font-size: 13px;
+}
+.buy-seller-company-content-section {
+  column-gap: 44px;
+}
+}
 @media screen and (max-width: 1350px) {
   .buy-seller-pharma-card {
     flex-wrap: wrap;

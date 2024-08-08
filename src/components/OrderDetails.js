@@ -5,6 +5,7 @@ import CustomModal from './CustomOrderModal'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment-timezone';
+import BuyerActiveCodinator from './BuyerActiveCodinator';
 
 const OrderDetails = () => {
     const { orderId } = useParams();
@@ -130,6 +131,22 @@ const OrderDetails = () => {
                 <AssignDriver orderItems={orderDetails?.items} />
             </div>
             {/* end the assign driver section */}
+            {/* start the main component heading */}
+            <div className='active-order-details-left-bottom-containers'>
+                <div className='active-order-details-left-bottom-vehichle'>
+                    <div className='active-order-details-left-bottom-vehicle-head'>Commodity</div>
+                    <div className='active-order-details-left-bottom-vehicle-text'>Steel Plates - 20 Ton</div>
+                </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Order Rate</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>AED 2152/TRWB</div>
+                </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Pickup Date & Time</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>24/12/2019, 12:00 PM</div>
+                </div>
+            </div>
+            {/* end the main component heading */}
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
                 <div className="buyer-order-details-payment-left-section">
@@ -160,40 +177,48 @@ const OrderDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className="buyer-order-details-payment-right-section">
-                    <div className="buyer-order-details-payment-right-section-heading">
-                        Shipping Details
+                <div className='active-order-details-payment-right-section'>
+                    <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
+                    <div className='active-order-details-payment-right-details-row'>
+                        <div className='active-order-details-right-details-row-one'>
+                            <div className='active-order-details-right-pickupdata'>
+                                <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
+                                <div className='active-order-details-right-pickdata-text'>Surya Kumar Sharma</div>
+                            </div>
+                            <div className='active-order-details-right-pickupdata'>
+                                <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                                <div className='active-order-details-right-pickdata-text'>+971 563658956</div>
+                            </div>
+                            <div className='active-order-details-right-pickupdata-address'>
+                                <div className='active-order-details-right-pickdata-head'>Address</div>
+                                <div className='active-order-details-right-pickdata-text'>Financial Center Rd, Along Sheik Zayed Road, Dubai 22155.</div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="buyer-order-details-payment-right-details-row">
-                        <div className="buyer-order-details-right-details-row-one">
-                            <div className="buyer-order-details-right-pickupdata">
-                                <div className="buyer-order-details-right-pickdata-head">
-                                    Consignor Name
-                                </div>
-                                <div className="buyer-order-details-right-pickdata-text">
-                                    {orderDetails?.shipping_details?.consignor_name ||
-                                        'Surya Kumar sharma'}
-                                </div>
-                            </div>
-                            <div className="buyer-order-details-right-pickupdata">
-                                <div className="buyer-order-details-right-pickdata-head">Phone No.</div>
-                                <div className="buyer-order-details-right-pickdata-text">
-                                    {orderDetails?.shipping_details?.mobile_no ||
-                                        '+971 563658956'}
-                                </div>
-                            </div>
-                            <div className="buyer-order-details-right-pickupdata-address">
-                                <div className="buyer-order-details-right-pickdata-head">Address</div>
-                                <div className="buyer-order-details-right-pickdata-text">
-                                    {orderDetails?.shipping_details?.address ||
-                                        'Financial Center Rd, Along Sheik zayed road, Dubai 22155.'}
-                                </div>
-                            </div>
+                    <hr className='active-order-details-right-pickupdata-hr' />
+                    <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
+                    <div className='active-order-details-right-details-row-one'>
+                        <div className='active-order-details-right-pickupdata'>
+                            <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
+                            <div className='active-order-details-right-pickdata-text'>Mustfa Zaved khan</div>
+                        </div>
+                        <div className='active-order-details-right-pickupdata'>
+                            <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                            <div className='active-order-details-right-pickdata-text'>+971 587452154</div>
+                        </div>
+                        <div className='active-order-details-right-pickupdata-address'>
+                            <div className='active-order-details-right-pickdata-head'>Address</div>
+                            <div className='active-order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
                         </div>
                     </div>
                 </div>
             </div>
             {/* end the section */}
+            {/* Start the assign driver section */}
+            <div className='buyer-order-details-codinator-section-cont'>
+                <BuyerActiveCodinator productList={orderDetails?.items} />
+            </div>
+            {/* End the assign driver section */}
             <CustomModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
