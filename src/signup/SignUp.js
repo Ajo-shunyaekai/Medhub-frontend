@@ -7,7 +7,7 @@ import '../style/signup.css'
 import logo from '../assest/signup.svg'
 import SuccessModal from './SuccessModal';
 import ImageUploaders from './ImageUploader';
-import { parsePhoneNumberFromString, isValidNumber  } from 'libphonenumber-js';
+import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import { postRequestWithFile } from '../api/Requests';
 // import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
@@ -38,41 +38,41 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SignUp = () => {
-    const [errors, setErrors]                           = useState({});
-    const [isChecked, setIsChecked]                     = useState(false);
-    const [showModal, setShowModal]                     = useState(false);
-    const [countries, setCountries]                     = useState([]);
-    const [companyPhone, setCompanyPhone]               = useState('');
-    const [mobile, setMobile]                           = useState('');
-    const [resetUploaders, setResetUploaders]           = useState(false);
+    const [errors, setErrors] = useState({});
+    const [isChecked, setIsChecked] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [countries, setCountries] = useState([]);
+    const [companyPhone, setCompanyPhone] = useState('');
+    const [mobile, setMobile] = useState('');
+    const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
-    
+
     const [formData, setFormData] = useState({
-        companyType          : '',
-        companyName          : '',
-        companyAddress       : '',
-        companyEmail         : '',
-        companyPhone         : '',
-        contactPersonName    : '',
-        designation          : '',
-        email                : '',
-        mobile               : '',
-        originCountry        : '',
-        operationCountries   : [],
-        interestedIn         : '',
-        companyLicenseNo     : '',
-        companyTaxNo         : '',
-        yearlyPurchaseValue  : '',
-        companyLicenseExpiry : '',
-        description          : '',
-        taxImage             : null,
-        taxImageType         : 'tax',
-        logoImage            : null,
-        logoImageType        : 'logo',
-        licenseImage         : null,
-        licenseImageType     : 'license',
-        certificateImage     : null,
-        certificateImageType : 'certificate'
+        companyType: '',
+        companyName: '',
+        companyAddress: '',
+        companyEmail: '',
+        companyPhone: '',
+        contactPersonName: '',
+        designation: '',
+        email: '',
+        mobile: '',
+        originCountry: '',
+        operationCountries: [],
+        interestedIn: '',
+        companyLicenseNo: '',
+        companyTaxNo: '',
+        yearlyPurchaseValue: '',
+        companyLicenseExpiry: '',
+        description: '',
+        taxImage: null,
+        taxImageType: 'tax',
+        logoImage: null,
+        logoImageType: 'logo',
+        licenseImage: null,
+        licenseImageType: 'license',
+        certificateImage: null,
+        certificateImageType: 'certificate'
     });
     const [selectedOptions, setSelectedOptions] = React.useState([]);
 
@@ -93,7 +93,7 @@ const SignUp = () => {
 
     const companyTypeOptions = [
         { value: 'distributor', label: 'Distributor' },
-        { value: 'end user',    label: 'End User' },
+        { value: 'end user', label: 'End User' },
     ];
 
     const handleCompanyTypeChange = (selectedOption) => {
@@ -107,13 +107,13 @@ const SignUp = () => {
     };
 
     const options = [
-        { value: 'generies',         label: 'Generies' },
-        { value: 'orignal',          label: 'Orignals' },
-        { value: 'biosimilars',      label: 'Biosimilars' },
-        { value: 'medical devices',  label: 'Medical Devices' },
-        { value: 'nutraceuticals',   label: 'Nutraceuticals' },
+        { value: 'generies', label: 'Generies' },
+        { value: 'orignal', label: 'Orignals' },
+        { value: 'biosimilars', label: 'Biosimilars' },
+        { value: 'medical devices', label: 'Medical Devices' },
+        { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
-    
+
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData({
             ...formData,
@@ -126,7 +126,7 @@ const SignUp = () => {
         }));
 
     };
-    
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -138,7 +138,7 @@ const SignUp = () => {
     };
 
     const handlePhoneChange = (name, value) => {
-        
+
         setErrors(prevState => ({ ...prevState, [name]: '' }));
         if (value.trim() !== '') {
             const phoneRegex = /^[0-9]{10,15}$/;
@@ -150,7 +150,7 @@ const SignUp = () => {
             } else {
                 // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
             }
-        }else {
+        } else {
 
         }
     };
@@ -168,35 +168,35 @@ const SignUp = () => {
     const validateForm = () => {
         let formErrors = {};
 
-        if (!formData.companyType) formErrors.companyType       = 'Company Type is required';
-        if (!formData.companyName) formErrors.companyName       = 'Company Name is required';
+        if (!formData.companyType) formErrors.companyType = 'Company Type is required';
+        if (!formData.companyName) formErrors.companyName = 'Company Name is required';
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is required';
-        if (!formData.companyEmail) formErrors.companyEmail     = 'Company Email ID is required';
+        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
         if (!companyPhone || companyPhone.length <= 12) {
             formErrors.companyPhone = 'Company phone no. is required';
         }
-        if (!formData.contactPersonName) formErrors.contactPersonName          = 'Contact Person Name is required';
-        if (!formData.designation) formErrors.designation                      = 'Designation is required';
-        if (!formData.email) formErrors.email                                  = 'Email ID is required';
+        if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is required';
+        if (!formData.designation) formErrors.designation = 'Designation is required';
+        if (!formData.email) formErrors.email = 'Email ID is required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
         if (!mobile || mobile.length <= 12) {
             formErrors.mobile = 'Mobile no. is required';
         }
-        if (!formData.originCountry) formErrors.originCountry                  = 'Country of Origin is required';
+        if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is required';
-        if (!formData.companyLicenseNo) formErrors.companyLicenseNo            = 'Company License No. is required';
-        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry    = 'Company License Expiry is required';
-        if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue      = 'Yearly Purchase Value is required';
-        if (!formData.companyTaxNo) formErrors.companyTaxNo                    = 'Company Tax No. is required';
-        if (!formData.interestedIn) formErrors.interestedIn                    = 'Interested in  is required';
-        if (!isChecked) formErrors.terms                                       = 'You must agree to the terms and conditions';
-        if (!formData.description) formErrors.description                      = 'Description is required';
-        if (formData.description.length > 1000) formErrors.description         = 'Description cannot exceed 1000 characters';
-        if (!formData.taxImage) formErrors.taxImage                            = 'Tax image is required';
-        if (!formData.logoImage) formErrors.logoImage                          = 'Logo image is required';
-        if (!formData.licenseImage) formErrors.licenseImage                    = 'License image is required';
-        if (!formData.certificateImage) formErrors.certificateImage            = 'Certificate image is required';
+        if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is required';
+        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is required';
+        if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue = 'Yearly Purchase Value is required';
+        if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is required';
+        if (!formData.interestedIn) formErrors.interestedIn = 'Interested in  is required';
+        if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
+        if (!formData.description) formErrors.description = 'Description is required';
+        if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
+        if (!formData.taxImage) formErrors.taxImage = 'Tax image is required';
+        if (!formData.logoImage) formErrors.logoImage = 'Logo image is required';
+        if (!formData.licenseImage) formErrors.licenseImage = 'License image is required';
+        if (!formData.certificateImage) formErrors.certificateImage = 'Certificate image is required';
 
         setErrors(formErrors);
 
@@ -210,7 +210,7 @@ const SignUp = () => {
     }, [resetUploaders]);
 
 
-     const handleSubmit = () => {
+    const handleSubmit = () => {
         if (validateForm() && isChecked) {
 
             const formDataToSend = new FormData();
@@ -248,31 +248,31 @@ const SignUp = () => {
             postRequestWithFile('buyer/register', formDataToSend, async (response) => {
                 if (response.code === 200) {
                     setFormData({
-                        companyType          : '',
-                        companyName          : '',
-                        companyAddress       : '',
-                        companyEmail         : '',
-                        companyPhone         : '',
-                        contactPersonName    : '',
-                        designation          : '',
-                        email                : '',
-                        mobile               : '',
-                        originCountry        : '',
-                        operationCountries   : [],
-                        interestedIn         : '',
-                        companyLicenseNo     : '',
-                        companyTaxNo         : '',
-                        yearlyPurchaseValue  : '',
-                        companyLicenseExpiry : '',
-                        description          : '',
-                        taxImage             : null,
-                        taxImageType         : 'tax',
-                        logoImage            : null,
-                        logoImageType        : 'logo',
-                        licenseImage         : null,
-                        licenseImageType     : 'license',
-                        certificateImage     : null,
-                        certificateImageType : 'certificate'
+                        companyType: '',
+                        companyName: '',
+                        companyAddress: '',
+                        companyEmail: '',
+                        companyPhone: '',
+                        contactPersonName: '',
+                        designation: '',
+                        email: '',
+                        mobile: '',
+                        originCountry: '',
+                        operationCountries: [],
+                        interestedIn: '',
+                        companyLicenseNo: '',
+                        companyTaxNo: '',
+                        yearlyPurchaseValue: '',
+                        companyLicenseExpiry: '',
+                        description: '',
+                        taxImage: null,
+                        taxImageType: 'tax',
+                        logoImage: null,
+                        logoImageType: 'logo',
+                        licenseImage: null,
+                        licenseImageType: 'license',
+                        certificateImage: null,
+                        certificateImageType: 'certificate'
                     })
                     setErrors({});
                     setIsChecked(false);
@@ -283,11 +283,11 @@ const SignUp = () => {
                     setResetUploaders(true);
                     setShowModal(true)
                 } else {
-                   console.log('error in buyer/register api');
+                    console.log('error in buyer/register api');
                 }
-            }) 
+            })
         } else {
-            
+
         }
     };
 
@@ -302,37 +302,37 @@ const SignUp = () => {
         const phoneNumber = parsePhoneNumberFromString(value);
         if (phoneNumber) {
             const countryCallingCode = `+${phoneNumber.countryCallingCode}`;
-            const nationalNumber     = phoneNumber.nationalNumber;
+            const nationalNumber = phoneNumber.nationalNumber;
             return `${countryCallingCode} ${nationalNumber}`;
         }
         return value;
     };
 
     const handleCountryOriginChange = (selectedOption) => {
-    
+
         setFormData({ ...formData, originCountry: selectedOption.label })
         if (!selectedOption) {
             setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is required' }));
         } else {
-            setErrors(prevState => ({ ...prevState,originCountry: '' }));
+            setErrors(prevState => ({ ...prevState, originCountry: '' }));
         }
-      };
+    };
 
     const handleOperationCountriesChange = (selectedOptions) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
-    
+
         setFormData({
             ...formData,
             operationCountries: selectedOptions
         });
-    
+
         setErrors(prevState => ({
             ...prevState,
             operationCountries: selectedLabels.length === 0 ? 'Country of operation is required' : ''
         }));
-      };
+    };
 
-      const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
+    const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
         if (value && value.length) {
             return value.map(country => country.label).join(', ');
         }
@@ -341,31 +341,31 @@ const SignUp = () => {
 
     const handleCancel = () => {
         setFormData({
-            companyType          : '',
-            companyName          : '',
-            companyAddress       : '',
-            companyEmail         : '',
-            companyPhone         : '',
-            contactPersonName    : '',
-            designation          : '',
-            email                : '',
-            mobile               : '',
-            originCountry        : '',
-            operationCountries   : [],
-            interestedIn         : '',
-            companyLicenseNo     : '',
-            companyTaxNo         : '',
-            yearlyPurchaseValue  : '',
-            companyLicenseExpiry : '',
-            description          : '',
-            taxImage             : null,
-            taxImageType         : 'tax',
-            logoImage            : null,
-            logoImageType        : 'logo',
-            licenseImage         : null,
-            licenseImageType     : 'license',
-            certificateImage     : null,
-            certificateImageType : 'certificate'
+            companyType: '',
+            companyName: '',
+            companyAddress: '',
+            companyEmail: '',
+            companyPhone: '',
+            contactPersonName: '',
+            designation: '',
+            email: '',
+            mobile: '',
+            originCountry: '',
+            operationCountries: [],
+            interestedIn: '',
+            companyLicenseNo: '',
+            companyTaxNo: '',
+            yearlyPurchaseValue: '',
+            companyLicenseExpiry: '',
+            description: '',
+            taxImage: null,
+            taxImageType: 'tax',
+            logoImage: null,
+            logoImageType: 'logo',
+            licenseImage: null,
+            licenseImageType: 'license',
+            certificateImage: null,
+            certificateImageType: 'certificate'
         })
         setErrors({});
         setIsChecked(false);
@@ -375,7 +375,7 @@ const SignUp = () => {
         setSelectedOptions([])
         setResetUploaders(true);
     }
-  
+
     return (
         <>
             <div className='signup-container'>
@@ -392,7 +392,7 @@ const SignUp = () => {
                                 onChange={handleCompanyTypeChange}
                                 options={companyTypeOptions}
                             />
-                             {errors.companyType && <div className='signup__errors'>{errors.companyType}</div>}
+                            {errors.companyType && <div className='signup__errors'>{errors.companyType}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Name</label>
@@ -436,12 +436,12 @@ const SignUp = () => {
                             <PhoneInput
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
-                                disableDialCodePrefill = 'true'
+                                disableDialCodePrefill='true'
                                 name="companyPhone"
                                 value={companyPhone}
                                 onChange={(value) => {
                                     const formattedValue = formatPhoneNumber(value);
-                                   
+
                                     setCompanyPhone(formattedValue);
                                     handlePhoneChange('companyPhone', value);
                                 }}
@@ -490,7 +490,7 @@ const SignUp = () => {
                             <PhoneInput
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
-                                disableDialCodePrefill = 'true'
+                                disableDialCodePrefill='true'
                                 name="mobile"
                                 value={mobile}
                                 onChange={(value) => {
@@ -509,9 +509,9 @@ const SignUp = () => {
                                 options={countries}
                                 value={countries.find(option => option.value === formData.originCountry)}
                                 onChange={handleCountryOriginChange}
-                                // onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
+                            // onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
                             />
-                             {errors.originCountry && <div className='signup__errors'>{errors.originCountry}</div>}
+                            {errors.originCountry && <div className='signup__errors'>{errors.originCountry}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Country of Operation</label>
@@ -522,9 +522,9 @@ const SignUp = () => {
                                     value={formData.operationCountries}
                                     onChange={handleOperationCountriesChange}
                                     getDropdownButtonLabel={getDropdownButtonLabel}
-                                    // onChange={(selectedOptions) => setFormData({ ...formData, operationCountries: selectedOptions })}
+                                // onChange={(selectedOptions) => setFormData({ ...formData, operationCountries: selectedOptions })}
                                 />
-                                
+
                             )}
                             {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
                         </div>
@@ -583,9 +583,9 @@ const SignUp = () => {
                                 value={selectedOptions}
                                 onChange={handleMultiSelectChange}
                             />
-                             {errors.interestedIn && <div className='signup__errors'>{errors.interestedIn}</div>}
+                            {errors.interestedIn && <div className='signup__errors'>{errors.interestedIn}</div>}
                         </div>
-                       
+
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>About Company</label>
                             <textarea
@@ -612,7 +612,7 @@ const SignUp = () => {
 
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Upload a Certificate</label>
-                            <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders}  allowMultiple={true}/>
+                            <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                             {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
                         </div>
 
@@ -637,8 +637,9 @@ const SignUp = () => {
                             {errors.terms && <div className='signup__errors'>{errors.terms}</div>}
                         </div>
                         <div className='signup-form-cont-button'>
-                            <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
                             <button type='submit' className='signup-form-button-submit'>Submit</button>
+                            <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
+
                         </div>
                     </form>
                 </div>

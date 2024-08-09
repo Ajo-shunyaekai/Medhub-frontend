@@ -8,7 +8,6 @@ import Biosimilars from '../../assest/Buy/biosimilars.svg'
 import MedicalDevices from '../../assest/Buy/medicaldevices.svg'
 import Nutraceutical from '../../assest/Buy/neutraceutical.svg'
 import Arrow from '../../assest/Buy/arrow.svg'
-import MedicineOne from '../../assest/Buy/paracetamol.png';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Pagination from 'react-js-pagination';
@@ -87,120 +86,120 @@ const Buy2ndMarket = ({active}) => {
    
     return (
         <>
-            <div className='buy-product-main-section-container'>
-            <div className='buy-seller-main-heading'>Lorem Ipsum is simply dummy text</div>
-                <div className='buy-seller-pharma-card'>
-                    <div className='buy-seller-card' onClick={() => handleCategoryFilter('Generics')}>
-                        <div className='buy-seller-card-img'>
-                            <img className='buy-seller-img-one' src={Generics} />
+            <div className='byproduct-product-main-section-container'>
+            <div className='byproduct-seller-main-heading'>Lorem Ipsum is simply dummy text</div>
+                <div className='byproduct-seller-pharma-card'>
+                    <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Generics')}>
+                        <div className='byproduct-seller-card-img'>
+                            <img className='byproduct-seller-img-one' src={Generics} />
                         </div>
-                        <div className='buy-seller-card-head'>Generics</div>
-                        <div className='buy-seller-card-content'>Lorem ipsum is placeholder text
+                        <div className='byproduct-seller-card-head'>Generics</div>
+                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
                             commonly used in the graphic,</div>
-                        <div className='buy-seller-arrow-img'>
+                        <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
                     </div>
-                    <div className='buy-seller-card' onClick={() => handleCategoryFilter('Originals')}>
-                        <div className='buy-seller-card-img'>
-                            <img className='buy-seller-img-two' src={Orignals} />
+                    <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Originals')}>
+                        <div className='byproduct-seller-card-img'>
+                            <img className='byproduct-seller-img-two' src={Orignals} />
                         </div>
-                        <div className='buy-seller-card-head'>Originals</div>
-                        <div className='buy-seller-card-content'>Lorem ipsum is placeholder text
+                        <div className='byproduct-seller-card-head'>Originals</div>
+                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
                             commonly used in the graphic,</div>
-                        <div className='buy-seller-arrow-img'>
+                        <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
                     </div>
-                    <div className='buy-seller-card' onClick={() => handleCategoryFilter('Biosimilars')}>
-                        <div className='buy-seller-card-img'>
-                            <img className='buy-seller-img-three' src={Biosimilars} />
+                    <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Biosimilars')}>
+                        <div className='byproduct-seller-card-img'>
+                            <img className='byproduct-seller-img-three' src={Biosimilars} />
                         </div>
-                        <div className='buy-seller-card-head'>Biosimilars</div>
-                        <div className='buy-seller-card-content'>Lorem ipsum is placeholder text
+                        <div className='byproduct-seller-card-head'>Biosimilars</div>
+                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
                             commonly used in the graphic,</div>
-                        <div className='buy-seller-arrow-img'>
+                        <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
                     </div>
-                    <div className='buy-seller-card' onClick={() => handleCategoryFilter('Medical Devices')}>
-                        <div className='buy-seller-card-img'>
-                            <img className='buy-seller-img-four' src={MedicalDevices} />
+                    <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Medical Devices')}>
+                        <div className='byproduct-seller-card-img'>
+                            <img className='byproduct-seller-img-four' src={MedicalDevices} />
                         </div>
-                        <div className='buy-seller-card-head'>Medical Devices</div>
-                        <div className='buy-seller-card-content'>Lorem ipsum is placeholder text
+                        <div className='byproduct-seller-card-head'>Medical Devices</div>
+                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
                             commonly used in the graphic,</div>
-                        <div className='buy-seller-arrow-img'>
+                        <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
                     </div>
-                    <div className='buy-seller-card' onClick={() => handleCategoryFilter('Nutraceutical')}>
-                        <div className='buy-seller-card-img'>
-                            <img className='buy-seller-img-five' src={Nutraceutical} />
+                    <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Nutraceutical')}>
+                        <div className='byproduct-seller-card-img'>
+                            <img className='byproduct-seller-img-five' src={Nutraceutical} />
                         </div>
-                        <div className='buy-seller-card-head'>Nutraceutical</div>
-                        <div className='buy-seller-card-content'>Lorem ipsum is placeholder text
+                        <div className='byproduct-seller-card-head'>Nutraceutical</div>
+                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
                             commonly used in the graphic,</div>
-                        <div className='buy-seller-arrow-img'>
+                        <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
                     </div>
                 </div>
-                <div className='buy-seller-search-container'>
-                    <input className='buy-seller-search-input' type='text' placeholder='Search Product'
+                <div className='byproduct-seller-search-container'>
+                    <input className='byproduct-seller-search-input' type='text' placeholder='Search Product'
                     onChange={(e) => handleInputChange(e)}
                     onKeyDown={handleKeyDown}
                      />
-                    <div className='buy-seller-search' onClick={() => handleProductSearch() }>
-                        <img className='buy-seller-search-icon' src={Search} />
+                    <div className='byproduct-seller-search' onClick={() => handleProductSearch() }>
+                        <img className='byproduct-seller-search-icon' src={Search} />
                         Search
                     </div>
                 </div>
-                <div className='buy-product-main-container'>
+                <div className='byproduct-product-main-container'>
                      {  
                        medicineList && medicineList.length > 0 ? (
                         medicineList?.map((medicine, i) => {
                             console.log('medicine',medicine);
                             const firstImage = Array.isArray(medicine?.medicine_image) ? medicine.medicine_image[0] : null;
                             return (
-                                <div className='buy-product-card-section'>
-                                <div className='buy-product-card-first-section-right'>
-                                    <div className='buy-product-card-first-medicine-image'>
+                                <div className='byproduct-product-card-section'>
+                                <div className='byproduct-product-card-first-section-right'>
+                                    <div className='byproduct-product-card-first-medicine-image'>
                                         <img  src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}  alt="Medicine" /> 
                                     </div>
-                                    <div className='buy-product-card-first-button-container'>
+                                    <div className='byproduct-product-card-first-button-container'>
                                         <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
-                                            <div className='buy-product-card-first-send-button'>
+                                            <div className='byproduct-product-card-first-send-button'>
                                                 View Details
                                             </div>
                                         </Link>
                                     </div>
                                 </div>
         
-                                <div className='buy-product-card-first-section'>
-                                    <div className='buy-product-card-first-left'>
-                                        <div className='buy-product-card-first-copmany-name'>{medicine.medicine_name}</div>
-                                        <div className='buy-product-card-first-copmany-description'>{medicine.composition || 'paracetamol' }</div>
+                                <div className='byproduct-product-card-first-section'>
+                                    <div className='byproduct-product-card-first-left'>
+                                        <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
+                                        <div className='byproduct-product-card-first-copmany-description'>{medicine.composition || 'paracetamol' }</div>
                                     </div>
-                                    <div className='buy-product-card-second-section'>
-                                        <div className='buy-product-card-second-head'>Country of origin</div>
-                                        <div className='buy-product-card-second-text'>{medicine.country_of_origin}</div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Country of origin</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.country_of_origin}</div>
                                     </div>
-                                    <div className='buy-product-card-second-section'>
-                                        <div className='buy-product-card-second-head'>Stocked in</div>
-                                        <div className='buy-product-card-second-text'>{medicine.quantity}</div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Stocked in</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.quantity}</div>
                                     </div>
-                                    <div className='buy-product-card-second-section'>
-                                        <div className='buy-product-card-second-head'>Dossier Type</div>
-                                        <div className='buy-product-card-second-text'>{medicine.dossier_type}</div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Dossier Type</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.dossier_type}</div>
                                     </div>
-                                    <div className='buy-product-card-second-section'>
-                                        <div className='buy-product-card-second-head'>Dossier Status</div>
-                                        <div className='buy-product-card-second-text'>{medicine.dossier_status}</div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Dossier Status</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.dossier_status}</div>
                                     </div>
-                                    <div className='buy-product-card-second-section'>
-                                        <div className='buy-product-card-second-head'>GMP Approvals</div>
-                                        <div className='buy-product-card-second-text'>{medicine.gmp_approvals}</div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>GMP Approvals</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.gmp_approvals}</div>
                                     </div>
         
                                 </div>
@@ -212,7 +211,7 @@ const Buy2ndMarket = ({active}) => {
 
 
                 </div>
-                <div className='buy-product-pagination-section'>
+                <div className='byproduct-product-pagination-section'>
                         <div className='pagi-container'>
                             <Pagination
                                 activePage={currentPage}

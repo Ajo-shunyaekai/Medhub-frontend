@@ -527,11 +527,15 @@
     row-gap: 20px;
   }
   .search-details-card-img-cont-sec {
-    width: 200px;
+    width: 180px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .search-details-card-img-cont-sec img {
-    width: 100%;
-    height: auto;
+    width: 180px;
+    height: 140px;
   }
   .search-details-card-image-button-cont {
     background: linear-gradient(to left, #00dcff, #0075ce);

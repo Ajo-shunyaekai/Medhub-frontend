@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from '../style/custommodalorder.module.css';
 
 const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
-    const [doorToDoor, setDoorToDoor]           = useState(false);
+    const [doorToDoor, setDoorToDoor] = useState(false);
     const [customClearance, setCustomClearance] = useState(false);
-    const [transportMode, setTransportMode]     = useState('');
-    const [dropLocation, setDropLocation]       = useState({ name: '', contact: '', address: '' });
-    const [dropdownOpen, setDropdownOpen]       = useState(false);
-    const [errors, setErrors]                   = useState({});
-    const dropdownRef                           = useRef(null);
+    const [transportMode, setTransportMode] = useState('');
+    const [dropLocation, setDropLocation] = useState({ name: '', contact: '', address: '' });
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [errors, setErrors] = useState({});
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -39,10 +39,10 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     const validate = () => {
         const newErrors = {};
         if (!doorToDoor && !customClearance) newErrors.checkboxes = 'Please select at least one option.';
-        if (!transportMode) newErrors.transportMode               = 'Please select a mode of transport.';
-        if (!dropLocation.name) newErrors.name                    = 'Name is required.';
-        if (!dropLocation.contact) newErrors.contact              = 'Mobile number is required.';
-        if (!dropLocation.address) newErrors.address              = 'Address is required.';
+        if (!transportMode) newErrors.transportMode = 'Please select a mode of transport.';
+        if (!dropLocation.name) newErrors.name = 'Name is required.';
+        if (!dropLocation.contact) newErrors.contact = 'Mobile number is required.';
+        if (!dropLocation.address) newErrors.address = 'Address is required.';
         return newErrors;
     };
 
@@ -59,13 +59,13 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
 
     const handleSelectChange = (value) => {
         setTransportMode(value);
-        setDropdownOpen(false); 
+        setDropdownOpen(false);
         setErrors((prevErrors) => ({ ...prevErrors, transportMode: '' }));
     };
 
     const handleInputChange = (field, value) => {
         setDropLocation((prev) => ({ ...prev, [field]: value }));
-        setErrors((prevErrors) => ({ ...prevErrors, [field]: '' })); 
+        setErrors((prevErrors) => ({ ...prevErrors, [field]: '' }));
     };
 
     const handleCheckboxChange = (checkbox) => {
@@ -74,7 +74,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
             setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         } else if (checkbox === 'customClearance') {
             setCustomClearance(!customClearance);
-            setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' })); 
+            setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         }
     };
 
@@ -171,6 +171,42 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                             />
                             {errors.address && <div className={styles.error}>{errors.address}</div>}
                         </div>
+                        <div className={styles['custom-modal-input-container']}>
+                            <label className={styles['custom-modal-label-heading']}>City/District</label>
+                            <input
+                                className={styles.selectInputGroups}
+                                type="text"
+                                placeholder="Enter City/District"
+                                value={dropLocation.address}
+                                onChange={(e) => handleInputChange('address', e.target.value)}
+                            />
+                            {errors.address && <div className={styles.error}>{errors.address}</div>}
+                        </div>
+                        <div className={styles['custom-modal-state-containers-section']}>
+                            <div className={styles['custom-modal-input-container']}>
+                                <label className={styles['custom-modal-label-heading']}>State</label>
+                                <input
+                                    className={styles.selectInputGroups}
+                                    type="text"
+                                    placeholder="Enter State"
+                                    value={dropLocation.address}
+                                    onChange={(e) => handleInputChange('address', e.target.value)}
+                                />
+                                {errors.address && <div className={styles.error}>{errors.address}</div>}
+                            </div>
+                            <div className={styles['custom-modal-input-container']}>
+                                <label className={styles['custom-modal-label-heading']}>Pin Code</label>
+                                <input
+                                    className={styles.selectInputGroups}
+                                    type="text"
+                                    placeholder="Enter Pin Code"
+                                    value={dropLocation.address}
+                                    onChange={(e) => handleInputChange('address', e.target.value)}
+                                />
+                                {errors.address && <div className={styles.error}>{errors.address}</div>}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div className={styles.modalcustombuttonsec}>

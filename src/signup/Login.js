@@ -28,10 +28,10 @@ const Login = () => {
 
         if (!password) {
             newErrors.password = 'Password is required';
-        // } else if (!/(?=.*[A-Z])/.test(password)) {
-        //     newErrors.password = 'Password must contain at least one uppercase letter';
-        // } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-        //     newErrors.password = 'Password must contain at least one special character';
+            // } else if (!/(?=.*[A-Z])/.test(password)) {
+            //     newErrors.password = 'Password must contain at least one uppercase letter';
+            // } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
+            //     newErrors.password = 'Password must contain at least one special character';
         }
 
         return newErrors;
@@ -48,22 +48,22 @@ const Login = () => {
                 email,
                 password
             }
-            postRequest('buyer/login', obj, async(response) => {
-                if(response.code === 200) {
+            postRequest('buyer/login', obj, async (response) => {
+                if (response.code === 200) {
                     toast(response.message, { type: "success" });
-                    sessionStorage.setItem('buyer_id',response.result.buyer_id)
-                    sessionStorage.setItem('buyer_name',response.result.buyer_name)
-                    sessionStorage.setItem('buyer_email',response.result.buyer_email)
-                    sessionStorage.setItem('buyer_country_code',response.result.buyer_country_code)
-                    sessionStorage.setItem('buyer_mobile',response.result.buyer_mobile)
-                    sessionStorage.setItem('contact_person_country_code',response.result.contact_person_country_code)
-                    sessionStorage.setItem('contact_person_mobile',response.result.contact_person_mobile)
-                    sessionStorage.setItem('contact_person_name',response.result.contact_person_name)
-                    sessionStorage.setItem('buyer_image',response.result.buyer_image)
-                    sessionStorage.setItem('license_image',response.result.license_image)
-                    sessionStorage.setItem('tax_image',response.result.tax_image)
-                    sessionStorage.setItem('token',response.result.token)
-                    sessionStorage.setItem('list_count',response.result.list_count)
+                    sessionStorage.setItem('buyer_id', response.result.buyer_id)
+                    sessionStorage.setItem('buyer_name', response.result.buyer_name)
+                    sessionStorage.setItem('buyer_email', response.result.buyer_email)
+                    sessionStorage.setItem('buyer_country_code', response.result.buyer_country_code)
+                    sessionStorage.setItem('buyer_mobile', response.result.buyer_mobile)
+                    sessionStorage.setItem('contact_person_country_code', response.result.contact_person_country_code)
+                    sessionStorage.setItem('contact_person_mobile', response.result.contact_person_mobile)
+                    sessionStorage.setItem('contact_person_name', response.result.contact_person_name)
+                    sessionStorage.setItem('buyer_image', response.result.buyer_image)
+                    sessionStorage.setItem('license_image', response.result.license_image)
+                    sessionStorage.setItem('tax_image', response.result.tax_image)
+                    sessionStorage.setItem('token', response.result.token)
+                    sessionStorage.setItem('list_count', response.result.list_count)
                     setTimeout(() => {
                         navigate("/buyer");
                     }, 1000);
@@ -72,7 +72,7 @@ const Login = () => {
                     console.log('error while login')
                 }
             })
-            
+
         }
     };
 
@@ -101,20 +101,20 @@ const Login = () => {
     };
 
     useEffect(() => {
-        if ( sessionStorage.getItem("buyer_id") !== undefined && sessionStorage.getItem("buyer_id") ) {
+        if (sessionStorage.getItem("buyer_id") !== undefined && sessionStorage.getItem("buyer_id")) {
             navigate('/buyer');
         }
-      }, []);
-      
-      const handleCancel = () => {
+    }, []);
+
+    const handleCancel = () => {
         setEmail('')
         setPassword('')
         setErrors({})
-      }
+    }
 
     return (
         <div className='login-main-container'>
-             {/* <ToastContainer /> */}
+            {/* <ToastContainer /> */}
             <div className='login-container-logo-section'>
                 <img src={logo} alt="Logo" />
             </div>
@@ -158,6 +158,7 @@ const Login = () => {
                         <span className='login-form-main-password'>Forgot Password?</span>
                     </div>
                     <div className='login-form-main-buttons'>
+                       
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
                         <button type='submit' className='login-form-main-login'>Login</button>
                     </div>

@@ -318,8 +318,9 @@ const EditCreatePO = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
+                <button type='submit' className={styles['create-invoices-submit']}>Edit</button>
                     <div className={styles['create-invoices-cancel']}>Cancel</div>
-                    <button type='submit' className={styles['create-invoices-submit']}>Edit</button>
+                   
                 </div>
             </form>
         </div>

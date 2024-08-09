@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../style/searchdetails.css';
+import Search from '../assest/Buy/search-icon.svg'
 import SearchMarketDetailsCard from './SearchMarketDetailsCard';
 import SearchFilterSection from './SearchFilterSection';
 import jsPDF from 'jspdf';
@@ -10,19 +11,19 @@ import { postRequestWithToken } from '../api/Requests';
 
 const SearchMarketProductDetails = () => {
     const [showModal, setShowModal] = useState(false);
-    const navigate              = useNavigate();
-    const { medicineId }        = useParams()
+    const navigate = useNavigate();
+    const { medicineId } = useParams()
 
-    const [details, setDetails]                           = useState()
-    const [medId, setMedId]                               = useState(medicineId)
-    const [supplierId, setSupplierId]                     = useState()
-    const [medicineName, setMedicineName]                 = useState()
-    const [newMedicineName, setNewMedicineName]           = useState()
+    const [details, setDetails] = useState()
+    const [medId, setMedId] = useState(medicineId)
+    const [supplierId, setSupplierId] = useState()
+    const [medicineName, setMedicineName] = useState()
+    const [newMedicineName, setNewMedicineName] = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
-    const [countryAvailableIn, setCountryAvailableIn]     = useState([])
+    const [countryAvailableIn, setCountryAvailableIn] = useState([])
 
-    const [currentPage, setCurrentPage]   = useState(1);
-    const [totalItems, setTotalitems]     = useState()
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalitems] = useState()
     const itemsPerPage = 2;
 
     const handleDownloadPDF = () => {
@@ -55,9 +56,9 @@ const SearchMarketProductDetails = () => {
     };
 
     //filter state variables
-    const [priceRange, setPriceRange]     = useState([])
+    const [priceRange, setPriceRange] = useState([])
     const [deliveryTime, setDeliveryTime] = useState([])
-    const [stockedIn, setStockedIn]       = useState([])
+    const [stockedIn, setStockedIn] = useState([])
     const [totalQuantity, setTotalQuantity] = useState([])
     const [reset, setReset] = useState()
 
@@ -70,18 +71,18 @@ const SearchMarketProductDetails = () => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
-        
+
         const obj = {
-            medicine_id : medId,
-            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage
+            medicine_id: medId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
         }
-        
+
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setDetails(response?.result?.data)
@@ -89,23 +90,23 @@ const SearchMarketProductDetails = () => {
                 setCountryAvailableIn(response?.result?.countryAvailable)
                 setSupplierId(response.result?.supplier_id)
             } else {
-               console.log('error in med details api');
+                console.log('error in med details api');
             }
-          })
-    },[medId])
+        })
+    }, [medId])
 
     useEffect(() => {
         const obj = {
 
-            medicine_id   : medicineId, 
-            medicine_type : 'secondary market',
-            status : 1,
+            medicine_id: medicineId,
+            medicine_type: 'secondary market',
+            status: 1,
             // supplier_id   : supplierId,
-            medicine_name : medicineName,
-            price_range  : priceRange,
-            delivery_time : deliveryTime,
-            in_stock  :stockedIn,
-            quantity_range : totalQuantity,
+            medicine_name: medicineName,
+            price_range: priceRange,
+            delivery_time: deliveryTime,
+            in_stock: stockedIn,
+            quantity_range: totalQuantity,
             pageNo: 1,
             pageSize: 3
             // medicine_name : medicineName
@@ -115,10 +116,10 @@ const SearchMarketProductDetails = () => {
                 setSimilarMedicinesList(response.result)
                 setTotalitems(response.result.totalItems)
             } else {
-               console.log('error in similar-medicine-list api');
+                console.log('error in similar-medicine-list api');
             }
-          })
-    },[medicineName,medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
+        })
+    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -165,11 +166,6 @@ const SearchMarketProductDetails = () => {
                                         <div className='product-details-two-left-text'>GMP approvals :</div>
                                         <div className='product-details-two-right-text'>{details?.gmp_approvals}</div>
                                     </div>
-                                    {/* <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Country available in :</div>
-                                        <div className='product-details-two-right-text'>UAE</div>
-                                    </div> */}
-                                  
                                 </div>
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
@@ -188,7 +184,7 @@ const SearchMarketProductDetails = () => {
                                         <div className='product-details-two-left-text'>Condition :</div>
                                         <div className='product-details-two-right-text'>{details?.condition}</div>
                                     </div>
-                                    
+
                                 </div>
                                 <div className="product-details-sec-two-button-cont">
                                     <div className='product-details-view-button-invoice' onClick={toggleModal}>
@@ -207,44 +203,88 @@ const SearchMarketProductDetails = () => {
                         </div>
                         {/* End the description section */}
                         {/* Start the filter section */}
+                        <div className='search-details-container'>
+                            <div className="search-details-mfg-heading">Manufacturer Details</div>
+                            <div className="search-details-section-two">
+                                <div className="search-details-sec-two-left">
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Name :</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.supplier_name}</div>
+                                    </div>
+                                </div>
+                                <div className="search-details-sec-two-left">
+                                    <div className="search-details-two">
+                                        <div className='search-details-two-left-text'>Country of origin :</div>
+                                        <div className='search-details-two-right-text'>{details?.supplier?.country_of_origin}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='search-details-containers'>
+                            <div className="search-details-mfg-container">
+                                <div className="search-details-mfg-heading">Description</div>
+                                <div className="search-details-mfg-details">The EU pharmaceutical manufacturer stands at the forefront of the global healthcare
+                                    industry, operating in 60 markets worldwide. Specializing in key therapeutic areas such as Cold
+                                    and Flu, Ophthalmology, and Dermatology. Notably, they have pioneered the world's first portfolio
+                                    of microplastic-free nasal care products. With 25 years of ophthalmological expertise, the
+                                    company possesses a cutting-edge technological platform for developing and producing highly
+                                    demanding sterile solutions, reinforcing its position as a leader in pharmaceutical innovation.</div>
+                            </div>
+                        </div>
+                        {/* start the search container code */}
+                        <div className='search-product-search-details'>
+                            <div className='buy-seller-search-container'>
+                                <input className='buy-seller-search-input' type='text'
+                                    placeholder='Search Product'
+                                />
+                                <div className='buy-seller-search' >
+                                    <img className='buy-seller-search-icon' src={Search} alt='img' />
+                                    Search
+                                </div>
+                            </div>
+                        </div>
+                        {/* Start the filter section */}
                         <div className='search-filter-section'>
-                            <SearchFilterSection 
-                                countryAvailable = {countryAvailableIn}
-                                handlePriceRange = {setPriceRange}
-                                handleDeliveryTime = {setDeliveryTime}
-                                handleStockedIn = {setStockedIn}
-                                handleQuantity = {setTotalQuantity}
-                                handleReset = {handleReset}
+                            <SearchFilterSection
+                                countryAvailable={countryAvailableIn}
+                                handlePriceRange={setPriceRange}
+                                handleDeliveryTime={setDeliveryTime}
+                                handleStockedIn={setStockedIn}
+                                handleQuantity={setTotalQuantity}
+                                handleReset={handleReset}
                             />
                         </div>
                         {/* End the filter section */}
                         {/* start the ecommerce card */}
-                        <div className='search-details-card-container'>
-                            <SearchMarketDetailsCard 
-                                similarMedicines = {similarMedicinesList}
-                                totalItems = {totalItems}
-                                currentPage = {currentPage}
-                                itemsPerPage = {itemsPerPage}
-                                handlePageChange = {handlePageChange}
+                        <div className='search-details-card-main-section-cont'>
+                            <div className='search-details-card-containers-heading'>Suppliers List</div>
+                            <div className='search-details-card-container'>
+                                <SearchMarketDetailsCard
+                                    similarMedicines={similarMedicinesList}
+                                    totalItems={totalItems}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    handlePageChange={handlePageChange}
 
-                            />
+                                />
+                            </div>
                         </div>
                         {/* end the ecommerce card */}
                     </div>
                 </div>
                 {showModal && (
-                <div className="market-modal" onClick={closeModal}>
-                    <div className="market-modal-content">
-                        <span className="market-close" onClick={toggleModal}>&times;</span>
-                        <div id="invoice-section">
-                            <SupplierPurchaseInvoice />
-                        </div>
-                        <div className='invoice-download-button-container'>
-                        <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>
+                    <div className="market-modal" onClick={closeModal}>
+                        <div className="market-modal-content">
+                            <span className="market-close" onClick={toggleModal}>&times;</span>
+                            <div id="invoice-section">
+                                <SupplierPurchaseInvoice />
+                            </div>
+                            <div className='invoice-download-button-container'>
+                                <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
         </>
     )

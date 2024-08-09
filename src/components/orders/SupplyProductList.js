@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../../style/supplyproductlist.css';
-import Image from '../../assest/para.webp';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -45,44 +44,7 @@ const SupplyProductList = ({productsData, totalProducts, currentPage,  productsP
   return (
     <div className='supply-product-list-main-sections'>
       <div className='supplier-product-card-main-section'>
-        {/* {currentItems.map((product) => (
-          <div key={product.id} className='supply-product-list-container'>
-            <div className='supply-product-left-container'>
-              <div className='supply-product-left-image-cont'>
-                <img src={Image} alt='Product' />
-              </div>
-              <div className='supply-product-left-button-cont'>
-                <span className='supply-product-left-button-details'>View Details</span>
-              </div>
-            </div>
-            <div className='supply-product-right-container'>
-              <div className='supply-product-right-first-heading-section'>
-                <div className='supply-product-right-container-main-heading'>Medicine Name</div>
-                <div className='supply-product-right-container-main-text'>{product.name}</div>
-              </div>
-              <div className='supply-product-right-first-section'>
-                <div className='supply-product-right-container-head'>Country of origin</div>
-                <div className='supply-product-right-container-text'>{product.country}</div>
-              </div>
-              <div className='supply-product-right-first-section'>
-                <div className='supply-product-right-container-head'>Stocked in</div>
-                <div className='supply-product-right-container-text'>{product.stocked}</div>
-              </div>
-              <div className='supply-product-right-first-section'>
-                <div className='supply-product-right-container-head'>Dossier Type</div>
-                <div className='supply-product-right-container-text'>{product.dossierType}</div>
-              </div>
-              <div className='supply-product-right-first-section'>
-                <div className='supply-product-right-container-head'>Dossier Status</div>
-                <div className='supply-product-right-container-text'>{product.dossierStatus}</div>
-              </div>
-              <div className='supply-product-right-first-section'>
-                <div className='supply-product-right-container-head'>GMP Approvals</div>
-                <div className='supply-product-right-container-text'>{product.gmpApprovals}</div>
-              </div>
-            </div>
-          </div>
-        ))} */}
+       
       {
           productsData?.map((product, i) => {
             const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
@@ -113,7 +75,7 @@ const SupplyProductList = ({productsData, totalProducts, currentPage,  productsP
                 </div>
                 <div className='supply-product-right-first-section'>
                   <div className='supply-product-right-container-head'>Stocked in</div>
-                  <div className='supply-product-right-container-text'>{product.stocked_in?.join(', ')}</div>
+                  <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
                 </div>
                 <div className='supply-product-right-first-section'>
                   <div className='supply-product-right-container-head'>Dossier Type</div>

@@ -68,8 +68,15 @@
   font-weight: 500;
   width: 200px;
 }
-.mysupplier-card-text {
-  font-size: 14px;
+  .mysupplier-card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-size: 14px;
+    width: 300px;
 }
 .mysupplier-card-button {
   display: flex;
@@ -90,12 +97,12 @@
 
 .mysupplier-image-section{
   width: 80px;
-  height: auto;
+  height: 60px;
 
 }
-.mysupplier-image-section img{
-width: 100%;
-height: auto;
+.mysupplier-image-section img {
+  width: 60px;
+  height: 50px;
 }
 
 @media (max-width: 1480px) {

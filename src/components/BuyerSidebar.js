@@ -61,8 +61,12 @@ import SuccessfulInquiryModal from '../components/SuccessfulInquiryModal.js'
 import EditCreatePO from '../components/EditCreatePO.js'
 import CustomOrderModal from './CustomOrderModal.js';
 import ProformaInvoice from './invoice/ProformaInvoice.js';
+<<<<<<< Updated upstream
 import { postRequestWithToken } from '../api/Requests.js';
 
+=======
+import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
+>>>>>>> Stashed changes
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -167,6 +171,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
                         <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO/>} />
                         <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
+                        <Route path="/buyer/ProformaInvoiceDetails" element={<ProformaInvoiceDetails/>} />
                         
                         {/* start the inquiry orders */}
                         <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />

@@ -160,16 +160,16 @@ const OrderDetails = () => {
             {/* start the main component heading */}
             <div className='active-order-details-left-bottom-containers'>
                 <div className='active-order-details-left-bottom-vehichle'>
-                    <div className='active-order-details-left-bottom-vehicle-head'>Commodity</div>
-                    <div className='active-order-details-left-bottom-vehicle-text'>Steel Plates - 20 Ton</div>
+                    <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
+                    <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
-                    <div className='active-order-details-left-bottom-vehichle-no-head'>Order Rate</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>AED 2152/TRWB</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
-                    <div className='active-order-details-left-bottom-vehichle-no-head'>Pickup Date & Time</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>24/12/2019, 12:00 PM</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>120 USD</div>
                 </div>
             </div>
             {/* end the main component heading */}

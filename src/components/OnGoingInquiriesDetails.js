@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../style/orderdetails.css";
+import "../style/ongoingdetails.css";
 import OnGoingList from "./OnGoingList";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../api/Requests";
@@ -202,43 +202,43 @@ const OnGoingInquiriesDetails = () => {
   }
 
   return (
-    <div className="order-details-container">
-      <div className="order-details-conatiner-heading">
+    <div className="ongoing-details-container">
+      <div className="ongoing-details-conatiner-heading">
         Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
       </div>
-      <div className="order-details-section">
-        <div className="order-details-left-section">
-          <div className="order-details-top-inner-section">
-            <div className="order-details-left-inner-section-container">
-              <div className="order-details-left-top-containers">
+      <div className="ongoing-details-section">
+        <div className="ongoing-details-left-section">
+          <div className="ongoing-details-top-inner-section">
+            <div className="ongoing-details-left-inner-section-container">
+              <div className="ongoing-details-left-top-containers">
                 <Link
                   to={`/buyer/supplier-details/${inquiryDetails?.supplier?.supplier_id}`}
                 >
-                  <div className="order-details-top-order-cont">
-                    <div className="order-details-left-top-main-heading">
+                  <div className="ongoing-details-top-order-cont">
+                    <div className="ongoing-details-left-top-main-heading">
                       {" "}
                       Supplier Name
                     </div>
-                    <div className="order-details-left-top-main-contents">
+                    <div className="ongoing-details-left-top-main-contents">
                       {" "}
                       {inquiryDetails?.supplier?.supplier_name}
                     </div>
                   </div>
                 </Link>
-                <div className="order-details-top-order-cont">
-                  <div className="order-details-left-top-main-heading">
+                <div className="ongoing-details-top-order-cont">
+                  <div className="ongoing-details-left-top-main-heading">
                     Type
                   </div>
-                  <div className="order-details-left-top-main-contents">
+                  <div className="ongoing-details-left-top-main-contents">
                     {inquiryDetails?.supplier?.supplier_type || "Manufacturer"}
                   </div>
                 </div>
-                <div className="order-details-top-order-cont">
-                  <div className="order-details-left-top-main-heading">
+                <div className="ongoing-details-top-order-cont">
+                  <div className="ongoing-details-left-top-main-heading">
                     {" "}
                     Date & Time
                   </div>
-                  <div className="order-details-left-top-main-contents">
+                  <div className="ongoing-details-left-top-main-contents">
                     {moment(inquiryDetails?.created_at)
                       .tz("Asia/Kolkata")
                       .format("DD/MM/YYYY HH:mm:ss")}
@@ -250,7 +250,7 @@ const OnGoingInquiriesDetails = () => {
         </div>
       </div>
       {/* start the assign driver section */}
-      <div className="order-details-assign-driver-section">
+      <div className="ongoing-details-assign-driver-section">
         <OnGoingList items={inquiryDetails?.items} />
       </div>
       {/* end the assign driver section */}
@@ -264,8 +264,13 @@ const OnGoingInquiriesDetails = () => {
       </div>
       {/* end the button container */}
       {/* Start the return enquiry section */}
+<<<<<<< Updated upstream
       {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="order-details-assign-driver-section">
+=======
+      {inquiryDetails?.quotation_items.length > 0 ? (
+        <div className="ongoing-details-assign-driver-section">
+>>>>>>> Stashed changes
           <ProductList
             quotationItems={inquiryDetails?.quotation_items}
             handleAccept={handleAccept}
@@ -278,29 +283,29 @@ const OnGoingInquiriesDetails = () => {
 
       {inquiryDetails?.quotation_items?.length > 0 &&
       inquiryDetails?.payment_terms?.length > 0 ? (
-        <div className="order-details-payment-pending-container">
-          <div className="order-details-payment-pending-left-section">
-            <div className="order-details-payment-pending-terms-cont">
-              <div className="order-details-payment-pending-first-terms-cont">
-                <div className="order-details-payment-first-terms-heading">
+        <div className="ongoing-details-payment-pending-container">
+          <div className="ongoing-details-payment-pending-left-section">
+            <div className="ongoing-details-payment-pending-terms-cont">
+              <div className="ongoing-details-payment-pending-first-terms-cont">
+                <div className="ongoing-details-payment-first-terms-heading">
                   Est. Delivery Time
                 </div>
-                <div className="order-details-payment-first-terms-text">
+                <div className="ongoing-details-payment-first-terms-text">
                   {inquiryDetails?.supplier?.estimated_delivery_time}
                 </div>
               </div>
             </div>
           </div>
-          <div className="order-details-paymen-pending-right-section">
-            <div className="order-details-payment-first-terms-containers">
-              <div className="order-details-payment-first-terms-heading">
+          <div className="ongoing-details-paymen-pending-right-section">
+            <div className="ongoing-details-payment-first-terms-containers">
+              <div className="ongoing-details-payment-first-terms-heading">
                 Payment Terms
               </div>
-              <div className="order-details-payment-first-terms-text">
-                <ul className="order-details-payment-ul-section">
+              <div className="ongoing-details-payment-first-terms-text">
+                <ul className="ongoing-details-payment-ul-section">
                   {inquiryDetails?.payment_terms?.map((terms, i) => {
                     return (
-                      <li className="order-details-payment-li-section">
+                      <li className="ongoing-details-payment-li-section">
                         {terms}
                       </li>
                     );
@@ -316,9 +321,7 @@ const OnGoingInquiriesDetails = () => {
       {inquiryDetails?.quotation_items?.length > 0 &&
       inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="pending-order-button-section">
-          <a href={mailtoLink} className="pending-order-contact-order">
-            Contact Supplier
-          </a>
+         
           {acceptedItems.length > 0 ? (
             <Link to={`/buyer/Create-PO/${inquiryId}`}>
               <div className="pending-order-create-order">
@@ -330,6 +333,9 @@ const OnGoingInquiriesDetails = () => {
               Create Purchased Order
             </div>
           )}
+           <a href={mailtoLink} className="pending-order-contact-order">
+            Contact Supplier
+          </a>
         </div>
       ) : (
         ""

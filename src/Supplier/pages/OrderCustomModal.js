@@ -49,14 +49,38 @@ const OrderCustomModal = ({ show, onClose }) => {
                         <input placeholder='Enter Mobile No.' className={styles['order-modal-input']} type="text" name="phone" value={formData.phone} onChange={handleChange} required />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Full Address</label>
+                        <label className={styles['order-modal-label']}>Address</label>
+                        <input placeholder='Enter Full Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>City/District</label>
+                        <input placeholder='Enter Full Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>State</label>
+                        <input placeholder='Enter Full Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Pin Code</label>
                         <input placeholder='Enter Full Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Preferred Time Of Pickup</label>
                         <input placeholder='Enter Preferred Time Of Pickup ' className={styles['order-modal-input']} type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
                     </div>
-
+                    <div className={styles['order-modal-main-heading']}>Shipment Details</div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>No. of Packages</label>
+                        <input placeholder='Enter No. of Packages' className={styles['order-modal-input']} type="text" name="packages" value={formData.packages} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Total Weight</label>
+                        <input placeholder='Enter Weight' className={styles['order-modal-input']} type="text" name="weight" value={formData.weight} onChange={handleChange} required />
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Total Volume</label>
+                        <input placeholder='Enter Length*Width*Height' className={styles['order-modal-input']} type="text" name="volume" value={formData.volume} onChange={handleChange} required />
+                    </div>
                     <div className={styles['order-modal-main-heading']}>Buyer Details</div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Buyer Name</label>

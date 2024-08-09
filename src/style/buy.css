@@ -225,7 +225,8 @@ ul {
   column-gap: 5px;
 }
 .buy-seller-copmany-img img {
-  width: 60px;
+  width: 50px;
+  height: 50px;
 }
 .buy-seller-company-content-section {
   width: 100%;
@@ -253,6 +254,12 @@ ul {
 }
 .buy-seller-company-short-description {
   font-size: 13px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 .buy-seller-company-card-button {
   background: linear-gradient(to left, #00dcff, #0075ce);

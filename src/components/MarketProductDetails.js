@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
-import para from '../assest/para.webp';
 import CountryDetails from '../components/sections/CountryDetails';
-import ProductDetailsCard from './ProductDetailsCard';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import SupplierPurchaseInvoice from './pay/SupplierPurchaseInvoice';
 import jsPDF from 'jspdf';
@@ -115,125 +113,122 @@ const MarketProductDetails = () => {
     return (
         <>
             <div className='main-product-details-container'>
-                <div className="product-details-cover">
-                    <div className='product-details-container-main'>
-                        <div className="product-details-section-one">
-                            <div className="product-details-sec-one-left">
+                <div className="buyer-product-details-cover">
+                    <div className='buyer-product-details-container-main'>
+                        <div className="buyer-product-details-section-one">
+                            <div className="buyer-product-details-sec-one-left">
                                 <h4>
-                                {details?.medicine_name} <span className='product-details-stength'> ({details?.strength})</span>
+                                {details?.medicine_name} <span className='buyer-product-details-stength'> ({details?.strength})</span>
                                 </h4>
                                 <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {details?.composition}
                                 </p>
                             </div>
-                            {/* <div className="product-details-sec-one-right">
-                                <button className='product-details-send-btn'>Send Inquiry</button>
-                            </div> */}
                         </div>
                     </div>
 
-                    <div className="product-details-wrapper">
-                        <div className='product-details-container'>
-                            <div className="product-details-section-two">
-                                <div className="product-details-sec-two-left">
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Purchased on :</div>
-                                        <div className='product-details-two-right-text'>{details?.purchased_on}</div>
+                    <div className="buyer-product-details-wrapper">
+                        <div className='buyer-product-details-container'>
+                            <div className="buyer-product-details-section-two">
+                                <div className="buyer-product-details-sec-two-left">
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Purchased on :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.purchased_on}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Country available in :</div>
-                                        <div className='product-details-two-right-text'>{details?.country_available_in?.join(', ')}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Country available in :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.country_available_in?.join(', ')}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Total Quantity :</div>
-                                        <div className='product-details-two-right-text'>{details?.total_quantity}</div>
-                                    </div>
-                                </div>
-                                <div className="product-details-sec-two-left">
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Unit price :</div>
-                                        <div className='product-details-two-right-text'>{details?.unit_price}</div>
-                                    </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Minimum purchase :</div>
-                                        <div className='product-details-two-right-text'>{details?.min_purchase_unit} Unit</div>
-                                    </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Condition :</div>
-                                        <div className='product-details-two-right-text'>{details?.condition}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Total Quantity :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.total_quantity}</div>
                                     </div>
                                 </div>
-                                <div className="product-details-sec-two-button-cont">
-                                    <div className='product-details-view-button-invoice' onClick={toggleModal}>
+                                <div className="buyer-product-details-sec-two-left">
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Unit price :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.unit_price}</div>
+                                    </div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Minimum purchase :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.min_purchase_unit} Unit</div>
+                                    </div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Condition :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.condition}</div>
+                                    </div>
+                                </div>
+                                <div className="buyer-product-details-sec-two-button-cont">
+                                    <div className='buyer-product-details-view-button-invoice' onClick={toggleModal}>
                                         <span className='view-purchase-invoice-button-sec'>View Purchase Invoice</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='product-details-container'>
-                        <div className="product-details-section-two">
-                                <div className="product-details-sec-two-left">
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Shipping time :</div>
-                                        <div className='product-details-two-right-text'>{details?.shipping_time}</div>
+                        <div className='buyer-product-details-container'>
+                        <div className="buyer-product-details-section-two">
+                                <div className="buyer-product-details-sec-two-left">
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Shipping time :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.shipping_time}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier type :</div>
-                                        <div className='product-details-two-right-text'>{details?.dossier_type}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Dossier type :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.dossier_type}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier status :</div>
-                                        <div className='product-details-two-right-text'>{details?.dossier_status}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Dossier status :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.dossier_status}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Type of form :</div>
-                                        <div className='product-details-two-right-text'>{details?.type_of_form}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Type of form :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.type_of_form}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Stocked in :</div>
-                                        <div className='product-details-two-right-text'>{details?.stocked_in}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Stocked in :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.stocked_in}</div>
                                     </div>
                                 </div>
-                                <div className="product-details-sec-two-left">
-                                <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Product category :</div>
-                                        <div className='product-details-two-right-text'>{details?.medicine_category}</div>
+                                <div className="buyer-product-details-sec-two-left">
+                                <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Product category :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.medicine_category}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Shelf life :</div>
-                                        <div className='product-details-two-right-text'>{details?.shelf_life}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Shelf life :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.shelf_life}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Country of origin :</div>
-                                        <div className='product-details-two-right-text'>{details?.country_of_origin}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>Country of origin :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.country_of_origin}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>GMP approvals :</div>
-                                        <div className='product-details-two-right-text'>{details?.gmp_approvals}</div>
+                                    <div className="buyer-product-details-two">
+                                        <div className='buyer-product-details-two-left-text'>GMP approvals :</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.gmp_approvals}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className='product-details-container'>
-                            {/* <div className="product-details-section-two-img">
-                                <div className="product-details-sec-img-left">
+                        <div className='buyer-product-details-container'>
+                            {/* <div className="buyer-product-details-section-two-img">
+                                <div className="buyer-product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
-                                <div className="product-details-sec-img-left">
+                                <div className="buyer-product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
-                                <div className="product-details-sec-img-left">
+                                <div className="buyer-product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
-                                <div className="product-details-sec-img-left">
+                                <div className="buyer-product-details-sec-img-left">
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
                             </div> */}
 
-                            <div className="product-details-section-two-img"> 
+                            <div className="buyer-product-details-section-two-img"> 
                                          {details?.medicine_image?.map((image, j) => (
-                                            <div className="product-details-sec-img-left" key={j}>
+                                            <div className="buyer-product-details-sec-img-left" key={j}>
                                                 <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${image.medicine_name} ${j}`} className="responsive-image" />
                                             </div>
                                 
@@ -241,67 +236,68 @@ const MarketProductDetails = () => {
                             </div> 
 
                         </div>
-                        <div className='product-details-container'>
-                            <div className="product-details-country-section">
-                                <div className="product-details-county">
-                                    <div className='product-details-four-left-text'>Registered in :</div>
-                                    <div className='product-details-four-right-text'> <CountryDetails countryData = {details?.registered_in}/></div>
+                        <div className='buyer-product-details-container'>
+                            <div className="buyer-product-details-country-section">
+                                <div className="buyer-product-details-county">
+                                    <div className='buyer-product-details-four-left-text'>Registered in :</div>
+                                    <div className='buyer-product-details-four-right-text'> <CountryDetails countryData = {details?.registered_in}/></div>
                                 </div>
-                                <div className="product-details-county">
-                                    <div className='product-details-four-left-text'>Tags :</div>
-                                    <div className='product-details-four-right-text'>{details?.tags?.join(', ')}</div>
+                                <div className="buyer-product-details-county">
+                                    <div className='buyer-product-details-four-left-text'>Tags :</div>
+                                    <div className='buyer-product-details-four-right-text'>{details?.tags?.join(', ')}</div>
                                 </div>
-                                <div className="product-details-county">
-                                    <div className='product-details-four-left-text'>Available for :</div>
-                                    <div className='product-details-four-right-text'>{details?.available_for}</div>
+                                <div className="buyer-product-details-county">
+                                    <div className='buyer-product-details-four-left-text'>Available for :</div>
+                                    <div className='buyer-product-details-four-right-text'>{details?.available_for}</div>
                                 </div>
-                                <div className="product-details-county">
-                                    <div className='product-details-four-left-text'>Comments :</div>
-                                    <div className='product-details-four-right-text'>
+                                <div className="buyer-product-details-county">
+                                    <div className='buyer-product-details-four-left-text'>Comments :</div>
+                                    <div className='buyer-product-details-four-right-text'>
                                        {details?.description}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='product-details-containers'>
-                            <div className="product-details-mfg-container">
-                                <div className="product-details-mfg-heading">About Supplier #{details?.supplier?.supplier_id}</div>
-                                <div className="product-details-mfg-details">{details?.supplier?.description}</div>
+                        <div className='buyer-product-details-containers'>
+                            <div className="buyer-product-details-mfg-container">
+                                <div className="buyer-product-details-mfg-heading">About Supplier #{details?.supplier?.supplier_id}</div>
+                                <div className="buyer-product-details-mfg-details">{details?.supplier?.description}</div>
                             </div>
                         </div>
-                        <div className='product-details-company-section'>
-                            <div className='product-details-company-conatiner'>
-                                <div className='product-details-inner-company'>
+                        <div className='buyer-product-details-company-section'>
+                            <div className='buyer-product-details-company-conatiner'>
+                                <div className='buyer-product-details-inner-company'>
                                     <Link to='/buyer/supplier-details'>
-                                        <div className='product-details-inner-copmany-head'>Supplier name :</div>
-                                        <div className='product-details-inner-copmany-text'>{details?.supplier?.supplier_name}</div>
+                                        <div className='buyer-product-details-inner-copmany-head'>Supplier name :</div>
+                                        <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_name}</div>
                                     </Link>
                                 </div>
-                                <div className='product-details-inner-company'>
-                                    <div className='product-details-inner-copmany-head'>License no. :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
+                                <div className='buyer-product-details-inner-company'>
+                                    <div className='buyer-product-details-inner-copmany-head'>License no. :</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
                                 </div>
                                 
                             </div>
-                            <div className='product-details-company-conatiner'>
-                            <div className='product-details-inner-company'>
-                                    <div className='product-details-inner-copmany-head'>Address :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.supplier_address}</div>
+                            <div className='buyer-product-details-company-conatiner'>
+                            <div className='buyer-product-details-inner-company'>
+                                    <div className='buyer-product-details-inner-copmany-head'>Address :</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_address}</div>
                                 </div>
-                                <div className='product-details-inner-company'>
-                                    <div className='product-details-inner-copmany-head'>Payment terms :</div>
-                                    <div className='product-details-inner-copmany-text'>{details?.supplier?.payment_terms}</div>
+                                <div className='buyer-product-details-inner-company'>
+                                    <div className='buyer-product-details-inner-copmany-head'>Payment terms :</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.payment_terms}</div>
                                 </div>
                             </div>
                         </div>
-                        <div className='product-details-main-button-section'>
-                            <div className='product-details-cancel-button'>Cancel</div>
-                              <Link to='/buyer/send-inquiry'>
-                            <div className='product-details-list-button'>Add to List</div>
+                        <div className='buyer-product-details-main-button-section'>
+                        <Link to='/buyer/send-inquiry'>
+                            <div className='buyer-product-details-list-button'>Add to List</div>
                             </Link>
+                            <div className='buyer-product-details-cancel-button'>Cancel</div>
+                              
                         </div>
                         {/* start the ecommerce card */}
-                        <div className='product-details-card-container'>
+                        <div className='buyer-product-details-card-container'>
                             {/* <ProductDetailsCard /> */}
                             <SecondaryProductDetails 
                                 similarMedicines = {similarMedicinesList}
