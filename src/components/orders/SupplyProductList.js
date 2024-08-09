@@ -70,11 +70,11 @@ const SupplyProductList = ({productsData, totalProducts, currentPage,  productsP
                   <div className='supply-product-right-container-main-text'>{product.composition}</div>
                 </div>
                 <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Country of origin</div>
+                  <div className='supply-product-right-container-head'>Country of Origin</div>
                   <div className='supply-product-right-container-text'>{product.country_of_origin}</div>
                 </div>
                 <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Stocked in</div>
+                  <div className='supply-product-right-container-head'>Stocked In</div>
                   <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
                 </div>
                 <div className='supply-product-right-first-section'>

@@ -182,11 +182,11 @@ const Buy2ndMarket = ({active}) => {
                                         <div className='byproduct-product-card-first-copmany-description'>{medicine.composition || 'paracetamol' }</div>
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
-                                        <div className='byproduct-product-card-second-head'>Country of origin</div>
+                                        <div className='byproduct-product-card-second-head'>Country of Origin</div>
                                         <div className='byproduct-product-card-second-text'>{medicine.country_of_origin}</div>
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
-                                        <div className='byproduct-product-card-second-head'>Stocked in</div>
+                                        <div className='byproduct-product-card-second-head'>Stocked In</div>
                                         <div className='byproduct-product-card-second-text'>{medicine.quantity}</div>
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
