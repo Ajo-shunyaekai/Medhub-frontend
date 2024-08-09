@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom';
-import styles from '../../style/pendingInvoice.css';
+import '../../style/pendingInvoice.css';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
 import { Link, useNavigate } from 'react-router-dom';
@@ -64,7 +64,6 @@ const ProformaInvoice = ({invoiceList}) => {
                                         <th className="text-muted invoice-th">Invoice No.</th>
                                         <th className="text-muted invoice-th">Order ID</th>
                                         <th className="text-muted invoice-th">Customer Name</th>
-                                        <th className="text-muted invoice-th">Amount</th>
                                         <th className="text-muted invoice-th">Payment Type</th>
                                         <th className="text-muted invoice-th">Status</th>
                                         <th className="text-muted invoice-th">Action</th>
@@ -86,11 +85,6 @@ const ProformaInvoice = ({invoiceList}) => {
                                 <td>
                                     <span className="item-title">{ invoice?.supplier?.supplier_name}</span>
                                 </td>
-                                <td>
-                                    <div className="mx-0">
-                                        <span className="item-title text-color">{invoice.totalPrice} AED</span>
-                                    </div>
-                                </td>
 
                                 <td className="flex">
                                     <span className="item-title text-color">COD</span>
@@ -100,7 +94,7 @@ const ProformaInvoice = ({invoiceList}) => {
                                 </td>
                                 <td>
                                     <div className='invoice-details-button-row'>
-                                        <Link to={`/buyer/invoice-design/${invoice.order_id}`}>
+                                        <Link to={`/buyer/Proforma-Invoice-Details`}>
                                             <div className='invoice-details-button-column'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                             </div>

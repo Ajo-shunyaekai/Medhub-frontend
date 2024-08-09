@@ -185,8 +185,8 @@ const MarketProductDetails = () => {
                                         <div className='buyer-product-details-two-right-text'>{details?.type_of_form}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Stocked in :</div>
-                                        <div className='buyer-product-details-two-right-text'>{details?.stocked_in}</div>
+                                        <div className='buyer-product-details-two-left-text'>Unit tax :</div>
+                                        <div className='buyer-product-details-two-right-text'>5%</div>
                                     </div>
                                 </div>
                                 <div className="buyer-product-details-sec-two-left">

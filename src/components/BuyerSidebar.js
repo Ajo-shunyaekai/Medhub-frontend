@@ -168,7 +168,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
                         <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO/>} />
                         <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
-                        <Route path="/buyer/ProformaInvoiceDetails" element={<ProformaInvoiceDetails/>} />
+                        <Route path="/buyer/Proforma-Invoice-Details" element={<ProformaInvoiceDetails/>} />
                         
                         {/* start the inquiry orders */}
                         <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />
