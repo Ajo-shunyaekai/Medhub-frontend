@@ -13,6 +13,7 @@ const ActiveOrdersDetails = () => {
 
     const [orderDetails, setOrderDetails] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -35,7 +36,7 @@ const ActiveOrdersDetails = () => {
                 console.log('error in order details api');
             }
         });
-    }, [orderId, navigate]);
+    }, [orderId, navigate, refresh]);
 
     const openModal = () => {
         setShowModal(true);
@@ -61,9 +62,11 @@ const ActiveOrdersDetails = () => {
                                 </Link>
                                 <div className='active-order-details-top-order-cont'>
                                     <div className='active-order-details-left-top-main-heading'> Order Status</div>
-                                    <div className='active-order-details-left-top-main-contents'> {orderDetails?.order_status}</div>
+                                    <div className='active-order-details-left-top-main-contents'> {orderDetails?.status}</div>
                                 </div>
-                                <div className='active-order-details-top-order-cont'>
+                                {
+                                    orderDetails?.status === 'Awaiting Details from Seller' ?
+                                    <div className='active-order-details-top-order-cont'>
                                     <div
                                         className='active-order-details-left-top-main-heading-button'
                                         onClick={openModal}
@@ -71,7 +74,9 @@ const ActiveOrdersDetails = () => {
                                     >
                                         Submit Details
                                     </div>
-                                </div>
+                                </div> : ''
+                                }
+                                
                             </div>
                             <div className='active-order-details-left-bottom-containers'>
                                 <div className='active-order-details-left-bottom-vehichle'>
@@ -121,56 +126,76 @@ const ActiveOrdersDetails = () => {
                         </div>
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='active-order-details-payment-first-terms-text'>14 Days</div>
+                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '-'}</div>
                         </div>
                     </div>
                     <div className='active-order-details-payment-detention-cont'>
                         <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
+                        
                         <div className='active-order-details-payment-first-terms-text'>
                             <ul className='active-order-details-payment-ul-section'>
-                                <li className='active-order-details-payment-li-section'>30% advance payment 70% on delivery.</li>
-                                <li className='active-order-details-payment-li-section'>50% advance payment 50% on delivery.</li>
-                                <li className='active-order-details-payment-li-section'>70% advance payment 30% on delivery.</li>
-                                <li className='active-order-details-payment-li-section'>100% advance payment.</li>
-                                <li className='active-order-details-payment-li-section'>100% payment on delivery.</li>
+                                {
+                                    orderDetails?.enquiry?.payment_terms?.map((data,i) => {
+                                        return (
+                                            <li className='active-order-details-payment-li-section'>{data}.</li>
+                                        )
+                                        
+                                        
+                                    })
+                                }
+                               
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className='active-order-details-payment-right-section'>
-                    <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
-                    <div className='active-order-details-payment-right-details-row'>
-                        <div className='active-order-details-right-details-row-one'>
-                            <div className='active-order-details-right-pickupdata'>
-                                <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
-                                <div className='active-order-details-right-pickdata-text'>Surya Kumar Sharma</div>
+                    
+                    {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
+                    <>
+                        <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
+                        <div className='active-order-details-payment-right-details-row'>
+                            <div className='active-order-details-right-details-row-one'>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.shipment_details?.supplier_details?.name}</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.shipment_details?.supplier_details?.mobile}</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata-address'>
+                                    <div className='active-order-details-right-pickdata-head'>Address</div>
+                                    <div className='active-order-details-right-pickdata-text'>
+                                        {orderDetails?.shipment_details?.supplier_details?.address}, 
+                                        {orderDetails?.shipment_details?.supplier_details?.ciyt_disctrict},
+                                         {orderDetails?.shipment_details?.supplier_details?.pincode}.
+                                        </div>
+                                </div>
                             </div>
-                            <div className='active-order-details-right-pickupdata'>
-                                <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                <div className='active-order-details-right-pickdata-text'>+971 563658956</div>
+                        </div>
+                        </>
+                )}
+                    
+                    {orderDetails?.logistics_details && (
+                        <>
+                            <hr className='active-order-details-right-pickupdata-hr' />
+                            <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
+                            <div className='active-order-details-right-details-row-one'>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.name}</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.mobile}</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata-address'>
+                                    <div className='active-order-details-right-pickdata-head'>Address</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.address}</div>
+                                </div>
                             </div>
-                            <div className='active-order-details-right-pickupdata-address'>
-                                <div className='active-order-details-right-pickdata-head'>Address</div>
-                                <div className='active-order-details-right-pickdata-text'>Financial Center Rd, Along Sheik Zayed Road, Dubai 22155.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr className='active-order-details-right-pickupdata-hr' />
-                    <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
-                    <div className='active-order-details-right-details-row-one'>
-                        <div className='active-order-details-right-pickupdata'>
-                            <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
-                            <div className='active-order-details-right-pickdata-text'>Mustfa Zaved khan</div>
-                        </div>
-                        <div className='active-order-details-right-pickupdata'>
-                            <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                            <div className='active-order-details-right-pickdata-text'>+971 587452154</div>
-                        </div>
-                        <div className='active-order-details-right-pickupdata-address'>
-                            <div className='active-order-details-right-pickdata-head'>Address</div>
-                            <div className='active-order-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                        </div>
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
             {/* End the section */}
@@ -183,7 +208,14 @@ const ActiveOrdersDetails = () => {
                 <ActiveInvoiceList />
             </div>
             {/* Modal Component */}
-            <OrderCustomModal show={showModal} onClose={closeModal} />
+            <OrderCustomModal 
+                show={showModal} 
+                onClose={closeModal} 
+                buyerData ={orderDetails?.buyer} 
+                orderId={orderId} 
+                buyerId = {orderDetails?.buyer_id} 
+                setRefresh = {setRefresh}
+            />
         </div>
     )
 }

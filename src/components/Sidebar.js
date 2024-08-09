@@ -319,41 +319,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count }) => {
                                             }
                                             
 
-                                            {/* <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    B
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    C
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    D
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    E
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div> */}
+                                          
                                         </div>
 
                                         <div className={styles.noti_bottom_wrapper}>

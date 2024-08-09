@@ -264,7 +264,7 @@ const OnGoingInquiriesDetails = () => {
       </div>
       {/* end the button container */}
       {/* Start the return enquiry section */}
-      {inquiryDetails?.quotation_items.length > 0 ? (
+      {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
           <ProductList
             quotationItems={inquiryDetails?.quotation_items}

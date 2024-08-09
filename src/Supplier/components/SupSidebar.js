@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import order_list from '../assest/dashboard/order_list.svg'
 import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
@@ -253,7 +254,12 @@ const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
                         <div className={styles.nav_notifi_right}>
                             <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
-                            <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} />
+                            <Badge badgeContent={count} color="secondary">
+                                <NotificationsNoneOutlinedIcon 
+                                    className={styles.nav_icon_color} 
+                                    onClick={NotificationDropdown} 
+                                />
+                                </Badge>
                             {isNotificationOpen && (
                                 <div className={styles.noti_container}>
                                     {/* Notificatio content goes here */}
@@ -275,46 +281,12 @@ const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
                                         })
                                     }
 
-                                            {/* <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    B
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    C
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    D
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.noti_profile_wrapper}>
-                                                <div className={styles.noti_profile}>
-                                                    E
-                                                </div>
-                                                <div className={styles.noti_profile_text}>
-                                                    {notificationText.length > 50 ? `${notificationText.slice(0, 50)}...` : notificationText}
-                                                </div>
-                                            </div> */}
+                                           
                                         </div>
 
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                6 Notifications
+                                              {count} Notifications
                                             </div>
 
                                             <Link to='#'>
