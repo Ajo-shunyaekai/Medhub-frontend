@@ -80,6 +80,7 @@ const AddProduct = () => {
     const [countries, setCountries] = useState([]);
     const [medicineImages, setMedicineImages] = useState([])
     const [invoiceImages, setInvoiceImages] = useState([])
+    const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
 
 
     const [errors, setErrors] = useState({});
@@ -107,7 +108,9 @@ const AddProduct = () => {
         //for secondary market
         purchasedOn: '',
         minPurchaseUnit: '',
-        countryAvailableIn: ''
+        countryAvailableIn: '',
+        manufacturerOriginCountry: ''
+
 
 
     })
@@ -395,6 +398,16 @@ const AddProduct = () => {
             setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is required' }));
         } else {
             setErrors(prevState => ({ ...prevState, originCountry: '' }));
+        }
+    };
+
+    const handlemanufacturerCountryOriginChange = (selected) => {
+        setManufacturerCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, manufacturerOriginCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: 'Manufacturer country of origin is required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: '' }));
         }
     };
 
@@ -1230,13 +1243,13 @@ const AddProduct = () => {
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
-                                    name='productName'
+                                    name='manufacturerName'
                                     placeholder='Enter Manufacturer Name'
                                     autoComplete='off'
-                                    value={formData.productName}
+                                    value={formData.manufacturerName}
                                     onChange={handleChange}
                                 />
-                                {errors.productName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.productName}</div>}
+                                {errors.manufacturerName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerName}</div>}
                             </div>
                            
 
@@ -1249,10 +1262,10 @@ const AddProduct = () => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
-                                    value={countryOfOrigin}
-                                    onChange={handleCountryOriginChange}
+                                    value={manufacturerCountryOfOrigin}
+                                    onChange={handlemanufacturerCountryOriginChange}
                                 />
-                                {errors.originCountry && <div className='add-product-errors' style={{ color: 'red' }}>{errors.originCountry}</div>}
+                                {errors.manufacturerOriginCountry&& <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
                             </div>                         
                             <div className={styles['create-invoice-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Description</label>
