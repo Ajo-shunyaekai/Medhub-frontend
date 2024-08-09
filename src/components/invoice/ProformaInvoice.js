@@ -77,7 +77,7 @@ const ProformaInvoice = ({invoiceList}) => {
                             invoiceList.map((invoice, i) => (
                             <tr data-id="9" className='table-row v-middle'>
                                 <td>
-                                    <span className="item-title">{invoice.invoice_number}</span>
+                                    <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                 </td>
                                 <td>
                                     <span className="item-title">{invoice.order_id}</span>
@@ -90,7 +90,7 @@ const ProformaInvoice = ({invoiceList}) => {
                                     <span className="item-title text-color">COD</span>
                                 </td>
                                 <td className="flex">
-                                    <span className="item-title text-color">{invoice.order_status === 'completed' ? 'Paid' : ''}</span>
+                                    <span className="item-title text-color">{invoice.order_status}</span>
                                 </td>
                                 <td>
                                     <div className='invoice-details-button-row'>

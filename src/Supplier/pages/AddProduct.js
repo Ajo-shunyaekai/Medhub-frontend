@@ -82,12 +82,15 @@ const AddProduct = () => {
     const [invoiceImages, setInvoiceImages] = useState([])
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
 
+    const [stockedInOptions, setStockedInOptions ] = useState([])
+
 
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         productName: '',
         productType: productType,
         composition: '',
+        unitTax: '',
         strength: '',
         typeOfForm: '',
         shelfLife: '',
@@ -109,7 +112,9 @@ const AddProduct = () => {
         purchasedOn: '',
         minPurchaseUnit: '',
         countryAvailableIn: '',
-        manufacturerOriginCountry: ''
+        manufacturerName: '',
+        manufacturerOriginCountry: '',
+        manufacturerDescription: ''
 
 
 
@@ -159,6 +164,19 @@ const AddProduct = () => {
 
             setFormSections(newFormSections);
         }
+    };
+
+    const handleStockedInCountryChange = (index, selected) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInCountry = selected;
+        setStockedInSections(updatedSections);
+    };
+    
+    const handleStockedInputChange = (index, event) => {
+        const { name, value } = event.target;
+        const updatedSections = [...stockedInSections];
+        updatedSections[index][name] = value;
+        setStockedInSections(updatedSections);
     };
 
     const handleInputChange = (index, event) => {
@@ -294,6 +312,16 @@ const AddProduct = () => {
             }
         }
     };
+    const addStockedInSection = () => {
+        setStockedInSections(prevSections => [
+            ...prevSections,
+            {
+                stockedInCountry: null,  // Or set a default value if needed
+                stockedInQuantity: ''
+            }
+        ]);
+    };
+    
 
     const removeFormSection = (index) => {
         if (formSections.length > 1) {
@@ -314,6 +342,11 @@ const AddProduct = () => {
             });
         }
     };
+
+    const removeStockedInFormSection = (index) => {
+        setStockedInSections(prevSections => prevSections.filter((_, i) => i !== index));
+    };
+    
 
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
@@ -396,6 +429,9 @@ const AddProduct = () => {
             ...prevState,
             stockedIn: selectedLabels.length === 0 ? 'Stocked in is required' : ''
         }));
+
+        const options = selectedOptions.map(option => ({ label: option.label }));
+        setStockedInOptions(options);
     };
 
     const handleAvailableInChange = (selectedOptions) => {
@@ -421,18 +457,6 @@ const AddProduct = () => {
         }
         return placeholderButtonLabel;
     };
-
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target;
-    //     setFormData(prevState => ({ ...prevState, [name]: value }));
-
-    //     if (name === 'description' && value.length > 1000) {
-    //         setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-    //     } else {
-    //         setErrors(prevState => ({ ...prevState, [name]: '' }));
-    //     }
-
-    // };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -479,8 +503,6 @@ const AddProduct = () => {
         // Update the errors state with the newErrors object
         setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
-
-
 
     //useEffect to update the invoice images
     useEffect(() => {
@@ -542,6 +564,10 @@ const AddProduct = () => {
         if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is required';
         if (!productCategory) formErrors.productCategory = 'Product Category is required';
 
+        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer name is required';
+        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer country of origin is required';
+        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'Manufacturer description is required';
+
         if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is required';
@@ -587,6 +613,13 @@ const AddProduct = () => {
         }
     ]);
 
+    const [stockedInSections, setStockedInSections] = useState([
+        {
+            stockedInCountry: '',
+            stockedInQuantity: ''
+        }
+    ]);
+
     const handleSubmit = (e) => {
 
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -610,6 +643,11 @@ const AddProduct = () => {
             const stocked = formData.stockedIn?.map(country => {
                 return country ? country.label : '';
             }) || []
+
+            const simplifiedStockedInSections = stockedInSections.map(section => ({
+                stocked_in_country: section.stockedInCountry.label,
+                stocked_quantity: section.stockedInQuantity
+            }));
 
             console.log('formData', formData);
             console.log('errors', errors);
@@ -643,6 +681,10 @@ const AddProduct = () => {
                 formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
                 formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
                 Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
+                newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                newFormData.append('manufacturer_name', formData?.manufacturerName)
+                newFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                newFormData.append('stockedIn_data', simplifiedStockedInSections)
 
                 postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
                     if (response.code === 200) {
@@ -690,8 +732,11 @@ const AddProduct = () => {
                 secondaryFormData.append('condition', formData.condition[0].value);
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
+                secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                secondaryFormData.append('manufacturer_name', formData?.manufacturerName)
+                secondaryFormData.append('manufacturer_description', formData?.manufacturerDescription)
 
-                postRequestWithTokenAndFile('/medicine/add-medicine', secondaryFormData, async (response) => {
+                postRequestWithTokenAndFile('/medicine/add-medicin', secondaryFormData, async (response) => {
                     if (response.code === 200) {
                         toast(response.message, { type: "success" });
 
@@ -763,7 +808,6 @@ const AddProduct = () => {
     };
 
     const handleCancel = () => {
-        console.log(formData)
         resetForm()
     }
 
@@ -878,13 +922,13 @@ const AddProduct = () => {
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
-                                    name='composition'
+                                    name='unitTax'
                                     placeholder='Enter Unit Tax'
                                     autoComplete='off'
-                                    value={formData.composition}
+                                    value={formData.unitTax}
                                     onChange={handleChange}
                                 />
-                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
+                                {errors.unitTax && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitTax}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Type of form</label>
@@ -1066,29 +1110,27 @@ const AddProduct = () => {
                                 {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
- {/* Start the stocked in section */}
- <div className={styles['create-invoice-inner-form-section']}>
+                        {/* Start the stocked in section */}
+                        <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Stocked In Details</div>
-                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addStockedInSection}>Add More</span>
                                 </div>
-                                {formSections.map((section, index) => (
+                                {stockedInSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
-                                       {productType && productType.value === 'new_product' && (
+                                       {/* {productType && productType.value === 'new_product' && ( */}
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
                                                     <Select
                                                         className={styles['create-invoice-div-input-select']}
-                                                        value={section.quantity}
-                                                        onChange={(selected) => handleQuantityChange(index, selected)}
-                                                        options={quantityOptions}
+                                                        value={section.stockedInCountry}
+                                                        onChange={(selected) => handleStockedInCountryChange(index, selected)}
+                                                        options={stockedInOptions}
                                                         placeholder="Select Stocked In Country"
-                                                        name='quantity'
+                                                        name='stockedInCountry'
                                                     />
-                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
-
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1096,20 +1138,19 @@ const AddProduct = () => {
                                                     <input
                                                         className={styles['create-invoice-div-input']}
                                                         type='text'
-                                                        name='estDeliveryTime'
+                                                        name='stockedInQuantity'
                                                         placeholder='Enter Stocked In Quantity'
-                                                        value={section.estDeliveryTime}
-                                                        onChange={(event) => handleInputChange(index, event)}
+                                                        value={section.stockedInQuantity}
+                                                        onChange={(event) => handleStockedInputChange(index, event)}
                                                     />
-                                                    {/* {errors.estDeliveryTime && <div className={styles['add-product-errors']}>{errors.estDeliveryTime}</div>} */}
-                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
+                                                  
                                                 </div>
 
 
                                             </div>
-                                        )}
-                                        {formSections.length > 1 && (
-                                            <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
+                                        {/* )} */}
+                                        {stockedInSections.length > 1 && (
+                                            <div className={styles['craete-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
                                                 <CloseIcon />
                                             </div>
                                         )}
@@ -1272,20 +1313,20 @@ const AddProduct = () => {
                                     value={manufacturerCountryOfOrigin}
                                     onChange={handlemanufacturerCountryOriginChange}
                                 />
-                                {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
+                                {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
                             </div>
                             <div className={styles['create-manufaturer-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Description</label>
                                 <textarea
                                     className={styles['create-invoice-div-input']}
-                                    name="description"
+                                    name="manufacturerDescription"
                                     rows="4"
                                     cols="20"
-                                    value={formData.description}
+                                    value={formData.manufacturerDescription}
                                     placeholder='Enter Description'
                                     onChange={handleChange}
                                 />
-                                {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
+                                {errors.manufacturerDescription && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerDescription}</div>}
                             </div>
                         </div>
                         {/* end the manufacturer details */}
