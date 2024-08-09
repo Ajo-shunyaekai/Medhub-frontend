@@ -172,7 +172,7 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Tax :</div>
+                                        <div className='product-details-two-left-text'>Unit tax :</div>
                                         <div className='product-details-two-right-text'>5%</div>
                                     </div>
                                 </div>
@@ -226,7 +226,32 @@ const SecondaryProductDetails = () => {
                         </div>
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
-                                <div className="product-details-mfg-heading">{medicineDetails?.supplier?.supplier_name} #124321</div>
+                                <div className="product-details-mfg-heading">Product Description</div>
+                                <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
+                            </div>
+                        </div>
+
+                          {/* start the manufacturue details */}
+                          <div className='product-details-container'>
+                            <div className="product-details-section-two">
+                                <div className="product-details-sec-two-left">
+                                    <div className="product-details-two">
+                                        <div className='product-details-two-left-text'>Manufacturer Name :</div>
+                                        <div className='product-details-two-right-text'>Medicine Pvt. Ltd.</div>
+                                    </div>
+                                </div>
+                                <div className="product-details-sec-two-left">
+                                    <div className="product-details-two">
+                                        <div className='product-details-two-left-text'>Country of Origin :</div>
+                                        <div className='product-details-two-right-text'>India</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* end the manufacturer details */}
+                        <div className='product-details-containers'>
+                            <div className="product-details-mfg-container">
+                                <div className="product-details-mfg-heading">Manufacturer Description</div>
                                 <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
                             </div>
                         </div>

@@ -161,51 +161,6 @@ const AddProduct = () => {
         }
     };
 
-    // const handleInputChange = (index, event) => {
-    //     const { name, value } = event.target;
-    //     const newFormSections = [...formSections];
-    //     newFormSections[index][name] = value;
-    //     setFormSections(newFormSections);
-
-    //     if (value.trim() === '') {
-    //         setErrors(prevErrors => ({
-    //             ...prevErrors,
-    //             [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is required`
-    //         }));
-    //     } else {
-    //         setErrors(prevErrors => ({
-    //             ...prevErrors,
-    //             [`${name}${index}`]: ''
-    //         }));
-
-    //         if(productType.label === 'New Product') {
-    //             const unitPrices = newFormSections.map(section => section.unitPrice);
-    //             const totalPrices = newFormSections.map(section => section.totalPrice);
-    //             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-
-    //         setFormData({
-    //             ...formData,
-    //             unitPrice : unitPrices ,
-    //             totalPrice : totalPrices,
-    //             estDeliveryTime : estDeliveryTimes
-    //         });
-    //         } else {
-    //             const unitPrices = newFormSections.map(section => section.unitPricee);
-    //             const quantities = newFormSections.map(section => section.quantityNo)
-
-    //             setFormData({
-    //                 ...formData,
-    //                 unitPricee : unitPrices ,
-    //                 quantityNo : quantities ,
-    //                 // estDeliveryTime : estDeliveryTimes
-    //             });
-    //         }
-
-    //     setFormSections(newFormSections);
-    //     }
-    // };
-
-
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
@@ -570,7 +525,7 @@ const AddProduct = () => {
         if (!formData.composition) formErrors.composition = 'Composition is required';
         if (!formData.strength) formErrors.strength = 'Strength is required';
         if (!formType) formErrors.typeOfForm = 'Type of form is required';
-        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf lifeis required';
+        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf life is required';
         if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is required';
         if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is required';
         if (productType && productType.label === 'New Product') {
@@ -836,7 +791,7 @@ const AddProduct = () => {
                                     value={formData.productName}
                                     onChange={handleChange}
                                 />
-                                {errors.productName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.productName}</div>}
+                                {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Type</label>
@@ -848,7 +803,7 @@ const AddProduct = () => {
                                     placeholder="Select Product Type"
                                     name='productType'
                                 />
-                                {errors.productType && <div className='add-product-errors' style={{ color: 'red' }}>{errors.productType}</div>}
+                                {errors.productType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productType}</div>}
                             </div>
 
                             {productType && productType.value === 'secondary_market' && (
@@ -864,7 +819,7 @@ const AddProduct = () => {
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
                                         />
-                                        {errors.purchasedOn && <div className='add-product-errors' style={{ color: 'red' }}>{errors.purchasedOn}</div>}
+                                        {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available In</label>
@@ -874,7 +829,7 @@ const AddProduct = () => {
                                             onChange={handleAvailableInChange}
                                             getDropdownButtonLabel={getDropdownButtonLabel}
                                         />
-                                        {errors.countryAvailableIn && <div className='add-product-errors' style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
+                                        {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Minimum Purchase Unit</label>
@@ -887,7 +842,7 @@ const AddProduct = () => {
                                             value={formData.minPurchaseUnit}
                                             onChange={handleChange}
                                         />
-                                        {errors.minPurchaseUnit && <div className='add-product-errors' style={{ color: 'red' }}>{errors.minPurchaseUnit}</div>}
+                                        {errors.minPurchaseUnit && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.minPurchaseUnit}</div>}
                                     </div>
                                 </>
                             )}
@@ -903,7 +858,7 @@ const AddProduct = () => {
                                     value={formData.composition}
                                     onChange={handleChange}
                                 />
-                                {errors.composition && <div className='add-product-errors' style={{ color: 'red' }}>{errors.composition}</div>}
+                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
@@ -916,7 +871,7 @@ const AddProduct = () => {
                                     value={formData.strength}
                                     onChange={handleChange}
                                 />
-                                {errors.strength && <div className='add-product-errors' style={{ color: 'red' }}>{errors.strength}</div>}
+                                {errors.strength && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.strength}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Unit Tax</label>
@@ -929,7 +884,7 @@ const AddProduct = () => {
                                     value={formData.composition}
                                     onChange={handleChange}
                                 />
-                                {errors.composition && <div className='add-product-errors' style={{ color: 'red' }}>{errors.composition}</div>}
+                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Type of form</label>
@@ -941,7 +896,7 @@ const AddProduct = () => {
                                     placeholder="Select Type of Form"
                                     name='typeOfForm'
                                 />
-                                {errors.typeOfForm && <div className='add-product-errors' style={{ color: 'red' }}>{errors.typeOfForm}</div>}
+                                {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
@@ -954,7 +909,7 @@ const AddProduct = () => {
                                     value={formData.shelfLife}
                                     onChange={handleChange}
                                 />
-                                {errors.shelfLife && <div className='add-product-errors' style={{ color: 'red' }}>{errors.shelfLife}</div>}
+                                {errors.shelfLife && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shelfLife}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Type</label>
@@ -967,7 +922,7 @@ const AddProduct = () => {
                                     value={formData.dossierType}
                                     onChange={handleChange}
                                 />
-                                {errors.dossierType && <div className='add-product-errors' style={{ color: 'red' }}>{errors.dossierType}</div>}
+                                {errors.dossierType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierType}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Status</label>
@@ -980,7 +935,7 @@ const AddProduct = () => {
                                     value={formData.dossierStatus}
                                     onChange={handleChange}
                                 />
-                                {errors.dossierStatus && <div className='add-product-errors' style={{ color: 'red' }}>{errors.dossierStatus}</div>}
+                                {errors.dossierStatus && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierStatus}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
@@ -992,7 +947,7 @@ const AddProduct = () => {
                                     name='produtCategory'
                                     onChange={handleProductCategoryChange}
                                 />
-                                {errors.productCategory && <div className='add-product-errors' style={{ color: 'red' }}>{errors.productCategory}</div>}
+                                {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
 
                             {productType && productType.value === 'new_product' && (
@@ -1008,7 +963,7 @@ const AddProduct = () => {
                                             value={formData.totalQuantity}
                                             onChange={handleChange}
                                         />
-                                        {errors.totalQuantity && <div className='add-product-errors' style={{ color: 'red' }}>{errors.totalQuantity}</div>}
+                                        {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
                             )}
@@ -1023,7 +978,7 @@ const AddProduct = () => {
                                     value={formData.gmpApprovals}
                                     onChange={handleChange}
                                 />
-                                {errors.gmpApprovals && <div className='add-product-errors' style={{ color: 'red' }}>{errors.gmpApprovals}</div>}
+                                {errors.gmpApprovals && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.gmpApprovals}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shipping Time</label>
@@ -1035,7 +990,7 @@ const AddProduct = () => {
                                     value={formData.shippingTime}
                                     onChange={handleChange}
                                 />
-                                {errors.shippingTime && <div className='add-product-errors' style={{ color: 'red' }}>{errors.shippingTime}</div>}
+                                {errors.shippingTime && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shippingTime}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Country of Origin</label>
@@ -1048,7 +1003,7 @@ const AddProduct = () => {
                                     value={countryOfOrigin}
                                     onChange={handleCountryOriginChange}
                                 />
-                                {errors.originCountry && <div className='add-product-errors' style={{ color: 'red' }}>{errors.originCountry}</div>}
+                                {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Registered In</label>
@@ -1059,7 +1014,7 @@ const AddProduct = () => {
                                     value={registeredCountries}
                                     getDropdownButtonLabel={getDropdownButtonLabel}
                                 />
-                                {errors.registeredIn && <div className='add-product-errors' style={{ color: 'red' }}>{errors.registeredIn}</div>}
+                                {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
                             </div>
 
                             <div className={styles['create-invoice-div-container']}>
@@ -1071,7 +1026,7 @@ const AddProduct = () => {
                                     value={stockedIn}
                                     getDropdownButtonLabel={getDropdownButtonLabel}
                                 />
-                                {errors.stockedIn && <div className='add-product-errors' style={{ color: 'red' }}>{errors.stockedIn}</div>}
+                                {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Available For</label>
@@ -1083,7 +1038,7 @@ const AddProduct = () => {
                                     value={formData.availableFor}
                                     onChange={handleChange}
                                 />
-                                {errors.availableFor && <div className='add-product-errors' style={{ color: 'red' }}>{errors.availableFor}</div>}
+                                {errors.availableFor && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.availableFor}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Tags</label>
@@ -1095,7 +1050,7 @@ const AddProduct = () => {
                                     value={formData.tags}
                                     onChange={handleChange}
                                 />
-                                {errors.tags && <div className='add-product-errors' style={{ color: 'red' }}>{errors.tags}</div>}
+                                {errors.tags && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.tags}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Product Description</label>
@@ -1108,10 +1063,61 @@ const AddProduct = () => {
                                     placeholder='Enter Description'
                                     onChange={handleChange}
                                 />
-                                {errors.description && <div className='add-product-errors' style={{ color: 'red' }}>{errors.description}</div>}
+                                {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
+ {/* Start the stocked in section */}
+ <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-section']}>
+                                <div className={styles['create-invoice-add-item-cont']}>
+                                    <div className={styles['create-invoice-form-heading']}>Stocked In Details</div>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                </div>
+                                {formSections.map((section, index) => (
+                                    <div className={styles['form-item-container']} >
+                                       {productType && productType.value === 'new_product' && (
+                                            <div className={styles['create-invoice-new-product-section-containers']}>
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
+                                                    <Select
+                                                        className={styles['create-invoice-div-input-select']}
+                                                        value={section.quantity}
+                                                        onChange={(selected) => handleQuantityChange(index, selected)}
+                                                        options={quantityOptions}
+                                                        placeholder="Select Stocked In Country"
+                                                        name='quantity'
+                                                    />
+                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
 
+                                                </div>
+
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Stocked In Quantity</label>
+                                                    <input
+                                                        className={styles['create-invoice-div-input']}
+                                                        type='text'
+                                                        name='estDeliveryTime'
+                                                        placeholder='Enter Stocked In Quantity'
+                                                        value={section.estDeliveryTime}
+                                                        onChange={(event) => handleInputChange(index, event)}
+                                                    />
+                                                    {/* {errors.estDeliveryTime && <div className={styles['add-product-errors']}>{errors.estDeliveryTime}</div>} */}
+                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
+                                                </div>
+
+
+                                            </div>
+                                        )}
+                                        {formSections.length > 1 && (
+                                            <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
+                                                <CloseIcon />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {/* End the stocked in section */}
                         {/* inventory section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
@@ -1134,7 +1140,7 @@ const AddProduct = () => {
                                                         placeholder="Select Quantity"
                                                         name='quantity'
                                                     />
-                                                    {errors[`quantity${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
+                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
 
                                                 </div>
 
@@ -1148,8 +1154,8 @@ const AddProduct = () => {
                                                         value={section.unitPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                    {/* {errors.unitPrice && <div className='add-product-errors'>{errors.unitPrice}</div>} */}
-                                                    {errors[`unitPrice${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
+                                                    {/* {errors.unitPrice && <div className={styles['add-product-errors']}>{errors.unitPrice}</div>} */}
+                                                    {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Total Price</label>
@@ -1161,8 +1167,8 @@ const AddProduct = () => {
                                                         value={section.totalPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                    {/* {errors.totalPrice && <div className='add-product-errors'>{errors.totalPrice}</div>} */}
-                                                    {errors[`totalPrice${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
+                                                    {/* {errors.totalPrice && <div className={styles['add-product-errors']}>{errors.totalPrice}</div>} */}
+                                                    {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
 
                                                 </div>
 
@@ -1176,8 +1182,8 @@ const AddProduct = () => {
                                                         value={section.estDeliveryTime}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                    {/* {errors.estDeliveryTime && <div className='add-product-errors'>{errors.estDeliveryTime}</div>} */}
-                                                    {errors[`estDeliveryTime${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
+                                                    {/* {errors.estDeliveryTime && <div className={styles['add-product-errors']}>{errors.estDeliveryTime}</div>} */}
+                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
 
 
@@ -1196,7 +1202,7 @@ const AddProduct = () => {
                                                         value={section.quantityNo}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                    {errors[`quantityNo${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
+                                                    {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1209,7 +1215,7 @@ const AddProduct = () => {
                                                         value={section.unitPricee}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                    {errors[`unitPricee${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`unitPricee${index}`]}</div>}
+                                                    {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPricee${index}`]}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Condition</label>
@@ -1220,7 +1226,7 @@ const AddProduct = () => {
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
-                                                    {errors[`condition${index}`] && <div className='add-product-errors' style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
+                                                    {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
                                                 </div>
                                             </div>
                                         )}
@@ -1233,6 +1239,7 @@ const AddProduct = () => {
                                 ))}
                             </div>
                         </div>
+                       
                         {/* start the manufacturer details */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-add-item-cont']}>
@@ -1249,11 +1256,15 @@ const AddProduct = () => {
                                     value={formData.manufacturerName}
                                     onChange={handleChange}
                                 />
+<<<<<<< Updated upstream
                                 {errors.manufacturerName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerName}</div>}
+=======
+                                {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
+>>>>>>> Stashed changes
                             </div>
-                           
 
-                           
+
+
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Country of Origin</label>
                                 <Select
@@ -1265,20 +1276,26 @@ const AddProduct = () => {
                                     value={manufacturerCountryOfOrigin}
                                     onChange={handlemanufacturerCountryOriginChange}
                                 />
+<<<<<<< Updated upstream
                                 {errors.manufacturerOriginCountry&& <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
                             </div>                         
                             <div className={styles['create-invoice-div-container-description']}>
+=======
+                                {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
+                            </div>
+                            <div className={styles['create-manufaturer-div-container-description']}>
+>>>>>>> Stashed changes
                                 <label className={styles['create-invoice-div-label']}>Description</label>
                                 <textarea
                                     className={styles['create-invoice-div-input']}
                                     name="description"
                                     rows="4"
-                                    cols="50"
+                                    cols="20"
                                     value={formData.description}
                                     placeholder='Enter Description'
                                     onChange={handleChange}
                                 />
-                                {errors.description && <div className='add-product-errors' style={{ color: 'red' }}>{errors.description}</div>}
+                                {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
                         {/* end the manufacturer details */}
@@ -1291,7 +1308,7 @@ const AddProduct = () => {
                                         image={medicineImages}
                                         setImage={setMedicineImages}
                                     />
-                                    {!medicineImages || errors.product_image && <div className='add-product-errors' style={{ color: 'red' }}>{errors.medicineImage}</div>}
+                                    {!medicineImages || errors.product_image && <div className={styles['add-product-errors']} style={{ color: 'red', fontSize: '12px' }}>{errors.medicineImage}</div>}
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
@@ -1301,7 +1318,7 @@ const AddProduct = () => {
                                                 invoiceImage={invoiceImages}
                                                 setInvoiceImage={setInvoiceImages}
                                             />
-                                            {!invoiceImages || errors.invoice_image && <div className='add-product-errors' style={{ color: 'red' }}>{errors.invoiceImage}</div>}
+                                            {!invoiceImages || errors.invoice_image && <div className={styles['add-product-errors']} style={{ color: 'red', fontSize: '12px' }}>{errors.invoiceImage}</div>}
                                         </div>
                                     </>
                                 )}
@@ -1309,8 +1326,8 @@ const AddProduct = () => {
                         </div>
 
                         <div className={styles['craete-invoices-button']}>
-                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                             <button type='submit' className={styles['create-invoices-submit']}>Add Product</button>
+                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
 

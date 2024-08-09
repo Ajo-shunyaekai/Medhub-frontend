@@ -240,7 +240,7 @@
 
 .product-range-heading {
 font-size: 14px;
-  width: 15vw;
+  width: 20vw;
   font-weight: 600;
   color: #5e676f;
   text-align: left;
@@ -249,7 +249,7 @@ font-size: 14px;
 
 .product-range-text {
   border: 1px solid #e6e6e67d;
-  width: 15vw;
+  width: 20vw;
   text-align: left;
   color: #99a0ac;
   border-radius: 5px;

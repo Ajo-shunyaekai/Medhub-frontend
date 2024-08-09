@@ -160,8 +160,8 @@ const CreateInvoice = () => {
                 </form>
             </div>
             <div className={styles['craete-invoices-button']}>
-                <div className={styles['create-invoices-cancel']}>Cancel</div>
                 <div className={styles['create-invoices-submit']}>Create Invoice</div>
+                <div className={styles['create-invoices-cancel']}>Cancel</div>
             </div>
         </div>
     );

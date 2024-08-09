@@ -136,7 +136,7 @@ const ImageUploaders = ({ image, setImage}) => {
                 )}
 
                 {errorMessage && (
-                    <div className={styles['error-message']} style={{color: 'red'}}>
+                    <div className={styles['error-message']} style={{color: 'red', fontSize:'12px'}}>
                         <span>{errorMessage}</span>
                     </div>
                 )}

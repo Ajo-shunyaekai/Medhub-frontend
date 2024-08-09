@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import '../../style/inquiryrequestdetails.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import InquiryProductList from './InquiryProductList';
-import { FaPlus, FaMinus } from 'react-icons/fa'; 
+import { FaPlus, FaMinus } from 'react-icons/fa';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 
 const InquiryRequestDetails = () => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
-    const {inquiryId} = useParams()
+    const { inquiryId } = useParams()
     const navigate = useNavigate();
-    const [paymentTerms, setPaymentTerms] = useState(['']); 
+    const [paymentTerms, setPaymentTerms] = useState(['']);
 
     const [inquiryDetails, setInquiryDetails] = useState()
 
     const handleAddTerm = () => {
-        setPaymentTerms([...paymentTerms, '']); 
+        setPaymentTerms([...paymentTerms, '']);
     };
 
     const handleTermChange = (index, value) => {
@@ -33,23 +33,23 @@ const InquiryRequestDetails = () => {
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
-       
+
         const obj = {
-            supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
-            enquiry_id   : inquiryId
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            enquiry_id: inquiryId
         }
 
         postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
             } else {
-               console.log('error in order list api',response);
+                console.log('error in order list api', response);
             }
-          })
-    },[])
+        })
+    }, [])
 
     const [acceptChecked, setAcceptChecked] = useState(false)
     const [counterChecked, setCounterChecked] = useState(false)
@@ -66,51 +66,51 @@ const InquiryRequestDetails = () => {
             return;
         }
 
-        if(quotationItems.length !== inquiryDetails?.items.length) {
-            return toast('Please accept or enter the counter price to proceed', {type: 'error'})
+        if (quotationItems.length !== inquiryDetails?.items.length) {
+            return toast('Please accept or enter the counter price to proceed', { type: 'error' })
         }
-       
+
         if (paymentTerms.length === 0 || paymentTerms.every(term => term.trim() === '')) {
             return toast('Payment term is required', { type: 'error' });
         }
         const validationErrors = quotationItems.some(item => !item.accepted && item.counterPrice === undefined);
 
         if (validationErrors) {
-            toast('Counter price must be provided for items that are not accepted.', {type: 'error'})
+            toast('Counter price must be provided for items that are not accepted.', { type: 'error' })
             return;
         }
 
         const transformedQuotationItems = quotationItems.map(item => ({
-            itemId            : item._id,
-            medicine_id       : item.medicine_id,
-            est_delivery_days : item.est_delivery_days,
-            counter_price     : item.counterPrice,
-            unit_price        : item.unit_price,
-            quantity_required : item.quantity_required,
-            target_price      : item.target_price,
-            accepted          : item.accepted
+            itemId: item._id,
+            medicine_id: item.medicine_id,
+            est_delivery_days: item.est_delivery_days,
+            counter_price: item.counterPrice,
+            unit_price: item.unit_price,
+            quantity_required: item.quantity_required,
+            target_price: item.target_price,
+            accepted: item.accepted
         }));
-        
+
         const obj = {
-            supplier_id       : supplierIdSessionStorage || supplierIdLocalStorage,
-            buyer_id          : inquiryDetails?.buyer.buyer_id,
-            enquiry_id        : inquiryDetails?.enquiry_id,
-            quotation_details : transformedQuotationItems,
-            payment_terms     : paymentTerms
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            buyer_id: inquiryDetails?.buyer.buyer_id,
+            enquiry_id: inquiryDetails?.enquiry_id,
+            quotation_details: transformedQuotationItems,
+            payment_terms: paymentTerms
         }
 
         postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
-               toast(response.message, {type: 'success'})
-               setTimeout(() => {
-                navigate('/supplier/inquiry-purchase-orders/ongoing')
-              }, 1000);
-               
+                toast(response.message, { type: 'success' })
+                setTimeout(() => {
+                    navigate('/supplier/inquiry-purchase-orders/ongoing')
+                }, 1000);
+
             } else {
-                toast(response.message, {type: 'error'})
-               console.log('error in enquiry/submit-quotation api',response);
+                toast(response.message, { type: 'error' })
+                console.log('error in enquiry/submit-quotation api', response);
             }
-          })
+        })
     }
 
     return (
@@ -141,11 +141,11 @@ const InquiryRequestDetails = () => {
                 </div>
             </div>
             <div className='inquiry-details-assign-driver-section'>
-                <InquiryProductList 
-                    items = {inquiryDetails?.items} 
-                    setAcceptChecked = {setAcceptChecked}
-                    setCounterChecked = {setCounterChecked}
-                    setQuotationItems = {setQuotationItems}
+                <InquiryProductList
+                    items={inquiryDetails?.items}
+                    setAcceptChecked={setAcceptChecked}
+                    setCounterChecked={setCounterChecked}
+                    setQuotationItems={setQuotationItems}
                     quotationItems={quotationItems}
                 />
             </div>
@@ -186,10 +186,11 @@ const InquiryRequestDetails = () => {
                 </div>
             </div>
             <div className='inquiry-details-button-section'>
+                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>Submit Quotation</div>
                 <a href={mailtoLink} className='inquiry-details-cancel-button'>
                     Contact Buyer
                 </a>
-                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>Submit Quotation</div>
+
             </div>
         </div>
     );

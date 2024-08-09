@@ -19,7 +19,17 @@
   font-weight: 500;
   color: #5e676f;
 }
-
+.buyer-product-details-inner-company-stockedin{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.buyer-stockedin-heading{
+  width: 220px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5e676f !important;
+}
 /* button container code */
 .buyer-product-details-sec-two-button-cont {
   display: flex;
@@ -345,8 +355,9 @@
   gap: 20px;
 }
 .buyer-product-details-main-company-stockedin{
-  width: 60px;
-  font-size: 14px;
+  width: 200px;
+  font-size: 13px;
+  color: #5e676f;
 }
 .buyer-product-details-main-company-totalquantity{
   font-size: 14px;
@@ -369,6 +380,9 @@
   font-size: 14px;
   color: #99a0ac;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
 }
 
 /* media quries start from here */

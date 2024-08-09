@@ -121,7 +121,7 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
             )}
 
             {errorMessage && (
-                <div className={styles['pdf-error-message']} style={{color: 'red'}}>
+                <div className={styles['pdf-error-message']} style={{color: 'red', fontSize:'12px'}}>
                     <span>{errorMessage}</span>
                 </div>
             )}

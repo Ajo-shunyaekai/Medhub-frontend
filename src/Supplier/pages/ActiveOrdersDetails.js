@@ -98,22 +98,66 @@ const ActiveOrdersDetails = () => {
                 <ActiveAssignDriver productList={orderDetails?.items} />
             </div>
             {/* End the assign driver section */}
-            {/* start the main component heading */}
-            <div className='active-order-details-left-bottom-containers'>
+              {/* start the main component heading */}
+              <div className='active-order-details-left-bottom-containers'>
                 <div className='active-order-details-left-bottom-vehichle'>
-                    <div className='active-order-details-left-bottom-vehicle-head'>Commodity</div>
-                    <div className='active-order-details-left-bottom-vehicle-text'>Steel Plates - 20 Ton</div>
+                    <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
+                    <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
-                    <div className='active-order-details-left-bottom-vehichle-no-head'>Order Rate</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>AED 2152/TRWB</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
-                    <div className='active-order-details-left-bottom-vehichle-no-head'>Pickup Date & Time</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>24/12/2019, 12:00 PM</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                 </div>
             </div>
             {/* end the main component heading */}
+            {/* start the main component heading */}
+            <div className='active-order-details-middle-bottom-containers'>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>Preferred Time of Pickup</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>09-08-2024 14:00 PM</div>
+                </div>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>18</div>
+                </div>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>4 Kg</div>
+                </div>
+            </div>
+            {/* end the main component heading */}
+            <div className="buyer-order-details-left-top-containers">
+                <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+                    <div className="buyer-order-details-top-order-cont">
+                        <div className="buyer-order-details-left-top-main-heading">
+                            Width
+                        </div>
+                        <div className="buyer-order-details-left-top-main-contents">
+                            12 cm
+                        </div>
+                    </div>
+                </Link>
+                <div className="buyer-order-details-top-order-cont">
+                    <div className="buyer-order-details-left-top-main-heading">
+                        Height
+                    </div>
+                    <div className="buyer-order-details-left-top-main-contents">
+                        20 cm 
+                    </div>
+                </div>
+                <div className="buyer-order-details-top-order-cont">
+                    <div className="buyer-order-details-left-top-main-heading">
+                        length
+                    </div>
+                    <div className="buyer-order-details-left-top-main-contents">
+                        12cm
+                    </div>
+                </div>
+            </div>
             {/* Start the end section */}
             <div className='active-order-details-payment-container'>
                 <div className='active-order-details-payment-left-section'>

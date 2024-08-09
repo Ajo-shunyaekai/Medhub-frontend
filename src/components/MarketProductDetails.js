@@ -271,9 +271,13 @@ const MarketProductDetails = () => {
                                     <div className='buyer-product-details-inner-copmany-head'>Company type :</div>
                                     <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
                                 </div>
-                                <div className="buyer-product-details-inner-company">
+                                <div className="buyer-product-details-inner-company-stockedin">
                                     <div className="buyer-product-details-inner-copmany-head">Stocked in :</div>
                                     <div className="buyer-product-details-inner-copmany-text">
+                                        <div className='buyer-product-details-main-company-section'>
+                                            <div className='buyer-stockedin-heading'>Countries</div>
+                                            <div className='buyer-stockedin-heading'>Quantity</div>
+                                        </div>
                                         <div className='buyer-product-details-main-company-section'>
                                             <div className='buyer-product-details-main-company-stockedin'>USA</div>
                                             <div className='buyer-product-details-main-company-totalquantity'>200 Packages</div>

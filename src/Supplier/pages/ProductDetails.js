@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
-import para from '../assest/para.webp'
 import CountryDetails from '../pages/CountryDetails';
 import { Link, useParams } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
-import Select from 'react-select';
 
 
 const ProductDetails = () => {
@@ -15,27 +13,27 @@ const ProductDetails = () => {
     const [medId, setMedId] = useState(medicineId)
 
     const hasInventoryInfo = medicineDetails && medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0;
-  
+
     // Generate options array based on inventory_info
     const options = hasInventoryInfo ? medicineDetails?.inventory_info.map((item, index) => ({
-      value: index,
-      label: item.quantity
+        value: index,
+        label: item.quantity
     })) : [];
-    
+
     // Use state to manage selected option and corresponding details
     const [selectedOption, setSelectedOption] = useState(options[0]);
     const [selectedDetails, setSelectedDetails] = useState(hasInventoryInfo ? medicineDetails?.inventory_info[0] : {});
-  
+
     useEffect(() => {
-      if (hasInventoryInfo) {
-        setSelectedOption(options[0]);
-        setSelectedDetails(medicineDetails?.inventory_info[0]);
-      }
+        if (hasInventoryInfo) {
+            setSelectedOption(options[0]);
+            setSelectedDetails(medicineDetails?.inventory_info[0]);
+        }
     }, [medicineDetails?.inventory_info]);
-  
+
     const handleSelectChange = (selectedOption) => {
-      setSelectedOption(selectedOption);
-      setSelectedDetails(medicineDetails?.inventory_info[selectedOption.value]);
+        setSelectedOption(selectedOption);
+        setSelectedDetails(medicineDetails?.inventory_info[selectedOption.value]);
     };
 
     useEffect(() => {
@@ -46,20 +44,20 @@ const ProductDetails = () => {
         // navigate("/supplier/login");
         // return;
         // }
-        
+
         const obj = {
-            medicine_id : medId,
+            medicine_id: medId,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
-        
+
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setMedicineDetails(response.result.data)
             } else {
-               console.log('error in med details api');
+                console.log('error in med details api');
             }
-          })
-    },[])
+        })
+    }, [])
 
     return (
         <>
@@ -72,7 +70,7 @@ const ProductDetails = () => {
                         <div className="product-details-section-one">
                             <div className="product-details-sec-one-left">
                                 <h4 >
-                                {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '5000mg'})</span>
+                                    {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '5000mg'})</span>
                                 </h4>
                                 <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {medicineDetails?.composition}
@@ -112,7 +110,7 @@ const ProductDetails = () => {
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
-                                <div className="product-details-two">
+                                    <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Product category :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.medicine_category}</div>
                                     </div>
@@ -129,7 +127,7 @@ const ProductDetails = () => {
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Tax :</div>
+                                        <div className='product-details-two-left-text'> Unit tax :</div>
                                         <div className='product-details-two-right-text'>5%</div>
                                     </div>
                                 </div>
@@ -137,43 +135,43 @@ const ProductDetails = () => {
                         </div>
 
                         <div className='product-details-container'>
-                            <div className="product-details-section-two-img"> 
+                            <div className="product-details-section-two-img">
                                 {medicineDetails?.medicine_image?.map((image, j) => (
                                     <div className="product-details-sec-img-left" key={j}>
-                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} 
-                                               alt={`${image.medicine_name} ${j}`} className="responsive-image" />
+                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`}
+                                            alt={`${image.medicine_name} ${j}`} className="responsive-image" />
                                     </div>
-                        
+
                                 ))}
                             </div>
                         </div>
 
-                         <div className='product-details-container'>
+                        <div className='product-details-container'>
                             <div className="product-range-container">
-                            <div className="product-range-heading">Quantity</div>
-                            <div className="product-range-heading">Unit Price</div>
-                            <div className="product-range-heading">Total Price</div>
-                            <div className="product-range-heading">Est. Delivery Time</div>
+                                <div className="product-range-heading">Quantity</div>
+                                <div className="product-range-heading">Unit Price</div>
+                                <div className="product-range-heading">Total Price</div>
+                                <div className="product-range-heading">Est. Delivery Time</div>
                             </div>
 
-                                {
-                                    medicineDetails?.inventory_info?.map((info,k) => {
-                                        return (
-                                            <div className="product-range-details">
-                                                <div className="product-range-text"> <input className="product-range-input" type=" text" value={info?.quantity} /> </div>
-                                                <div className="product-range-text"><input className="product-range-input" type="text" value={info?.unit_price} /> </div>
-                                                <div className="product-range-text"><input className="product-range-input" type="text" value={info?.total_price} /> </div>
-                                                <div className="product-range-text"> <input className="product-range-input" type="text" value={info?.est_delivery_days} /></div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                                medicineDetails?.inventory_info?.map((info, k) => {
+                                    return (
+                                        <div className="product-range-details">
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text" value={info?.quantity} /> </div>
+                                            <div className="product-range-text"><input className="product-range-input" type="text" value={info?.unit_price} /> </div>
+                                            <div className="product-range-text"><input className="product-range-input" type="text" value={info?.total_price} /> </div>
+                                            <div className="product-range-text"> <input className="product-range-input" type="text" value={info?.est_delivery_days} /></div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                         <div className='product-details-container'>
                             <div className="product-details-country-section">
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Registered in :</div>
-                                    <div className='product-details-four-right-text'> <CountryDetails countryData = {medicineDetails?.registered_in}/></div>
+                                    <div className='product-details-four-right-text'> <CountryDetails countryData={medicineDetails?.registered_in} /></div>
                                 </div>
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Tags :</div>
@@ -186,7 +184,7 @@ const ProductDetails = () => {
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Comments :</div>
                                     <div className='product-details-four-right-text'>
-                                   {medicineDetails?.description}
+                                        {medicineDetails?.description}
                                     </div>
                                 </div>
 
@@ -194,10 +192,34 @@ const ProductDetails = () => {
                         </div>
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
-                                <div className="product-details-mfg-heading">{medicineDetails?.supplier?.supplier_name }</div>
+                                <div className="product-details-mfg-heading">Product Description</div>
                                 <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
                             </div>
 
+                        </div>
+                        {/* start the manufacturue details */}
+                        <div className='product-details-container'>
+                            <div className="product-details-section-two">
+                                <div className="product-details-sec-two-left">
+                                    <div className="product-details-two">
+                                        <div className='product-details-two-left-text'>Manufacturer Name :</div>
+                                        <div className='product-details-two-right-text'>Medicine Pvt. Ltd.</div>
+                                    </div>
+                                </div>
+                                <div className="product-details-sec-two-left">
+                                    <div className="product-details-two">
+                                        <div className='product-details-two-left-text'>Country of Origin :</div>
+                                        <div className='product-details-two-right-text'>India</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* end the manufacturer details */}
+                        <div className='product-details-containers'>
+                            <div className="product-details-mfg-container">
+                                <div className="product-details-mfg-heading">Manufacturer Description</div>
+                                <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
+                            </div>
                         </div>
                         {/* end the ecommerce card */}
                     </div>

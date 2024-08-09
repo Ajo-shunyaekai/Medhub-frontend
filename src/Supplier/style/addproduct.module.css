@@ -11,7 +11,17 @@
   height: 100vh;
   margin: auto;
 }
-
+.add-product-errors{
+  font-size: 12px !important;
+  color: #f60000;
+}
+.create-manufaturer-div-container-description{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 32.8%;
+  row-gap: 6px;
+}
 .create-invoice-container::-webkit-scrollbar {
   display: none;
 }
@@ -187,7 +197,6 @@
   display: flex;
   width: 100%;
   justify-content: start;
-  align-items: center;
   gap: 16px;
 
 }
