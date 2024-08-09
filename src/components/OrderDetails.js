@@ -9,14 +9,14 @@ import BuyerActiveCodinator from './BuyerActiveCodinator';
 
 const OrderDetails = () => {
     const { orderId } = useParams();
-    const navigate    = useNavigate();
+    const navigate = useNavigate();
 
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
-    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+    const buyerIdLocalStorage = localStorage.getItem('buyer_id');
 
     const [activeButton, setActiveButton] = useState('1h');
     const [orderDetails, setOrderDetails] = useState();
-    const [isModalOpen, setIsModalOpen]   = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -24,8 +24,8 @@ const OrderDetails = () => {
             return;
         }
         const obj = {
-            order_id : orderId,
-            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            order_id: orderId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         };
         postRequestWithToken('buyer/order/order-details', obj, (response) => {
             if (response.code === 200) {
@@ -47,29 +47,29 @@ const OrderDetails = () => {
             return;
         }
         let type = '';
-    if (data.doorToDoor) {
-        type = 'door to door';
-    } else if (data.customClearance) {
-        type = 'custom clearance';
-    }
+        if (data.doorToDoor) {
+            type = 'door to door';
+        } else if (data.customClearance) {
+            type = 'custom clearance';
+        }
 
-    // Create the logistics_details object
-    const logisticsDetails = {
-        type: type,
-        prefered_mode: data.transportMode,
-        drop_location: {
-            name: data.dropLocation.name,
-            mobile: data.dropLocation.contact,
-            address: data.dropLocation.address
-        },
-        status: 'pending'
-    };
+        // Create the logistics_details object
+        const logisticsDetails = {
+            type: type,
+            prefered_mode: data.transportMode,
+            drop_location: {
+                name: data.dropLocation.name,
+                mobile: data.dropLocation.contact,
+                address: data.dropLocation.address
+            },
+            status: 'pending'
+        };
         const obj = {
-            order_id          : orderId,
-            buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
-            supplier_id       : orderDetails?.supplier_id,
-            status            : 'Awaiting Details from Supplier',
-            logistics_details : [logisticsDetails],
+            order_id: orderId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            supplier_id: orderDetails?.supplier_id,
+            status: 'Awaiting Details from Supplier',
+            logistics_details: [logisticsDetails],
         };
 
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
@@ -165,14 +165,58 @@ const OrderDetails = () => {
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
                     <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
                 </div>
                 <div className='active-order-details-left-bottom-vehichle-no'>
                     <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
-                    <div className='active-order-details-left-bottom-vehichle-no-text'>120 USD</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                 </div>
             </div>
             {/* end the main component heading */}
+            {/* start the main component heading */}
+            <div className='active-order-details-middle-bottom-containers'>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>Preferred Time of Pickup</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>09-08-2024 14:00 PM</div>
+                </div>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>18</div>
+                </div>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>4 Kg</div>
+                </div>
+            </div>
+            {/* end the main component heading */}
+            <div className="buyer-order-details-left-top-containers">
+                <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+                    <div className="buyer-order-details-top-order-cont">
+                        <div className="buyer-order-details-left-top-main-heading">
+                            Width
+                        </div>
+                        <div className="buyer-order-details-left-top-main-contents">
+                            12 cm
+                        </div>
+                    </div>
+                </Link>
+                <div className="buyer-order-details-top-order-cont">
+                    <div className="buyer-order-details-left-top-main-heading">
+                        Height
+                    </div>
+                    <div className="buyer-order-details-left-top-main-contents">
+                        20 cm 
+                    </div>
+                </div>
+                <div className="buyer-order-details-top-order-cont">
+                    <div className="buyer-order-details-left-top-main-heading">
+                        length
+                    </div>
+                    <div className="buyer-order-details-left-top-main-contents">
+                        12cm
+                    </div>
+                </div>
+            </div>
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
                 <div className="buyer-order-details-payment-left-section">

@@ -608,7 +608,32 @@
   font-size: 14px;
   cursor: pointer;
 }
-
+.active-order-details-middle-bottom-containers{
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+.active-order-details-left-middle-vehichle-no{
+  background-color: white;
+    padding: 24px 22px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 4px;
+    row-gap: 10px;
+    width: 33.33%;
+}
+.active-order-details-middle-bottom-vehicle-head {
+  color: #99a0ac;
+  font-size: 12px;
+}
+.active-order-details-middle-bottom-vehicle-text {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+}
 @media screen and (max-width: 1450px) {
   .buyer-order-details-container {
     max-width: 100%;

@@ -337,10 +337,20 @@
 .buyer-product-details-inner-company {
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: baseline;
   column-gap: 10px;
 }
-
+.buyer-product-details-main-company-section{
+  display: flex;
+  gap: 20px;
+}
+.buyer-product-details-main-company-stockedin{
+  width: 60px;
+  font-size: 14px;
+}
+.buyer-product-details-main-company-totalquantity{
+  font-size: 14px;
+}
 .buyer-product-details-inner-company a {
   display: flex;
   justify-content: start;

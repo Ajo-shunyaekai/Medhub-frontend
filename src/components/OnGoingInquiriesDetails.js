@@ -264,13 +264,8 @@ const OnGoingInquiriesDetails = () => {
       </div>
       {/* end the button container */}
       {/* Start the return enquiry section */}
-<<<<<<< Updated upstream
-      {inquiryDetails?.quotation_items?.length > 0 ? (
-        <div className="order-details-assign-driver-section">
-=======
       {inquiryDetails?.quotation_items.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
->>>>>>> Stashed changes
           <ProductList
             quotationItems={inquiryDetails?.quotation_items}
             handleAccept={handleAccept}

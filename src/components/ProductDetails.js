@@ -263,6 +263,23 @@ const ProductDetails = () => {
                 <div className="buyer-product-details-inner-copmany-head">Company Type :</div>
                 <div className="buyer-product-details-inner-copmany-text">Distributor</div>
               </div>
+              <div className="buyer-product-details-inner-company">
+                <div className="buyer-product-details-inner-copmany-head">Stocked In :</div>
+                <div className="buyer-product-details-inner-copmany-text">
+                  <div className='buyer-product-details-main-company-section'>
+                    <div className='buyer-product-details-main-company-stockedin'>USA</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>200 Packages</div>
+                  </div>
+                  <div className='buyer-product-details-main-company-section'>
+                    <div className='buyer-product-details-main-company-stockedin'>UK</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>400 Packages</div>
+                  </div>
+                  <div className='buyer-product-details-main-company-section'>
+                    <div className='buyer-product-details-main-company-stockedin'>India</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>200 Packages</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="buyer-product-details-company-conatiner">
               <div className="buyer-product-details-inner-company">
