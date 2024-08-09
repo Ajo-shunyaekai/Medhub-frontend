@@ -230,7 +230,7 @@
   .responsive-image {
     width: 100%;
     max-width: 90%;
-    height: auto;
+    height: 140px;
     border-radius: 5px;
   }
   
