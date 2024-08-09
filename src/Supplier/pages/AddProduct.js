@@ -1220,7 +1220,55 @@ const AddProduct = () => {
                                 ))}
                             </div>
                         </div>
+                        {/* start the manufacturer details */}
+                        <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-add-item-cont']}>
+                                <div className={styles['create-invoice-form-heading']}>Manufacturer Details</div>
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Manufacturer Name</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='productName'
+                                    placeholder='Enter Manufacturer Name'
+                                    autoComplete='off'
+                                    value={formData.productName}
+                                    onChange={handleChange}
+                                />
+                                {errors.productName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.productName}</div>}
+                            </div>
+                           
 
+                           
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country of Origin</label>
+                                <Select
+                                    className={styles['create-invoice-div-input-select']}
+                                    name='originCountry'
+                                    options={countries}
+                                    placeholder="Select Country of Origin"
+                                    autoComplete='off'
+                                    value={countryOfOrigin}
+                                    onChange={handleCountryOriginChange}
+                                />
+                                {errors.originCountry && <div className='add-product-errors' style={{ color: 'red' }}>{errors.originCountry}</div>}
+                            </div>                         
+                            <div className={styles['create-invoice-div-container-description']}>
+                                <label className={styles['create-invoice-div-label']}>Description</label>
+                                <textarea
+                                    className={styles['create-invoice-div-input']}
+                                    name="description"
+                                    rows="4"
+                                    cols="50"
+                                    value={formData.description}
+                                    placeholder='Enter Description'
+                                    onChange={handleChange}
+                                />
+                                {errors.description && <div className='add-product-errors' style={{ color: 'red' }}>{errors.description}</div>}
+                            </div>
+                        </div>
+                        {/* end the manufacturer details */}
                         {/* image upload section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-product-image-section']}>

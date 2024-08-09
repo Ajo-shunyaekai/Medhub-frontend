@@ -214,7 +214,7 @@ const ProductDetails = () => {
                   <div className="buyer-product-details-two-right-text">{details?.gmp_approvals}</div>
                 </div>
                 <div className="buyer-product-details-two">
-                  <div className="buyer-product-details-two-left-text">Unit Tax :</div>
+                  <div className="buyer-product-details-two-left-text">Unit tax :</div>
                   <div className="buyer-product-details-two-right-text">5%</div>
                 </div>
               </div>
@@ -256,15 +256,15 @@ const ProductDetails = () => {
           <div className="buyer-product-details-company-section">
             <div className="buyer-product-details-company-conatiner">
               <div className="buyer-product-details-inner-company">
-                <div className="buyer-product-details-inner-copmany-head">Supplier Name :</div>
+                <div className="buyer-product-details-inner-copmany-head">Supplier name :</div>
                 <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.supplier_name}</div>
               </div>
               <div className="buyer-product-details-inner-company">
-                <div className="buyer-product-details-inner-copmany-head">Company Type :</div>
+                <div className="buyer-product-details-inner-copmany-head">Company type :</div>
                 <div className="buyer-product-details-inner-copmany-text">Distributor</div>
               </div>
               <div className="buyer-product-details-inner-company">
-                <div className="buyer-product-details-inner-copmany-head">Stocked In :</div>
+                <div className="buyer-product-details-inner-copmany-head">Stocked in :</div>
                 <div className="buyer-product-details-inner-copmany-text">
                   <div className='buyer-product-details-main-company-section'>
                     <div className='buyer-product-details-main-company-stockedin'>USA</div>
@@ -283,11 +283,11 @@ const ProductDetails = () => {
             </div>
             <div className="buyer-product-details-company-conatiner">
               <div className="buyer-product-details-inner-company">
-                <div className="buyer-product-details-inner-copmany-head">License No. :</div>
+                <div className="buyer-product-details-inner-copmany-head">License no. :</div>
                 <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.license_no}</div>
               </div>
               <div className="buyer-product-details-inner-company">
-                <div className="buyer-product-details-inner-copmany-head">Tax No. :</div>
+                <div className="buyer-product-details-inner-copmany-head">Tax no. :</div>
                 <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.license_no}</div>
               </div>
             </div>
