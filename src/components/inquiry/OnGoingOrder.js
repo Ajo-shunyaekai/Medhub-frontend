@@ -44,7 +44,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.supplier.supplier_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.status}</div>
+                        <div className="ongoing-section-heading">{ongoing.enquiry_status}</div>
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>

@@ -5,7 +5,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     const [doorToDoor, setDoorToDoor] = useState(false);
     const [customClearance, setCustomClearance] = useState(false);
     const [transportMode, setTransportMode] = useState('');
-    const [dropLocation, setDropLocation] = useState({ name: '', contact: '', address: '' });
+    const [dropLocation, setDropLocation] = useState({ name: '', contact: '', address: '', cityDistrict: '', state: '', pincode: '' });
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [errors, setErrors] = useState({});
     const dropdownRef = useRef(null);
@@ -32,7 +32,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         setDoorToDoor(false);
         setCustomClearance(false);
         setTransportMode('');
-        setDropLocation({ name: '', contact: '', address: '' });
+        setDropLocation({ name: '', contact: '', address: '', cityDistrict: '', state: '', pincode: ''  });
         setErrors({});
     };
 
@@ -43,6 +43,9 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         if (!dropLocation.name) newErrors.name = 'Name is required.';
         if (!dropLocation.contact) newErrors.contact = 'Mobile number is required.';
         if (!dropLocation.address) newErrors.address = 'Address is required.';
+        if (!dropLocation.cityDistrict) newErrors.cityDistrict = 'City is required.';
+        if (!dropLocation.state) newErrors.state = 'State is required.';
+        if (!dropLocation.pincode) newErrors.pincode = 'Pincode is required.';
         return newErrors;
     };
 
@@ -177,10 +180,10 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                 className={styles.selectInputGroups}
                                 type="text"
                                 placeholder="Enter City/District"
-                                value={dropLocation.address}
-                                onChange={(e) => handleInputChange('address', e.target.value)}
+                                value={dropLocation.cityDistrict}
+                                onChange={(e) => handleInputChange('cityDistrict', e.target.value)}
                             />
-                            {errors.address && <div className={styles.error}>{errors.address}</div>}
+                            {errors.cityDistrict && <div className={styles.error}>{errors.cityDistrict}</div>}
                         </div>
                         <div className={styles['custom-modal-state-containers-section']}>
                             <div className={styles['custom-modal-input-container']}>
@@ -189,10 +192,10 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                     className={styles.selectInputGroups}
                                     type="text"
                                     placeholder="Enter State"
-                                    value={dropLocation.address}
-                                    onChange={(e) => handleInputChange('address', e.target.value)}
+                                    value={dropLocation.state}
+                                    onChange={(e) => handleInputChange('state', e.target.value)}
                                 />
-                                {errors.address && <div className={styles.error}>{errors.address}</div>}
+                                {errors.state && <div className={styles.error}>{errors.state}</div>}
                             </div>
                             <div className={styles['custom-modal-input-container']}>
                                 <label className={styles['custom-modal-label-heading']}>Pin Code</label>
@@ -200,10 +203,10 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                     className={styles.selectInputGroups}
                                     type="text"
                                     placeholder="Enter Pin Code"
-                                    value={dropLocation.address}
-                                    onChange={(e) => handleInputChange('address', e.target.value)}
+                                    value={dropLocation.pincode}
+                                    onChange={(e) => handleInputChange('pincode', e.target.value)}
                                 />
-                                {errors.address && <div className={styles.error}>{errors.address}</div>}
+                                {errors.pincode && <div className={styles.error}>{errors.pincode}</div>}
                             </div>
                         </div>
 
