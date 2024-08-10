@@ -151,7 +151,7 @@ const ActiveOrdersDetails = () => {
                         Height
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
-                        {orderDetails?.shipment_details?.shipment_details?.height} cm 
+                        {orderDetails?.shipment_details?.shipment_details?.height || '6'} cm 
                     </div>
                 </div>
                 <div className="buyer-order-details-top-order-cont">
@@ -159,7 +159,7 @@ const ActiveOrdersDetails = () => {
                         Length
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
-                        {orderDetails?.shipment_details?.shipment_details?.height} cm
+                        {orderDetails?.shipment_details?.shipment_details?.length || '3'} cm
                     </div>
                 </div>
             </div>
