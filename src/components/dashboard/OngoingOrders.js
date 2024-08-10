@@ -169,7 +169,7 @@ const OngoingOrders = () => {
                             {
                                     orderList?.map((order,i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + item.quantity;
+                                            return total + (item.quantity || item.quantity_required);
                                           }, 0);
                                           const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                         return (
@@ -190,7 +190,7 @@ const OngoingOrders = () => {
                                             <div className='completed-table-text-color ms-4'>{totalQuantity}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_status}</div>
+                                            <div className='completed-table-text-color'>{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1) }</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/buyer/order-details/${order.order_id}`}>

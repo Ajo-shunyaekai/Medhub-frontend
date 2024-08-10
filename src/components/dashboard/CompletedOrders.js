@@ -188,7 +188,7 @@ const CompletedOrders = () => {
                                                     <div className='completed-table-text-color ms-4'>{totalQuantity}</div>
                                                 </div>
                                                 <div className='completed-table-row-item completed-table-order-1'>
-                                                    <div className='completed-table-text-color'>{order.order_status}</div>
+                                                    <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1) }</div>
                                                 </div>
                                                 <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
                                                     <Link to={`/buyer/order-details/${order.order_id}`}>

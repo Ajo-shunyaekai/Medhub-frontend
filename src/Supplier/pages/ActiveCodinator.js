@@ -3,17 +3,17 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const ActiveCodinator = ({productList}) => {
+const ActiveCodinator = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 2; 
     
     const activeOrders = [
-        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'company@gmail.com' },
-        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'CEO', mobile: '+971 12345567', email:'company@gmail.com' },
-        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Marketing Manager', mobile: '+971 12345567', email:'company@gmail.com' },
+        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'sheetalpvt@gmail.com' },
+        { name: 'Harshit Rana', companyName: 'Bkart Pvt Ltd', designation: 'CEO', mobile: '+971 867654311', email:'bkart@gmail.com' },
+        // { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Marketing Manager', mobile: '+971 12345567', email:'company@gmail.com' },
     ];
 
-    const data = productList && productList.length > 0 ? productList : activeOrders;
+    const data =  activeOrders;
 
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;

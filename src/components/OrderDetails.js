@@ -151,7 +151,7 @@ const OrderDetails = () => {
                                         Payment Status
                                     </div>
                                     <div className="buyer-order-details-left-bottom-vehichle-no-text">
-                                        30% payment done.
+                                        {orderDetails?.order_status === 'completed' ? '100% done' : '60% completed'}
                                     </div>
                                 </div>
                             </div>
@@ -166,10 +166,10 @@ const OrderDetails = () => {
             {/* end the assign driver section */}
             {/* start the main component heading */}
 
-            {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
-            <>
+            {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
+            <> */}
 
-           
+{orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
             <div className='active-order-details-left-bottom-containers'>
                 <div className='active-order-details-left-bottom-vehichle'>
                     <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
@@ -184,8 +184,10 @@ const OrderDetails = () => {
                     <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                 </div>
             </div>
+)}
             {/* end the main component heading */}
             {/* start the main component heading */}
+            {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
             <div className='active-order-details-middle-bottom-containers'>
                 <div className='active-order-details-left-middle-vehichle-no'>
                     <div className='active-order-details-middle-bottom-vehicle-head'>Preferred Time of Pickup</div>
@@ -200,7 +202,9 @@ const OrderDetails = () => {
                     <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight || '4'} Kg</div>
                 </div>
             </div>
+            )}
             {/* end the main component heading */}
+            {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
             <div className="buyer-order-details-left-top-containers">
                 <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
                     <div className="buyer-order-details-top-order-cont">
@@ -229,8 +233,9 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
-            </>
-             )}
+            )}
+            {/* </>
+             )} */}
 
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
@@ -259,10 +264,10 @@ const OrderDetails = () => {
                     </div>
                 </div>
                 <div className='active-order-details-payment-right-section'>
-                <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
+               
                 {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
                     <>
-                   
+                    <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
                     <div className='active-order-details-payment-right-details-row'>
                         <div className='active-order-details-right-details-row-one'>
                             <div className='active-order-details-right-pickupdata'>
@@ -312,9 +317,11 @@ const OrderDetails = () => {
             </div>
             {/* end the section */}
             {/* Start the assign driver section */}
+            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
             <div className='buyer-order-details-codinator-section-cont'>
                 <BuyerActiveCodinator productList={orderDetails?.items} />
             </div>
+            )}
             {/* End the assign driver section */}
             <CustomModal
                 isOpen={isModalOpen}
