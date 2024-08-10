@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../style/ordermodal.module.css';
 import { postRequestWithToken } from '../api/Requests';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
         pickupTime: '',
         packages: '',
         length: '',
-        breadth: '',
+        width: '',
         height: '',
         weight: '',
         volume: '',
@@ -24,6 +24,14 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
         buyerType : buyerData?.buyer_type
 
     });
+
+    useEffect(() => {
+        const { length, width, height } = formData;
+        if (length && width && height) {
+            const volume = parseFloat(length) * parseFloat(width) * parseFloat(height);
+            setFormData(prevData => ({ ...prevData, volume: volume.toFixed(2) }));
+        }
+    }, [formData.length, formData.width, formData.height]);
 
     if (!show) return null;
 
@@ -51,8 +59,9 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                 prefered_pickup_time: formData.pickupTime,
             },
             shipment_details: {
+                no_of_packages: formData.packages,
                 length: formData.length,
-                breadth: formData.breadth,
+                breadth: formData.width,
                 height: formData.height,
                 total_weight: formData.weight,
                 total_volume: formData.volume,
@@ -128,60 +137,34 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                             required 
                          />
                     </div>
+                    
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>City/District</label>
-                        <input placeholder='Enter Full Address' 
-                            className={styles['order-modal-input']} 
-                            name="cityDistrict" 
-                            value={formData.cityDistrict}
-                            onChange={handleChange} 
-                            required 
-                         />
-                    </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>State</label>
-                        <input placeholder='Enter Full Address' 
-                            className={styles['order-modal-input']} 
-                            name="state"
-                             value={formData.state} 
-                            onChange={handleChange} 
-                            required 
+                        <input placeholder='Enter City/District' className={styles['order-modal-input']} 
+                        name="cityDistrict" 
+                        value={formData.cityDistrict}
+                        onChange={handleChange} 
+                        required 
                         />
-                    </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Pin Code</label>
-                        <input placeholder='Enter Full Address' 
-                            className={styles['order-modal-input']}
-                            name="pincode"
-                            value={formData.pincode} 
-                            onChange={handleChange}
-                            required 
-                          />
-                    </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Preferred Time Of Pickup</label>
-                        <input placeholder='Enter Preferred Time Of Pickup '
-                            className={styles['order-modal-input']} 
-                            type="text"
-                             name="pickupTime" 
-                            value={formData.pickupTime} 
-                            onChange={handleChange} 
-                            required 
-                         />
-                        <input placeholder='Enter Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
-                    </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>City/District</label>
-                        <input placeholder='Enter City/District' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>State</label>
-                            <input placeholder='Enter State' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                            <input placeholder='Enter State' className={styles['order-modal-input']} 
+                            name="state"
+                            value={formData.state} 
+                           onChange={handleChange} 
+                           required 
+                            />
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Pin Code</label>
-                            <input placeholder='Enter Pincode' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                            <input placeholder='Enter Pincode' className={styles['order-modal-input']}
+                             name="pincode"
+                             value={formData.pincode} 
+                             onChange={handleChange}
+                             required 
+                             />
                         </div>
                     </div>
                     <div className={styles['order-modal-dic-container']}>
@@ -216,17 +199,28 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                         <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Height</label>
-                            <input placeholder='Enter Height' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                            <input placeholder='Enter Height' className={styles['order-modal-input']} name="height" value={formData.height} onChange={handleChange} required />
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Width</label>
-                            <input placeholder='Enter Width' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                            <input placeholder='Enter Width' className={styles['order-modal-input']} name="width" value={formData.width} onChange={handleChange} required />
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Length</label>
-                            <input placeholder='Enter Length' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
+                            <input placeholder='Enter Length' className={styles['order-modal-input']} name="length" value={formData.length} onChange={handleChange} required />
                         </div>
                     </div>
+                    </div>
+                    <div className={styles['order-modal-dic-container']}>
+                        <label className={styles['order-modal-label']}>Total Volume</label>
+                        <input placeholder='Enter Weight' 
+                        className={styles['order-modal-input']} 
+                        type="text" 
+                        name="volume" 
+                        value={formData.volume}
+                        //  onChange={handleChange} 
+                         required 
+                         />
                     </div>
                     <div className={styles['order-modal-main-heading']}>Buyer Details</div>
                     <div className={styles['order-modal-dic-container']}>
@@ -236,7 +230,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                          type="text"
                          name="buyerName" 
                          readOnly
-                         defaultValue={buyerData.buyer_name} 
+                         defaultValue={buyerData?.buyer_name} 
                         //  onChange={handleChange} 
                          required
                           />
@@ -248,7 +242,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                         type="text" 
                         name="buyerCompanyType" 
                         readOnly
-                         defaultValue={buyerData.buyer_type} 
+                         defaultValue={buyerData?.buyer_type} 
                         //  onChange={handleChange} 
                          required />
                     </div>
@@ -259,7 +253,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                         type="text"
                         name="buyerMobile"
                         readOnly 
-                        defaultValue={buyerData.buyer_mobile} 
+                        defaultValue={buyerData?.buyer_mobile} 
                         //  onChange={handleChange} 
                          required />
                     </div>

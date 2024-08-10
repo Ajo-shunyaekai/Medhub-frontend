@@ -121,15 +121,15 @@ const ActiveOrdersDetails = () => {
             <div className='active-order-details-middle-bottom-containers'>
                 <div className='active-order-details-left-middle-vehichle-no'>
                     <div className='active-order-details-middle-bottom-vehicle-head'>Preferred Time of Pickup</div>
-                    <div className='active-order-details-middle-bottom-vehicle-text'>09-08-2024 14:00 PM</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
                 </div>
                 <div className='active-order-details-left-middle-vehichle-no'>
                     <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
-                    <div className='active-order-details-middle-bottom-vehicle-text'>18</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.no_of_packages || '5'}</div>
                 </div>
                 <div className='active-order-details-left-middle-vehichle-no'>
                     <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
-                    <div className='active-order-details-middle-bottom-vehicle-text'>4 Kg</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight} Kg</div>
                 </div>
             </div>
             )}
@@ -142,7 +142,7 @@ const ActiveOrdersDetails = () => {
                         Breadth
                         </div>
                         <div className="buyer-order-details-left-top-main-contents">
-                            12 cm
+                            {orderDetails?.shipment_details?.shipment_details?.breadth || '2'} cm
                         </div>
                     </div>
                 </Link>
@@ -151,15 +151,15 @@ const ActiveOrdersDetails = () => {
                         Height
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
-                        20 cm 
+                        {orderDetails?.shipment_details?.shipment_details?.height} cm 
                     </div>
                 </div>
                 <div className="buyer-order-details-top-order-cont">
                     <div className="buyer-order-details-left-top-main-heading">
-                        length
+                        Length
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
-                        12cm
+                        {orderDetails?.shipment_details?.shipment_details?.height} cm
                     </div>
                 </div>
             </div>
