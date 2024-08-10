@@ -382,7 +382,7 @@
   font-weight: 500;
   display: flex;
   flex-direction: column;
-  row-gap: 4px;
+  row-gap: 10px;
 }
 
 /* media quries start from here */
@@ -658,6 +658,13 @@
 .buyer-product-details-card-test-text {
   font-size: 13px;
   color: #99a0ac;
+  width: 104px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 .buyer-product-details-main-button-section {
@@ -701,7 +708,7 @@
   }
 
   .buyer-product-details-card-text-head {
-    width: 140px;
+    width: 130px;
   }
 }
 

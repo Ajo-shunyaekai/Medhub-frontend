@@ -272,15 +272,15 @@ const ProductDetails = () => {
                   </div>
                   <div className='buyer-product-details-main-company-section'>
                     <div className='buyer-product-details-main-company-stockedin'>USA</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>200 Packages</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>200 Packet</div>
                   </div>
                   <div className='buyer-product-details-main-company-section'>
                     <div className='buyer-product-details-main-company-stockedin'>UK</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>400 Packages</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>400 Packet</div>
                   </div>
                   <div className='buyer-product-details-main-company-section'>
                     <div className='buyer-product-details-main-company-stockedin'>India</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>200 Packages</div>
+                    <div className='buyer-product-details-main-company-totalquantity'>200 Packet</div>
                   </div>
                 </div>
               </div>

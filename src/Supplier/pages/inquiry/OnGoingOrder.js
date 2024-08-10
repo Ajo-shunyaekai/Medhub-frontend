@@ -22,48 +22,42 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Divya Pharma Distributors",
-      qty: "500",
-      unit_price: "20 USD",
+     status:"Request"
 
     },
     {
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Crystal Medicines Group",
-      qty: "500",
-      unit_price: "20 USD",
+     status:"Request"
 
     },
     {
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Fourtrek Healthcare",
-      qty: "500",
-      unit_price: "20 USD",
+     status:"Request"
 
     },
     {
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Ganga Pharma Distributors",
-      qty: "500",
-      unit_price: "20 USD",
+      status:"Request"
 
     },
     {
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Numera Lifesciences",
-      qty: "500",
-      unit_price: "20 USD",
+     status:"Request"
 
     },
     {
       inquiry_id: "123456",
       date: "12-07-2024",
       buyer_name: "Tradeco Pharmaceuticals",
-      qty: "500",
-      unit_price: "20 USD",
+      status:"Request"
 
     },
   ];
@@ -81,8 +75,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                     <th className="ongoing-container-th">Inquiry ID</th>
                     <th className="ongoing-container-th">Date</th>
                     <th className="ongoing-container-large-th">Buyer Name</th>
-                    <th className="ongoing-container-th">Quantity</th>
-                    <th className="ongoing-container-th">Unit Price</th>
+                    <th className="ongoing-container-th">Status</th>
                     <th className="ongoing-container-th">Action</th>
                   </tr>
                 </thead>
@@ -99,10 +92,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.qty || '500'}</div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.unit_price || '1 AED'}</div>
+                        <div className="ongoing-section-heading">{ongoing.status}</div>
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>

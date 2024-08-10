@@ -67,9 +67,9 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                     <thead>
                         <tr>
                             <th className="text-muted invoice-th">Invoice No.</th>
+                            <th className="text-muted invoice-th">PO Date</th>
                             <th className="text-muted invoice-th">Order ID</th>
-                            <th className="text-muted invoice-th">Customer Name</th>
-                            <th className="text-muted invoice-th">Status</th>
+                            <th className="text-muted invoice-th">Customer Name</th>                         
                             <th className="text-muted invoice-th">Action</th>
                         </tr>
                     </thead>
@@ -83,6 +83,9 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                                 <td>
                                                     <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                                 </td>
+                                                <td className="flex">
+                                                    <span className="item-title text-color">{invoice.order_status}</span>
+                                                </td>
                                                 <td>
                                                     <span className="item-title">{invoice.order_id}</span>
                                                 </td>
@@ -91,9 +94,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                                         <span className="item-title text-color">{invoice.buyer_company || 'Pharma Private Ltd'}</span>
                                                     </div>
                                                 </td>
-                                                <td className="flex">
-                                                    <span className="item-title text-color">{invoice.order_status}</span>
-                                                </td>
+                                               
                                                 <td className='pending-invoices-td'>
                                                     <div className='invoice-details-button-row'>
                                                         <Link to={`/supplier/proforma-invoice-details/${invoice.order_id}`}>

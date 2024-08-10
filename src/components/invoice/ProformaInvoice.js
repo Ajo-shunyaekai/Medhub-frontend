@@ -62,10 +62,9 @@ const ProformaInvoice = ({invoiceList}) => {
                                 <thead>
                                     <tr>
                                         <th className="text-muted invoice-th">Invoice No.</th>
+                                        <th className="text-muted invoice-th">PO Date</th>
                                         <th className="text-muted invoice-th">Order ID</th>
                                         <th className="text-muted invoice-th">Customer Name</th>
-                                        <th className="text-muted invoice-th">Payment Type</th>
-                                        <th className="text-muted invoice-th">Status</th>
                                         <th className="text-muted invoice-th">Action</th>
                                     </tr>
                                 </thead>
@@ -79,12 +78,16 @@ const ProformaInvoice = ({invoiceList}) => {
                                 <td>
                                     <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                 </td>
+                                <td className="flex">
+                                    <span className="item-title text-color">{invoice.order_status === 'completed' ? 'Paid' : ''}</span>
+                                </td>
                                 <td>
                                     <span className="item-title">{invoice.order_id}</span>
                                 </td>
                                 <td>
                                     <span className="item-title">{ invoice?.supplier?.supplier_name}</span>
                                 </td>
+<<<<<<< Updated upstream
 
                                 <td className="flex">
                                     <span className="item-title text-color">COD</span>
@@ -92,6 +95,9 @@ const ProformaInvoice = ({invoiceList}) => {
                                 <td className="flex">
                                     <span className="item-title text-color">{invoice.order_status}</span>
                                 </td>
+=======
+                               
+>>>>>>> Stashed changes
                                 <td>
                                     <div className='invoice-details-button-row'>
                                         <Link to={`/buyer/Proforma-Invoice-Details`}>

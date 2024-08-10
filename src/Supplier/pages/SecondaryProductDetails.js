@@ -150,8 +150,8 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-right-text'>{medicineDetails?.type_of_form}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Stocked in :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.stocked_in?.join(', ')}</div>
+                                        <div className='product-details-two-left-text'>Unit tax :</div>
+                                        <div className='product-details-two-right-text'>5%</div>
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
@@ -171,13 +171,34 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-left-text'>GMP approvals :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
-                                    <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Unit tax :</div>
-                                        <div className='product-details-two-right-text'>5%</div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
+                          {/* start the stocked on container */}
+                          <div className='product-details-container'>
+                            <div className="product-details-stockedin-section-main-container">
+                                <div className='product-stockedin-head'>Stocked In</div>
+                                <div className='product-stockedin-head-section'>
+                                    <div className='product-stockedin-head-country'>Countries</div>
+                                    <div className='product-stockedin-head-country'>Quantity</div>
+                                </div>
+                                <div className='product-stockedin-head-section'>
+                                    <div className='product-stockedin-head-country-name'>USA</div>
+                                    <div className='product-stockedin-head-qty-name'>200 Packet</div>
+                                </div>
+                                <div className='product-stockedin-head-section'>
+                                    <div className='product-stockedin-head-country-name'>UK</div>
+                                    <div className='product-stockedin-head-qty-name'>500 Packet</div>
+                                </div>
+                                <div className='product-stockedin-head-section'>
+                                    <div className='product-stockedin-head-country-name'>India</div>
+                                    <div className='product-stockedin-head-qty-name'>1000 Packet</div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        {/* end the stocked on container */}
                         <div className='product-details-container'>
                             {/* <div className="product-details-section-two-img">
                                 <div className="product-details-sec-img-left">
@@ -193,6 +214,8 @@ const SecondaryProductDetails = () => {
                                     <img src={para} alt="" className="responsive-image" />
                                 </div>
                             </div> */}
+
+                           
                             <div className="product-details-section-two-img"> 
                                         {medicineDetails?.medicine_image?.map((image, j) => (
                                             <div className="product-details-sec-img-left" key={j}>

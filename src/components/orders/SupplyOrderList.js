@@ -1,5 +1,5 @@
 import React from 'react'
-import Supplierdetails from '../../style/supplierdetails.css'
+import '../../style/supplierdetails.css'
 import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment/moment';
@@ -22,15 +22,8 @@ const SupplyOrderList = ({orderList, totalOrders, currentPage, ordersPerPage, ha
                         <thead className='supply-details-thead-section'>
                         <tr>
                             <td className='supply-tdss'>Order ID</td>
-
                             <td className='supply-tdss'>Date</td>
-
-                            {/* <td className='supply-tdss'>Price</td> */}
-
-                            <td className='supply-tdss'>Quantity</td>
-
                             <td className='supply-tdss'>Status</td>
-
                             <td className='supply-button-tdss'>Action</td>
 
                         </tr>
@@ -57,21 +50,6 @@ const SupplyOrderList = ({orderList, totalOrders, currentPage, ordersPerPage, ha
                                     <td className='supply-td' >
                                         <div className="table-supply-section-content">
                                             <span className="table-g-supply-text">{orderedDate || '22/05/2024'}</span>
-                                        </div>
-                                    </td>
-                                    {/* <td className='supply-td' >
-                                        <div className="table-supply-section-content">
-                                            <span className="table-g-supply-text">Paracetamol Tablet</span>
-                                        </div>
-                                    </td> */}
-                                    {/* <td className='supply-td'>
-                                        <div className="table-supply-section-content">
-                                            <span className="table-g-supply-text">588 AED</span>
-                                        </div>
-                                    </td> */}
-                                    <td className='supply-td'>
-                                        <div className="table-supply-section-content">
-                                            <span className="table-g-supply-text">{totalQuantity || 100}</span>
                                         </div>
                                     </td>
                                     <td className='supply-td'>

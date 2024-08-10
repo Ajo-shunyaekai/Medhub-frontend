@@ -558,6 +558,35 @@ font-size: 14px;
   font-size: 13px;
   color: #99a0ac;
 }
+.product-details-stockedin-section-main-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.product-stockedin-head{
+  font-size: 16px;
+  font-weight: 500;
+  color: #5e676f;
+}
+.product-stockedin-head-section{
+  display: flex;
+}
+.product-stockedin-head-country{
+  width: 220px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.product-stockedin-head-country-name{
+  width: 220px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.product-stockedin-head-qty-name{
+  width: 220px;
+  font-size: 14px;
+  color: #99a0ac;
+  font-weight: 500;
+}
 /* start the media query */
 @media screen and (max-width: 1500px) {
   .product-details-card-section {
@@ -567,6 +596,11 @@ font-size: 14px;
   .product-details-card-text-head {
     width: 140px;
   }
+  .product-details-wrapper {
+    height: 600px;
+  }
+}
+@media screen and (max-width: 1400px) {
   .product-details-wrapper {
     height: 400px;
   }
