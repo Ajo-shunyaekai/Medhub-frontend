@@ -142,6 +142,7 @@ const InquiryRequestDetails = () => {
             </div>
             <div className='inquiry-details-assign-driver-section'>
                 <InquiryProductList
+                    inquiryDetails = {inquiryDetails}
                     items={inquiryDetails?.items}
                     setAcceptChecked={setAcceptChecked}
                     setCounterChecked={setCounterChecked}
@@ -155,6 +156,7 @@ const InquiryRequestDetails = () => {
                         <div className='inquiry-details-payment-first-terms-heading'>Est Delivery Time</div>
                         <div className='inquiry-details-payment-first-terms-text'>{inquiryDetails?.supplier?.estimated_delivery_time}</div>
                     </div>
+                    {inquiryDetails?.enquiry_status !== 'Quotation submitted' && (
                     <div className='inquiry-details-payment-detention-cont'>
                         <div className='inquiry-details-payment-first-terms-heading'><span className='inquiry-details-payment-terms'>Payment Terms</span>
                             <FaPlus
@@ -183,10 +185,16 @@ const InquiryRequestDetails = () => {
 
                         </div>
                     </div>
+                    )}
                 </div>
             </div>
             <div className='inquiry-details-button-section'>
-                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>Submit Quotation</div>
+                
+            {inquiryDetails?.quotation_items?.length === 0 && (
+                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>
+                    Submit Quotation
+                </div>
+            )}
                 <a href={mailtoLink} className='inquiry-details-cancel-button'>
                     Contact Buyer
                 </a>

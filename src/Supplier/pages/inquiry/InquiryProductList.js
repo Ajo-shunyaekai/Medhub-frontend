@@ -3,7 +3,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuotationItems}) => {
+const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuotationItems, inquiryDetails}) => {
     const [currentPage, setCurrentPage]       = useState(1);
     const [acceptedOrders, setAcceptedOrders] = useState([]);
     const [rejectedOrders, setRejectedOrders] = useState([]);
@@ -107,7 +107,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                                     <span className="table-g-not-name">{item.target_price}</span>
                                 </div>
                             </td>
-                            <td className='tables-status'>
+                            {/* <td className='tables-status'>
                                 <div className='tables-button-conatiner'>
                                     <label className='inquiry-label-section'>
                                         <input
@@ -139,7 +139,48 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                                         />
                                     </div>
                                 </div>
+                            </td> */}
+                             {inquiryDetails.enquiry_status !== 'Quotation submitted' ? (
+                <td className='tables-status'>
+                    <div className='tables-button-conatiner'>
+                        <label className='inquiry-label-section'>
+                            <input
+                                className='inquiry-input-section'
+                                type="checkbox"
+                                checked={acceptedOrders.includes(item._id)}
+                                onChange={() => handleAcceptChange(item._id)}
+                            />
+                            Accept
+                        </label>
+                        <div className='inquiry-price-container'>
+                            <label className='inquiry-label-section'>
+                                <input
+                                    className='inquiry-input-section'
+                                    type="checkbox"
+                                    checked={rejectedOrders.includes(item._id)}
+                                    onChange={() => handleRejectChange(item._id)}
+                                />
+                            </label>
+                            <input
+                                className='inquiry-text-input-section'
+                                type="text"
+                                value={prices[item._id] || ''}
+                                onChange={(e) => handlePriceChange(item._id, e.target.value)}
+                                disabled={!rejectedOrders.includes(item._id)}
+                                maxLength="9"
+                                placeholder='Enter Counter Price'
+                            />
+                        </div>
+                    </div>
+                </td>
+            ) : (
+                <td className='tables-td'>
+                                <div className="table-g-section-content">
+                                    <span className="table-g-driver-name">Status</span>
+                                    <span className="table-g-not-name">{inquiryDetails?.enquiry_status}</span>
+                                </div>
                             </td>
+            )}
                         </tr>
                     ))}
                 </tbody>

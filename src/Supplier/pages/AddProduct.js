@@ -680,9 +680,6 @@ const AddProduct = () => {
                 stocked_quantity: section.stockedInQuantity || '',
                 stocked_in_type: section.stockedInType || ''
             }));
-            console.log('simplifiedStockedInSections', simplifiedStockedInSections);
-            console.log('formData', formData);
-            console.log('errors', errors);
             if (productType && productType.label === 'New Product') {
 
                 const quantities = formData.quantity?.map(qty => {
@@ -727,7 +724,6 @@ const AddProduct = () => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
                     } else {
-
                         toast(response.message, { type: "error" });
                         console.log('error in new  /medicine/add-medicine');
                     }
@@ -786,8 +782,7 @@ const AddProduct = () => {
                 })
             }
         } else {
-            console.log('errorrrrr');
-            console.log(formData);
+            console.log('errorrrrr',formData);
         }
     }
 
@@ -861,7 +856,6 @@ const AddProduct = () => {
         updatedSections[index].stockedInType = packageType;
         setStockedInSections(updatedSections);
     };
-    console.log('stockedINSection', stockedInSections);
     // end the stocked in section
     return (
         <>

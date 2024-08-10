@@ -47,7 +47,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                           <div className="ongoing-section-heading">{data.buyer_name}</div>
                         </td>
                         <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.status}</div>
+                          <div className="ongoing-section-heading">{data?.po_status?.charAt(0)?.toUpperCase() + data?.po_status?.slice(1)}</div>
                         </td>
                         <td className='ongoing-section-td'>
                           <div className='ongoing-section-button'>

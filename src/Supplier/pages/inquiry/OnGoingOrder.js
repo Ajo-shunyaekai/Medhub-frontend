@@ -92,7 +92,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing.status}</div>
+                        <div className="ongoing-section-heading">{ongoing?.enquiry_status?.charAt(0)?.toUpperCase() + ongoing?.enquiry_status?.slice(1) }</div>
                       </td>
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>
