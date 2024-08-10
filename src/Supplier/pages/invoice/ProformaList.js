@@ -9,6 +9,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import html2pdf from 'html2pdf.js';
 import InvoiceDesign from './InvoiceDesign';
+import moment from 'moment/moment';
 
 const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange }) => {
     const [showModal, setShowModal] = useState(false);
@@ -84,7 +85,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                                     <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.order_status}</span>
+                                                    <span className="item-title text-color">{moment(invoice.created_at).format("DD/MM/YYYY")}</span>
                                                 </td>
                                                 <td>
                                                     <span className="item-title">{invoice.order_id}</span>

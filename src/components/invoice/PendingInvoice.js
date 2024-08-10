@@ -94,7 +94,7 @@ const PendingInvoice = ({invoiceList}) => {
                                 <span className="item-title text-color">{invoice.totalPrice} AED</span>
                             </td>
                             <td className="flex">
-                                <span className="item-title text-color">{invoice.order_status === 'pending'? 'pending': ''}</span>
+                                <span className="item-title text-color">{invoice.order_status === 'pending'? 'Pending': ''}</span>
                             </td>
                             <td className='pending-invoices-td'>
                                 <div className='invoice-details-button-row'>

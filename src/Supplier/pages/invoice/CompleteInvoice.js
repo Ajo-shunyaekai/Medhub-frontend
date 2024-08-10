@@ -113,7 +113,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                                     <span className="item-title text-color">COD</span>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.order_status}</span>
+                                                    <span className="item-title text-color">{invoice.order_status?.charAt(0).toUpperCase() + invoice?.order_status?.slice(1) }</span>
                                                 </td>
                                                 <td className='pending-invoices-td'>
                                                     <div className='invoice-details-button-row'>

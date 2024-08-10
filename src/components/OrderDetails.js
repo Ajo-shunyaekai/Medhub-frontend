@@ -120,7 +120,7 @@ const OrderDetails = () => {
                                         Order Status
                                     </div>
                                     <div className="buyer-order-details-left-top-main-contents">
-                                        {orderDetails?.status}
+                                        {orderDetails?.status?.charAt(0).toUpperCase() + orderDetails?.status?.slice(1) }
                                     </div>
                                 </div>
                                 {

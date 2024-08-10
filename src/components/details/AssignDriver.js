@@ -37,28 +37,28 @@ const AssignDriver = ({orderItems}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">{item.medicine_id}</span>
+                                            <span className="table-g-not-names">{item.medicine_id || item.product_id }</span>
                                         </div>
                                     </td>
                                     <td className='tables-td-cont' >
                                         <div className="table-second-container">
-                                            <span className="table-g-section">{item?.medicine_name?.charAt(0) }</span>
+                                            <span className="table-g-section">{item?.medicine_name?.charAt(0) || item?.product_name?.charAt(0) }</span>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
-                                                <span className="table-g-not-name">{item.medicine_name} </span>
+                                                <span className="table-g-not-name">{item.medicine_name || item.product_name} </span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Quantity</span>
-                                            <span className="table-g-not-name">{item.quantity_required}</span>
+                                            <span className="table-g-not-name">{item.quantity_required || item.quantity}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Total Price</span>
-                                            <span className="table-g-not-name">{item.total_amount}</span>
+                                            <span className="table-g-not-name">{item.total_amount || item.item_price}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>

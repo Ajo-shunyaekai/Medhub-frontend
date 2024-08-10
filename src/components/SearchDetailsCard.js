@@ -47,19 +47,22 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Unit Price :</div>
                                 <div className='search-details-card-test-text'>
-                                {med?.inventory_info?.map((item) => item.unit_price).join(', ')}
+                                {/* {med?.inventory_info?.map((item) => item.unit_price).join(', ')} */}
+                                {med?.inventory_info?.[0]?.unit_price}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Total Quantity :</div>
                                 <div className='search-details-card-test-text'>
-                                {med?.inventory_info?.map((item) => item.quantity).join(', ')}
+                                {/* {med?.inventory_info?.map((item) => item.quantity).join(', ')} */}
+                                {med?.inventory_info?.[0]?.quantity}
                                     </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Delivery Time :</div>
                                 <div className='search-details-card-test-text'>
-                                {med?.inventory_info?.map((item) => item.est_delivery_days).join(', ')}
+                                {/* {med?.inventory_info?.map((item) => item.est_delivery_days).join(', ')} */}
+                                {med?.inventory_info?.[0]?.est_delivery_days}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>

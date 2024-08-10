@@ -6,6 +6,7 @@ import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined
 import { Link, useNavigate } from 'react-router-dom';
 import html2pdf from 'html2pdf.js';
 import InvoiceTemplate from '../pay/invoiceDesign';
+import moment from 'moment/moment';
 
 
 const ProformaInvoice = ({invoiceList}) => {
@@ -79,7 +80,7 @@ const ProformaInvoice = ({invoiceList}) => {
                                     <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                 </td>
                                 <td className="flex">
-                                    <span className="item-title text-color">{invoice.order_status === 'completed' ? 'Paid' : ''}</span>
+                                    <span className="item-title text-color">{moment(invoice?.created_at).format("DD/MM/YYYY")}</span>
                                 </td>
                                 <td>
                                     <span className="item-title">{invoice.order_id}</span>

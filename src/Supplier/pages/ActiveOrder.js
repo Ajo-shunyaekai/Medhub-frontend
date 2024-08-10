@@ -132,7 +132,9 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                                             <div className="order-section-heading">{totalQuantity}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.status}</div>
+                                                            <div className="order-section-heading">
+                                                                {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1) }
+                                                                </div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>

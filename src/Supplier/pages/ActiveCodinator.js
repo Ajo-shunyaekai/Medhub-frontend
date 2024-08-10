@@ -5,12 +5,12 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const ActiveCodinator = ({productList}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 1; 
+    const ordersPerPage = 2; 
     
     const activeOrders = [
+        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'company@gmail.com' },
         { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'CEO', mobile: '+971 12345567', email:'company@gmail.com' },
-        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'CEO', mobile: '+971 12345567', email:'company@gmail.com' },
-        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'CEO', mobile: '+971 12345567', email:'company@gmail.com' },
+        { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Marketing Manager', mobile: '+971 12345567', email:'company@gmail.com' },
     ];
 
     const data = productList && productList.length > 0 ? productList : activeOrders;
@@ -37,33 +37,33 @@ const ActiveCodinator = ({productList}) => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Name</span>
-                                        <span className="table-g-not-names">{order.productId || order.product_id}</span>
+                                        <span className="table-g-not-names">{ order.name ||'Ashok Kumar'}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td-cont' >
                                     <div className="table-second-container">
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Company Name</span>
-                                            <span className="table-g-not-name">{order.productName || order.product_name}</span>
+                                            <span className="table-g-not-name">{ order.companyName || 'Bkart Logisctics'}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Designation</span>
-                                        <span className="table-g-not-name">{order.quantity}</span>
+                                        <span className="table-g-not-name">{order.designation || 'Manager'}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Mobile No</span>
-                                        <span className="table-g-not-name">{order.quantity}</span>
+                                        <span className="table-g-not-name">{ order.mobile || '79751245141'}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Email ID</span>
-                                        <span className="table-g-not-name">{order.totalAmount || order.price}</span>
+                                        <span className="table-g-not-name">{order.email || 'ashok@gmail.com'}</span>
                                     </div>
                                 </td>
                             </tr>

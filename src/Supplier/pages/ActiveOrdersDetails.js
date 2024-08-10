@@ -62,7 +62,7 @@ const ActiveOrdersDetails = () => {
                                 </Link>
                                 <div className='active-order-details-top-order-cont'>
                                     <div className='active-order-details-left-top-main-heading'> Order Status</div>
-                                    <div className='active-order-details-left-top-main-contents'> {orderDetails?.status}</div>
+                                    <div className='active-order-details-left-top-main-contents'> {orderDetails?.status.charAt(0).toUpperCase() +  orderDetails?.status.slice(1) }</div>
                                 </div>
                                 {
                                     orderDetails?.status === 'Awaiting Details from Seller' ?
@@ -85,7 +85,7 @@ const ActiveOrdersDetails = () => {
                                 </div>
                                 <div className='active-order-details-left-bottom-vehichle-no'>
                                     <div className='active-order-details-left-bottom-vehichle-no-head'>Type</div>
-                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type}</div>
+                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type || 'End User'}</div>
                                 </div>
                             </div>
                         </div>
@@ -165,12 +165,12 @@ const ActiveOrdersDetails = () => {
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-detention-head'>Payment Status</div>
                             <div className='active-order-details-payment-detention-content'>
-                                <div className='active-order-details-payment-detention-date'>70% payment done</div>
+                                <div className='active-order-details-payment-detention-date'>{orderDetails?.order_status === 'completed' ? '100% done' : '60% completed'}</div>
                             </div>
                         </div>
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '-'}</div>
+                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '10 days'}</div>
                         </div>
                     </div>
                     <div className='active-order-details-payment-detention-cont'>
@@ -244,10 +244,15 @@ const ActiveOrdersDetails = () => {
             </div>
             {/* End the section */}
             {/* Start the assign driver section */}
+            {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
             <div className='active-order-details-codinator'>
                 <ActiveCodinator productList={orderDetails?.items} />
             </div>
+              )}
             {/* End the assign driver section */}
+            {/* {
+                orderDetails?.order_status === 'compla'
+            } */}
             <div className='active-order-details-invoice-list-section'>
                 <ActiveInvoiceList />
             </div>
