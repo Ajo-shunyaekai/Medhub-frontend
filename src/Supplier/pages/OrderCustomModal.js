@@ -120,7 +120,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Address</label>
-<<<<<<< Updated upstream
                         <input placeholder='Enter Full Address'
                             className={styles['order-modal-input']} 
                             name="address" 
@@ -169,7 +168,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                             onChange={handleChange} 
                             required 
                          />
-=======
                         <input placeholder='Enter Address' className={styles['order-modal-input']} name="address" value={formData.address} onChange={handleChange} required />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
@@ -189,7 +187,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Preferred Time of Pickup</label>
                         <input placeholder='Enter Preferred Time Of Pickup ' className={styles['order-modal-input']} type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
->>>>>>> Stashed changes
                     </div>
                     <div className={styles['order-modal-main-heading']}>Shipment Details</div>
                     <div className={styles['order-modal-dic-container']}>

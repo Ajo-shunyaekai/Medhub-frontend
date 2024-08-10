@@ -87,17 +87,7 @@ const ProformaInvoice = ({invoiceList}) => {
                                 <td>
                                     <span className="item-title">{ invoice?.supplier?.supplier_name}</span>
                                 </td>
-<<<<<<< Updated upstream
-
-                                <td className="flex">
-                                    <span className="item-title text-color">COD</span>
-                                </td>
-                                <td className="flex">
-                                    <span className="item-title text-color">{invoice.order_status}</span>
-                                </td>
-=======
                                
->>>>>>> Stashed changes
                                 <td>
                                     <div className='invoice-details-button-row'>
                                         <Link to={`/buyer/Proforma-Invoice-Details`}>
