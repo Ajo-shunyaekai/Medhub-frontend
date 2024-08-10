@@ -114,7 +114,8 @@ const AddProduct = () => {
         countryAvailableIn: '',
         manufacturerName: '',
         manufacturerOriginCountry: '',
-        manufacturerDescription: ''
+        manufacturerDescription: '',
+        stockedInData: ''
 
 
 
@@ -294,6 +295,8 @@ const AddProduct = () => {
 
 
             if (secondaryMarketValue && productType.label === 'Secondary Market') {
+
+                
                 setFormSections([
                     ...formSections,
                     {
@@ -312,14 +315,33 @@ const AddProduct = () => {
             }
         }
     };
+
     const addStockedInSection = () => {
-        setStockedInSections(prevSections => [
-            ...prevSections,
-            {
-                stockedInCountry: null,  // Or set a default value if needed
-                stockedInQuantity: ''
+        let newProductValid = true;
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry || !section.stockedInQuantity || !section.stockedInType ) {
+                newProductValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`stockedInCountry${index}`]: !section.stockedInCountry ? 'stockedInCountry is required' : '',
+                    [`stockedInQuantity${index}`]: !section.stockedInQuantity ? 'stockedInQuantity is required' : '',
+                    [`stockedInType${index}`]: !section.stockedInType ? 'stockedInType is required' : '',
+
+                }));
             }
-        ]);
+        });
+        if(newProductValid) {
+            setStockedInSections(prevSections => [
+                ...prevSections,
+                {
+                    stockedInCountry: null, 
+                    stockedInQuantity: '',
+                    stockedInType : 'Box'
+                }
+            ]);
+            setErrors({});
+        }
+        
     };
 
 
@@ -546,6 +568,7 @@ const AddProduct = () => {
         if (!productType) formErrors.productType = 'Product type is required';
         if (!formData.composition) formErrors.composition = 'Composition is required';
         if (!formData.strength) formErrors.strength = 'Strength is required';
+        if (!formData.unitTax) formErrors.unitTax = 'Unit tax is required';
         if (!formType) formErrors.typeOfForm = 'Type of form is required';
         if (!formData.shelfLife) formErrors.shelfLife = 'Shelf life is required';
         if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is required';
@@ -585,6 +608,13 @@ const AddProduct = () => {
 
         if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is required';
 
+        
+            stockedInSections.forEach((section, index) => {
+                if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in country is required';
+                if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in quantity is required';
+                if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in type is required';
+            });
+        
 
 
         if (productType && productType.label === 'Secondary Market') {
@@ -616,7 +646,8 @@ const AddProduct = () => {
     const [stockedInSections, setStockedInSections] = useState([
         {
             stockedInCountry: '',
-            stockedInQuantity: ''
+            stockedInQuantity: '',
+            stockedInType : 'Box',
         }
     ]);
 
@@ -645,10 +676,11 @@ const AddProduct = () => {
             }) || []
 
             const simplifiedStockedInSections = stockedInSections.map(section => ({
-                stocked_in_country: section.stockedInCountry.label,
-                stocked_quantity: section.stockedInQuantity
+                stocked_in_country: section.stockedInCountry?.label || '',
+                stocked_quantity: section.stockedInQuantity || '',
+                stocked_in_type: section.stockedInType || ''
             }));
-
+            console.log('simplifiedStockedInSections', simplifiedStockedInSections);
             console.log('formData', formData);
             console.log('errors', errors);
             if (productType && productType.label === 'New Product') {
@@ -661,6 +693,7 @@ const AddProduct = () => {
                 newFormData.append('medicine_name', formData.productName);
                 newFormData.append('product_type', 'new');
                 newFormData.append('composition', formData.composition);
+                newFormData.append('unit_tax', formData.unitTax);
                 newFormData.append('strength', formData.strength);
                 newFormData.append('type_of_form', formData.typeOfForm?.label);
                 newFormData.append('shelf_life', formData.shelfLife);
@@ -684,7 +717,8 @@ const AddProduct = () => {
                 newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
                 newFormData.append('manufacturer_name', formData?.manufacturerName)
                 newFormData.append('manufacturer_description', formData?.manufacturerDescription)
-                newFormData.append('stockedIn_data', simplifiedStockedInSections)
+                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
+                newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
                 postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
                     if (response.code === 200) {
@@ -711,6 +745,7 @@ const AddProduct = () => {
 
                 countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
                 secondaryFormData.append('strength', formData.strength);
+                secondaryFormData.append('unit_tax', formData.unitTax);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
 
                 secondaryFormData.append('composition', formData.composition);
@@ -735,8 +770,9 @@ const AddProduct = () => {
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
                 secondaryFormData.append('manufacturer_name', formData?.manufacturerName)
                 secondaryFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                secondaryFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
-                postRequestWithTokenAndFile('/medicine/add-medicin', secondaryFormData, async (response) => {
+                postRequestWithTokenAndFile('/medicine/add-medicine', secondaryFormData, async (response) => {
                     if (response.code === 200) {
                         toast(response.message, { type: "success" });
 
@@ -814,9 +850,18 @@ const AddProduct = () => {
     const [quantity, setQuantity] = useState('');
     const [packageType, setPackageType] = useState('Box');
 
-    const handlePackageSelection = (event) => {
-        setPackageType(event.target.value);
+    // const handlePackageSelection = (event) => {
+    //     setPackageType(event.target.value);
+    //     const updatedSections = [...stockedInSections];
+    //     updatedSections[index].stockedInType = event.target.value;
+    //     setStockedInSections(updatedSections);
+    // };
+    const handlePackageSelection = (index, packageType) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInType = packageType;
+        setStockedInSections(updatedSections);
     };
+    console.log('stockedINSection', stockedInSections);
     // end the stocked in section
     return (
         <>
@@ -1117,6 +1162,7 @@ const AddProduct = () => {
                                 {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
+
                         {/* Start the stocked in section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
@@ -1138,6 +1184,7 @@ const AddProduct = () => {
                                                     placeholder="Select Stocked In Country"
                                                     name='stockedInCountry'
                                                 />
+                                                {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>}
                                             </div>
                                             <div className={styles['add-product-div-container']}>
                                                 <label className={styles['create-invoice-div-label']}>Stocked In Quantity</label>
@@ -1145,33 +1192,47 @@ const AddProduct = () => {
                                                     <div className={styles.inputGroup}>
                                                         <input
                                                             type="text"
-                                                            value={quantity}
-                                                            onChange={(e) => setQuantity(e.target.value)}
+                                                            // value={quantity}
+                                                            // onChange={(e) => setQuantity(e.target.value)}
+                                                            // onChange={handleStockedInputChange(index, event)}
+                                                            name='stockedInQuantity'
+                                                            onChange={(event) => handleStockedInputChange(index, event)}
+                                                            value={section.stockedInQuantity}
                                                             placeholder={`Enter ${packageType} Quantity`}
                                                             className={styles['add-product-div-input']}
                                                         />
                                                         <button
                                                             className={`${styles.optionButton} ${styles.selected}`}
                                                         >
-                                                            {packageType}
+                                                            {/* {packageType} */}
+                                                            {section.stockedInType}
                                                         </button>
+                                                       
                                                     </div>
+                                                    
                                                     <div className={styles.radioGroup}>
                                                         <label>
                                                             <input
+                                                                name={`stockedInType_${index}`}
                                                                 type="radio"
                                                                 value="Box"
-                                                                checked={packageType === 'Box'}
-                                                                onChange={handlePackageSelection}
+                                                                // checked={packageType === 'Box'}
+                                                                checked={section.stockedInType === 'Box'}
+                                                                // onChange={handlePackageSelection}
+                                                                onChange={() => handlePackageSelection(index, 'Box')}
                                                             />
                                                             <span>Box</span>
                                                         </label>
                                                         <label>
                                                             <input
                                                                 type="radio"
+
+                                                                name={`stockedInType_${index}`}
                                                                 value="Strip"
-                                                                checked={packageType === 'Strip'}
-                                                                onChange={handlePackageSelection}
+                                                                // checked={packageType === 'Strip'}
+                                                                checked={section.stockedInType === 'Strip'}
+                                                                // onChange={handlePackageSelection}
+                                                                onChange={() => handlePackageSelection(index, 'Strip')}
                                                             />
                                                             <span>Strip</span>
                                                         </label>
@@ -1179,13 +1240,17 @@ const AddProduct = () => {
                                                             <input
                                                                 type="radio"
                                                                 value="Pack"
-                                                                checked={packageType === 'Pack'}
-                                                                onChange={handlePackageSelection}
+                                                                name={`stockedInType_${index}`}
+                                                                // checked={packageType === 'Pack'}
+                                                                checked={section.stockedInType === 'Pack'}
+                                                                // onChange={handlePackageSelection}
+                                                                onChange={() => handlePackageSelection(index, 'Pack')}
                                                             />
                                                             <span>Pack</span>
                                                         </label>
 
                                                     </div>
+                                                    {errors[`stockedInQuantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInQuantity${index}`]}</div>}
                                                 </div>
                                             </div>
                                         </div>
@@ -1200,6 +1265,7 @@ const AddProduct = () => {
                             </div>
                         </div>
                         {/* End the stocked in section */}
+
                         {/* inventory section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
