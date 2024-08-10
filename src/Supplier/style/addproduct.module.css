@@ -44,7 +44,6 @@
   justify-content: start;
   flex-wrap: wrap;
   gap: 16px;
-  flex-direction: column;
 }
 
 .craete-invoice-form {
@@ -205,6 +204,89 @@
   display: flex;
   gap: 16px;
   justify-content: start;
+}
+/* start the radio deisgn */
+.add-product-div-container{
+  width: 60%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+.quantitySelector {
+  display: flex;
+  align-items: center;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.quantityInput {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  text-align: center;
+}
+
+.optionButton {
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding: 5px 10px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.optionButton.selected {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px 16px;
+  position: relative;
+  right: 50px;
+}
+.add-product-div-input{
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  width: 300px;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 14px;
+  position: relative;
+  flex-wrap: wrap;
+  right: 32px;
+  width: 100%;
+}
+
+.radioGroup label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  outline: none !important;
+    border: none !important;
+    background-color: #ffffff !important;
+    padding: 10px !important;
+    font-size: 14px !important;
+    border-radius: 4px !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.radioGroup input[type="radio"] {
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 1580px) {

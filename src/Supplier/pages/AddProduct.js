@@ -82,7 +82,7 @@ const AddProduct = () => {
     const [invoiceImages, setInvoiceImages] = useState([])
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
 
-    const [stockedInOptions, setStockedInOptions ] = useState([])
+    const [stockedInOptions, setStockedInOptions] = useState([])
 
 
     const [errors, setErrors] = useState({});
@@ -171,7 +171,7 @@ const AddProduct = () => {
         updatedSections[index].stockedInCountry = selected;
         setStockedInSections(updatedSections);
     };
-    
+
     const handleStockedInputChange = (index, event) => {
         const { name, value } = event.target;
         const updatedSections = [...stockedInSections];
@@ -321,7 +321,7 @@ const AddProduct = () => {
             }
         ]);
     };
-    
+
 
     const removeFormSection = (index) => {
         if (formSections.length > 1) {
@@ -346,7 +346,7 @@ const AddProduct = () => {
     const removeStockedInFormSection = (index) => {
         setStockedInSections(prevSections => prevSections.filter((_, i) => i !== index));
     };
-    
+
 
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
@@ -810,7 +810,14 @@ const AddProduct = () => {
     const handleCancel = () => {
         resetForm()
     }
+    // start the stocked in section
+    const [quantity, setQuantity] = useState('');
+    const [packageType, setPackageType] = useState('Box');
 
+    const handlePackageSelection = (event) => {
+        setPackageType(event.target.value);
+    };
+    // end the stocked in section
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -1119,48 +1126,69 @@ const AddProduct = () => {
                                 </div>
                                 {stockedInSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
-                                       {/* {productType && productType.value === 'new_product' && ( */}
-                                            <div className={styles['create-invoice-new-product-section-containers']}>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
-                                                    <Select
-                                                        className={styles['create-invoice-div-input-select']}
-                                                        value={section.stockedInCountry}
-                                                        onChange={(selected) => handleStockedInCountryChange(index, selected)}
-                                                        options={stockedInOptions}
-                                                        placeholder="Select Stocked In Country"
-                                                        name='stockedInCountry'
-                                                    />
-                                                </div>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
-                                                    <Select
-                                                        className={styles['create-invoice-div-input-select']}
-                                                        value={section.quantity}
-                                                        onChange={(selected) => handleQuantityChange(index, selected)}
-                                                        options={quantityOptions}
-                                                        placeholder="Select Stocked In Country"
-                                                        name='quantity'
-                                                    />
-                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
-
-                                                </div>
-
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Stocked In Quantity</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='stockedInQuantity'
-                                                        placeholder='Enter Stocked In Quantity'
-                                                        value={section.stockedInQuantity}
-                                                        onChange={(event) => handleStockedInputChange(index, event)}
-                                                    />
-                                                  
-                                                </div>
-
-
+                                        {/* {productType && productType.value === 'new_product' && ( */}
+                                        <div className={styles['create-invoice-new-product-section-containers']}>
+                                            <div className={styles['create-invoice-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
+                                                <Select
+                                                    className={styles['create-invoice-div-input-select']}
+                                                    value={section.stockedInCountry}
+                                                    onChange={(selected) => handleStockedInCountryChange(index, selected)}
+                                                    options={stockedInOptions}
+                                                    placeholder="Select Stocked In Country"
+                                                    name='stockedInCountry'
+                                                />
                                             </div>
+                                            <div className={styles['add-product-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked In Quantity</label>
+                                                <div className={styles.quantitySelector}>
+                                                    <div className={styles.inputGroup}>
+                                                        <input
+                                                            type="text"
+                                                            value={quantity}
+                                                            onChange={(e) => setQuantity(e.target.value)}
+                                                            placeholder={`Enter ${packageType} Quantity`}
+                                                            className={styles['add-product-div-input']}
+                                                        />
+                                                        <button
+                                                            className={`${styles.optionButton} ${styles.selected}`}
+                                                        >
+                                                            {packageType}
+                                                        </button>
+                                                    </div>
+                                                    <div className={styles.radioGroup}>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                value="Box"
+                                                                checked={packageType === 'Box'}
+                                                                onChange={handlePackageSelection}
+                                                            />
+                                                            <span>Box</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                value="Strip"
+                                                                checked={packageType === 'Strip'}
+                                                                onChange={handlePackageSelection}
+                                                            />
+                                                            <span>Strip</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                value="Pack"
+                                                                checked={packageType === 'Pack'}
+                                                                onChange={handlePackageSelection}
+                                                            />
+                                                            <span>Pack</span>
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {/* )} */}
                                         {stockedInSections.length > 1 && (
                                             <div className={styles['craete-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
@@ -1293,7 +1321,7 @@ const AddProduct = () => {
                                 ))}
                             </div>
                         </div>
-                       
+
                         {/* start the manufacturer details */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-add-item-cont']}>
@@ -1311,6 +1339,10 @@ const AddProduct = () => {
                                     onChange={handleChange}
                                 />
                                 {errors.manufacturerName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerName}</div>}
+<<<<<<< Updated upstream
+=======
+                                {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
+>>>>>>> Stashed changes
                             </div>
 
 
@@ -1326,7 +1358,11 @@ const AddProduct = () => {
                                     value={manufacturerCountryOfOrigin}
                                     onChange={handlemanufacturerCountryOriginChange}
                                 />
+<<<<<<< Updated upstream
                                 {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+=======
+                                {errors.manufacturerOriginCountry && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+>>>>>>> Stashed changes
                             </div>
                             <div className={styles['create-manufaturer-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Description</label>
