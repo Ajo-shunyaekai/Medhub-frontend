@@ -62,8 +62,9 @@ import EditCreatePO from '../components/EditCreatePO.js'
 import CustomOrderModal from './CustomOrderModal.js';
 import ProformaInvoice from './invoice/ProformaInvoice.js';
 import { postRequestWithToken } from '../api/Requests.js';
-
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
+import ThankYou from './ThankYou.js';
+
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -169,6 +170,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO/>} />
                         <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
                         <Route path="/buyer/Proforma-Invoice-Details" element={<ProformaInvoiceDetails/>} />
+                        <Route path="/buyer/thank-you" element={<ThankYou/>} />
                         
                         {/* start the inquiry orders */}
                         <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />

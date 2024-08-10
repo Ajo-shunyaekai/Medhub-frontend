@@ -246,6 +246,7 @@
   justify-content: start;
   gap: 20px;
   align-items: start;
+  margin-bottom: 70px;
 }
 .active-order-details-payment-left-section {
   width: 34vw;

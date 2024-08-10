@@ -1398,8 +1398,12 @@ const AddProduct = () => {
                                     value={formData.manufacturerName}
                                     onChange={handleChange}
                                 />
+<<<<<<< Updated upstream
                                 {errors.manufacturerName && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerName}</div>}
                                 {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
+=======
+                                {errors.manufacturerName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerName}</div>}
+>>>>>>> Stashed changes
                             </div>
 
 
@@ -1415,7 +1419,11 @@ const AddProduct = () => {
                                     value={manufacturerCountryOfOrigin}
                                     onChange={handlemanufacturerCountryOriginChange}
                                 />
+<<<<<<< Updated upstream
                                 {errors.manufacturerOriginCountry && <div className='add-product-errors' style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+=======
+                                {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+>>>>>>> Stashed changes
                             </div>
                             <div className={styles['create-manufaturer-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Description</label>
