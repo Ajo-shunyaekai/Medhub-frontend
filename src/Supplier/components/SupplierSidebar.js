@@ -82,8 +82,8 @@ const SupplierSidebar = ({socket}) => {
     
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            pageNo: 1,
-            pageSize: 5
+            // pageNo: 1,
+            // pageSize: 5
         };
     
         postRequestWithToken('supplier/get-notification-list', obj, (response) => {

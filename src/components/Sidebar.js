@@ -290,7 +290,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count }) => {
                             </Link>
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
                             {/* <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} /> */}
-                            <Badge badgeContent={count} color="secondary">
+                            <Badge badgeContent={count > 9 ? '9+' : count}color="secondary">
                                 <NotificationsNoneOutlinedIcon 
                                     className={styles.nav_icon_color} 
                                     onClick={NotificationDropdown} 

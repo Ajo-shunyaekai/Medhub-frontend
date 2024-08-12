@@ -254,12 +254,12 @@ const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
                         <div className={styles.nav_notifi_right}>
                             <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
-                            <Badge badgeContent={count} color="secondary">
+                            <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
                                 <NotificationsNoneOutlinedIcon 
                                     className={styles.nav_icon_color} 
                                     onClick={NotificationDropdown} 
                                 />
-                                </Badge>
+                            </Badge>
                             {isNotificationOpen && (
                                 <div className={styles.noti_container}>
                                     {/* Notificatio content goes here */}

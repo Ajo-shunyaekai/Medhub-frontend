@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
@@ -12,6 +12,7 @@ import io from 'socket.io-client'
 import BuyerSidebar from './components/BuyerSidebar.js';
 import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
+import { postRequestWithToken } from './api/Requests.js';
 
 const socket = io('http://localhost:3333', {
     transports: ['websocket'],
@@ -34,6 +35,24 @@ const socket = io('http://localhost:3333', {
     
 
     function App() {
+    //     const [notificationList, setNotificationList] = useState([]);
+    //    const [count, setCount] = useState(0);
+
+    // const fetchNotifications = (supplierId) => {
+    //     const obj = {
+    //         supplier_id: supplierId,
+    //     };
+
+    //     postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+    //         if (response.code === 200) {
+    //             setNotificationList(response.result.data);
+    //             setCount(response.result.totalItems || 0);
+    //         } else {
+    //             console.log('Error in fetching notifications');
+    //         }
+    //     });
+    // };
+
         useEffect(() => {
             if( activekey().indexOf('buyer') > 0 ){
               import('./App.css');
@@ -42,6 +61,14 @@ const socket = io('http://localhost:3333', {
             } else if( activekey().indexOf('admin') > 0 ){ 
                 import('./AdminApp.css');
             }
+
+        //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        // const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        // const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
+
+        // if (supplierId) {
+        //     fetchNotifications(supplierId);
+        // }
         }, []);
 
         if( activekey().indexOf('buyer') > 0 ){
@@ -73,4 +100,5 @@ const socket = io('http://localhost:3333', {
             )
         }
     }
+
     export default App;
