@@ -106,7 +106,7 @@ const ProductDetails = () => {
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'> Unit tax :</div>
-                                        <div className='product-details-two-right-text'>5%</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_tax}%</div>
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
@@ -138,19 +138,18 @@ const ProductDetails = () => {
                                     <div className='product-stockedin-head-country'>Countries</div>
                                     <div className='product-stockedin-head-country'>Quantity</div>
                                 </div>
-                                <div className='product-stockedin-head-section'>
-                                    <div className='product-stockedin-head-country-name'>USA</div>
-                                    <div className='product-stockedin-head-qty-name'>200 Strip</div>
-                                </div>
-                                <div className='product-stockedin-head-section'>
-                                    <div className='product-stockedin-head-country-name'>UK</div>
-                                    <div className='product-stockedin-head-qty-name'>500 Strip</div>
-                                </div>
-                                <div className='product-stockedin-head-section'>
-                                    <div className='product-stockedin-head-country-name'>India</div>
-                                    <div className='product-stockedin-head-qty-name'>1000 Strip</div>
-                                </div>
-                               
+                                <>
+                                {
+                                    medicineDetails?.stockedIn_details?.map((item, index) => (
+                                        <div className='product-stockedin-head-section' key={index}>
+                                            <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
+                                            <div className='product-stockedin-head-qty-name'>
+                                              {item.stocked_quantity} {item.stocked_in_type}
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                                </>
                             </div>
                         </div>
                         {/* end the stocked on container */}

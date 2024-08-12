@@ -183,13 +183,13 @@ const SearchsearchDetails = () => {
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Name :</div>
-                                        <div className='search-details-two-right-text'>{details?.supplier?.supplier_name}</div>
+                                        <div className='search-details-two-right-text'>{details?.manufacturer_name}</div>
                                     </div>
                                 </div>
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Country of origin :</div>
-                                        <div className='search-details-two-right-text'>{details?.supplier?.country_of_origin}</div>
+                                        <div className='search-details-two-right-text'>{details?.manufacturer_country_of_origin}</div>
                                     </div>
                                 </div>
                             </div>
@@ -197,12 +197,7 @@ const SearchsearchDetails = () => {
                         <div className='search-details-containers'>
                             <div className="search-details-mfg-container">
                                 <div className="search-details-mfg-heading">Description</div>
-                                <div className="search-details-mfg-details">The EU pharmaceutical manufacturer stands at the forefront of the global healthcare
-                                    industry, operating in 60 markets worldwide. Specializing in key therapeutic areas such as Cold
-                                    and Flu, Ophthalmology, and Dermatology. Notably, they have pioneered the world's first portfolio
-                                    of microplastic-free nasal care products. With 25 years of ophthalmological expertise, the
-                                    company possesses a cutting-edge technological platform for developing and producing highly
-                                    demanding sterile solutions, reinforcing its position as a leader in pharmaceutical innovation.</div>
+                                <div className="search-details-mfg-details">{details?.manufacturer_description}.</div>
                             </div>
                         </div>
                         {/* start the search container code */}

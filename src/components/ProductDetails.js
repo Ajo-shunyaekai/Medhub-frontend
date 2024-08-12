@@ -145,17 +145,6 @@ const ProductDetails = () => {
           console.log('error in similar-medicine-list api');
         }
       });
-
-      // try {
-      //   const response = await postRequestWithToken('buyer/add-to-list', obj);
-      //   if (response.code === 200) {
-      //     navigate('/buyer/send-inquiry');
-      //   } else {
-      //     console.log('Error in add to list API:', response.message);
-      //   }
-      // } catch (error) {
-      //   console.error('API request failed:', error);
-      // }
     }
   };
 
@@ -215,7 +204,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="buyer-product-details-two">
                   <div className="buyer-product-details-two-left-text">Unit tax :</div>
-                  <div className="buyer-product-details-two-right-text">5%</div>
+                  <div className="buyer-product-details-two-right-text">{details?.unit_tax}%</div>
                 </div>
               </div>
             </div>
@@ -270,18 +259,19 @@ const ProductDetails = () => {
                     <div className='buyer-stockedin-heading'>Countries</div>
                     <div className='buyer-stockedin-heading'>Quantity</div>
                   </div>
-                  <div className='buyer-product-details-main-company-section'>
-                    <div className='buyer-product-details-main-company-stockedin'>USA</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>200 Packet</div>
-                  </div>
-                  <div className='buyer-product-details-main-company-section'>
-                    <div className='buyer-product-details-main-company-stockedin'>UK</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>400 Packet</div>
-                  </div>
-                  <div className='buyer-product-details-main-company-section'>
-                    <div className='buyer-product-details-main-company-stockedin'>India</div>
-                    <div className='buyer-product-details-main-company-totalquantity'>200 Packet</div>
-                  </div>
+                  <>
+                  {details?.stockedIn_details?.map((item, index) => (
+                    <div className='buyer-product-details-main-company-section' key={index}>
+                      <div className='buyer-product-details-main-company-stockedin'>
+                        {item.stocked_in_country}
+                      </div>
+                      <div className='buyer-product-details-main-company-totalquantity'>
+                        {item.stocked_quantity} {item.stocked_in_type}
+                      </div>
+                    </div>
+                  ))}
+                </>
+                 
                 </div>
               </div>
             </div>
