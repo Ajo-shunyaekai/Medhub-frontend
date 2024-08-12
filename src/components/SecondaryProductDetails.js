@@ -20,7 +20,7 @@ const SecondaryProductDetails = ({similarMedicines, totalItems, onMedicineClick,
         <>
             <div className='buyer-product-details-card-section-heading'>Similar products</div>
             <div className='secondary-product-details-main-section'>
-                {similarMedicines?.data?.map((product,i) => {
+                {similarMedicines?.map((product,i) => {
                      const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
                     return (
                         <div key={product.medicine_id} className='buyer-product-details-card-section'>

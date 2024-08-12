@@ -62,6 +62,28 @@ const SearchMarketProductDetails = () => {
     const [totalQuantity, setTotalQuantity] = useState([])
     const [reset, setReset] = useState()
 
+    const [inputValue, setInputValue] = useState('')
+    const [searchKey, setSearchKey] = useState(null)
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value)
+
+        if (e.target.value === '') {
+            setSearchKey('');
+        }
+    }
+
+    const handleProductSearch = () => {
+        setSearchKey(inputValue)
+        setCurrentPage(1)
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleProductSearch();
+        }
+    };
+
     const handleReset = () => {
         setPriceRange([])
         setDeliveryTime([])
@@ -101,6 +123,7 @@ const SearchMarketProductDetails = () => {
             medicine_id: medicineId,
             medicine_type: 'secondary market',
             status: 1,
+            searchKey: searchKey,
             // supplier_id   : supplierId,
             medicine_name: medicineName,
             price_range: priceRange,
@@ -119,7 +142,7 @@ const SearchMarketProductDetails = () => {
                 console.log('error in similar-medicine-list api');
             }
         })
-    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity])
+    }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity, searchKey])
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -133,7 +156,7 @@ const SearchMarketProductDetails = () => {
                         <div className="search-details-section-one">
                             <div className="search-details-sec-one-left">
                                 <h4 >
-                                    {details?.medicine_name} <span className='search-details-stength'>(500mg)</span>
+                                    {details?.medicine_name} <span className='search-details-stength'>({details?.strength})</span>
                                 </h4>
                                 <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {details?.composition}
@@ -209,13 +232,13 @@ const SearchMarketProductDetails = () => {
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Name :</div>
-                                        <div className='search-details-two-right-text'>{details?.supplier?.supplier_name}</div>
+                                        <div className='search-details-two-right-text'>{details?.manufacturer_name}</div>
                                     </div>
                                 </div>
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Country of origin :</div>
-                                        <div className='search-details-two-right-text'>{details?.supplier?.country_of_origin}</div>
+                                        <div className='search-details-two-right-text'>{details?.manufacturer_country_of_origin}</div>
                                     </div>
                                 </div>
                             </div>
@@ -223,12 +246,7 @@ const SearchMarketProductDetails = () => {
                         <div className='search-details-containers'>
                             <div className="search-details-mfg-container">
                                 <div className="search-details-mfg-heading">Description</div>
-                                <div className="search-details-mfg-details">The EU pharmaceutical manufacturer stands at the forefront of the global healthcare
-                                    industry, operating in 60 markets worldwide. Specializing in key therapeutic areas such as Cold
-                                    and Flu, Ophthalmology, and Dermatology. Notably, they have pioneered the world's first portfolio
-                                    of microplastic-free nasal care products. With 25 years of ophthalmological expertise, the
-                                    company possesses a cutting-edge technological platform for developing and producing highly
-                                    demanding sterile solutions, reinforcing its position as a leader in pharmaceutical innovation.</div>
+                                <div className="search-details-mfg-details">{details?.manufacturer_description}.</div>
                             </div>
                         </div>
                         {/* start the search container code */}
@@ -236,8 +254,10 @@ const SearchMarketProductDetails = () => {
                             <div className='buy-seller-search-container'>
                                 <input className='buy-seller-search-input' type='text'
                                     placeholder='Search Product'
+                                    onChange={(e) => handleInputChange(e)}
+                                    onKeyDown={handleKeyDown}
                                 />
-                                <div className='buy-seller-search' >
+                                <div className='buy-seller-search' onClick={() => handleProductSearch()} >
                                     <img className='buy-seller-search-icon' src={Search} alt='img' />
                                     Search
                                 </div>

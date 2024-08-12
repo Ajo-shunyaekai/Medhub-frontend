@@ -186,7 +186,7 @@ const MarketProductDetails = () => {
                                     </div>
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Unit tax :</div>
-                                        <div className='buyer-product-details-two-right-text'>5%</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.unit_tax}%</div>
                                     </div>
                                 </div>
                                 <div className="buyer-product-details-sec-two-left">
@@ -269,7 +269,7 @@ const MarketProductDetails = () => {
                                 </div>
                                 <div className='buyer-product-details-inner-company'>
                                     <div className='buyer-product-details-inner-copmany-head'>Company type :</div>
-                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_type}</div>
                                 </div>
                                 <div className="buyer-product-details-inner-company-stockedin">
                                     <div className="buyer-product-details-inner-copmany-head">Stocked in :</div>
@@ -278,18 +278,21 @@ const MarketProductDetails = () => {
                                             <div className='buyer-stockedin-heading'>Countries</div>
                                             <div className='buyer-stockedin-heading'>Quantity</div>
                                         </div>
-                                        <div className='buyer-product-details-main-company-section'>
-                                            <div className='buyer-product-details-main-company-stockedin'>USA</div>
-                                            <div className='buyer-product-details-main-company-totalquantity'>200 Strip</div>
-                                        </div>
-                                        <div className='buyer-product-details-main-company-section'>
-                                            <div className='buyer-product-details-main-company-stockedin'>UK</div>
-                                            <div className='buyer-product-details-main-company-totalquantity'>400 Strip</div>
-                                        </div>
-                                        <div className='buyer-product-details-main-company-section'>
-                                            <div className='buyer-product-details-main-company-stockedin'>India</div>
-                                            <div className='buyer-product-details-main-company-totalquantity'>200 Strip</div>
-                                        </div>
+                                        <>
+                                            {details?.stockedIn_details?.map((item, index) => (
+                                                <div className='buyer-product-details-main-company-section' key={index}>
+                                                    <div className='buyer-product-details-main-company-stockedin'>
+                                                    {item.stocked_in_country}
+                                                    </div>
+                                                    <div className='buyer-product-details-main-company-totalquantity'>
+                                                    {item.stocked_quantity} {item.stocked_in_type}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </>
+                                       
+                                     
+                                        
                                     </div>
                                 </div>
 
@@ -297,11 +300,11 @@ const MarketProductDetails = () => {
                             <div className='buyer-product-details-company-conatiner'>
                                 <div className='buyer-product-details-inner-company'>
                                     <div className='buyer-product-details-inner-copmany-head'>License no. :</div>
-                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_address}</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
                                 </div>
                                 <div className='buyer-product-details-inner-company'>
                                     <div className='buyer-product-details-inner-copmany-head'>Tax no. :</div>
-                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.payment_terms}</div>
+                                    <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.tax_no}</div>
                                 </div>
                             </div>
                         </div>

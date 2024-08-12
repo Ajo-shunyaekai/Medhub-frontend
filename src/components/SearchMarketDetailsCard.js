@@ -35,8 +35,8 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                         </div>
                         <div className='search-details-card-right-container'>
                             <div className='search-details-card-upper-section'>
-                                <div className='search-details-card-medicine-head'>{search.supplier[0]?.supplier_name}</div>
-                                <div className='search-details-card-medicine-text'>{search?.supplier[0]?.description} </div>
+                                <div className='search-details-card-medicine-head'>{search.supplier?.supplier_name}</div>
+                                <div className='search-details-card-medicine-text'>{search?.supplier?.description} </div>
 
                             </div>
                             <div className='search-details-card-text-section'>
@@ -63,7 +63,7 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Country Available In :</div>
-                                <div className='search-details-card-test-text'>{search?.country_available_in?.join(', ')}</div>
+                                <div className='search-details-card-test-text'>{search?.stocked_in?.join(', ')}</div>
                             </div>
                             {/* <Link to='/market-product-details'>
                                 <div className='search-details-inner-card-button-sec'>

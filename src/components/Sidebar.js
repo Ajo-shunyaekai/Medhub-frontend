@@ -215,27 +215,6 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
 
-    // const [notificationList, setNotificationList] = useState([])
-    // const [count, setCount] = useState()
-    // useEffect(() => {
-    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         navigate('/buyer/login');
-    //         return;
-    //     }
-    //     const obj = {
-    //         // order_id : orderId,
-    //         buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-    //     };
-    //     postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setNotificationList(response.result.data);
-    //             setCount(response.result.totalItems || 0)
-    //         } else {
-    //             console.log('error in order details api');
-    //         }
-    //     });
-    // }, []);
-
     const updateStatusApi = (id) => {
         // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
         //             if (response.code === 200) {
@@ -247,17 +226,19 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
         //         });
     }
 
-    const handleNavigation = (notificationId,event) => {
+    const handleNavigation = (notificationId,event, eventId) => {
+        console.log('eventId',eventId);
         switch (event) {
           case 'enquiry':
             setIsNotificationOpen(false)
-            navigate('/buyer/inquiry-purchase-orders/ongoing');
+            // navigate('/buyer/inquiry-purchase-orders/ongoing');
+            navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
             updateStatusApi(notificationId)
             handleClick(notificationId, event)
             break;
           case 'order':
             setIsNotificationOpen(false)
-            navigate('/buyer/order/active');
+            navigate(`/buyer/order-details/${eventId}`);
             handleClick(notificationId, event)
             break;
           // Add more cases as needed
@@ -311,7 +292,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                                             {
                                                 notificationList?.map((data,i) => {
                                                     return (
-                                                        <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event)}>
+                                                        <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event, data.event_id)}>
                                                             <div className={styles.noti_profile}>
                                                             {data.event_type.charAt(0)}
                                                             </div>
