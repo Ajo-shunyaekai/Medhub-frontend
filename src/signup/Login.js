@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import logincss from '../style/login.css';
+import '../style/login.css';
 import logo from '../assest/signup.svg';
 import { Link } from 'react-router-dom';
 import { postRequest } from '../api/Requests';

@@ -1,6 +1,7 @@
 import React from 'react'
 import Successful from '../assest/successful.svg'
 import '../style/thankyou.css'
+import { Link } from 'react-router-dom'
 
 const ThankYou = () => {
     return (
@@ -9,10 +10,14 @@ const ThankYou = () => {
                 <div className='thank-you-image-section'>
                     <img className='thank-you-image-container' src={Successful} alt='successful' />
                 </div>
-                <div className='thank-you-main-heading'>Thanks for submitting !</div>
-                <div className='thank-you-main-content'>Lorem Ipsum is simply dummy text of the printing and typesetting 
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                     when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+                <div className='thank-you-main-heading'>Thank You for Sending Us Your Inquiry!!</div>
+                <div className='thank-you-main-content'>We’ve received your inquiry,
+                     and our team will respond to you shortly.</div>
+                     <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                     <div className='thank-you-buttons-section'>
+                        <span className='thank-you-buttons'>Go Back</span>
+                     </div>
+                     </Link>
             </div>
         </div>
     )

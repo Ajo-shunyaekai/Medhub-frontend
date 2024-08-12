@@ -65,7 +65,7 @@ import ActiveCodinator from '../pages/ActiveCodinator.js';
 import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
-
+import NotificationList from '../pages/NotificationList.js';
 const SupplierSidebar = ({socket}) => {
 
     const navigate = useNavigate();
@@ -194,6 +194,7 @@ const SupplierSidebar = ({socket}) => {
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
                         <Route path="/supplier/active-codinator" element={<ActiveCodinator/>} />
                         <Route path="/supplier/active-invoice-list" element={<ActiveInvoiceList/>} />
+                        <Route path="/supplier/notification-list" element={<NotificationList/>} />
                         
                         <Route path="/supplier/create-PO" element={<CreatePO />} />
                         <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload />} />

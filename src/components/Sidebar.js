@@ -313,7 +313,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                                                 {count} Notifications
                                             </div>
 
-                                            <Link to='#'>
+                                            <Link to='/buyer/notification-list'>
                                                 <div className={styles.noti_see_all_btn}>See all</div>
                                             </Link>
                                         </div>

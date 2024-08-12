@@ -117,86 +117,93 @@ const BuyerSidebar = ({socket}) => {
         </>)
     } else {
         return ( 
-        <>
-            <div>
-                <Sidebar notificationList={notificationList} count={count} handleClick = {handleClick}>
+            <>
+                <div>
                     <Routes>
-                        <Route path="/buyer" element={<Dashboard />} />
-                        <Route path="/buyer/order/active" element={<Order />} />
-                        <Route path="/buyer/order/completed" element={<Order />} />
-                        <Route path="/buyer/order/pending" element={<Order />} />
-                        <Route path="/buyer/order" element={<Navigate to="/buyer/order/active" />} />
-                        <Route path="/buyer/buy/seller" element={<Buy />} />
-                        <Route path="/buyer/buy/product" element={<Buy />} />
-                        <Route path="/buyer/buy/market" element={<Buy />} />
-                        <Route path="/buyer/buy" element={<Navigate to="/buyer/buy/seller" />} />
-                        <Route path="/buyer/my-supplier" element={<MySupplier />} />
-                        <Route path="/buyer/invoice/pending" element={<Invoice />} />
-                        <Route path="/buyer/invoice/paid" element={<Invoice />} />
-                        <Route path="/buyer/invoice/proforma" element={<Invoice />} />
-                        <Route path="/buyer/invoice" element={<Navigate to="/buyer/invoice/pending" />} />
-                        <Route path="/buyer/support" element={<Support />} />
-                        <Route path="/buyer/proforma-invoice" element={<ProformaInvoice/>} />
-                        <Route path="/buyer/active-order" element={<ActiveOrder />} />
-                        <Route path="/buyer/complete-order" element={<CompleteOrder />} />
-                        <Route path="/buyer/deleted-order" element={<DeletedOrder />} />
-                        <Route path="/buyer/popup-Modal" element={<PopupModal />} />
-                        <Route path="/buyer/ordercancel" element={<OrderCancel />} />
-                        <Route path="/buyer/line-chart" element={<LineChart />} />
-                        <Route path="/buyer/progress-bar" element={<ProgressBar />} />
-                        <Route path="/buyer/order-details/:orderId" element={<OrderDetails />} />
-                        <Route path="/buyer/pending-details/:orderId" element={<PendingDetails />} />
-                        <Route path="/buyer/medicine-details/:medicineId" element={<ProductDetails />} />
-                        <Route path="/buyer/supplier-details/products/:supplierId" element={<SupplierDetails />} />
-                        <Route path="/buyer/supplier-details/orders/:supplierId" element={<SupplierDetails />} />
-                        <Route path="/buyer/supplier-details/:supplierId" element={<SupplierDetails />}  />
-                        <Route path="/buyer/completed-orders" element={<CompletedOrders />} />
-                        <Route path="/buyer/ongoing-orders" element={<OngoingOrders />} />
-                        <Route path="/buyer/supply-order-list" element={<SupplyOrderList />} />
-                        <Route path="/buyer/pending-orders" element={<PendingOrders />} />
-                        <Route path="/buyer/order-details-circular-bar" element={<OrderDetailsCircularBar />} />
-                        <Route path="/complete-invoice" element={<CompleteInvoice />} />
-                        <Route path="/buyer/ongoing-invoice" element={<OngoingInvoice />} />
-                        <Route path="/buyer/pending-invoice" element={<PendingInvoice />} />
-                        <Route path="/buyer/upload-document" element={<UploadDocument />} />
-                        <Route path="/buyer/invoice-design/:orderId" element={<InvoiceDesign />} />
-                        <Route path="/buyer/custom-modal" element={<CustomModal />} />
-                        <Route path="/buyer/invoice-card-design" element={<InvoiceCardDesign />} />
-                        <Route path="/buyer/product-details-card" element={<ProductDetailsCard />} />
-                        <Route path="/buyer/supplier-completed/:supplierId" element={<SupplierCompleted />} />
-                        <Route path="/buyer/supplier-active/:supplierId" element={<SupplierActive />} />
-                        <Route path="/buyer/supplier-pending/:supplierId" element={<SupplierPending />} />
-                        <Route path="/buyer/supply-product-list" element={<SupplyProductList />} />
-                        <Route path="/buyer/buy-2nd-market" element={<Buy2ndMarket />} />
-                        <Route path="/buyer/market-product-details/:medicineId" element={<MarketProductDetails />} />  
-                        <Route path="/buyer/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />  
-                        <Route path="/buyer/send-inquiry" element={<SendInquiry socket={socket}/>} />
-                        <Route path="/buyer/search-product-details/:medicineId" element={<SearchProductDetails/>} />
-                        <Route path="/buyer/subscription" element={<Subscription/>} />
-                        <Route path="/buyer/subscription-membership" element={<SubscriptionMembership/>} />
-                        <Route path="/buyer/table-membership" element={<TableMembership/>} />
-                        <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails/>} /> 
-                        <Route path="/buyer/Create-PO/:inquiryId" element={<CreatePO/>} /> 
-                        <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload/>} /> 
-                        <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails/>} />
-                        <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails/>} />
-                        <Route path="/buyer/ongoing-list" element={<OnGoingList/>} />
-                        <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO/>} />
-                        <Route path="/buyer/custom-order-modal" element={<CustomOrderModal/>} />
-                        <Route path="/buyer/Proforma-Invoice-Details" element={<ProformaInvoiceDetails/>} />
                         <Route path="/buyer/thank-you" element={<ThankYou/>} />
-                        
-                        {/* start the inquiry orders */}
-                        <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders/>} />
-                        <Route path="/buyer/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders/>} />
-                        <Route path="/buyer/inquiry-purchase-orders" element={<Navigate to="/buyer/inquiry-purchase-orders/ongoing" />} />
-                        <Route path="/buyer/on-going-order" element={<OnGoingOrder/>} />   
-                        <Route path="/buyer/purchased-order" element={<PurchasedOrder/>} />
-                        <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal/>} />
+                        <Route
+                            path="*"
+                            element={
+                                <Sidebar notificationList={notificationList} count={count} handleClick={handleClick}>
+                                    <Routes>
+                                        <Route path="/buyer" element={<Dashboard />} />
+                                        <Route path="/buyer/order/active" element={<Order />} />
+                                        <Route path="/buyer/order/completed" element={<Order />} />
+                                        <Route path="/buyer/order/pending" element={<Order />} />
+                                        <Route path="/buyer/order" element={<Navigate to="/buyer/order/active" />} />
+                                        <Route path="/buyer/buy/seller" element={<Buy />} />
+                                        <Route path="/buyer/buy/product" element={<Buy />} />
+                                        <Route path="/buyer/buy/market" element={<Buy />} />
+                                        <Route path="/buyer/buy" element={<Navigate to="/buyer/buy/seller" />} />
+                                        <Route path="/buyer/my-supplier" element={<MySupplier />} />
+                                        <Route path="/buyer/invoice/pending" element={<Invoice />} />
+                                        <Route path="/buyer/invoice/paid" element={<Invoice />} />
+                                        <Route path="/buyer/invoice/proforma" element={<Invoice />} />
+                                        <Route path="/buyer/invoice" element={<Navigate to="/buyer/invoice/pending" />} />
+                                        <Route path="/buyer/support" element={<Support />} />
+                                        <Route path="/buyer/proforma-invoice" element={<ProformaInvoice/>} />
+                                        <Route path="/buyer/active-order" element={<ActiveOrder />} />
+                                        <Route path="/buyer/complete-order" element={<CompleteOrder />} />
+                                        <Route path="/buyer/deleted-order" element={<DeletedOrder />} />
+                                        <Route path="/buyer/popup-Modal" element={<PopupModal />} />
+                                        <Route path="/buyer/ordercancel" element={<OrderCancel />} />
+                                        <Route path="/buyer/line-chart" element={<LineChart />} />
+                                        <Route path="/buyer/progress-bar" element={<ProgressBar />} />
+                                        <Route path="/buyer/order-details/:orderId" element={<OrderDetails />} />
+                                        <Route path="/buyer/pending-details/:orderId" element={<PendingDetails />} />
+                                        <Route path="/buyer/medicine-details/:medicineId" element={<ProductDetails />} />
+                                        <Route path="/buyer/supplier-details/products/:supplierId" element={<SupplierDetails />} />
+                                        <Route path="/buyer/supplier-details/orders/:supplierId" element={<SupplierDetails />} />
+                                        <Route path="/buyer/supplier-details/:supplierId" element={<SupplierDetails />} />
+                                        <Route path="/buyer/completed-orders" element={<CompletedOrders />} />
+                                        <Route path="/buyer/ongoing-orders" element={<OngoingOrders />} />
+                                        <Route path="/buyer/supply-order-list" element={<SupplyOrderList />} />
+                                        <Route path="/buyer/pending-orders" element={<PendingOrders />} />
+                                        <Route path="/buyer/order-details-circular-bar" element={<OrderDetailsCircularBar />} />
+                                        <Route path="/complete-invoice" element={<CompleteInvoice />} />
+                                        <Route path="/buyer/ongoing-invoice" element={<OngoingInvoice />} />
+                                        <Route path="/buyer/pending-invoice" element={<PendingInvoice />} />
+                                        <Route path="/buyer/upload-document" element={<UploadDocument />} />
+                                        <Route path="/buyer/invoice-design/:orderId" element={<InvoiceDesign />} />
+                                        <Route path="/buyer/custom-modal" element={<CustomModal />} />
+                                        <Route path="/buyer/invoice-card-design" element={<InvoiceCardDesign />} />
+                                        <Route path="/buyer/product-details-card" element={<ProductDetailsCard />} />
+                                        <Route path="/buyer/supplier-completed/:supplierId" element={<SupplierCompleted />} />
+                                        <Route path="/buyer/supplier-active/:supplierId" element={<SupplierActive />} />
+                                        <Route path="/buyer/supplier-pending/:supplierId" element={<SupplierPending />} />
+                                        <Route path="/buyer/supply-product-list" element={<SupplyProductList />} />
+                                        <Route path="/buyer/buy-2nd-market" element={<Buy2ndMarket />} />
+                                        <Route path="/buyer/market-product-details/:medicineId" element={<MarketProductDetails />} />
+                                        <Route path="/buyer/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
+                                        <Route path="/buyer/send-inquiry" element={<SendInquiry socket={socket} />} />
+                                        <Route path="/buyer/search-product-details/:medicineId" element={<SearchProductDetails />} />
+                                        <Route path="/buyer/subscription" element={<Subscription />} />
+                                        <Route path="/buyer/subscription-membership" element={<SubscriptionMembership />} />
+                                        <Route path="/buyer/table-membership" element={<TableMembership />} />
+                                        <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails />} />
+                                        <Route path="/buyer/Create-PO/:inquiryId" element={<CreatePO />} />
+                                        <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload />} />
+                                        <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />
+                                        <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails />} />
+                                        <Route path="/buyer/ongoing-list" element={<OnGoingList />} />
+                                        <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO />} />
+                                        <Route path="/buyer/custom-order-modal" element={<CustomOrderModal />} />
+                                        <Route path="/buyer/Proforma-Invoice-Details" element={<ProformaInvoiceDetails />} />
+                                        <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
+                                        <Route path="/buyer/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders />} />
+                                        <Route path="/buyer/inquiry-purchase-orders" element={<Navigate to="/buyer/inquiry-purchase-orders/ongoing" />} />
+                                        <Route path="/buyer/on-going-order" element={<OnGoingOrder />} />
+                                        <Route path="/buyer/purchased-order" element={<PurchasedOrder />} />
+                                        <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal />} />
+                                    </Routes>
+                                </Sidebar>
+                            }
+                        />
                     </Routes>
-                </Sidebar>
-            </div>
-        </> )
+                </div>
+            </>
+        );
+        
     }
 
 }
