@@ -91,7 +91,7 @@ const AddProduct = () => {
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
 
     const [stockedInOptions, setStockedInOptions] = useState([])
-
+    const [medicineData, setMedicineData] = useState()
 
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
@@ -100,11 +100,11 @@ const AddProduct = () => {
         composition: '',
         unitTax: '',
         strength: '',
-        typeOfForm: '',
+        typeOfForm: null,
         shelfLife: '',
         dossierType: '',
         dossierStatus: '',
-        productCategory: '',
+        productCategory: null,
         totalQuantity: '',
         gmpApprovals: '',
         shippingTime: '',
@@ -124,9 +124,6 @@ const AddProduct = () => {
         manufacturerOriginCountry: '',
         manufacturerDescription: '',
         stockedInData: ''
-
-
-
     })
 
     useEffect(() => {
@@ -137,24 +134,19 @@ const AddProduct = () => {
     const handleConditionChange = (index, selected) => {
         const newFormSections = [...formSections];
         newFormSections[index].condition = selected;
-        // setFormSections(newFormSections);
         setErrors(prevErrors => ({
             ...prevErrors,
             [`condition${index}`]: ''
         }));
-
         const conditions = newFormSections.map(section => section.condition);
-
         setFormData({
             ...formData,
             condition: conditions
         });
-
         setFormSections(newFormSections);
     };
 
     const handleQuantityChange = (index, selected) => {
-
         if (productType.label === 'New Product') {
             const newFormSections = [...formSections];
             newFormSections[index].quantity = selected;
@@ -170,7 +162,6 @@ const AddProduct = () => {
                 ...formData,
                 quantity: quantities
             });
-
             setFormSections(newFormSections);
         }
     };
@@ -192,8 +183,6 @@ const AddProduct = () => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
-
-        // Check if the value is valid for unitPrice and totalPrice fields
         if (name === 'unitPrice' || name === 'totalPrice' || name === 'estDeliveryTime' || name === 'unitPricee' || name === 'quantityNo') {
             if (!/^\d*\.?\d*$/.test(value)) {
                 isValid = false;
@@ -235,18 +224,15 @@ const AddProduct = () => {
             } else {
                 const unitPrices = newFormSections.map(section => section.unitPricee);
                 const quantities = newFormSections.map(section => section.quantityNo);
-
                 setFormData({
                     ...formData,
                     unitPricee: unitPrices,
                     quantityNo: quantities,
                 });
             }
-
             setFormSections(newFormSections);
         }
     };
-
 
     const addFormSection = () => {
         let newProductValid = true;
@@ -267,20 +253,17 @@ const AddProduct = () => {
                 }
             });
 
-
             if (newProductValid && productType.label === 'New Product') {
                 setFormSections([
                     ...formSections,
                     {
                         id: formSections.length,
-                        // strength: '',
                         quantity: null,
                         typeOfForm: null,
                         totalPrice: '',
                         unitPrice: '',
                         shelfLife: '',
                         estDeliveryTime: '',
-                        // condition: ''
                     }
                 ]);
 
@@ -301,21 +284,13 @@ const AddProduct = () => {
                 }
             });
 
-
             if (secondaryMarketValue && productType.label === 'Secondary Market') {
-
-                
                 setFormSections([
                     ...formSections,
                     {
                         id: formSections.length,
-                        // strength: '',
                         quantityNo: '',
-                        // typeOfForm: null,
-                        // totalPrice: '',
                         unitPricee: '',
-                        // shelfLife: '',
-                        // estDeliveryTime: '',
                         condition: ''
                     }
                 ]);
@@ -352,7 +327,6 @@ const AddProduct = () => {
         
     };
 
-
     const removeFormSection = (index) => {
         if (formSections.length > 1) {
             const newFormSections = formSections.filter((_, i) => i !== index);
@@ -387,10 +361,10 @@ const AddProduct = () => {
         } else {
             setErrors(prevState => ({ ...prevState, productType: '' }));
         }
-     
-            // handleBlur()
-       
-        
+
+        if (formData.productName.trim() !== '' && selected) {
+            makeApiCall(formData.productName, selected.label);
+        }
     };
 
     const handleFormTypeChange = (selected) => {
@@ -594,7 +568,8 @@ const AddProduct = () => {
         if (!formData.availableFor) formErrors.availableFor = 'Available for is required';
         if (!formData.tags) formErrors.tags = 'Tags are required';
         if (!formData.description) formErrors.description = 'Description is required';
-        if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is required';
+        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is required';
+        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is required'
         if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is required';
         if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is required';
         if (!productCategory) formErrors.productCategory = 'Product Category is required';
@@ -857,12 +832,6 @@ const AddProduct = () => {
     const [quantity, setQuantity] = useState('');
     const [packageType, setPackageType] = useState('Box');
 
-    // const handlePackageSelection = (event) => {
-    //     setPackageType(event.target.value);
-    //     const updatedSections = [...stockedInSections];
-    //     updatedSections[index].stockedInType = event.target.value;
-    //     setStockedInSections(updatedSections);
-    // };
     const handlePackageSelection = (index, packageType) => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInType = packageType;
@@ -870,31 +839,94 @@ const AddProduct = () => {
     };
     // end the stocked in section
 
-    const handleBlur = debounce(() => {
-        if (formData.productName.trim() !== '' && productType) {
-            // makeApiCall(formData.productName);
-            const obj = {
-                medicine_name : formData.productName,
-                medicine_type: 
-        productType.label === 'New Product' 
-        ? 'new' 
-        : productType.label === 'Secondary Market' 
-        ? 'secondary market' 
-        : '',
+    // const handleBlur = debounce(() => {
+    //     if (formData.productName.trim() !== '' && productType) {
+    //         // makeApiCall(formData.productName);
+    //         const obj = {
+    //             medicine_name : formData.productName,
+    //             medicine_type: 
+    //     productType.label === 'New Product' 
+    //     ? 'new' 
+    //     : productType.label === 'Secondary Market' 
+    //     ? 'secondary market' 
+    //     : '',
+    //         }
+    //         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
+    //             if (response.code === 200) {
+    //                 // toast(response.message, { type: "success" });
+    //                 // setTimeout(() => {
+    //                 //     navigate('/supplier/product/newproduct')
+    //                 // }, 1000);
+    //             } else {
+    //                 toast(response.message, { type: "error" });
+    //                 console.log('error in get-medicine-by-name api');
+    //             }
+    //         })
+    //     }
+    // }, 500);
+
+    const makeApiCall = debounce((productName, productTypeLabel) => {
+        const obj = {
+            medicine_name: productName,
+            medicine_type: productTypeLabel === 'New Product'
+                ? 'new'
+                : productTypeLabel === 'Secondary Market'
+                    ? 'secondary market'
+                    : '',
+        };
+
+        postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: "success" });
+                setMedicineData(response.result)
+                // setFormData(prevFormData => ({
+                //     ...prevFormData,
+                //     ...response.result
+                // }));
+                const result = response.result;
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                productName: result.medicine_name || '',
+                productType: { label: result.medicine_type, value: result.medicine_type } || null,
+                composition: result.composition || '',
+                unitTax: result.unit_tax || '',
+                strength: result.strength || '',
+                typeOfForm: { label: result.type_of_form, value: result.type_of_form } || null,
+                shelfLife: result.shelf_life || '',
+                dossierType: result.dossier_type || '',
+                dossierStatus: result.dossier_status || '',
+                // productCategory: result.medicine_category || '',
+                productCategory: { label: result.medicine_category, value: result.medicine_category } || null,
+                totalQuantity: result.total_quantity || '',
+                gmpApprovals: result.gmp_approvals || '',
+                shippingTime: result.shipping_time || '',
+                // originCountry: result.country_of_origin || '',
+                originCountry: { label: result.country_of_origin, value: result.country_of_origin } || null,
+                registeredIn: result.registered_in || [],
+                stockedIn: result.stocked_in || [],
+                availableFor: result.available_for || '',
+                tags: result.tags.join(', ') || '', // Assuming tags are an array
+                description: result.description || '',
+                product_image: result.medicine_image || [],
+                invoice_image: [], // Adjust if needed
+                purchasedOn: '', // Not in response
+                minPurchaseUnit: '', // Not in response
+                countryAvailableIn: result.country_available_in || [],
+                manufacturerName: result.manufacturer_name || '',
+                manufacturerOriginCountry: result.manufacturer_country_of_origin || '',
+                manufacturerDescription: result.manufacturer_description || '',
+                stockedInData: result.stockedIn_details || []
+            }));
+            setProductCategory(result.medicine_category)
+            setCountryOfOrigin(result.country_of_origin)
+            setFormType(result.type_of_form)
+            } else {
+                toast(response.message, { type: "error" });
+                console.log('error in get-medicine-by-name api');
             }
-            postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
-                if (response.code === 200) {
-                    // toast(response.message, { type: "success" });
-                    // setTimeout(() => {
-                    //     navigate('/supplier/product/newproduct')
-                    // }, 1000);
-                } else {
-                    toast(response.message, { type: "error" });
-                    console.log('error in get-medicine-by-name api');
-                }
-            })
-        }
+        });
     }, 500);
+    
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -918,7 +950,7 @@ const AddProduct = () => {
                                     autoComplete='off'
                                     value={formData.productName}
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    // onBlur={handleBlur}
                                 />
                                 {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
@@ -1019,7 +1051,8 @@ const AddProduct = () => {
                                 <label className={styles['create-invoice-div-label']}>Type of form</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    value={formType}
+                                    // value={formType}
+                                    value={formData.typeOfForm}
                                     options={formTypesOptions}
                                     onChange={handleFormTypeChange}
                                     placeholder="Select Type of Form"
@@ -1070,7 +1103,8 @@ const AddProduct = () => {
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    value={productCategory}
+                                    // value={productCategory}
+                                    value={formData.productCategory}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
                                     name='produtCategory'
@@ -1129,7 +1163,8 @@ const AddProduct = () => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
-                                    value={countryOfOrigin}
+                                    // value={countryOfOrigin}
+                                    value={formData.originCountry}
                                     onChange={handleCountryOriginChange}
                                 />
                                 {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
