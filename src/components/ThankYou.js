@@ -1,6 +1,7 @@
 import React from 'react'
 import Successful from '../assest/successful.svg'
 import '../style/thankyou.css'
+
 const ThankYou = () => {
     return (
         <div className='thank-you-main-container'>

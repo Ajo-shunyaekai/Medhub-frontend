@@ -22,7 +22,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 
-const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
+const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick }) => {
     const navigate = useNavigate()
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
@@ -222,10 +222,12 @@ const SupSidebar = ({ children, dragWindow, notificationList, count }) => {
             setIsNotificationOpen(false)
             navigate('/supplier/inquiry-purchase-orders/ongoing');
             updateStatusApi(notificationId)
+            handleClick(notificationId, event)
             break;
           case 'order':
             setIsNotificationOpen(false)
             navigate('/supplier/order/active');
+            handleClick(notificationId, event)
             break;
           // Add more cases as needed
           default:

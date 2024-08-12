@@ -72,6 +72,22 @@ const BuyerSidebar = ({socket}) => {
 
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
+    const [refresh, setRefresh] = useState(false)
+    
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id : id,
+            event ,
+            status : 1
+        }
+        postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }
 
     useEffect( () => { 
         if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -89,9 +105,7 @@ const BuyerSidebar = ({socket}) => {
                 console.log('error in order details api');
             }
         });
-    },[]) ;
-
-
+    },[refresh]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
         return (
@@ -105,7 +119,7 @@ const BuyerSidebar = ({socket}) => {
         return ( 
         <>
             <div>
-                <Sidebar notificationList={notificationList} count={count}>
+                <Sidebar notificationList={notificationList} count={count} handleClick = {handleClick}>
                     <Routes>
                         <Route path="/buyer" element={<Dashboard />} />
                         <Route path="/buyer/order/active" element={<Order />} />

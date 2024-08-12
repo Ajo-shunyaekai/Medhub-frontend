@@ -74,6 +74,22 @@ const SupplierSidebar = ({socket}) => {
 
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
+    const [refresh, setRefresh] = useState(false)
+    
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id : id,
+            event ,
+            status : 1
+        }
+        postRequestWithToken('supplier/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -125,7 +141,7 @@ const SupplierSidebar = ({socket}) => {
     } else {
         return (<>
             <div>
-                <SupSidebar notificationList={notificationList} count={count} >
+                <SupSidebar notificationList={notificationList} count={count} handleClick = {handleClick}>
                     <Routes>
                         <Route path="/supplier" element={<SupplierDashboard />} />
                         <Route path="/supplier/order/active" element={<Order />} />

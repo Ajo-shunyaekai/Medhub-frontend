@@ -24,7 +24,7 @@ import Drawer from '@mui/material/Drawer';
 import { postRequestWithToken } from '../api/Requests';
 
 
-const Sidebar = ({ children, dragWindow, notificationList, count }) => {
+const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) => {
     const navigate = useNavigate()
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
@@ -253,10 +253,12 @@ const Sidebar = ({ children, dragWindow, notificationList, count }) => {
             setIsNotificationOpen(false)
             navigate('/buyer/inquiry-purchase-orders/ongoing');
             updateStatusApi(notificationId)
+            handleClick(notificationId, event)
             break;
           case 'order':
             setIsNotificationOpen(false)
             navigate('/buyer/order/active');
+            handleClick(notificationId, event)
             break;
           // Add more cases as needed
           default:
