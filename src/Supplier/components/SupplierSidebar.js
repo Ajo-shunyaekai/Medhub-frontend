@@ -64,8 +64,9 @@ import OrderCustomModal from '../pages/OrderCustomModal.js';
 import ActiveCodinator from '../pages/ActiveCodinator.js';
 import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 import { postRequestWithToken } from '../api/Requests.js';
+import { toast } from 'react-toastify';
 
-const SupplierSidebar = () => {
+const SupplierSidebar = ({socket}) => {
 
     const navigate = useNavigate();
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -78,22 +79,41 @@ const SupplierSidebar = () => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
         }
-
+    
         const obj = {
-            // order_id : orderId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            pageNo : 1,
-            pageSize : 5
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            pageNo: 1,
+            pageSize: 5
         };
+    
         postRequestWithToken('supplier/get-notification-list', obj, (response) => {
             if (response.code === 200) {
                 setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0)
+                setCount(response.result.totalItems || 0);
             } else {
                 console.log('error in order details api');
             }
         });
-    }, []);
+    
+        // Ensure socket is defined and connected
+        if (socket) {
+            console.log('socket',socket);
+            
+            socket.on('receiveNotification', (notification) => {
+                console.log('Notification received:', notification); // Debugging line
+                // setNotificationList((prevList) => [notification, ...prevList]);
+                // setCount((prevCount) => prevCount + 1);
+                toast(`New inquiry received: ${notification.message}`, { type: "success" });
+            });
+    
+            return () => {
+                socket.off('receiveNotification');
+            };
+        } else {
+            console.error('Socket is not initialized');
+        }
+    }, [socket, supplierIdSessionStorage, supplierIdLocalStorage, navigate]);
+    
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         return (<>

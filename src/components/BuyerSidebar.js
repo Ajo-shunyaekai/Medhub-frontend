@@ -65,7 +65,7 @@ import { postRequestWithToken } from '../api/Requests.js';
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
 
-const BuyerSidebar = () => {
+const BuyerSidebar = ({socket}) => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
@@ -156,7 +156,7 @@ const BuyerSidebar = () => {
                         <Route path="/buyer/buy-2nd-market" element={<Buy2ndMarket />} />
                         <Route path="/buyer/market-product-details/:medicineId" element={<MarketProductDetails />} />  
                         <Route path="/buyer/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />  
-                        <Route path="/buyer/send-inquiry" element={<SendInquiry/>} />
+                        <Route path="/buyer/send-inquiry" element={<SendInquiry socket={socket}/>} />
                         <Route path="/buyer/search-product-details/:medicineId" element={<SearchProductDetails/>} />
                         <Route path="/buyer/subscription" element={<Subscription/>} />
                         <Route path="/buyer/subscription-membership" element={<SubscriptionMembership/>} />

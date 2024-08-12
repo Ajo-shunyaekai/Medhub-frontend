@@ -268,7 +268,7 @@ import { useNavigate } from 'react-router-dom';
 // };
 
 
-const SendInquiry = () => {
+const SendInquiry = ({socket}) => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const navigate = useNavigate();
@@ -384,6 +384,7 @@ const SendInquiry = () => {
         });
       } 
     });
+// console.log('suplierId',supplier);
 
     const enquiryPayload = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -399,6 +400,15 @@ const SendInquiry = () => {
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
+
+        enquiryPayload.items.forEach(item => {
+          socket.emit('sendInquiry', {
+            supplierId: item.supplier_id, // The supplier to be notified
+            message: 'You have a new inquiry from a buyer!',
+            // You can also send other details if needed
+          });
+        });
+      
       } else {
         toast(response.message, { type: "error" });
         console.log('error in send-enquiry api', response);

@@ -7,10 +7,16 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import io from 'socket.io-client'
 
 import BuyerSidebar from './components/BuyerSidebar.js';
 import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
+
+const socket = io('http://localhost:3333', {
+    transports: ['websocket'],
+    withCredentials: true
+  }); 
 
     const activekey = () => {
         var res          = window.location.pathname;
@@ -43,7 +49,7 @@ import AdminSidebar from './Admin/components/AdminSidebar.js';
                 <div className='App'>
                     <Router>
                     <ToastContainer />
-                        <BuyerSidebar />
+                        <BuyerSidebar socket={socket}/>
                     </Router>
                 </div>
                 </> );
@@ -52,7 +58,7 @@ import AdminSidebar from './Admin/components/AdminSidebar.js';
                 <div className='App-Container'>
                     <Router>
                     <ToastContainer />
-                        <SupplierSidebar />
+                        <SupplierSidebar socket={socket}/>
                     </Router>
                 </div>
             );

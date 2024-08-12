@@ -5,7 +5,7 @@ import countryList from 'react-select-country-list';
 import ImageAddUploader from './ImageAppUploader';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPdfUpload from './AddPdfUpload';
-import { postRequestWithTokenAndFile } from '../api/Requests';
+import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +34,14 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
             value={value}
         />
     );
+};
+
+const debounce = (func, delay) => {
+    let debounceTimer;
+    return (...args) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func(...args), delay);
+    };
 };
 
 const AddProduct = () => {
@@ -379,6 +387,10 @@ const AddProduct = () => {
         } else {
             setErrors(prevState => ({ ...prevState, productType: '' }));
         }
+     
+            // handleBlur()
+       
+        
     };
 
     const handleFormTypeChange = (selected) => {
@@ -857,6 +869,32 @@ const AddProduct = () => {
         setStockedInSections(updatedSections);
     };
     // end the stocked in section
+
+    const handleBlur = debounce(() => {
+        if (formData.productName.trim() !== '' && productType) {
+            // makeApiCall(formData.productName);
+            const obj = {
+                medicine_name : formData.productName,
+                medicine_type: 
+        productType.label === 'New Product' 
+        ? 'new' 
+        : productType.label === 'Secondary Market' 
+        ? 'secondary market' 
+        : '',
+            }
+            postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
+                if (response.code === 200) {
+                    // toast(response.message, { type: "success" });
+                    // setTimeout(() => {
+                    //     navigate('/supplier/product/newproduct')
+                    // }, 1000);
+                } else {
+                    toast(response.message, { type: "error" });
+                    console.log('error in get-medicine-by-name api');
+                }
+            })
+        }
+    }, 500);
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -880,6 +918,7 @@ const AddProduct = () => {
                                     autoComplete='off'
                                     value={formData.productName}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                 />
                                 {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
