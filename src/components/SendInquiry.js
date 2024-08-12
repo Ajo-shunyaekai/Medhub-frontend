@@ -52,6 +52,7 @@ const SendInquiry = ({socket}) => {
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
+        sessionStorage.setItem('list_count', response.result.listCount)
       } else {
         toast(response.message, { type: "error" });
         console.log('error in order list api', response);
@@ -98,10 +99,6 @@ const SendInquiry = ({socket}) => {
   }, [currentPage, refreshTrigger]);
 
   const handleSendEnquiry = () => {
-    // if (Object.keys(checkedState).length === 0) {
-    //   return toast('Select at least one item', { type: "error" });
-    // }
-
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
       return;
@@ -112,15 +109,15 @@ const SendInquiry = ({socket}) => {
       const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
       if (selectedItemDetails.length > 0) {
         selectedItems.push({
-          supplier_id: supplierData.supplier_details.supplier_id,
-          list_id: supplierData.list_id,
-          item_details: selectedItemDetails.map(item => ({
-            item_id: item._id,
-            medicine_id: item.medicine_id,
-            unit_price: item.unit_price,
-            quantity_required: item.quantity_required,
-            est_delivery_days: item.est_delivery_days,
-            target_price: item.target_price
+          supplier_id         : supplierData.supplier_details.supplier_id,
+          list_id             : supplierData.list_id,
+          item_details        : selectedItemDetails.map(item => ({
+            item_id           : item._id,
+            medicine_id       : item.medicine_id,
+            unit_price        : item.unit_price,
+            quantity_required : item.quantity_required,
+            est_delivery_days : item.est_delivery_days,
+            target_price      : item.target_price
           }))
         });
       } 
@@ -141,15 +138,16 @@ const SendInquiry = ({socket}) => {
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
-
+        
         enquiryPayload.items.forEach(item => {
           socket.emit('sendInquiry', {
             supplierId: item.supplier_id, // The supplier to be notified
             message: 'You have a new inquiry from a buyer!',
-            // You can also send other details if needed
+            // send other details if needed
           });
         });
         navigate("/buyer/thank-you");
+        sessionStorage.setItem('list_count', response.result.listCount)
       
       } else {
         toast(response.message, { type: "error" });

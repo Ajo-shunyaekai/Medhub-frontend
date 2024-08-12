@@ -137,10 +137,10 @@ const ProductDetails = () => {
       postRequestWithToken('buyer/add-to-list', obj, async (response) => {
         if (response.code === 200) {
           toast(response.message, { type: "success" });
+          sessionStorage.setItem('list_count', response.result.listCount)
           setTimeout(() => {
             navigate('/buyer/send-inquiry')
           }, 1000);
-
         } else {
           console.log('error in similar-medicine-list api');
         }

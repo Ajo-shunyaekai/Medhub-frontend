@@ -287,9 +287,12 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                         </div> 
                         <div className={styles.nav_notifi_right}>
                             <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
+                            <Badge badgeContent={sessionStorage.getItem('list_count')} color="secondary">
                             <Link to='/buyer/send-inquiry'>
                                 <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                             </Link>
+                            </Badge>
+
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
                             {/* <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} /> */}
                             <Badge badgeContent={count > 9 ? '9+' : count}color="secondary">
@@ -297,7 +300,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                                     className={styles.nav_icon_color} 
                                     onClick={NotificationDropdown} 
                                 />
-                                </Badge>
+                               </Badge>
 
                             {isNotificationOpen && (
                                 <div className={styles.noti_container}>
