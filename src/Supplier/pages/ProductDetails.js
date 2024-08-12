@@ -222,13 +222,13 @@ const ProductDetails = () => {
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Manufacturer Name :</div>
-                                        <div className='product-details-two-right-text'>Medicine Pvt. Ltd.</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.manufacturer_name}</div>
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Country of Origin :</div>
-                                        <div className='product-details-two-right-text'>India</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.manufacturer_country_of_origin}</div>
                                     </div>
                                 </div>
                             </div>
@@ -237,7 +237,7 @@ const ProductDetails = () => {
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
                                 <div className="product-details-mfg-heading">Manufacturer Description</div>
-                                <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
+                                <div className="product-details-mfg-details">{medicineDetails?.manufacturer_description}</div>
                             </div>
                         </div>
                         {/* end the ecommerce card */}
