@@ -194,7 +194,7 @@ const ProductDetails = () => {
                                 </div>
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Tags :</div>
-                                    <div className='product-details-four-right-text'>{medicineDetails?.tags}</div>
+                                    <div className='product-details-four-right-text'>{medicineDetails?.tags?.join(', ')}</div>
                                 </div>
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Available for :</div>

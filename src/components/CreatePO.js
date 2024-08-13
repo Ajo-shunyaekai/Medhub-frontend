@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
 const CreatePO = () => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
@@ -106,7 +107,7 @@ const CreatePO = () => {
             data
         };
         console.log(obj);
-        postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
+        postRequestWithToken('buyer/purchaseorder/create-p', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
@@ -190,6 +191,7 @@ const CreatePO = () => {
                                 name='supplierMobile'
                                 placeholder='Enter Mobile No.'
                                 {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile number is required' })}
+                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                             />
                             {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
                         </div>
@@ -250,6 +252,7 @@ const CreatePO = () => {
                                 name='buyerMobile'
                                 placeholder='Enter Mobile No.'
                                 {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile number is required' })}
+                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                             />
                             {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
                         </div>

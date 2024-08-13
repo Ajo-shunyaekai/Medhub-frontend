@@ -65,7 +65,7 @@ const ActiveOrdersDetails = () => {
                                     <div className='active-order-details-left-top-main-contents'> {orderDetails?.status.charAt(0).toUpperCase() +  orderDetails?.status.slice(1) }</div>
                                 </div>
                                 {
-                                    orderDetails?.status === 'Awaiting Details from Seller' ?
+                                    orderDetails?.status === 'Awaiting details from supplier' ?
                                     <div className='active-order-details-top-order-cont'>
                                     <div
                                         className='active-order-details-left-top-main-heading-button'

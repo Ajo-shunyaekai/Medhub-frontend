@@ -148,6 +148,22 @@ const ProductDetails = () => {
     }
   };
 
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    // Allow only numeric values and prevent other characters
+    if (/^\d*$/.test(value)) {
+        setQuantityRequired(value);
+    }
+};
+
+const handleTargetPriceChange = (e) => {
+    const value = e.target.value;
+    // Allow only numeric values and prevent other characters
+    if (/^\d*$/.test(value)) {
+        setTargetPrice(value);
+    }
+};
+
   return (
     <div className="main-product-details-container">
       <div className="buyer-product-details-cover">
@@ -304,16 +320,33 @@ const ProductDetails = () => {
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Est. Delivery Time</div>
-                <input className="buyer-product-range-input" type="text" value={selectedDetails.est_delivery_days} readOnly />
+                <input className="buyer-product-range-input" type="text" 
+                // value={selectedDetails.est_delivery_days}
+                value={
+                  selectedDetails.est_delivery_days
+                      ? selectedDetails.est_delivery_days.toLowerCase().includes('days')
+                          ? selectedDetails.est_delivery_days.replace(/days/i, 'Days')
+                          : `${selectedDetails.est_delivery_days} Days`
+                      : ''
+              }
+                 readOnly />
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Quantity Required</div>
-                <input className="buyer-product-range-input" type="text" placeholder='Enter Qty Req.' value={quantityRequired} onChange={(e) => setQuantityRequired(e.target.value)} />
+                <input className="buyer-product-range-input" type="text"
+                 placeholder='Enter Qty Req.' value={quantityRequired} 
+                //  onChange={(e) => setQuantityRequired(e.target.value)} 
+                onInput={handleQuantityChange}
+                 />
                 {errors.quantityRequired && <div className="buyer-product-error">{errors.quantityRequired}</div>}
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Target Price</div>
-                <input className="buyer-product-range-input" type="text" placeholder='Enter Target Price' value={targetPrice} onChange={(e) => setTargetPrice(e.target.value)} />
+                <input className="buyer-product-range-input" type="text" placeholder='Enter Target Price' 
+                value={targetPrice} 
+                // onChange={(e) => setTargetPrice(e.target.value)}
+                onInput={handleTargetPriceChange}
+                 />
                 {errors.targetPrice && <div className="buyer-product-error">{errors.targetPrice}</div>}
               </div>
             </div>
@@ -321,7 +354,14 @@ const ProductDetails = () => {
           </div>
           <div className="buyer-product-details-main-button-section">
             <button className="buyer-product-details-list-button" onClick={handleAddToList}>Add to List</button>
-            <div className="buyer-product-details-cancel-button">Cancel</div>
+            <div className="buyer-product-details-cancel-button"
+            onClick={() => {
+              setQuantityRequired('');
+              setTargetPrice('');
+              setErrors({ ...errors, quantityRequired: '', targetPrice: '' });
+          }}>
+            Cancel
+            </div>
           </div>
 
           <div className="buyer-product-details-card-container">

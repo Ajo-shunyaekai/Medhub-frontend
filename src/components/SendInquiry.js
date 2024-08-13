@@ -328,7 +328,15 @@ const SendInquiry = ({socket}) => {
                           </div>
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Est. Delivery Time:</span>
-                            <span className='send-enquiry-inner-bootom-text'>{product?.est_delivery_days} Days</span>
+                            <span className='send-enquiry-inner-bootom-text'>
+                              {/* {product?.est_delivery_days}  */}
+                              {product?.est_delivery_days 
+                                  ? product.est_delivery_days.toLowerCase().includes('days') 
+                                      ? product.est_delivery_days.replace(/days/i, 'Days') 
+                                      : `${product.est_delivery_days} Days` 
+                                  : ''
+                              }
+                              </span>
                           </div>
                         </div>
                       </div>

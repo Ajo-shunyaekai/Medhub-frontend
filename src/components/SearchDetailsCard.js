@@ -61,8 +61,13 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Delivery Time :</div>
                                 <div className='search-details-card-test-text'>
-                                {/* {med?.inventory_info?.map((item) => item.est_delivery_days).join(', ')} */}
-                                {med?.inventory_info?.[0]?.est_delivery_days}
+                               
+                                {/* {med?.inventory_info?.[0]?.est_delivery_days} */}
+                                {med?.inventory_info?.[0]?.est_delivery_days 
+            ? med.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
+                ? med.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
+                : `${med.inventory_info[0].est_delivery_days} Days`
+            : 'N/A'}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>

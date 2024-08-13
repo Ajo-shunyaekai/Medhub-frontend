@@ -216,17 +216,17 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
         //         });
     }
 
-    const handleNavigation = (notificationId,event) => {
+    const handleNavigation = (notificationId,event,eventId) => {
         switch (event) {
           case 'enquiry':
             setIsNotificationOpen(false)
-            navigate('/supplier/inquiry-purchase-orders/ongoing');
+            navigate(`/supplier/inquiry-request-details/${eventId}`);
             updateStatusApi(notificationId)
             handleClick(notificationId, event)
             break;
           case 'order':
             setIsNotificationOpen(false)
-            navigate('/supplier/order/active');
+            navigate(`/supplier/active-orders-details/${eventId}`);
             handleClick(notificationId, event)
             break;
             case 'purchaseorder':
@@ -271,7 +271,7 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                     {/* Notificatio content goes here */}
                                     <div className={styles.noti_wrapper}>
                                         <div className={styles.noti_top_wrapper}>
-                                        {
+                                        {/* {
                                             notificationList?.slice(0, 5).map((data,i) => {
                                              return (
                                                 <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event)}>
@@ -279,12 +279,42 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                                     {data.event_type.charAt(0)}
                                                     </div>
                                                     <div className={styles.noti_profile_text}>
-                                                    {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}
+                                                    {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}: 
+                                                    <span>
+                                                    {data.message.length > 50 ? `${data.message.slice(0, 50)}...` : data.message}
+                                                    </span>
+                                                    </div>
+                                                    
+                                                </div>
+                                            )
+                                        })
+                                     } */}
+                                     {
+                                        notificationList?.slice(0, 5).map((data, i) => {
+                                            let additionalInfo = '';
+                                            
+                                            if (data.event === 'order' || data.event === 'purchaseorder') {
+                                                additionalInfo = `for ${data.event_id}`;
+                                            } else if (data.event === 'enquiry') {
+                                                additionalInfo = `from: ${data.buyer.buyer_name}`;
+                                            }
+
+                                            return (
+                                                <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id, data.event, data.event_id)} key={i}>
+                                                    <div className={styles.noti_profile}>
+                                                        {data.event_type.charAt(0)}
+                                                    </div>
+                                                    <div className={styles.noti_profile_text}>
+                                                        {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}:  */}
+                                                        <span>
+                                                            {data.message.length > 50 ? `${data.message.slice(0, 50)}...` : data.message}
+                                                        </span>
+                                                        {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
                                                     </div>
                                                 </div>
                                             )
                                         })
-                                     }
+                                    }
                                         </div>
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>

@@ -177,7 +177,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                 <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Status</span>
-                                    <span className="table-g-not-name">{inquiryDetails?.enquiry_status}</span>
+                                    <span className="table-g-not-name">{inquiryDetails?.enquiry_status.charAt(0).toUpperCase() + inquiryDetails?.enquiry_status.slice(1)}</span>
                                 </div>
                             </td>
             )}
