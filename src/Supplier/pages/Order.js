@@ -193,12 +193,12 @@ const Order = () => {
                                 /> : ''
                             }
                         </div>
-                        {
+                        {/* {
                             modal === true ? <OrderCancel setModal={setModal} /> : ''
                         }
                         {
                             showOrder === true ? <OrderDetails showOrderDetails={showOrderDetails} /> : ''
-                        }
+                        } */}
 
                     </div>
                 </div>

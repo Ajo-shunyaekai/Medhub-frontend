@@ -7,7 +7,7 @@ import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment-timezone';
 import BuyerActiveCodinator from './BuyerActiveCodinator';
 
-const OrderDetails = () => {
+const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
     const navigate = useNavigate();
 
@@ -84,6 +84,11 @@ const OrderDetails = () => {
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
                         setOrderDetails(response.result);
+                        socket.emit('bookLogisctics', {
+                            supplierId: orderDetails?.supplier_id, // The supplier to be notified
+                            message: 'Logisctics Booked',
+                            // send other details if needed
+                          });
                     } else {
                         console.log('error in order details api');
                     }

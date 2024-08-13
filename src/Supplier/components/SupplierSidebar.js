@@ -121,6 +121,13 @@ const SupplierSidebar = ({socket}) => {
                 // setCount((prevCount) => prevCount + 1);
                 toast(`New inquiry received: ${notification.message}`, { type: "success" });
             });
+
+            socket.on('logiscticsSubmitted', (notification) => {
+                console.log('Notification received:', notification); // Debugging line
+                // setNotificationList((prevList) => [notification, ...prevList]);
+                // setCount((prevCount) => prevCount + 1);
+                toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+            });
     
             return () => {
                 socket.off('receiveNotification');

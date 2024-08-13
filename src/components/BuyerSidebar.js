@@ -64,6 +64,7 @@ import ProformaInvoice from './invoice/ProformaInvoice.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
+import { toast } from 'react-toastify';
 
 const BuyerSidebar = ({socket}) => {
     const navigate = useNavigate();
@@ -105,7 +106,25 @@ const BuyerSidebar = ({socket}) => {
                 console.log('error in order details api');
             }
         });
-    },[refresh]) ;
+
+        // Ensure socket is defined and connected
+        if (socket) {
+            console.log('socket',socket);
+            
+            socket.on('orderCreated', (notification) => {
+                console.log('Notification received:', notification); // Debugging line
+                // setNotificationList((prevList) => [notification, ...prevList]);
+                // setCount((prevCount) => prevCount + 1);
+                toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+            });
+    
+            return () => {
+                socket.off('receiveNotification');
+            };
+        } else {
+            console.error('Socket is not initialized');
+        }
+    },[refresh, socket]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
         return (

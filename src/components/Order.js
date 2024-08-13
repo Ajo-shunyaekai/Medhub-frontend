@@ -21,29 +21,7 @@ const Order = () => {
     const [currentPage, setCurrentPage] = useState(1); 
     const ordersPerPage = 5;
 
-    // const handleLinkClick = (link) => {
-    //     setActiveLink(link);
-    //     setCurrentPage(1)
-        
-    //     switch (link) {
-    //         case 'alloted':
-                
-    //             break;
-    //         case 'active':
-                
-    //             break;
-
-    //         case 'completed':
-                
-    //             break;
-    //         case 'delete':
-                
-    //             break;
-           
-    //         default:
-    //             break;
-    //     }
-    // };
+    
     const getActiveLinkFromPath = (path) => {
         
         switch (path) {

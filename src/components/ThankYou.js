@@ -1,9 +1,11 @@
 import React from 'react'
 import Successful from '../assest/successful.svg'
 import '../style/thankyou.css'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const ThankYou = () => {
+    const location = useLocation();
+    const { from } = location.state || {}; 
     return (
         <div className='thank-you-main-container'>
             <div className='thank-you-section'>

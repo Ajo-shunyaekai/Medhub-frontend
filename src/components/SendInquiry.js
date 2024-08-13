@@ -146,7 +146,7 @@ const SendInquiry = ({socket}) => {
             // send other details if needed
           });
         });
-        navigate("/buyer/thank-you");
+        navigate("/buyer/thank-you", { state: { from: 'order' } });
         sessionStorage.setItem('list_count', response.result.listCount)
       
       } else {
