@@ -64,8 +64,12 @@ import ProformaInvoice from './invoice/ProformaInvoice.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
+<<<<<<< Updated upstream
 import { toast } from 'react-toastify';
 
+=======
+import NotificationList from './NotificationList.js'
+>>>>>>> Stashed changes
 const BuyerSidebar = ({socket}) => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -213,6 +217,8 @@ const BuyerSidebar = ({socket}) => {
                                         <Route path="/buyer/inquiry-purchase-orders" element={<Navigate to="/buyer/inquiry-purchase-orders/ongoing" />} />
                                         <Route path="/buyer/on-going-order" element={<OnGoingOrder />} />
                                         <Route path="/buyer/purchased-order" element={<PurchasedOrder />} />
+                                        <Route path="/buyer/notification-list" element={<NotificationList />} />
+                                        
                                         <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal />} />
                                     </Routes>
                                 </Sidebar>

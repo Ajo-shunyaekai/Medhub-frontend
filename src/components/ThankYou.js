@@ -14,12 +14,12 @@ const ThankYou = () => {
                 </div>
                 <div className='thank-you-main-heading'>Thank You for Sending Us Your Inquiry!!</div>
                 <div className='thank-you-main-content'>We’ve received your inquiry,
-                     and our team will respond to you shortly.</div>
-                     <Link to='/buyer/inquiry-purchase-orders/ongoing'>
-                     <div className='thank-you-buttons-section'>
+                    and our team will respond to you shortly.</div>
+                <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                    <div className='thank-you-buttons-section'>
                         <span className='thank-you-buttons'>Go Back</span>
-                     </div>
-                     </Link>
+                    </div>
+                </Link>
             </div>
         </div>
     )
