@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) => {
+const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2; 
+    const ordersPerPage = 2;
 
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
@@ -18,9 +17,9 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
     // const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
     const data = orderItems && orderItems?.length > 0 ? orderItems : quotationItems && quotationItems?.length > 0 ? quotationItems : activeOrders;
 
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = data.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = data.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -32,73 +31,75 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
     const handleAcceptClick = (item, status) => {
         setAcceptedItems([...acceptedItems, item]);
         setRejectedItems(rejectedItems.filter(rejItem => rejItem._id !== item._id));
-        handleAccept(item, status);   
-        
+        handleAccept(item, status);
+
     };
 
     const handleRejectClick = (item, status) => {
         setRejectedItems([...rejectedItems, item]);
         setAcceptedItems(acceptedItems.filter(accItem => accItem._id !== item._id));
-        handleReject(item, status); 
+        handleReject(item, status);
     };
 
     const isAccepted = (item) => acceptedItems.some(accItem => accItem._id === item._id);
     const isRejected = (item) => rejectedItems.some(rejItem => rejItem._id === item._id);
-    
+
     return (
-        <div className="card-body">
-            <div>
-                <div className="table-assign-driver-heading">Product List</div>
+        <div className="product-list-main-container">
+            <div className='table-card-body-container'>
+                <div className="table-assign-driver-heading">Quotation from Supplier</div>
+                <div className='table-assign-date-time'>12-10-2024 <span className='table-assign-time-section'>
+                    14:15 PM</span></div>
             </div>
             <table className="table">
                 <tbody>
 
-    {
-        currentOrders?.map((item,i) => {
-            return (
-                    <tr>
-                        <td className='tables-tds'>
-                            <div className="table-g-section-content">
-                                <span className="table-g-driver-name">Product ID</span>
-                                <span className="table-g-not-names">{item.product_id || item.medicine_id || item.productId}</span>
-                            </div>
-                        </td>
-                        <td className='tables-tds-cont' >
-                            <div className="table-second-container">
-                                <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0) }</span>
-                                <div className="table-g-section-content">
-                                    <span className="table-g-driver-name">Product Name</span>
-                                    <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name} ({item.composition || item.medicine_details?.composition || 'Claritin'}) </span>
-                                </div>
-                            </div>
-                        </td>
-                        <td className='tables-tds'>
-                            <div className="table-g-section-content">
-                                <span className="table-g-driver-name">Quantity</span>
-                                <span className="table-g-not-name">{item.quantity || item.quantity_required || item.quantity}</span>
-                            </div>
-                        </td>
-                        <td className='tables-tds'>
-                            <div className="table-g-section-content">
-                                <span className="table-g-driver-name">Target Price</span>
-                                <span className="table-g-not-name">{item.price || item.target_price ||  item.totalAmount || '30 AED'}</span>
-                            </div>
-                        </td>
+                    {
+                        currentOrders?.map((item, i) => {
+                            return (
+                                <tr>
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Product ID</span>
+                                            <span className="table-g-not-names">{item.product_id || item.medicine_id || item.productId}</span>
+                                        </div>
+                                    </td>
+                                    <td className='tables-tds-cont' >
+                                        <div className="table-second-container">
+                                            <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0)}</span>
+                                            <div className="table-g-section-content">
+                                                <span className="table-g-driver-name">Product Name</span>
+                                                <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name} ({item.composition || item.medicine_details?.composition || 'Claritin'}) </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Quantity</span>
+                                            <span className="table-g-not-name">{item.quantity || item.quantity_required || item.quantity}</span>
+                                        </div>
+                                    </td>
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Target Price</span>
+                                            <span className="table-g-not-name">{item.price || item.target_price || item.totalAmount || '30 AED'}</span>
+                                        </div>
+                                    </td>
 
-                        <td className='tables-tds'>
-                                <div className="table-g-section-content">
-                                    <span className="table-g-driver-name">Counter Price</span>
-                                    <span className="table-g-not-name">{item.counterprice || item.counter_price || '-'}</span>
-                                </div>
-                        </td>
-                        {/* <td className='tables-tds'>
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Counter Price</span>
+                                            <span className="table-g-not-name">{item.counterprice || item.counter_price || '-'}</span>
+                                        </div>
+                                    </td>
+                                    {/* <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
                                     <span className="table-g-not-name-button" onClick={() => handleAccept(item.medicine_id, item._id)}>Accept</span>
                                     <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.medicine_id, item._id)}>Reject</span>
                                 </div>
                         </td> */}
 
-                        {/* <td className='tables-tds'>
+                                    {/* <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
                                     {isAccepted(item) ? (
                                         <span className="table-g-not-name-button accepted">Accepted</span>
@@ -117,22 +118,22 @@ const ProductList = ({orderItems, quotationItems, handleAccept, handleReject}) =
                                         <div className="table-g-section-content-button">
                                             {item.status === 'pending' ? (
                                                 <>
-                                                    <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item,'accepted')}>Accept</span>
-                                                    <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item,'rejected')}>Reject</span>
+                                                    <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item, 'accepted')}>Accept</span>
+                                                    <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item, 'rejected')}>Reject</span>
                                                 </>
                                             ) : item.status === 'accepted' ? (
-                                                <span className="table-g-not-name-button accepted" onClick={() => handleRejectClick(item,'rejected')}>Accepted</span>
+                                                <span className="table-g-not-name-button accepted" onClick={() => handleRejectClick(item, 'rejected')}>Accepted</span>
                                             ) : item.status === 'rejected' ? (
-                                                <span className="table-g-not-reject-buttons rejected" onClick={() => handleAcceptClick(item,'accepted')}>Rejected</span>
+                                                <span className="table-g-not-reject-buttons rejected" onClick={() => handleAcceptClick(item, 'accepted')}>Rejected</span>
                                             ) : null}
                                         </div>
                                     </td>
-                        
-                        <td></td>
-                    </tr>
-                    )
-            })
-        }
+
+                                    <td></td>
+                                </tr>
+                            )
+                        })
+                    }
 
                 </tbody>
             </table>

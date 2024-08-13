@@ -153,10 +153,10 @@ const OrderDetails = ({socket}) => {
                                 </div>
                                 <div className="buyer-order-details-left-bottom-vehichle-no">
                                     <div className="buyer-order-details-left-bottom-vehichle-no-head">
-                                        Payment Status
+                                       Company Type
                                     </div>
                                     <div className="buyer-order-details-left-bottom-vehichle-no-text">
-                                        {orderDetails?.order_status === 'completed' ? '100% done' : '60% completed'}
+                                        Manufacturer
                                     </div>
                                 </div>
                             </div>

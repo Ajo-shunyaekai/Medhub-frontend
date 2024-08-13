@@ -65,7 +65,10 @@ import { postRequestWithToken } from '../api/Requests.js';
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
 import { toast } from 'react-toastify';
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 import NotificationList from './NotificationList.js'
 const BuyerSidebar = ({socket}) => {
     const navigate = useNavigate();

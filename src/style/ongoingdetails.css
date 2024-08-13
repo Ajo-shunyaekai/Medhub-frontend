@@ -11,7 +11,21 @@
     row-gap: 20px;
     margin: auto;
   }
-  
+  .product-list-main-container{
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+  }
+  .table-assign-date-time{
+    color: #5e676f;
+    font-size: 13px;
+  }
+  .table-card-body-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .ongoing-details-container::-webkit-scrollbar {
     display: none;
   }
