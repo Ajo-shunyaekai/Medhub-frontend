@@ -230,7 +230,9 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='supplierMobile'
                                 placeholder='Enter Mobile No.'
-                                {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} />
+                                {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} 
+                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                                />
                             {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -266,7 +268,9 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='buyerMobile'
                                 placeholder='Enter Mobile No.'
-                                {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} />
+                                {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
+                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                                />
                             {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>

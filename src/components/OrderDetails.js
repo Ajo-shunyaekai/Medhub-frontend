@@ -156,7 +156,7 @@ const OrderDetails = ({socket}) => {
                                        Company Type
                                     </div>
                                     <div className="buyer-order-details-left-bottom-vehichle-no-text">
-                                        Manufacturer
+                                        {orderDetails?.buyer.buyer_type}
                                     </div>
                                 </div>
                             </div>
