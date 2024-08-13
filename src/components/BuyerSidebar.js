@@ -64,12 +64,9 @@ import ProformaInvoice from './invoice/ProformaInvoice.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
-<<<<<<< Updated upstream
 import { toast } from 'react-toastify';
 
-=======
 import NotificationList from './NotificationList.js'
->>>>>>> Stashed changes
 const BuyerSidebar = ({socket}) => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");

@@ -66,6 +66,7 @@ import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
+
 const SupplierSidebar = ({socket}) => {
 
     const navigate = useNavigate();
