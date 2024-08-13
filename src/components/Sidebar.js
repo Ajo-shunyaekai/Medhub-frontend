@@ -241,7 +241,11 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
             navigate(`/buyer/order-details/${eventId}`);
             handleClick(notificationId, event)
             break;
-          // Add more cases as needed
+          case 'purchaseorder':
+                setIsNotificationOpen(false)
+                navigate('/buyer/inquiry-purchase-orders/purchased');
+                handleClick(notificationId, event)
+                break;
           default:
             navigate('/buyer/'); // Default to home or another page if event_type doesn't match
             break;

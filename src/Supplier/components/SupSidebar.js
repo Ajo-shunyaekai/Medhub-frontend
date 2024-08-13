@@ -229,7 +229,11 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
             navigate('/supplier/order/active');
             handleClick(notificationId, event)
             break;
-          // Add more cases as needed
+            case 'purchaseorder':
+                setIsNotificationOpen(false)
+                navigate('/supplier/inquiry-purchase-orders/purchased');
+                handleClick(notificationId, event)
+                break;
           default:
             navigate('/supplier/'); 
             break;

@@ -188,7 +188,7 @@ const NotificationList = () => {
     const [count, setCount] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
+    const ordersPerPage = 10;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -206,8 +206,8 @@ const NotificationList = () => {
 
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            pageNo: currentPage,
-            pageSize: ordersPerPage
+            // pageNo: currentPage,
+            // pageSize: ordersPerPage
         };
 
         postRequestWithToken('supplier/get-notification-details-list', obj, (response) => {
@@ -258,7 +258,7 @@ const NotificationList = () => {
                                 </tr>
                             </thead>
                             <tbody className='notification-container-tbody'>
-                                {notificationOrders.map((notification, index) => (
+                                {notificationOrders?.map((notification, index) => (
                                     <tr className="notification-section-tr" key={notification.notification_id || index}>
                                         <td className='notification-section-td'>
                                             <div className="notification-section-heading">{notification.buyer?.buyer_name}</div>
