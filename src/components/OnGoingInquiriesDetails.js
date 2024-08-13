@@ -251,7 +251,10 @@ const OnGoingInquiriesDetails = () => {
       </div>
       {/* start the assign driver section */}
       <div className="ongoing-details-assign-driver-section">
-        <OnGoingList items={inquiryDetails?.items} />
+        <OnGoingList 
+        items={inquiryDetails?.items} 
+        inquiryDetails ={inquiryDetails}
+        />
       </div>
       {/* end the assign driver section */}
       {/* start the button container */}
@@ -267,6 +270,7 @@ const OnGoingInquiriesDetails = () => {
       {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
           <ProductList
+            inquiryDetails ={inquiryDetails}
             quotationItems={inquiryDetails?.quotation_items}
             handleAccept={handleAccept}
             handleReject={handleReject}

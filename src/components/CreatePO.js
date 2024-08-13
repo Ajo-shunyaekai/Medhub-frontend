@@ -107,7 +107,7 @@ const CreatePO = () => {
             data
         };
         console.log(obj);
-        postRequestWithToken('buyer/purchaseorder/create-p', obj, async (response) => {
+        postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {

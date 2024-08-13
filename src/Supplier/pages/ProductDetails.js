@@ -177,10 +177,43 @@ const ProductDetails = () => {
                                 medicineDetails?.inventory_info?.map((info, k) => {
                                     return (
                                         <div className="product-range-details">
-                                            <div className="product-range-text"> <input className="product-range-input" type=" text" value={info?.quantity} /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" value={info?.unit_price} /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" value={info?.total_price} /> </div>
-                                            <div className="product-range-text"> <input className="product-range-input" type="text" value={info?.est_delivery_days} /></div>
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text" 
+                                            value={info?.quantity} 
+                                            /> </div>
+                                            <div className="product-range-text"><input className="product-range-input" type="text" 
+                                            // value={info?.unit_price}
+                                            value={
+                                                info?.unit_price
+                                                  ? info.unit_price.toLowerCase().includes('aed')
+                                                    ? info.unit_price.replace(/aed/i, 'AED')
+                                                    : `${info.unit_price} AED`
+                                                  : ''
+                                              }
+                                             /> 
+                                            </div>
+                                            <div className="product-range-text"><input className="product-range-input" 
+                                            type="text" 
+                                            // value={info?.total_price} 
+                                            value={
+                                                info?.total_price
+                                                  ? info.total_price.toLowerCase().includes('aed')
+                                                    ? info.total_price.replace(/aed/i, 'AED')
+                                                    : `${info.total_price} AED`
+                                                  : ''
+                                              }
+                                            /> 
+                                            </div>
+                                            <div className="product-range-text"> <input className="product-range-input" type="text"
+                                            // value={info?.est_delivery_days} 
+                                            value={
+                                                info?.est_delivery_days
+                                                  ? info.est_delivery_days.toLowerCase().includes('days')
+                                                    ? info.est_delivery_days.replace(/days/i, 'Days')
+                                                    : `${info.est_delivery_days} Days`
+                                                  : ''
+                                              }
+                                            />
+                                            </div>
                                         </div>
                                     )
                                 })

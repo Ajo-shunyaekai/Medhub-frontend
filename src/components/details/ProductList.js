@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import moment from "moment-timezone";
 
-const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject }) => {
+const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 2;
@@ -48,8 +49,9 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject })
         <div className="product-list-main-container">
             <div className='table-card-body-container'>
                 <div className="table-assign-driver-heading">Quotation from Supplier</div>
-                <div className='table-assign-date-time'>12-10-2024 <span className='table-assign-time-section'>
-                    14:15 PM</span></div>
+                <div className='table-assign-date-time'>{moment(inquiryDetails?.quotation_items_created_at)
+                      .tz("Asia/Kolkata")
+                      .format("DD/MM/YYYY HH:mm:ss")}</div>
             </div>
             <table className="table">
                 <tbody>
@@ -82,16 +84,32 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject })
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Target Price</span>
-                                            <span className="table-g-not-name">{item.price || item.target_price || item.totalAmount || '30 AED'}</span>
+                                            <span className="table-g-not-name">
+                                                {item.price || item.target_price || item.totalAmount
+                                                    ? `${item.price || item.target_price || item.totalAmount} AED`
+                                                    : '-'}
+                                            </span>
                                         </div>
                                     </td>
 
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Counter Price</span>
-                                            <span className="table-g-not-name">{item.counterprice || item.counter_price || '-'}</span>
+                                            <span className="table-g-not-name">
+                                                {item.counterprice || item.counter_price
+                                                    ? `${item.counterprice || item.counter_price} AED`
+                                                    : '-'}
+                                            </span>
                                         </div>
                                     </td>
+                                    {inquiryDetails.enquiry_status === 'PO created' && (
+                                        <td className='tables-tds'>
+                                            <div className="table-g-section-content">
+                                                <span className="table-g-driver-name">Status</span>
+                                                <span className="table-g-not-name">{item.status?.charAt(0).toUpperCase() + item?.status?.slice(1) || '-'}</span>
+                                            </div>
+                                        </td>
+                                    )}
                                     {/* <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
                                     <span className="table-g-not-name-button" onClick={() => handleAccept(item.medicine_id, item._id)}>Accept</span>

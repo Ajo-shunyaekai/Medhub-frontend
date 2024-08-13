@@ -104,7 +104,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Target Price</span>
-                                    <span className="table-g-not-name">{item.target_price}</span>
+                                    <span className="table-g-not-name">{item.target_price} AED</span>
                                 </div>
                             </td>
                             {/* <td className='tables-status'>

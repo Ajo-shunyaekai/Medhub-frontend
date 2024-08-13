@@ -214,11 +214,7 @@ const OrderDetails = ({socket}) => {
                 <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
                     <div className="buyer-order-details-top-order-cont">
                         <div className="buyer-order-details-left-top-main-heading">
-<<<<<<< Updated upstream
                            Width
-=======
-                            Width
->>>>>>> Stashed changes
                         </div>
                         <div className="buyer-order-details-left-top-main-contents">
                             {orderDetails?.shipment_details?.shipment_details?.breadth || '4'} cm

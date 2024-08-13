@@ -4,7 +4,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 
-const AssignDriver = ({ items }) => {
+const AssignDriver = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 3; // Number of orders to display per page
 
@@ -51,13 +51,13 @@ const AssignDriver = ({ items }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Listed Price</span>
-                  <span className="table-g-not-name">{item.unit_price}</span>
+                  <span className="table-g-not-name">{item.unit_price} AED</span>
                 </div>
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
-                  <span className="table-g-not-name">{item.target_price}</span>
+                  <span className="table-g-not-name">{item.target_price} AED</span>
                 </div>
               </td>
               <td className='tables-td'>

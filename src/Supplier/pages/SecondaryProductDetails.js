@@ -112,7 +112,7 @@ const SecondaryProductDetails = () => {
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Unit price :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price}</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price} AED</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Minimum purchase :</div>
