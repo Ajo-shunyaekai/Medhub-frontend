@@ -93,9 +93,9 @@ const SupplierSidebar = ({socket}) => {
     }
 
     useEffect(() => {
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-        }
+        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        //     navigate("/supplier/login");
+        // }
     
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
