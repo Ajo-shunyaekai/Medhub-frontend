@@ -78,7 +78,7 @@ const NotificationList = () => {
         }
 
         const obj = {
-            buyer_id: buyerIdSessionStorage|| buyerIdLocalStorage,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             // pageNo: currentPage,
             // pageSize: ordersPerPage
         };
@@ -91,7 +91,7 @@ const NotificationList = () => {
                 console.log('Error in get-notification-details-list API');
             }
         });
-    }, [currentPage]); 
+    }, [currentPage]);
 
     const handleNavigation = (notificationId, event, eventId) => {
         switch (event) {
@@ -106,7 +106,7 @@ const NotificationList = () => {
                 break;
         }
     };
-  
+
     return (
         <div className='notification-main-container'>
             <div className="notification-name-2">Notification List</div>
@@ -122,9 +122,10 @@ const NotificationList = () => {
                                     <th className="notification-container-th"><div className="notification-container-head">Action</div></th>
                                 </tr>
                             </thead>
-                            <tbody className='notification-container-tbody'>
-                                {notificationOrders?.map((notification, index) => (
-                                    <tr className="notification-section-tr" key={index}>
+                            {notificationOrders?.map((notification, index) => (
+                                <tbody className='notification-container-tbody' key={index}>
+
+                                    <tr className="notification-section-tr" >
                                         <td className='notification-section-td'>
                                             <div className="notification-section-heading">{notification.supplier?.supplier_name}</div>
                                         </td>
@@ -137,15 +138,16 @@ const NotificationList = () => {
                                         <td className='notification-section-button-cont'>
                                             <div className='notification-section-button'>
                                                 {/* <Link to='/order-details'> */}
-                                                    <div className='notification-section-view' onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id)}>
-                                                        <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
-                                                    </div>
+                                                <div className='notification-section-view' onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id)}>
+                                                    <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
+                                                </div>
                                                 {/* </Link> */}
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
-                            </tbody>
+
+                                </tbody>
+                            ))}
                         </table>
                     </div>
                     <div className='pagi-container'>

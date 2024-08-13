@@ -214,7 +214,7 @@ const BuySeller = ({active}) => {
                         <Link to={`/buyer/supplier-details/${supplier.supplier_id}`}>
                             <div className='buy-seller-company-card-button'>
                                 <div className='buy-seller-company-view'> View Details</div>
-                                <img className='buy-seller-copmany-arrowcard' src={ArrowCard} />
+                                {/* <img className='buy-seller-copmany-arrowcard' src={ArrowCard} /> */}
                             </div>
                         </Link>
                         </div >

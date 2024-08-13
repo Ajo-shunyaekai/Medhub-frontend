@@ -2,11 +2,17 @@
     width: 100%;
     max-width: 86%;
   }
-  .notification-main-container{
+  .notification-main-container {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
-  }
+    height: 100vh;
+    overflow: scroll;
+    margin-bottom: 60px;
+}
+.notification-main-container::-webkit-scrollbar{
+  display: none;
+}
   .notification-name-2{
     font-size: 20px;
     font-weight: 600;
