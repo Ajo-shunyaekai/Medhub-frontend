@@ -55,7 +55,8 @@ const OrderDetails = ({socket}) => {
 
         // Create the logistics_details object
         const logisticsDetails = {
-            type: type,
+            type: data.doorToDoor === true ? 'door to door' : '',
+            custom_clearance: data.customClearance,
             prefered_mode: data.transportMode,
             drop_location: {
                 name: data.dropLocation.name,
@@ -71,10 +72,10 @@ const OrderDetails = ({socket}) => {
             order_id: orderId,
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             supplier_id: orderDetails?.supplier_id,
-            status: 'Awaiting Details from Supplier',
+            status: 'Awaiting details from supplier',
             logistics_details: [logisticsDetails],
         };
-
+        console.log('OBJ:', obj);
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
                 // setOrderDetails((prevDetails) => ({
