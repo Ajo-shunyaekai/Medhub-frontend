@@ -147,7 +147,7 @@ const MarketProductDetails = () => {
                                 <div className="buyer-product-details-sec-two-left">
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Unit price :</div>
-                                        <div className='buyer-product-details-two-right-text'>{details?.unit_price}</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.unit_price} AED</div>
                                     </div>
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Minimum purchase :</div>
@@ -316,9 +316,9 @@ const MarketProductDetails = () => {
                             </div>
                         </div>
                         <div className='buyer-product-details-main-button-section'>
-                            <Link to='/buyer/send-inquiry'>
+                            {/* <Link to='/buyer/send-inquiry'> */}
                                 <div className='buyer-product-details-list-button'>Add to List</div>
-                            </Link>
+                            {/* </Link> */}
                             <div className='buyer-product-details-cancel-button'>Cancel</div>
 
                         </div>

@@ -140,7 +140,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                                     </div>
                                 </div>
                             </td> */}
-                             {inquiryDetails.enquiry_status !== 'Quotation submitted' ? (
+                             {inquiryDetails.enquiry_status !== 'Quotation submitted' && inquiryDetails.enquiry_status !== 'cancelled' && inquiryDetails.enquiry_status !== 'PO created' ? (
                 <td className='tables-status'>
                     <div className='tables-button-conatiner'>
                         <label className='inquiry-label-section'>

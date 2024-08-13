@@ -187,7 +187,7 @@ const Buy2ndMarket = ({active}) => {
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>Stocked In</div>
-                                        <div className='byproduct-product-card-second-text'>{medicine.quantity}</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.stocked_in?.join(', ')}</div>
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>Dossier Type</div>

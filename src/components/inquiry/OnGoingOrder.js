@@ -44,8 +44,14 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                         <div className="ongoing-section-heading">{ongoing?.supplier.supplier_name}</div>
                       </td>
                       <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.enquiry_status?.charAt(0).toUpperCase() + ongoing?.enquiry_status?.slice(1) }</div>
-                      </td>
+                        <div className="ongoing-section-heading">
+                            {ongoing?.enquiry_status === 'Quotation submitted' 
+                                ? 'Quotation received' 
+                                : ongoing?.enquiry_status?.charAt(0).toUpperCase() + ongoing?.enquiry_status?.slice(1)
+                            }
+                        </div>
+                    </td>
+
                       <td className='ongoing-section-td'>
                         <div className='ongoing-section-button'>
                           <Link to={`/buyer/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>

@@ -313,7 +313,7 @@ const OnGoingInquiriesDetails = () => {
       ) : (
         ""
       )}
-      {inquiryDetails?.quotation_items?.length > 0 &&
+      {/* {inquiryDetails?.quotation_items?.length > 0 &&
       inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="pending-order-button-section">
          
@@ -334,7 +334,28 @@ const OnGoingInquiriesDetails = () => {
         </div>
       ) : (
         ""
+      )} */}
+
+{inquiryDetails?.enquiry_status === 'Quotation submitted' ? (
+    <div className="pending-order-button-section">
+      
+      {acceptedItems.length > 0 ? (
+        <Link to={`/buyer/Create-PO/${inquiryId}`}>
+          <div className="pending-order-create-order">
+            Create Purchase Order
+          </div>
+        </Link>
+      ) : (
+        <div className="pending-order-create-order">
+          Create Purchase Order
+        </div>
       )}
+      <a href={mailtoLink} className="pending-order-contact-order">
+        Contact Supplier
+      </a>
+    </div>
+  ) : null}
+
     </div>
   );
 };

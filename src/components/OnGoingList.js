@@ -62,10 +62,16 @@ const AssignDriver = ({ items }) => {
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
-                  <span className="table-g-driver-name">Status</span>
-                  <span className="table-g-not-name">{item.status}</span>
+                    <span className="table-g-driver-name">Status</span>
+                    <span className="table-g-not-name">
+                        {item.status === 'Quotation submitted' 
+                            ? 'Quotation received' 
+                            : item?.status?.charAt(0).toUpperCase() + item?.status?.slice(1)
+                        }
+                    </span>
                 </div>
-              </td>
+            </td>
+
               <td>
                 {/* Any additional actions */}
               </td>

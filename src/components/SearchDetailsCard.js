@@ -42,13 +42,13 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Medicine Name :</div>
-                                <div className='search-details-card-test-text'>{med.medicine_name}(500 Mg)</div>
+                                <div className='search-details-card-test-text'>{med.medicine_name}({med.strength})</div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Unit Price :</div>
                                 <div className='search-details-card-test-text'>
                                 {/* {med?.inventory_info?.map((item) => item.unit_price).join(', ')} */}
-                                {med?.inventory_info?.[0]?.unit_price}
+                                {med?.inventory_info?.[0]?.unit_price} AED
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>

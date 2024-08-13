@@ -300,7 +300,7 @@ const ProductDetails = () => {
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Unit Price</div>
-                <input className="buyer-product-range-input" type="text" value={selectedDetails.unit_price} readOnly />
+                <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} AED`} readOnly />
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Est. Delivery Time</div>
