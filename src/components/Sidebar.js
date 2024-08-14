@@ -294,7 +294,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                                         <div className={styles.noti_top_wrapper}>
 
                                             {
-                                                notificationList?.map((data,i) => {
+                                                notificationList?.slice(0, 5).map((data,i) => {
                                                     return (
                                                         <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event, data.event_id)}>
                                                             <div className={styles.noti_profile}>

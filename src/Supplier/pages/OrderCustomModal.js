@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../style/ordermodal.module.css';
 import { postRequestWithToken } from '../api/Requests';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefresh }) => {
     const [formData, setFormData] = useState({
@@ -35,11 +36,40 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
 
     if (!show) return null;
 
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         [name]: value,
+    //     }));
+    // };
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        let filteredValue = value;
+
+        // Allow only numbers for specific fields
+        if (['supplierMobile', 'pincode', 'packages', 'length', 'width', 'height'].includes(name)) {
+            filteredValue = value.replace(/[^0-9]/g, '');
+        }
+
+        if (name === 'weight') {
+            filteredValue = value.replace(/[^0-9.]/g, '');
+            // Ensure only one decimal point
+            const parts = filteredValue.split('.');
+            if (parts.length > 2) {
+                filteredValue = parts[0] + '.' + parts.slice(1).join('');
+            }
+        }
+
+        // Allow only letters for specific fields
+        if (['suppliername', 'cityDistrict', 'state'].includes(name)) {
+            filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+        }
+
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: filteredValue,
         }));
     };
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -82,6 +112,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
         }
         postRequestWithToken('supplier/order/submit-details', obj, (response) => {
             if (response.code === 200) {
+                toast('Details submitted successfully', {type: 'success'})
                 setRefresh(true)
                 onClose()
             } else {
