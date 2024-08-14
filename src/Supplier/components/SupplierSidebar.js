@@ -93,50 +93,49 @@ const SupplierSidebar = ({socket}) => {
     }
 
     useEffect(() => {
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        //     navigate("/supplier/login");
-        // }
+        if (supplierIdSessionStorage || supplierIdLocalStorage) {
+            // navigate("/supplier/login");
+            const obj = {
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                // pageNo: 1,
+                // pageSize: 5
+            };
+        
+            postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+                if (response.code === 200) {
+                    setNotificationList(response.result.data);
+                    setCount(response.result.totalItems || 0);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+        }
     
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            // pageNo: 1,
-            // pageSize: 5
-        };
-    
-        postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-            if (response.code === 200) {
-                setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0);
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        
     
         // Ensure socket is defined and connected
-        if (socket) {
-            console.log('socket',socket);
+        // if (socket) {
+        //     console.log('socket',socket);
             
-            socket.on('receiveNotification', (notification) => {
-                console.log('Notification received:', notification); // Debugging line
-                // setNotificationList((prevList) => [notification, ...prevList]);
-                // setCount((prevCount) => prevCount + 1);
-                toast(`New inquiry received: ${notification.message}`, { type: "success" });
-            });
+        //     socket.on('receiveNotification', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+                
+        //         toast(`New inquiry received: ${notification.message}`, { type: "success" });
+        //     });
 
-            socket.on('logiscticsSubmitted', (notification) => {
-                console.log('Notification received:', notification); // Debugging line
-                // setNotificationList((prevList) => [notification, ...prevList]);
-                // setCount((prevCount) => prevCount + 1);
-                toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-            });
+        //     socket.on('logiscticsSubmitted', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+                
+        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+        //     });
     
-            return () => {
-                socket.off('receiveNotification');
-            };
-        } else {
-            console.error('Socket is not initialized');
-        }
-    }, [socket, supplierIdSessionStorage, supplierIdLocalStorage, navigate]);
+        //     return () => {
+        //         socket.off('receiveNotification');
+        //     };
+        // } else {
+        //     console.error('Socket is not initialized');
+        // }
+    }, [supplierIdSessionStorage, supplierIdLocalStorage, navigate]);
     
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

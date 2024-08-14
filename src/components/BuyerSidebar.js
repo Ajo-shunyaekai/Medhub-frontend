@@ -92,9 +92,9 @@ const BuyerSidebar = ({socket}) => {
     }
 
     useEffect( () => { 
-        // if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
-        //     navigate("/buyer/login");
-        // }
+        if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate("/buyer/login");
+        }
         const obj = {
             // order_id : orderId,
             buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
