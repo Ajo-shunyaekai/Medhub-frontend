@@ -298,7 +298,7 @@ const handleTargetPriceChange = (e) => {
               </div>
               <div className="buyer-product-details-inner-company">
                 <div className="buyer-product-details-inner-copmany-head">Tax no. :</div>
-                <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.license_no}</div>
+                <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.tax_no}</div>
               </div>
             </div>
           </div>
