@@ -139,7 +139,7 @@ const ActiveOrdersDetails = () => {
                 <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
                     <div className="buyer-order-details-top-order-cont">
                         <div className="buyer-order-details-left-top-main-heading">
-                        Breadth
+                        Width
                         </div>
                         <div className="buyer-order-details-left-top-main-contents">
                             {orderDetails?.shipment_details?.shipment_details?.breadth || '2'} cm

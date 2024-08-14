@@ -257,9 +257,10 @@ const NotificationList = () => {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className='notification-container-tbody'>
-                                {notificationOrders?.map((notification, index) => (
-                                    <tr className="notification-section-tr" key={notification.notification_id || index}>
+                            {notificationOrders?.map((notification, index) => (
+                            <tbody className='notification-container-tbody' key={notification.notification_id || index}>
+                                
+                                    <tr className="notification-section-tr" >
                                         <td className='notification-section-td'>
                                             <div className="notification-section-heading">{notification.buyer?.buyer_name}</div>
                                         </td>
@@ -277,8 +278,9 @@ const NotificationList = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                               
                             </tbody>
+                             ))}
                         </table>
                     </div>
                     <div className='pagi-container'>

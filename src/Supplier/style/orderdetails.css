@@ -502,6 +502,7 @@
   flex-direction: column;
   justify-content: center;
   border-radius: 4px;
+  margin-top: -50px;
 }
 .active-invoice-list-button-section{
   width: 100%;
