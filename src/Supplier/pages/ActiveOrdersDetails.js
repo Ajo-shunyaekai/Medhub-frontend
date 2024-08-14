@@ -171,12 +171,12 @@ const ActiveOrdersDetails = () => {
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-detention-head'>Payment Status</div>
                             <div className='active-order-details-payment-detention-content'>
-                                <div className='active-order-details-payment-detention-date'>{orderDetails?.order_status === 'completed' ? '100% done' : '60% completed'}</div>
+                                <div className='active-order-details-payment-detention-date'>{orderDetails?.order_status === 'completed' ? '100% Done' : '60% Completed'}</div>
                             </div>
                         </div>
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '10 days'}</div>
+                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '10 Days'}</div>
                         </div>
                     </div>
                     <div className='active-order-details-payment-detention-cont'>

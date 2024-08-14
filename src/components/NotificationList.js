@@ -126,23 +126,23 @@ const NotificationList = () => {
                                 </tr>
                             </thead>
                             {
-    notificationOrders?.map((notification, index) => {
-        let additionalInfo = '';
+                                notificationOrders?.map((notification, index) => {
+                                    let additionalInfo = '';
 
-        if (notification.event_type === 'Order created') {
-            additionalInfo = `for ${notification.connected_id}`;
-        } else if (notification.event_type === 'Shipment details submitted') {
-            additionalInfo = `for: ${notification.event_id}`;
-        } else if (notification.event_type === 'Enquiry quotation') {
-            additionalInfo = `from: ${notification.supplier?.supplier_name}`;
-        }
+                                    if (notification.event_type === 'Order created') {
+                                        additionalInfo = `for ${notification.connected_id}`;
+                                    } else if (notification.event_type === 'Shipment details submitted') {
+                                        additionalInfo = `for: ${notification.event_id}`;
+                                    } else if (notification.event_type === 'Enquiry quotation') {
+                                        additionalInfo = `from: ${notification.supplier?.supplier_name}`;
+                                    }
 
-        let displayMessage = notification.message;
-        if (notification.message === 'Enquiry quotation submitted') {
-            displayMessage = `Enquiry quotation received `;
-        }
+                                    let displayMessage = notification.message;
+                                    if (notification.message === 'Enquiry quotation submitted') {
+                                        displayMessage = `Enquiry quotation received `;
+                                    }
 
-        return (
+                                    return (
                                 <tbody className='notification-container-tbody' key={index}>
 
                                     <tr className="notification-section-tr" >

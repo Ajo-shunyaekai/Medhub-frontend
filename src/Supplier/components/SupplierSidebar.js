@@ -140,7 +140,7 @@ const SupplierSidebar = () => {
         // } else {
         //     console.error('Socket is not initialized');
         // }
-    }, [supplierIdSessionStorage, supplierIdLocalStorage]);
+    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
     
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

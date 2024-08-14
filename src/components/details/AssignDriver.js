@@ -64,7 +64,7 @@ const AssignDriver = ({orderItems}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
-                                            <span className="table-g-not-name">{item.time || '15 days'}</span>
+                                            <span className="table-g-not-name">{item.time || '15 Days'}</span>
                                         </div>
                                     </td>
                                     <td>

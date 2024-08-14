@@ -72,6 +72,8 @@ const BuyerSidebar = () => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
+
+
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
@@ -125,7 +127,7 @@ const BuyerSidebar = () => {
         // } else {
         //     console.error('Socket is not initialized');
         // }
-    },[refresh]) ;
+    },[refresh, buyerIdSessionStorage, buyerIdLocalStorage]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
         return (

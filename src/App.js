@@ -35,23 +35,7 @@ import { postRequestWithToken } from './api/Requests.js';
     
 
     function App() {
-    //     const [notificationList, setNotificationList] = useState([]);
-    //    const [count, setCount] = useState(0);
-
-    // const fetchNotifications = (supplierId) => {
-    //     const obj = {
-    //         supplier_id: supplierId,
-    //     };
-
-    //     postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setNotificationList(response.result.data);
-    //             setCount(response.result.totalItems || 0);
-    //         } else {
-    //             console.log('Error in fetching notifications');
-    //         }
-    //     });
-    // };
+   
 
         useEffect(() => {
             if( activekey().indexOf('buyer') > 0 ){
@@ -61,14 +45,6 @@ import { postRequestWithToken } from './api/Requests.js';
             } else if( activekey().indexOf('admin') > 0 ){ 
                 import('./AdminApp.css');
             }
-
-        //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-        // const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
-
-        // if (supplierId) {
-        //     fetchNotifications(supplierId);
-        // }
         }, []);
 
         if( activekey().indexOf('buyer') > 0 ){
