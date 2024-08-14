@@ -91,7 +91,7 @@ const ProformaInvoice = ({invoiceList}) => {
                                
                                 <td>
                                     <div className='invoice-details-button-row'>
-                                        <Link to={`/buyer/Proforma-Invoice-Details`}>
+                                        <Link to={`/buyer/Proforma-Invoice-Details/${invoice.order_id}`}>
                                             <div className='invoice-details-button-column'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                             </div>

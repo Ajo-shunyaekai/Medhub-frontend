@@ -4,6 +4,7 @@ import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
 import { postRequestWithToken } from '../api/Requests';
+import OrderDetails from './OrderDetails';
 
 function ProformaDetailsPage() {
     const { orderId } = useParams()
@@ -142,13 +143,13 @@ function ProformaDetailsPage() {
                                                                         <p style={{ fontWeight: 500, fontSize: '14px' }}>{index + 1}.</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item?.medicine_details?.strength})</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item?.medicine_details?.strength || '150mg'})</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_price.toFixed(2)}</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_price.toFixed(2)} AED</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
@@ -168,15 +169,15 @@ function ProformaDetailsPage() {
                                                                             <tbody>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)}</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax % :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)}</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} </p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{grandTotal.toFixed(2)}</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{grandTotal.toFixed(2)} AED</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -192,11 +193,11 @@ function ProformaDetailsPage() {
                                                                             <tbody>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>30% Advance</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>12 AED</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>70% Due</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>20 AED</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -217,19 +218,27 @@ function ProformaDetailsPage() {
                                     <tr>
                                         <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
+                                            
                                             <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                            {
+                                                orderDetails?.enquiry?.payment_terms?.map((data, i) => {
+                                                    return (
+                                                        <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                        <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                       {data}
+                                                    </p>
+                                                    )
+                                                })
+                                            }
+                                               
+                                                {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
                                                     <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                                                 </p>
                                                 <p style={{ position: 'relative', paddingLeft: '20px' }}>
                                                     <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
+                                                </p> */}
                                             </div>
                                         </td>
                                     </tr>
