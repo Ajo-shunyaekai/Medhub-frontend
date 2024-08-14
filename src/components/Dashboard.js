@@ -104,12 +104,12 @@ const Dashboard = () => {
                                             <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
                                         </div>
                                     </Link>
-                                    <Link to='/buyer/pending-orders'>
+                                    {/* <Link to='/buyer/pending-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Pending Orders</div>
                                             <div className='top-text'>{orderSummary?.pendingCount[0]?.count || 30}</div>
                                         </div>
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 <div className='bottom-container'>
                                 <Link to='/buyer/invoice'>

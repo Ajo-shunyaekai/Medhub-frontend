@@ -208,6 +208,24 @@ const ProformaInvoice = () => {
                             />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
+                            <input className={styles['create-invoice-div-input']} type='text'
+                                name='totalDueAmount'
+                                placeholder='Enter Deposit Requested'
+                                {...register('totalDueAmount',
+                                    //  { validate: value => value?.trim() !== '' || 'Due amount is required' }
+                                )} />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Deposit Due</label>
+                            <input className={styles['create-invoice-div-input']} type='text'
+                                name='totalDueAmount'
+                                placeholder='Enter Deposit Due'
+                                {...register('totalDueAmount',
+                                    //  { validate: value => value?.trim() !== '' || 'Due amount is required' }
+                                )} />
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='totalDueAmount'
@@ -340,7 +358,21 @@ const ProformaInvoice = () => {
                         </div>
                     ))}
                 </div>
-
+                <div className={styles['create-invoice-section']}>
+                    <div className={styles['craete-invoice-form']}>
+                        <div className={styles['create-invoice-div-textarea']}>
+                            <label className={styles['create-invoice-div-label']}>Payment Terms</label>
+                            <textarea
+                                className={styles['create-invoice-div-input']}
+                                name="description"
+                                rows="4"
+                                cols="10"
+                                placeholder='Enter Payment Terms'
+                                {...register('description')}
+                            />
+                        </div>
+                    </div>
+                </div>
                 <div className={styles['craete-invoices-button']}>
                     <button type='submit' className={styles['create-invoices-submit']}>Create Proforma Invoice</button>
                     <div className={styles['create-invoices-cancel']}>Cancel</div>
