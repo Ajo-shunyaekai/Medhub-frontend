@@ -14,10 +14,10 @@ import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
 import { postRequestWithToken } from './api/Requests.js';
 
-const socket = io('http://localhost:3333', {
-    transports: ['websocket'],
-    withCredentials: true
-  }); 
+// const socket = io('http://localhost:3333', {
+//     transports: ['websocket'],
+//     withCredentials: true
+//   }); 
 
     const activekey = () => {
         var res          = window.location.pathname;
@@ -76,7 +76,7 @@ const socket = io('http://localhost:3333', {
                 <div className='App'>
                     <Router>
                     <ToastContainer />
-                        <BuyerSidebar socket={socket}/>
+                        <BuyerSidebar />
                     </Router>
                 </div>
                 </> );

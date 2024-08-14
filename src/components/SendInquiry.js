@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 
-const SendInquiry = ({socket}) => {
+const SendInquiry = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const navigate = useNavigate();
@@ -139,13 +139,13 @@ const SendInquiry = ({socket}) => {
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
         
-        enquiryPayload.items.forEach(item => {
-          socket.emit('sendInquiry', {
-            supplierId: item.supplier_id, // The supplier to be notified
-            message: 'You have a new inquiry from a buyer!',
-            // send other details if needed
-          });
-        });
+        // enquiryPayload.items.forEach(item => {
+        //   socket.emit('sendInquiry', {
+        //     supplierId: item.supplier_id, // The supplier to be notified
+        //     message: 'You have a new inquiry from a buyer!',
+        //     // send other details if needed
+        //   });
+        // });
         navigate("/buyer/thank-you", { state: { from: 'order' } });
         sessionStorage.setItem('list_count', response.result.listCount)
       
