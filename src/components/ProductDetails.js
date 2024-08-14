@@ -246,7 +246,7 @@ const handleTargetPriceChange = (e) => {
               </div>
               <div className="buyer-product-details-county">
                 <div className="buyer-product-details-four-left-text">Tags :</div>
-                <div className="buyer-product-details-four-right-text">{details?.tags}</div>
+                <div className="buyer-product-details-four-right-text">{details?.tags?.join(', ')}</div>
               </div>
               <div className="buyer-product-details-county">
                 <div className="buyer-product-details-four-left-text">Available for  :</div>
@@ -266,7 +266,7 @@ const handleTargetPriceChange = (e) => {
               </div>
               <div className="buyer-product-details-inner-company">
                 <div className="buyer-product-details-inner-copmany-head">Company type :</div>
-                <div className="buyer-product-details-inner-copmany-text">Distributor</div>
+                <div className="buyer-product-details-inner-copmany-text">{details?.supplier?.supplier_type}</div>
               </div>
               <div className="buyer-product-details-inner-company-stockedin">
                 <div className="buyer-product-details-inner-copmany-head">Stocked in :</div>
