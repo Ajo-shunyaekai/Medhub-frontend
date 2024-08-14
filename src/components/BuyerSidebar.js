@@ -109,23 +109,23 @@ const BuyerSidebar = ({socket}) => {
         });
 
         // Ensure socket is defined and connected
-        if (socket) {
-            console.log('socket',socket);
+        // if (socket) {
+        //     console.log('socket',socket);
             
-            socket.on('orderCreated', (notification) => {
-                console.log('Notification received:', notification); // Debugging line
-                // setNotificationList((prevList) => [notification, ...prevList]);
-                // setCount((prevCount) => prevCount + 1);
-                toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-            });
+        //     socket.on('orderCreated', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+        //         // setNotificationList((prevList) => [notification, ...prevList]);
+        //         // setCount((prevCount) => prevCount + 1);
+        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+        //     });
     
-            return () => {
-                socket.off('receiveNotification');
-            };
-        } else {
-            console.error('Socket is not initialized');
-        }
-    },[refresh, socket]) ;
+        //     return () => {
+        //         socket.off('receiveNotification');
+        //     };
+        // } else {
+        //     console.error('Socket is not initialized');
+        // }
+    },[refresh]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 
         return (

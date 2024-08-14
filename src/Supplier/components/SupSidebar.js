@@ -271,24 +271,7 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                     {/* Notificatio content goes here */}
                                     <div className={styles.noti_wrapper}>
                                         <div className={styles.noti_top_wrapper}>
-                                        {
-                                            notificationList?.slice(0, 5).map((data,i) => {
-                                             return (
-                                                <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event)}>
-                                                    <div className={styles.noti_profile}>
-                                                    {data.event_type.charAt(0)}
-                                                    </div>
-                                                    <div className={styles.noti_profile_text}>
-                                                    {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}: 
-                                                    <span>
-                                                    {data.message.length > 50 ? `${data.message.slice(0, 50)}...` : data.message}
-                                                    </span>
-                                                    </div>
-                                                    
-                                                </div>
-                                            )
-                                        })
-                                     } 
+                                       
                                      {
                                         notificationList?.slice(0, 5).map((data, i) => {
                                             let additionalInfo = '';

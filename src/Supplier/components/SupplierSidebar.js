@@ -67,7 +67,7 @@ import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
 
-const SupplierSidebar = ({socket}) => {
+const SupplierSidebar = () => {
 
     const navigate = useNavigate();
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -91,6 +91,11 @@ const SupplierSidebar = ({socket}) => {
             }
         });
     }
+    useEffect(() => {
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+        }
+    },[])
 
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
@@ -135,7 +140,7 @@ const SupplierSidebar = ({socket}) => {
         // } else {
         //     console.error('Socket is not initialized');
         // }
-    }, [supplierIdSessionStorage, supplierIdLocalStorage, navigate]);
+    }, [supplierIdSessionStorage, supplierIdLocalStorage]);
     
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {

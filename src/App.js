@@ -85,7 +85,7 @@ const socket = io('http://localhost:3333', {
                 <div className='App-Container'>
                     <Router>
                     <ToastContainer />
-                        <SupplierSidebar socket={socket}/>
+                        <SupplierSidebar />
                     </Router>
                 </div>
             );
