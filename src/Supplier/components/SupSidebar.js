@@ -216,7 +216,7 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
         //         });
     }
 
-    const handleNavigation = (notificationId,event,eventId) => {
+    const handleNavigation = (notificationId,event,eventId,linkId) => {
         switch (event) {
           case 'enquiry':
             setIsNotificationOpen(false)
@@ -231,7 +231,7 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
             break;
             case 'purchaseorder':
                 setIsNotificationOpen(false)
-                navigate('/supplier/inquiry-purchase-orders/purchased');
+                    navigate(`/supplier/purchased-order-details/${linkId}`);
                 handleClick(notificationId, event)
                 break;
           default:
@@ -239,6 +239,11 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
             break;
         }
       };
+
+      const handleNotificationNavigate = () => {
+        setIsNotificationOpen(false)
+        navigate(`/supplier/notification-list`)
+      }
 
     return (
         <>
@@ -283,7 +288,8 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                             }
 
                                             return (
-                                                <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id, data.event, data.event_id)} key={i}>
+                                                <div className={styles.noti_profile_wrapper} 
+                                                onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)} key={i}>
                                                     <div className={styles.noti_profile}>
                                                         {data.event_type.charAt(0)}
                                                     </div>
@@ -304,9 +310,9 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                               {count} Notifications
                                             </div>
 
-                                            <Link to='/supplier/notification-list'>
-                                                <div className={styles.noti_see_all_btn}>See all</div>
-                                            </Link>
+                                            {/* <Link to='/supplier/notification-list'> */}
+                                                <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
+                                            {/* </Link> */}
                                         </div>
                                     </div>
                                 </div>

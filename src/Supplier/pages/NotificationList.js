@@ -220,7 +220,7 @@ const NotificationList = () => {
         });
     }, [currentPage]); 
 
-    const handleNavigation = (notificationId, event, eventId) => {
+    const handleNavigation = (notificationId, event, eventId,linkId) => {
         switch (event) {
             case 'enquiry':
                 navigate(`/supplier/inquiry-request-details/${eventId}`);
@@ -228,11 +228,16 @@ const NotificationList = () => {
             case 'order':
                 navigate(`/supplier/active-orders-details/${eventId}`);
                 break;
+            case 'purchaseorder':
+                navigate(`/supplier/purchased-order-details/${linkId}`);
+                break;    
             default:
                 navigate('/supplier/');
                 break;
         }
     };
+
+    
 
     return (
         <div className='notification-main-container'>
@@ -257,30 +262,41 @@ const NotificationList = () => {
                                     </th>
                                 </tr>
                             </thead>
-                            {notificationOrders?.map((notification, index) => (
-                            <tbody className='notification-container-tbody' key={notification.notification_id || index}>
-                                
-                                    <tr className="notification-section-tr" >
-                                        <td className='notification-section-td'>
-                                            <div className="notification-section-heading">{notification.buyer?.buyer_name}</div>
-                                        </td>
-                                        <td className='notification-section-td'>
-                                            <div className="notification-section-heading">{moment(notification.createdAt).format("DD/MM/YYYY")}</div>
-                                        </td>
-                                        <td className='notification-section-tds'>
-                                            <div className="notification-section-heading">{notification.message}</div>
-                                        </td>
-                                        <td className='notification-section-button-cont'>
-                                            <div className='notification-section-button'>
-                                                <div className='notification-section-view' onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id)}>
-                                                    <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
+                            {notificationOrders?.map((notification, index) => {
+                                let additionalInfo = '';
+
+                                if (notification.event === 'order' || notification.event === 'purchaseorder') {
+                                    additionalInfo = `for ${notification.event_id}`;
+                                } else if (notification.event === 'enquiry') {
+                                    additionalInfo = `from: ${notification.buyer?.buyer_name}`;
+                                }
+
+                                return (
+                                    <tbody className='notification-container-tbody' key={notification.notification_id || index}>
+                                        <tr className="notification-section-tr">
+                                            <td className='notification-section-td'>
+                                                <div className="notification-section-heading">{notification.buyer?.buyer_name}</div>
+                                            </td>
+                                            <td className='notification-section-td'>
+                                                <div className="notification-section-heading">{moment(notification.createdAt).format("DD/MM/YYYY")}</div>
+                                            </td>
+                                            <td className='notification-section-tds'>
+                                                <div className="notification-section-heading">
+                                                    {notification.message} {additionalInfo}
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                               
-                            </tbody>
-                             ))}
+                                            </td>
+                                            <td className='notification-section-button-cont'>
+                                                <div className='notification-section-button'>
+                                                    <div className='notification-section-view' 
+                                                        onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id, notification.link_id)}>
+                                                        <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                );
+                            })}
                         </table>
                     </div>
                     <div className='pagi-container'>

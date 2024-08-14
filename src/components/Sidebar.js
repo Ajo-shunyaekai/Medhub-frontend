@@ -226,8 +226,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
         //         });
     }
 
-    const handleNavigation = (notificationId,event, eventId) => {
-        console.log('eventId',eventId);
+    const handleNavigation = (notificationId,event, eventId,linkId) => {
         switch (event) {
           case 'enquiry':
             setIsNotificationOpen(false)
@@ -243,7 +242,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
             break;
           case 'purchaseorder':
                 setIsNotificationOpen(false)
-                navigate('/buyer/inquiry-purchase-orders/purchased');
+                navigate(`/buyer/purchased-order-details/${linkId}`);
                 handleClick(notificationId, event)
                 break;
           default:
@@ -252,6 +251,10 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
         }
       };
     
+      const handleNotificationNavigate = () => {
+        setIsNotificationOpen(false)
+        navigate(`/buyer/notification-list`)
+      }
 
     return (
         <>
@@ -295,14 +298,34 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
 
                                             {
                                                 notificationList?.slice(0, 5).map((data,i) => {
+                                                    let additionalInfo = '';
+                                            
+                                                    if (data.event_type === 'Order created') {
+                                                        additionalInfo = `for ${data.connected_id}`;
+                                                    } else if (data.event_type === 'Shipment details submitted') {
+                                                        additionalInfo = `for: ${data.event_id}`;
+                                                    } else if (data.event_type === 'Enquiry quotation') {
+                                                        additionalInfo = `from: ${data.supplier.supplier_name}`;
+                                                    }
+
+                                                    let displayMessage = data.message;
+                                                        if (data.message === 'Enquiry quotation submitted') {
+                                                            displayMessage = `Enquiry quotation received `;
+                                                        }
                                                     return (
-                                                        <div className={styles.noti_profile_wrapper} onClick={() => handleNavigation(data.notification_id,data.event, data.event_id)}>
+                                                        <div className={styles.noti_profile_wrapper}
+                                                         onClick={() => handleNavigation(data.notification_id,data.event, data.event_id, data.link_id)}>
                                                             <div className={styles.noti_profile}>
                                                             {data.event_type.charAt(0)}
                                                             </div>
                                                             <div className={styles.noti_profile_text}>
-                                                                {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}
+                                                                {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type} */}
+                                                                <span>
+                                                                {displayMessage.length > 50 ? `${displayMessage.slice(0, 50)}...` : displayMessage}
+                                                        </span>
+                                                        {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
                                                             </div>
+                                                            
                                                         </div>
                                                     )
                                                 })
@@ -317,9 +340,9 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                                                 {count} Notifications
                                             </div>
 
-                                            <Link to='/buyer/notification-list'>
-                                                <div className={styles.noti_see_all_btn}>See all</div>
-                                            </Link>
+                                            {/* <Link to='/buyer/notification-list'> */}
+                                                <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
+                                            {/* </Link> */}
                                         </div>
                                     </div>
                                 </div>

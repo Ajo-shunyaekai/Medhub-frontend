@@ -93,7 +93,7 @@ const NotificationList = () => {
         });
     }, [currentPage]);
 
-    const handleNavigation = (notificationId, event, eventId) => {
+    const handleNavigation = (notificationId, event, eventId, linkId) => {
         switch (event) {
             case 'enquiry':
                 navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
@@ -101,6 +101,9 @@ const NotificationList = () => {
             case 'order':
                 navigate(`/buyer/order-details/${eventId}`);
                 break;
+            case 'purchaseorder':
+                navigate(`/buyer/purchased-order-details/${linkId}`);
+                break; 
             default:
                 navigate('/buyer/');
                 break;
@@ -122,7 +125,24 @@ const NotificationList = () => {
                                     <th className="notification-container-th"><div className="notification-container-head">Action</div></th>
                                 </tr>
                             </thead>
-                            {notificationOrders?.map((notification, index) => (
+                            {
+    notificationOrders?.map((notification, index) => {
+        let additionalInfo = '';
+
+        if (notification.event_type === 'Order created') {
+            additionalInfo = `for ${notification.connected_id}`;
+        } else if (notification.event_type === 'Shipment details submitted') {
+            additionalInfo = `for: ${notification.event_id}`;
+        } else if (notification.event_type === 'Enquiry quotation') {
+            additionalInfo = `from: ${notification.supplier?.supplier_name}`;
+        }
+
+        let displayMessage = notification.message;
+        if (notification.message === 'Enquiry quotation submitted') {
+            displayMessage = `Enquiry quotation received `;
+        }
+
+        return (
                                 <tbody className='notification-container-tbody' key={index}>
 
                                     <tr className="notification-section-tr" >
@@ -133,21 +153,26 @@ const NotificationList = () => {
                                             <div className="notification-section-heading">{moment(notification.createdAt).format("DD/MM/YYYY")}</div>
                                         </td>
                                         <td className='notification-section-tds'>
-                                            <div className="notification-section-heading">{notification.message}</div>
+                                            <div className="notification-section-heading">
+                                                {displayMessage} {additionalInfo}
+                                            </div>
                                         </td>
                                         <td className='notification-section-button-cont'>
                                             <div className='notification-section-button'>
-                                                {/* <Link to='/order-details'> */}
-                                                <div className='notification-section-view' onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id)}>
+                                                
+                                                <div className='notification-section-view' 
+                                                onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id, notification.link_id)}>
                                                     <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
                                                 </div>
-                                                {/* </Link> */}
+                                                
                                             </div>
                                         </td>
                                     </tr>
 
                                 </tbody>
-                            ))}
+                                  );
+                                })
+                            }
                         </table>
                     </div>
                     <div className='pagi-container'>
