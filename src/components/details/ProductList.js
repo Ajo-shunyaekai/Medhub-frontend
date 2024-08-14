@@ -45,13 +45,18 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const isAccepted = (item) => acceptedItems.some(accItem => accItem._id === item._id);
     const isRejected = (item) => rejectedItems.some(rejItem => rejItem._id === item._id);
 
+    const dateToDisplay = inquiryDetails?.quotation_items_created_at || inquiryDetails?.quotation_items_updated_at || moment().toISOString();
+    
+    // Format the date to display
+    const formattedDate = moment(dateToDisplay)
+        .tz("Asia/Kolkata")
+        .format("DD/MM/YYYY HH:mm:ss");
+
     return (
         <div className="product-list-main-container">
             <div className='table-card-body-container'>
                 <div className="table-assign-driver-heading">Quotation from Supplier</div>
-                <div className='table-assign-date-time'>{moment(inquiryDetails?.quotation_items_created_at)
-                      .tz("Asia/Kolkata")
-                      .format("DD/MM/YYYY HH:mm:ss")}</div>
+                <div className='table-assign-date-time'>{formattedDate}</div>
             </div>
             <table className="table">
                 <tbody>

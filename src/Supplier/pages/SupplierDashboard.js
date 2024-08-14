@@ -77,26 +77,26 @@ const SupplierDashboard = () => {
                                     <Link to='/supplier/inquiry-purchase-orders/ongoing'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Inquiry Request</div>
-                                            <div className='top-text'>{orderSummary?.pendingCount[0]?.count || 100}</div>
+                                            <div className='top-text'>{orderSummary?.enquiryCount || 100}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/ongoing-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 50}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 50}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/completed-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.completedCount[0]?.count || 20}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 20}</div>
                                         </div>
                                     </Link>
                                 </div>
                                 <div className='bottom-container'>
                                     <Link to='/supplier/invoice/pending'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices:<span className='bottom-text'> 65</span></div>
+                                            <div className='bottom-head'>Pending Invoices:<span className='bottom-text'> 3</span></div>
                                             <div className='bottom-graph'>
                                                 <ProgressBar />
                                             </div>
@@ -104,7 +104,7 @@ const SupplierDashboard = () => {
                                     </Link>
                                     <Link to='/supplier/invoice/paid'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'> Completed Invoices:<span className='bottom-text'> 25</span></div>
+                                            <div className='bottom-head'> Completed Invoices:<span className='bottom-text'> 2</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>
@@ -115,14 +115,14 @@ const SupplierDashboard = () => {
                             <div className='cart-top-left-section'>
                                 <div className='left-head'>Total Sales Amount</div>
                                 <div className='circular-process'>
-                                    <CircularBar totalSalesAmount = {orderSummary?.totalPurchaseAmount[0]?.total_purchase} />
+                                    <CircularBar totalSalesAmount = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase} />
                                 </div>
                             </div>
                         </div>
                         <div className='cart-left-bottom-section'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>30</span>
+                                    <span className='left-bottom-pert'>0</span>
                                     <span className='left-bottom-plus'>+3.5</span>
                                 </div>
                                 <div className='left-bottom-head'>Weekly Sales</div>
@@ -132,7 +132,7 @@ const SupplierDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>25</span>
+                                    <span className='left-bottom-pert'>1</span>
                                     <span className='left-bottom-plus'>-2.0</span>
                                 </div>
                                 <div className='left-bottom-head'>Monthly Sales</div>
@@ -142,7 +142,7 @@ const SupplierDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>40</span>
+                                    <span className='left-bottom-pert'>1</span>
                                     <span className='left-bottom-plus'>+4.5</span>
                                 </div>
                                 <div className='left-bottom-head'>Yearly Sales</div>

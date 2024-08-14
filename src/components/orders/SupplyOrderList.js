@@ -54,7 +54,7 @@ const SupplyOrderList = ({orderList, totalOrders, currentPage, ordersPerPage, ha
                                     </td>
                                     <td className='supply-td'>
                                         <div className="table-supply-section-content">
-                                            <span className="table-g-supply-text">{order.order_status || 'pending'}</span>
+                                            <span className="table-g-supply-text">{order.order_status.charAt(0).toUpperCase() + order.order_status.slice(1)  || 'Pending'}</span>
                                         </div>
                                     </td>
                                     <td className='supply-button-td'>

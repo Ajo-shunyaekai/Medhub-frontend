@@ -114,7 +114,7 @@ const Dashboard = () => {
                                 <div className='bottom-container'>
                                 <Link to='/buyer/invoice'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'> 65</span></div>
+                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'> 2</span></div>
                                         <div className='bottom-graph'>
                                             <ProgressBar />
                                         </div>
@@ -122,7 +122,7 @@ const Dashboard = () => {
                                 </Link>
                                 <Link to='/buyer/invoice/pending'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'> 25</span></div>
+                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'> 2</span></div>
                                         <div className='bottom-graph'>
                                             <OrangeBar />
                                         </div>
@@ -141,7 +141,7 @@ const Dashboard = () => {
                         <Link to='/buyer/inquiry-purchase-orders/ongoing'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>10</span>
+                                    <span className='left-bottom-pert'>{orderSummary?.enquiryCount[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Ongoing Inquiries</div>
@@ -153,7 +153,7 @@ const Dashboard = () => {
                             <Link to='/buyer/inquiry-purchase-orders/purchased'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>20</span>
+                                    <span className='left-bottom-pert'>{orderSummary?.purchaseOrderCount[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>-2.0</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Purchased Orders</div>
