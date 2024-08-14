@@ -58,6 +58,8 @@ const ProformaInvoice = () => {
             invoiceDate: '',
             invoiceDueDate: '',
             invoiceNumber: '',
+            depositRequested : '',
+            depositDue : '',
             supplierName: '',
             supplierAddress: '',
             supplierEmail: '',
@@ -124,7 +126,11 @@ const ProformaInvoice = () => {
                 const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
                 setValue('totalDueAmount', totalDueAmount);
                 setValue('orderItems', response?.result?.order_items)
+                // setValue('paymentTerms', response?.result?.enquiry_details[0]?.payment_terms)
+                const paymentTermsString = response?.result?.enquiry_details[0]?.payment_terms?.join('\n'); // Join with newline or ', ' for comma-separated
+                setValue('paymentTerms', paymentTermsString);
 
+                
 
                 setOrderItems(response?.result?.order_items)
             } else {
@@ -164,6 +170,12 @@ const ProformaInvoice = () => {
             }
         });
 
+    };
+
+    const handleNumberInput = (event) => {
+        const value = event.target.value;
+        // Remove any non-numeric characters
+        event.target.value = value.replace(/[^0-9]/g, '');
     };
 
     return (
@@ -210,29 +222,37 @@ const ProformaInvoice = () => {
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
                             <input className={styles['create-invoice-div-input']} type='text'
-                                name='totalDueAmount'
+                                name='depositRequested'
                                 placeholder='Enter Deposit Requested'
-                                {...register('totalDueAmount',
-                                    //  { validate: value => value?.trim() !== '' || 'Due amount is required' }
-                                )} />
+                                {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit requested is required' })}
+                                // value={`AED ${watch('totalDueAmount') || ''}`}
+                                onInput={handleNumberInput}
+                                />
+                                {errors.depositRequested && <p>{errors.depositRequested.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Due</label>
                             <input className={styles['create-invoice-div-input']} type='text'
-                                name='totalDueAmount'
+                                name='depositDue'
                                 placeholder='Enter Deposit Due'
-                                {...register('totalDueAmount',
-                                    //  { validate: value => value?.trim() !== '' || 'Due amount is required' }
-                                )} />
+                                {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit due is required' })}
+                                onInput={handleNumberInput}
+                                 />
+                                 {errors.depositDue && <p>{errors.depositDue.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
+
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='totalDueAmount'
                                 placeholder='Enter Total Due Amount'
                                 {...register('totalDueAmount',
-                                    //  { validate: value => value?.trim() !== '' || 'Due amount is required' }
-                                )} />
+                                   
+                                )}
+                                onInput={handleNumberInput}
+                                />
+                                
+                                
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -362,13 +382,22 @@ const ProformaInvoice = () => {
                     <div className={styles['craete-invoice-form']}>
                         <div className={styles['create-invoice-div-textarea']}>
                             <label className={styles['create-invoice-div-label']}>Payment Terms</label>
-                            <textarea
+                            {/* <textarea
                                 className={styles['create-invoice-div-input']}
-                                name="description"
+                                name="paymentTerms"
                                 rows="4"
                                 cols="10"
                                 placeholder='Enter Payment Terms'
-                                {...register('description')}
+                                {...register('paymentTerms')}
+                            /> */}
+                            <textarea
+                                className={styles['create-invoice-div-input']}
+                                name="paymentTerms"
+                                rows="4"
+                                cols="10"
+                                placeholder='Enter Payment Terms'
+                                {...register('paymentTerms')}
+                                readOnly 
                             />
                         </div>
                     </div>
