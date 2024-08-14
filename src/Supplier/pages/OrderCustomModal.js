@@ -200,7 +200,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Preferred Time of Pickup</label>
-                        <input placeholder='Enter Preferred Time Of Pickup ' className={styles['order-modal-input']} type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
+                        <input placeholder='Enter Preferred Time of Pickup ' className={styles['order-modal-input']} type="text" name="pickupTime" value={formData.pickupTime} onChange={handleChange} required />
                     </div>
                     <div className={styles['order-modal-main-heading']}>Shipment Details</div>
                     <div className={styles['order-modal-dic-container']}>

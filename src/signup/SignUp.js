@@ -637,9 +637,8 @@ const SignUp = () => {
                             {errors.terms && <div className='signup__errors'>{errors.terms}</div>}
                         </div>
                         <div className='signup-form-cont-button'>
-                            <button type='submit' className='signup-form-button-submit'>Submit</button>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-
+                            <button type='submit' className='signup-form-button-submit'>Submit</button>
                         </div>
                     </form>
                 </div>
