@@ -74,15 +74,15 @@ const SupplierDashboard = () => {
                         <div className='cart-left-top-section'>
                             <div className='cart-top-right-section'>
                                 <div className='top-container'>
-                                    <Link to='/supplier/order-requests'>
+                                    <Link to='/supplier/inquiry-purchase-orders/ongoing'>
                                         <div className='top-content-section'>
-                                            <div className='top-head'>Order Request</div>
+                                            <div className='top-head'>Inquiry Request</div>
                                             <div className='top-text'>{orderSummary?.pendingCount[0]?.count || 100}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/ongoing-orders'>
                                         <div className='top-content-section'>
-                                            <div className='top-head'>Ongoing Orders</div>
+                                            <div className='top-head'>Active Orders</div>
                                             <div className='top-text'>{orderSummary?.activeCount[0]?.count || 50}</div>
                                         </div>
                                     </Link>

@@ -161,6 +161,7 @@ body {
 }
 .left-bottom-pert {
   font-size: 0.825rem;
+  color: #5e676f !important;
 }
 .left-bottom-plus {
   color: #99a0ac;
@@ -168,6 +169,7 @@ body {
 }
 .left-bottom-head {
   font-size: 0.825rem;
+  color: #99a0ac !important;
 }
 .cart-right-main-container {
   background-color: white;

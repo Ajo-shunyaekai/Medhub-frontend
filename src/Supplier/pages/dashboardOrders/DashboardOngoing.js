@@ -66,7 +66,7 @@ const DashboardOngoing = () => {
     return (
         <>
             <div className='completed-order-main-container'>
-                <div className="completed-order-main-head">Ongoing Orders</div>
+                <div className="completed-order-main-head">Active Orders</div>
                 <div className="completed-order-container">
                     <div className="completed-order-container-right-2">
                         <Table responsive="xxl" className='completed-order-table-responsive'>

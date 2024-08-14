@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import WorldMap from "react-svg-worldmap";
 import { Link, useNavigate } from 'react-router-dom';
-import dashboards from '../style/dashboard.css'
+import '../style/dashboard.css'
 import trending from "../assest/trendingup.svg"
 import Arrow from "../assest/arrow.svg"
 import Form from 'react-bootstrap/Form';
@@ -100,7 +100,7 @@ const Dashboard = () => {
                                     </Link>
                                     <Link to='/buyer/ongoing-orders'>
                                         <div className='top-content-section'>
-                                            <div className='top-head'>Ongoing Orders</div>
+                                            <div className='top-head'>Active Orders</div>
                                             <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
                                         </div>
                                     </Link>
@@ -138,30 +138,35 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className='cart-left-bottom-section'>
+                        <Link to='/buyer/inquiry-purchase-orders/ongoing'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>30</span>
-                                    <span className='left-bottom-plus'>+3.5</span>
+                                    <span className='left-bottom-pert'>10</span>
+                                    {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
-                                <div className='left-bottom-head'>Lorem</div>
+                                <div className='left-bottom-head'>Ongoing Inquiries</div>
                                 <div className='line-chart-graph'>
                                     <ConversionChart />
                                 </div>
                             </div>
+                            </Link>
+                            <Link to='/buyer/inquiry-purchase-orders/purchased'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>25</span>
-                                    <span className='left-bottom-plus'>-2.0</span>
+                                    <span className='left-bottom-pert'>20</span>
+                                    {/* <span className='left-bottom-plus'>-2.0</span> */}
                                 </div>
-                                <div className='left-bottom-head'>Lorem</div>
+                                <div className='left-bottom-head'>Purchased Orders</div>
                                 <div className='line-chart-graph'>
                                     <SearchEngineChart />
                                 </div>
                             </div>
+                            </Link>
+                            
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
                                     <span className='left-bottom-pert'>40</span>
-                                    <span className='left-bottom-plus'>+4.5</span>
+                                    {/* <span className='left-bottom-plus'>+4.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Lorem</div>
                                 <div className='line-chart-graph'>

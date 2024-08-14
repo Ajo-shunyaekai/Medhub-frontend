@@ -259,22 +259,22 @@ const SendInquiry = ({socket}) => {
 
   return (
     <div className='send-enquiry-container'>
-      <div className='send-enquiry-heading'>Send Enquiry</div>
+      <div className='send-enquiry-heading'>Send Inquiry</div>
       <div className='send-enquiry-main-section'>
         <div className='send-enquiry-inner-section'>
         {list.length > 0 && (
           <div className='send-enquiry-upper-section'>
             <div className='send-enquiry-upper-left-sec'>
-              <span className='send-enquiry-upper-left-head'>Your Enquiries</span>
+              <span className='send-enquiry-upper-left-head'>Your Inquiries</span>
             </div>
             
             <div className='send-enquiry-upper-right-sec'>
               <div className='send-enquiry-upper-right-content'>
                 <span className='send-enquiry-upper-right-total'>Total:</span>
-                <span className='send-enquiry-upper-right-number'>{totalItems} Enquiries</span>
+                <span className='send-enquiry-upper-right-number'>{totalItems} Inquiries</span>
               </div>
               <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
-                <span className='send-enquiry-upper-right-button'>Send Enquiry</span>
+                <span className='send-enquiry-upper-right-button'>Send Inquiry</span>
               </div>
             </div>
          
