@@ -66,11 +66,8 @@ import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
 import { toast } from 'react-toastify';
 import NotificationList from './NotificationList.js'
-<<<<<<< Updated upstream
 
-=======
 import CancelnquiryList from './CancelnquiryList.js';
->>>>>>> Stashed changes
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");

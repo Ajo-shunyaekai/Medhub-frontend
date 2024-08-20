@@ -297,7 +297,7 @@ const SearchMarketProductDetails = () => {
                         <div className="market-modal-content">
                             <span className="market-close" onClick={toggleModal}>&times;</span>
                             <div id="invoice-section">
-                                <SupplierPurchaseInvoice />
+                                <SupplierPurchaseInvoice invoice  ={details?.invoice_image}/>
                             </div>
                             <div className='invoice-download-button-container'>
                                 <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>

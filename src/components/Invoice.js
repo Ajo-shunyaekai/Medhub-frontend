@@ -39,11 +39,7 @@ const Invoice = () => {
 
     }, [location.pathname]);
 
-<<<<<<< Updated upstream
     const fetchInvoices = (index) => {
-=======
-    useEffect(() => {
->>>>>>> Stashed changes
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
@@ -51,7 +47,6 @@ const Invoice = () => {
             navigate("/buyer/login");
             return;
         }
-<<<<<<< Updated upstream
 
         const filterKey = index === 0 ? 'pending' : index === 1 ? 'completed' : 'active';
         const obj = {
@@ -60,35 +55,24 @@ const Invoice = () => {
             // page_no: currentPage, 
             // limit: invoicesPerPage,
         };
-=======
->>>>>>> Stashed changes
 
-        const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'proforma';
-        const obj = {
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey: filterKey,
-            page_no: currentPage,
-            limit: invoicesPerPage,
-        };
+        // const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'proforma';
+        // const obj = {
+        //     buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+        //     filterKey: filterKey,
+        //     page_no: currentPage,
+        //     limit: invoicesPerPage,
+        // };
 
         postRequestWithToken('buyer/order/buyer-invoice-list', obj, (response) => {
             if (response.code === 200) {
                 setInvoiceList(response.result.data);
-<<<<<<< Updated upstream
                 // setTotalInvoices(response.result.totalItems);
             } else {
                 console.log('Error in invoice list API:', response);
             }
         });
     };
-=======
-                setTotalInvoices(response.result.totalItems);
-            } else {
-                console.log('Error fetching invoice list', response);
-            }
-        });
-    }, [activeIndex, currentPage]);
->>>>>>> Stashed changes
 
     const handleLinkClick = (link) => {
         setCurrentPage(1);
@@ -101,11 +85,7 @@ const Invoice = () => {
                 setActiveIndex(1);
                 navigate('/buyer/invoice/paid');
                 break;
-<<<<<<< Updated upstream
             case 'active':
-=======
-            case 'proforma':
->>>>>>> Stashed changes
                 setActiveIndex(2);
                 navigate('/buyer/invoice/proforma');
                 break;
@@ -142,11 +122,7 @@ const Invoice = () => {
                         <div>Paid Invoices</div>
                     </div>
                     <div
-<<<<<<< Updated upstream
                         onClick={() => handleLinkClick('active')}
-=======
-                        onClick={() => handleLinkClick('proforma')}
->>>>>>> Stashed changes
                         className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                     >
                         <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
@@ -154,7 +130,6 @@ const Invoice = () => {
                     </div>
                 </div>
                 <div className={styles['invoice-wrapper-right']}>
-<<<<<<< Updated upstream
                     {activeIndex === 0 && 
                     <PendingInvoice 
                         invoiceList={invoiceList} 
@@ -179,35 +154,6 @@ const Invoice = () => {
                         invoicesPerPage={invoicesPerPage} 
                         handlePageChange={handlePageChange} 
                     />}
-=======
-                    {activeIndex === 0 && (
-                        <PendingInvoice
-                            invoiceList={invoiceList}
-                            currentPage={currentPage}
-                            totalInvoices={totalInvoices}
-                            invoicesPerPage={invoicesPerPage}
-                            handlePageChange={handlePageChange}
-                        />
-                    )}
-                    {activeIndex === 1 && (
-                        <PaidInvoice
-                            invoiceList={invoiceList}
-                            currentPage={currentPage}
-                            totalInvoices={totalInvoices}
-                            invoicesPerPage={invoicesPerPage}
-                            handlePageChange={handlePageChange}
-                        />
-                    )}
-                    {activeIndex === 2 && (
-                        <ProformaInvoice
-                            invoiceList={invoiceList}
-                            currentPage={currentPage}
-                            totalInvoices={totalInvoices}
-                            invoicesPerPage={invoicesPerPage}
-                            handlePageChange={handlePageChange}
-                        />
-                    )}
->>>>>>> Stashed changes
                 </div>
             </div>
         </div>

@@ -17,11 +17,7 @@ const Invoice = () => {
     const [invoiceList, setInvoiceList] = useState([]);
     const [totalInvoices, setTotalInvoices] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-<<<<<<< Updated upstream
     const invoicesPerPage = 5;
-=======
-    const invoicesPerPage = 8;
->>>>>>> Stashed changes
 
     useEffect(() => {
         const getActiveLinkFromPath = (path) => {
