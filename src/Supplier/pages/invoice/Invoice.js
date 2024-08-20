@@ -17,7 +17,7 @@ const Invoice = () => {
     const [invoiceList, setInvoiceList] = useState([]);
     const [totalInvoices, setTotalInvoices] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    const invoicesPerPage = 2;
+    const invoicesPerPage = 5;
 
     useEffect(() => {
         const getActiveLinkFromPath = (path) => {

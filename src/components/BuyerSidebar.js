@@ -67,12 +67,11 @@ import ThankYou from './ThankYou.js';
 import { toast } from 'react-toastify';
 
 import NotificationList from './NotificationList.js'
+
 const BuyerSidebar = () => {
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-
 
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
