@@ -687,7 +687,7 @@ const AddProduct = () => {
                 newFormData.append('total_quantity', formData.totalQuantity);
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
-                newFormData.append('country_of_origin', countryOfOrigin?.label);
+                newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
                 registered.forEach(item => newFormData.append('registered_in[]', item));
                 stocked.forEach(item => newFormData.append('stocked_in[]', item));
                 newFormData.append('available_for', formData.availableFor);
@@ -739,7 +739,7 @@ const AddProduct = () => {
                 secondaryFormData.append('product_category', formData.productCategory?.label);
                 secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
                 secondaryFormData.append('shipping_time', formData.shippingTime);
-                secondaryFormData.append('country_of_origin', countryOfOrigin?.label);
+                secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
                 registered.forEach(item => secondaryFormData.append('registered_in[]', item));
                 stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
                 secondaryFormData.append('available_for', formData.availableFor);
@@ -839,32 +839,7 @@ const AddProduct = () => {
     };
     // end the stocked in section
 
-    // const handleBlur = debounce(() => {
-    //     if (formData.productName.trim() !== '' && productType) {
-    //         // makeApiCall(formData.productName);
-    //         const obj = {
-    //             medicine_name : formData.productName,
-    //             medicine_type: 
-    //     productType.label === 'New Product' 
-    //     ? 'new' 
-    //     : productType.label === 'Secondary Market' 
-    //     ? 'secondary market' 
-    //     : '',
-    //         }
-    //         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
-    //             if (response.code === 200) {
-    //                 // toast(response.message, { type: "success" });
-    //                 // setTimeout(() => {
-    //                 //     navigate('/supplier/product/newproduct')
-    //                 // }, 1000);
-    //             } else {
-    //                 toast(response.message, { type: "error" });
-    //                 console.log('error in get-medicine-by-name api');
-    //             }
-    //         })
-    //     }
-    // }, 500);
-
+    
     const makeApiCall = debounce((productName, productTypeLabel) => {
         const obj = {
             medicine_name: productName,
@@ -877,49 +852,53 @@ const AddProduct = () => {
 
         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
             if (response.code === 200) {
-                toast(response.message, { type: "success" });
-                setMedicineData(response.result)
+                
                 // setFormData(prevFormData => ({
                 //     ...prevFormData,
                 //     ...response.result
                 // }));
-                const result = response.result;
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                productName: result.medicine_name || '',
-                productType: { label: result.medicine_type, value: result.medicine_type } || null,
-                composition: result.composition || '',
-                unitTax: result.unit_tax || '',
-                strength: result.strength || '',
-                typeOfForm: { label: result.type_of_form, value: result.type_of_form } || null,
-                shelfLife: result.shelf_life || '',
-                dossierType: result.dossier_type || '',
-                dossierStatus: result.dossier_status || '',
-                // productCategory: result.medicine_category || '',
-                productCategory: { label: result.medicine_category, value: result.medicine_category } || null,
-                totalQuantity: result.total_quantity || '',
-                gmpApprovals: result.gmp_approvals || '',
-                shippingTime: result.shipping_time || '',
-                // originCountry: result.country_of_origin || '',
-                originCountry: { label: result.country_of_origin, value: result.country_of_origin } || null,
-                registeredIn: result.registered_in || [],
-                stockedIn: result.stocked_in || [],
-                availableFor: result.available_for || '',
-                tags: result.tags.join(', ') || '', // Assuming tags are an array
-                description: result.description || '',
-                product_image: result.medicine_image || [],
-                invoice_image: [], // Adjust if needed
-                purchasedOn: '', // Not in response
-                minPurchaseUnit: '', // Not in response
-                countryAvailableIn: result.country_available_in || [],
-                manufacturerName: result.manufacturer_name || '',
-                manufacturerOriginCountry: result.manufacturer_country_of_origin || '',
-                manufacturerDescription: result.manufacturer_description || '',
-                stockedInData: result.stockedIn_details || []
-            }));
-            setProductCategory(result.medicine_category)
-            setCountryOfOrigin(result.country_of_origin)
-            setFormType(result.type_of_form)
+                if(response.result) {
+                    toast(response.message, { type: "success" });
+                setMedicineData(response.result)
+                    const result = response.result;
+                    setFormData(prevFormData => ({
+                        ...prevFormData,
+                        productName: result?.medicine_name || '',
+                        productType: { label: result?.medicine_type, value: result?.medicine_type } || null,
+                        composition: result?.composition || '',
+                        unitTax: result?.unit_tax || '',
+                        strength: result?.strength || '',
+                        typeOfForm: { label: result?.type_of_form, value: result?.type_of_form } || null,
+                        shelfLife: result?.shelf_life || '',
+                        dossierType: result?.dossier_type || '',
+                        dossierStatus: result?.dossier_status || '',
+                        // productCategory: result.medicine_category || '',
+                        productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
+                        totalQuantity: result?.total_quantity || '',
+                        gmpApprovals: result?.gmp_approvals || '',
+                        shippingTime: result?.shipping_time || '',
+                        // originCountry: result.country_of_origin || '',
+                        originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
+                        registeredIn: result?.registered_in || [],
+                        stockedIn: result?.stocked_in || [],
+                        availableFor: result?.available_for || '',
+                        tags: result?.tags?.join(', ') || '',
+                        description: result?.description || '',
+                        product_image: result?.medicine_image || [],
+                        invoice_image: [], 
+                        purchasedOn: '', 
+                        minPurchaseUnit: '', 
+                        countryAvailableIn: result?.country_available_in || [],
+                        manufacturerName: result?.manufacturer_name || '',
+                        manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
+                        manufacturerDescription: result?.manufacturer_description || '',
+                        stockedInData: result?.stockedIn_details || []
+                    }));
+                    setProductCategory(result?.medicine_category)
+                    setCountryOfOrigin(result?.country_of_origin)
+                    setFormType(result?.type_of_form)
+                }
+               
             } else {
                 toast(response.message, { type: "error" });
                 console.log('error in get-medicine-by-name api');

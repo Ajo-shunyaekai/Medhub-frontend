@@ -176,8 +176,9 @@ const OnGoingInquiriesDetails = () => {
       return;
     }
     const obj = {
-      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id : inquiryId,
+      buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id  : inquiryId,
+      supplier_id : inquiryDetails?.supplier?.supplier_id
     };
 
     postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
