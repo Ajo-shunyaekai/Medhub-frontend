@@ -13,7 +13,7 @@ const Product = () => {
     const [medicineList, setMedicineList] = useState([])
     const [totalItems, setTotalItems] = useState()
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 2
+    const itemsPerPage = 5
 
 
     const [medicineType, setMedicineType] = useState(() => {

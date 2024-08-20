@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import buy from '../../style/buy.css'
+import '../../style/buy.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import Search from '../../assest/Buy/search-icon.svg'
-import card1 from '../../assest/companycard/card1.svg'
-import card2 from '../../assest/companycard/card2.svg'
-import card3 from '../../assest/companycard/card3.svg'
-import card4 from '../../assest/companycard/card4.svg'
-import card5 from '../../assest/companycard/card5.svg'
-import card6 from '../../assest/companycard/card6.svg'
 import Verified from '../../assest/verified-icon.svg'
-import ArrowCard from '../../assest/companycard/arrowcard.svg'
 import { postRequestWithToken } from '../../api/Requests';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -19,12 +12,6 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const BuySeller = ({active}) => {
     const navigate = useNavigate()
-
-    const [showFormDropdown, setShowFormDropdown]                       = useState(false);
-    const [showRecommendedUseDropdown, setShowRecommendedUseDropdown]   = useState(false);
-    const [showCountryOfOriginDropdown, setShowCountryOfOriginDropdown] = useState(false);
-    const [showGMPApprovalsDropdown, setShowGMPApprovalsDropdown]       = useState(false);
-
     const [openDropdown, setOpenDropdown]   = useState(null);
     const [supplierList, setSupplierList]   = useState([])
     const [inputValue, setInputValue]       = useState('');
@@ -34,7 +21,7 @@ const BuySeller = ({active}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems]   = useState()
-    const itemsPerPage = 2
+    const itemsPerPage = 4
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);

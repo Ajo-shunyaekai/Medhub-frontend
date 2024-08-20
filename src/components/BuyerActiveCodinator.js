@@ -5,7 +5,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const BuyerActiveCodinator = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 1; 
+    const ordersPerPage = 3; 
     
     const activeOrders = [
         { name: 'Mohammad Khan', companyName: 'Sheetal Pvt. Ltd.', designation: 'Manager', mobile: '+971 12345567', email:'company@gmail.com' },

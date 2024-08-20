@@ -68,13 +68,19 @@
   row-gap: 8px;
 }
 
-/* .buyer-order-details-left-bottom-containers {
+.buyer-order-details-invoice-list-section{
+  margin-top: 10px;
+  margin-bottom: 10rem;
   width: 100%;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
   display: flex;
-  gap: 20px;
-  justify-content: start;
-  align-items: center;
-} */
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+  border-color: transparent;
+  border-radius: 4px;
+}
 
 .buyer-order-details-left-bottom-containers {
   width: 100%;
@@ -247,7 +253,6 @@
 }
 .buyer-order-details-codinator-section-cont {
   margin-top: -60px;
-  margin-bottom: 10rem;
   width: 100%;
   background-color: white;
   padding: 12px 12px;
@@ -625,7 +630,7 @@
     justify-content: space-between;
     border-radius: 4px;
     row-gap: 10px;
-    width: 33.33%;
+    width: 46%;
 }
 .active-order-details-middle-bottom-vehicle-head {
   color: #99a0ac;

@@ -247,12 +247,13 @@ body{
   top: 44px;
 }
 
-main {
-  width: 100%;
-  height: 100vh;
-  padding: 10px 20px;
-  background-color: #f9f9fa;
-  transition: transform 0.3s ease;
+  main {
+    width: 100%;
+    max-width: 89%;
+    height: 100vh;
+    padding: 10px 20px;
+    background-color: #f9f9fa;
+    transition: transform 0.3s ease;
 }
 
 .sidebar {

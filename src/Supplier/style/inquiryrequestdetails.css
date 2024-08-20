@@ -155,6 +155,19 @@
     font-size: 14px;
     cursor: pointer;
   }
+  .inquiry-invoice-list-main-container{
+    margin-top: 10px !important;
+    margin-bottom: 10rem !important;
+    width: 100% !important;
+    background-color: white !important;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    border-color: transparent !important;
+    border-radius: 4px !important;
+  }
   /* start the assign driver table list */
   .inquiry-details-assign-driver-section {
     width: 100%;

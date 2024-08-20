@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment-timezone';
 import BuyerActiveCodinator from './BuyerActiveCodinator';
+import OrderInvoiceList from './OrderInvoiceList';
 
 const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
@@ -189,16 +190,16 @@ const OrderDetails = ({socket}) => {
                     <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
                     <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                 </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
+                </div>
             </div>
 )}
             {/* end the main component heading */}
             {/* start the main component heading */}
             {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
             <div className='active-order-details-middle-bottom-containers'>
-                <div className='active-order-details-left-middle-vehichle-no'>
-                    <div className='active-order-details-middle-bottom-vehicle-head'>Preferred Time of Pickup</div>
-                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
-                </div>
                 <div className='active-order-details-left-middle-vehichle-no'>
                     <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
                     <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.no_of_packages || '5'}</div>
@@ -207,11 +208,7 @@ const OrderDetails = ({socket}) => {
                     <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
                     <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight || '4'} Kg</div>
                 </div>
-            </div>
-            )}
-            {/* end the main component heading */}
-            {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
-            <div className="buyer-order-details-left-top-containers">
+                <div className="buyer-order-details-left-top-containers">
                 <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
                     <div className="buyer-order-details-top-order-cont">
                         <div className="buyer-order-details-left-top-main-heading">
@@ -239,9 +236,10 @@ const OrderDetails = ({socket}) => {
                     </div>
                 </div>
             </div>
+            </div>
             )}
+            {/* end the main component heading */}
             {/* </>
-             )} */}
 
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
@@ -328,6 +326,10 @@ const OrderDetails = ({socket}) => {
                 <BuyerActiveCodinator productList={orderDetails?.items} />
             </div>
             )}
+
+             <div className='buyer-order-details-invoice-list-section'>
+                <OrderInvoiceList />
+            </div>
             {/* End the assign driver section */}
             <CustomModal
                 isOpen={isModalOpen}

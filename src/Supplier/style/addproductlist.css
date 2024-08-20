@@ -40,7 +40,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    column-gap: 24px;
+    column-gap: 16px;
   }
   .buy-product-card-first-button-container {
     width: 100%;
@@ -76,7 +76,7 @@
     color: #99a0ac;
   }
   .buy-product-card-second-head {
-    width: 130px;
+    width: 116px;
     font-size: 14px;
     line-height: 16px;
     font-weight: 500 !important;
@@ -86,11 +86,11 @@
     color: #99a0ac;
   }
   .buy-product-card-first-medicine-image {
-    width: 160px;
+    width: 150px;
     height: 140px;
     display: flex;
     align-items: center;
-  }
+}
   .buy-product-card-first-medicine-image img {
     width: 100%;
     height: auto;

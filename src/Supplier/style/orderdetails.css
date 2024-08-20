@@ -64,14 +64,6 @@
   flex-direction: column;
   row-gap: 8px;
 }
-/* .active-order-details-left-bottom-containers {
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  justify-content: start;
-  align-items: center;
-} */
-
 .active-order-details-left-bottom-containers {
   width: 100%;
   gap: 20px;
@@ -81,7 +73,7 @@
 }
 
 .active-order-details-left-bottom-vehichle {
-  width: 57vw;
+  width: 28vw;
   background-color: white;
   padding: 24px 22px;
   border-color: transparent;

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from '../../style/pendingInvoice.css';
+import  '../../style/pendingInvoice.css';
+import Pagination from "react-js-pagination";
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
 import PayModal from '../pay/PayModal';
@@ -9,12 +12,12 @@ import html2pdf from 'html2pdf.js';
 import InvoiceTemplate from '../pay/invoiceDesign';
 
 
-const PendingInvoice = ({invoiceList}) => {
-    
+const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange }) => {
+
     const navigate = useNavigate()
 
     const [showModal, setShowModal] = useState(false);
-    const handleShowModal  = () => setShowModal(true);
+    const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
     //invoice download
@@ -44,14 +47,14 @@ const PendingInvoice = ({invoiceList}) => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
-    },[])
+    }, [])
 
     return (
         <div className='pending-invo-container' >
@@ -71,68 +74,87 @@ const PendingInvoice = ({invoiceList}) => {
                             </thead>
                         ) : ''
                     }
-                    
+
                     <tbody className='pending-invoies-tbody-section'>
-                    {
-                        invoiceList && invoiceList.length > 0 ? (
-                            invoiceList?.map((invoice,i) => {
-                                return (
-                        <tr data-id="9" className='table-row v-middle'>
-                            <td>
-                                <span className="item-title">{invoice.invoice_number}</span>
-                            </td>
-                            <td>
-                                <span className="item-title">{invoice.order_id}</span>
-                            </td>
-                            <td>
-                                <div className="mx-0">
-                                    <span className="item-title text-color">{invoice?.supplier?.supplier_name}</span>
-                                </div>
-                            </td>
+                        {
+                            invoiceList && invoiceList.length > 0 ? (
+                                invoiceList?.map((invoice, i) => {
+                                    return (
+                                        <tr data-id="9" className='table-row v-middle'>
+                                            <td>
+                                                <span className="item-title">{invoice.invoice_number}</span>
+                                            </td>
+                                            <td>
+                                                <span className="item-title">{invoice.order_id}</span>
+                                            </td>
+                                            <td>
+                                                <div className="mx-0">
+                                                    <span className="item-title text-color">{invoice?.supplier?.supplier_name}</span>
+                                                </div>
+                                            </td>
 
-                            <td className="flex">
-                                <span className="item-title text-color">{invoice.totalPrice} AED</span>
-                            </td>
-                            <td className="flex">
-                                <span className="item-title text-color">{invoice.order_status === 'pending'? 'Pending': ''}</span>
-                            </td>
-                            <td className='pending-invoices-td'>
-                                <div className='invoice-details-button-row'>
-                                    <div className='invoice-details-button-column-pay' onClick={handleShowModal}>
-                                        <span
-                                            className='invoices-details-button-pay'
-                                            variant="primary"
-                                            
-                                        >
-                                            Pay
-                                        </span>
-                                    </div>
+                                            <td className="flex">
+                                                <span className="item-title text-color">{invoice.totalPrice} AED</span>
+                                            </td>
+                                            <td className="flex">
+                                                <span className="item-title text-color">{invoice.order_status === 'pending' ? 'Pending' : ''}</span>
+                                            </td>
+                                            <td className='pending-invoices-td'>
+                                                <div className='invoice-details-button-row'>
+                                                    <div className='invoice-details-button-column-pay' onClick={handleShowModal}>
+                                                        <span
+                                                            className='invoices-details-button-pay'
+                                                            variant="primary"
 
-                                    <PayModal showModal={showModal} handleClose={handleCloseModal} />
-                                    <Link to={`/buyer/invoice-design/${invoice.order_id}`}>
-                                        <div className='invoice-details-button-column'>
-                                            <VisibilityOutlinedIcon className='invoice-view' />
-                                        </div>
-                                    </Link>
-                                    <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice)}>
-                                        <CloudDownloadOutlinedIcon className='invoice-view' />
-                                    </div>
+                                                        >
+                                                            Pay
+                                                        </span>
+                                                    </div>
 
-                                </div>
-                            </td>
-                        </tr>
-                      )
-                    })
-                        ) :  
-                        <tr>
-                        <td colSpan="7" className="text-center">No Completed invoices available</td>
-                       </tr>
-                }
-                
+                                                    <PayModal showModal={showModal} handleClose={handleCloseModal} />
+                                                    <Link to={`/buyer/invoice-design/${invoice.order_id}`}>
+                                                        <div className='invoice-details-button-column'>
+                                                            <VisibilityOutlinedIcon className='invoice-view' />
+                                                        </div>
+                                                    </Link>
+                                                    <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice)}>
+                                                        <CloudDownloadOutlinedIcon className='invoice-view' />
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            ) :
+                                <tr>
+                                    <td colSpan="7" className="text-center">No Completed invoices available</td>
+                                </tr>
+                        }
+
                     </tbody>
 
 
                 </table>
+            </div>
+            <div className='pending-invoice-pagination-conatiner-section'>
+                <div className='pagi-container'>
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={invoicesPerPage}
+                        totalItemsCount={totalInvoices || invoiceList.length}
+                        pageRangeDisplayed={5}
+                        onChange={handlePageChange}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                        prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                        nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                        hideFirstLastPages={true}
+                    />
+                    <div className='pagi-total'>
+                        <div>Total Items: {totalInvoices || invoiceList.length}</div>
+                    </div>
+                </div>
             </div>
         </div>
     )

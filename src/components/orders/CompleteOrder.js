@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import order from '../../style/order.css';
-import ActivesOrders from '../../style/activeorder.css'
-import order_list from '../../assest/dashboard/order_list.svg'
+import '../../style/order.css';
+import '../../style/activeorder.css'
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import OrderCancel from './OrderCancel';
-import OrderDetails from '../OrderDetails'
 import moment from 'moment/moment';
 
 
