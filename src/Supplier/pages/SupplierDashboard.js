@@ -26,6 +26,7 @@ const SupplierDashboard = () => {
 
     const [countryData, setCountryData]     = useState([]);
     const [orderSummary, setOrderSummary]   = useState()
+    const [salesSummary, setSalesSummary]   = useState([])
     const [sellerCountry, setSellerCountry] = useState()
     const [activeButton, setActiveButton]   = useState('1h');
 
@@ -39,8 +40,8 @@ const SupplierDashboard = () => {
         }
 
         const obj = {
-            supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
-            user_type    : 'supplier'
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            user_type   : 'supplier'
         }
         postRequestWithToken('supplier/orders-buyer-country', obj, async (response) => {
             if (response.code === 200) {
@@ -58,9 +59,26 @@ const SupplierDashboard = () => {
                console.log('error in orders-summary-details api',response);
             }
         })
+
+        postRequestWithToken('order/sales-filter', obj, async (response) => {
+            if (response.code === 200) {
+                setSalesSummary(response?.result)
+            } else {
+               console.log('error in sales-filter api',response);
+            }
+        })
     },[])
 
+    const chartData = {
+        labels: [], // Populate labels based on your data
+        values: []  // Populate values based on your data
+    };
 
+    if (salesSummary.length > 0) {
+        // Example of processing yearly data for the chart
+        chartData.labels = salesSummary[0]?.yearlyData.map(item => item._id.year) || [];
+        chartData.values = salesSummary[0]?.yearlyData.map(item => item.orderCount) || [];
+    }
     return (
         <>
             <div className='dashboard-section'>
@@ -122,8 +140,8 @@ const SupplierDashboard = () => {
                         <div className='cart-left-bottom-section'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>0</span>
-                                    <span className='left-bottom-plus'>+3.5</span>
+                                    <span className='left-bottom-pert'>{salesSummary[0]?.weeklyData[0]?.orderCount || 0}</span>
+                                    {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Weekly Sales</div>
                                 <div className='line-chart-graph'>
@@ -132,8 +150,8 @@ const SupplierDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>1</span>
-                                    <span className='left-bottom-plus'>-2.0</span>
+                                    {/* <span className='left-bottom-pert'>1</span> */}
+                                    <span className='left-bottom-plus'>{salesSummary[0]?.monthlyData[0]?.orderCount || 0}</span>
                                 </div>
                                 <div className='left-bottom-head'>Monthly Sales</div>
                                 <div className='line-chart-graph'>
@@ -142,12 +160,12 @@ const SupplierDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>1</span>
-                                    <span className='left-bottom-plus'>+4.5</span>
+                                    <span className='left-bottom-pert'>{salesSummary[0]?.yearlyData[0]?.orderCount || 0}</span>
+                                    {/* <span className='left-bottom-plus'>+4.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Yearly Sales</div>
                                 <div className='line-chart-graph'>
-                                    <DirectlyChart />
+                                    <DirectlyChart data={chartData}/>
                                 </div>
                             </div>
                         </div>

@@ -189,7 +189,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                 <Pagination
                     activePage={currentPage}
                     itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={activeOrders.length}
+                    totalItemsCount={items?.length}
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
                     itemClass="page-item"
@@ -199,7 +199,7 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                     hideFirstLastPages={true}
                 />
                 <div className='pagi-total'>
-                    <div>Total Items: {activeOrders.length}</div>
+                    <div>Total Items: {items?.length}</div>
                 </div>
             </div>
         </div>

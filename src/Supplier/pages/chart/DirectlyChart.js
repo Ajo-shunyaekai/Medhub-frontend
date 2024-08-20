@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const DirectlyChart = () => {
+const DirectlyChart = ({data}) => {
+    console.log(data);
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 

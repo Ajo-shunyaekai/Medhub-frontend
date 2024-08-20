@@ -173,10 +173,16 @@ const AddProduct = () => {
     };
 
     const handleStockedInputChange = (index, event) => {
+        // const { name, value } = event.target;
+        // const updatedSections = [...stockedInSections];
+        // updatedSections[index][name] = value;
+        // setStockedInSections(updatedSections);
         const { name, value } = event.target;
-        const updatedSections = [...stockedInSections];
-        updatedSections[index][name] = value;
-        setStockedInSections(updatedSections);
+        if (/^\d*$/.test(value)) {
+            const updatedSections = [...stockedInSections];
+            updatedSections[index][name] = value;
+            setStockedInSections(updatedSections);
+        }
     };
 
     const handleInputChange = (index, event) => {
@@ -200,10 +206,10 @@ const AddProduct = () => {
                 [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is required`
             }));
         } else if (!isValid) {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`
-            }));
+            // setErrors(prevErrors => ({
+            //     ...prevErrors,
+            //     [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`
+            // }));
         } else {
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -486,7 +492,7 @@ const AddProduct = () => {
         // Product Name and Dossier Status field validation: only letters allowed
         if (name === 'productName' || name === 'dossierStatus') {
             if (!/^[a-zA-Z\s]*$/.test(value)) {
-                newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only letters`;
+                // newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only letters`;
                 isValid = false;
             } else {
                 newErrors[name] = '';
@@ -496,10 +502,19 @@ const AddProduct = () => {
         // Total Quantity field validation: only numbers allowed
         if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
-                newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`;
+                // newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`;
                 isValid = false;
             } else {
                 newErrors[name] = '';
+            }
+        }
+
+        if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                // newErrors.unitTax = 'Unit Tax should contain only numbers and a decimal point';
+                isValid = false;
+            } else {
+                newErrors.unitTax = '';
             }
         }
 

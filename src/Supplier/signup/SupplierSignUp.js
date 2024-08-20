@@ -129,10 +129,13 @@ const SupplierSignUp = () => {
     
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prevState => ({ ...prevState, [name]: value }));
+        
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+        }  else if (name === 'designation' && !/^[a-zA-Z\s]*$/.test(value)) {
+            // setErrors(prevState => ({ ...prevState, designation: 'Designation should contain only letters' }));
         } else {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
             setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };
