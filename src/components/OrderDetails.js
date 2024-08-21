@@ -327,6 +327,9 @@ const OrderDetails = ({socket}) => {
             </div>
             )}
 
+             {/* {
+                orderDetails?.order_status === 'completed' ?
+             } */}
              <div className='buyer-order-details-invoice-list-section'>
                 <OrderInvoiceList />
             </div>

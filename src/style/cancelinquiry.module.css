@@ -11,6 +11,9 @@
     row-gap: 20px;
     margin: auto;
 }
+.cancel-inquiry-main-section::-webkit-scrollbar{
+    display: none;
+}
 .formcontainer{
     display: flex;
     flex-direction: column;
