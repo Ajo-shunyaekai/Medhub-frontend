@@ -46,8 +46,9 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                       <td className='ongoing-section-td'>
                         <div className="ongoing-section-heading">
                             {ongoing?.enquiry_status === 'Quotation submitted' 
-                                ? 'Quotation received' 
-                                : ongoing?.enquiry_status?.charAt(0).toUpperCase() + ongoing?.enquiry_status?.slice(1)
+                                ? 'Quotation Received' 
+                                // : ongoing?.enquiry_status?.charAt(0).toUpperCase() + ongoing?.enquiry_status?.slice(1)
+                                : ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
                             }
                         </div>
                     </td>

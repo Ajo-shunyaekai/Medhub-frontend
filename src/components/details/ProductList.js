@@ -111,7 +111,9 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <td className='tables-tds'>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Status</span>
-                                                <span className="table-g-not-name">{item.status?.charAt(0).toUpperCase() + item?.status?.slice(1) || '-'}</span>
+                                                <span className="table-g-not-name">
+                                                    {item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '-'}
+                                                </span>
                                             </div>
                                         </td>
                                     )}

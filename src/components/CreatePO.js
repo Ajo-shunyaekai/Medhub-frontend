@@ -20,6 +20,8 @@ const CreatePO = () => {
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+    let grandTotalAmount = 0;
+    
 
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -99,12 +101,28 @@ const CreatePO = () => {
             navigate("/buyer/login");
             return;
         }
+        const updatedOrderItems = orderItems.map((item) => {
+            const unitTax = item.medicine_details.unit_tax || 0;
+            const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required;
+            const totalTax = totalPrice * (unitTax / 100);
+            const totalAmount = totalPrice + totalTax;
+        
+            return {
+                ...item,
+                totalAmount: totalAmount,
+            };
+        });
+        const newData = {
+            ...data,
+            orderItems: updatedOrderItems,
+        };
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             enquiry_id: inquiryId,
             supplier_id: inquiryDetails?.supplier?.supplier_id,
             itemIds: itemId,
-            data
+            data : newData,
+            grandTotalAmount
         };
         console.log(obj);
         postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
@@ -273,8 +291,15 @@ const CreatePO = () => {
                     <div className={styles['create-invoice-add-item-cont']}>
                         <div className={styles['create-invoice-form-heading']}>Order Details</div>
                     </div>
-                    {orderItems?.map((item, index) => (
-                        <div className={styles['form-item-container']} key={item._id}>
+                    {orderItems?.map((item, index) => {
+                        const unitTax = item.medicine_details.unit_tax || 0
+                        const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required
+                        const totalTax = totalPrice * (unitTax/100)
+                        const totalAmount    = totalPrice + totalTax
+                        grandTotalAmount += totalAmount;
+                        grandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
+                        return (
+                            <div className={styles['form-item-container']} key={item._id}>
                             <div className={styles['craete-invoice-form']}>
                                 <div className={styles['create-invoice-div-container']}>
                                     <label className={styles['create-invoice-div-label']}>Item Name</label>
@@ -305,18 +330,30 @@ const CreatePO = () => {
                                     {errors.orderItems?.[index]?.quantity && <p>{errors.orderItems[index].quantity.message}</p>}
                                 </div>
                                 <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                    <label className={styles['create-invoice-div-label']}>Price</label>
                                     <input
                                         className={styles['create-invoice-div-input']}
                                         type='text'
                                         name={`orderItems[${index}].unitPrice`}
-                                        placeholder='Enter Unit Price'
+                                        placeholder='Enter Price'
                                         // defaultValue={item?.unit_price}
                                         // {...register(`orderItems[${index}].unitPrice`, { validate: value => value.trim() !== '' || 'Unit price is required' })}
-                                        value={item?.unit_price}
+                                        value={item?.counter_price || item?.target_price}
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.unitPrice && <p>{errors.orderItems[index].unitPrice.message}</p>}
+                                </div>
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Unit Tax%</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`orderItems[${index}].unitTax`}
+                                        placeholder='Enter Unit Tax'
+                                        value={item?.medicine_details?.unit_tax}
+                                        readOnly
+                                    />
+                                    {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}
                                 </div>
                                 <div className={styles['create-invoice-div-container']}>
                                     <label className={styles['create-invoice-div-label']}>Total Amount</label>
@@ -327,14 +364,18 @@ const CreatePO = () => {
                                         placeholder='Enter Total Amount'
                                         // defaultValue={item?.counter_price || item?.target_price}
                                         // {...register(`orderItems[${index}].totalAmount`, { validate: value => value.trim() !== '' || 'Total amount is required' })}
-                                        value={item?.counter_price || item?.target_price}
+                                        value={totalAmount.toFixed(2)}
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.totalAmount && <p>{errors.orderItems[index].totalAmount.message}</p>}
                                 </div>
                             </div>
                         </div>
-                    ))}
+                        )
+                    }
+                       
+                    
+                    )}
                 </div>
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-form-heading']}>Additional Instructions</div>

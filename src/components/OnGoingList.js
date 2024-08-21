@@ -65,8 +65,8 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                     <span className="table-g-driver-name">Status</span>
                     <span className="table-g-not-name">
                         {item.status === 'Quotation submitted' 
-                            ? 'Quotation received' 
-                            : item?.status?.charAt(0).toUpperCase() + item?.status?.slice(1)
+                            ? 'Quotation Received' 
+                           : item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
                         }
                     </span>
                 </div>
