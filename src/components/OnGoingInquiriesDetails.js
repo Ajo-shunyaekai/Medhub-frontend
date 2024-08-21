@@ -171,34 +171,35 @@ const OnGoingInquiriesDetails = () => {
   const hasPendingItems = inquiryDetails?.items?.some(item => item.status === 'pending');
 
   const handleCancel = () => {
-    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-      navigate("/buyer/login");
-      return;
-    }
-    const obj = {
-      buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id  : inquiryId,
-      supplier_id : inquiryDetails?.supplier?.supplier_id
-    };
+    navigate(`/buyer/cancel-inquiry-list/${inquiryId}`)
+    // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+    //   navigate("/buyer/login");
+    //   return;
+    // }
+    // const obj = {
+    //   buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+    //   enquiry_id  : inquiryId,
+    //   supplier_id : inquiryDetails?.supplier?.supplier_id
+    // };
 
-    postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
-        if (response.code === 200) {
-          toast(response.message, { type: "success" });
-          setInquiryDetails((prevDetails) => ({
-            ...prevDetails,
-            status: 'cancelled', 
-            items: prevDetails.items.map(item => ({
-              ...item,
-              status: 'cancelled' 
-            }))
-          }));
+    // postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
+    //     if (response.code === 200) {
+    //       toast(response.message, { type: "success" });
+    //       setInquiryDetails((prevDetails) => ({
+    //         ...prevDetails,
+    //         status: 'cancelled', 
+    //         items: prevDetails.items.map(item => ({
+    //           ...item,
+    //           status: 'cancelled' 
+    //         }))
+    //       }));
           
-        } else {
-          toast(response.message, { type: "error" });
-          console.log("error in cancel-enquiry api", response);
-        }
-      }
-    );
+    //     } else {
+    //       toast(response.message, { type: "error" });
+    //       console.log("error in cancel-enquiry api", response);
+    //     }
+    //   }
+    // );
 
   }
 

@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../style/cancelinquiry.module.css';
 import CancelProductList from './CancelProductList';
+import { useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../api/Requests';
 
 
 const CancelInquiryList = () => {
+    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+
+    const { inquiryId } = useParams();
+    const navigate      = useNavigate();
+console.log(inquiryId);
+    const [inquiryDetails, setInquiryDetails] = useState();
     const [selectedReasons, setSelectedReasons] = useState({
         unavailableProduct: false,
         incorrectPricing: false,
@@ -27,7 +36,35 @@ const CancelInquiryList = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Selected Reasons:', selectedReasons);
+        console.log('comment:', text);
+
+        const obj = {
+            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+            enquiry_id  : inquiryId,
+            supplier_id : inquiryDetails?.supplier?.supplier_id,
+            reason      : selectedReasons,
+            comment     : text
+        };
     };
+
+    useEffect(() => {
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+          navigate("/buyer/login");
+          return;
+        }
+        const obj = {
+          buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
+          enquiry_id : inquiryId,
+        };
+        postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
+            if (response.code === 200) {
+              setInquiryDetails(response?.result);
+            } else {
+              console.log("error in order list api", response);
+            }
+          }
+        );
+      }, []);
 
     return (
         <>
@@ -36,8 +73,7 @@ const CancelInquiryList = () => {
                 <div className={styles['cancel-inquiry-heading']}>Cancel Inquiries</div>
                 {/* start the assign driver section */}
                 <div className="ongoing-details-assign-driver-section">
-                    <CancelProductList
-                    />
+                    <CancelProductList items = {inquiryDetails?.items} inquiryDetails={inquiryDetails}/>
                 </div>
                 {/* end the assign driver section */}
                 <div className={styles['form-main-section-container']}>

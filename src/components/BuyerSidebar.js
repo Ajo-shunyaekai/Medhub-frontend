@@ -216,7 +216,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/on-going-order" element={<OnGoingOrder />} />
                                         <Route path="/buyer/purchased-order" element={<PurchasedOrder />} />
                                         <Route path="/buyer/notification-list" element={<NotificationList />} />
-                                        <Route path="/buyer/cancel-inquiry-list" element={<CancelnquiryList/>} />
+                                        <Route path="/buyer/cancel-inquiry-list/:inquiryId" element={<CancelnquiryList/>} />
                                         
                                         <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal />} />
                                     </Routes>
