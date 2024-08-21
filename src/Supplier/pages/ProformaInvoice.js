@@ -53,6 +53,8 @@ const ProformaInvoice = () => {
         setFormItems(newFormItems);
     };
 
+    // let grandTotalAmount = 0
+
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
             invoiceDate: '',
@@ -124,7 +126,7 @@ const ProformaInvoice = () => {
                 setValue('buyerMobile', response?.result?.buyer_details[0]?.contact_person_mobile);
                 // setValue('buyerRegNo',response?.result?.buyer_details[0]?.registration_no)
                 const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
-                setValue('totalDueAmount', totalDueAmount);
+                setValue('totalDueAmount', totalDueAmount?.toFixed(2));
                 setValue('orderItems', response?.result?.order_items)
                 // setValue('paymentTerms', response?.result?.enquiry_details[0]?.payment_terms)
                 const paymentTermsString = response?.result?.enquiry_details[0]?.payment_terms?.join('\n'); // Join with newline or ', ' for comma-separated
@@ -156,8 +158,10 @@ const ProformaInvoice = () => {
             buyer_id: inquiryDetails?.buyer_id,
             // itemIds     : itemId,
             orderItems: updatedOrderItems,
-            data
+            data,
+            totalAmount : roundedGrandTotalAmount
         };
+        console.log(obj);
         postRequestWithToken('buyer/order/create-order', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
@@ -177,6 +181,15 @@ const ProformaInvoice = () => {
         // Remove any non-numeric characters
         event.target.value = value.replace(/[^0-9]/g, '');
     };
+
+    const grandTotalAmount = orderItems.reduce((total, item) => {
+        // Convert item.total_amount to a number and add to total
+        return total + (parseFloat(item?.total_amount) || 0);
+    }, 0);
+
+    // Optional: round grandTotalAmount to 2 decimal places
+    const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
+
 
     return (
         <div className={styles['create-invoice-container']}>
@@ -325,8 +338,11 @@ const ProformaInvoice = () => {
                     {/* <div className={styles['create-invoice-add-item-cont']}>
                         <div className={styles['create-invoice-form-heading']}>Add Item</div>
                     </div> */}
-                    {orderItems.map((item, index) => (
-                        <div className={styles['form-item-container']} key={item.id}>
+                    {orderItems.map((item, index) => {
+                        // grandTotalAmount += item?.total_amount
+                        // grandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
+                        return (
+                            <div className={styles['form-item-container']} key={item.id}>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Name</label>
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`}
@@ -376,7 +392,10 @@ const ProformaInvoice = () => {
                                 </div>
                             )} */}
                         </div>
-                    ))}
+                        )
+                    }
+                        
+                    )}
                 </div>
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['craete-invoice-form']}>

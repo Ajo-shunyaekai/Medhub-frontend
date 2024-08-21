@@ -113,7 +113,7 @@ const PurchasedOrderDetails = () => {
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;1266547896</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_details[0]?.registration_no}</p>
                                                     </td>
                                                 </td>
                                                 <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
@@ -131,7 +131,7 @@ const PurchasedOrderDetails = () => {
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;1266547896</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_details[0]?.registration_no}</p>
                                                     </td>
                                                 </td>
                                             </tr>
@@ -143,8 +143,8 @@ const PurchasedOrderDetails = () => {
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Item Name</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
-                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Price</td>
-                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Tax %</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total Price</td>
                                                             </tr>
                                                         </thead>
@@ -161,7 +161,7 @@ const PurchasedOrderDetails = () => {
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_price.toFixed(2)}</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.medicine_details?.unit_tax}%</p>
@@ -189,7 +189,7 @@ const PurchasedOrderDetails = () => {
                                                                                             <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
                                                                                             <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
                                                                                         </tr>
-                                                                                        <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                        {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                             <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
                                                                                             <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} AED</p>
                                                                                         </tr>
@@ -197,7 +197,7 @@ const PurchasedOrderDetails = () => {
                                                                                             <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
                                                                                             <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{grandTotal.toFixed(2)} AED </p>
 
-                                                                                        </tr>
+                                                                                        </tr> */}
 
                                                                                     </tbody>
                                                                                 </table>
@@ -215,6 +215,8 @@ const PurchasedOrderDetails = () => {
                                 </td>
                             </tr>
                         </tbody>
+                        {
+                            poDetails?.additional_instructions && (
                         <tfoot>
                             <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                 <tr>
@@ -223,21 +225,23 @@ const PurchasedOrderDetails = () => {
                                         <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
                                             <p style={{ position: 'relative', paddingLeft: '20px' }}>
                                                 <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                                {poDetails?.additional_instructions}
                                             </p>
-                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                            {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
                                                 <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
                                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                                             </p>
                                             <p style={{ position: 'relative', paddingLeft: '20px' }}>
                                                 <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
                                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p>
+                                            </p> */}
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </tfoot>
+                         )
+                        }
                     </table>
                 </div >
             </div >
