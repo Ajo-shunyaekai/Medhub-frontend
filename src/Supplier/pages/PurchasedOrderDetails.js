@@ -164,10 +164,10 @@ const PurchasedOrderDetails = () => {
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_price.toFixed(2)}</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>5%</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.medicine_details?.unit_tax}%</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED </p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

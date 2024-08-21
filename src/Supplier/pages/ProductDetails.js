@@ -233,19 +233,19 @@ const ProductDetails = () => {
                                     <div className='product-details-four-left-text'>Available for :</div>
                                     <div className='product-details-four-right-text'>{medicineDetails?.available_for}</div>
                                 </div>
-                                <div className="product-details-county">
+                                {/* <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Comments :</div>
                                     <div className='product-details-four-right-text'>
                                         {medicineDetails?.description}
                                     </div>
-                                </div>
+                                </div> */}
 
                             </div>
                         </div>
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
                                 <div className="product-details-mfg-heading">Product Description</div>
-                                <div className="product-details-mfg-details">{medicineDetails?.supplier?.description}</div>
+                                <div className="product-details-mfg-details">{medicineDetails?.description}</div>
                             </div>
 
                         </div>
