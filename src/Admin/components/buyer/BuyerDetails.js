@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import '../style/detailsrequest.css'
+import '../../style/request.module.css'
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import CompanyLogo from '../assest/companylogo.png'
-import TradeLicense from '../assest/certificate.jpg'
-import TaxCertificate from '../assest/tax-certificate.jpg'
-import Certificate from '../assest/Medical_certificate.jpg'
+import CompanyLogo from '../../assest/companylogo.png'
+import TradeLicense from '../../assest/certificate.jpg'
+import TaxCertificate from '../../assest/tax-certificate.jpg'
+import Certificate from '../../assest/Medical_certificate.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
-import { postRequestWithToken } from '../api/Requests';
+import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 
 
-const DetailsBuyerRequest = () => {
+const BuyerDetails = () => {
     const {buyerId} = useParams()
     const navigate  = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -61,7 +61,7 @@ const DetailsBuyerRequest = () => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Buyer Request</div>
+                    <div className='buyer-details-container-heading'>Buyer Details</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>
@@ -197,8 +197,8 @@ const DetailsBuyerRequest = () => {
                     </div>
 
                     <div className='buyer-details-button-containers'>
-                        <div className='buyer-details-button-reject'  onClick={() => {handleAcceptReject('reject')}}>Reject</div>
-                        <div className='buyer-details-button-accept'  onClick={() => {handleAcceptReject('accept')}}>Accept</div>
+                        {/* <div className='buyer-details-button-reject'  onClick={() => {handleAcceptReject('reject')}}>Reject</div>
+                        <div className='buyer-details-button-accept'  onClick={() => {handleAcceptReject('accept')}}>Accept</div> */}
 
                     </div>
                 </div>
@@ -207,7 +207,7 @@ const DetailsBuyerRequest = () => {
     )
 }
 
-export default DetailsBuyerRequest
+export default BuyerDetails
 
 
 

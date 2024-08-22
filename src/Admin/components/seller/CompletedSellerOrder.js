@@ -89,7 +89,7 @@ const CompletedSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPag
                             <tbody className={styles.bordered}>
                             {orderList?.map((order, index) => {
                                     const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + item.quantity;
+                                        return total + (item.quantity || item.quantity_required);
                                       }, 0);
                                       const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                     return (
@@ -110,7 +110,7 @@ const CompletedSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPag
                                             <div className={styles['actives-table-text-color']}>{order.order_status ? 'Completed' : ''}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to='/order-details'>
+                                            <Link to={`/admin/supplier-order-details/${order.order_id}`}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

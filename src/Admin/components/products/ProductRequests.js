@@ -100,11 +100,11 @@ const ProductRequests = () => {
                                                 {(() => {
                                                     switch (product.status) {
                                                     case 0:
-                                                        return 'pending';
+                                                        return 'Pending';
                                                     case 1:
-                                                        return 'approved';
+                                                        return 'Approved';
                                                     case 2:
-                                                        return 'rejected';
+                                                        return 'Rejected';
                                                     default:
                                                         return '';
                                                     }
@@ -113,7 +113,7 @@ const ProductRequests = () => {
 
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/order-details'>
+                                            <Link to={`/admin/product-request-details/${product.medicine_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

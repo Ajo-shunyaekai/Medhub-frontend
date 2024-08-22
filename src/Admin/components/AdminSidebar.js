@@ -38,6 +38,13 @@ import ActiveSellerOrder from './seller/ActiveSellerOrder.js';
 import CompletedSellerOrder from './seller/CompletedSellerOrder.js';
 import PendingSellerOrder from './seller/PendingSellerOrder.js';
 import CompletedBuyerOrder from './buyer/CompletedBuyerOrder.js';
+import SupplierRequestDetails from './SupplierRequestDetails.js'
+import BuyerDetails from '../../Admin/components/buyer/BuyerDetails.js';
+import SupplierDetails from '../../Admin/components/seller/SupplierDetails.js'
+import ProductRequestDetails from './ProductRequestDetails.js';
+import ProductDetails from './products/ProductDetails.js';
+import OrderDetails from './buyer/OrderDetails.js';
+import SupplierOrderDetails from './seller/OrderDetails.js'
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -87,6 +94,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/rejected-product" element={<RejectedProduct/>} />
                   <Route path="/admin/product-requests" element={<ProductRequests/>} />
                   <Route path="/admin/buyer-request-details/:buyerId" element={<DetailsBuyerRequest/>} />
+                  <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
+                  <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
 
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
@@ -100,6 +109,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-support" element={<Navigate to="/admin/buyer-support/complaint" />} />
                   <Route path="/admin/buyer-complaint" element={<BuyerComplaint/>} />
                   <Route path="/admin/buyer-feedback" element={<BuyerFeedback/>} />    
+                  <Route path="/admin/buyer-details/:buyerId" element={<BuyerDetails />} />    
                   {/* end the buyer route */}
 
                    {/* Start the order route */}
@@ -117,6 +127,11 @@ const AdminSidebar = () => {
                     <Route path="/admin/active-seller-order" element={<ActiveSellerOrder/>} />
                     <Route path="/admin/completed-seller-order" element={<CompletedSellerOrder/>} />
                     <Route path="/admin/pending-seller-order" element={<PendingSellerOrder/>} />
+                    <Route path="/admin/order-details/:orderId" element={<OrderDetails/>} />
+                    <Route path="/admin/supplier-order-details/:orderId" element={<SupplierOrderDetails/>} />
+
+                    <Route path="/admin/product-request-details/:medicineId" element={<ProductRequestDetails/>} />
+                    <Route path="/admin/product-details/:medicineId" element={<ProductDetails/>} />
                 </Routes>
               </AdmSidebar>
             </div>

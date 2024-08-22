@@ -59,7 +59,7 @@ const ApprovedSeller = () => {
 
     const [sellerList, setSellerList]     = useState([])
     const [totalSellers, setTotalSellers] = useState()
-    const listPerPage = 2
+    const listPerPage = 5
 
     useEffect(() => {
         // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -126,16 +126,16 @@ const ApprovedSeller = () => {
                                             <div className='rejected-table-text-color'>{supplier.supplier_name}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='table-text-color'>{supplier.supplier_mobile}</div>
+                                            <div className='table-text-color'>{supplier.supplier_country_code} {supplier.supplier_mobile}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
                                             <div className='rejected-table-text-color'>{supplier.supplier_email}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{supplier.account_status ? (supplier.account_status === 1 ? 'accepted' : (supplier.account_status === 2 ? 'rejected' : 'pending')) : ''}</div>
+                                            <div className='rejected-table-text-color'>{supplier.account_status ? (supplier.account_status === 1 ? 'Accepted' : (supplier.account_status === 2 ? 'Rejected' : 'Pending')) : ''}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/admin/order-details'>
+                                            <Link to={`/admin/supplier-details/${supplier.supplier_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

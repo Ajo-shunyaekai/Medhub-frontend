@@ -89,7 +89,7 @@ const CompletedBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage
                             <tbody className={styles.bordered}>
                                 {orderList?.map((order, index) => {
                                     const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + item.quantity;
+                                        return total + (item.quantity || item.quantity_required);
                                       }, 0);
                                       const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                     return (
@@ -107,10 +107,13 @@ const CompletedBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage
                                             <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_status ? 'Completed' : ''}</div>
+                                            <div className={styles['actives-table-text-color']}>
+                                                {/* {order.order_status ? 'Completed' : ''} */}
+                                                {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to='/order-details'>
+                                            <Link to={`/admin/order-details/${order.order_id}`}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

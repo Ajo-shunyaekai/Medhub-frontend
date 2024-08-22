@@ -73,7 +73,7 @@ const ApprovedBuyer = () => {
 
     const [buyerList, setBuyerList]     = useState([])
     const [totalBuyers, setTotalBuyers] = useState()
-    const listPerPage = 2
+    const listPerPage = 5
 
     useEffect(() => {
         // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -139,16 +139,16 @@ const ApprovedBuyer = () => {
                                             <div className='rejected-table-text-color'>{buyer.buyer_name}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='table-text-color'>{buyer.buyer_mobile || '879812341'}</div>
+                                            <div className='table-text-color'>{buyer.buyer_country_code} {buyer.buyer_mobile || '879812341'}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
                                             <div className='rejected-table-text-color'>{buyer.buyer_email || 'puremed@gmail.com'}</div>
                                         </div> 
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{buyer.account_status ? (buyer.account_status === 1 ? 'accepted' : (buyer.account_status === 2 ? 'rejected' : 'pending')) : ''}</div>
+                                            <div className='rejected-table-text-color'>{buyer.account_status ? (buyer.account_status === 1 ? 'Accepted' : (buyer.account_status === 2 ? 'Rejected' : 'Pending')) : ''}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/admin/order-details'>
+                                            <Link to={`/admin/buyer-details/${buyer.buyer_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

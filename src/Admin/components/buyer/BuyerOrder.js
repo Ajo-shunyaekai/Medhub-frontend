@@ -48,7 +48,7 @@ const BuyerOrder = () => {
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 2;
+    const ordersPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -98,13 +98,13 @@ const BuyerOrder = () => {
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
                             <div>Completed Orders</div>
                         </div>
-                        <div
+                        {/* <div
                             onClick={() => handleLinkClick('pending')}
                             className={`${activeLink === 'pending' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
                             <div>Pending Orders</div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'active' &&
@@ -125,7 +125,7 @@ const BuyerOrder = () => {
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}
-                        {activeLink === 'pending' &&
+                        {/* {activeLink === 'pending' &&
                          <PendingBuyerOrder
                             orderList        = {orderList} 
                             totalOrders      = {totalOrders} 
@@ -133,7 +133,7 @@ const BuyerOrder = () => {
                             ordersPerPage    = {ordersPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
-                         />}
+                         />} */}
                     </div>
                 </div>
             </div>

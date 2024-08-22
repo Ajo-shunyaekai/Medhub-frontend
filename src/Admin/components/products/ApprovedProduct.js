@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
@@ -55,6 +55,10 @@ const ApprovedProduct = () => {
     
     // ];
 
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 4;
 
@@ -71,15 +75,12 @@ const ApprovedProduct = () => {
     };
 
     useEffect(() => {
-         // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
+       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7',
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             status    : 1,
             pageNo    : currentPage, 
             pageSize  : productsPerPage,
@@ -145,11 +146,11 @@ const ApprovedProduct = () => {
                                                 {(() => {
                                                     switch (product.status) {
                                                     case 0:
-                                                        return 'pending';
+                                                        return 'Pending';
                                                     case 1:
-                                                        return 'approved';
+                                                        return 'Approved';
                                                     case 2:
-                                                        return 'rejected';
+                                                        return 'Rejected';
                                                     default:
                                                         return '';
                                                     }
@@ -157,7 +158,7 @@ const ApprovedProduct = () => {
                                                 </div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/admin/order-details'>
+                                            <Link to={`/admin/product-details/${product.medicine_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>
