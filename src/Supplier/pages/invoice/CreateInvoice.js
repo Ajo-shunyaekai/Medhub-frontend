@@ -122,8 +122,12 @@ const CreateInvoice = () => {
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`} placeholder='Enter Quantity' />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Unit Price</label>
-                                <input className={styles['create-invoice-div-input']} type='text' name={`UnitPrice-${item.id}`} placeholder='Enter Unit Price' />
+                                <label className={styles['create-invoice-div-label']}>Price</label>
+                                <input className={styles['create-invoice-div-input']} type='text' name={`UnitPrice-${item.id}`} placeholder='Enter Price' />
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Unit Tax%</label>
+                                <input className={styles['create-invoice-div-input']} type='text' name={`UnitPrice-${item.id}`} placeholder='Enter Unit Tax%' />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Total Amount</label>

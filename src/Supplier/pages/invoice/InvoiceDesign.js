@@ -75,7 +75,8 @@ function InvoiceDesign() {
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Description</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Price</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total</td>
                                                                 </tr>
                                                             </thead>
@@ -94,6 +95,9 @@ function InvoiceDesign() {
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>5%</p>
+                                                                    </td>
+                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>5000 AED </p>
                                                                     </td>
                                                                 </tr>
@@ -109,6 +113,9 @@ function InvoiceDesign() {
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>60 AED</p>
+                                                                    </td>
+                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>5%</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                         <p style={{ fontWeight: 500, fontSize: '13px' }}>6000 AED</p>
@@ -136,6 +143,10 @@ function InvoiceDesign() {
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 AED</p>
+                                                                                </tr>
+                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax :</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>5%</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>

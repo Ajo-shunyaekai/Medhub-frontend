@@ -203,7 +203,7 @@ const AddProduct = () => {
         if (value.trim() === '') {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is required`
+                [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is Required`
             }));
         } else if (!isValid) {
             // setErrors(prevErrors => ({
@@ -250,10 +250,10 @@ const AddProduct = () => {
                     newProductValid = false;
                     setErrors(prevErrors => ({
                         ...prevErrors,
-                        [`quantity${index}`]: !section.quantity ? 'Quantity is required' : '',
-                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is required' : '',
-                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is required' : '',
-                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is required' : '',
+                        [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
+                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
+                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
 
                     }));
                 }
@@ -282,9 +282,9 @@ const AddProduct = () => {
                     secondaryMarketValue = false;
                     setErrors(prevErrors => ({
                         ...prevErrors,
-                        [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is required' : '',
-                        [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is required' : '',
-                        [`condition${index}`]: !section.condition ? 'Condition is required' : '',
+                        [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
+                        [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
+                        [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
 
                     }));
                 }
@@ -308,29 +308,29 @@ const AddProduct = () => {
     const addStockedInSection = () => {
         let newProductValid = true;
         stockedInSections.forEach((section, index) => {
-            if (!section.stockedInCountry || !section.stockedInQuantity || !section.stockedInType ) {
+            if (!section.stockedInCountry || !section.stockedInQuantity || !section.stockedInType) {
                 newProductValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`stockedInCountry${index}`]: !section.stockedInCountry ? 'stockedInCountry is required' : '',
-                    [`stockedInQuantity${index}`]: !section.stockedInQuantity ? 'stockedInQuantity is required' : '',
-                    [`stockedInType${index}`]: !section.stockedInType ? 'stockedInType is required' : '',
+                    [`stockedInCountry${index}`]: !section.stockedInCountry ? 'stockedInCountry is Required' : '',
+                    [`stockedInQuantity${index}`]: !section.stockedInQuantity ? 'stockedInQuantity is Required' : '',
+                    [`stockedInType${index}`]: !section.stockedInType ? 'stockedInType is Required' : '',
 
                 }));
             }
         });
-        if(newProductValid) {
+        if (newProductValid) {
             setStockedInSections(prevSections => [
                 ...prevSections,
                 {
-                    stockedInCountry: null, 
+                    stockedInCountry: null,
                     stockedInQuantity: '',
-                    stockedInType : 'Box'
+                    stockedInType: 'Box'
                 }
             ]);
             setErrors({});
         }
-        
+
     };
 
     const removeFormSection = (index) => {
@@ -363,7 +363,7 @@ const AddProduct = () => {
         // setSelectedCompanyType(selectedOption);
         setFormData(prevState => ({ ...prevState, productType: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, productType: 'Product Type is required' }));
+            setErrors(prevState => ({ ...prevState, productType: 'Product Type is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, productType: '' }));
         }
@@ -377,7 +377,7 @@ const AddProduct = () => {
         setFormType(selected)
         setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is required' }));
+            setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
         }
@@ -387,7 +387,7 @@ const AddProduct = () => {
         setProductCategory(selected)
         setFormData(prevState => ({ ...prevState, productCategory: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, productCategory: 'Product category is required' }));
+            setErrors(prevState => ({ ...prevState, productCategory: 'Product category is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, productCategory: '' }));
         }
@@ -397,7 +397,7 @@ const AddProduct = () => {
         setCountryOfOrigin(selected)
         setFormData(prevState => ({ ...prevState, originCountry: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is required' }));
+            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, originCountry: '' }));
         }
@@ -407,7 +407,7 @@ const AddProduct = () => {
         setManufacturerCountryOfOrigin(selected)
         setFormData(prevState => ({ ...prevState, manufacturerOriginCountry: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: 'Manufacturer country of origin is required' }));
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: 'Manufacturer country of origin is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: '' }));
         }
@@ -425,7 +425,7 @@ const AddProduct = () => {
 
         setErrors(prevState => ({
             ...prevState,
-            registeredIn: selectedLabels.length === 0 ? 'Registered in is required' : ''
+            registeredIn: selectedLabels.length === 0 ? 'Registered in is Required' : ''
         }));
     };
 
@@ -441,7 +441,7 @@ const AddProduct = () => {
 
         setErrors(prevState => ({
             ...prevState,
-            stockedIn: selectedLabels.length === 0 ? 'Stocked in is required' : ''
+            stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
         }));
 
         const options = selectedOptions.map(option => ({ label: option.label }));
@@ -460,7 +460,7 @@ const AddProduct = () => {
 
         setErrors(prevState => ({
             ...prevState,
-            countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is required' : ''
+            countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
         }));
 
     }
@@ -565,65 +565,65 @@ const AddProduct = () => {
     const validateForm = () => {
         let formErrors = {};
 
-        if (!formData.productName) formErrors.productName = 'Product name is required';
-        if (!productType) formErrors.productType = 'Product type is required';
-        if (!formData.composition) formErrors.composition = 'Composition is required';
-        if (!formData.strength) formErrors.strength = 'Strength is required';
-        if (!formData.unitTax) formErrors.unitTax = 'Unit tax is required';
-        if (!formType) formErrors.typeOfForm = 'Type of form is required';
-        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf life is required';
-        if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is required';
-        if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is required';
+        if (!formData.productName) formErrors.productName = 'Product Name is Required';
+        if (!productType) formErrors.productType = 'Product Type is Required';
+        if (!formData.composition) formErrors.composition = 'Composition is Required';
+        if (!formData.strength) formErrors.strength = 'Strength is Required';
+        if (!formData.unitTax) formErrors.unitTax = 'Unit Tax is Required';
+        if (!formType) formErrors.typeOfForm = 'Type of Form is Required';
+        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf Life is Required';
+        if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
+        if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
         if (productType && productType.label === 'New Product') {
-            if (!formData.totalQuantity) formErrors.totalQuantity = 'Total quantity is required';
+            if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         }
 
-        if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp approval is required';
-        if (!formData.shippingTime) formErrors.shippingTime = 'Shipping time is required';
-        if (!formData.availableFor) formErrors.availableFor = 'Available for is required';
-        if (!formData.tags) formErrors.tags = 'Tags are required';
-        if (!formData.description) formErrors.description = 'Description is required';
-        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is required';
-        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is required'
-        if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is required';
-        if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is required';
-        if (!productCategory) formErrors.productCategory = 'Product Category is required';
+        if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
+        if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
+        if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
+        if (!formData.tags) formErrors.tags = 'Tags are Required';
+        if (!formData.description) formErrors.description = 'Description is Required';
+        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
+        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
+        if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is Required';
+        if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is Required';
+        if (!productCategory) formErrors.productCategory = 'Product Category is Required';
 
-        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer name is required';
-        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer country of origin is required';
-        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'Manufacturer description is required';
+        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer Name is Required';
+        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
+        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
 
         if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
-                if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is required';
-                if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is required';
-                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is required';
-                if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is required';
+                if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
+                if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
+                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+                if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
             });
         } else if (productType && productType.label === 'Secondary Market') {
             formSections.forEach((section, index) => {
-                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is required';
-                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is required';
-                if (!section.condition) formErrors[`condition${index}`] = 'Condition is required';
+                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
+                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
+                if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
             });
         }
 
-        if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is required';
+        if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
 
-        
-            stockedInSections.forEach((section, index) => {
-                if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in country is required';
-                if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in quantity is required';
-                if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in type is required';
-            });
-        
+
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
+            if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
+            if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
+        });
+
 
 
         if (productType && productType.label === 'Secondary Market') {
-            if (!availableCountries) formErrors.countryAvailableIn = 'Country available in is required';
-            if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is required';
-            if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. purchase unit is required';
-            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is required';
+            if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
+            if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
+            if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
+            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
         }
 
         setErrors(formErrors);
@@ -649,7 +649,7 @@ const AddProduct = () => {
         {
             stockedInCountry: '',
             stockedInQuantity: '',
-            stockedInType : 'Box',
+            stockedInType: 'Box',
         }
     ]);
 
@@ -784,7 +784,7 @@ const AddProduct = () => {
                 })
             }
         } else {
-            console.log('errorrrrr',formData);
+            console.log('errorrrrr', formData);
         }
     }
 
@@ -854,7 +854,7 @@ const AddProduct = () => {
     };
     // end the stocked in section
 
-    
+
     const makeApiCall = debounce((productName, productTypeLabel) => {
         const obj = {
             medicine_name: productName,
@@ -867,14 +867,14 @@ const AddProduct = () => {
 
         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
             if (response.code === 200) {
-                
+
                 // setFormData(prevFormData => ({
                 //     ...prevFormData,
                 //     ...response.result
                 // }));
-                if(response.result) {
+                if (response.result) {
                     toast(response.message, { type: "success" });
-                setMedicineData(response.result)
+                    setMedicineData(response.result)
                     const result = response.result;
                     setFormData(prevFormData => ({
                         ...prevFormData,
@@ -900,9 +900,9 @@ const AddProduct = () => {
                         tags: result?.tags?.join(', ') || '',
                         description: result?.description || '',
                         product_image: result?.medicine_image || [],
-                        invoice_image: [], 
-                        purchasedOn: '', 
-                        minPurchaseUnit: '', 
+                        invoice_image: [],
+                        purchasedOn: '',
+                        minPurchaseUnit: '',
                         countryAvailableIn: result?.country_available_in || [],
                         manufacturerName: result?.manufacturer_name || '',
                         manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
@@ -913,14 +913,14 @@ const AddProduct = () => {
                     setCountryOfOrigin(result?.country_of_origin)
                     setFormType(result?.type_of_form)
                 }
-               
+
             } else {
                 toast(response.message, { type: "error" });
                 console.log('error in get-medicine-by-name api');
             }
         });
     }, 500);
-    
+
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -944,7 +944,7 @@ const AddProduct = () => {
                                     autoComplete='off'
                                     value={formData.productName}
                                     onChange={handleChange}
-                                    // onBlur={handleBlur}
+                                // onBlur={handleBlur}
                                 />
                                 {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
@@ -964,12 +964,12 @@ const AddProduct = () => {
                             {productType && productType.value === 'secondary_market' && (
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Purchased On</label>
+                                        <label className={styles['create-invoice-div-label']}>Purchased on</label>
                                         <input
                                             className={styles['create-invoice-div-input']}
                                             type='text'
                                             name='purchasedOn'
-                                            placeholder='Enter Purchased On'
+                                            placeholder='Enter Purchased on'
                                             autoComplete='off'
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
@@ -977,7 +977,7 @@ const AddProduct = () => {
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Country Available In</label>
+                                        <label className={styles['create-invoice-div-label']}>Country Available in</label>
                                         <MultiSelectDropdown
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
@@ -1029,12 +1029,12 @@ const AddProduct = () => {
                                 {errors.strength && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.strength}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Unit Tax</label>
+                                <label className={styles['create-invoice-div-label']}>Tax%</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='unitTax'
-                                    placeholder='Enter Unit Tax'
+                                    placeholder='Enter Tax%'
                                     autoComplete='off'
                                     value={formData.unitTax}
                                     onChange={handleChange}
@@ -1042,7 +1042,7 @@ const AddProduct = () => {
                                 {errors.unitTax && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitTax}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Type of form</label>
+                                <label className={styles['create-invoice-div-label']}>Type of Form</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
                                     // value={formType}
@@ -1164,7 +1164,7 @@ const AddProduct = () => {
                                 {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Registered In</label>
+                                <label className={styles['create-invoice-div-label']}>Registered in</label>
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
@@ -1176,7 +1176,7 @@ const AddProduct = () => {
                             </div>
 
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Stocked In</label>
+                                <label className={styles['create-invoice-div-label']}>Stocked in</label>
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
@@ -1187,12 +1187,12 @@ const AddProduct = () => {
                                 {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Available For</label>
+                                <label className={styles['create-invoice-div-label']}>Available for</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='availableFor'
-                                    placeholder='Enter Available For'
+                                    placeholder='Enter Available for'
                                     value={formData.availableFor}
                                     onChange={handleChange}
                                 />
@@ -1229,7 +1229,7 @@ const AddProduct = () => {
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
-                                    <div className={styles['create-invoice-form-heading']}>Stocked In Details</div>
+                                    <div className={styles['create-invoice-form-heading']}>Stocked in Details</div>
                                     <span className={styles['create-invoice-add-item-button']} onClick={addStockedInSection}>Add More</span>
                                 </div>
                                 {stockedInSections.map((section, index) => (
@@ -1237,27 +1237,29 @@ const AddProduct = () => {
                                         {/* {productType && productType.value === 'new_product' && ( */}
                                         <div className={styles['create-invoice-new-product-section-containers']}>
                                             <div className={styles['create-invoice-div-container']}>
-                                                <label className={styles['create-invoice-div-label']}>Stocked In Country</label>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Country</label>
                                                 <Select
                                                     className={styles['create-invoice-div-input-select']}
                                                     value={section.stockedInCountry}
                                                     onChange={(selected) => handleStockedInCountryChange(index, selected)}
                                                     options={stockedInOptions}
-                                                    placeholder="Select Stocked In Country"
+                                                    placeholder="Select Stocked in Country"
                                                     name='stockedInCountry'
                                                 />
-                                                {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>}
+                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
+                                                {errors[`stockedInCountry${index}`] && (
+                                                    <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                        Stocked in Country is Required
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className={styles['add-product-div-container']}>
-                                                <label className={styles['create-invoice-div-label']}>Stocked In Quantity</label>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Quantity</label>
                                                 <div className={styles.quantitySelector}>
                                                     <div className={styles.inputGroup}>
                                                         <input
                                                             type="text"
-                                                            // value={quantity}
-                                                            // onChange={(e) => setQuantity(e.target.value)}
-                                                            // onChange={handleStockedInputChange(index, event)}
-                                                            name='stockedInQuantity'
+                                                            name="stockedInQuantity"
                                                             onChange={(event) => handleStockedInputChange(index, event)}
                                                             value={section.stockedInQuantity}
                                                             placeholder={`Enter ${packageType} Quantity`}
@@ -1266,21 +1268,17 @@ const AddProduct = () => {
                                                         <button
                                                             className={`${styles.optionButton} ${styles.selected}`}
                                                         >
-                                                            {/* {packageType} */}
                                                             {section.stockedInType}
                                                         </button>
-                                                       
                                                     </div>
-                                                    
+
                                                     <div className={styles.radioGroup}>
                                                         <label>
                                                             <input
                                                                 name={`stockedInType_${index}`}
                                                                 type="radio"
                                                                 value="Box"
-                                                                // checked={packageType === 'Box'}
                                                                 checked={section.stockedInType === 'Box'}
-                                                                // onChange={handlePackageSelection}
                                                                 onChange={() => handlePackageSelection(index, 'Box')}
                                                             />
                                                             <span>Box</span>
@@ -1288,12 +1286,9 @@ const AddProduct = () => {
                                                         <label>
                                                             <input
                                                                 type="radio"
-
                                                                 name={`stockedInType_${index}`}
                                                                 value="Strip"
-                                                                // checked={packageType === 'Strip'}
                                                                 checked={section.stockedInType === 'Strip'}
-                                                                // onChange={handlePackageSelection}
                                                                 onChange={() => handlePackageSelection(index, 'Strip')}
                                                             />
                                                             <span>Strip</span>
@@ -1303,22 +1298,28 @@ const AddProduct = () => {
                                                                 type="radio"
                                                                 value="Pack"
                                                                 name={`stockedInType_${index}`}
-                                                                // checked={packageType === 'Pack'}
                                                                 checked={section.stockedInType === 'Pack'}
-                                                                // onChange={handlePackageSelection}
                                                                 onChange={() => handlePackageSelection(index, 'Pack')}
                                                             />
                                                             <span>Pack</span>
                                                         </label>
-
                                                     </div>
-                                                    {errors[`stockedInQuantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInQuantity${index}`]}</div>}
+
+
+                                                </div>
+                                                <div className={styles['quanity-error-section']}>
+                                                    {errors[`stockedInQuantity${index}`] && (
+                                                        <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                            Stocked in Quantity is Required
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
+
                                         </div>
                                         {/* )} */}
                                         {stockedInSections.length > 1 && (
-                                            <div className={styles['craete-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
+                                            <div className={styles['addproduct-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
                                                 <CloseIcon />
                                             </div>
                                         )}
@@ -1331,124 +1332,139 @@ const AddProduct = () => {
                         {/* inventory section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
-                                <div className={styles['create-invoice-add-item-cont']}>
-                                    <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
-                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
-                                </div>
+                                {productType && productType.value === 'new_product' && (
+                                    <div className={styles['create-invoice-add-item-cont']}>
+                                        <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
+                                        <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                    </div>
+                                )}
+
+                                {productType && productType.value === 'secondary_market' && (
+                                    <div className={styles['create-invoice-add-item-cont']}>
+                                        <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
+                                    </div>
+                                )}
+
                                 {formSections.map((section, index) => (
-                                    <div className={styles['form-item-container']} >
-
+                                    <div className={styles['form-item-container-add-product']} key={index}>
                                         {productType && productType.value === 'new_product' && (
-                                            <div className={styles['create-invoice-new-product-section-containers']}>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Quantity</label>
-                                                    <Select
-                                                        className={styles['create-invoice-div-input-select']}
-                                                        value={section.quantity}
-                                                        onChange={(selected) => handleQuantityChange(index, selected)}
-                                                        options={quantityOptions}
-                                                        placeholder="Select Quantity"
-                                                        name='quantity'
-                                                    />
-                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
+                                            <div className={styles['add-product-main-section-container']}>
+                                                <div className={styles['create-invoice-new-product-section-containers']}>
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Quantity</label>
+                                                        <Select
+                                                            className={styles['create-invoice-div-input-select']}
+                                                            value={section.quantity}
+                                                            onChange={(selected) => handleQuantityChange(index, selected)}
+                                                            options={quantityOptions}
+                                                            placeholder="Select Quantity"
+                                                            name='quantity'
+                                                        />
+                                                        {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
+                                                    </div>
 
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                                        <input
+                                                            className={styles['create-invoice-div-input']}
+                                                            type='text'
+                                                            name='unitPrice'
+                                                            placeholder='Enter Unit Price'
+                                                            value={section.unitPrice}
+                                                            onChange={(event) => handleInputChange(index, event)}
+                                                        />
+                                                        {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
+                                                    </div>
+
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Total Price</label>
+                                                        <input
+                                                            className={styles['create-invoice-div-input']}
+                                                            type='text'
+                                                            name='totalPrice'
+                                                            placeholder='Enter Total Price'
+                                                            value={section.totalPrice}
+                                                            onChange={(event) => handleInputChange(index, event)}
+                                                        />
+                                                        {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
+                                                    </div>
+
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>
+                                                        <input
+                                                            className={styles['create-invoice-div-input']}
+                                                            type='text'
+                                                            name='estDeliveryTime'
+                                                            placeholder='Enter Est. Delivery Time'
+                                                            value={section.estDeliveryTime}
+                                                            onChange={(event) => handleInputChange(index, event)}
+                                                        />
+                                                        {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
+                                                    </div>
                                                 </div>
 
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Unit Price</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='unitPrice'
-                                                        placeholder='Enter Unit Price'
-                                                        value={section.unitPrice}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                    {/* {errors.unitPrice && <div className={styles['add-product-errors']}>{errors.unitPrice}</div>} */}
-                                                    {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
-                                                </div>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Total Price</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='totalPrice'
-                                                        placeholder='Enter Total Price'
-                                                        value={section.totalPrice}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                    {/* {errors.totalPrice && <div className={styles['add-product-errors']}>{errors.totalPrice}</div>} */}
-                                                    {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
-
-                                                </div>
-
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='estDeliveryTime'
-                                                        placeholder='Enter Est. Delivery Time'
-                                                        value={section.estDeliveryTime}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                    {/* {errors.estDeliveryTime && <div className={styles['add-product-errors']}>{errors.estDeliveryTime}</div>} */}
-                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
-                                                </div>
-
-
+                                                {formSections.length > 1 && (
+                                                    <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
+                                                        <CloseIcon />
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
 
                                         {productType && productType.value === 'secondary_market' && (
-                                            <div className={styles['create-invoice-new-product-section-containers']}>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Quantity</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='quantityNo'
-                                                        placeholder='Enter Quantity'
-                                                        value={section.quantityNo}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                    {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
+                                            <div className={styles['add-product-main-section-container']}>
+                                                <div className={styles['create-invoice-new-product-section-containers']}>
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Quantity</label>
+                                                        <input
+                                                            className={styles['create-invoice-div-input']}
+                                                            type='text'
+                                                            name='quantityNo'
+                                                            placeholder='Enter Quantity'
+                                                            value={section.quantityNo}
+                                                            onChange={(event) => handleInputChange(index, event)}
+                                                        />
+                                                        {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
+                                                    </div>
+
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                                        <input
+                                                            className={styles['create-invoice-div-input']}
+                                                            type='text'
+                                                            name='unitPricee'
+                                                            placeholder='Enter Unit Price'
+                                                            value={section.unitPricee}
+                                                            onChange={(event) => handleInputChange(index, event)}
+                                                        />
+                                                        {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPricee${index}`]}</div>}
+                                                    </div>
+
+                                                    <div className={styles['create-invoice-div-container']}>
+                                                        <label className={styles['create-invoice-div-label']}>Condition</label>
+                                                        <Select
+                                                            className={styles['create-invoice-div-input-select']}
+                                                            value={section.condition}
+                                                            onChange={(selected) => handleConditionChange(index, selected)}
+                                                            options={conditionOptions}
+                                                            placeholder="Select Condition"
+                                                        />
+                                                        {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
+                                                    </div>
                                                 </div>
 
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Unit Price</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='unitPricee'
-                                                        placeholder='Enter Unit Price'
-                                                        value={section.unitPricee}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                    {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPricee${index}`]}</div>}
-                                                </div>
-                                                <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Condition</label>
-                                                    <Select
-                                                        className={styles['create-invoice-div-input-select']}
-                                                        value={section.condition}
-                                                        onChange={(selected) => handleConditionChange(index, selected)}
-                                                        options={conditionOptions}
-                                                        placeholder="Select Condition"
-                                                    />
-                                                    {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
-                                                </div>
-                                            </div>
-                                        )}
-                                        {formSections.length > 1 && (
-                                            <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
-                                                <CloseIcon />
+                                                {formSections.length > 1 && (
+                                                    <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
+                                                        <CloseIcon />
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>
                                 ))}
                             </div>
                         </div>
+
 
                         {/* start the manufacturer details */}
                         <div className={styles['create-invoice-inner-form-section']}>
@@ -1485,14 +1501,14 @@ const AddProduct = () => {
                                 {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
                             </div>
                             <div className={styles['create-manufaturer-div-container-description']}>
-                                <label className={styles['create-invoice-div-label']}>Description</label>
+                                <label className={styles['create-invoice-div-label']}>About Manufacturer</label>
                                 <textarea
                                     className={styles['create-invoice-div-input']}
                                     name="manufacturerDescription"
                                     rows="4"
                                     cols="20"
                                     value={formData.manufacturerDescription}
-                                    placeholder='Enter Description'
+                                    placeholder='Enter About Manufacturer'
                                     onChange={handleChange}
                                 />
                                 {errors.manufacturerDescription && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerDescription}</div>}

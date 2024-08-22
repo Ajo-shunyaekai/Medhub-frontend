@@ -98,6 +98,12 @@ const SupplierDashboard = () => {
                                             <div className='top-text'>{orderSummary?.enquiryCount || 100}</div>
                                         </div>
                                     </Link>
+                                    <Link to='/supplier/inquiry-purchase-orders/purchased'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Purchased Orders</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 50}</div>
+                                        </div>
+                                    </Link>
                                     <Link to='/supplier/ongoing-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Active Orders</div>
@@ -179,7 +185,7 @@ const SupplierDashboard = () => {
                                 data={countryData}
                             />
                         </div>
-                        <div className='right-head'>Your buyer countries</div>
+                        <div className='right-head'>Your Buyer Countries</div>
                         <div className='right-country-section'>
                             <div className='country-sect'>
                                 <span className='country-names'>{countryData[0]?.country}</span>

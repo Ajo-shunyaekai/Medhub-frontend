@@ -19,7 +19,7 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
 
     useEffect(() => {
         if (!invoiceImage || invoiceImage.length === 0) {
-            setErrorMessage('Please upload at least one purchase invoice.');
+            setErrorMessage('Please Upload at Least One Purchase Invoice.');
         } else {
             setErrorMessage('');
         }
@@ -87,7 +87,7 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
         <div className={styles['pdf-image-uploader']}>
             <div className={styles['pdf-upload-area']} onClick={handlePdfClick}>
                 <img src={UploadIcon} alt="Upload" className={styles['pdf-upload-icon']} />
-                <p className={styles['pdf-upload-text']}>Click here to upload</p>
+                <p className={styles['pdf-upload-text']}>Click here to Upload</p>
                 <input
                     type="file"
                     accept="application/pdf"

@@ -147,17 +147,15 @@
 }
 .create-invoice-close-btn {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  cursor: pointer;
-  color: linear-gradient(270deg, #00dcff, #0075ce);
+    justify-content: center;
+    margin-top: 40px;
+    cursor: pointer;
+    color: linear-gradient(270deg, #00dcff, #0075ce) !important;
 }
 .form-item-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   /* border: 2px solid red; */
 }
 @media screen and (max-width: 1580px) {
@@ -186,7 +184,6 @@
 
   .create-invoice-close-btn {
     position: relative;
-    bottom: 40px;
   }
 }
 @media screen and (max-width: 992px) {

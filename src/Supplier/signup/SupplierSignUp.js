@@ -100,7 +100,7 @@ const SupplierSignUp = () => {
         setSelectedCompanyType(selectedOption);
         setFormData(prevState => ({ ...prevState, companyType: selectedOption }));
         if (!selectedOption) {
-            setErrors(prevState => ({ ...prevState, companyType: 'Company Type is required' }));
+            setErrors(prevState => ({ ...prevState, companyType: 'Company Type is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, companyType: '' }));
         }
@@ -122,7 +122,7 @@ const SupplierSignUp = () => {
 
         setErrors(prevState => ({
             ...prevState,
-            [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is required` : '',
+            [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
         }));
 
     };
@@ -171,38 +171,38 @@ const SupplierSignUp = () => {
     const validateForm = async() => {
         let formErrors = {};
     
-        if (!formData.companyType) formErrors.companyType = 'Company Type is required';
-        if (!formData.companyName) formErrors.companyName = 'Company Name is required';
-        if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is required';
-        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is required';
+        if (!formData.companyType) formErrors.companyType = 'Company Type is Required';
+        if (!formData.companyName) formErrors.companyName = 'Company Name is Required';
+        if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
+        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
         if (!companyPhone || companyPhone.length <= 6) {
-            formErrors.companyPhone = 'Company phone no. is required';
+            formErrors.companyPhone = 'Company Phone No. is Required';
         }
-        // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is required';
-        if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is required';
-        if (!formData.designation) formErrors.designation = 'Designation is required';
-        if (!formData.email) formErrors.email = 'Email ID is required';
+        // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
+        if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
+        if (!formData.designation) formErrors.designation = 'Designation is Required';
+        if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
         if (!mobile || mobile.length <= 6) {
-            formErrors.mobile = 'Mobile No. is required';
+            formErrors.mobile = 'Mobile No. is Required';
         }
-        if (!formData.originCountry) formErrors.originCountry                  = 'Country of Origin is required';
-        if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is required';
-        if (!formData.companyLicenseNo) formErrors.companyLicenseNo            = 'Company License No. is required';
-        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry    = 'Company License Expiry Date is required';
-        if (!formData.companyTaxNo) formErrors.companyTaxNo                    = 'Company Tax No. is required';
+        if (!formData.originCountry) formErrors.originCountry                  = 'Country of Origin is Required';
+        if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
+        if (!formData.companyLicenseNo) formErrors.companyLicenseNo            = 'Company License No. is Required';
+        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry    = 'Company License Expiry Date is Required';
+        if (!formData.companyTaxNo) formErrors.companyTaxNo                    = 'Company Tax No. is Required';
         if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-        if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are required';
-        if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is required';
-        if (!formData.tags) formErrors.tags = 'Tags are required';
-        if (!formData.description) formErrors.description = 'Description is required';
+        if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
+        if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
+        if (!formData.tags) formErrors.tags = 'Tags are Required';
+        if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.tags.split(',').map(tag => tag.trim()).length > 5) formErrors.tags = 'You can only enter up to 5 tags';
         if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
-        if (!formData.taxImage) formErrors.taxImage = 'Tax image is required';
-        if (!formData.logoImage) formErrors.logoImage = 'Logo image is required';
-        if (!formData.licenseImage) formErrors.licenseImage = 'License image is required';
-        if (!formData.certificateImage) formErrors.certificateImage = 'Certificate image is required';
+        if (!formData.taxImage) formErrors.taxImage = 'Tax Image is Required';
+        if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
+        if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
+        if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
         
         
         setErrors(formErrors);
@@ -243,7 +243,7 @@ const SupplierSignUp = () => {
         console.log(selectedOption);
         setFormData({ ...formData, originCountry: selectedOption.label })
         if (!selectedOption) {
-            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is required' }));
+            setErrors(prevState => ({ ...prevState, originCountry: 'Country of Origin is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState,originCountry: '' }));
         }
@@ -259,7 +259,7 @@ const SupplierSignUp = () => {
     
         setErrors(prevState => ({
             ...prevState,
-            operationCountries: selectedLabels.length === 0 ? 'Country of operation is required' : ''
+            operationCountries: selectedLabels.length === 0 ? 'Country of Operation is Required' : ''
         }));
     };
     
@@ -440,6 +440,30 @@ const SupplierSignUp = () => {
                                 name="companyEmail"
                                 placeholder="Enter Company Email ID"
                                 value={formData.companyEmail}
+                                onChange={handleChange}
+                            />
+                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyRegistration"
+                                placeholder="Enter Company Registration Number"
+                                value={formData.companyRegistration}
+                                onChange={handleChange}
+                            />
+                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>VAT Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyVAT"
+                                placeholder="Enter VAT Registration Number"
+                                value={formData.companyVAT}
                                 onChange={handleChange}
                             />
                             {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}

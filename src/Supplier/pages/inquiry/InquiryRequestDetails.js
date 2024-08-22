@@ -154,10 +154,6 @@ const InquiryRequestDetails = () => {
            
             <div className='inquiry-details-payment-container'>
                 <div className='inquiry-details-payment-left-section'>
-                    <div className='inquiry-details-payment-detention-cont'>
-                        <div className='inquiry-details-payment-first-terms-heading'>Est Delivery Time</div>
-                        <div className='inquiry-details-payment-first-terms-text'>{inquiryDetails?.supplier?.estimated_delivery_time}</div>
-                    </div>
                     {inquiryDetails?.enquiry_status !== 'Quotation submitted' && inquiryDetails?.enquiry_status !== 'cancelled' && inquiryDetails?.enquiry_status !== 'PO created' && (
                     <div className='inquiry-details-payment-detention-cont'>
                         
@@ -192,20 +188,6 @@ const InquiryRequestDetails = () => {
                 </div>
             </div>
             <div className='inquiry-details-button-section'>
-                
-            {/* {inquiryDetails?.quotation_items?.length === 0 && (
-                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>
-                    Submit Quotation
-                </div>
-            )} */}
-            {/* {inquiryDetails?.enquiry_status === 'Pending' && (
-                <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>
-                    Submit Quotation
-                </div>
-            )}
-                <a href={mailtoLink} className='inquiry-details-cancel-button'>
-                    Contact Buyer
-                </a> */}
                 {inquiryDetails?.enquiry_status === 'pending' && (
                 <>
                     <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>

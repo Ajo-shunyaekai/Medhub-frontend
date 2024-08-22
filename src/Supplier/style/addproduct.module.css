@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 32.8%;
+  width: 46%;
   row-gap: 6px;
 }
 .create-invoice-container::-webkit-scrollbar {
@@ -43,7 +43,7 @@
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 24px;
 }
 
 .craete-invoice-form {
@@ -155,13 +155,17 @@
 }
 
 .craete-add-cross-icon {
-  width: 100% !important;
   display: flex;
   justify-content: end;
   cursor: pointer;
-  position: relative;
-  top: -50%;
-  left: 14px;
+  margin-top: 38px;
+  
+}
+.addproduct-add-cross-icon{
+  display: flex;
+  justify-content: end;
+  cursor: pointer; 
+  margin-top: 34px;
 }
 
 .create-invoice-close-btn {
@@ -179,8 +183,16 @@
   width: 100%;
   display: flex;
   justify-content: start;
-  flex-wrap: wrap;
-  align-items: center;
+  gap: 16px;
+}
+.add-product-main-section-container{
+display: flex;
+}
+.form-item-container-add-product{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
   gap: 16px;
 }
 
@@ -194,7 +206,7 @@
 
 .create-invoice-new-product-section-containers {
   display: flex;
-  width: 100%;
+  width: 97%;
   justify-content: start;
   gap: 16px;
 
@@ -214,7 +226,7 @@
 }
 .quantitySelector {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .inputGroup {
@@ -267,7 +279,6 @@
   display: flex;
   gap: 14px;
   position: relative;
-  flex-wrap: wrap;
   right: 32px;
   width: 100%;
 }
@@ -309,6 +320,9 @@
   }
 
   .craete-add-cross-icon {
+    margin-top: -66px;
+  }
+  .addproduct-add-cross-icon{
     top: -70%;
     left: 6px;
   }
@@ -320,10 +334,16 @@
   .create-invoice-div-container-description {
     width: 64%;
   }
+  .create-manufaturer-div-container-description{
+    width: 64%;
+  }
 }
 
 @media screen and (max-width: 1140px) {
   .craete-add-cross-icon {
+    left: 12px;
+  }
+  .addproduct-add-cross-icon{
     left: 12px;
   }
 }
@@ -342,6 +362,9 @@
   }
 
   .create-invoice-div-container-description {
+    width: 98%;
+  }
+  .create-manufaturer-div-container-description{
     width: 98%;
   }
 }

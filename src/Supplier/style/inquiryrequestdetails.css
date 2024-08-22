@@ -263,11 +263,11 @@
     display: flex;
     align-items: center;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     justify-content: center;
-  }
+}
   /* start the pickup section */
   .inquiry-details-payment-container {
     width: 100%;
@@ -302,7 +302,7 @@
     row-gap: 6px;
   }
   .inquiry-details-payment-detention-cont {
-    width: 50%;
+    width: 100%;
     background-color: white;
     padding: 20px;
     border-color: transparent;

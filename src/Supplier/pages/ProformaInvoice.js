@@ -361,10 +361,10 @@ const ProformaInvoice = () => {
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Listed Price</label>
+                                <label className={styles['create-invoice-div-label']}>Price</label>
                                 <input className={styles['create-invoice-div-input']} type='text'
                                     name={`UnitPrice-${item.id}`}
-                                    placeholder='Enter Unit Price'
+                                    placeholder='Enter Price'
                                     value={item?.unit_price}
                                     readOnly
                                 />

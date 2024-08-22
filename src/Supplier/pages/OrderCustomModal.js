@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../style/ordermodal.module.css';
 import { postRequestWithToken } from '../api/Requests';
+import { PhoneInput } from 'react-international-phone';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -149,14 +150,11 @@ const OrderCustomModal = ({ show, onClose, buyerData, orderId, buyerId, setRefre
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Mobile No</label>
-                        <input placeholder='Enter Mobile No.' 
-                            className={styles['order-modal-input']} 
-                            type="text" 
-                            name="supplierMobile"
-                            value={formData.supplierMobile} 
-                            onChange={handleChange} 
-                            required 
-                        />
+                        <PhoneInput
+                                className={styles['order-modal-input']}
+                                defaultCountry="ae"
+                                name="companyPhone"
+                            />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Address</label>

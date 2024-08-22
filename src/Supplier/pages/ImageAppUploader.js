@@ -11,12 +11,12 @@ const ImageUploaders = ({ image, setImage}) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [uploadAreaHeight, setUploadAreaHeight] = useState('100px');
     const fileInputRef = useRef(null);
-    const minImages = 4;
-    const maxImages = 5;
+    const minImages = 1;
+    const maxImages = 10;
 
     useEffect(() => {
         if (!image || image.length < 4) {
-            setErrorMessage('Please upload at least four image.');
+            setErrorMessage('Please Upload at Least One Image.');
         } else {
             setErrorMessage('');
         }
@@ -96,7 +96,7 @@ const ImageUploaders = ({ image, setImage}) => {
             <div className={styles['add-image-uploader']}>
                 <div className={styles['add-upload-area']} onClick={handleImageClick} style={{ height: uploadAreaHeight }}>
                     <img src={UploadImage} alt="Upload" className={styles['add-upload-icon']} />
-                    <p className={styles['add-upload-text']}>Click here to upload</p>
+                    <p className={styles['add-upload-text']}>Click here to Upload</p>
                     <input
                         type="file"
                         accept="image/png, image/jpeg, image/jpg"

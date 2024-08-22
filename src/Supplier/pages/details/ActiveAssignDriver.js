@@ -61,12 +61,12 @@ const ActiveAssignDriver = ({productList}) => {
                                         <span className="table-g-not-name">{order.total_amount || order.item_price} AED</span>
                                     </div>
                                 </td>
-                                {/* <td className='tables-status'>
-                                    <div className='tables-button-conatiner'>
-                                        <div className='table-accept-button'>Accept</div>
-                                        <div className='table-reject-button'>Reject</div>
+                                <td className='tables-td'>
+                                    <div className="table-g-section-content">
+                                        <span className="table-g-driver-name">Est. Delivery Time</span>
+                                        <span className="table-g-not-name">14 Days</span>
                                     </div>
-                                </td> */}
+                                </td>
                             </tr>
                         ))
                     }

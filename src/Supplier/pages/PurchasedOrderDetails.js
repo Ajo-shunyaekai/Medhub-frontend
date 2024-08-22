@@ -144,7 +144,11 @@ const PurchasedOrderDetails = () => {
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Item Name</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
+<<<<<<< Updated upstream
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Tax %</td>
+=======
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
+>>>>>>> Stashed changes
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total Price</td>
                                                             </tr>
                                                         </thead>
@@ -194,7 +198,7 @@ const PurchasedOrderDetails = () => {
                                                                                             <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} AED</p>
                                                                                         </tr>
                                                                                         <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                            <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grant Total :</p>
+                                                                                            <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Grand Total :</p>
                                                                                             <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{grandTotal.toFixed(2)} AED </p>
 
                                                                                         </tr> */}

@@ -147,7 +147,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                                     <div className='buy-product-card-second-text'>{product.country_of_origin}</div>
                                 </div>
                                 <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>Stocked In</div>
+                                    <div className='buy-product-card-second-head'>Stocked in</div>
                                     <div className='buy-product-card-second-text'>{product.stocked_in.join(', ')}</div>
                                 </div>
                                 <div className='buy-product-card-second-section'>
@@ -192,7 +192,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                                             <div className='buy-product-card-second-text'>{product.origin}</div>
                                         </div>
                                         <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>Stocked In</div>
+                                            <div className='buy-product-card-second-head'>Stocked in</div>
                                             <div className='buy-product-card-second-text'>{product.stock}</div>
                                         </div>
                                         <div className='buy-product-card-second-section'>

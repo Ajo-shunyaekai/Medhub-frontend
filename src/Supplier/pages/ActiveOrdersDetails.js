@@ -158,6 +158,14 @@ const ActiveOrdersDetails = () => {
                                 {orderDetails?.shipment_details?.shipment_details?.length || '3'} cm
                             </div>
                         </div>
+                        <div className="buyer-order-details-top-order-cont">
+                            <div className="buyer-order-details-left-top-main-heading">
+                                Total Volume
+                            </div>
+                            <div className="buyer-order-details-left-top-main-contents">
+                                {orderDetails?.shipment_details?.shipment_details?.length || '3'} cm
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
@@ -165,36 +173,35 @@ const ActiveOrdersDetails = () => {
             {/* Start the end section */}
             <div className='active-order-details-payment-container'>
                 <div className='active-order-details-payment-left-section'>
-                    <div className='active-order-details-payment-terms-cont'>
+                    <div className='active-order-details-payment-terms-cont'>                    
+                        <div className='active-order-details-payment-first-terms-cont'>
+                            <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
+                            <div className='active-order-details-payment-first-terms-text'>
+                                <ul className='active-order-details-payment-ul-section'>
+                                    {
+                                        orderDetails?.enquiry?.payment_terms?.map((data, i) => {
+                                            return (
+                                                <li className='active-order-details-payment-li-section'>{data}.</li>
+                                            )
+
+
+                                        })
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-detention-head'>Payment Status</div>
                             <div className='active-order-details-payment-detention-content'>
                                 <div className='active-order-details-payment-detention-date'>{orderDetails?.order_status === 'completed' ? '100% Done' : '60% Completed'}</div>
                             </div>
                         </div>
-                        <div className='active-order-details-payment-first-terms-cont'>
-                            <div className='active-order-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                            <div className='active-order-details-payment-first-terms-text'>{orderDetails?.supplier?.estimated_delivery_time || '10 Days'}</div>
-                        </div>
                     </div>
-                    <div className='active-order-details-payment-detention-cont'>
+                    {/* <div className='active-order-details-payment-detention-cont'>
                         <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
 
-                        <div className='active-order-details-payment-first-terms-text'>
-                            <ul className='active-order-details-payment-ul-section'>
-                                {
-                                    orderDetails?.enquiry?.payment_terms?.map((data, i) => {
-                                        return (
-                                            <li className='active-order-details-payment-li-section'>{data}.</li>
-                                        )
-
-
-                                    })
-                                }
-
-                            </ul>
-                        </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='active-order-details-payment-right-section'>
 

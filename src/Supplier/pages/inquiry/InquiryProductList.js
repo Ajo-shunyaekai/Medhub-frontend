@@ -107,39 +107,13 @@ const InquiryProductList = ({items, setCounterChecked, setAcceptChecked, setQuot
                                     <span className="table-g-not-name">{item.target_price} AED</span>
                                 </div>
                             </td>
-                            {/* <td className='tables-status'>
-                                <div className='tables-button-conatiner'>
-                                    <label className='inquiry-label-section'>
-                                        <input
-                                            className='inquiry-input-section'
-                                            type="checkbox"
-                                            checked={acceptedOrders.includes(item._id)}
-                                            onChange={() => handleAcceptChange(item._id)}
-                                        />
-                                        Accept
-                                    </label>
-                                    <div className='inquiry-price-container'>
-                                        <label className='inquiry-label-section'>
-                                            <input
-                                             className='inquiry-input-section'
-                                                type="checkbox"
-                                                checked={rejectedOrders.includes(item._id)}
-                                                onChange={() => handleRejectChange(item._id)}
-                                            />
-                                        </label>
-                                        <input
-                                        className='inquiry-text-input-section'
-                                            type="text"
-                                            value={prices[item._id] || ''}
-                                            onChange={(e) => handlePriceChange(item._id, e.target.value)}
-                                            disabled={!rejectedOrders.includes(item._id)}
-                                            maxLength="9"
-                                            placeholder='Enter Counter Price'
-                                        
-                                        />
-                                    </div>
+                            <td className='tables-td'>
+                                <div className="table-g-section-content">
+                                    <span className="table-g-driver-name">Est. Delivery Time</span>
+                                    <span className="table-g-not-name">12 Days</span>
                                 </div>
-                            </td> */}
+                            </td>
+                         
                              {inquiryDetails.enquiry_status !== 'Quotation submitted' && inquiryDetails.enquiry_status !== 'cancelled' && inquiryDetails.enquiry_status !== 'PO created' ? (
                 <td className='tables-status'>
                     <div className='tables-button-conatiner'>

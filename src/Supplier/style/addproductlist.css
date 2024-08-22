@@ -82,8 +82,15 @@
     font-weight: 500 !important;
   }
   .buy-product-card-second-text {
+    width: 130px;
     font-size: 13px;
     color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
   }
   .buy-product-card-first-medicine-image {
     width: 150px;

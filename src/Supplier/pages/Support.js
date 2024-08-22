@@ -199,7 +199,7 @@ const Support = () => {
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your order Id"
+                                                        placeholder="Enter your Order Id"
                                                         className={styles['form-input']}
                                                         value={orderId}
                                                         onChange={(e) => { setOrderId(e.target.value); setOrderIdError('') }}
@@ -209,7 +209,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your feedback"
+                                                        placeholder="Enter your Feedback"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={feedback}
@@ -251,7 +251,7 @@ const Support = () => {
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your order Id"
+                                                        placeholder="Enter your Order Id"
                                                         className={styles['form-input']}
                                                         value={compOrderId}
                                                         onChange={(e) => { setCompOrderId(e.target.value); setCompOrderIdError('') }}
@@ -261,7 +261,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your complaint"
+                                                        placeholder="Enter your Complaint"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={compFeedback}

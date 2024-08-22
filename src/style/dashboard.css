@@ -77,11 +77,12 @@ body::first-letter {
 .top-container {
   width: 30vw;
   background-color: white;
-  padding: 24px 22px;
+  padding: 24px 12px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
+  column-gap: 6px;
   border-radius: 4px;
 }
 .top-content-section {
@@ -92,6 +93,7 @@ body::first-letter {
 .top-head {
   color: #99a0ac;
   font-size: 0.825rem;
+  line-height: 18px;
 }
 .pro-text {
   color: #14bae4;

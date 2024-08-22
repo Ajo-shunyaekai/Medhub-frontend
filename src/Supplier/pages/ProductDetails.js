@@ -89,41 +89,41 @@ const ProductDetails = () => {
                             <div className="product-details-section-two">
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Shipping time :</div>
+                                        <div className='product-details-two-left-text'>Shipping Time :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.shipping_time}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier type :</div>
+                                        <div className='product-details-two-left-text'>Dossier Type :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.dossier_type}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier status :</div>
+                                        <div className='product-details-two-left-text'>Dossier Status :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.dossier_status}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Type of form :</div>
+                                        <div className='product-details-two-left-text'>Type of Form :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.type_of_form}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'> Unit tax :</div>
+                                        <div className='product-details-two-left-text'> Unit Tax :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.unit_tax}%</div>
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Product category :</div>
+                                        <div className='product-details-two-left-text'>Product Category :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.medicine_category}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Shelf life :</div>
+                                        <div className='product-details-two-left-text'>Shelf Life :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.shelf_life}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Country of origin :</div>
+                                        <div className='product-details-two-left-text'>Country of Origin :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.country_of_origin}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>GMP approvals :</div>
+                                        <div className='product-details-two-left-text'>GMP Approvals :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
 
@@ -133,7 +133,7 @@ const ProductDetails = () => {
                         {/* start the stocked on container */}
                         <div className='product-details-container'>
                             <div className="product-details-stockedin-section-main-container">
-                                <div className='product-stockedin-head'>Stocked In</div>
+                                <div className='product-stockedin-head'>Stocked in</div>
                                 <div className='product-stockedin-head-section'>
                                     <div className='product-stockedin-head-country'>Countries</div>
                                     <div className='product-stockedin-head-country'>Quantity</div>
@@ -269,7 +269,7 @@ const ProductDetails = () => {
                         {/* end the manufacturer details */}
                         <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
-                                <div className="product-details-mfg-heading">Manufacturer Description</div>
+                                <div className="product-details-mfg-heading">About Manufacturer</div>
                                 <div className="product-details-mfg-details">{medicineDetails?.manufacturer_description}</div>
                             </div>
                         </div>
