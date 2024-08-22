@@ -131,7 +131,7 @@ function ProformaDetailsPage() {
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Name</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Listed Price</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Tax%</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total Amount</td>
                                                                 </tr>
@@ -167,17 +167,17 @@ function ProformaDetailsPage() {
                                                                     <td style={{ width: '750px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                             <tbody>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax % :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} </p>
-                                                                                </tr>
+                                                                                </tr> */}
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{grandTotal.toFixed(2)} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{grandTotal.toFixed(2)} AED</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -193,11 +193,11 @@ function ProformaDetailsPage() {
                                                                             <tbody>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{orderDetails?.deposit_requested} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{orderDetails?.deposit_due} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} AED</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -216,7 +216,7 @@ function ProformaDetailsPage() {
                             <tfoot>
                                 <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                     <tr>
-                                        <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
+                                        <td style={{ verticalAlign: 'top', width: '100vw', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
                                             
                                             <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>

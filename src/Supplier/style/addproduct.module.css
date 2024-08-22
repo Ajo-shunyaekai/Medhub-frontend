@@ -318,10 +318,6 @@ display: flex;
   .create-invoice-new-product-section-containers {
     flex-wrap: wrap;
   }
-
-  .craete-add-cross-icon {
-    margin-top: -66px;
-  }
   .addproduct-add-cross-icon{
     top: -70%;
     left: 6px;

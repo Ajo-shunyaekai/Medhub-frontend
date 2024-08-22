@@ -1,0 +1,53 @@
+.stsearch-box input {
+    width: 100% !important;
+    box-sizing: unset !important;
+    padding: 0px !important;
+    border: unset !important;
+    border-radius: 0px !important;
+    outline: none !important;
+    color: #5e676f !important;
+}
+.stdropdown-input {
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 11px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    appearance: none !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.stdropdown-container {
+    border: none !important;
+    border-radius: 4px !important;
+    color: #5e676f !important;
+}
+.stdropdown-item {
+    font-size: 14px !important;
+    color: #5e676f !important;
+}
+.stdropdown-item.selected {
+    background-color: #ffffff !important;
+}
+.datepicker-wrapper {
+    z-index: 1000 !important;
+}
+.react-date-picker__wrapper {
+    border: unset !important;
+    outline: none !important;
+}
+.react-date-picker__button {
+    padding: 0px !important;
+}
+.react-calendar {
+    margin-top: 200px !important
+}

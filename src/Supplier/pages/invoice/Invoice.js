@@ -96,11 +96,11 @@ const Invoice = () => {
            <div className={styles['invoice-container']}>
             <div className={styles['complete-container-invoice-section']}>
                 <div className={styles['complete-conatiner-head']}>Invoices</div>
-                {activeIndex === 0 && (
+                {/* {activeIndex === 0 && (
                     <Link to='/supplier/create-invoice'>
                         <div className={styles['complete-conatiner-create-invoice']}>Create Invoice</div>
                     </Link>
-                )}
+                )} */}
             </div>
             <div className={styles['invoice-wrapper']}>
                 <div className={styles['invoice-wrapper-left']}>

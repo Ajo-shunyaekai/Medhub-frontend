@@ -544,7 +544,6 @@ const SupplierSignUp = () => {
                                 options={countries}
                                 value={countries.find(option => option.value === formData.originCountry)}
                                 onChange={handleCountryOriginChange}
-                                // onChange={(selectedOption) => setFormData({ ...formData, originCountry: selectedOption.value })}
                             />
                             {errors.originCountry && <div className='signup__errors'>{errors.originCountry}</div>}
                         </div>

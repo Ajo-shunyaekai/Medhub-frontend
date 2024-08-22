@@ -48,7 +48,12 @@ const ActiveOrdersDetails = () => {
 
     return (
         <div className='active-order-details-container'>
-            <div className='active-order-details-conatiner-heading'>Order ID:<span>{orderDetails?.order_id}</span></div>
+            <div className='active-order-main-section-container'>
+                <div className='active-order-details-conatiner-heading'>Order ID:<span>{orderDetails?.order_id}</span></div>
+                <Link to='/supplier/create-invoice'>
+                    <div className='active-order-main-create-invoice'>Create Invoice</div>
+                </Link>
+            </div>
             <div className='active-order-details-section'>
                 <div className='active-order-details-left-section'>
                     <div className='active-order-details-top-inner-section'>
@@ -173,7 +178,7 @@ const ActiveOrdersDetails = () => {
             {/* Start the end section */}
             <div className='active-order-details-payment-container'>
                 <div className='active-order-details-payment-left-section'>
-                    <div className='active-order-details-payment-terms-cont'>                    
+                    <div className='active-order-details-payment-terms-cont'>
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
                             <div className='active-order-details-payment-first-terms-text'>

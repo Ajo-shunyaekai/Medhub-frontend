@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../style/proformainvoice.module.css';
-import CloseIcon from '@mui/icons-material/Close';
-import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import { PhoneInput } from 'react-international-phone';
 
 const ProformaInvoice = () => {
     const { purchaseOrderId } = useParams();
@@ -32,7 +34,7 @@ const ProformaInvoice = () => {
         const countryOptions = countryList().getData();
         setCountries(countryOptions);
     }, []);
-
+    const [value, onChange] = useState(new Date());
     const productOptions = [
         { value: 'Product1', label: 'Product 1' },
         { value: 'Product2', label: 'Product 2' },
@@ -225,11 +227,13 @@ const ProformaInvoice = () => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='invoiceDueDate' placeholder='Enter Payment Due Date'
-                                value={dueDate}
-                                readOnly
-                                {...register('invoiceDueDate')}
+                            <DatePicker
+                                className={styles['create-invoice-div-input']}
+                                onChange={onChange}
+                                value={value}
+                                minDate={new Date()}
+                                clearIcon={null}
+                                format="dd/MM/yyyy"
                             />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -278,12 +282,13 @@ const ProformaInvoice = () => {
 
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='supplierMobile'
-                                placeholder='Enter Mobile No.'
-                                {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} 
-                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
-                                />
+                            <PhoneInput
+                            className='signup-form-section-phone-input'
+                            defaultCountry="ae"
+                            name='phoneinput'
+                            // {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} 
+                            // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                        />
                             {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -316,12 +321,13 @@ const ProformaInvoice = () => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='buyerMobile'
-                                placeholder='Enter Mobile No.'
-                                {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
-                                onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
-                                />
+                            <PhoneInput
+                            className='signup-form-section-phone-input'
+                            defaultCountry="ae"
+                            name='phoneinput'
+                            // {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
+                            // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                        />
                             {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -370,10 +376,10 @@ const ProformaInvoice = () => {
                                 />
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Tax Percentage</label>
+                                <label className={styles['create-invoice-div-label']}>Tax%</label>
                                 <input className={styles['create-invoice-div-input']} type='text'
                                     name={`UnitPrice-${item.id}`}
-                                    placeholder='Enter Tax Percentage'
+                                    placeholder='Enter Tax%'
                                     value={item?.medicine_details?.unit_tax}
                                     readOnly
                                 />

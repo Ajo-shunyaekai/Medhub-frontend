@@ -187,7 +187,7 @@ const PurchasedOrderDetails = () => {
                                                                                     <tbody>
                                                                                         <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                             <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
-                                                                                            <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
+                                                                                            <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{totalAmount.toFixed(2)} AED</p>
                                                                                         </tr>
                                                                                         {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                             <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax Amount :</p>
