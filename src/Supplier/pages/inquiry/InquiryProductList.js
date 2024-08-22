@@ -155,7 +155,10 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Status</span>
-                                        <span className="table-g-not-name">{inquiryDetails?.enquiry_status.charAt(0).toUpperCase() + inquiryDetails?.enquiry_status.slice(1)}</span>
+                                        <span className="table-g-not-name">
+                                            {/* {inquiryDetails?.enquiry_status.charAt(0).toUpperCase() + inquiryDetails?.enquiry_status.slice(1)} */}
+                                            {inquiryDetails?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            </span>
                                     </div>
                                 </td>
                             )}

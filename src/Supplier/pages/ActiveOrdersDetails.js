@@ -67,7 +67,10 @@ const ActiveOrdersDetails = () => {
                                 </Link>
                                 <div className='active-order-details-top-order-cont'>
                                     <div className='active-order-details-left-top-main-heading'> Order Status</div>
-                                    <div className='active-order-details-left-top-main-contents'> {orderDetails?.status.charAt(0).toUpperCase() + orderDetails?.status.slice(1)}</div>
+                                    <div className='active-order-details-left-top-main-contents'> 
+                                        {/* {orderDetails?.status.charAt(0).toUpperCase() + orderDetails?.status.slice(1)} */}
+                                        {orderDetails?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                        </div>
                                 </div>
                                 {
                                     orderDetails?.status === 'Awaiting details from supplier' ?
@@ -279,6 +282,7 @@ const ActiveOrdersDetails = () => {
                 show={showModal}
                 onClose={closeModal}
                 buyerData={orderDetails?.buyer}
+                logiscticsData = {orderDetails?.logistics_details}
                 orderId={orderId}
                 buyerId={orderDetails?.buyer_id}
                 setRefresh={setRefresh}

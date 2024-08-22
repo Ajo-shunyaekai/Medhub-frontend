@@ -156,12 +156,20 @@ const ProductDetails = () => {
     }
 };
 
+// const handleTargetPriceChange = (e) => {
+//     const value = e.target.value;
+//     // Allow only numeric values and prevent other characters
+//     if (/^\d*$/.test(value)) {
+//         setTargetPrice(value);
+//     }
+// };
+
 const handleTargetPriceChange = (e) => {
-    const value = e.target.value;
-    // Allow only numeric values and prevent other characters
-    if (/^\d*$/.test(value)) {
-        setTargetPrice(value);
-    }
+  const value = e.target.value;
+  // Allow only numeric values, optional decimal point, and digits after the decimal
+  if (/^\d*\.?\d*$/.test(value)) {
+      setTargetPrice(value);
+  }
 };
 
   return (

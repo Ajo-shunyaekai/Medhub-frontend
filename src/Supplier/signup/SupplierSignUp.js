@@ -78,6 +78,8 @@ const SupplierSignUp = () => {
         certificateImage: null,
         certificateImageType: 'certificate',
         terms : '',
+        registrationNo : '',
+        vatRegistrationNo : ''
     });
     const [selectedOptions, setSelectedOptions] = React.useState([]);
 
@@ -203,6 +205,8 @@ const SupplierSignUp = () => {
         if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
+        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No is Required';
         
         
         setErrors(formErrors);
@@ -294,6 +298,8 @@ const SupplierSignUp = () => {
             formDataToSend.append('estimated_delivery_time', formData.delivertime);
             formDataToSend.append('contact_person_mobile', mobile);
             formDataToSend.append('contact_person_email', formData.email);
+            formDataToSend.append('registration_no', formData.registrationNo);
+            formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
             // formDataToSend.append('country_of_operation', countryLabels);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
@@ -379,7 +385,9 @@ const SupplierSignUp = () => {
             licenseImage: null,
             licenseImageType: 'license',
             certificateImage: null,
-            certificateImageType: 'certificate'
+            certificateImageType: 'certificate',
+            registrationNo: '',
+            vatRegistrationNo: ''
         });
         setErrors({});
         setIsChecked(false);
@@ -449,24 +457,24 @@ const SupplierSignUp = () => {
                             <input
                                 className='signup-form-section-input'
                                 type="text"
-                                name="companyRegistration"
+                                name="registrationNo"
                                 placeholder="Enter Company Registration Number"
-                                value={formData.companyRegistration}
+                                value={formData.registrationNo}
                                 onChange={handleChange}
                             />
-                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                            {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>VAT Registration Number</label>
                             <input
                                 className='signup-form-section-input'
                                 type="text"
-                                name="companyVAT"
+                                name="vatRegistrationNo"
                                 placeholder="Enter VAT Registration Number"
-                                value={formData.companyVAT}
+                                value={formData.vatRegistrationNo}
                                 onChange={handleChange}
                             />
-                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                            {errors.vatRegistrationNol && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Phone No.</label>
