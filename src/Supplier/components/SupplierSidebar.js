@@ -175,7 +175,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/active-order" element={<ActiveOrder />} />
                         <Route path="/supplier/complete-order" element={<CompleteOrder />} />
                         <Route path="/supplier/deleted-order" element={<DeletedOrder />} />
-                        <Route path="/supplier/popup-Modal" element={<PopupModal />} />
+                        {/* <Route path="/supplier/popup-Modal" element={<PopupModal />} /> */}
                         <Route path="/supplier/ordercancel" element={<OrderCancel />} />
                         <Route path="/supplier/order-details/:orderId" element={<OrderDetails />} />
                         <Route path="/supplier/product-details/:medicineId" element={<ProductDetails />} />

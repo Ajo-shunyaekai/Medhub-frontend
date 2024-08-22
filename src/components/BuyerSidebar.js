@@ -9,7 +9,7 @@ import Order from './Order.js';
 import MySupplier from './MySupplier.js';
 import Invoice from './Invoice.js';
 import Support from './Support.js';
-import PopupModal from './orders/PopupModal.js';
+// import PopupModal from './orders/PopupModal.js';
 import ActiveOrder from './orders/ActiveOrder.js';
 import CompleteOrder from './orders/CompleteOrder.js';
 import DeletedOrder from './orders/DeletedOrder.js';
@@ -166,7 +166,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/active-order" element={<ActiveOrder />} />
                                         <Route path="/buyer/complete-order" element={<CompleteOrder />} />
                                         <Route path="/buyer/deleted-order" element={<DeletedOrder />} />
-                                        <Route path="/buyer/popup-Modal" element={<PopupModal />} />
+                                        {/* <Route path="/buyer/popup-Modal" element={<PopupModal />} /> */}
                                         <Route path="/buyer/ordercancel" element={<OrderCancel />} />
                                         <Route path="/buyer/line-chart" element={<LineChart />} />
                                         <Route path="/buyer/progress-bar" element={<ProgressBar />} />

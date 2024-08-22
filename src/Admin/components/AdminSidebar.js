@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import AdmSidebar from '../components/AdmSidebar.js';
 import AdminDashboard from '../components/AdminDashboard';
@@ -45,11 +45,69 @@ import ProductRequestDetails from './ProductRequestDetails.js';
 import ProductDetails from './products/ProductDetails.js';
 import OrderDetails from './buyer/OrderDetails.js';
 import SupplierOrderDetails from './seller/OrderDetails.js'
+import NotificationList from './NotificationList.js'
+import { postRequestWithToken } from '../api/Requests.js';
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
+    const [notificationList, setNotificationList] = useState([])
+    const [count, setCount] = useState()
+    const [refresh, setRefresh] = useState(false)
+    
+    const handleClick = (id, event) => {
+        const obj = {
+            admin_id : adminIdSessionStorage || adminIdLocalStorage,
+            notification_id : id,
+            event ,
+            status : 1
+        }
+        postRequestWithToken('admin/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }
+
+    useEffect( () => { 
+        if( !adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+        }
+        const obj = {
+            // order_id : orderId,
+            admin_id : adminIdSessionStorage || adminIdLocalStorage,
+        };
+        postRequestWithToken('admin/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems || 0)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+
+        // Ensure socket is defined and connected
+        // if (socket) {
+        //     console.log('socket',socket);
+            
+        //     socket.on('orderCreated', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+        //         // setNotificationList((prevList) => [notification, ...prevList]);
+        //         // setCount((prevCount) => prevCount + 1);
+        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+        //     });
+    
+        //     return () => {
+        //         socket.off('receiveNotification');
+        //     };
+        // } else {
+        //     console.error('Socket is not initialized');
+        // }
+    },[refresh, adminIdSessionStorage, adminIdLocalStorage]) ;
     
     useEffect( () => { 
         if( !adminIdSessionStorage && !adminIdLocalStorage) {
@@ -67,7 +125,7 @@ const AdminSidebar = () => {
     } else {
         return (
             <div>
-              <AdmSidebar>
+              <AdmSidebar notificationList={notificationList} count={count} handleClick={handleClick}>
                 <Routes>
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/line-chart" element={<LineChart />} />
@@ -132,6 +190,8 @@ const AdminSidebar = () => {
 
                     <Route path="/admin/product-request-details/:medicineId" element={<ProductRequestDetails/>} />
                     <Route path="/admin/product-details/:medicineId" element={<ProductDetails/>} />
+
+                    <Route path="/admin/notification-list" element={<NotificationList />} />
                 </Routes>
               </AdmSidebar>
             </div>

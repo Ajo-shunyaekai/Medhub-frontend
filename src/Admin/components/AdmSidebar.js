@@ -18,10 +18,11 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import Box from "@mui/material/Box";
+import Badge from '@mui/material/Badge';
 import Drawer from "@mui/material/Drawer";
 
-const AdmSidebar = ({ children, dragWindow }) => {
-
+const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick }) => {
+  const navigate = useNavigate()
     const [isDropOpen, setIsDropOpen] = useState(false);
     const [isSellerOpen, setIsSellerOpen] = useState(false);
     const [isManageOpen, setIsManageOpen] = useState(false);
@@ -54,9 +55,7 @@ const AdmSidebar = ({ children, dragWindow }) => {
     };
 
     
-    
-
-  const navigate = useNavigate();
+  
   // notification code here
   const [notificationText, setIsNotificationText] = useState(
     "Lorem ipsum dolor sit amet consectetur adipisicing elit  "
@@ -298,6 +297,10 @@ const AdmSidebar = ({ children, dragWindow }) => {
       </div>
         {isOpen && isSellerOpen && (
           <div className={styles.dropdownContent}>
+            <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Seller Requests</div>
+            </Link>
             <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Approved Seller</div>
@@ -306,6 +309,7 @@ const AdmSidebar = ({ children, dragWindow }) => {
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Rejected Seller </div>
             </Link>
+            
             <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Seller Transaction</div>
@@ -334,6 +338,10 @@ const AdmSidebar = ({ children, dragWindow }) => {
         </div>
         {isOpen && isDropOpen && (
           <div className={styles.dropdownContent}>
+             <Link to="/admin/buyer-request" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Buyer Requests</div>
+            </Link>
             <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Approved Buyer</div>
@@ -411,6 +419,46 @@ const AdmSidebar = ({ children, dragWindow }) => {
     };
   }, []); // Empty dependency array to run this effect only once on mount
 
+  const updateStatusApi = (id) => {
+    // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+    //             if (response.code === 200) {
+    //                 // setNotificationList(response.result.data);
+    //                 // setCount(response.result.totalItems || 0)
+    //             } else {
+    //                 console.log('error in order details api');
+    //             }
+    //         });
+}
+
+const handleNavigation = (notificationId,event, eventId,linkId) => {
+    switch (event) {
+      case 'enquiry':
+        setIsNotificationOpen(false)
+        // navigate('/buyer/inquiry-purchase-orders/ongoing');
+        navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
+        updateStatusApi(notificationId)
+        handleClick(notificationId, event)
+        break;
+      case 'order':
+        setIsNotificationOpen(false)
+        navigate(`/buyer/order-details/${eventId}`);
+        handleClick(notificationId, event)
+        break;
+      case 'purchaseorder':
+            setIsNotificationOpen(false)
+            navigate(`/buyer/purchased-order-details/${linkId}`);
+            handleClick(notificationId, event)
+            break;
+      default:
+        navigate('/buyer/'); // Default to home or another page if event_type doesn't match
+        break;
+    }
+  };
+
+  const handleNotificationNavigate = () => {
+    setIsNotificationOpen(false)
+    navigate(`/admin/notification-list`)
+  }
   // ======================
   return (
     <>
@@ -445,16 +493,18 @@ const AdmSidebar = ({ children, dragWindow }) => {
                 className={styles.nav_icon_color_two}
                 onClick={toggleSearchBar}
               />
+              <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
               <NotificationsNoneOutlinedIcon
                 className={styles.nav_icon_color}
                 onClick={NotificationDropdown}
               />
+               </Badge>
               {isNotificationOpen && (
                 <div className={styles.noti_container}>
                   {/* Notificatio content goes here */}
                   <div className={styles.noti_wrapper}>
                     <div className={styles.noti_top_wrapper}>
-                      <div className={styles.noti_profile_wrapper}>
+                      {/* <div className={styles.noti_profile_wrapper}>
                         <div className={styles.noti_profile}>A</div>
                         <div className={styles.noti_profile_text}>
                           {notificationText.length > 50
@@ -497,17 +547,52 @@ const AdmSidebar = ({ children, dragWindow }) => {
                             ? `${notificationText.slice(0, 50)}...`
                             : notificationText}
                         </div>
-                      </div>
-                    </div>
+                      </div>*/}
+
+{
+                                                notificationList?.slice(0, 5).map((data,i) => {
+                                                    let additionalInfo = '';
+                                            
+                                                    if (data.event_type === 'Order created') {
+                                                        additionalInfo = `for ${data.connected_id}`;
+                                                    } else if (data.event_type === 'Shipment details submitted') {
+                                                        additionalInfo = `for: ${data.event_id}`;
+                                                    } else if (data.event_type === 'Enquiry quotation') {
+                                                        additionalInfo = `from: ${data.supplier.supplier_name}`;
+                                                    }
+
+                                                    let displayMessage = data.message;
+                                                        if (data.message === 'Enquiry quotation submitted') {
+                                                            displayMessage = `Enquiry quotation received `;
+                                                        }
+                                                    return (
+                                                        <div className={styles.noti_profile_wrapper}
+                                                         onClick={() => handleNavigation(data.notification_id,data.event, data.event_id, data.link_id)}>
+                                                            <div className={styles.noti_profile}>
+                                                            {data.event_type.charAt(0)}
+                                                            </div>
+                                                            <div className={styles.noti_profile_text}>
+                                                                {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type} */}
+                                                                <span>
+                                                                {displayMessage.length > 50 ? `${displayMessage.slice(0, 50)}...` : displayMessage}
+                                                        </span>
+                                                        {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                    </div> 
 
                     <div className={styles.noti_bottom_wrapper}>
                       <div className={styles.noti_see_all_num}>
-                        6 Notifications
+                        {count} Notifications
                       </div>
 
-                      <Link to="#">
-                        <div className={styles.noti_see_all_btn}>See all</div>
-                      </Link>
+                      {/* <Link to="#"> */}
+                        <div className={styles.noti_see_all_btn}  onClick={handleNotificationNavigate}>See all</div>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
@@ -602,6 +687,10 @@ const AdmSidebar = ({ children, dragWindow }) => {
       </div>
         {isOpen && isSellerOpen && (
           <div className={styles.dropdownContent}>
+            <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Seller Requests</div>
+            </Link>
             <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Approved Seller</div>
@@ -642,6 +731,10 @@ const AdmSidebar = ({ children, dragWindow }) => {
         </div>
         {isOpen && isDropOpen && (
           <div className={styles.dropdownContent}>
+             <Link to="/admin/buyer-request" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Buyer Requests</div>
+            </Link>
             <Link to="/admin/approved-buyer" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Approved Buyer</div>
