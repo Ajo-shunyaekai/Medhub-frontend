@@ -251,7 +251,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     }, [isOpen]);
 
     const reset = () => {
-        // setDoorToDoor(false);
+        setDoorToDoor(true);
         setCustomClearance(false);
         setTransportMode('');
         setDropLocation({ name: '', contact: '', address: '', cityDistrict: '', state: '', pincode: '' });
@@ -293,15 +293,28 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         setErrors((prevErrors) => ({ ...prevErrors, [field]: '' }));
     };
 
+    // const handleCheckboxChange = (checkbox) => {
+    //     if (checkbox === 'doorToDoor') {
+    //         setDoorToDoor(!doorToDoor);
+    //         setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
+    //     } else if (checkbox === 'customClearance') {
+    //         setCustomClearance(!customClearance);
+    //         setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
+    //     }
+    // };
+
     const handleCheckboxChange = (checkbox) => {
         if (checkbox === 'doorToDoor') {
-            setDoorToDoor(!doorToDoor);
+            setDoorToDoor(true);
+            setCustomClearance(false);
             setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         } else if (checkbox === 'customClearance') {
-            setCustomClearance(!customClearance);
+            setCustomClearance(true);
+            setDoorToDoor(false);
             setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         }
     };
+    
 
     const handleContactInput = (e) => {
         // Allow only numbers
@@ -334,7 +347,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                             <input
                                 type="checkbox"
                                 checked={doorToDoor}
-                                // onChange={() => handleCheckboxChange('doorToDoor')}
+                                onChange={() => handleCheckboxChange('doorToDoor')}
                             />
                             <label className={styles.modalContentText}>Door to Door</label>
                         </div>

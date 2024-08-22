@@ -7,6 +7,7 @@ import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment-timezone';
 import BuyerActiveCodinator from './BuyerActiveCodinator';
 import OrderInvoiceList from './OrderInvoiceList';
+import { toast } from 'react-toastify';
 
 const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
@@ -56,7 +57,7 @@ const OrderDetails = ({socket}) => {
 
         // Create the logistics_details object
         const logisticsDetails = {
-            type: data.doorToDoor === true ? 'door to door' : '',
+            door_to_door: data.doorToDoor ,
             custom_clearance: data.customClearance,
             prefered_mode: data.transportMode,
             drop_location: {
@@ -86,16 +87,18 @@ const OrderDetails = ({socket}) => {
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
                         setOrderDetails(response.result);
-                        socket.emit('bookLogisctics', {
-                            supplierId: orderDetails?.supplier_id, // The supplier to be notified
-                            message: 'Logisctics Booked',
-                            // send other details if needed
-                          });
+                        // socket.emit('bookLogisctics', {
+                        //     supplierId: orderDetails?.supplier_id, 
+                        //     message: 'Logisctics Booked',
+                          
+                        //   });
                     } else {
+                        toast(response.message, {type:'error'})
                         console.log('error in order details api');
                     }
                 });
             } else {
+                toast(response.message, {type:'error'})
                 console.log('Error updating order status');
             }
         });
