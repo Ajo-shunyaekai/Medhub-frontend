@@ -10,6 +10,160 @@ import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { PhoneInput } from 'react-international-phone';
 
+const countryCodes = [
+    '+1',    // USA, Canada
+    '+7',    // Russia, Kazakhstan
+    '+20',   // Egypt
+    '+27',   // South Africa
+    '+30',   // Greece
+    '+31',   // Netherlands
+    '+32',   // Belgium
+    '+33',   // France
+    '+34',   // Spain
+    '+36',   // Hungary
+    '+39',   // Italy
+    '+40',   // Romania
+    '+41',   // Switzerland
+    '+43',   // Austria
+    '+44',   // UK
+    '+45',   // Denmark
+    '+46',   // Sweden
+    '+47',   // Norway
+    '+48',   // Poland
+    '+49',   // Germany
+    '+51',   // Peru
+    '+52',   // Mexico
+    '+53',   // Cuba
+    '+54',   // Argentina
+    '+55',   // Brazil
+    '+56',   // Chile
+    '+57',   // Colombia
+    '+58',   // Venezuela
+    '+60',   // Malaysia
+    '+61',   // Australia
+    '+62',   // Indonesia
+    '+63',   // Philippines
+    '+64',   // New Zealand
+    '+65',   // Singapore
+    '+66',   // Thailand
+    '+81',   // Japan
+    '+82',   // South Korea
+    '+84',   // Vietnam
+    '+86',   // China
+    '+90',   // Turkey
+    '+91',   // India
+    '+92',   // Pakistan
+    '+93',   // Afghanistan
+    '+94',   // Sri Lanka
+    '+95',   // Myanmar
+    '+98',   // Iran
+    '+212',  // Morocco
+    '+213',  // Algeria
+    '+216',  // Tunisia
+    '+218',  // Libya
+    '+220',  // Gambia
+    '+221',  // Senegal
+    '+222',  // Mauritania
+    '+223',  // Mali
+    '+224',  // Guinea
+    '+225',  // Côte d'Ivoire
+    '+226',  // Burkina Faso
+    '+227',  // Niger
+    '+228',  // Togo
+    '+229',  // Benin
+    '+230',  // Mauritius
+    '+231',  // Liberia
+    '+232',  // Sierra Leone
+    '+233',  // Ghana
+    '+234',  // Nigeria
+    '+235',  // Chad
+    '+236',  // Central African Republic
+    '+237',  // Cameroon
+    '+238',  // Cape Verde
+    '+239',  // São Tomé and Príncipe
+    '+240',  // Equatorial Guinea
+    '+241',  // Gabon
+    '+242',  // Republic of the Congo
+    '+243',  // Democratic Republic of the Congo
+    '+244',  // Angola
+    '+245',  // Guinea-Bissau
+    '+246',  // British Indian Ocean Territory
+    '+247',  // Ascension Island
+    '+248',  // Seychelles
+    '+249',  // Sudan
+    '+250',  // Rwanda
+    '+251',  // Ethiopia
+    '+252',  // Somalia
+    '+253',  // Djibouti
+    '+254',  // Kenya
+    '+255',  // Tanzania
+    '+256',  // Uganda
+    '+257',  // Burundi
+    '+258',  // Mozambique
+    '+260',  // Zambia
+    '+261',  // Madagascar
+    '+262',  // Réunion, Mayotte
+    '+263',  // Zimbabwe
+    '+264',  // Namibia
+    '+265',  // Malawi
+    '+266',  // Lesotho
+    '+267',  // Botswana
+    '+268',  // Eswatini
+    '+269',  // Comoros
+    '+290',  // Saint Helena
+    '+291',  // Eritrea
+    '+292',  // South Sudan
+    '+293',  // Nauru
+    '+294',  // Seychelles
+    '+295',  // French Guiana
+    '+296',  // Saint Pierre and Miquelon
+    '+297',  // Aruba
+    '+298',  // Faroe Islands
+    '+299',  // Greenland
+    '+350',  // Gibraltar
+    '+351',  // Portugal
+    '+352',  // Luxembourg
+    '+353',  // Ireland
+    '+354',  // Iceland
+    '+355',  // Albania
+    '+356',  // Malta
+    '+357',  // Cyprus
+    '+358',  // Finland
+    '+359',  // Bulgaria
+    '+370',  // Lithuania
+    '+371',  // Latvia
+    '+372',  // Estonia
+    '+373',  // Moldova
+    '+374',  // Armenia
+    '+375',  // Belarus
+    '+376',  // Andorra
+    '+377',  // Monaco
+    '+378',  // San Marino
+    '+379',  // Vatican City
+    '+380',  // Ukraine
+    '+381',  // Serbia
+    '+382',  // Montenegro
+    '+383',  // Kosovo
+    '+385',  // Croatia
+    '+386',  // Slovenia
+    '+387',  // Bosnia and Herzegovina
+    '+388',  // Yugoslavia
+    '+389',  // North Macedonia
+    '+390',  // Vatican City
+    '+391',  // San Marino
+    '+392',  // Andorra
+    '+393',  // Monaco
+    '+394',  // Kosovo
+    '+395',  // Vatican City
+    '+396',  // San Marino
+    '+397',  // Andorra
+    '+398',  // Monaco
+    '+399',  // Kosovo
+    '+1869', // Saint Kitts and Nevis
+    '+1876', // Jamaica
+    '+1954', // Venezuela
+];
+
 const ProformaInvoice = () => {
     const { purchaseOrderId } = useParams();
     const navigate = useNavigate();
@@ -130,7 +284,7 @@ const ProformaInvoice = () => {
                 const mobileNumber = supplierDetails.contact_person_mobile_no || '';
                 const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
                 const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
-                console.log('newFormattedPhoneNumber',newFormattedPhoneNumber);
+                // console.log('newFormattedPhoneNumber',newFormattedPhoneNumber);
                 setValue('supplierMobile', formattedPhoneNumber);
                 setValue('newSupplierMobile',newFormattedPhoneNumber)
                 // setValue('supplierRegNo',response?.result?.supplier_details[0]?.registration_no)
@@ -164,6 +318,15 @@ const ProformaInvoice = () => {
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage, setValue]);
 
+    const formatDate = (date) => {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const year = date.getFullYear();
+    
+        return `${day}-${month}-${year}`;
+    };
+    
+
     const onSubmit = (data) => {
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -190,12 +353,12 @@ const ProformaInvoice = () => {
         // };
         const  buyerDetails = inquiryDetails.buyer_details[0];
         const buyerCountryCode = buyerDetails.contact_person_country_code || '';
-    const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
-    const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
-    const  supplierDetails = inquiryDetails.supplier_details[0];
-    const supplierCountryCode = supplierDetails.contact_person_country_code || '';
-    const supplierMobileNumber = supplierDetails.contact_person_mobile || '';
-    const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
+        const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
+        const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
+        const  supplierDetails = inquiryDetails.supplier_details[0];
+        const supplierCountryCode = supplierDetails.contact_person_country_code || '';
+        const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
+        const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
 
     // Prepare the object for submission
     const obj = {
@@ -206,15 +369,15 @@ const ProformaInvoice = () => {
         orderItems: updatedOrderItems,
         data: {
             ...data,
-            dueDate: value,
-            buyerMobile: formattedBuyerPhoneNumber,
+            dueDate: formatDate(value),
+            // buyerMobile: formattedBuyerPhoneNumber,
             newBuyerMobile: formattedBuyerPhoneNumber,
             newSupplierMobile: formattedSupplierPhoneNumber,
         },
         totalAmount: roundedGrandTotalAmount
     };
         console.log(obj);
-        postRequestWithToken('buyer/order/create-orde', obj, async (response) => {
+        postRequestWithToken('buyer/order/create-order', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
@@ -243,30 +406,70 @@ const ProformaInvoice = () => {
     const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
 
     const formatPhoneNumber = (phoneNumber, countryCode) => {
-        // Remove non-numeric characters
+        // Remove non-numeric characters from the phone number
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
     
-        // Format based on length
-        if (cleanedNumber.length <= 10) {
-            // Shorter numbers
-            return `+${countryCode}-${cleanedNumber}`;
+        // Format as +countryCode-number
+        return `+${countryCode}-${cleanedNumber}`;
+    };
+    
+    const handleBuyerPhoneChange = (value) => {
+        // console.log("value", value);
+        
+        let countryCode = '';
+        let mobileNumber = value;
+    
+        // Find the longest matching country code
+        for (let code of countryCodes) {
+            if (value.startsWith(code)) {
+                countryCode = code.replace('+', ''); // Remove the '+'
+                mobileNumber = value.substring(code.length); // Remaining part of the string
+                break;
+            }
+        }
+    
+        if (countryCode && mobileNumber) {
+            // Format the phone number
+            const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
+            
+            console.log("formattedPhoneNumber", formattedPhoneNumber);
+            
+            // Update the state with the formatted phone number
+            setValue('buyerMobile', formattedPhoneNumber);
         } else {
-            // Longer numbers
-            return `+${countryCode}-${cleanedNumber.slice(0, 6)}-${cleanedNumber.slice(6)}`;
+            // Handle case where no country code is found or invalid value
+            console.error('Invalid phone number format or unknown country code');
         }
     };
 
-    const handleBuyerPhoneChange = (value) => {
-        // Extract country code and mobile number from the value
-        const countryCode = value.split(' ')[0].replace('+', '');
-        const mobileNumber = value.split(' ')[1] || '';
+    const handleSupplierPhoneChange = (value) => {
+        // console.log("value", value);
+        
+        let countryCode = '';
+        let mobileNumber = value;
     
-        // Format the phone number
-        const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-    
-        // Update the state with the formatted phone number
-        setValue('buyerMobile', formattedPhoneNumber);
+        // Find the longest matching country code
+        for (let code of countryCodes) {
+            if (value.startsWith(code)) {
+                countryCode = code.replace('+', ''); // Remove the '+'
+                mobileNumber = value.substring(code.length); // Remaining part of the string
+                break;
+            }
+        }
+        if (countryCode && mobileNumber) {
+            // Format the phone number
+            const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
+            
+            console.log("formattedPhoneNumber", formattedPhoneNumber);
+            
+            // Update the state with the formatted phone number
+            setValue('supplierMobile', formattedPhoneNumber);
+        } else {
+            // Handle case where no country code is found or invalid value
+            console.error('Invalid phone number format or unknown country code');
+        }
     };
+    
 
     return (
         <div className={styles['create-invoice-container']}>
@@ -362,7 +565,8 @@ const ProformaInvoice = () => {
                             defaultCountry="ae"
                             name='phoneinput'
                             value={watch('supplierMobile')}
-                            onChange={(value) => setValue('supplierMobile', value)}
+                            onChange={handleSupplierPhoneChange}
+                            // onChange={(value) => setValue('supplierMobile', value)}
                             // {...register('supplierMobile', { 
                             //     required: 'Supplier mobile is required', 
                             //     validate: value => value?.trim() !== '' || 'Supplier mobile is required'
@@ -389,6 +593,7 @@ const ProformaInvoice = () => {
                             <label className={styles['create-invoice-div-label']}>Name</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='buyerName' placeholder='Enter Name'
+                                readOnly
                                 {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })} />
                             {errors.buyerName && <p>{errors.buyerName.message}</p>}
                         </div>
@@ -397,6 +602,7 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='buyerEmail'
                                 placeholder='Enter Email ID'
+                                readOnly
                                 {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })} />
                             {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
                         </div>
@@ -407,6 +613,7 @@ const ProformaInvoice = () => {
                             defaultCountry="ae"
                             name='phoneinput'
                             value={watch('buyerMobile')}
+                            disabled
                             // onChange={(value) => setValue('buyerMobile', value)}
                             onChange={handleBuyerPhoneChange}
                             // {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
@@ -419,6 +626,7 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='buyerAddress'
                                 placeholder='Enter Address'
+                                readOnly
                                 {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })} />
                             {errors.buyerAddress && <p>{errors.buyerAddress.message}</p>}
                         </div>

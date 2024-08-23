@@ -101,16 +101,16 @@ const PurchasedOrderDetails = () => {
                                             <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
                                                 <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
-                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{poDetails?.buyer_details[0]?.buyer_name}</p>
-                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{poDetails?.buyer_details[0]?.buyer_address}</p>
+                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{poDetails?.buyer_name}</p>
+                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{poDetails?.buyer_address}</p>
                                                     {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_details[0]?.contact_person_country_code} {poDetails?.buyer_details[0]?.contact_person_mobile}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_country_code || '+91'} {poDetails?.buyer_mobile}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Email ID :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_details[0]?.contact_person_email}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_email}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>
@@ -119,16 +119,16 @@ const PurchasedOrderDetails = () => {
                                                 </td>
                                                 <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
-                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{poDetails?.supplier_details[0]?.supplier_name}</p>
-                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', textAlign: 'end' }}>{poDetails?.supplier_details[0]?.supplier_address}</p>
+                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{poDetails?.supplier_name}</p>
+                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', textAlign: 'end' }}>{poDetails?.supplier_address}</p>
                                                     {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_details[0]?.contact_person_country_code} {poDetails?.supplier_details[0]?.contact_person_mobile_no}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_country_code || '+91'} {poDetails?.supplier_mobile}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Email ID :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_details[0]?.contact_person_email}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_email}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>

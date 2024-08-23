@@ -254,7 +254,13 @@ const ActiveOrdersDetails = () => {
                                 </div>
                                 <div className='active-order-details-right-pickupdata-address'>
                                     <div className='active-order-details-right-pickdata-head'>Address</div>
-                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.address}</div>
+                                    <div className='active-order-details-right-pickdata-text'>
+                                        {orderDetails?.logistics_details?.drop_location?.address},
+                                        {orderDetails?.logistics_details?.drop_location?.country},
+                                        {orderDetails?.logistics_details?.drop_location?.state},
+                                        {orderDetails?.logistics_details?.drop_location?.city_district},
+                                        {orderDetails?.logistics_details?.drop_location?.pincode}
+                                        </div>
                                 </div>
                             </div>
                         </>

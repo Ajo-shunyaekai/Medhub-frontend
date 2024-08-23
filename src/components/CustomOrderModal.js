@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../style/custommodalorder.module.css';
-import { PhoneInput } from 'react-international-phone';
+import { PhoneInput  } from 'react-international-phone';
+import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import {
     CitySelect,
     CountrySelect,
@@ -8,14 +9,17 @@ import {
     LanguageSelect,
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
+
+
 const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     const [doorToDoor, setDoorToDoor] = useState(true);
     const [customClearance, setCustomClearance] = useState(false);
     const [transportMode, setTransportMode] = useState('');
-    const [dropLocation, setDropLocation] = useState({ name: '', contact: '', address: '', cityDistrict: '', state: '', pincode: '' });
+    const [dropLocation, setDropLocation] = useState({ name: '', email: '', contact: '', address: '', country: '', cityDistrict: '', state: '', pincode: '' });
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [errors, setErrors] = useState({});
     const dropdownRef = useRef(null);
+    const [companyPhone, setCompanyPhone] = useState('');
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -48,11 +52,13 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         if (!doorToDoor && !customClearance) newErrors.checkboxes = 'Please select at least one option.';
         if (!transportMode) newErrors.transportMode = 'Please select a mode of transport.';
         if (!dropLocation.name) newErrors.name = 'Name is required.';
+        if (!dropLocation.email) newErrors.email = 'Email id is required.';
         if (!dropLocation.contact) newErrors.contact = 'Mobile number is required.';
         if (!dropLocation.address) newErrors.address = 'Address is required.';
+        if (!dropLocation.country) newErrors.country = 'Country is required.';
         if (!dropLocation.cityDistrict) newErrors.cityDistrict = 'City is required.';
         if (!dropLocation.state) newErrors.state = 'State is required.';
-        if (!dropLocation.pincode) newErrors.pincode = 'Pincode is required.';
+        // if (!dropLocation.pincode) newErrors.pincode = 'Pincode is required.';
         return newErrors;
     };
 
@@ -79,15 +85,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     };
     const [countryid, setCountryid] = useState(0);
     const [stateid, setstateid] = useState(0);
-    // const handleCheckboxChange = (checkbox) => {
-    //     if (checkbox === 'doorToDoor') {
-    //         setDoorToDoor(!doorToDoor);
-    //         setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
-    //     } else if (checkbox === 'customClearance') {
-    //         setCustomClearance(!customClearance);
-    //         setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
-    //     }
-    // };
 
     const handleCheckboxChange = (checkbox) => {
         if (checkbox === 'doorToDoor') {
@@ -101,23 +98,75 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         }
     };
 
+    // const handleContactInput = (value) => {
+    //     console.log(value);
+    //     // Clean the phone number value (remove non-numeric characters)
+    //     const cleanedValue = value.replace(/[^0-9]/g, '');
+    //     console.log(cleanedValue);
+    //     handleInputChange('contact', cleanedValue);
+    // };
 
-    const handleContactInput = (e) => {
-        // Allow only numbers
-        const value = e.target.value.replace(/[^0-9]/g, '');
-        handleInputChange('contact', value);
+
+    const formatPhoneNumber = (value) => {
+        const phoneNumber = parsePhoneNumberFromString(value);
+        if (phoneNumber) {
+            const countryCallingCode = `+${phoneNumber.countryCallingCode}`;
+            const nationalNumber = phoneNumber.nationalNumber;
+            return `${countryCallingCode}-${nationalNumber}`;
+        }
+        return value;
+    };
+
+    const handlePhoneChange = (name, value) => {
+        setErrors(prevState => ({ ...prevState, [name]: '' }));
+        if (value.trim() !== '') {
+            const phoneRegex = /^[0-9]{10,15}$/;
+            if (phoneRegex.test(value.replace(/\D/g, ''))) { // Remove non-digits for regex test
+                const formattedNumber = formatPhoneNumber(value);
+                console.log('formattedNumber',formattedNumber);
+                handleInputChange('contact', formattedNumber );
+                // setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+            } else {
+                // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
+            }
+        } else {
+            // Handle empty input if needed
+        }
     };
 
     const handlePincodeInput = (e) => {
-        // Allow only numbers
         const value = e.target.value.replace(/[^0-9]/g, '');
         handleInputChange('pincode', value);
     };
 
+    // const handleTextInput = (field, e) => {
+    //     const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+    //     handleInputChange(field, value);
+    // };
     const handleTextInput = (field, e) => {
-        // Allow only letters and spaces
-        const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-        handleInputChange(field, value);
+        const value = e.target.value;
+
+        if (field === 'email') {
+            handleInputChange(field, value);
+        } else {
+            // For fields other than email, strip out invalid characters
+            const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
+            handleInputChange(field, sanitizedValue);
+        }
+    };
+
+    const handleCountryChange = (e) => {
+        setCountryid(e.id);
+        handleInputChange('country', e.name);
+    };
+
+    const handleStateChange = (e) => {
+        setstateid(e.id);
+        handleInputChange('state', e.name);
+    };
+
+    const handleCityChange = (e) => {
+        handleInputChange('cityDistrict', e.name);
     };
 
     if (!isOpen) return null;
@@ -197,19 +246,25 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                 className={styles.selectInputGroups}
                                 type="text"
                                 placeholder="Enter Email ID"
-                                value={dropLocation.name}
-                                onInput={(e) => handleTextInput('name', e)}
+                                value={dropLocation.email}
+                                onInput={(e) => handleTextInput('email', e)}
                             />
-                            {errors.name && <div className={styles.error}>{errors.name}</div>}
+                            {errors.email && <div className={styles.error}>{errors.email}</div>}
                         </div>
                         <div className={styles['custom-modal-input-container']}>
                             <label className={styles['custom-modal-label-heading']}>Mobile Number</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
-                                name="companyPhone"
+                                name="contact"
                                 value={dropLocation.contact}
-                                onInput={handleContactInput}
+                                // onChange={(e) => {handleContactInput(e)}}
+                                // onChange={handleContactInput}
+                                onChange={(value) => {
+                                    const formattedValue = formatPhoneNumber(value);
+                                    setCompanyPhone(formattedValue);
+                                    handlePhoneChange('companyPhone', value);
+                                }}
                             />
                             {errors.contact && <div className={styles.error}>{errors.contact}</div>}
                         </div>
@@ -229,23 +284,26 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                 <label className={styles['custom-modal-label-heading']}>Country</label>
                                 <CountrySelect
                                     className={styles['order-modal-input']}
-                                    onChange={(e) => {
-                                        setCountryid(e.id);
-                                    }}
+                                    // onChange={(e) => {
+                                    //     setCountryid(e.id);
+                                    // }}
+                                    onChange={handleCountryChange}
                                     placeHolder="Select Country"
                                 />
+                                {errors.country && <div className={styles.error}>{errors.country}</div>}
                             </div>
                             <div className={styles['custom-modal-input-container']}>
                                 <label className={styles['custom-modal-label-heading']}>State</label>
                                 <StateSelect
                                     className={styles['order-modal-input']}
                                     countryid={countryid}
-                                    onChange={(e) => {
-                                        setstateid(e.id);
-                                    }}
+                                    // onChange={(e) => {
+                                    //     setstateid(e.id);
+                                    // }}
+                                    onChange={handleStateChange}
                                     placeHolder="Select State"
                                 />
-                                {errors.pincode && <div className={styles.error}>{errors.pincode}</div>}
+                                {errors.state && <div className={styles.error}>{errors.state}</div>}
                             </div>
                         </div>
                         <div className={styles['custom-modal-state-containers-section']}>
@@ -255,15 +313,16 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                     className={styles['order-modal-input']}
                                     countryid={countryid}
                                     stateid={stateid}
-                                    onChange={(e) => {
-                                        console.log(e);
-                                    }}
+                                    // onChange={(e) => {
+                                    //     console.log(e);
+                                    // }}
+                                    onChange={handleCityChange}
                                     placeHolder="Select City"
                                 />
-                                {errors.state && <div className={styles.error}>{errors.state}</div>}
+                                {errors.cityDistrict && <div className={styles.error}>{errors.cityDistrict}</div>}
                             </div>
                             <div className={styles['custom-modal-input-container']}>
-                                <label className={styles['custom-modal-label-heading']}>Pin Code</label>
+                                <label className={styles['custom-modal-label-heading']}>Pin Code(optional)</label>
                                 <input
                                     className={styles.selectInputGroups}
                                     type="text"
@@ -271,7 +330,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                                     value={dropLocation.pincode}
                                     onInput={handlePincodeInput}
                                 />
-                                {errors.pincode && <div className={styles.error}>{errors.pincode}</div>}
+                                {/* {errors.pincode && <div className={styles.error}>{errors.pincode}</div>} */}
                             </div>
                         </div>
                     </div>

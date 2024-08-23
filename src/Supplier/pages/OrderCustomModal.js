@@ -228,7 +228,7 @@ const countryCodeMap = {
 };
 
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
-    console.log('buyer',buyerData);
+    console.log('log',logiscticsData);
     const [formData, setFormData] = useState({
         suppliername: '',
         supplierEmail: '',
