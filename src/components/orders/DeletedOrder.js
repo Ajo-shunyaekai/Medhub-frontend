@@ -187,7 +187,7 @@ const PendingOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handl
                                             </tbody>
                                            )
                                        })
-                                        ) : 'no pending orders'
+                                        ) : 'No Pending Orders'
                                     }   
                                 
                             </table>

@@ -128,7 +128,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                 })
                             ) :
                                 <tr>
-                                    <td colSpan="7" className="text-center">No Completed invoices available</td>
+                                    <td colSpan="7" className="text-center">No Completed Invoices Available</td>
                                 </tr>
                         }
 

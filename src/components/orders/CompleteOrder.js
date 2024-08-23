@@ -89,7 +89,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                                 </tbody>
                                             )
                                         })
-                                    ) : 'no completed order'
+                                    ) : 'No Completed Orders'
                                 }
                                           
 

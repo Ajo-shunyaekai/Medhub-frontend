@@ -113,15 +113,30 @@ const Dashboard = () => {
                                     <Link to='/buyer/completed-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.completedCount[0]?.count || 10}</div>
+                                            <div className='top-text'>{orderSummary?.completedCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
+<<<<<<< Updated upstream
                                     
+=======
+                                    <Link to='/buyer/ongoing-orders'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Active Orders</div>
+                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 0}</div>
+                                        </div>
+                                    </Link>
+                                    {/* <Link to='/buyer/pending-orders'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Pending Orders</div>
+                                            <div className='top-text'>{orderSummary?.pendingCount[0]?.count || 30}</div>
+                                        </div>
+                                    </Link> */}
+>>>>>>> Stashed changes
                                 </div>
                                 <div className='bottom-container'>
                                 <Link to='/buyer/invoice'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'> 2</span></div>
+                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'>{orderSummary?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <ProgressBar />
                                         </div>
@@ -129,7 +144,7 @@ const Dashboard = () => {
                                 </Link>
                                 <Link to='/buyer/invoice/pending'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'> 2</span></div>
+                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'>{orderSummary?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <OrangeBar />
                                         </div>

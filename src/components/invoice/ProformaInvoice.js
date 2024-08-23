@@ -108,7 +108,7 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="7" className="text-center">No proforma invoices available</td>
+                                    <td colSpan="7" className="text-center">No Proforma Invoices Available</td>
                                 </tr>
                             )}
                         </tbody>

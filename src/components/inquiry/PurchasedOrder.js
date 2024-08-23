@@ -69,7 +69,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                 })
               ) : (
                 <div className='no-purchase-orders'>
-                  No purchase orders available
+                  No purchase Orders Available
                 </div>
               )}
             </table>

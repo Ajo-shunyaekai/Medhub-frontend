@@ -170,7 +170,7 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                 </tbody>
                                      )
                                     })
-                                    ) :'no active orders'
+                                    ) :'No Active Orders'
                                 }
 
                                 
