@@ -18,6 +18,9 @@
 .modal.show .modal-dialog {
   width: 600px !important;
 }
+.modal.show .modal-dialog::-webkit-scrollbar{
+  display: none !important;
+}
 .modal-handle-close-invoice-cont:hover {
   color: #5e676f !important;
   background-color: #ffffff !important;
@@ -123,6 +126,10 @@
 .modal-body {
   padding: 0px 16px !important;
 }
+.modal.show .modal-dialog {
+  height: 500px !important;
+  overflow: scroll !important;
+}
 .modal-payment-form-invoice-cont {
   row-gap: 0px;
 }
@@ -131,7 +138,7 @@
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .modal-pay-dropdown-invoice-cont {
-    padding: 5px  !important;
+    padding: 8px  !important;
     border-radius: 0px !important;
   }
 }
@@ -139,7 +146,7 @@
   margin-top: 12px !important;
 }
 .modal-class-input-invoice-cont {
-  padding: 5px 0px !important;
+  padding:8px !important;
   font-size: 13px !important;
 }
 .modal-pay-dropdown-invoice-cont {

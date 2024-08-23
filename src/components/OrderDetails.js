@@ -131,7 +131,7 @@ const OrderDetails = ({socket}) => {
                                     </div>
                                     <div className="buyer-order-details-left-top-main-contents">
                                         {/* {orderDetails?.status?.charAt(0)?.toUpperCase() + orderDetails?.status?.slice(1) } */}
-                                        {orderDetails?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                        {orderDetails?.status}
                                     </div>
                                 </div>
                                 {

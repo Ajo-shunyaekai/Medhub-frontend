@@ -19,10 +19,12 @@ const AssignDriver = ({ items, inquiryDetails }) => {
   };
 
   return (
-    <div className="card-body">
-      <div>
+    <div className="product-list-main-container">
+      <div className='table-card-body-container'>
         <div className="table-assign-driver-heading">Product List</div>
+        <div className='table-assign-date-time'>12/05//2024 10:55:10 AM</div>
       </div>
+
       <table className="table">
         <tbody>
           {currentOrders?.map((item, i) => (
@@ -35,7 +37,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td-cont'>
                 <div className="table-second-container">
-                <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span>
+                  <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span>
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
                     <span className="table-g-not-name">{item?.medicine_details?.medicine_name}</span>
@@ -68,15 +70,15 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
-                    <span className="table-g-driver-name">Status</span>
-                    <span className="table-g-not-name">
-                        {item.status === 'Quotation submitted' 
-                            ? 'Quotation Received' 
-                           : item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-                        }
-                    </span>
+                  <span className="table-g-driver-name">Status</span>
+                  <span className="table-g-not-name">
+                    {item.status === 'Quotation submitted'
+                      ? 'Quotation Received'
+                      : item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                    }
+                  </span>
                 </div>
-            </td>
+              </td>
 
               <td>
                 {/* Any additional actions */}
@@ -89,16 +91,16 @@ const AssignDriver = ({ items, inquiryDetails }) => {
       {/* Pagination section */}
       <div className='pagi-container'>
         <Pagination
-          activePage         = {currentPage}
-          itemsCountPerPage  = {ordersPerPage}
-          totalItemsCount    = {items?.length}
-          pageRangeDisplayed = {5}
-          onChange           = {handlePageChange}
-          itemClass          = "page-item"
-          linkClass          = "page-link"
-          prevPageText       = {<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-          nextPageText       = {<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-          hideFirstLastPages = {true}
+          activePage={currentPage}
+          itemsCountPerPage={ordersPerPage}
+          totalItemsCount={items?.length}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+          itemClass="page-item"
+          linkClass="page-link"
+          prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+          nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+          hideFirstLastPages={true}
         />
         <div className='pagi-total'>
           Total Items: {items?.length}

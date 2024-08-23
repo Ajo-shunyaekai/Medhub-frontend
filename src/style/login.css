@@ -142,7 +142,7 @@
   display: flex;
   width: 100%;
   justify-content: start;
-  align-items: center;
+  align-items: baseline;
 }
 .login__signup__content {
   font-size: 14px;

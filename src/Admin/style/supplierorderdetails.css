@@ -5,7 +5,7 @@
     background-attachment: fixed;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    max-width: 90%;
+    max-width: 1300px;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -226,7 +226,7 @@
     display: flex;
     justify-content: start;
     flex-direction: column;
-    width: 160px;
+    width: 150px;
   }
   
   .table-g-section {
@@ -561,14 +561,14 @@
   }
   
 
-    .pending-order-button-section {
-      margin-top: -70px;
-      margin-bottom: 10rem;
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      align-items: center;
-  }
+  .pending-order-button-section {
+    margin-top: -80px;
+    margin-bottom: 10rem;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
   
   .pending-order-create-order {
     border: none !important;
@@ -603,7 +603,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 80px;
   }
   
   .ongoing-enguiries-details-buttons {
@@ -643,11 +643,21 @@
     font-size: 13px;
     line-height: 15px;
   }
+  @media screen and (max-width: 1530px) {
+  .table-g-section-content {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    width: 106px;
+}
+  }
   @media screen and (max-width: 1450px) {
     .buyer-order-details-container {
-      max-width: 100%;
+      max-width: 950px;
     }
-  
+    .table-g-section-content {
+      width: 100px;
+  }
     .buyer-order-details-left-bottom-vehichle {
       width: 70%;
     }

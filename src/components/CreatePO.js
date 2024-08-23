@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../style/createInvoice.module.css';
-import CloseIcon from '@mui/icons-material/Close';
-import Select from 'react-select';
 import { PhoneInput } from 'react-international-phone';
 import CreatePOImageUpload from './CreatePOImageUpload';
 import { useNavigate, useParams } from 'react-router-dom';

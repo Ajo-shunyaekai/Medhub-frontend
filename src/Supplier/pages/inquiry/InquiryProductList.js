@@ -112,6 +112,12 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                             </td>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
+                                    <span className="table-g-driver-name">Counter Price</span>
+                                    <span className="table-g-not-name">{item.target_price} AED</span>
+                                </div>
+                            </td>
+                            <td className='tables-td'>
+                                <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Est. Delivery Time</span>
                                     <span className="table-g-not-name">12 Days</span>
                                 </div>

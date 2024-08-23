@@ -9,7 +9,7 @@ import SuccessModal from './SuccessModal';
 import ImageUploaders from './ImageUploader';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import { postRequestWithFile } from '../api/Requests';
-// import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import { InputMask } from '@react-input/mask';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -588,13 +588,15 @@ const SignUp = () => {
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>License Expiry Date</label>
-                            <input
+                            <InputMask
                                 className='signup-form-section-input'
                                 type="text"
+                                mask="dd-mm-yyyy"
+                                placeholder='DD-MM-YYYY'
                                 name="companyLicenseExpiry"
-                                placeholder="Enter License Expiry Date"
                                 value={formData.companyLicenseExpiry}
                                 onChange={handleChange}
+                                replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate
                             />
                             {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
                         </div>

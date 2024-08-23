@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { PhoneInput } from 'react-international-phone';
 
 
 const EditCreatePO = () => {
@@ -100,6 +101,66 @@ const EditCreatePO = () => {
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Edit Purchase Order</div>
             <form className={styles['create-po-main-form-container']} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles['create-invoice-section']}>
+                    <div className={styles['create-invoice-form-heading']}>Buyer</div>
+                    <div className={styles['craete-invoice-form']}>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Name</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerName'
+                                placeholder='Enter Name'
+                                {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
+                            />
+                            {errors.buyerName && <p>{errors.buyerName.message}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Address</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerAddress'
+                                placeholder='Enter Address'
+                                {...register('buyerAddress', { validate: value => value.trim() !== '' || 'Buyer address is required' })}
+                            />
+                            {errors.buyerAddress && <p>{errors.buyerAddress.message}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Email ID</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='email'
+                                name='buyerEmail'
+                                placeholder='Enter Email ID'
+                                {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                            />
+                            {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Mobile Number</label>
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="ae"
+                                name='buyerMobile'
+                                placeholder='Enter Mobile No.'
+                                {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile number is required' })}
+                            />
+                            {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerRegNo'
+                                placeholder='Enter Company Registration Number'
+                                {...register('buyerRegNo', { validate: value => value.trim() !== '' || 'Buyer registration number is required' })}
+                            />
+                            {errors.buyerRegNo && <p>{errors.buyerRegNo.message}</p>}
+                        </div>
+                    </div>
+                </div>
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-form-heading']}>Supplier</div>
                     <div className={styles['craete-invoice-form']}>
@@ -160,9 +221,9 @@ const EditCreatePO = () => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="ae"
                                 name='supplierMobile'
                                 placeholder='Enter Mobile No.'
                                 {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile number is required' })}
@@ -182,66 +243,7 @@ const EditCreatePO = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles['create-invoice-section']}>
-                    <div className={styles['create-invoice-form-heading']}>Buyer</div>
-                    <div className={styles['craete-invoice-form']}>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Name</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='buyerName'
-                                placeholder='Enter Name'
-                                {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
-                            />
-                            {errors.buyerName && <p>{errors.buyerName.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Address</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='buyerAddress'
-                                placeholder='Enter Address'
-                                {...register('buyerAddress', { validate: value => value.trim() !== '' || 'Buyer address is required' })}
-                            />
-                            {errors.buyerAddress && <p>{errors.buyerAddress.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Email ID</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='email'
-                                name='buyerEmail'
-                                placeholder='Enter Email ID'
-                                {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
-                            />
-                            {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Mobile Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='buyerMobile'
-                                placeholder='Enter Mobile No.'
-                                {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile number is required' })}
-                            />
-                            {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='buyerRegNo'
-                                placeholder='Enter Company Registration Number'
-                                {...register('buyerRegNo', { validate: value => value.trim() !== '' || 'Buyer registration number is required' })}
-                            />
-                            {errors.buyerRegNo && <p>{errors.buyerRegNo.message}</p>}
-                        </div>
-                    </div>
-                </div>
+               
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-add-item-cont']}>
                         <div className={styles['create-invoice-form-heading']}>Order Details</div>

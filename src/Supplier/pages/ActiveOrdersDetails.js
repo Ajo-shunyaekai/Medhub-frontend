@@ -69,7 +69,7 @@ const ActiveOrdersDetails = () => {
                                     <div className='active-order-details-left-top-main-heading'> Order Status</div>
                                     <div className='active-order-details-left-top-main-contents'> 
                                         {/* {orderDetails?.status.charAt(0).toUpperCase() + orderDetails?.status.slice(1)} */}
-                                        {orderDetails?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                        {orderDetails?.status}
                                         </div>
                                 </div>
                                 {

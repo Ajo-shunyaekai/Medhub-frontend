@@ -150,7 +150,7 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                                 <td className='order-section-td'>
                                                     <div className="order-section-heading">
                                                         {/* {order?.status?.charAt(0).toUpperCase() + order?.status.slice(1)  } */}
-                                                        {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                        {order?.status}
                                                         </div>
                                                 </td>
                                                 <td className='order-section-button-cont'>
@@ -160,7 +160,6 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                                                 <RemoveRedEyeOutlinedIcon className='order-section-eye' />
                                                             </div>
                                                         </Link>
-        
                                                         <div className='order-section-delete' onClick={() => showModal(order.order_id)}>
                                                             <HighlightOffIcon className='order-section-off' />
                                                         </div>

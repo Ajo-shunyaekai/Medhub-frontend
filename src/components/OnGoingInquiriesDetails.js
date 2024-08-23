@@ -12,16 +12,15 @@ const OnGoingInquiriesDetails = () => {
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
   const { inquiryId } = useParams();
-  const navigate      = useNavigate();
+  const navigate = useNavigate();
 
   const [inquiryDetails, setInquiryDetails] = useState();
-  const [acceptedItems, setAcceptedItems]   = useState([]);
-  const [rejectedItems, setRejectedItems]   = useState([]);
+  const [acceptedItems, setAcceptedItems] = useState([]);
+  const [rejectedItems, setRejectedItems] = useState([]);
 
   const email = inquiryDetails?.supplier?.contact_person_email;
-  const subject = `Inquiry about Inquiry ${
-    inquiryDetails?.enquiry_id || "unknown"
-  }`;
+  const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || "unknown"
+    }`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
   useEffect(() => {
@@ -30,31 +29,31 @@ const OnGoingInquiriesDetails = () => {
       return;
     }
     const obj = {
-      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id : inquiryId,
+      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id: inquiryId,
     };
     postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
-        if (response.code === 200) {
-          setInquiryDetails(response?.result);
-          const acceptedItems = [];
-          const rejectedItems = [];
+      if (response.code === 200) {
+        setInquiryDetails(response?.result);
+        const acceptedItems = [];
+        const rejectedItems = [];
 
-          response?.result?.quotation_items?.forEach((item) => {
-            if (item.status === "accepted") {
-              acceptedItems.push(item);
-            } else if (item.status === "rejected") {
-              rejectedItems.push(item);
-            }
-          });
-          setAcceptedItems(acceptedItems);
-          setRejectedItems(rejectedItems);
+        response?.result?.quotation_items?.forEach((item) => {
+          if (item.status === "accepted") {
+            acceptedItems.push(item);
+          } else if (item.status === "rejected") {
+            rejectedItems.push(item);
+          }
+        });
+        setAcceptedItems(acceptedItems);
+        setRejectedItems(rejectedItems);
 
-          sessionStorage.setItem("acceptedQuotationItems",JSON.stringify(acceptedItems));
-          sessionStorage.setItem("rejectedQuotationItems",JSON.stringify(rejectedItems));
-        } else {
-          console.log("error in order list api", response);
-        }
+        sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+        sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      } else {
+        console.log("error in order list api", response);
       }
+    }
     );
   }, []);
 
@@ -77,40 +76,40 @@ const OnGoingInquiriesDetails = () => {
       return;
     }
     const obj = {
-      buyer_id   : buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id : inquiryId,
-      item_id    : item._id,
-      new_status : status,
+      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+      enquiry_id: inquiryId,
+      item_id: item._id,
+      new_status: status,
     };
     postRequestWithToken("buyer/enquiry/accept-reject-quotation", obj, async (response) => {
-        if (response.code === 200) {
-          toast(response.message, { type: "success" });
-          postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
-              if (response.code === 200) {
-                setInquiryDetails(response?.result);
-                setAcceptedItems((prevItems) => {
-                  const updatedItems = [...prevItems, item];
-                  sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
-                  return updatedItems;
-                });
-                setRejectedItems((prevItems) => {
-                  const updatedItems = prevItems.filter(
-                    (rejItem) => rejItem._id !== item._id
-                  );
-                  sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
-                  );
-                  return updatedItems;
-                });
-              } else {
-                console.log("error in order list api", response);
-              }
-            }
-          );
-        } else {
-          toast(response.message, { type: "error" });
-          console.log("error in accept-reject-quotation api", response);
+      if (response.code === 200) {
+        toast(response.message, { type: "success" });
+        postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
+          if (response.code === 200) {
+            setInquiryDetails(response?.result);
+            setAcceptedItems((prevItems) => {
+              const updatedItems = [...prevItems, item];
+              sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+              return updatedItems;
+            });
+            setRejectedItems((prevItems) => {
+              const updatedItems = prevItems.filter(
+                (rejItem) => rejItem._id !== item._id
+              );
+              sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+              );
+              return updatedItems;
+            });
+          } else {
+            console.log("error in order list api", response);
+          }
         }
+        );
+      } else {
+        toast(response.message, { type: "error" });
+        console.log("error in accept-reject-quotation api", response);
       }
+    }
     );
   };
 
@@ -193,7 +192,7 @@ const OnGoingInquiriesDetails = () => {
     //           status: 'cancelled' 
     //         }))
     //       }));
-          
+
     //     } else {
     //       toast(response.message, { type: "error" });
     //       console.log("error in cancel-enquiry api", response);
@@ -208,6 +207,7 @@ const OnGoingInquiriesDetails = () => {
       <div className="ongoing-details-conatiner-heading">
         Inquiry ID: <span>{inquiryDetails?.enquiry_id}</span>
       </div>
+
       <div className="ongoing-details-section">
         <div className="ongoing-details-left-section">
           <div className="ongoing-details-top-inner-section">
@@ -251,28 +251,11 @@ const OnGoingInquiriesDetails = () => {
           </div>
         </div>
       </div>
-      {/* start the assign driver section */}
-      <div className="ongoing-details-assign-driver-section">
-        <OnGoingList 
-        items={inquiryDetails?.items} 
-        inquiryDetails ={inquiryDetails}
-        />
-      </div>
-      {/* end the assign driver section */}
-      {/* start the button container */}
-      <div className="ongoing-enguiries-details-button-sec">
-        {hasPendingItems && (
-            <div className="ongoing-enguiries-details-buttons" onClick={handleCancel}>
-              Cancel Inquiries
-            </div>
-          )}
-      </div>
-      {/* end the button container */}
       {/* Start the return enquiry section */}
       {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
           <ProductList
-            inquiryDetails ={inquiryDetails}
+            inquiryDetails={inquiryDetails}
             quotationItems={inquiryDetails?.quotation_items}
             handleAccept={handleAccept}
             handleReject={handleReject}
@@ -283,13 +266,11 @@ const OnGoingInquiriesDetails = () => {
       )}
 
       {inquiryDetails?.quotation_items?.length > 0 &&
-      inquiryDetails?.payment_terms?.length > 0 ? (
+        inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="ongoing-details-payment-pending-container">
           <div className="ongoing-details-paymen-pending-right-section">
             <div className="ongoing-details-payment-first-terms-containers">
-              <div className="ongoing-details-payment-first-terms-heading">
-                Payment Terms
-              </div>
+              <div class="table-assign-driver-heading">Payment Terms</div>
               <div className="ongoing-details-payment-first-terms-text">
                 <ul className="ongoing-details-payment-ul-section">
                   {inquiryDetails?.payment_terms?.map((terms, i) => {
@@ -307,25 +288,43 @@ const OnGoingInquiriesDetails = () => {
       ) : (
         ""
       )}
-{inquiryDetails?.enquiry_status === 'Quotation submitted' ? (
-    <div className="pending-order-button-section">
-      
-      {acceptedItems.length > 0 ? (
-        <Link to={`/buyer/Create-PO/${inquiryId}`}>
-          <div className="pending-order-create-order">
-            Create Purchase Order
+      {/* start the assign driver section */}
+      <div className="ongoing-details-assign-driver-section">
+        <OnGoingList
+          items={inquiryDetails?.items}
+          inquiryDetails={inquiryDetails}
+        />
+      </div>
+      {/* end the assign driver section */}
+      {/* start the button container */}
+      <div className="ongoing-enguiries-details-button-sec">
+        {hasPendingItems && (
+          <div className="ongoing-enguiries-details-buttons" onClick={handleCancel}>
+            Cancel Inquiries
           </div>
-        </Link>
-      ) : (
-        <div className="pending-order-create-order">
-          Create Purchase Order
+        )}
+      </div>
+      {/* end the button container */}
+
+      {inquiryDetails?.enquiry_status === 'Quotation submitted' ? (
+        <div className="pending-order-button-section">
+
+          {acceptedItems.length > 0 ? (
+            <Link to={`/buyer/Create-PO/${inquiryId}`}>
+              <div className="pending-order-create-order">
+                Create Purchase Order
+              </div>
+            </Link>
+          ) : (
+            <div className="pending-order-create-order">
+              Create Purchase Order
+            </div>
+          )}
+          <a href={mailtoLink} className="pending-order-contact-order">
+            Contact Supplier
+          </a>
         </div>
-      )}
-      <a href={mailtoLink} className="pending-order-contact-order">
-        Contact Supplier
-      </a>
-    </div>
-  ) : null}
+      ) : null}
 
     </div>
   );

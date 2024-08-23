@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../../style/pendingInvoice.css';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import EditIcon from '@mui/icons-material/Edit';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -37,7 +38,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
             order_status: "90% Done"
         }
     ];
-     const handleDownload = (invoice) => {
+    const handleDownload = (invoice) => {
         const element = document.createElement('div');
         document.body.appendChild(element);
 
@@ -59,7 +60,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
             ReactDOM.unmountComponentAtNode(element);
             document.body.removeChild(element);
         });
-     };
+    };
 
     return (
         <div className='pending-invo-container' >
@@ -70,7 +71,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                             <th className="text-muted invoice-th">Invoice No.</th>
                             <th className="text-muted invoice-th">PO Date</th>
                             <th className="text-muted invoice-th">Order ID</th>
-                            <th className="text-muted invoice-th">Customer Name</th>                         
+                            <th className="text-muted invoice-th">Customer Name</th>
                             <th className="text-muted invoice-th">Action</th>
                         </tr>
                     </thead>
@@ -79,43 +80,45 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                         invoiceList && invoiceList.length > 0 ? (
                             invoiceList?.map((invoice, i) => {
                                 return (
-                                        <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
-                                            <tr className='table-row v-middle'>
-                                                <td>
-                                                    <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
-                                                </td>
-                                                <td className="flex">
-                                                    <span className="item-title text-color">{moment(invoice.created_at).format("DD/MM/YYYY")}</span>
-                                                </td>
-                                                <td>
-                                                    <span className="item-title">{invoice.order_id}</span>
-                                                </td>
-                                                <td>
-                                                    <div className="mx-0">
-                                                        <span className="item-title text-color">{invoice.buyer_company || 'Pharma Private Ltd'}</span>
-                                                    </div>
-                                                </td>
-                                               
-                                                <td className='pending-invoices-td'>
-                                                    <div className='invoice-details-button-row'>
-                                                        <Link to={`/supplier/proforma-invoice-details/${invoice.order_id}`}>
-                                                            <div className='invoice-details-button-column'>
-                                                                <VisibilityOutlinedIcon className='invoice-view' />
-                                                            </div>
-                                                        </Link>
+                                    <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
+                                        <tr className='table-row v-middle'>
+                                            <td>
+                                                <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
+                                            </td>
+                                            <td className="flex">
+                                                <span className="item-title text-color">{moment(invoice.created_at).format("DD/MM/YYYY")}</span>
+                                            </td>
+                                            <td>
+                                                <span className="item-title">{invoice.order_id}</span>
+                                            </td>
+                                            <td>
+                                                <div className="mx-0">
+                                                    <span className="item-title text-color">{invoice.buyer_company || 'Pharma Private Ltd'}</span>
+                                                </div>
+                                            </td>
+
+                                            <td className='pending-invoices-td'>
+                                                <div className='invoice-details-button-row'>
+                                                    <Link to={`/supplier/proforma-invoice-details/${invoice.order_id}`}>
+                                                        <div className='invoice-details-button-column'>
+                                                            <VisibilityOutlinedIcon className='invoice-view' />
+                                                        </div>
+                                                    </Link>
+                                                    {/* <Link to={`/supplier/proforma-invoice-details/${invoice.order_id}`}> */}
                                                         <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice.order_id)}>
                                                             <CloudDownloadOutlinedIcon className='invoice-view' />
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-            
-                                        </tbody>
+                                                    {/* </Link> */}
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
                                 )
                             })
                         ) : (
                             <>
-                            {/* {
+                                {/* {
                                 invoiceListt.map((invoice, i) => (
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
@@ -153,7 +156,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                     </tbody>
                                 ))
                             } */}
-                            <p>No Proforma Invoices</p>
+                                <p>No Proforma Invoices</p>
                             </>
                         )
                     }
@@ -164,7 +167,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                     <Pagination
                         activePage={currentPage}
                         itemsCountPerPage={invoicesPerPage}
-                        totalItemsCount={totalInvoices }
+                        totalItemsCount={totalInvoices}
                         pageRangeDisplayed={5}
                         onChange={handlePageChange}
                         itemClass="page-item"

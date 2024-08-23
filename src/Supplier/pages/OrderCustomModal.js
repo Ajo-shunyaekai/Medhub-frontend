@@ -228,7 +228,11 @@ const countryCodeMap = {
 };
 
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
+<<<<<<< Updated upstream
     console.log('log',logiscticsData);
+=======
+    console.log('buyer', buyerData);
+>>>>>>> Stashed changes
     const [formData, setFormData] = useState({
         suppliername: '',
         supplierEmail: '',
@@ -257,11 +261,11 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     const [countryid, setCountryid] = useState(0);
     const [supplierCountryName, setSupplierCountryName] = useState('');
     const [stateid, setstateid] = useState(0);
-    const[supplierState, setSupplierState] = useState('')
+    const [supplierState, setSupplierState] = useState('')
     const [supplierDistrict, setSupplierDistrict] = useState('');
 
     const [buyerStateId, setBuyerStateId] = useState(0)
-    const[buyerState, setBuyerState] = useState('')
+    const [buyerState, setBuyerState] = useState('')
     const [buyerCountryId, setBuyerCountryId] = useState(0)
     const [buyerCountryName, setBuyerCountryName] = useState('ae')
 
@@ -308,7 +312,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         }
     };
 
-   
+
 
     const handleSupplierCountryChange = (selectedCountry) => {
         // Assuming selectedCountry is an object with id and name
@@ -321,7 +325,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         // Optional: Log the selected country name
         console.log('Selected Country:', name);
     };
-    console.log('setSupplierCountryNam',supplierCountryName);
+    console.log('setSupplierCountryNam', supplierCountryName);
 
     const handleSupplierState = (selectedState) => {
         const { id, name } = selectedState;
@@ -343,7 +347,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
 
 
     const handleBuyerCountryChange = (selectedCountry) => {
-     
+
         const { id, name } = selectedCountry;
 
         // Update state with selected country ID and name
@@ -412,12 +416,12 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                 mobile: formData.supplierMobile,
                 // country_code : supplierCountrC
                 email: formData.supplierEmail,
-                supplierCountry : supplierCountryName,
+                supplierCountry: supplierCountryName,
                 address: formData.address,
                 ciyt_disctrict: supplierDistrict,
                 pincode: formData.pincode,
                 prefered_pickup_date: value,
-                prefered_pickup_time : pickupTime
+                prefered_pickup_time: pickupTime
             },
             shipment_details: {
                 no_of_packages: formData.packages,
@@ -485,7 +489,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             value={buyerPhoneNumber}
                             defaultCountry={buyerCountryCode}
                             // onChange={phone => setBuyerCountryCode(phone)}
-                            onChange={handlePhoneChange} 
+                            onChange={handlePhoneChange}
                             name="companyPhone"
                         />
                     </div>
@@ -499,37 +503,28 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             required
                         />
                     </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Country</label>
-                        {/* <CountrySelect
-                            className={styles['order-modal-input']}
-                            onChange={(e) => {
-                                // Assume e contains country data including the name
-                                const selectedCountry = e; // e could be an object with country details
-                                setCountryid(selectedCountry.id);
-                                console.log('Selected Country:', selectedCountry.name); // Access the country name
-                            }}
-                            placeHolder="Select Country"
-                        /> */}
-                         <CountrySelect
-                className={styles['order-modal-input']}
-                onChange={handleSupplierCountryChange}
-                placeHolder="Select Country"
-            />
-                    </div>
 
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>State</label>
-                        <StateSelect
-                            className={styles['order-modal-input']}
-                            countryid={countryid}
-                            // onChange={(e) => {
-                            //     setstateid(e.id);
-                            // }}
-                            onChange={handleSupplierState}
-                            placeHolder="Select State"
-                        />
 
+
+                    <div className={styles['order-modal-custom-main-sections']}>
+                        <div className={styles['order-modal-dic-container']}>
+                            <label className={styles['order-modal-label']}>Country</label>
+                            <CountrySelect
+                                className={styles['order-modal-input']}
+                                onChange={handleSupplierCountryChange}
+                                placeHolder="Select Country"
+                            />
+                        </div>
+                        <div className={styles['order-modal-dic-container']}>
+                            <label className={styles['order-modal-label']}>State</label>
+                            <StateSelect
+                                className={styles['order-modal-input']}
+                                countryid={countryid}
+                                onChange={handleSupplierState}
+                                placeHolder="Select State"
+                            />
+
+                        </div>
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
@@ -571,7 +566,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 className={styles['create-invoice-div-input-select']}
                                 options={quantityOptions}
                                 placeholder="Select Time of Pickup"
-                                onChange={handleSelectChange} 
+                                onChange={handleSelectChange}
                             />
                         </div>
                     </div>
@@ -678,27 +673,28 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             required
                         />
                     </div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Country</label>
-                        <CountrySelect
-                            className={styles['order-modal-input']}
-                            // onChange={(e) => {
-                            //     setCountryid(e.id);
-                            // }}
-                            onChange={ handleBuyerCountryChange}
-                            placeHolder="Select Country"
-                        />
-                    </div>
+                    <div className={styles['order-modal-custom-main-sections']}>
+                        <div className={styles['order-modal-dic-container']}>
+                            <label className={styles['order-modal-label']}>Country</label>
+                            <CountrySelect
+                                className={styles['order-modal-input']}
+                                // onChange={(e) => {
+                                //     setCountryid(e.id);
+                                // }}
+                                onChange={handleBuyerCountryChange}
+                                placeHolder="Select Country"
+                            />
+                        </div>
+                        <div className={styles['order-modal-dic-container']}>
+                            <label className={styles['order-modal-label']}>State</label>
+                            <StateSelect
+                                className={styles['order-modal-input']}
+                                countryid={countryid}
+                                onChange={handleBuyerState}
+                                placeHolder="Select State"
+                            />
 
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>State</label>
-                        <StateSelect
-                            className={styles['order-modal-input']}
-                            countryid={countryid}
-                            onChange={handleBuyerState}
-                            placeHolder="Select State"
-                        />
-
+                        </div>
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>

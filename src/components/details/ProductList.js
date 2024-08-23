@@ -46,18 +46,18 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const isRejected = (item) => rejectedItems.some(rejItem => rejItem._id === item._id);
 
     const dateToDisplay = inquiryDetails?.quotation_items_created_at || inquiryDetails?.quotation_items_updated_at || moment().toISOString();
-    
+
     // Format the date to display
     const formattedDate = moment(dateToDisplay)
         .tz("Asia/Kolkata")
         .format("DD/MM/YYYY HH:mm:ss");
 
     return (
-        <div className="product-list-main-container">
-            <div className='table-card-body-container'>
+        <div className="card-body">
+            <div>
                 <div className="table-assign-driver-heading">Quotation from Supplier</div>
-                <div className='table-assign-date-time'>{formattedDate}</div>
             </div>
+
             <table className="table">
                 <tbody>
 
@@ -111,7 +111,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
                                             <span className="table-g-not-name">
-                                               14 Days
+                                                14 Days
                                             </span>
                                         </div>
                                     </td>

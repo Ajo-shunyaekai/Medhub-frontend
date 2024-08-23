@@ -392,7 +392,12 @@
     max-width: 1050px;
     margin: auto;
   }
-
+  .buyer-product-details-main-company-stockedin{
+    width: 200px;
+  }
+  .buyer-stockedin-heading {
+    width: 200px;
+}
   .buyer-product-details-sec-two-left {
     width: 41.6%;
   }
@@ -401,13 +406,15 @@
     width: 41.6%;
   }
 }
-
 @media screen and (max-width: 1260px) {
   .buyer-product-details-cover {
     width: 100%;
-    max-width: 86%;
+    max-width: 98%;
     margin: unset !important;
   }
+  .buyer-product-details-company-conatiner {
+    width: 60.6%;
+}
 }
 
 @media screen and (max-width: 1200px) {
