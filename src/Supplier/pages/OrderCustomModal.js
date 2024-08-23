@@ -228,11 +228,8 @@ const countryCodeMap = {
 };
 
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
-<<<<<<< Updated upstream
     console.log('log',logiscticsData);
-=======
     console.log('buyer', buyerData);
->>>>>>> Stashed changes
     const [formData, setFormData] = useState({
         suppliername: '',
         supplierEmail: '',
