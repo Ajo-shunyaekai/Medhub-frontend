@@ -72,7 +72,9 @@ const SignUp = () => {
         licenseImage: null,
         licenseImageType: 'license',
         certificateImage: null,
-        certificateImageType: 'certificate'
+        certificateImageType: 'certificate',
+        registrationNo : '',
+        vatRegistrationNo : ''
     });
     const [selectedOptions, setSelectedOptions] = React.useState([]);
 
@@ -197,6 +199,8 @@ const SignUp = () => {
         if (!formData.logoImage) formErrors.logoImage = 'Logo image is required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License image is required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate image is required';
+        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No is Required';
 
         setErrors(formErrors);
 
@@ -237,6 +241,8 @@ const SignUp = () => {
             formDataToSend.append('designation', formData.designation);
             formDataToSend.append('contact_person_mobile', mobile);
             formDataToSend.append('contact_person_email', formData.email);
+            formDataToSend.append('registration_no', formData.registrationNo);
+            formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
             // formDataToSend.append('country_of_operation', countryLabels);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
@@ -272,7 +278,9 @@ const SignUp = () => {
                         licenseImage: null,
                         licenseImageType: 'license',
                         certificateImage: null,
-                        certificateImageType: 'certificate'
+                        certificateImageType: 'certificate',
+                        registrationNo : '',
+                        vatRegistrationNo : ''
                     })
                     setErrors({});
                     setIsChecked(false);
@@ -365,7 +373,9 @@ const SignUp = () => {
             licenseImage: null,
             licenseImageType: 'license',
             certificateImage: null,
-            certificateImageType: 'certificate'
+            certificateImageType: 'certificate',
+            registrationNo: '',
+            vatRegistrationNo: ''
         })
         setErrors({});
         setIsChecked(false);
@@ -436,24 +446,24 @@ const SignUp = () => {
                             <input
                                 className='signup-form-section-input'
                                 type="text"
-                                name="companyRegistration"
+                                name="registrationNo"
                                 placeholder="Enter Company Registration Number"
-                                value={formData.companyRegistration}
+                                value={formData.registrationNo}
                                 onChange={handleChange}
                             />
-                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                            {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>VAT Registration Number</label>
                             <input
                                 className='signup-form-section-input'
                                 type="text"
-                                name="companyVAT"
+                                name="vatRegistrationNo"
                                 placeholder="Enter VAT Registration Number"
-                                value={formData.companyVAT}
+                                value={formData.vatRegistrationNo}
                                 onChange={handleChange}
                             />
-                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                            {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Phone No.</label>

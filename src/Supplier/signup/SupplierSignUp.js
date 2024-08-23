@@ -336,7 +336,9 @@ const SupplierSignUp = () => {
                         licenseImage: null,
                         licenseImageType: 'license',
                         certificateImage: null,
-                        certificateImageType: 'certificate'
+                        certificateImageType: 'certificate',
+                        registrationNo : '',
+                        vatRegistrationNo : ''
                     });
                     setErrors({});
                     setIsChecked(false);
