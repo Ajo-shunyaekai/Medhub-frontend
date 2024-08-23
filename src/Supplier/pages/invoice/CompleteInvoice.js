@@ -134,7 +134,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                             })
                         ) : (
                             <>
-                            {
+                            {/* {
                                 invoiceListt.map((invoice, i) => (
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
@@ -171,7 +171,8 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
         
                                     </tbody>
                                 ))
-                            }
+                            } */}
+                            <p>No Paid Invoices</p>
                             </>
                         )
                     }
@@ -182,7 +183,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                         <Pagination
                             activePage={currentPage}
                             itemsCountPerPage={invoicesPerPage}
-                            totalItemsCount={totalInvoices || invoiceListt.length}
+                            totalItemsCount={totalInvoices}
                             pageRangeDisplayed={5}
                             onChange={handlePageChange}
                             itemClass="page-item"
@@ -192,7 +193,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                             hideFirstLastPages={true}
                         />
                         <div className='pagi-total'>
-                            <div>Total Items: {totalInvoices || invoiceListt.length}</div>
+                            <div>Total Items: {totalInvoices}</div>
                         </div>
                     </div>
                 </div>

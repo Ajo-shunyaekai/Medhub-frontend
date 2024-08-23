@@ -13,7 +13,7 @@ function CircularBar({totalSalesAmount}) {
             <div className='circular-bar-container'>
                 <CircularProgressbar
                     value={percentage}
-                    text={totalSalesAmount || `36,345`}
+                    text={totalSalesAmount || `0`}
                     strokeWidth={5}
                     styles={{
                         path: {

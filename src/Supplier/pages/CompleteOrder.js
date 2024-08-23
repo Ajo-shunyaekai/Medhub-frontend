@@ -162,7 +162,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                         })
                                     ) : (
                                         <>
-                                            {allotedOrders.map((order, i) => {
+                                            {/* {allotedOrders.map((order, i) => {
                                                 const orderedDate = moment(order.date.date).format("DD/MM/YYYY")
                                                 return (
                                                     <tbody className='order-container-tbody'>
@@ -199,7 +199,8 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                                     </tr>
                                                     </tbody>
                                                 )
-                                            })}
+                                            })} */}
+                                            <p>No Completed Orders</p>
                                         </>
                                     )
                                 }
@@ -210,7 +211,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders || allotedOrders.length}
+                                totalItemsCount={totalOrders}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -222,7 +223,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                             <div className='pagi-total'>
                                 <div className='pagi-total'>
                                 {/* Total Items: {totalOrders} */}
-                                Total Items: {totalOrders || allotedOrders.length}
+                                Total Items: {totalOrders}
                                 </div>
                             </div>
                         </div>

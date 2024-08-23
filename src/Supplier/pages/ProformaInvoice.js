@@ -68,11 +68,14 @@ const ProformaInvoice = () => {
             supplierAddress: '',
             supplierEmail: '',
             supplierMobile: '',
+            newSupplierMobile: '',
+           
             // supplierRegNo: '',
             buyerName: '',
             buyerAddress: '',
             buyerEmail: '',
             buyerMobile: '',
+            newBuyerMobile: '',
             // buyerRegNo: '',
             orderItems: [],
             // description: ''
@@ -120,12 +123,31 @@ const ProformaInvoice = () => {
                 setValue('supplierName', response?.result?.supplier_details[0]?.supplier_name);
                 setValue('supplierAddress', response?.result?.supplier_details[0]?.supplier_address);
                 setValue('supplierEmail', response?.result?.supplier_details[0]?.contact_person_email);
-                setValue('supplierMobile', response?.result?.supplier_details[0]?.contact_person_mobile_no);
+                // setValue('supplierMobile', response?.result?.supplier_details[0]?.contact_person_mobile_no);
+                // setValue('supplierCountryCode', response?.result?.supplier_details[0]?.contact_person_country_code);
+                const supplierDetails = response.result.supplier_details[0];
+                const countryCode = supplierDetails.contact_person_country_code || '';
+                const mobileNumber = supplierDetails.contact_person_mobile_no || '';
+                const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
+                const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
+                console.log('newFormattedPhoneNumber',newFormattedPhoneNumber);
+                setValue('supplierMobile', formattedPhoneNumber);
+                setValue('newSupplierMobile',newFormattedPhoneNumber)
                 // setValue('supplierRegNo',response?.result?.supplier_details[0]?.registration_no)
                 setValue('buyerName', response?.result?.buyer_details[0]?.buyer_name);
                 setValue('buyerAddress', response?.result?.buyer_details[0]?.buyer_address);
                 setValue('buyerEmail', response?.result?.buyer_details[0]?.contact_person_email);
-                setValue('buyerMobile', response?.result?.buyer_details[0]?.contact_person_mobile);
+
+                // setValue('buyerMobile', response?.result?.buyer_details[0]?.contact_person_mobile);
+                // setValue('buyerCountryCode', response?.result?.buyer_details[0]?.contact_person_country_code);
+                const  buyerDetails = response.result.buyer_details[0];
+                const buyerCountryCode = buyerDetails.contact_person_country_code || '';
+                const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
+                const formattedBuyerPhoneNumber = `${buyerCountryCode} ${buyerMobileNumber}`;
+                const newFormattedBuyerPhoneNumber = `${buyerCountryCode}-${buyerMobileNumber}`;
+                setValue('buyerMobile', formattedBuyerPhoneNumber);
+                setValue('newBuyerMobile',newFormattedBuyerPhoneNumber)
+
                 // setValue('buyerRegNo',response?.result?.buyer_details[0]?.registration_no)
                 const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
                 setValue('totalDueAmount', totalDueAmount?.toFixed(2));
@@ -135,7 +157,6 @@ const ProformaInvoice = () => {
                 setValue('paymentTerms', paymentTermsString);
 
                 
-
                 setOrderItems(response?.result?.order_items)
             } else {
                 console.log('error in order list api', response);
@@ -153,18 +174,47 @@ const ProformaInvoice = () => {
             ...item,
             unit_tax: item?.medicine_details?.unit_tax
         }));
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            enquiry_id: inquiryDetails?.enquiry_id,
-            purchaseOrder_id: purchaseOrderId,
-            buyer_id: inquiryDetails?.buyer_id,
-            // itemIds     : itemId,
-            orderItems: updatedOrderItems,
-            data,
-            totalAmount : roundedGrandTotalAmount
-        };
+        // const newData = {
+        //     ...data,
+        //     value
+        // }
+        // const obj = {
+        //     supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+        //     enquiry_id: inquiryDetails?.enquiry_id,
+        //     purchaseOrder_id: purchaseOrderId,
+        //     buyer_id: inquiryDetails?.buyer_id,
+        //     // itemIds     : itemId,
+        //     orderItems: updatedOrderItems,
+        //     data : newData,
+        //     totalAmount : roundedGrandTotalAmount
+        // };
+        const  buyerDetails = inquiryDetails.buyer_details[0];
+        const buyerCountryCode = buyerDetails.contact_person_country_code || '';
+    const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
+    const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
+    const  supplierDetails = inquiryDetails.supplier_details[0];
+    const supplierCountryCode = supplierDetails.contact_person_country_code || '';
+    const supplierMobileNumber = supplierDetails.contact_person_mobile || '';
+    const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
+
+    // Prepare the object for submission
+    const obj = {
+        supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+        enquiry_id: inquiryDetails?.enquiry_id,
+        purchaseOrder_id: purchaseOrderId,
+        buyer_id: inquiryDetails?.buyer_id,
+        orderItems: updatedOrderItems,
+        data: {
+            ...data,
+            dueDate: value,
+            buyerMobile: formattedBuyerPhoneNumber,
+            newBuyerMobile: formattedBuyerPhoneNumber,
+            newSupplierMobile: formattedSupplierPhoneNumber,
+        },
+        totalAmount: roundedGrandTotalAmount
+    };
         console.log(obj);
-        postRequestWithToken('buyer/order/create-order', obj, async (response) => {
+        postRequestWithToken('buyer/order/create-orde', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
@@ -192,6 +242,31 @@ const ProformaInvoice = () => {
     // Optional: round grandTotalAmount to 2 decimal places
     const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
 
+    const formatPhoneNumber = (phoneNumber, countryCode) => {
+        // Remove non-numeric characters
+        const cleanedNumber = phoneNumber.replace(/\D/g, '');
+    
+        // Format based on length
+        if (cleanedNumber.length <= 10) {
+            // Shorter numbers
+            return `+${countryCode}-${cleanedNumber}`;
+        } else {
+            // Longer numbers
+            return `+${countryCode}-${cleanedNumber.slice(0, 6)}-${cleanedNumber.slice(6)}`;
+        }
+    };
+
+    const handleBuyerPhoneChange = (value) => {
+        // Extract country code and mobile number from the value
+        const countryCode = value.split(' ')[0].replace('+', '');
+        const mobileNumber = value.split(' ')[1] || '';
+    
+        // Format the phone number
+        const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
+    
+        // Update the state with the formatted phone number
+        setValue('buyerMobile', formattedPhoneNumber);
+    };
 
     return (
         <div className={styles['create-invoice-container']}>
@@ -286,6 +361,12 @@ const ProformaInvoice = () => {
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
                             name='phoneinput'
+                            value={watch('supplierMobile')}
+                            onChange={(value) => setValue('supplierMobile', value)}
+                            // {...register('supplierMobile', { 
+                            //     required: 'Supplier mobile is required', 
+                            //     validate: value => value?.trim() !== '' || 'Supplier mobile is required'
+                            // })}
                             // {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} 
                             // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                         />
@@ -325,6 +406,9 @@ const ProformaInvoice = () => {
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
                             name='phoneinput'
+                            value={watch('buyerMobile')}
+                            // onChange={(value) => setValue('buyerMobile', value)}
+                            onChange={handleBuyerPhoneChange}
                             // {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
                             // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                         />

@@ -79,36 +79,46 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
                     <th className="ongoing-container-th">Action</th>
                   </tr>
                 </thead>
-                {inquiryList.map(ongoing => (
-                  <tbody key={ongoing.ongoing_id} className='ongoing-container-tbody'>
-                    <tr className="ongoing-section-tr">
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{ongoing?.enquiry_id}</div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
-                      </td>
-                      <td className='ongoing-section-large-td'>
-                        <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className="ongoing-section-heading">
-                          {/* {ongoing?.enquiry_status?.charAt(0)?.toUpperCase() + ongoing?.enquiry_status?.slice(1) } */}
-                          {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                          </div>
-                      </td>
-                      <td className='ongoing-section-td'>
-                        <div className='ongoing-section-button'>
-                          <Link to={`/supplier/inquiry-request-details/${ongoing?.enquiry_id}`}>
-                            <div className='ongoing-section-view'>
-                              <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
-                            </div>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                ))}
+                {inquiryList?.length > 0 ? (
+  inquiryList.map(ongoing => (
+    <tbody key={ongoing.ongoing_id} className='ongoing-container-tbody'>
+      <tr className="ongoing-section-tr">
+        <td className='ongoing-section-td'>
+          <div className="ongoing-section-heading">{ongoing?.enquiry_id}</div>
+        </td>
+        <td className='ongoing-section-td'>
+          <div className="ongoing-section-heading">{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
+        </td>
+        <td className='ongoing-section-large-td'>
+          <div className="ongoing-section-heading">{ongoing?.buyer.buyer_name}</div>
+        </td>
+        <td className='ongoing-section-td'>
+          <div className="ongoing-section-heading">
+            {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+          </div>
+        </td>
+        <td className='ongoing-section-td'>
+          <div className='ongoing-section-button'>
+            <Link to={`/supplier/inquiry-request-details/${ongoing?.enquiry_id}`}>
+              <div className='ongoing-section-view'>
+                <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
+              </div>
+            </Link>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  ))
+) : (
+  <tbody>
+    <tr>
+      <td colSpan="5" className="no-data-message">
+        No Inquiry Requests
+      </td>
+    </tr>
+  </tbody>
+)}
+
               </table>
             </div>
             {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}

@@ -131,7 +131,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             })
                         ) : (
                             <>
-                            {
+                            <p>No Pending Invoices</p>
+                            {/* {
                                 invoiceListt.map((invoice, i) => (
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
@@ -168,7 +169,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
         
                                     </tbody>
                                 ))
-                            }
+                            } */}
+                            
                             </>
                         )
                     }
@@ -179,7 +181,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                     <Pagination
                         activePage={currentPage}
                         itemsCountPerPage={invoicesPerPage}
-                        totalItemsCount={totalInvoices || invoiceListt.length}
+                        totalItemsCount={totalInvoices}
                         pageRangeDisplayed={5}
                         onChange={handlePageChange}
                         itemClass="page-item"
@@ -189,7 +191,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                         hideFirstLastPages={true}
                     />
                     <div className='pagi-total'>
-                        <div>Total Items: {totalInvoices || invoiceListt.length}</div>
+                        <div>Total Items: {totalInvoices}</div>
                     </div>
                 </div>
             </div>

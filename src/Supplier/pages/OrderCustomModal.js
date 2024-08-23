@@ -651,24 +651,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             required />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Mobile No.</label>
-                        <PhoneInput
-                            className='signup-form-section-phone-input'
-                            defaultCountry="ae"
-                            name="companyPhone"
-                        />
-                    </div>
-                    <div className={styles['order-modal-main-heading']}>Drop Details</div>
-                    <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Name</label>
-                        <input placeholder='Enter Name' type="text"
-                            name="suppliername"
-                            value={formData.suppliername}
-                            onChange={handleChange}
-                            className={styles['order-modal-input']}
-                            required />
-                    </div>
-                    <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Email ID</label>
                         <input placeholder='Enter Email ID'
                             className={styles['order-modal-input']}
@@ -679,7 +661,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                         />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
-                        <label className={styles['order-modal-label']}>Mobile No</label>
+                        <label className={styles['order-modal-label']}>Mobile No.</label>
                         <PhoneInput
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
