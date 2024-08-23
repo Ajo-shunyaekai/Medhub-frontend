@@ -285,18 +285,6 @@ const OnGoingInquiriesDetails = () => {
       {inquiryDetails?.quotation_items?.length > 0 &&
       inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="ongoing-details-payment-pending-container">
-          <div className="ongoing-details-payment-pending-left-section">
-            <div className="ongoing-details-payment-pending-terms-cont">
-              <div className="ongoing-details-payment-pending-first-terms-cont">
-                <div className="ongoing-details-payment-first-terms-heading">
-                  Est. Delivery Time
-                </div>
-                <div className="ongoing-details-payment-first-terms-text">
-                  {inquiryDetails?.supplier?.estimated_delivery_time}
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="ongoing-details-paymen-pending-right-section">
             <div className="ongoing-details-payment-first-terms-containers">
               <div className="ongoing-details-payment-first-terms-heading">

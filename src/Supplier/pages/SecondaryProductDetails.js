@@ -150,7 +150,7 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-right-text'>{medicineDetails?.type_of_form}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Unit Tax :</div>
+                                        <div className='product-details-two-left-text'>Tax% :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.unit_tax}%</div>
                                     </div>
                                 </div>

@@ -58,22 +58,22 @@ function PayModal({ showModal, handleClose }) {
         switch (fieldName) {
             case 'modeOfPayment':
                 if (!value) {
-                    return 'Mode of Payment is required';
+                    return 'Mode of Payment is Required';
                 }
                 break;
             case 'amount':
                 if (!value) {
-                    return 'Amount is required';
+                    return 'Amount is Required';
                 }
                 break;
             case 'transactionId':
                 if (!value) {
-                    return 'Transaction ID is required';
+                    return 'Transaction ID is Required';
                 }
                 break;
             case 'date':
                 if (!value) {
-                    return 'Date is required';
+                    return 'Date is Required';
                 }
                 break;
             // case 'date':

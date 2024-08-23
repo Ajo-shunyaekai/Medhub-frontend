@@ -408,15 +408,15 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
                             <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Buy</div>
                         </Link>
-
-                        <Link to="/buyer/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
-                            <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
-                        </Link>
                         <Link to="/buyer/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
                         </Link>
+                        <Link to="/buyer/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
+                        </Link>
+                       
 
                         <div className={styles.mobile_order_btn}>
                             <div className={styles.sidebar_text} onClick={toggleAccordion}>

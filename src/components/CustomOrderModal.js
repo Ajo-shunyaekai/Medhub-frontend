@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../style/custommodalorder.module.css';
-
+import { PhoneInput } from 'react-international-phone';
+import {
+    CitySelect,
+    CountrySelect,
+    StateSelect,
+    LanguageSelect,
+} from "react-country-state-city";
+import "react-country-state-city/dist/react-country-state-city.css";
 const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
     const [doorToDoor, setDoorToDoor] = useState(true);
     const [customClearance, setCustomClearance] = useState(false);
@@ -57,7 +64,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         }
         onSubmit({ doorToDoor, customClearance, transportMode, dropLocation });
         reset();
-        onClose(); 
+        onClose();
     };
 
     const handleSelectChange = (value) => {
@@ -70,7 +77,8 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         setDropLocation((prev) => ({ ...prev, [field]: value }));
         setErrors((prevErrors) => ({ ...prevErrors, [field]: '' }));
     };
-
+    const [countryid, setCountryid] = useState(0);
+    const [stateid, setstateid] = useState(0);
     // const handleCheckboxChange = (checkbox) => {
     //     if (checkbox === 'doorToDoor') {
     //         setDoorToDoor(!doorToDoor);
@@ -92,7 +100,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
             setErrors((prevErrors) => ({ ...prevErrors, checkboxes: '' }));
         }
     };
-    
+
 
     const handleContactInput = (e) => {
         // Allow only numbers
@@ -171,7 +179,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                         {errors.transportMode && <div className={styles.error}>{errors.transportMode}</div>}
                     </div>
                     <div className={styles['custom-modal-input-form-containers-section']}>
-                        <label className={styles.selectModalText}>Drop Location Details</label>
+                        <label className={styles.selectModalText}>Drop Details</label>
                         <div className={styles['custom-modal-input-container']}>
                             <label className={styles['custom-modal-label-heading']}>Name</label>
                             <input
@@ -184,11 +192,22 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                             {errors.name && <div className={styles.error}>{errors.name}</div>}
                         </div>
                         <div className={styles['custom-modal-input-container']}>
-                            <label className={styles['custom-modal-label-heading']}>Mobile Number</label>
+                            <label className={styles['custom-modal-label-heading']}>Email ID</label>
                             <input
                                 className={styles.selectInputGroups}
                                 type="text"
-                                placeholder="Enter Mobile Number"
+                                placeholder="Enter Email ID"
+                                value={dropLocation.name}
+                                onInput={(e) => handleTextInput('name', e)}
+                            />
+                            {errors.name && <div className={styles.error}>{errors.name}</div>}
+                        </div>
+                        <div className={styles['custom-modal-input-container']}>
+                            <label className={styles['custom-modal-label-heading']}>Mobile Number</label>
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="ae"
+                                name="companyPhone"
                                 value={dropLocation.contact}
                                 onInput={handleContactInput}
                             />
@@ -205,26 +224,41 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                             />
                             {errors.address && <div className={styles.error}>{errors.address}</div>}
                         </div>
-                        <div className={styles['custom-modal-input-container']}>
-                            <label className={styles['custom-modal-label-heading']}>City/District</label>
-                            <input
-                                className={styles.selectInputGroups}
-                                type="text"
-                                placeholder="Enter City/District"
-                                value={dropLocation.cityDistrict}
-                                onInput={(e) => handleTextInput('cityDistrict', e)}
-                            />
-                            {errors.cityDistrict && <div className={styles.error}>{errors.cityDistrict}</div>}
+                        <div className={styles['custom-modal-state-containers-section']}>
+                            <div className={styles['custom-modal-input-container']}>
+                                <label className={styles['custom-modal-label-heading']}>Country</label>
+                                <CountrySelect
+                                    className={styles['order-modal-input']}
+                                    onChange={(e) => {
+                                        setCountryid(e.id);
+                                    }}
+                                    placeHolder="Select Country"
+                                />
+                            </div>
+                            <div className={styles['custom-modal-input-container']}>
+                                <label className={styles['custom-modal-label-heading']}>State</label>
+                                <StateSelect
+                                    className={styles['order-modal-input']}
+                                    countryid={countryid}
+                                    onChange={(e) => {
+                                        setstateid(e.id);
+                                    }}
+                                    placeHolder="Select State"
+                                />
+                                {errors.pincode && <div className={styles.error}>{errors.pincode}</div>}
+                            </div>
                         </div>
                         <div className={styles['custom-modal-state-containers-section']}>
                             <div className={styles['custom-modal-input-container']}>
-                                <label className={styles['custom-modal-label-heading']}>State</label>
-                                <input
-                                    className={styles.selectInputGroups}
-                                    type="text"
-                                    placeholder="Enter State"
-                                    value={dropLocation.state}
-                                    onInput={(e) => handleTextInput('state', e)}
+                                <label className={styles['custom-modal-label-heading']}>City/District</label>
+                                <CitySelect
+                                    className={styles['order-modal-input']}
+                                    countryid={countryid}
+                                    stateid={stateid}
+                                    onChange={(e) => {
+                                        console.log(e);
+                                    }}
+                                    placeHolder="Select City"
                                 />
                                 {errors.state && <div className={styles.error}>{errors.state}</div>}
                             </div>

@@ -16,8 +16,8 @@
     background-color: white;
     padding: 20px;
     border-radius: 4px;
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     position: relative;
     overflow: scroll;
 }
@@ -44,14 +44,17 @@
 }
 
 .dropdownButton {
-    font-size: 13px;
-    outline: none;
-    width: 100%;
-    padding: 4px;
-    border: none;
-    border-bottom: 1px solid #99a0ac;
-    box-sizing: border-box;
-    width: 100%;
+    width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 11px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    appearance: none !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     text-align: left;
     cursor: pointer;
     display: flex;
@@ -84,13 +87,22 @@
 }
 
 .selectInputGroups {
-    outline: none;
-    font-size: 13px;
-    width: 100%;
-    padding: 4px;
-    border: none;
-    border-bottom: 1px solid #99a0ac;
-    box-sizing: border-box;
+    width: 100% !important;
+    color: #5e676f !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    border: none !important;
+    margin-bottom: 0px !important;
+    padding: 11px !important;
+    font-size: 13px !important;
+    border-color: transparent !important;
+    appearance: none !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.selectFormGroup{
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
 }
 .modalHeading{
     font-size: 16px;
@@ -115,6 +127,7 @@ font-weight: 500;
 .selectModalText{
     font-size: 14px;
     font-weight: 500;
+    margin-top: 6px;
 }
 .custom-modal-input-container{
     display: flex;
@@ -157,4 +170,11 @@ font-weight: 500;
     color: red;
     font-size: 0.875em;
     margin-top: 0.25em;
+}
+@media screen and (max-width: 1400px) {
+    .modalContent {
+        width: 500px;
+        height: 500px;
+        top: 10px;
+    }
 }

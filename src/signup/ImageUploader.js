@@ -118,7 +118,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                 ) : (
                     <>
                         <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
-                        <p className={styles['upload-text']}>Click here to upload files</p>
+                        <p className={styles['upload-text']}>Click here to Upload Files</p>
                     </>
                 )}
                 <input

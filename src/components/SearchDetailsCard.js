@@ -71,7 +71,7 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>
-                                <div className='search-details-card-text-head'>Country Available In :</div>
+                                <div className='search-details-card-text-head'>Country Available in :</div>
                                 <div className='search-details-card-test-text'>{med.country_available_in?.join(', ')}</div>
                             </div>
                             {/* <Link to={`/product-details/${med.medicine_id}`}>

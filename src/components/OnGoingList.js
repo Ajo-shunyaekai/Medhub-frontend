@@ -44,7 +44,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
-                  <span className="table-g-driver-name">Quantity</span>
+                  <span className="table-g-driver-name">Quantity Req.</span>
                   <span className="table-g-not-name">{item.quantity_required}</span>
                 </div>
               </td>
@@ -58,6 +58,12 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
                   <span className="table-g-not-name">{item.target_price} AED</span>
+                </div>
+              </td>
+              <td className='tables-td'>
+                <div className="table-g-section-content">
+                  <span className="table-g-driver-name">Est. Delivery Time</span>
+                  <span className="table-g-not-name">14 Days</span>
                 </div>
               </td>
               <td className='tables-td'>

@@ -174,33 +174,33 @@ const SearchMarketProductDetails = () => {
                                         <div className='product-details-two-right-text'>{details?.purchased_on}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Product category :</div>
+                                        <div className='product-details-two-left-text'>Product Category :</div>
                                         <div className='product-details-two-right-text'>{details?.medicine_category}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier type :</div>
+                                        <div className='product-details-two-left-text'>Dossier Type :</div>
                                         <div className='product-details-two-right-text'>{details?.dossier_type}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Dossier status :</div>
+                                        <div className='product-details-two-left-text'>Dossier Status :</div>
                                         <div className='product-details-two-right-text'>{details?.dossier_status}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>GMP approvals :</div>
+                                        <div className='product-details-two-left-text'>GMP Approvals :</div>
                                         <div className='product-details-two-right-text'>{details?.gmp_approvals}</div>
                                     </div>
                                 </div>
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Country of origin :</div>
+                                        <div className='product-details-two-left-text'>Country of Origin :</div>
                                         <div className='product-details-two-right-text'>{details?.country_of_origin}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Type of form :</div>
+                                        <div className='product-details-two-left-text'>Type of Form :</div>
                                         <div className='product-details-two-right-text'>{details?.type_of_form}</div>
                                     </div>
                                     <div className="product-details-two">
-                                        <div className='product-details-two-left-text'>Shelf life :</div>
+                                        <div className='product-details-two-left-text'>Shelf Life :</div>
                                         <div className='product-details-two-right-text'>{details?.shelf_life}</div>
                                     </div>
                                     <div className="product-details-two">
@@ -237,7 +237,7 @@ const SearchMarketProductDetails = () => {
                                 </div>
                                 <div className="search-details-sec-two-left">
                                     <div className="search-details-two">
-                                        <div className='search-details-two-left-text'>Country of origin :</div>
+                                        <div className='search-details-two-left-text'>Country of Origin :</div>
                                         <div className='search-details-two-right-text'>{details?.manufacturer_country_of_origin}</div>
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ const SearchMarketProductDetails = () => {
                         </div>
                         <div className='search-details-containers'>
                             <div className="search-details-mfg-container">
-                                <div className="search-details-mfg-heading">Description</div>
+                                <div className="search-details-mfg-heading">About Manufacturer</div>
                                 <div className="search-details-mfg-details">{details?.manufacturer_description}.</div>
                             </div>
                         </div>

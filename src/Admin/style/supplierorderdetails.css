@@ -226,6 +226,7 @@
     display: flex;
     justify-content: start;
     flex-direction: column;
+    width: 160px;
   }
   
   .table-g-section {
@@ -559,13 +560,14 @@
     border-radius: 4px;
   }
   
-  .pending-order-button-section {
-    margin-top: 40px;
-    margin-bottom: 10rem;
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
+
+    .pending-order-button-section {
+      margin-top: -70px;
+      margin-bottom: 10rem;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
   }
   
   .pending-order-create-order {

@@ -45,7 +45,7 @@ const SecondaryProductDetails = ({similarMedicines, totalItems, onMedicineClick,
                                 <div className='buyer-product-details-card-test-text'>{product.country_of_origin}</div>
                             </div>
                             <div className='buyer-product-details-card-text-section'>
-                                <div className='buyer-product-details-card-text-head'>Stocked In :</div>
+                                <div className='buyer-product-details-card-text-head'>Stocked in :</div>
                                 <div className='buyer-product-details-card-test-text'>{product.stocked_in}</div>
                             </div>
                             <div className='buyer-product-details-card-text-section'>

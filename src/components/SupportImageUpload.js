@@ -181,7 +181,7 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
         <div className={styles['image-uploader']}>
             <div className={styles['upload-area']} onClick={handleImageClick}>
                 <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
-                <p className={styles['upload-text']}>Click here to upload</p>
+                <p className={styles['upload-text']}>Click here to Upload</p>
                 <input
                     type="file"
                     accept="image/png, image/jpeg, image/jpg"

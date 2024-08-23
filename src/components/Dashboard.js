@@ -92,24 +92,31 @@ const Dashboard = () => {
                         <div className='cart-left-top-section'>
                             <div className='cart-top-right-section'>
                                 <div className='top-container'>
+                                <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Ongoing Inquiries</div>
+                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
+                                        </div>
+                                    </Link>
+                                    <Link to='/buyer/inquiry-purchase-orders/purchased'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Purchased Orders</div>
+                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
+                                        </div>
+                                    </Link>
+                                <Link to='/buyer/ongoing-orders'>
+                                        <div className='top-content-section'>
+                                            <div className='top-head'>Active Orders</div>
+                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
+                                        </div>
+                                    </Link>
                                     <Link to='/buyer/completed-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Completed Orders</div>
                                             <div className='top-text'>{orderSummary?.completedCount[0]?.count || 10}</div>
                                         </div>
                                     </Link>
-                                    <Link to='/buyer/ongoing-orders'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 20}</div>
-                                        </div>
-                                    </Link>
-                                    {/* <Link to='/buyer/pending-orders'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Pending Orders</div>
-                                            <div className='top-text'>{orderSummary?.pendingCount[0]?.count || 30}</div>
-                                        </div>
-                                    </Link> */}
+                                    
                                 </div>
                                 <div className='bottom-container'>
                                 <Link to='/buyer/invoice'>
@@ -138,30 +145,28 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className='cart-left-bottom-section'>
-                        <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                        
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
                                     <span className='left-bottom-pert'>{orderSummary?.enquiryCount[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
-                                <div className='left-bottom-head'>Ongoing Inquiries</div>
+                                <div className='left-bottom-head'>Lorem</div>
                                 <div className='line-chart-graph'>
                                     <ConversionChart />
                                 </div>
                             </div>
-                            </Link>
-                            <Link to='/buyer/inquiry-purchase-orders/purchased'>
+                            
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
                                     <span className='left-bottom-pert'>{orderSummary?.purchaseOrderCount[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>-2.0</span> */}
                                 </div>
-                                <div className='left-bottom-head'>Purchased Orders</div>
+                                <div className='left-bottom-head'>Lorem</div>
                                 <div className='line-chart-graph'>
                                     <SearchEngineChart />
                                 </div>
                             </div>
-                            </Link>
                             
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
@@ -184,7 +189,7 @@ const Dashboard = () => {
                                 data={countryData}
                             />
                         </div>
-                        <div className='right-head'>Your seller countries</div>
+                        <div className='right-head'>Your Seller Countries</div>
                         <div className='right-country-section'>
                             <div className='country-sect'>
                                 <span className='country-names'>{countryData[0]?.country}</span>

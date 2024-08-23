@@ -231,13 +231,13 @@ const Support = () => {
     const validate = () => {
         const errors = {};
         if (!orderId) {
-            setOrderIdError('Order ID is required');
+            setOrderIdError('Order ID is Required');
             errors.orderId = true;
         } else {
             setOrderIdError('');
         }
         if (!feedback) {
-            setFeedbackError('Feedback is required');
+            setFeedbackError('Feedback is Required');
             errors.feedback = true;
         } else {
             setFeedbackError('');
@@ -254,13 +254,13 @@ const Support = () => {
     const compValidate = () => {
         const errors = {};
         if (!compOrderId) {
-            setCompOrderIdError('Order ID is required');
+            setCompOrderIdError('Order ID is Required');
             errors.compOrderId = true;
         } else {
             setCompOrderIdError('');
         }
         if (!compFeedback) {
-            setCompFeedbackError('Feedback is required');
+            setCompFeedbackError('Feedback is Required');
             errors.compFeedback = true;
         } else {
             setCompFeedbackError('');
@@ -388,7 +388,7 @@ const Support = () => {
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your order Id"
+                                                        placeholder="Enter your Order Id"
                                                         className={styles['form-input']}
                                                         value={orderId}
                                                         onChange={(e) => { setOrderId(e.target.value); setOrderIdError('') }}
@@ -398,7 +398,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your feedback"
+                                                        placeholder="Enter your Feedback"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={feedback}
@@ -440,7 +440,7 @@ const Support = () => {
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your order Id"
+                                                        placeholder="Enter your Order Id"
                                                         className={styles['form-input']}
                                                         value={compOrderId}
                                                         onChange={(e) => { setCompOrderId(e.target.value); setCompOrderIdError('') }}
@@ -450,7 +450,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your complaint"
+                                                        placeholder="Enter your Complaint"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={compFeedback}

@@ -432,6 +432,30 @@ const SignUp = () => {
                             {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
                         </div>
                         <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyRegistration"
+                                placeholder="Enter Company Registration Number"
+                                value={formData.companyRegistration}
+                                onChange={handleChange}
+                            />
+                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>VAT Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyVAT"
+                                placeholder="Enter VAT Registration Number"
+                                value={formData.companyVAT}
+                                onChange={handleChange}
+                            />
+                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Phone No.</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'

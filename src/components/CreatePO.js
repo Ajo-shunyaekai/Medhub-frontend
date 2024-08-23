@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../style/createInvoice.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import Select from 'react-select';
+import { PhoneInput } from 'react-international-phone';
 import CreatePOImageUpload from './CreatePOImageUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
@@ -21,7 +22,7 @@ const CreatePO = () => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
     let grandTotalAmount = 0;
-    
+
 
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -106,7 +107,7 @@ const CreatePO = () => {
             const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required;
             const totalTax = totalPrice * (unitTax / 100);
             const totalAmount = totalPrice + totalTax;
-        
+
             return {
                 ...item,
                 totalAmount: totalAmount,
@@ -121,7 +122,7 @@ const CreatePO = () => {
             enquiry_id: inquiryId,
             supplier_id: inquiryDetails?.supplier?.supplier_id,
             itemIds: itemId,
-            data : newData,
+            data: newData,
             grandTotalAmount
         };
         console.log(obj);
@@ -203,11 +204,10 @@ const CreatePO = () => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="ae"
                                 name='supplierMobile'
-                                placeholder='Enter Mobile No.'
                                 {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile number is required' })}
                                 onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                             />
@@ -264,11 +264,10 @@ const CreatePO = () => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="ae"
                                 name='buyerMobile'
-                                placeholder='Enter Mobile No.'
                                 {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile number is required' })}
                                 onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                             />
@@ -294,87 +293,87 @@ const CreatePO = () => {
                     {orderItems?.map((item, index) => {
                         const unitTax = item.medicine_details.unit_tax || 0
                         const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required
-                        const totalTax = totalPrice * (unitTax/100)
-                        const totalAmount    = totalPrice + totalTax
+                        const totalTax = totalPrice * (unitTax / 100)
+                        const totalAmount = totalPrice + totalTax
                         grandTotalAmount += totalAmount;
                         grandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
                         return (
                             <div className={styles['form-item-container']} key={item._id}>
-                            <div className={styles['craete-invoice-form']}>
-                                <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Item Name</label>
-                                    <input
-                                        className={styles['create-invoice-div-input']}
-                                        type='text'
-                                        name={`orderItems[${index}].productName`}
-                                        placeholder='Item Name'
-                                        // defaultValue={item?.medicine_details?.medicine_name}
-                                        // {...register(`orderItems[${index}].productName`, { validate: value => value.trim() !== '' || 'Product name is required' })}
-                                        value={item?.medicine_details?.medicine_name}
-                                        readOnly
-                                    />
-                                    {errors.orderItems?.[index]?.productName && <p>{errors.orderItems[index].productName.message}</p>}
-                                </div>
-                                <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Quantity</label>
-                                    <input
-                                        className={styles['create-invoice-div-input']}
-                                        type='text'
-                                        name={`orderItems[${index}].quantity`}
-                                        placeholder='Enter Quantity'
-                                        // defaultValue={item?.quantity_required}
-                                        // {...register(`orderItems[${index}].quantity`, { validate: value => value.trim() !== '' || 'Quantity is required' })}
-                                        value={item?.quantity_required}
-                                        readOnly
-                                    />
-                                    {errors.orderItems?.[index]?.quantity && <p>{errors.orderItems[index].quantity.message}</p>}
-                                </div>
-                                <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Price</label>
-                                    <input
-                                        className={styles['create-invoice-div-input']}
-                                        type='text'
-                                        name={`orderItems[${index}].unitPrice`}
-                                        placeholder='Enter Price'
-                                        // defaultValue={item?.unit_price}
-                                        // {...register(`orderItems[${index}].unitPrice`, { validate: value => value.trim() !== '' || 'Unit price is required' })}
-                                        value={item?.counter_price || item?.target_price}
-                                        readOnly
-                                    />
-                                    {errors.orderItems?.[index]?.unitPrice && <p>{errors.orderItems[index].unitPrice.message}</p>}
-                                </div>
-                                <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Unit Tax%</label>
-                                    <input
-                                        className={styles['create-invoice-div-input']}
-                                        type='text'
-                                        name={`orderItems[${index}].unitTax`}
-                                        placeholder='Enter Unit Tax'
-                                        value={item?.medicine_details?.unit_tax}
-                                        readOnly
-                                    />
-                                    {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}
-                                </div>
-                                <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Total Amount</label>
-                                    <input
-                                        className={styles['create-invoice-div-input']}
-                                        type='text'
-                                        name={`orderItems[${index}].totalAmount`}
-                                        placeholder='Enter Total Amount'
-                                        // defaultValue={item?.counter_price || item?.target_price}
-                                        // {...register(`orderItems[${index}].totalAmount`, { validate: value => value.trim() !== '' || 'Total amount is required' })}
-                                        value={totalAmount.toFixed(2)}
-                                        readOnly
-                                    />
-                                    {errors.orderItems?.[index]?.totalAmount && <p>{errors.orderItems[index].totalAmount.message}</p>}
+                                <div className={styles['craete-invoice-form']}>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Item Name</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].productName`}
+                                            placeholder='Item Name'
+                                            // defaultValue={item?.medicine_details?.medicine_name}
+                                            // {...register(`orderItems[${index}].productName`, { validate: value => value.trim() !== '' || 'Product name is required' })}
+                                            value={item?.medicine_details?.medicine_name}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.productName && <p>{errors.orderItems[index].productName.message}</p>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Quantity</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].quantity`}
+                                            placeholder='Enter Quantity'
+                                            // defaultValue={item?.quantity_required}
+                                            // {...register(`orderItems[${index}].quantity`, { validate: value => value.trim() !== '' || 'Quantity is required' })}
+                                            value={item?.quantity_required}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.quantity && <p>{errors.orderItems[index].quantity.message}</p>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Price</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].unitPrice`}
+                                            placeholder='Enter Price'
+                                            // defaultValue={item?.unit_price}
+                                            // {...register(`orderItems[${index}].unitPrice`, { validate: value => value.trim() !== '' || 'Unit price is required' })}
+                                            value={item?.counter_price || item?.target_price}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.unitPrice && <p>{errors.orderItems[index].unitPrice.message}</p>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Tax%</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].unitTax`}
+                                            placeholder='Enter Unit Tax'
+                                            value={item?.medicine_details?.unit_tax}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Total Amount</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].totalAmount`}
+                                            placeholder='Enter Total Amount'
+                                            // defaultValue={item?.counter_price || item?.target_price}
+                                            // {...register(`orderItems[${index}].totalAmount`, { validate: value => value.trim() !== '' || 'Total amount is required' })}
+                                            value={totalAmount.toFixed(2)}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.totalAmount && <p>{errors.orderItems[index].totalAmount.message}</p>}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         )
                     }
-                       
-                    
+
+
                     )}
                 </div>
                 <div className={styles['create-invoice-section']}>

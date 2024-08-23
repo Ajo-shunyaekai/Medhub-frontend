@@ -82,7 +82,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     </td>
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
-                                            <span className="table-g-driver-name">Quantity</span>
+                                            <span className="table-g-driver-name">Quantity Req.</span>
                                             <span className="table-g-not-name">{item.quantity || item.quantity_required || item.quantity}</span>
                                         </div>
                                     </td>
@@ -104,6 +104,14 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                                 {item.counterprice || item.counter_price
                                                     ? `${item.counterprice || item.counter_price} AED`
                                                     : '-'}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td className='tables-tds'>
+                                        <div className="table-g-section-content">
+                                            <span className="table-g-driver-name">Est. Delivery Time</span>
+                                            <span className="table-g-not-name">
+                                               14 Days
                                             </span>
                                         </div>
                                     </td>

@@ -76,12 +76,14 @@
 }
 
 .modal-pay-dropdown-invoice-cont {
-  padding: 8px !important;
-  border: none !important;
-  border-bottom: 1px solid #99a0ac !important;
-  font-size: 14px !important;
-  color: #5e676f !important;
   outline: none !important;
+  border-radius: 4px !important;
+    border: none !important;
+    background-color: #ffffff !important;
+    padding: 12px !important;
+    font-size: 14px !important;
+    border-radius: 4px !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   box-sizing: border-box !important;
   appearance: none !important;
   -webkit-appearance: none !important;
@@ -92,12 +94,13 @@
 }
 .modal-class-input-invoice-cont {
   width: 100% !important;
-  padding: 8px 0px !important;
-  border: none !important;
-  border-bottom: 1px solid #99a0ac !important;
-  font-size: 14px !important;
-  color: #5e676f !important;
   outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 .react-datepicker-popper {
   transform: translate(31px, 98px) !important;
@@ -105,14 +108,14 @@
 }
 @-moz-document url-prefix() {
   .modal-pay-dropdown-invoice-cont {
-    padding: 8px !important;
+    padding: 12px !important;
   }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .modal-pay-dropdown-invoice-cont {
-    padding: 8px  !important;
-    border-radius: 0px !important;
+    padding: 12px  !important;
+    border-radius: 4px !important;
   }
 }
 

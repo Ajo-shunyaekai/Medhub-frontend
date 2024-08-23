@@ -136,21 +136,21 @@ const MarketProductDetails = () => {
                                         <div className='buyer-product-details-two-right-text'>{details?.purchased_on}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Country available in :</div>
+                                        <div className='buyer-product-details-two-left-text'>Country Available in :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.country_available_in?.join(', ')}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Total quantity :</div>
+                                        <div className='buyer-product-details-two-left-text'>Total Quantity :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.total_quantity}</div>
                                     </div>
                                 </div>
                                 <div className="buyer-product-details-sec-two-left">
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Unit price :</div>
+                                        <div className='buyer-product-details-two-left-text'>Unit Price :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.unit_price} AED</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Minimum purchase :</div>
+                                        <div className='buyer-product-details-two-left-text'>Minimum Purchase :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.min_purchase_unit} Unit</div>
                                     </div>
                                     <div className="buyer-product-details-two">
@@ -169,41 +169,41 @@ const MarketProductDetails = () => {
                             <div className="buyer-product-details-section-two">
                                 <div className="buyer-product-details-sec-two-left">
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Shipping time :</div>
+                                        <div className='buyer-product-details-two-left-text'>Shipping Time :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.shipping_time}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Dossier type :</div>
+                                        <div className='buyer-product-details-two-left-text'>Dossier Type :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.dossier_type}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Dossier status :</div>
+                                        <div className='buyer-product-details-two-left-text'>Dossier Status :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.dossier_status}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Type of form :</div>
+                                        <div className='buyer-product-details-two-left-text'>Type of Form :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.type_of_form}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Unit tax :</div>
+                                        <div className='buyer-product-details-two-left-text'>Tax% :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.unit_tax}%</div>
                                     </div>
                                 </div>
                                 <div className="buyer-product-details-sec-two-left">
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Product category :</div>
+                                        <div className='buyer-product-details-two-left-text'>Product Category :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.medicine_category}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Shelf life :</div>
+                                        <div className='buyer-product-details-two-left-text'>Shelf Life :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.shelf_life}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>Country of origin :</div>
+                                        <div className='buyer-product-details-two-left-text'>Country of Origin :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.country_of_origin}</div>
                                     </div>
                                     <div className="buyer-product-details-two">
-                                        <div className='buyer-product-details-two-left-text'>GMP approvals :</div>
+                                        <div className='buyer-product-details-two-left-text'>GMP Approvals :</div>
                                         <div className='buyer-product-details-two-right-text'>{details?.gmp_approvals}</div>
                                     </div>
                                 </div>
@@ -250,12 +250,12 @@ const MarketProductDetails = () => {
                                     <div className='buyer-product-details-four-left-text'>Available for :</div>
                                     <div className='buyer-product-details-four-right-text'>{details?.available_for}</div>
                                 </div>
-                                <div className="buyer-product-details-county">
+                                {/* <div className="buyer-product-details-county">
                                     <div className='buyer-product-details-four-left-text'>Comments :</div>
                                     <div className='buyer-product-details-four-right-text'>
                                         {details?.description}
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
@@ -263,12 +263,12 @@ const MarketProductDetails = () => {
                             <div className='buyer-product-details-company-conatiner'>
                                 <div className='buyer-product-details-inner-company'>
                                     <Link to='/buyer/supplier-details'>
-                                        <div className='buyer-product-details-inner-copmany-head'>Supplier name :</div>
+                                        <div className='buyer-product-details-inner-copmany-head'>Supplier Name :</div>
                                         <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_name}</div>
                                     </Link>
                                 </div>
                                 <div className='buyer-product-details-inner-company'>
-                                    <div className='buyer-product-details-inner-copmany-head'>Company type :</div>
+                                    <div className='buyer-product-details-inner-copmany-head'>Company Type :</div>
                                     <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.supplier_type}</div>
                                 </div>
                                 <div className="buyer-product-details-inner-company-stockedin">
@@ -299,11 +299,11 @@ const MarketProductDetails = () => {
                             </div>
                             <div className='buyer-product-details-company-conatiner'>
                                 <div className='buyer-product-details-inner-company'>
-                                    <div className='buyer-product-details-inner-copmany-head'>License no. :</div>
+                                    <div className='buyer-product-details-inner-copmany-head'>License No. :</div>
                                     <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.license_no}</div>
                                 </div>
                                 <div className='buyer-product-details-inner-company'>
-                                    <div className='buyer-product-details-inner-copmany-head'>Tax no. :</div>
+                                    <div className='buyer-product-details-inner-copmany-head'>Tax No. :</div>
                                     <div className='buyer-product-details-inner-copmany-text'>{details?.supplier?.tax_no}</div>
                                 </div>
                             </div>

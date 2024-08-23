@@ -100,7 +100,7 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                             </td>
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
-                                    <span className="table-g-driver-name">Quantity</span>
+                                    <span className="table-g-driver-name">Quantity Req.</span>
                                     <span className="table-g-not-name">{item.quantity_required}</span>
                                 </div>
                             </td>

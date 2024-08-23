@@ -179,15 +179,15 @@ function InvoiceTemplate({invoice}) {
                                                                         <tbody>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{subtotal} AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{subtotal} AED</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{vatAmount} AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{vatAmount} AED</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{subtotal + vatAmount} AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{subtotal + vatAmount} AED</p>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
