@@ -135,7 +135,7 @@ const OrderDetails = ({socket}) => {
                                     </div>
                                 </div>
                                 {
-                                    orderDetails?.status === 'active' ?
+                                    orderDetails?.status === 'Active' ?
                                     <div className="buyer-order-details-top-order-cont">
                                     <div
                                         className="buyer-order-details-left-top-main-heading-button"
@@ -314,7 +314,7 @@ const OrderDetails = ({socket}) => {
                                 <div className='active-order-details-right-pickupdata-address'>
                                     <div className='active-order-details-right-pickdata-head'>Address</div>
                                     <div className='active-order-details-right-pickdata-text'>
-                                        {orderDetails.logistics_details.drop_location.address}
+                                        {orderDetails.logistics_details.drop_location.address},
                                         {orderDetails.logistics_details.drop_location.country}, 
                                         {orderDetails.logistics_details.drop_location.state}, 
                                         {orderDetails.logistics_details.drop_location.city_district}, 

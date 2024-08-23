@@ -73,7 +73,7 @@ const ActiveOrdersDetails = () => {
                                         </div>
                                 </div>
                                 {
-                                    orderDetails?.status === 'Awaiting details from supplier' ?
+                                    orderDetails?.status === 'Awaiting Details from Supplier' ?
                                         <div className='active-order-details-top-order-cont'>
                                             <div
                                                 className='active-order-details-left-top-main-heading-button'
