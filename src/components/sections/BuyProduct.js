@@ -22,7 +22,7 @@ const BuyProduct = ({active}) => {
     const [filterCategory, setFilterCategory] = useState('')
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalItems, setTotalitems]     = useState()
-    const itemsPerPage = 4;
+    const itemsPerPage = 6;
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value)

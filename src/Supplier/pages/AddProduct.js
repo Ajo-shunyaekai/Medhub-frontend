@@ -784,6 +784,7 @@ const AddProduct = () => {
                 })
             }
         } else {
+            toast('Some Fields are Missing', { type: "error" });
             console.log('errorrrrr', formData);
         }
     }

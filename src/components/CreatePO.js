@@ -467,7 +467,7 @@ const CreatePO = () => {
                                 type='text'
                                 name='buyerRegNo'
                                 placeholder='Enter Company Registration Number'
-                                {...register('buyerRegNo', { validate: value => value.trim() !== '' || 'Buyer registration number is required' })}
+                                {...register('buyerRegNo', { validate: value => value?.trim() !== '' || 'Buyer registration number is required' })}
                             />
                             {errors.buyerRegNo && <p>{errors.buyerRegNo.message}</p>}
                         </div>
@@ -506,7 +506,7 @@ const CreatePO = () => {
                                 name='supplierName'
                                 placeholder='Enter Name'
                                 readOnly
-                                {...register('supplierName', { validate: value => value.trim() !== '' || 'Supplier name is required' })}
+                                {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })}
                             />
                             {errors.supplierName && <p>{errors.supplierName.message}</p>}
                         </div>
@@ -518,7 +518,7 @@ const CreatePO = () => {
                                 name='supplierAddress'
                                 placeholder='Enter Address'
                                 readOnly
-                                {...register('supplierAddress', { validate: value => value.trim() !== '' || 'Supplier address is required' })}
+                                {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })}
                             />
                             {errors.supplierAddress && <p>{errors.supplierAddress.message}</p>}
                         </div>
@@ -530,7 +530,7 @@ const CreatePO = () => {
                                 name='supplierEmail'
                                 placeholder='Enter Email ID'
                                 readOnly
-                                {...register('supplierEmail', { validate: value => value.trim() !== '' || 'Supplier email is required' })}
+                                {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })}
                             />
                             {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
                         </div>
@@ -556,7 +556,7 @@ const CreatePO = () => {
                                 name='supplierRegNo'
                                 readOnly
                                 placeholder='Enter Company Registration Number'
-                                {...register('supplierRegNo', { validate: value => value.trim() !== '' || 'Supplier registration number is required' })}
+                                {...register('supplierRegNo', { validate: value => value?.trim() !== '' || 'Supplier registration number is required' })}
                             />
                             {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
                         </div>

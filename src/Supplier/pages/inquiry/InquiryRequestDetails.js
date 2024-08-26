@@ -145,6 +145,7 @@ const InquiryRequestDetails = () => {
                 <InquiryProductList
                     inquiryDetails = {inquiryDetails}
                     items={inquiryDetails?.items}
+                    quotation = {inquiryDetails?.quotation_items}
                     setAcceptChecked={setAcceptChecked}
                     setCounterChecked={setCounterChecked}
                     setQuotationItems={setQuotationItems}

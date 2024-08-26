@@ -14,7 +14,7 @@ const SendInquiry = () => {
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const navigate = useNavigate();
   
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
   const [checkedState, setCheckedState] = useState({});
   const [list, setList] = useState([]);

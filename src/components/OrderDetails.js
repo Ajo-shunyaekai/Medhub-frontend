@@ -62,8 +62,10 @@ const OrderDetails = ({socket}) => {
             prefered_mode: data.transportMode,
             drop_location: {
                 name: data.dropLocation.name,
+                email: data.dropLocation.email,
                 mobile: data.dropLocation.contact,
                 address: data.dropLocation.address,
+                country: data.dropLocation.country,
                 city_district : data.dropLocation.cityDistrict,
                 state : data.dropLocation.state,
                 pincode : data.dropLocation.pincode
@@ -74,7 +76,7 @@ const OrderDetails = ({socket}) => {
             order_id: orderId,
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             supplier_id: orderDetails?.supplier_id,
-            status: 'Awaiting details from supplier',
+            status: 'Awaiting Details from Supplier',
             logistics_details: [logisticsDetails],
         };
         console.log('OBJ:', obj);

@@ -71,7 +71,7 @@ const SupplierSidebar = () => {
 
     const navigate = useNavigate();
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
@@ -91,11 +91,12 @@ const SupplierSidebar = () => {
             }
         });
     }
-    useEffect(() => {
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-        }
-    },[])
+    
+    // useEffect(() => {
+    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+    //         navigate("/supplier/login");
+    //     }
+    // },[])
 
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {

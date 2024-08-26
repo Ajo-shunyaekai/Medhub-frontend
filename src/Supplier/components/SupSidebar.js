@@ -20,10 +20,20 @@ import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 // Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import { postRequestWithToken } from '../api/Requests';
 
 
-const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick }) => {
+const SupSidebar = ({ children, dragWindow, 
+    // notificationList, count, handleClick 
+}) => {
     const navigate = useNavigate()
+    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+
+    const [notificationList, setNotificationList] = useState([])
+    const [count, setCount] = useState()
+    const [refresh, setRefresh] = useState(false)
+    
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
 
@@ -49,6 +59,67 @@ const SupSidebar = ({ children, dragWindow, notificationList, count, handleClick
             document.removeEventListener('fullscreenchange', handleFullScreenChange);
         };
     }, []);
+
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id : id,
+            event ,
+            status : 1
+        }
+        postRequestWithToken('supplier/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }
+
+    useEffect(() => {
+        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        //     navigate("/supplier/login");
+        if(!supplierIdSessionStorage && !supplierIdLocalStorage ) {
+            navigate("/supplier/login");
+        }
+            const obj = {
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                // pageNo: 1,
+                // pageSize: 5
+            };
+        
+            postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+                if (response.code === 200) {
+                    setNotificationList(response.result.data);
+                    setCount(response.result.totalItems || 0);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+        // }
+    
+        // Ensure socket is defined and connected
+        // if (socket) {
+        //     console.log('socket',socket);
+            
+        //     socket.on('receiveNotification', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+                
+        //         toast(`New inquiry received: ${notification.message}`, { type: "success" });
+        //     });
+
+        //     socket.on('logiscticsSubmitted', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+                
+        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+        //     });
+    
+        //     return () => {
+        //         socket.off('receiveNotification');
+        //     };
+        // } else {
+        //     console.error('Socket is not initialized');
+        // }
+    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
 
     const toggleFullScreen = () => {
         if (!isFullScreen) {

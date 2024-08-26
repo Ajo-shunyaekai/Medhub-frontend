@@ -77,6 +77,7 @@ const Product = () => {
             medicine_type : medicineType,
             pageNo        : currentPage, 
             pageSize      : itemsPerPage,
+            status        : 'accepted'
         }
 
         postRequestWithToken('medicine/medicine-list', obj, async (response) => {

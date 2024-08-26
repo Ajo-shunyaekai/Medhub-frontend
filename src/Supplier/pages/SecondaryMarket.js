@@ -132,7 +132,7 @@ const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, ha
                             })
                         ) : (
                             <>
-                             {products.map((product, index) => (
+                             {/* {products.map((product, index) => (
                                 <div className='buy-product-card-section' key={index}>
                                     <div className='buy-product-card-first-section-right'>
                                         <div className='buy-product-card-first-medicine-image'>
@@ -173,7 +173,8 @@ const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, ha
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            ))} */}
+                            <p>No Products Available</p>
                             </>
                             
                         )
@@ -184,7 +185,7 @@ const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, ha
                         <Pagination
                             activePage={currentPage}
                             itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems || products.length}
+                            totalItemsCount={totalItems}
                             pageRangeDisplayed={5}
                             onChange={handlePageChange}
                             itemClass="page-item"
@@ -195,7 +196,7 @@ const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, ha
                         />
                         <div className='pagi-total'>
                             <div className='pagi-total'>
-                                Total Items: {totalItems || products.length}
+                                Total Items: {totalItems}
                             </div>
                         </div>
                     </div>

@@ -230,6 +230,8 @@ const ActiveOrdersDetails = () => {
                                         <div className='active-order-details-right-pickdata-head'>Address</div>
                                         <div className='active-order-details-right-pickdata-text'>
                                             {orderDetails?.shipment_details?.supplier_details?.address},
+                                            {orderDetails?.shipment_details?.supplier_details?.country},
+                                            {orderDetails?.shipment_details?.supplier_details?.state},
                                             {orderDetails?.shipment_details?.supplier_details?.ciyt_disctrict},
                                             {orderDetails?.shipment_details?.supplier_details?.pincode}.
                                         </div>

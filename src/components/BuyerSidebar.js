@@ -66,9 +66,13 @@ import ProformaInvoiceDetails from './ProformaInvoiceDetails.js';
 import ThankYou from './ThankYou.js';
 import { toast } from 'react-toastify';
 import NotificationList from './NotificationList.js'
-
 import CancelnquiryList from './CancelnquiryList.js';
+
 const BuyerSidebar = () => {
+    const activeKey = () => {
+        const res = window.location.pathname.split("/");
+        return res.length > 1 ? `/${res[1]}` : "/";
+    };
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
@@ -93,21 +97,23 @@ const BuyerSidebar = () => {
     }
 
     useEffect( () => { 
-        if( !buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-        }
-        const obj = {
-            // order_id : orderId,
-            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-        };
-        postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-            if (response.code === 200) {
-                setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0)
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        // const key = activeKey();
+        // console.log('key',key);
+        // if( !buyerIdSessionStorage && !buyerIdLocalStorage && key !== '/buyer/sign-up') {
+        //     navigate("/buyer/login");
+        // }
+        // const obj = {
+        //     // order_id : orderId,
+        //     buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+        // };
+        // postRequestWithToken('buyer/get-notification-list', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setNotificationList(response.result.data);
+        //         setCount(response.result.totalItems || 0)
+        //     } else {
+        //         console.log('error in order details api');
+        //     }
+        // });
 
         // Ensure socket is defined and connected
         // if (socket) {

@@ -168,7 +168,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                             })
                         ) : (
                             <>
-                             {products.map((product, index) => (
+                             {/* {products.map((product, index) => (
                                 <div className='buy-product-card-section' key={index}>
                                     <div className='buy-product-card-first-section-right'>
                                         <div className='buy-product-card-first-medicine-image'>
@@ -209,7 +209,8 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            ))} */}
+                            <p>No Products Added</p>
                             </>
                             
                         )
@@ -220,7 +221,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                         <Pagination
                             activePage={currentPage}
                             itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems || products.length}
+                            totalItemsCount={totalItems}
                             pageRangeDisplayed={5}
                             onChange={handlePageChange}
                             itemClass="page-item"
@@ -231,7 +232,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                         />
                         <div className='pagi-total'>
                             <div className='pagi-total'>
-                                Total Items: {totalItems || products.length}
+                                Total Items: {totalItems}
                             </div>
                         </div>
                     </div>

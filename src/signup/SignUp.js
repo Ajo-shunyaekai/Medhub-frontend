@@ -116,6 +116,7 @@ const SignUp = () => {
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
 
+
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData({
             ...formData,

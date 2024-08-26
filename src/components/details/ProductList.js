@@ -111,7 +111,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
                                             <span className="table-g-not-name">
-                                                14 Days
+                                                {item.est_delivery_days} Days
                                             </span>
                                         </div>
                                     </td>

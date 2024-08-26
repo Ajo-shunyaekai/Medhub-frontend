@@ -3,7 +3,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuotationItems, inquiryDetails }) => {
+const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuotationItems, inquiryDetails,quotation }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [acceptedOrders, setAcceptedOrders] = useState([]);
     const [rejectedOrders, setRejectedOrders] = useState([]);
@@ -110,16 +110,22 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                     <span className="table-g-not-name">{item.target_price} AED</span>
                                 </div>
                             </td>
-                            <td className='tables-td'>
+
+                            
+                            {
+                                quotation.length > 0 ? (
+                                    <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Counter Price</span>
-                                    <span className="table-g-not-name">{item.target_price} AED</span>
+                                    <span className="table-g-not-name">{quotation[index]?.counter_price} AED</span>
                                 </div>
                             </td>
+                                ) : ''
+                            }
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Est. Delivery Time</span>
-                                    <span className="table-g-not-name">12 Days</span>
+                                    <span className="table-g-not-name">{item.est_delivery_days} Days</span>
                                 </div>
                             </td>
 

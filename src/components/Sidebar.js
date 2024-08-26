@@ -24,10 +24,72 @@ import Drawer from '@mui/material/Drawer';
 import { postRequestWithToken } from '../api/Requests';
 
 
-const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) => {
-    const navigate = useNavigate()
+const Sidebar = ({ children, dragWindow, 
+    // notificationList, count, handleClick
+}) => {
+    const navigate = useNavigate();
+    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+    
+
+    const [notificationList, setNotificationList] = useState([])
+    const [count, setCount] = useState()
+    const [refresh, setRefresh] = useState(false)
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
+
+
+    useEffect( () => { 
+        // const key = acti
+        if( !buyerIdSessionStorage && !buyerIdLocalStorage ) {
+            navigate("/buyer/login");
+        }
+        const obj = {
+            // order_id : orderId,
+            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+        };
+        postRequestWithToken('buyer/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems || 0)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+
+        // Ensure socket is defined and connected
+        // if (socket) {
+        //     console.log('socket',socket);
+            
+        //     socket.on('orderCreated', (notification) => {
+        //         console.log('Notification received:', notification); // Debugging line
+        //         // setNotificationList((prevList) => [notification, ...prevList]);
+        //         // setCount((prevCount) => prevCount + 1);
+        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
+        //     });
+    
+        //     return () => {
+        //         socket.off('receiveNotification');
+        //     };
+        // } else {
+        //     console.error('Socket is not initialized');
+        // }
+    },[refresh, buyerIdSessionStorage, buyerIdLocalStorage]) ;
+
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id : id,
+            event ,
+            status : 1
+        }
+        postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true)
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }
 
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -212,8 +274,7 @@ const Sidebar = ({ children, dragWindow, notificationList, count, handleClick}) 
 
 
     // ======================
-    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
-    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+    
 
     const updateStatusApi = (id) => {
         // postRequestWithToken('buyer/update-notification-status', obj, (response) => {

@@ -228,6 +228,7 @@ const countryCodeMap = {
 };
 
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
+    console.log(logiscticsData);
     const [formData, setFormData] = useState({
         suppliername: '',
         supplierEmail: '',
@@ -264,8 +265,12 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     const [buyerCountryId, setBuyerCountryId] = useState(0)
     const [buyerCountryName, setBuyerCountryName] = useState('ae')
 
+    useEffect(() => {
+        setBuyerPhoneNumber(logiscticsData?.drop_location?.mobile) 
+    },[logiscticsData])
+
     const [errors, setErrors] = useState({});
-    const [value, setValue] = useState(new Date());
+    const [value, onChange] = useState(new Date());
     const formatDate = (date) => {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -273,9 +278,9 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         return `${day}-${month}-${year}`;
     };
 
-    const handleDateChange = (date) => {
-        setValue(date);
-    };
+    // const handleDateChange = (date) => {
+    //     setValue(date);
+    // };
 
     const [pickupTime, setPickupTime] = useState('');
     const quantityOptions = [
@@ -290,13 +295,17 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     };
 
     const handlePhoneChange = (phone) => {
+        
         const phoneNumber = parsePhoneNumberFromString(phone);
+       
         if (phoneNumber) {
             const countryCode = `+${phoneNumber.countryCallingCode}`;
             const nationalNumber = phoneNumber.nationalNumber; 
-            setBuyerCountryCode(countryCode); 
-            setSupplierMobileNumber(nationalNumber); 
-            setFormData({ ...formData, supplierMobile: nationalNumber })
+           const fomatedNumber =  `${countryCode}-${nationalNumber}`
+            // setBuyerCountryCode(countryCode); 
+            console.log('fomatedNumber',fomatedNumber);
+            setSupplierMobileNumber(fomatedNumber); 
+            setFormData({ ...formData, supplierMobile: fomatedNumber })
         }
     };
 
@@ -386,16 +395,18 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!validateForm()) return;
+        console.log('value',value);
         const formattedData = {
             supplier_details: {
                 name: formData.suppliername,
-                mobile: formData.supplierMobile,
+                mobile: supplierMobileNumber,
                 email: formData.supplierEmail,
-                supplierCountry: supplierCountryName,
+                country: supplierCountryName,
                 address: formData.address,
                 ciyt_disctrict: supplierDistrict,
+                state: supplierState,
                 pincode: formData.pincode,
-                prefered_pickup_date: value,
+                prefered_pickup_date: formatDate(value),
                 prefered_pickup_time: pickupTime
             },
             shipment_details: {
@@ -407,9 +418,14 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                 total_volume: formData.volume,
             },
             buyer_details: {
-                name: buyerData?.buyer_name,
-                mobile: buyerData?.buyer_mobile,
-                email: buyerData?.buyer_email,
+                name: logiscticsData?.drop_location?.name,
+                email: logiscticsData?.drop_location?.email,
+                mobile: logiscticsData?.drop_location?.mobile,
+                address: logiscticsData?.drop_location?.address,
+                country: logiscticsData?.drop_location?.country,
+                state: logiscticsData?.drop_location?.state,
+                ciyt_disctrict: logiscticsData?.drop_location?.city_district,
+                pincode: logiscticsData?.drop_location?.city_district,
                 buyer_type: buyerData?.buyer_type
             },
 
@@ -431,7 +447,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         });
         // ; 
     };
-
+console.log('errors',errors);
     return (
         <div className={styles['order-modal-overlay']}>
             <div className={styles['order-modal-content-section']}>
@@ -445,6 +461,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             value={formData.suppliername}
                             onChange={handleChange}
                             className={styles['order-modal-input']}
+                            required
                              />
                              {errors.suppliername && <span className={styles.error}>{errors.suppliername}</span>}
                     </div>
@@ -463,10 +480,11 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                         <label className={styles['order-modal-label']}>Mobile No</label>
                         <PhoneInput
                             className='signup-form-section-phone-input'
-                            value={buyerPhoneNumber}
-                            defaultCountry={buyerCountryCode}
+                            value={supplierMobileNumber}
+                            defaultCountry='ae'
                             onChange={handlePhoneChange}
                             name="supplierMobile"
+                            required
                             />
                             {errors.supplierMobile && <span className={styles.error}>{errors.supplierMobile}</span>}
                     </div>
@@ -524,13 +542,21 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Preferred Date of Pickup</label>
-                            <DatePicker
+                            {/* <DatePicker
                                 className={styles['order-modal-input']}
                                 onChange={handleDateChange}
                                 value={value}
                                 minDate={new Date()}
                                 clearIcon={null}
                                 format="dd-MM-yyyy"
+                            /> */}
+                            <DatePicker
+                                className={styles['create-invoice-div-input']}
+                                onChange={onChange}
+                                value={value}
+                                minDate={new Date()}
+                                clearIcon={null}
+                                format="dd/MM/yyyy"
                             />
                         </div>
                         <div className={styles['order-modal-dic-container']}>
@@ -600,7 +626,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             type="text"
                             name="buyerName"
                             readOnly
-                            defaultValue={buyerData?.buyer_name}
+                            defaultValue={logiscticsData?.drop_location?.name}
                             required
                         />
                     </div>
@@ -620,7 +646,8 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             className={styles['order-modal-input']}
                             type="email"
                             name="supplierEmail"
-                            value={formData.supplierEmail}
+                            readOnly
+                            defaultValue={logiscticsData?.drop_location?.email}
                             onChange={handleChange} required
                         />
                     </div>
@@ -630,6 +657,8 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
                             name="companyPhone"
+                            value={buyerPhoneNumber}
+                            disabled
                         />
                     </div>
                     <div className={styles['order-modal-dic-container']}>
@@ -637,35 +666,52 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                         <input placeholder='Enter Full Address'
                             className={styles['order-modal-input']}
                             name="address"
-                            value={formData.address}
+                            defaultValue={logiscticsData?.drop_location?.address}
                             onChange={handleChange}
+                            readOnly
                             required
                         />
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Country</label>
-                            <CountrySelect
+                            {/* <CountrySelect
                                 className={styles['order-modal-input']}
                                 onChange={handleBuyerCountryChange}
                                 placeHolder="Select Country"
-                            />
+                            /> */}
+                            <input placeholder='Enter country'
+                            className={styles['order-modal-input']}
+                            name="country"
+                            defaultValue={logiscticsData?.drop_location?.country}
+                            onChange={handleChange}
+                            readOnly
+                            required
+                        />
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>State</label>
-                            <StateSelect
+                            {/* <StateSelect
                                 className={styles['order-modal-input']}
                                 countryid={countryid}
                                 onChange={handleBuyerState}
                                 placeHolder="Select State"
-                            />
+                            /> */}
+                            <input placeholder='Enter state'
+                            className={styles['order-modal-input']}
+                            name="state"
+                            defaultValue={logiscticsData?.drop_location?.state}
+                            onChange={handleChange}
+                            readOnly
+                            required
+                        />
 
                         </div>
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>City/District</label>
-                            <CitySelect
+                            {/* <CitySelect
                                 className={styles['order-modal-input']}
                                 countryid={countryid}
                                 stateid={stateid}
@@ -673,15 +719,25 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                     console.log(e);
                                 }}
                                 placeHolder="Select City"
+                            /> */}
+                             <input placeholder='Enter city/district' className={styles['order-modal-input']}
+                                name="state"
+                                defaultValue={logiscticsData?.drop_location?.city_district}
+                                onChange={handleChange}
+                                required
+                                readOnly
                             />
+
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Pin Code</label>
                             <input placeholder='Enter Pincode' className={styles['order-modal-input']}
                                 name="pincode"
-                                value={formData.pincode}
+                               defaultValue={logiscticsData?.drop_location?.pincode}
                                 onChange={handleChange}
                                 required
+                                readOnly
+                    
                             />
                         </div>
                     </div>

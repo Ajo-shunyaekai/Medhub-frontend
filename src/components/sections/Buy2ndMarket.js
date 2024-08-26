@@ -22,7 +22,7 @@ const Buy2ndMarket = ({active}) => {
     const [filterCategory, setFilterCategory] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState()
-    const itemsPerPage = 4;
+    const itemsPerPage = 6;
     // const active = 'product';
 
     const handleInputChange = (e) => {
