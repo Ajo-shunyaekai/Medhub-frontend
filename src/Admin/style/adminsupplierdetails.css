@@ -1,0 +1,738 @@
+.suppliers-details-container {
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+    background-attachment: fixed;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    margin: auto;
+  }
+  
+  .suppliers-details-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .suppliers-details-conatiner-heading {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  
+  .suppliers-details-section {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .suppliers-details-left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .suppliers-details-top-inner-section {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .suppliers-details-left-inner-section-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .suppliers-details-left-top-containers {
+    width: 100%;
+    background-color: white;
+    padding: 24px 22px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    row-gap: 8px;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-top-order-cont {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+  
+  .suppliers-details-invoice-list-section{
+    margin-top: 10px;
+    margin-bottom: 10rem;
+    width: 100%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px;
+    border-color: transparent;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-left-bottom-containers {
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-left-bottom-vehichle {
+    width: 57vw;
+    background-color: white;
+    padding: 24px 22px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 10px;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-left-bottom-vehichle-no {
+    width: 28vw;
+    background-color: white;
+    padding: 24px 22px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 4px;
+    row-gap: 10px;
+  }
+  
+  .suppliers-details-right-inner-section-container {
+    width: 39vw;
+    background-color: white;
+    padding: 18px 30px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    row-gap: 18px;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-top-bottom-sction {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .suppliers-details-top-bottom-order-sect {
+    width: 28vw;
+    background-color: white;
+    padding: 24px 20px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    row-gap: 10px;
+  }
+  
+  .suppliers-details-right-section {
+    width: 24vw;
+    background-color: white;
+    padding: 12px 12px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-map-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 22vw;
+    /* border: 1px solid red; */
+  }
+  
+  .suppliers-details-left-top-main-heading-button {
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+  }
+  
+  /* start the assign driver table list */
+  .suppliers-details-assign-driver-section {
+    width: 100%;
+    background-color: white;
+    padding: 12px 12px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  
+  .table-assign-driver-heading {
+    color: #192039;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0px 10px;
+  }
+  
+  .table> :not(caption)>*>* {
+    padding: 10px 10px !important;
+    border-bottom-width: 0px !important;
+  }
+  
+  .tables-td {
+    width: 400px !important;
+  }
+  
+  .tables-td-cont {
+    width: 600px !important;
+  }
+  
+  .table-second-container {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+  }
+  
+  .table-g-section-content {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    width: 150px;
+  }
+  
+  .table-g-section {
+    color: #fff;
+    border: none;
+    background: #14bae4 linear-gradient(45deg, #14bae4, #14e4a6);
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  /* start the pickup section */
+  .suppliers-details-payment-container {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 64px;
+  
+  }
+  .suppliers-details-codinator-section-cont {
+    margin-top: -60px;
+    width: 100%;
+    background-color: white;
+    padding: 12px 12px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  .suppliers-details-payment-left-section {
+    width: 34vw;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    row-gap: 20px;
+  }
+  
+  .suppliers-details-payment-terms-cont {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+  }
+  
+  .suppliers-details-payment-first-terms-cont {
+    width: 16vw;
+    background-color: white;
+    padding: 20px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    row-gap: 6px;
+  }
+  
+  .suppliers-details-payment-detention-cont {
+    width: 33.4vw;
+    background-color: white;
+    padding: 20px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    row-gap: 6px;
+  }
+  
+  .suppliers-details-payment-remark-cont {
+    width: 33.4vw;
+    background-color: white;
+    padding: 20px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+    row-gap: 20px;
+  }
+  
+  .suppliers-details-payment-right-section {
+    width: 100%;
+    background-color: white;
+    padding: 30px 20px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-right-details-row-one {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .suppliers-details-right-pickupdata {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+  }
+  
+  .suppliers-details-left-top-main-heading {
+    color: #99a0ac;
+    font-size: 12px;
+  }
+  
+  .suppliers-details-left-top-main-contents {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #5e676f !important;
+    cursor: pointer;
+  }
+  
+  .suppliers-details-left-bottom-vehicle-head {
+    color: #99a0ac;
+    font-size: 12px;
+  }
+  
+  .suppliers-details-left-bottom-vehichle-no-head {
+    color: #99a0ac;
+    font-size: 12px;
+  }
+  
+  .suppliers-details-right-inner-section-heading {
+    color: #99a0ac;
+    font-size: 13px;
+  }
+  
+  .suppliers-details-left-bottom-vehicle-text {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  
+  .suppliers-details-left-bottom-vehichle-no-text {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  
+  .suppliers-details-top-bottom-order-heading {
+    color: #99a0ac;
+    font-size: 12px;
+  }
+  
+  .suppliers-details-top-bottom-order-content {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  
+  .table-container-text {
+    color: #5e676f;
+    font-size: 13px;
+  }
+  
+  .table-g-not-names {
+    font-size: 13px;
+    font-weight: 500;
+    color: #5e676f;
+  }
+  
+  .table-g-driver-name {
+    color: #5e676f;
+    font-size: 13px;
+  }
+  
+  .table-g-not-name {
+    color: #5e676f;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-payment-first-terms-heading {
+    color: #5e676f;
+    font-size: 14px;
+  }
+  
+  .suppliers-details-payment-first-terms-text {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-payment-detention-head {
+    color: #5e676f;
+    font-size: 14px;
+  }
+  
+  .suppliers-details-payment-detention-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .suppliers-details-payment-detention-date {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-payment-detention-time {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-payment-remark-head {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-payment-remark-text {
+    color: #99a0ac;
+    font-size: 14px;
+  }
+  
+  .suppliers-details-payment-right-section-heading {
+    color: #192039;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .suppliers-details-right-pickdata-head {
+    color: #5e676f;
+    font-size: 13px;
+  }
+  
+  .suppliers-details-right-pickdata-text {
+    color: #5e676f;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  /* Start the table container */
+  .tables-tds {
+    width: 300px;
+  }
+  
+  .tables-tds-cont {
+    width: 500px;
+  }
+  
+  .table-g-not-name-buttons {
+    background-color: #f7f7d6;
+    color: #5e676f;
+    width: 100px;
+    text-align: center;
+    padding: 8px 0px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  .table-g-section-content-button {
+    display: flex;
+    align-items: center;
+    height: 30px !important;
+    column-gap: 14px;
+  }
+  
+  .table-g-not-name-button {
+    background-color: #f21378;
+    padding: 10px 14px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    height: 30px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .table-g-not-reject-buttons {
+    background-color: #31c971;
+    padding: 10px 14px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    height: 30px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  
+  }
+  
+  /* Pending order css */
+  .suppliers-details-payment-pending-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .suppliers-details-payment-pending-left-section {
+    width: 50%;
+  }
+  
+  .suppliers-details-payment-pending-first-terms-cont {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .suppliers-details-paymen-pending-right-section {
+    width: 50%;
+  }
+  
+  .suppliers-details-payment-first-terms-containers {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+
+  .pending-order-button-section {
+    margin-top: -80px;
+    margin-bottom: 10rem;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+  
+  .pending-order-create-order {
+    border: none !important;
+    outline: none !important;
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .pending-order-contact-order {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border: 1px solid #5e676f;
+    color: #5e676f;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* ongoing inquiries styling */
+  .ongoing-enguiries-details-button-sec {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+  }
+  
+  .ongoing-enguiries-details-buttons {
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .active-order-details-middle-bottom-containers{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+  }
+  .active-order-details-left-middle-vehichle-no{
+    background-color: white;
+      padding: 24px 22px;
+      border-color: transparent;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 4px;
+      row-gap: 10px;
+      width: 46%;
+  }
+  .active-order-details-middle-bottom-vehicle-head {
+    color: #99a0ac;
+    font-size: 12px;
+  }
+  .active-order-details-middle-bottom-vehicle-text {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  @media screen and (max-width: 1530px) {
+  .table-g-section-content {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    width: 106px;
+}
+  }
+  @media screen and (max-width: 1450px) {
+    .suppliers-details-container {
+      max-width: 950px;
+    }
+    .table-g-section-content {
+      width: 100px;
+  }
+    .suppliers-details-left-bottom-vehichle {
+      width: 70%;
+    }
+  
+    .suppliers-details-left-bottom-vehichle-no {
+      width: 28%;
+    }
+  
+    .suppliers-details-top-bottom-order-sect {
+      width: 34%;
+    }
+  }
+  
+  @media screen and (max-width: 1220px) {
+    .suppliers-details-section {
+      flex-direction: column;
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .suppliers-details-left-bottom-vehichle {
+      width: 62vw;
+    }
+  
+    .suppliers-details-left-bottom-vehichle-no {
+      width: 35vw;
+    }
+  
+    .suppliers-details-top-bottom-order-sect {
+      width: 32.4vw;
+    }
+  
+    .suppliers-details-payment-container {
+      flex-direction: column;
+    }
+  
+    .suppliers-details-payment-left-section {
+      width: 100%;
+    }
+  
+    .suppliers-details-payment-first-terms-cont {
+      width: 50%;
+    }
+  
+    .suppliers-details-payment-detention-cont {
+      width: 100%;
+    }
+  
+    .suppliers-details-payment-terms-cont {
+      width: 100%;
+    }
+  
+    .suppliers-details-payment-remark-cont {
+      width: 100%;
+    }
+  }
+  
+  /* start the ongoing list styling */
+  
+  .order-details-payment-pending-container {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: start;
+  }
+  .order-details-payment-pending-left-section{
+    background-color: #ffffff;
+    width: 50%;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  .order-details-paymen-pending-right-section{
+    background-color: #ffffff;
+    width: 50%;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
