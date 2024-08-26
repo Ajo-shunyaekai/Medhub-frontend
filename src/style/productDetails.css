@@ -42,7 +42,11 @@
   align-items: center;
   width: 100%;
 }
-
+.product-details-sec-one-right{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .view-purchase-invoice-button-sec {
   width: 168px;
   background: linear-gradient(to left, #00dcff, #0075ce);
