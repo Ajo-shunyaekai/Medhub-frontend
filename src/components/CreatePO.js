@@ -270,6 +270,7 @@ const CreatePO = () => {
             return;
         }
         const updatedOrderItems = orderItems.map((item) => {
+            const est_delivery_days = item.est_delivery_days
             const unitTax = item.medicine_details.unit_tax || 0;
             const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required;
             const totalTax = totalPrice * (unitTax / 100);

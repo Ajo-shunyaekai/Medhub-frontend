@@ -64,7 +64,13 @@ const ActiveAssignDriver = ({productList}) => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Est. Delivery Time</span>
-                                        <span className="table-g-not-name">14 Days</span>
+                                        <span className="table-g-not-name" >
+                                        {order?.est_delivery_days
+                                            ? order.est_delivery_days.toLowerCase().includes('days')
+                                                ? order.est_delivery_days.replace(/days/i, 'Days') // Replace 'days' with 'Days'
+                                                : `${order.est_delivery_days} Days` // Append ' Days' if 'days' is not found
+                                            : '-'}
+                                        </span>
                                     </div>
                                 </td>
                             </tr>
