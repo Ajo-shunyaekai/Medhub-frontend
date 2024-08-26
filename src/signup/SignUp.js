@@ -10,6 +10,7 @@ import ImageUploaders from './ImageUploader';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
+import { toast } from 'react-toastify';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -117,19 +118,39 @@ const SignUp = () => {
     ];
 
 
-    const handleImageUpload = (hasImage, file, imageType) => {
-        setFormData({
-            ...formData,
-            [`${imageType}Image`]: hasImage ? file : null,
-        });
+    // const handleImageUpload = (hasImage, file, imageType) => {
+    //     setFormData({
+    //         ...formData,
+    //         [`${imageType}Image`]: hasImage ? file : null,
+    //     });
 
+    //     setErrors(prevState => ({
+    //         ...prevState,
+    //         [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is required` : '',
+    //     }));
+
+    // };
+    
+    const handleImageUpload = (hasImage, file, imageType) => {
+        setFormData(prevState => ({
+            ...prevState,
+            [`${imageType}Image`]: null,  // Clear the existing image first
+        }));
+    
+        // Adding a slight delay to ensure the previous image is cleared
+        setTimeout(() => {
+            setFormData(prevState => ({
+                ...prevState,
+                [`${imageType}Image`]: hasImage ? file : null,
+            }));
+        }, 0);
+    
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is required` : '',
         }));
-
     };
-
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -223,7 +244,6 @@ const SignUp = () => {
             const countryLabels = formData.operationCountries?.map(country => {
                 return country ? country.label : '';
             });
-            console.log(formData?.interestedIn);
             const interested = formData?.interestedIn?.map(data => {
                 return data ? data.label : ""
             });
@@ -292,11 +312,12 @@ const SignUp = () => {
                     setResetUploaders(true);
                     setShowModal(true)
                 } else {
+                    toast(response.message, {type: 'error'})
                     console.log('error in buyer/register api');
                 }
             })
         } else {
-
+            toast('Some Fields are Missing', {type: 'error'})
         }
     };
 
@@ -492,6 +513,7 @@ const SignUp = () => {
                                 name="contactPersonName"
                                 placeholder="Enter Contact Person Name"
                                 value={formData.contactPersonName}
+                                pattern="[A-Za-z\s]*" 
                                 onChange={handleChange}
                             />
                             {errors.contactPersonName && <div className='signup__errors'>{errors.contactPersonName}</div>}

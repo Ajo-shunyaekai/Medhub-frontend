@@ -11,6 +11,7 @@ import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
+import { toast } from 'react-toastify';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -128,6 +129,7 @@ const SupplierSignUp = () => {
         }));
 
     };
+    console.log('forIMage',formData)
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -168,7 +170,6 @@ const SupplierSignUp = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
-
 
     const validateForm = async () => {
         let formErrors = {};
@@ -244,7 +245,6 @@ const SupplierSignUp = () => {
     };
 
     const handleCountryOriginChange = (selectedOption) => {
-        console.log(selectedOption);
         setFormData({ ...formData, originCountry: selectedOption.label })
         if (!selectedOption) {
             setErrors(prevState => ({ ...prevState, originCountry: 'Country of Origin is Required' }));
@@ -347,11 +347,13 @@ const SupplierSignUp = () => {
                     setSelectedCompanyType(null)
                     setResetUploaders(true);
                     setShowModal(true);
-
                 } else {
+                    toast(response.message, {type: 'error'})
                     console.log('error in supplier/register api');
                 }
             })
+        } else {
+            toast('Some Fields are Missing', {type: 'error'})
         }
     };
 

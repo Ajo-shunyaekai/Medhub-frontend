@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // import 'mdb-react-ui-kit/dist/css/mdb.min.css';  Hai
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 
 import SupSidebar from '../components/SupSidebar';
 import PopupModal from '../pages/PopupModal.js';
@@ -68,7 +68,7 @@ import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
 
 const SupplierSidebar = () => {
-
+    const location = useLocation();
     const navigate = useNavigate();
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
@@ -98,6 +98,12 @@ const SupplierSidebar = () => {
     //     }
     // },[])
 
+
+    useEffect(() => {
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage && location.pathname !== '/supplier/sign-up') {
+            navigate("/supplier/login");
+        }
+    }, [location.pathname]); 
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
             // navigate("/supplier/login");

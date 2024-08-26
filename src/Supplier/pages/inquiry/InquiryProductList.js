@@ -117,7 +117,14 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                     <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Counter Price</span>
-                                    <span className="table-g-not-name">{quotation[index]?.counter_price} AED</span>
+                                    <span className="table-g-not-name">
+                                        {/* {quotation[index]?.counter_price} AED */}
+                                        {quotation[index]?.counter_price
+                                            ? quotation[index]?.counter_price.toLowerCase().includes('aed')
+                                                ? quotation[index]?.counter_price.replace(/aed/i, 'AED') // Replace 'days' with 'Days'
+                                                : `${quotation[index]?.counter_price} AED` // Append ' Days' if 'days' is not found
+                                            : '-'}
+                                    </span>
                                 </div>
                             </td>
                                 ) : ''
@@ -125,7 +132,14 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Est. Delivery Time</span>
-                                    <span className="table-g-not-name">{item.est_delivery_days} Days</span>
+                                    <span className="table-g-not-name">
+                                        {/* {item.est_delivery_days} Days */}
+                                        {item.est_delivery_days
+                                            ? item.est_delivery_days.toLowerCase().includes('days')
+                                                ? item.est_delivery_days.replace(/days/i, 'Days') // Replace 'days' with 'Days'
+                                                : `${item.est_delivery_days} Days` // Append ' Days' if 'days' is not found
+                                            : '-'}
+                                        </span>
                                 </div>
                             </td>
 

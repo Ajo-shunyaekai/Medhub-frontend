@@ -72,7 +72,7 @@ const AddProduct = () => {
 
     const productCategoryOptions = [
         { value: 'generics', label: 'Generics' },
-        { value: 'orignals', label: 'Orignals' },
+        { value: 'originals', label: 'Originals' },
         { value: 'biosimilars', label: 'Biosimilars' },
         { value: 'medicaldevices', label: 'Medical Devices' },
         { value: 'nutraceuticals', label: 'Nutraceuticals' }

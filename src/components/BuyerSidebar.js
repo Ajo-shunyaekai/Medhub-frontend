@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
 import Sidebar from './Sidebar.js';
@@ -69,17 +69,25 @@ import NotificationList from './NotificationList.js'
 import CancelnquiryList from './CancelnquiryList.js';
 
 const BuyerSidebar = () => {
+    const location = useLocation();
+    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+
     const activeKey = () => {
         const res = window.location.pathname.split("/");
         return res.length > 1 ? `/${res[1]}` : "/";
     };
     const navigate = useNavigate();
-    const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-    const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
+    
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
+
+    useEffect(() => {
+        if (!buyerIdSessionStorage && !buyerIdLocalStorage && location.pathname !== '/buyer/sign-up') {
+            navigate("/buyer/login");
+        }
+    }, [location.pathname]); 
     
     const handleClick = (id, event) => {
         const obj = {

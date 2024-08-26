@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import moment from "moment-timezone";
 
 
 const AssignDriver = ({ items, inquiryDetails }) => {
@@ -22,7 +23,11 @@ const AssignDriver = ({ items, inquiryDetails }) => {
     <div className="product-list-main-container">
       <div className='table-card-body-container'>
         <div className="table-assign-driver-heading">Product List</div>
-        <div className='table-assign-date-time'>12/05//2024 10:55:10 AM</div>
+        <div className='table-assign-date-time'>
+        {moment(inquiryDetails?.created_at)
+                      .tz("Asia/Kolkata")
+                      .format("DD/MM/YYYY HH:mm:ss")}
+          </div>
       </div>
 
       <table className="table">
@@ -53,19 +58,35 @@ const AssignDriver = ({ items, inquiryDetails }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Listed Price</span>
-                  <span className="table-g-not-name">{item.unit_price} AED</span>
+                  <span className="table-g-not-name">
+                    {/* {item.unit_price} AED */}
+                    {item.unit_price ? `${item.unit_price} AED` : ''}
+                    </span>
                 </div>
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
-                  <span className="table-g-not-name">{item.target_price} AED</span>
+                  <span className="table-g-not-name">
+                    {/* {item.target_price} AED */}
+                    {item.target_price
+                        ? item.target_price.toLowerCase().includes('days')
+                            ? item.target_price.replace(/days/i, 'Days')
+                            : `${item.target_price} Days` 
+                        : '-'}
+                  </span>
                 </div>
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Est. Delivery Time</span>
-                  <span className="table-g-not-name">{item.est_delivery_days} Days</span>
+                  <span className="table-g-not-name">
+                  {item.est_delivery_days
+                        ? item.est_delivery_days.toLowerCase().includes('days')
+                            ? item.est_delivery_days.replace(/days/i, 'Days')
+                            : `${item.est_delivery_days} Days` 
+                        : '-'}
+                    </span>
                 </div>
               </td>
               <td className='tables-td'>

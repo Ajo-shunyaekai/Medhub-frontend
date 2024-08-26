@@ -7,7 +7,6 @@ import styles from '../style/imageuploader.module.css';
 const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }) => {
     const fileInputRef = useRef(null);
     const [filePreviews, setFilePreviews] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
@@ -17,7 +16,6 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
         if (reset) {
             setFilePreviews([]);
             setUploading(false);
-            setIsLoading(false);
             setErrorMessage('');
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
@@ -27,50 +25,77 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
 
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
-        const validFiles = files.filter(file => {
-            const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
-            const isValidSize = file.size <= 5 * 1024 * 1024;
-            return isValidType && isValidSize;
-        });
+        let validFiles;
 
-        if (validFiles.length !== files.length) {
-            setErrorMessage('Some files were invalid. Only PNG, JPEG, JPG, and PDF are allowed, and file size must not exceed 5MB.');
-            return;
+        if (imageType === 'logo') {
+            // For logo, only allow JPEG and only one file
+            validFiles = files.filter(file => file.type === 'image/jpeg').slice(0, 1);
+
+            if (files.length > 1 || validFiles.length === 0) {
+                setErrorMessage('Only one JPEG image is allowed for the logo.');
+                return;
+            }
+        } else {
+            // For other types, allow multiple files with valid types and sizes
+            validFiles = files.filter(file => {
+                const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
+                const isValidSize = file.size <= 5 * 1024 * 1024;
+                return isValidType && isValidSize;
+            });
+
+            if (validFiles.length !== files.length) {
+                setErrorMessage('Some files were invalid. Only PNG, JPEG, JPG, and PDF are allowed, and file size must not exceed 5MB.');
+                return;
+            }
         }
 
         setErrorMessage('');
 
-        validFiles.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setFilePreviews(prev => [...prev, { name: file.name, preview: reader.result, type: file.type }]);
-                setUploading(false);
-                setIsLoading(false);
-                onUploadStatusChange(true, event.target.files, imageType);
-            };
-            setUploading(true);
-            setIsLoading(true);
-            reader.readAsDataURL(file);
+        // Process valid files
+        const newPreviews = validFiles.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    resolve({ name: file.name, preview: reader.result, type: file.type, file });
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         });
+
+        setUploading(true);
+        Promise.all(newPreviews)
+            .then(results => {
+                setFilePreviews(prev => {
+                    const updatedPreviews = imageType === 'logo' ? results.slice(0, 1) : [...prev, ...results];
+                    onUploadStatusChange(true, updatedPreviews.map(file => file.file), imageType);
+                    return updatedPreviews;
+                });
+            })
+            .catch(err => {
+                setErrorMessage('Error reading files.');
+            })
+            .finally(() => {
+                setUploading(false);
+            });
     };
 
     const handleFileRemove = (fileName, event) => {
-                event.stopPropagation();
-                setFilePreviews(prev => {
-                    const updatedPreviews = prev.filter(file => file.name !== fileName);
-                    if (updatedPreviews.length === 0) {
-                        // setErrorMessage('No files uploaded. Please upload at least one image.');
-                        onUploadStatusChange(false, null, imageType);
-                    } else {
-                        setErrorMessage('');
-                    }
-                    return updatedPreviews;
-                });
-                if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
-                }
-            };
-            
+        event.stopPropagation();
+
+        setFilePreviews(prev => {
+            const updatedPreviews = prev.filter(file => file.name !== fileName);
+
+            onUploadStatusChange(updatedPreviews.length > 0, updatedPreviews.map(file => file.file), imageType);
+
+            return updatedPreviews;
+        });
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
@@ -93,16 +118,16 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                 ) : (
                     <>
                         <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
-                        <p className={styles['upload-text']}>Click here to upload files</p>
+                        <p className={styles['upload-text']}>Click here to Upload Files</p>
                     </>
                 )}
                 <input
                     type="file"
-                    accept="image/png, image/jpeg, image/jpg, application/pdf"
+                    accept={imageType === 'logo' ? 'image/jpeg' : 'image/png, image/jpeg, image/jpg, application/pdf'}
                     onChange={handleImageUpload}
                     style={{ display: 'none' }}
                     ref={fileInputRef}
-                    multiple={allowMultiple}
+                    multiple={imageType === 'logo' ? false : allowMultiple}
                 />
             </div>
             {errorMessage && (
@@ -114,7 +139,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                 {filePreviews.map((file) => (
                     <div key={file.name} className={styles['file-container']}>
                         <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
-                            {file.preview.startsWith('data:image') ? (
+                            {file.type.startsWith('image') ? (
                                 <img src={file.preview} alt={file.name} className={styles['uploaded-image']} />
                             ) : (
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />

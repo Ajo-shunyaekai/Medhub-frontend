@@ -23,6 +23,16 @@ const OnGoingInquiriesDetails = () => {
     }`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
+  const dateToDisplay = 
+  inquiryDetails?.quotation_items_created_at || 
+  inquiryDetails?.quotation_items_updated_at || 
+  inquiryDetails?.created_at || 
+  moment().toISOString();
+
+  const formattedDate = moment(dateToDisplay)
+    .tz("Asia/Kolkata")
+    .format("DD/MM/YYYY HH:mm:ss");
+
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -202,6 +212,14 @@ const OnGoingInquiriesDetails = () => {
 
   }
 
+  const handleCreatePOClick = () => {
+    if (acceptedItems.length > 0) {
+      navigate(`/buyer/Create-PO/${inquiryId}`);
+    } else {
+      toast('Please accept at least one item before creating a purchase order.', {type: 'error'})
+    }
+  };
+
   return (
     <div className="ongoing-details-container">
       <div className="ongoing-details-conatiner-heading">
@@ -241,9 +259,10 @@ const OnGoingInquiriesDetails = () => {
                     Date & Time
                   </div>
                   <div className="ongoing-details-left-top-main-contents">
-                    {moment(inquiryDetails?.created_at)
+                    {/* {moment(inquiryDetails?.created_at)
                       .tz("Asia/Kolkata")
-                      .format("DD/MM/YYYY HH:mm:ss")}
+                      .format("DD/MM/YYYY HH:mm:ss")} */}
+                       {formattedDate}
                   </div>
                 </div>
               </div>
@@ -309,7 +328,7 @@ const OnGoingInquiriesDetails = () => {
       {inquiryDetails?.enquiry_status === 'Quotation submitted' ? (
         <div className="pending-order-button-section">
 
-          {acceptedItems.length > 0 ? (
+          {/* {acceptedItems.length > 0 ? (
             <Link to={`/buyer/Create-PO/${inquiryId}`}>
               <div className="pending-order-create-order">
                 Create Purchase Order
@@ -319,7 +338,13 @@ const OnGoingInquiriesDetails = () => {
             <div className="pending-order-create-order">
               Create Purchase Order
             </div>
-          )}
+          )} */}
+          <div className="pending-order-create-order"
+          onClick={handleCreatePOClick}
+          style={{ cursor: 'pointer' }}
+          >
+                Create Purchase Order
+              </div>
           <a href={mailtoLink} className="pending-order-contact-order">
             Contact Supplier
           </a>
