@@ -92,6 +92,7 @@ const RejectedBuyer = () => {
             }
           })
     },[currentPage])
+    console.log('buyerLIst',buyerList);
 
     return (
         <>

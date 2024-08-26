@@ -67,13 +67,39 @@ const CancelProductList = ({items, inquiryDetails}) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Listed Price</span>
-                  <span className="table-g-not-name">{item.unit_price} AED</span>
+                  <span className="table-g-not-name">
+                    {/* {item.unit_price} AED */}
+                    {item.unit_price
+                        ? item.unit_price.toLowerCase().includes('aed')
+                            ? item.unit_price.replace(/aed/i, 'AED')
+                            : `${item.unit_price} AED` 
+                        : '-'}
+                    </span>
                 </div>
               </td>
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
-                  <span className="table-g-not-name">{item.target_price} AED</span>
+                  <span className="table-g-not-name">
+                    {/* {item.target_price} AED */}
+                    {item.target_price
+                        ? item.target_price.toLowerCase().includes('aed')
+                            ? item.target_price.replace(/aed/i, 'AED')
+                            : `${item.target_price} AED` 
+                        : '-'}
+                    </span>
+                </div>
+              </td>
+              <td className='tables-td'>
+                <div className="table-g-section-content">
+                  <span className="table-g-driver-name">Est. Delivery Time</span>
+                  <span className="table-g-not-name">
+                  {item.est_delivery_days
+                        ? item.est_delivery_days.toLowerCase().includes('days')
+                            ? item.est_delivery_days.replace(/days/i, 'Days')
+                            : `${item.est_delivery_days} Days` 
+                        : '-'}
+                    </span>
                 </div>
               </td>
               <td className='tables-td'>

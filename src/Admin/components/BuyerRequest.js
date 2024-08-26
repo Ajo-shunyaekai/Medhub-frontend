@@ -75,7 +75,7 @@ const BuyerRequest = () => {
     const [totalRequests, setTotalRequests] = useState()
 
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 4;
+    const listPerPage = 5;
     const indexOfLastOrder = currentPage * listPerPage;
     const indexOfFirstOrder = indexOfLastOrder - listPerPage;
     const currentOrders = buyerRequest.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -105,6 +105,7 @@ const BuyerRequest = () => {
             }
         })
     },[currentPage])
+    console.log('buyerLIst',buyerRequestList);
 
     return (
         <>

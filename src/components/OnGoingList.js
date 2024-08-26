@@ -70,9 +70,9 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                   <span className="table-g-not-name">
                     {/* {item.target_price} AED */}
                     {item.target_price
-                        ? item.target_price.toLowerCase().includes('days')
-                            ? item.target_price.replace(/days/i, 'Days')
-                            : `${item.target_price} Days` 
+                        ? item.target_price.toLowerCase().includes('aed')
+                            ? item.target_price.replace(/days/i, 'AED')
+                            : `${item.target_price} AED` 
                         : '-'}
                   </span>
                 </div>

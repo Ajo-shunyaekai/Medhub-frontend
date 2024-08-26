@@ -71,9 +71,10 @@ const CancelInquiryList = () => {
 
         postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
         if (response.code === 200) {
-            navigate(`/buyer/ongoing-inquiries-details/${inquiryId}`);
+            toast(response.message, { type: "success" });
             setTimeout(() => {
-                toast(response.message, { type: "success" });
+                navigate(`/buyer/ongoing-inquiries-details/${inquiryId}`);
+               
             },1000)
           
           
