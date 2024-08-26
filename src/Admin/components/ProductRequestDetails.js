@@ -65,11 +65,12 @@ const ProductRequestDetails = () => {
 
     const handleAcceptReject = (action) => {
         const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
-            medicine_id : medicineId ,
-            supplier_id : medicineDetails?.supplier.supplier_id,
-            supplier_email : medicineDetails?.supplier.supplier_email,
-            supplier_contact_email : medicineDetails?.supplier.supplier_email,
+            admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
+            medicine_id            : medicineId ,
+            supplier_id            : medicineDetails?.supplier.supplier_id,
+            supplier_email         : medicineDetails?.supplier.supplier_email,
+            supplier_name          : medicineDetails?.supplier.supplier_name,
+            supplier_contact_email : medicineDetails?.supplier.contact_person_email,
             action
         }
 
