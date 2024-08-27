@@ -150,14 +150,11 @@ const AddProduct = () => {
         if (productType.label === 'New Product') {
             const newFormSections = [...formSections];
             newFormSections[index].quantity = selected;
-
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`quantity${index}`]: ''
             }));
-
             const quantities = newFormSections.map(section => section.quantity);
-
             setFormData({
                 ...formData,
                 quantity: quantities
@@ -173,10 +170,6 @@ const AddProduct = () => {
     };
 
     const handleStockedInputChange = (index, event) => {
-        // const { name, value } = event.target;
-        // const updatedSections = [...stockedInSections];
-        // updatedSections[index][name] = value;
-        // setStockedInSections(updatedSections);
         const { name, value } = event.target;
         if (/^\d*$/.test(value)) {
             const updatedSections = [...stockedInSections];
@@ -194,22 +187,17 @@ const AddProduct = () => {
                 isValid = false;
             }
         }
-
         if (isValid) {
             newFormSections[index][name] = value;
             setFormSections(newFormSections);
         }
-
         if (value.trim() === '') {
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is Required`
             }));
         } else if (!isValid) {
-            // setErrors(prevErrors => ({
-            //     ...prevErrors,
-            //     [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`
-            // }));
+         
         } else {
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -258,7 +246,6 @@ const AddProduct = () => {
                     }));
                 }
             });
-
             if (newProductValid && productType.label === 'New Product') {
                 setFormSections([
                     ...formSections,
@@ -289,7 +276,6 @@ const AddProduct = () => {
                     }));
                 }
             });
-
             if (secondaryMarketValue && productType.label === 'Secondary Market') {
                 setFormSections([
                     ...formSections,
@@ -330,7 +316,6 @@ const AddProduct = () => {
             ]);
             setErrors({});
         }
-
     };
 
     const removeFormSection = (index) => {
@@ -357,10 +342,8 @@ const AddProduct = () => {
         setStockedInSections(prevSections => prevSections.filter((_, i) => i !== index));
     };
 
-
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
-        // setSelectedCompanyType(selectedOption);
         setFormData(prevState => ({ ...prevState, productType: selected }));
         if (!selected) {
             setErrors(prevState => ({ ...prevState, productType: 'Product Type is Required' }));
@@ -415,14 +398,11 @@ const AddProduct = () => {
 
     const handleRegisteredInChange = (selectedOptions) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
-
         setFormData({
             ...formData,
             registeredIn: selectedOptions
         });
-
         setRegisteredCountries(selectedOptions)
-
         setErrors(prevState => ({
             ...prevState,
             registeredIn: selectedLabels.length === 0 ? 'Registered in is Required' : ''
@@ -431,33 +411,26 @@ const AddProduct = () => {
 
     const handleStockedInChange = (selectedOptions) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
-
         setFormData({
             ...formData,
             stockedIn: selectedOptions
         });
-
         setStockedIn(selectedOptions)
-
         setErrors(prevState => ({
             ...prevState,
             stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
         }));
-
         const options = selectedOptions.map(option => ({ label: option.label }));
         setStockedInOptions(options);
     };
 
     const handleAvailableInChange = (selectedOptions) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
-
         setFormData({
             ...formData,
             countryAvailableIn: selectedOptions
         });
-
         setAvailableCountries(selectedOptions)
-
         setErrors(prevState => ({
             ...prevState,
             countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
@@ -474,12 +447,9 @@ const AddProduct = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        // Initialize a newErrors object to hold the validation errors
         let newErrors = {};
         let isValid = true;
 
-        // Description field validation
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -488,46 +458,33 @@ const AddProduct = () => {
                 newErrors.description = '';
             }
         }
-
-        // Product Name and Dossier Status field validation: only letters allowed
         if (name === 'productName' || name === 'dossierStatus') {
             if (!/^[a-zA-Z\s]*$/.test(value)) {
-                // newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only letters`;
                 isValid = false;
             } else {
                 newErrors[name] = '';
             }
         }
-
-        // Total Quantity field validation: only numbers allowed
         if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
-                // newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} should contain only numbers`;
                 isValid = false;
             } else {
                 newErrors[name] = '';
             }
         }
-
         if (name === 'unitTax') {
             if (!/^\d*\.?\d*$/.test(value)) {
-                // newErrors.unitTax = 'Unit Tax should contain only numbers and a decimal point';
                 isValid = false;
             } else {
                 newErrors.unitTax = '';
             }
         }
-
-        // Update the formData state only if the input is valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-
-        // Update the errors state with the newErrors object
         setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
 
-    //useEffect to update the invoice images
     useEffect(() => {
         setFormData({
             ...formData,
@@ -535,7 +492,6 @@ const AddProduct = () => {
         });
     }, [invoiceImages])
 
-    //useEffect to update the medicineImages
     useEffect(() => {
         setFormData({
             ...formData,
@@ -543,7 +499,6 @@ const AddProduct = () => {
         });
     }, [medicineImages])
 
-    //useEffect to update the variables to inital state based on productType
     useEffect(() => {
         if (productType && productType.label === 'New Product') {
             setInvoiceImages([])
@@ -561,7 +516,6 @@ const AddProduct = () => {
         }
     }, [productType])
 
-    //validation
     const validateForm = () => {
         let formErrors = {};
 
@@ -868,11 +822,6 @@ const AddProduct = () => {
 
         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
             if (response.code === 200) {
-
-                // setFormData(prevFormData => ({
-                //     ...prevFormData,
-                //     ...response.result
-                // }));
                 if (response.result) {
                     toast(response.message, { type: "success" });
                     setMedicineData(response.result)
@@ -945,7 +894,6 @@ const AddProduct = () => {
                                     autoComplete='off'
                                     value={formData.productName}
                                     onChange={handleChange}
-                                // onBlur={handleBlur}
                                 />
                                 {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>

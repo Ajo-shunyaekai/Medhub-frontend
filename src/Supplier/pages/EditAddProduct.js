@@ -6,7 +6,8 @@ import ImageAddUploader from './ImageAppUploader';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import { postRequest } from '../api/Requests';
+import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
+import { toast } from 'react-toastify';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -72,7 +73,50 @@ const AddProduct = () => {
     ];
 
     const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' });
-   
+    const [formType, setFormType] = useState()
+    const [productCategory, setProductCategory] = useState()
+    const [countryOfOrigin, setCountryOfOrigin] = useState('')
+    const [registeredCountries, setRegisteredCountries] = useState([])
+    const [stockedIn, setStockedIn] = useState([])
+    const [availableCountries, setAvailableCountries] = useState([])
+    const [medicineImages, setMedicineImages] = useState([])
+    const [invoiceImages, setInvoiceImages] = useState([])
+    const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
+    const [stockedInOptions, setStockedInOptions] = useState([])
+    const [packageType, setPackageType] = useState('Box');
+
+    const [errors, setErrors] = useState({});
+    const [formData, setFormData] = useState({
+        productName: '',
+        productType: productType,
+        composition: '',
+        unitTax: '',
+        strength: '',
+        typeOfForm: null,
+        shelfLife: '',
+        dossierType: '',
+        dossierStatus: '',
+        productCategory: null,
+        totalQuantity: '',
+        gmpApprovals: '',
+        shippingTime: '',
+        originCountry: '',
+        registeredIn: '',
+        stockedIn: '',
+        availableFor: '',
+        tags: '',
+        description: '',
+        product_image: medicineImages,
+        invoice_image: invoiceImages,
+        //for secondary market
+        purchasedOn: '',
+        minPurchaseUnit: '',
+        countryAvailableIn: '',
+        manufacturerName: '',
+        manufacturerOriginCountry: '',
+        manufacturerDescription: '',
+        stockedInData: ''
+    })
     const [formSections, setFormSections] = useState([
         {
             strength: '',
@@ -81,9 +125,34 @@ const AddProduct = () => {
             productCategory: null,
             unitPrice: '',
             estDeliveryTime: '',
-            condition: ''
+            condition: '',
+            totalPrice: ''
         }
     ]);
+
+    const [stockedInSections, setStockedInSections] = useState([
+        {
+            stockedInCountry: '',
+            stockedInQuantity: '',
+            stockedInType: 'Box',
+        }
+    ]);
+
+    useEffect(() => {
+        if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
+            const initialSections = medicineDetails?.inventory_info?.map(item => ({
+                strength: '', // Set default or adjust if needed
+                quantity: { value: item.quantity, label: item.quantity }, // Adjust to match your Select options
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: item.unit_price,
+                estDeliveryTime: item.est_delivery_days,
+                totalPrice: item.total_price,
+                condition: { value: '', label: '' } // Adjust based on available conditions
+            }));
+            setFormSections(initialSections);
+        }
+    }, [medicineDetails]);
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
@@ -107,20 +176,83 @@ const AddProduct = () => {
         newFormSections[index][name] = value;
         setFormSections(newFormSections);
     };
+
+    // const addFormSection = () => {
+    //     setFormSections([
+    //         ...formSections,
+    //         {
+    //             strength: '',
+    //             quantity: null,
+    //             typeOfForm: null,
+    //             totalPrice: '',
+    //             unitPrice: '',
+    //             shelfLife: '',
+    //             estDeliveryTime: '',
+    //             condition: ''
+    //         }
+    //     ]);
+    // };
     const addFormSection = () => {
-        setFormSections([
-            ...formSections,
-            {
-                strength: '',
-                quantity: null,
-                typeOfForm: null,
-                totalPrice: '',
-                unitPrice: '',
-                shelfLife: '',
-                estDeliveryTime: '',
-                condition: ''
+        let newProductValid = true;
+        let secondaryMarketValue = true;
+
+        if (productType && productType.label === 'New Product') {
+            formSections.forEach((section, index) => {
+                if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
+                    newProductValid = false;
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
+                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
+                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
+
+                    }));
+                }
+            });
+            if (newProductValid && productType.label === 'New Product') {
+                setFormSections([
+                    ...formSections,
+                    {
+                        id: formSections.length,
+                        quantity: null,
+                        typeOfForm: null,
+                        totalPrice: '',
+                        unitPrice: '',
+                        shelfLife: '',
+                        estDeliveryTime: '',
+                    }
+                ]);
+
+                setErrors({});
             }
-        ]);
+        } else if (productType && productType.label === 'Secondary Market') {
+
+            formSections.forEach((section, index) => {
+                if (!section.quantityNo || !section.unitPrice || !section.condition) {
+                    secondaryMarketValue = false;
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
+                        [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
+                        [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
+
+                    }));
+                }
+            });
+            if (secondaryMarketValue && productType.label === 'Secondary Market') {
+                setFormSections([
+                    ...formSections,
+                    {
+                        id: formSections.length,
+                        quantityNo: '',
+                        unitPricee: '',
+                        condition: ''
+                    }
+                ]);
+                setErrors({});
+            }
+        }
     };
 
     const removeFormSection = (index) => {
@@ -162,6 +294,7 @@ const AddProduct = () => {
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
     const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
     const [inventoryInfo, setInventoryInfo] = useState([]);
+  
 
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
@@ -187,12 +320,375 @@ const AddProduct = () => {
         }
     }, [medicineDetails]);
 
+    const addStockedInSection = () => {
+        let newProductValid = true;
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry || !section.stockedInQuantity || !section.stockedInType) {
+                newProductValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`stockedInCountry${index}`]: !section.stockedInCountry ? 'stockedInCountry is Required' : '',
+                    [`stockedInQuantity${index}`]: !section.stockedInQuantity ? 'stockedInQuantity is Required' : '',
+                    [`stockedInType${index}`]: !section.stockedInType ? 'stockedInType is Required' : '',
+
+                }));
+            }
+        });
+
+        if (newProductValid) {
+            setStockedInSections(prevSections => [
+                ...prevSections,
+                {
+                    stockedInCountry: null,
+                    stockedInQuantity: '',
+                    stockedInType: 'Box'
+                }
+            ]);
+            setErrors({});
+        }
+    };
+
+    const handleStockedInCountryChange = (index, selected) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInCountry = selected;
+        setStockedInSections(updatedSections);
+    };
+
+    const handleStockedInputChange = (index, event) => {
+        const { name, value } = event.target;
+        if (/^\d*$/.test(value)) {
+            const updatedSections = [...stockedInSections];
+            updatedSections[index][name] = value;
+            setStockedInSections(updatedSections);
+        }
+    };
+
+    const handlePackageSelection = (index, packageType) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInType = packageType;
+        setStockedInSections(updatedSections);
+    };
+
+    const removeStockedInFormSection = (index) => {
+        setStockedInSections(prevSections => prevSections.filter((_, i) => i !== index));
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!formData.productName) formErrors.productName = 'Product Name is Required';
+        if (!productType) formErrors.productType = 'Product Type is Required';
+        if (!formData.composition) formErrors.composition = 'Composition is Required';
+        if (!formData.strength) formErrors.strength = 'Strength is Required';
+        if (!formData.unitTax) formErrors.unitTax = 'Unit Tax is Required';
+        if (!formType) formErrors.typeOfForm = 'Type of Form is Required';
+        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf Life is Required';
+        if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
+        if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
+        if (productType && productType.label === 'New Product') {
+            if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
+        }
+
+        if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
+        if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
+        if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
+        if (!formData.tags) formErrors.tags = 'Tags are Required';
+        if (!formData.description) formErrors.description = 'Description is Required';
+        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
+        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
+        if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is Required';
+        if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is Required';
+        if (!productCategory) formErrors.productCategory = 'Product Category is Required';
+
+        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer Name is Required';
+        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
+        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
+
+        if (productType && productType.label === 'New Product') {
+            formSections.forEach((section, index) => {
+                if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
+                if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
+                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+                if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
+            });
+        } else if (productType && productType.label === 'Secondary Market') {
+            formSections.forEach((section, index) => {
+                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
+                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
+                if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
+            });
+        }
+
+        if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
+
+
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
+            if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
+            if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
+        });
+
+
+
+        if (productType && productType.label === 'Secondary Market') {
+            if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
+            if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
+            if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
+            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    }
+
+    const handleSubmit = (e) => {
+
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
+        e.preventDefault()
+
+        if (validateForm()) {
+
+            const newFormData = new FormData()
+            const secondaryFormData = new FormData()
+
+            const registered = formData.registeredIn?.map(country => {
+                return country ? country.label : '';
+            }) || [];
+
+            const stocked = formData.stockedIn?.map(country => {
+                return country ? country.label : '';
+            }) || []
+
+            const simplifiedStockedInSections = stockedInSections.map(section => ({
+                stocked_in_country: section.stockedInCountry?.label || '',
+                stocked_quantity: section.stockedInQuantity || '',
+                stocked_in_type: section.stockedInType || ''
+            }));
+            if (productType && productType.label === 'New Product') {
+
+                const quantities = formData.quantity?.map(qty => {
+                    return qty ? qty?.label : ''
+                })
+
+                newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                newFormData.append('medicine_name', formData.productName);
+                newFormData.append('product_type', 'new');
+                newFormData.append('composition', formData.composition);
+                newFormData.append('unit_tax', formData.unitTax);
+                newFormData.append('strength', formData.strength);
+                newFormData.append('type_of_form', formData.typeOfForm?.label);
+                newFormData.append('shelf_life', formData.shelfLife);
+                newFormData.append('dossier_type', formData.dossierType);
+                newFormData.append('dossier_status', formData.dossierStatus);
+                newFormData.append('product_category', formData.productCategory?.label);
+                newFormData.append('total_quantity', formData.totalQuantity);
+                newFormData.append('gmp_approvals', formData.gmpApprovals);
+                newFormData.append('shipping_time', formData.shippingTime);
+                newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
+                registered.forEach(item => newFormData.append('registered_in[]', item));
+                stocked.forEach(item => newFormData.append('stocked_in[]', item));
+                newFormData.append('available_for', formData.availableFor);
+                newFormData.append('tags', formData.tags);
+                newFormData.append('description', formData.description);
+                quantities.forEach(item => newFormData.append('quantity[]', item));
+                formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
+                formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
+                formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
+                Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
+                newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                newFormData.append('manufacturer_name', formData?.manufacturerName)
+                newFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
+                newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
+
+                postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
+                    if (response.code === 200) {
+                        toast(response.message, { type: "success" });
+                        setTimeout(() => {
+                            navigate('/supplier/product/newproduct')
+                        }, 1000);
+                    } else {
+                        toast(response.message, { type: "error" });
+                        console.log('error in new  /medicine/add-medicine');
+                    }
+                })
+
+            } else if (productType && productType.label === 'Secondary Market') {
+                const countryLabels = formData.countryAvailableIn?.map(country => {
+                    return country ? country.label : '';
+                }) || [];
+
+                secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                secondaryFormData.append('medicine_name', formData.productName);
+                secondaryFormData.append('product_type', 'secondary market');
+                secondaryFormData.append('purchased_on', formData.purchasedOn);
+
+                countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
+                secondaryFormData.append('strength', formData.strength);
+                secondaryFormData.append('unit_tax', formData.unitTax);
+                secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
+
+                secondaryFormData.append('composition', formData.composition);
+                secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
+                secondaryFormData.append('shelf_life', formData.shelfLife);
+                secondaryFormData.append('dossier_type', formData.dossierType);
+                secondaryFormData.append('dossier_status', formData.dossierStatus);
+                secondaryFormData.append('product_category', formData.productCategory?.label);
+                secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
+                secondaryFormData.append('shipping_time', formData.shippingTime);
+                secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
+                registered.forEach(item => secondaryFormData.append('registered_in[]', item));
+                stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
+                secondaryFormData.append('available_for', formData.availableFor);
+                secondaryFormData.append('tags', formData.tags);
+                secondaryFormData.append('description', formData.description);
+                secondaryFormData.append('quantity', formData.quantityNo.join(','));
+                secondaryFormData.append('unit_price', formData.unitPricee);
+                secondaryFormData.append('condition', formData.condition[0].value);
+                Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
+                Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
+                secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                secondaryFormData.append('manufacturer_name', formData?.manufacturerName)
+                secondaryFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                secondaryFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
+
+                postRequestWithTokenAndFile('/medicine/add-medicine', secondaryFormData, async (response) => {
+                    if (response.code === 200) {
+                        toast(response.message, { type: "success" });
+
+                        setTimeout(() => {
+                            navigate('/supplier/product/secondarymarket')
+                        }, 1000);
+                    } else {
+                        toast(response.message, { type: "error" });
+                        console.log('error in secondary  /medicine/add-medicine');
+                    }
+                })
+            }
+        } else {
+            toast('Some Fields are Missing', { type: "error" });
+            console.log('errorrrrr', formData);
+        }
+    }
+
+    const resetForm = () => {
+        setProductType({ value: 'new_product', label: 'New Product' });
+        setFormType('');
+        setProductCategory('');
+        setCountryOfOrigin('');
+        setRegisteredCountries([]);
+        setStockedIn([]);
+        setAvailableCountries([]);
+        setMedicineImages([]);
+        setInvoiceImages([]);
+        setErrors({});
+        setFormData({
+            productName: '',
+            productType: { value: 'new_product', label: 'New Product' },
+            composition: '',
+            strength: '',
+            typeOfForm: '',
+            shelfLife: '',
+            dossierType: '',
+            dossierStatus: '',
+            productCategory: '',
+            totalQuantity: '',
+            gmpApprovals: '',
+            shippingTime: '',
+            originCountry: '',
+            registeredIn: '',
+            stockedIn: '',
+            availableFor: '',
+            tags: '',
+            description: '',
+            product_image: '',
+            invoice_image: '',
+            purchasedOn: '',
+            minPurchaseUnit: '',
+            countryAvailableIn: ''
+        });
+        setFormSections([
+            {
+                strength: '',
+                quantity: null,
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: '',
+                totalPrice: '',
+                estDeliveryTime: '',
+                condition: '',
+                quantityNo: '',
+                unitPricee: ''
+            }
+        ])
+    };
+
+    const handleCancel = () => {
+        resetForm()
+    }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        let newErrors = {};
+        let isValid = true;
+
+        if (name === 'description') {
+            if (value.length > 1000) {
+                newErrors.description = 'Description cannot exceed 1000 characters';
+                isValid = false;
+            } else {
+                newErrors.description = '';
+            }
+        }
+        if (name === 'productName' || name === 'dossierStatus') {
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
+            if (!/^\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors.unitTax = '';
+            }
+        }
+        if (isValid) {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+        }
+        setErrors(prevState => ({ ...prevState, ...newErrors }));
+    };
+
+    const handlemanufacturerCountryOriginChange = (selected) => {
+        setManufacturerCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, manufacturerOriginCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: 'Manufacturer country of origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: '' }));
+        }
+    };
+
     return (
         <>
             <div className={styles['create-invoice-container']}>
                 <div className={styles['create-invoice-heading']}>Edit Product</div>
                 <div className={styles['create-invoice-section']}>
-                    <form className={styles['craete-invoice-form']} >
+                    <form className={styles['craete-invoice-form']} onSubmit={handleSubmit}>
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-add-item-cont']}>
                                 <div className={styles['create-invoice-form-heading']}>Product Details</div>
@@ -423,6 +919,110 @@ const AddProduct = () => {
                             </div>
                         </div>
 
+                          {/* Start the stocked in section */}
+                          <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-section']}>
+                                <div className={styles['create-invoice-add-item-cont']}>
+                                    <div className={styles['create-invoice-form-heading']}>Stocked in Details</div>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addStockedInSection}>Add More</span>
+                                </div>
+                                {stockedInSections.map((section, index) => (
+                                    <div className={styles['form-item-container']} >
+                                        {/* {productType && productType.value === 'new_product' && ( */}
+                                        <div className={styles['create-invoice-new-product-section-containers']}>
+                                            <div className={styles['create-invoice-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Country</label>
+                                                <Select
+                                                    className={styles['create-invoice-div-input-select']}
+                                                    value={section.stockedInCountry}
+                                                    onChange={(selected) => handleStockedInCountryChange(index, selected)}
+                                                    options={stockedInOptions}
+                                                    placeholder="Select Stocked in Country"
+                                                    name='stockedInCountry'
+                                                />
+                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
+                                                {errors[`stockedInCountry${index}`] && (
+                                                    <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                        Stocked in Country is Required
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles['add-product-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Quantity</label>
+                                                <div className={styles.quantitySelector}>
+                                                    <div className={styles.inputGroup}>
+                                                        <input
+                                                            type="text"
+                                                            name="stockedInQuantity"
+                                                            onChange={(event) => handleStockedInputChange(index, event)}
+                                                            value={section.stockedInQuantity}
+                                                            placeholder={`Enter ${packageType} Quantity`}
+                                                            className={styles['add-product-div-input']}
+                                                        />
+                                                        <button
+                                                            className={`${styles.optionButton} ${styles.selected}`}
+                                                        >
+                                                            {section.stockedInType}
+                                                        </button>
+                                                    </div>
+
+                                                    <div className={styles.radioGroup}>
+                                                        <label>
+                                                            <input
+                                                                name={`stockedInType_${index}`}
+                                                                type="radio"
+                                                                value="Box"
+                                                                checked={section.stockedInType === 'Box'}
+                                                                onChange={() => handlePackageSelection(index, 'Box')}
+                                                            />
+                                                            <span>Box</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                name={`stockedInType_${index}`}
+                                                                value="Strip"
+                                                                checked={section.stockedInType === 'Strip'}
+                                                                onChange={() => handlePackageSelection(index, 'Strip')}
+                                                            />
+                                                            <span>Strip</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                value="Pack"
+                                                                name={`stockedInType_${index}`}
+                                                                checked={section.stockedInType === 'Pack'}
+                                                                onChange={() => handlePackageSelection(index, 'Pack')}
+                                                            />
+                                                            <span>Pack</span>
+                                                        </label>
+                                                    </div>
+
+
+                                                </div>
+                                                <div className={styles['quanity-error-section']}>
+                                                    {errors[`stockedInQuantity${index}`] && (
+                                                        <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                            Stocked in Quantity is Required
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {/* )} */}
+                                        {stockedInSections.length > 1 && (
+                                            <div className={styles['addproduct-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
+                                                <CloseIcon />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {/* End the stocked in section */}
+
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
@@ -452,7 +1052,7 @@ const AddProduct = () => {
                                                         type='text'
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
-                                                        value={section.unitPrice}
+                                                        defaultValue={section.unitPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
                                                 </div>
@@ -463,7 +1063,7 @@ const AddProduct = () => {
                                                         type='text'
                                                         name='totalPrice'
                                                         placeholder='Enter Total Price'
-                                                        value={section.totalPrice}
+                                                        defaultValue={section.totalPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
                                                 </div>
@@ -527,6 +1127,56 @@ const AddProduct = () => {
                                 ))}
                             </div>
                         </div>
+
+                        {/* start the manufacturer details */}
+                        <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-add-item-cont']}>
+                                <div className={styles['create-invoice-form-heading']}>Manufacturer Details</div>
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Manufacturer Name</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='manufacturerName'
+                                    placeholder='Enter Manufacturer Name'
+                                    autoComplete='off'
+                                    value={formData.manufacturerName}
+                                    onChange={handleChange}
+                                />
+                                {errors.manufacturerName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerName}</div>}
+                            </div>
+
+
+
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country of Origin</label>
+                                <Select
+                                    className={styles['create-invoice-div-input-select']}
+                                    name='originCountry'
+                                    options={countries}
+                                    placeholder="Select Country of Origin"
+                                    autoComplete='off'
+                                    value={manufacturerCountryOfOrigin}
+                                    onChange={handlemanufacturerCountryOriginChange}
+                                />
+                                {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+                            </div>
+                            <div className={styles['create-manufaturer-div-container-description']}>
+                                <label className={styles['create-invoice-div-label']}>About Manufacturer</label>
+                                <textarea
+                                    className={styles['create-invoice-div-input']}
+                                    name="manufacturerDescription"
+                                    rows="4"
+                                    cols="20"
+                                    value={formData.manufacturerDescription}
+                                    placeholder='Enter About Manufacturer'
+                                    onChange={handleChange}
+                                />
+                                {errors.manufacturerDescription && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerDescription}</div>}
+                            </div>
+                        </div>
+                        {/* end the manufacturer details */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-product-image-section']}>
                                 <div className={styles['create-invoice-upload-purchase']}>
@@ -545,7 +1195,7 @@ const AddProduct = () => {
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                            <div className={styles['create-invoices-cancel']}>Cancel</div>
+                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                             <button type="submit" className={styles['create-invoices-submit']}>Edit Product</button>
                         </div>
                     </form>
