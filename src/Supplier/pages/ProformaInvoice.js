@@ -335,7 +335,8 @@ const ProformaInvoice = () => {
         }
         const updatedOrderItems = orderItems.map(item => ({
             ...item,
-            unit_tax: item?.medicine_details?.unit_tax
+            unit_tax: item?.medicine_details?.unit_tax,
+            est_delivery_days: item?.est_delivery_days,
         }));
         // const newData = {
         //     ...data,
@@ -391,10 +392,16 @@ const ProformaInvoice = () => {
 
     };
 
+    // const handleNumberInput = (event) => {
+    //     const value = event.target.value;
+    //     // Remove any non-numeric characters
+    //     event.target.value = value.replace(/[^0-9]/g, '');
+    // };
+
     const handleNumberInput = (event) => {
         const value = event.target.value;
-        // Remove any non-numeric characters
-        event.target.value = value.replace(/[^0-9]/g, '');
+        event.target.value = value.replace(/[^0-9.]/g, '')
+                                  .replace(/(\..*?)\..*/g, '$1'); 
     };
 
     const grandTotalAmount = orderItems.reduce((total, item) => {

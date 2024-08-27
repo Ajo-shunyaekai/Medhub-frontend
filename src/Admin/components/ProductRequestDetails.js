@@ -117,6 +117,7 @@ const ProductRequestDetails = () => {
                             
                         </div>
                     </div>
+                   
 
                     <div className="product-details-wrapper">
                         <div className='product-details-container'>

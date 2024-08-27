@@ -276,7 +276,7 @@
   
   .product-details-mfg-heading {
     font-size: 16px;
-    text-transform: capitalize;
+    text-transform: unset !important;
     color: #5e676f;
     font-weight: 600;
     margin-bottom: 0.5rem;

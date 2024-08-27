@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import '../style/detailsrequest.css'
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import CompanyLogo from '../assest/companylogo.png'
-import TradeLicense from '../assest/certificate.jpg'
-import TaxCertificate from '../assest/tax-certificate.jpg'
-import Certificate from '../assest/Medical_certificate.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 
 
 const SupplierRequestDetails = () => {
-    const {supplierId} = useParams()
-    const navigate    = useNavigate()
+    const { supplierId } = useParams()
+    const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
 
     useEffect(() => {
@@ -24,36 +20,36 @@ const SupplierRequestDetails = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            supplier_id  : supplierId,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            supplier_id: supplierId,
         }
         postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
             if (response.code === 200) {
                 setSupplierDetails(response.result)
             } else {
-               console.log('error in get-supplier-details api',response);
+                console.log('error in get-supplier-details api', response);
             }
         })
-    },[])
+    }, [])
 
     const handleAcceptReject = (action) => {
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            supplier_id  : supplierId,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            supplier_id: supplierId,
             action
         }
 
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
             if (response.code === 200) {
-                toast(response.message, {type: 'success'})
+                toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/admin/seller-request')
-                },1000)
-                
+                }, 1000)
+
                 // setSupplierDetails(response.result)
             } else {
-               console.log('error in accept-reject-supplier api',response);
-               toast(response.message, {type: 'error'})
+                console.log('error in accept-reject-supplier api', response);
+                toast(response.message, { type: 'error' })
             }
         })
     }
@@ -141,10 +137,15 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
                                 </div>
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.approx_yearly_purchase_value}</div>
-                                </div> */}
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Company Registration No. :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>VAT Registartion No :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
+                                </div>
+                               
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Origin :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_origin}</div>
@@ -168,28 +169,28 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={TradeLicense} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
-                                        alt='License' />
+                                        <img
+                                            // src={TradeLicense} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
+                                            alt='License' />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={TaxCertificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
-                                        alt='Tax' />
+                                        <img
+                                            // src={TaxCertificate} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
+                                            alt='Tax' />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={Certificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
-                                        alt='Certificate' />
+                                        <img
+                                            // src={Certificate} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
+                                            alt='Certificate' />
                                     </div>
                                 </div>
                             </div>
@@ -197,9 +198,8 @@ const SupplierRequestDetails = () => {
                     </div>
 
                     <div className='buyer-details-button-containers'>
-                        <div className='buyer-details-button-reject' onClick={() => {handleAcceptReject('reject')}}>Reject</div>
-                        <div className='buyer-details-button-accept' onClick={() => {handleAcceptReject('accept')}}>Accept</div>
-
+                        <div className='buyer-details-button-accept' onClick={() => { handleAcceptReject('accept') }}>Accept</div>
+                        <div className='buyer-details-button-reject' onClick={() => { handleAcceptReject('reject') }}>Reject</div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import '../../style/productDetails.css';
 import '../../style/productDetails.css'
 import CountryDetails from '../CountryDetails';
 import { Link, useParams } from 'react-router-dom';
@@ -81,11 +80,19 @@ const ProductDetails = () => {
                                 </div>
                                
                             </Link> */}
-                            
+
                         </div>
                     </div>
 
                     <div className="product-details-wrapper">
+                        <div className='product-details-containers'>
+                            <div className="product-details-mfg-container">
+                                <div className="product-details-mfg-heading">Reason for Rejecting the Product</div>
+
+                                <div className="product-details-mfg-details">{medicineDetails?.description}</div>
+                            </div>
+
+                        </div>
                         <div className='product-details-container'>
                             <div className="product-details-section-two">
                                 <div className="product-details-sec-two-left">
@@ -140,16 +147,16 @@ const ProductDetails = () => {
                                     <div className='product-stockedin-head-country'>Quantity</div>
                                 </div>
                                 <>
-                                {
-                                    medicineDetails?.stockedIn_details?.map((item, index) => (
-                                        <div className='product-stockedin-head-section' key={index}>
-                                            <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
-                                            <div className='product-stockedin-head-qty-name'>
-                                              {item.stocked_quantity} {item.stocked_in_type}
+                                    {
+                                        medicineDetails?.stockedIn_details?.map((item, index) => (
+                                            <div className='product-stockedin-head-section' key={index}>
+                                                <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
+                                                <div className='product-stockedin-head-qty-name'>
+                                                    {item.stocked_quantity} {item.stocked_in_type}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))
-                                }
+                                        ))
+                                    }
                                 </>
                             </div>
                         </div>
@@ -178,41 +185,41 @@ const ProductDetails = () => {
                                 medicineDetails?.inventory_info?.map((info, k) => {
                                     return (
                                         <div className="product-range-details">
-                                            <div className="product-range-text"> <input className="product-range-input" type=" text" 
-                                            value={info?.quantity} 
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text"
+                                                value={info?.quantity}
                                             /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" 
-                                            // value={info?.unit_price}
-                                            value={
-                                                info?.unit_price
-                                                  ? info.unit_price.toLowerCase().includes('aed')
-                                                    ? info.unit_price.replace(/aed/i, 'AED')
-                                                    : `${info.unit_price} AED`
-                                                  : ''
-                                              }
-                                             /> 
+                                            <div className="product-range-text"><input className="product-range-input" type="text"
+                                                // value={info?.unit_price}
+                                                value={
+                                                    info?.unit_price
+                                                        ? info.unit_price.toLowerCase().includes('aed')
+                                                            ? info.unit_price.replace(/aed/i, 'AED')
+                                                            : `${info.unit_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
-                                            <div className="product-range-text"><input className="product-range-input" 
-                                            type="text" 
-                                            // value={info?.total_price} 
-                                            value={
-                                                info?.total_price
-                                                  ? info.total_price.toLowerCase().includes('aed')
-                                                    ? info.total_price.replace(/aed/i, 'AED')
-                                                    : `${info.total_price} AED`
-                                                  : ''
-                                              }
-                                            /> 
+                                            <div className="product-range-text"><input className="product-range-input"
+                                                type="text"
+                                                // value={info?.total_price} 
+                                                value={
+                                                    info?.total_price
+                                                        ? info.total_price.toLowerCase().includes('aed')
+                                                            ? info.total_price.replace(/aed/i, 'AED')
+                                                            : `${info.total_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
                                             <div className="product-range-text"> <input className="product-range-input" type="text"
-                                            // value={info?.est_delivery_days} 
-                                            value={
-                                                info?.est_delivery_days
-                                                  ? info.est_delivery_days.toLowerCase().includes('days')
-                                                    ? info.est_delivery_days.replace(/days/i, 'Days')
-                                                    : `${info.est_delivery_days} Days`
-                                                  : ''
-                                              }
+                                                // value={info?.est_delivery_days} 
+                                                value={
+                                                    info?.est_delivery_days
+                                                        ? info.est_delivery_days.toLowerCase().includes('days')
+                                                            ? info.est_delivery_days.replace(/days/i, 'Days')
+                                                            : `${info.est_delivery_days} Days`
+                                                        : ''
+                                                }
                                             />
                                             </div>
                                         </div>
@@ -274,24 +281,24 @@ const ProductDetails = () => {
                                 <div className="product-details-mfg-details">{medicineDetails?.manufacturer_description}</div>
                             </div>
 
-                            
+
                         </div>
                         {/* end the ecommerce card */}
                     </div>
-                   
+
                 </div>
 
-               
+
             </div>
             <div className='buyer-details-button-containers'>
-                            <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Accept</button>
-                                </div>
-                                <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Reject</button>
-                                </div>
+                <div className="product-details-sec-one-right">
+                    <button className='product-details-send-btn'>Accept</button>
+                </div>
+                <div className="product-details-sec-one-right">
+                    <button className='product-details-send-btn'>Reject</button>
+                </div>
 
-                           </div>
+            </div>
         </>
     )
 }

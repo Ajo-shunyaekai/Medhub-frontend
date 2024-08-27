@@ -143,13 +143,13 @@ const Login = () => {
                         <button type='submit' className='login-form-main-login'>Login</button>
                     </div>
                 </form>
-                <div className="header__center">OR</div>
+                {/* <div className="header__center">OR</div>
                 <div className='login-form-main-signup'>
                     <span className='login__signup__content'>Don't have an account?</span>
                     <Link to='/admin/sign-up'>
                         <span className='login__signup__here'>&nbsp;Signup here</span>
                     </Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );

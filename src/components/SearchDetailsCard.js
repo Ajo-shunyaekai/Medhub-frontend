@@ -64,15 +64,15 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                                
                                 {/* {med?.inventory_info?.[0]?.est_delivery_days} */}
                                 {med?.inventory_info?.[0]?.est_delivery_days 
-            ? med.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
-                ? med.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
-                : `${med.inventory_info[0].est_delivery_days} Days`
-            : 'N/A'}
+                                    ? med.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
+                                        ? med.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
+                                        : `${med.inventory_info[0].est_delivery_days} Days`
+                                    : 'N/A'}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Country Available in :</div>
-                                <div className='search-details-card-test-text'>{med.country_available_in?.join(', ')}</div>
+                                <div className='search-details-card-test-text'>{med.country_available_in?.join(', ') || med.stocked_in?.join(', ') }</div>
                             </div>
                             {/* <Link to={`/product-details/${med.medicine_id}`}>
                                 <div className='search-details-inner-card-button-sec'>

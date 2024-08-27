@@ -551,7 +551,7 @@ console.log('errors',errors);
                                 format="dd-MM-yyyy"
                             /> */}
                             <DatePicker
-                                className={styles['create-invoice-div-input']}
+                               className={styles['order-modal-input']}
                                 onChange={onChange}
                                 value={value}
                                 minDate={new Date()}
