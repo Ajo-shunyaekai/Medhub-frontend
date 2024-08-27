@@ -103,9 +103,7 @@ const BuyerCompletedList = () => {
                                     <th className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Quantity</span>
                                     </th>
-                                    <th className='completed-table-row-item completed-table-order-2'>
-                                        <span className='completed-header-text-color'>Price</span>
-                                    </th>
+                                    
                                     <th className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Status</span>
                                     </th>
@@ -118,13 +116,13 @@ const BuyerCompletedList = () => {
                             {
                                     orderList?.map((order, i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + item.quantity;
+                                            return total + (item.quantity_required || item.quantity);
                                           }, 0);
 
-                                          const totalPrice = order.items.reduce((price, item) => {
-                                            const itemPrice = parseFloat(item.price.match(/[\d.]+/)[0]);
-                                            return price + itemPrice;
-                                          }, 0);
+                                        //   const totalPrice = order.items.reduce((price, item) => {
+                                        //     const itemPrice = parseFloat(item.price.match(/[\d.]+/)[0]);
+                                        //     return price + itemPrice;
+                                        //   }, 0);
 
                                           const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                         return (
@@ -138,11 +136,9 @@ const BuyerCompletedList = () => {
                                         <td className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{totalQuantity}</div>
                                         </td>
-                                        <td className='completed-table-row-item completed-table-order-2'>
-                                            <div className='completed-table-text-color'>{totalPrice}</div>
-                                        </td>
+                                       
                                         <td className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_status}</div>
+                                            <div className='completed-table-text-color'>{order.status}</div>
                                         </td>
                                         <td className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/supplier/active-orders-details/${order.order_id}`}>

@@ -84,7 +84,7 @@ const InquiryRequestDetails = () => {
             itemId: item._id,
             medicine_id: item.medicine_id,
             est_delivery_days: item.est_delivery_days,
-            counter_price: item.counterPrice,
+            counter_price: item.counterPrice?.toString(),
             unit_price: item.unit_price,
             quantity_required: item.quantity_required,
             target_price: item.target_price,

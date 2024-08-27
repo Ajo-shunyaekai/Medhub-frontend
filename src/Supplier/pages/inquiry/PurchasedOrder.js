@@ -25,6 +25,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
               <thead className='ongoing-container-thead'>
                 <tr className='ongoing-container-tr'>
                   <th className="ongoing-container-th">PO ID</th>
+                  <th className="ongoing-container-th">Inquiry ID</th>
                   <th className="ongoing-container-th">PO Date</th>
                   <th className="ongoing-container-large-th">Buyer Name</th>
                   <th className="ongoing-container-th">Status</th>
@@ -39,6 +40,9 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                       <tr className="ongoing-section-tr">
                         <td className='ongoing-section-td'>
                           <div className="ongoing-section-heading">{data.purchaseOrder_id}</div>
+                        </td>
+                        <td className='ongoing-section-td'>
+                          <div className="ongoing-section-heading">{data.enquiry_id}</div>
                         </td>
                         <td className='ongoing-section-td'>
                           <div className="ongoing-section-heading">{data.po_date}</div>

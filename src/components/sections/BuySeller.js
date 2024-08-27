@@ -196,7 +196,14 @@ const BuySeller = ({active}) => {
                         </div>
                         <div className='buy-seller-company-description'>
                             <div className='buy-seller-company-description-text'>Description</div>
-                            <div className='buy-seller-company-short-description'>{supplier.description}</div>
+                            <div className='buy-seller-company-short-description'>
+                                {/* {supplier.description} */}
+                                {supplier.description ? 
+                                    (supplier.description.length > 20 ? 
+                                        `${supplier.description.substring(0, 60)}...` : 
+                                        supplier.description) : 
+                                    'No description available'}
+                            </div>
                         </div>
                         <Link to={`/buyer/supplier-details/${supplier.supplier_id}`}>
                             <div className='buy-seller-company-card-button'>

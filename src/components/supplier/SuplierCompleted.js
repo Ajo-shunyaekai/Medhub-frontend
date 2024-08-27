@@ -50,7 +50,7 @@ const SuplierCompleted = () => {
     const [totalOrders, setTotalOrders] = useState()
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2;
+    const ordersPerPage = 5;
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfFirstOrder + ordersPerPage);
@@ -106,9 +106,9 @@ const SuplierCompleted = () => {
                                     <th className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Quantity</span>
                                     </th>
-                                    <th className='completed-table-row-item completed-table-order-2'>
+                                    {/* <th className='completed-table-row-item completed-table-order-2'>
                                         <span className='completed-header-text-color'>Price</span>
-                                    </th>
+                                    </th> */}
                                     <th className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Status</span>
                                     </th>
@@ -147,7 +147,7 @@ const SuplierCompleted = () => {
                                  {
                                     orderList?.map((order, i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + item.quantity;
+                                            return total + (item.quantity_required || item.quantity);
                                           }, 0);
 
                                           const totalPrice = order.items.reduce((price, item) => {
@@ -167,11 +167,9 @@ const SuplierCompleted = () => {
                                             <td className='completed-table-row-item completed-table-order-1'>
                                                 <div className='completed-table-text-color'>{totalQuantity}</div>
                                             </td>
-                                            <td className='completed-table-row-item completed-table-order-2'>
-                                                <div className='completed-table-text-color'>{totalPrice || "100 AED"} AED</div>
-                                            </td>
+                                            
                                             <td className='completed-table-row-item completed-table-order-1'>
-                                                <div className='completed-table-text-color'>{order.order_status}</div>
+                                                <div className='completed-table-text-color'>{order?.status}</div>
                                             </td>
                                             <td className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
                                                

@@ -196,11 +196,11 @@ const SupplierDetails = () => {
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Email ID</div>
-                                <div className='buyer-supplier-details-inner-text'>Pvt@gmail.com</div>
+                                <div className='buyer-supplier-details-inner-text'>{supplier?.contact_person_email}</div>
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Mobile No.</div>
-                                <div className='buyer-supplier-details-inner-text'>+971 1408767</div>
+                                <div className='buyer-supplier-details-inner-text'>{supplier?.contact_person_country_code} {supplier?.contact_person_mobile_no}</div>
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Address</div>
@@ -216,16 +216,16 @@ const SupplierDetails = () => {
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Tax No.</div>
-                                <div className='buyer-supplier-details-inner-text'>5655565FDA6</div>
+                                <div className='buyer-supplier-details-inner-text'>{supplier?.tax_no}</div>
                             </div>
                             
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Country of Origin</div>
-                                <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_origin || 'United Arab Emirated'}</div>
+                                <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_origin || 'United Arab Emirates'}</div>
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Country of Operation</div>
-                                <div className='buyer-supplier-details-inner-text'>Dubai, London, Singapur</div>
+                                <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_operation?.join(', ')}</div>
                             </div>
                             
                            
@@ -236,7 +236,14 @@ const SupplierDetails = () => {
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Est. Delivery Time</div>
-                                <div className='buyer-supplier-details-inner-text'>{supplier?.estimated_delivery_time || '12 days'}</div>
+                                <div className='buyer-supplier-details-inner-text'>
+                                    {/* {supplier?.estimated_delivery_time || '12 days'} */}
+                                    {supplier?.estimated_delivery_time 
+                                            ? supplier?.estimated_delivery_time .toLowerCase().includes('days')
+                                                ? supplier?.estimated_delivery_time .replace(/days/i, 'Days') 
+                                                : `${supplier?.estimated_delivery_time } Days` // 
+                                            : '10 Days'}
+                                    </div>
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Tags</div>
@@ -267,15 +274,15 @@ const SupplierDetails = () => {
                                 </Link>
 
                                 </div>
-                                <div className='buyer-supplier-details-card-container'>
-                                {/* <Link to='/supplier-pending'> */}
+                                {/* <div className='buyer-supplier-details-card-container'>
+                               
                                 <Link to={`/buyer/supplier-pending/${supplierId}`}>
                                     <div className='buyer-supplier-details-card-container-contents'>
                                         <div className='buyer-supplier-details-card-conteianer-head'>Pending Orders</div>
                                         <div className='buyer-supplier-details-card-conteianer-text'>{buyerSupplierOrder?.pendingCount || 0}</div>
                                     </div>
                                  </Link>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className='buyer-supplier-details-bottom-table-section'>

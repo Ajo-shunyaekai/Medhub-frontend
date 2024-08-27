@@ -166,50 +166,23 @@ const countryCodes = [
 
 const ProformaInvoice = () => {
     const { purchaseOrderId } = useParams();
-    const navigate = useNavigate();
+    const navigate            = useNavigate();
 
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
     const [currentDate, setCurrentDate] = useState('');
     const [dueDate, setDueDate] = useState('')
     const [invoiceNumber, setInvoiceNumber] = useState();
     const [inquiryDetails, setInquiryDetails] = useState();
     const [orderItems, setOrderItems] = useState([])
+    const [dateError, setDateError] = useState('')
+    const [dateValue, setDateValue] = useState();
 
-    const [formData, setFormData] = useState({
-        operationCountries: [],
-        originCountry: ''
-    });
-    const [countries, setCountries] = useState([]);
-    const [formItems, setFormItems] = useState([{ id: Date.now(), productName: '' }]);
-
-    useEffect(() => {
-        const countryOptions = countryList().getData();
-        setCountries(countryOptions);
-    }, []);
-    const [value, onChange] = useState(new Date());
-    const productOptions = [
-        { value: 'Product1', label: 'Product 1' },
-        { value: 'Product2', label: 'Product 2' },
-        { value: 'Product3', label: 'Product 3' }
-    ];
-
-    const addFormItem = () => {
-        setFormItems([...formItems, { id: Date.now(), productName: '' }]);
-    };
-
-    const removeFormItem = (id) => {
-        setFormItems(formItems.filter(item => item.id !== id));
-    };
-
-    const handleProductChange = (selectedOption, index) => {
-        const newFormItems = [...formItems];
-        newFormItems[index].productName = selectedOption.value;
-        setFormItems(newFormItems);
-    };
-
-    // let grandTotalAmount = 0
+    const handlePaymentDueDateChange = (e) => {
+        setDateValue(e)
+        setDateError(null)
+    }
 
     const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -223,23 +196,19 @@ const ProformaInvoice = () => {
             supplierEmail: '',
             supplierMobile: '',
             newSupplierMobile: '',
-           
-            // supplierRegNo: '',
             buyerName: '',
             buyerAddress: '',
             buyerEmail: '',
             buyerMobile: '',
             newBuyerMobile: '',
-            // buyerRegNo: '',
             orderItems: [],
-            // description: ''
         }
     });
 
     useEffect(() => {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
         const year = today.getFullYear();
         setCurrentDate(`${day}-${month}-${year}`);
         setValue('invoiceDate', `${day}-${month}-${year}`);
@@ -257,8 +226,6 @@ const ProformaInvoice = () => {
         setDueDate(formattedDueDate)
         setValue('invoiceDueDate', formattedDueDate);
 
-        // const storedItems = sessionStorage.getItem('acceptedQuotationItems');
-
     }, [setValue]);
 
     useEffect(() => {
@@ -269,7 +236,6 @@ const ProformaInvoice = () => {
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
             purchaseOrder_id: purchaseOrderId
-            // enquiry_id: inquiryId,
         };
         postRequestWithToken('supplier/purchaseorder/get-po-details', obj, async (response) => {
             if (response.code === 200) {
@@ -277,23 +243,16 @@ const ProformaInvoice = () => {
                 setValue('supplierName', response?.result?.supplier_details[0]?.supplier_name);
                 setValue('supplierAddress', response?.result?.supplier_details[0]?.supplier_address);
                 setValue('supplierEmail', response?.result?.supplier_details[0]?.contact_person_email);
-                // setValue('supplierMobile', response?.result?.supplier_details[0]?.contact_person_mobile_no);
-                // setValue('supplierCountryCode', response?.result?.supplier_details[0]?.contact_person_country_code);
                 const supplierDetails = response.result.supplier_details[0];
                 const countryCode = supplierDetails.contact_person_country_code || '';
                 const mobileNumber = supplierDetails.contact_person_mobile_no || '';
                 const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
                 const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
-                // console.log('newFormattedPhoneNumber',newFormattedPhoneNumber);
                 setValue('supplierMobile', formattedPhoneNumber);
                 setValue('newSupplierMobile',newFormattedPhoneNumber)
-                // setValue('supplierRegNo',response?.result?.supplier_details[0]?.registration_no)
                 setValue('buyerName', response?.result?.buyer_details[0]?.buyer_name);
                 setValue('buyerAddress', response?.result?.buyer_details[0]?.buyer_address);
                 setValue('buyerEmail', response?.result?.buyer_details[0]?.contact_person_email);
-
-                // setValue('buyerMobile', response?.result?.buyer_details[0]?.contact_person_mobile);
-                // setValue('buyerCountryCode', response?.result?.buyer_details[0]?.contact_person_country_code);
                 const  buyerDetails = response.result.buyer_details[0];
                 const buyerCountryCode = buyerDetails.contact_person_country_code || '';
                 const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
@@ -301,17 +260,13 @@ const ProformaInvoice = () => {
                 const newFormattedBuyerPhoneNumber = `${buyerCountryCode}-${buyerMobileNumber}`;
                 setValue('buyerMobile', formattedBuyerPhoneNumber);
                 setValue('newBuyerMobile',newFormattedBuyerPhoneNumber)
-
-                // setValue('buyerRegNo',response?.result?.buyer_details[0]?.registration_no)
                 const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
                 setValue('totalDueAmount', totalDueAmount?.toFixed(2));
                 setValue('orderItems', response?.result?.order_items)
-                // setValue('paymentTerms', response?.result?.enquiry_details[0]?.payment_terms)
-                const paymentTermsString = response?.result?.enquiry_details[0]?.payment_terms?.join('\n'); // Join with newline or ', ' for comma-separated
+                const paymentTermsString = response?.result?.enquiry_details[0]?.payment_terms?.join('\n'); 
                 setValue('paymentTerms', paymentTermsString);
-
-                
                 setOrderItems(response?.result?.order_items)
+                setValue('paymentDueDate', '');
             } else {
                 console.log('error in order list api', response);
             }
@@ -320,38 +275,29 @@ const ProformaInvoice = () => {
 
     const formatDate = (date) => {
         const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
         const year = date.getFullYear();
     
         return `${day}-${month}-${year}`;
     };
     
-
     const onSubmit = (data) => {
-
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
             return;
         }
+        if (dateValue === undefined || dateValue === null || dateValue === '' ) {
+            setDateError('Payment Due Date is Required');
+            toast('Some fields are missing', {type: 'error'})
+            return false;
+        }
+        setDateError('');
         const updatedOrderItems = orderItems.map(item => ({
             ...item,
             unit_tax: item?.medicine_details?.unit_tax,
             est_delivery_days: item?.est_delivery_days,
         }));
-        // const newData = {
-        //     ...data,
-        //     value
-        // }
-        // const obj = {
-        //     supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-        //     enquiry_id: inquiryDetails?.enquiry_id,
-        //     purchaseOrder_id: purchaseOrderId,
-        //     buyer_id: inquiryDetails?.buyer_id,
-        //     // itemIds     : itemId,
-        //     orderItems: updatedOrderItems,
-        //     data : newData,
-        //     totalAmount : roundedGrandTotalAmount
-        // };
+
         const  buyerDetails = inquiryDetails.buyer_details[0];
         const buyerCountryCode = buyerDetails.contact_person_country_code || '';
         const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
@@ -361,23 +307,20 @@ const ProformaInvoice = () => {
         const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
         const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
 
-    // Prepare the object for submission
-    const obj = {
-        supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-        enquiry_id: inquiryDetails?.enquiry_id,
-        purchaseOrder_id: purchaseOrderId,
-        buyer_id: inquiryDetails?.buyer_id,
-        orderItems: updatedOrderItems,
-        data: {
-            ...data,
-            dueDate: formatDate(value),
-            // buyerMobile: formattedBuyerPhoneNumber,
-            newBuyerMobile: formattedBuyerPhoneNumber,
-            newSupplierMobile: formattedSupplierPhoneNumber,
-        },
-        totalAmount: roundedGrandTotalAmount
-    };
-        console.log(obj);
+        const obj = {
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            enquiry_id: inquiryDetails?.enquiry_id,
+            purchaseOrder_id: purchaseOrderId,
+            buyer_id: inquiryDetails?.buyer_id,
+            orderItems: updatedOrderItems,
+            data: {
+                ...data,
+                dueDate: formatDate(dateValue),
+                newBuyerMobile: formattedBuyerPhoneNumber,
+                newSupplierMobile: formattedSupplierPhoneNumber,
+            },
+            totalAmount: roundedGrandTotalAmount
+        };
         postRequestWithToken('buyer/order/create-order', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
@@ -392,92 +335,60 @@ const ProformaInvoice = () => {
 
     };
 
-    // const handleNumberInput = (event) => {
-    //     const value = event.target.value;
-    //     // Remove any non-numeric characters
-    //     event.target.value = value.replace(/[^0-9]/g, '');
-    // };
-
     const handleNumberInput = (event) => {
         const value = event.target.value;
-        event.target.value = value.replace(/[^0-9.]/g, '')
-                                  .replace(/(\..*?)\..*/g, '$1'); 
+        event.target.value = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); 
     };
 
     const grandTotalAmount = orderItems.reduce((total, item) => {
-        // Convert item.total_amount to a number and add to total
         return total + (parseFloat(item?.total_amount) || 0);
     }, 0);
 
-    // Optional: round grandTotalAmount to 2 decimal places
     const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
 
     const formatPhoneNumber = (phoneNumber, countryCode) => {
-        // Remove non-numeric characters from the phone number
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
-    
-        // Format as +countryCode-number
         return `+${countryCode}-${cleanedNumber}`;
     };
     
     const handleBuyerPhoneChange = (value) => {
-        // console.log("value", value);
-        
         let countryCode = '';
         let mobileNumber = value;
     
-        // Find the longest matching country code
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
-                countryCode = code.replace('+', ''); // Remove the '+'
-                mobileNumber = value.substring(code.length); // Remaining part of the string
+                countryCode = code.replace('+', ''); 
+                mobileNumber = value.substring(code.length);
                 break;
             }
         }
-    
         if (countryCode && mobileNumber) {
-            // Format the phone number
             const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            
-            console.log("formattedPhoneNumber", formattedPhoneNumber);
-            
-            // Update the state with the formatted phone number
             setValue('buyerMobile', formattedPhoneNumber);
         } else {
-            // Handle case where no country code is found or invalid value
             console.error('Invalid phone number format or unknown country code');
         }
     };
 
     const handleSupplierPhoneChange = (value) => {
-        // console.log("value", value);
-        
         let countryCode = '';
         let mobileNumber = value;
-    
-        // Find the longest matching country code
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
-                countryCode = code.replace('+', ''); // Remove the '+'
-                mobileNumber = value.substring(code.length); // Remaining part of the string
+                countryCode = code.replace('+', ''); 
+                mobileNumber = value.substring(code.length); 
                 break;
             }
         }
         if (countryCode && mobileNumber) {
-            // Format the phone number
             const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            
-            console.log("formattedPhoneNumber", formattedPhoneNumber);
-            
-            // Update the state with the formatted phone number
             setValue('supplierMobile', formattedPhoneNumber);
         } else {
-            // Handle case where no country code is found or invalid value
             console.error('Invalid phone number format or unknown country code');
         }
     };
-    
-
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
@@ -514,33 +425,35 @@ const ProformaInvoice = () => {
                             <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
                             <DatePicker
                                 className={styles['create-invoice-div-input']}
-                                onChange={onChange}
-                                value={value}
-                                minDate={new Date()}
+                                onChange={handlePaymentDueDateChange}
+                                value={dateValue}
+                                // minDate={new Date()}
+                                minDate={tomorrow}
                                 clearIcon={null}
                                 format="dd/MM/yyyy"
+                                placeholder='dd/MM/yyyy'
                             />
+                             {dateError && <p style={{color: 'red'}}>{dateError}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='depositRequested'
                                 placeholder='Enter Deposit Requested'
-                                {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit requested is required' })}
-                                // value={`AED ${watch('totalDueAmount') || ''}`}
+                                {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested is Required' })}
                                 onInput={handleNumberInput}
                                 />
-                                {errors.depositRequested && <p>{errors.depositRequested.message}</p>}
+                                {errors.depositRequested && <p style={{color: 'red'}}>{errors.depositRequested.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Due</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='depositDue'
                                 placeholder='Enter Deposit Due'
-                                {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit due is required' })}
+                                {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
                                 onInput={handleNumberInput}
                                  />
-                                 {errors.depositDue && <p>{errors.depositDue.message}</p>}
+                                 {errors.depositDue && <p style={{color: 'red'}}>{errors.depositDue.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
@@ -549,12 +462,9 @@ const ProformaInvoice = () => {
                                 name='totalDueAmount'
                                 placeholder='Enter Total Due Amount'
                                 {...register('totalDueAmount',
-                                   
                                 )}
                                 onInput={handleNumberInput}
                                 />
-                                
-                                
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -562,7 +472,7 @@ const ProformaInvoice = () => {
                                 name='supplierEmail'
                                 placeholder='Enter Email ID'
                                 {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })} />
-                            {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
+                            {errors.supplierEmail && <p style={{color: 'red'}}>{errors.supplierEmail.message}</p>}
                         </div>
 
                         <div className={styles['create-invoice-div-container']}>
@@ -573,15 +483,8 @@ const ProformaInvoice = () => {
                             name='phoneinput'
                             value={watch('supplierMobile')}
                             onChange={handleSupplierPhoneChange}
-                            // onChange={(value) => setValue('supplierMobile', value)}
-                            // {...register('supplierMobile', { 
-                            //     required: 'Supplier mobile is required', 
-                            //     validate: value => value?.trim() !== '' || 'Supplier mobile is required'
-                            // })}
-                            // {...register('supplierMobile', { validate: value => value?.trim() !== '' || 'Supplier mobile no. is required' })} 
-                            // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                         />
-                            {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
+                            {errors.supplierMobile && <p style={{color: 'red'}}>{errors.supplierMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -589,7 +492,7 @@ const ProformaInvoice = () => {
                                 name='supplierAddress'
                                 placeholder='Enter Address'
                                 {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })} />
-                            {errors.supplierAddress && <p>{errors.supplierAddress.message}</p>}
+                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress.message}</p>}
                         </div>
                     </div>
                 </div>
@@ -602,7 +505,7 @@ const ProformaInvoice = () => {
                                 name='buyerName' placeholder='Enter Name'
                                 readOnly
                                 {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })} />
-                            {errors.buyerName && <p>{errors.buyerName.message}</p>}
+                            {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -611,7 +514,7 @@ const ProformaInvoice = () => {
                                 placeholder='Enter Email ID'
                                 readOnly
                                 {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })} />
-                            {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile No.</label>
@@ -621,12 +524,9 @@ const ProformaInvoice = () => {
                             name='phoneinput'
                             value={watch('buyerMobile')}
                             disabled
-                            // onChange={(value) => setValue('buyerMobile', value)}
                             onChange={handleBuyerPhoneChange}
-                            // {...register('buyerMobile', { validate: value => value?.trim() !== '' || 'Buyer mobile no. is required' })} 
-                            // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                         />
-                            {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
+                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -635,17 +535,12 @@ const ProformaInvoice = () => {
                                 placeholder='Enter Address'
                                 readOnly
                                 {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })} />
-                            {errors.buyerAddress && <p>{errors.buyerAddress.message}</p>}
+                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress.message}</p>}
                         </div>
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>
-                    {/* <div className={styles['create-invoice-add-item-cont']}>
-                        <div className={styles['create-invoice-form-heading']}>Add Item</div>
-                    </div> */}
                     {orderItems.map((item, index) => {
-                        // grandTotalAmount += item?.total_amount
-                        // grandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
                         return (
                             <div className={styles['form-item-container']} key={item.id}>
                             <div className={styles['create-invoice-div-container']}>
@@ -670,7 +565,7 @@ const ProformaInvoice = () => {
                                 <input className={styles['create-invoice-div-input']} type='text'
                                     name={`UnitPrice-${item.id}`}
                                     placeholder='Enter Price'
-                                    value={item?.unit_price}
+                                    value={item?.counter_price || item?.target_price}
                                     readOnly
                                 />
                             </div>
@@ -691,11 +586,6 @@ const ProformaInvoice = () => {
                                     readOnly
                                 />
                             </div>
-                            {/* {formItems.length > 1 && (
-                                <div className={styles['create-invoice-close-btn']} onClick={() => removeFormItem(item.id)}>
-                                    <CloseIcon />
-                                </div>
-                            )} */}
                         </div>
                         )
                     }
@@ -706,14 +596,6 @@ const ProformaInvoice = () => {
                     <div className={styles['craete-invoice-form']}>
                         <div className={styles['create-invoice-div-textarea']}>
                             <label className={styles['create-invoice-div-label']}>Payment Terms</label>
-                            {/* <textarea
-                                className={styles['create-invoice-div-input']}
-                                name="paymentTerms"
-                                rows="4"
-                                cols="10"
-                                placeholder='Enter Payment Terms'
-                                {...register('paymentTerms')}
-                            /> */}
                             <textarea
                                 className={styles['create-invoice-div-input']}
                                 name="paymentTerms"

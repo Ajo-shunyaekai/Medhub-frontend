@@ -104,10 +104,10 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                                 {/* {item.counterprice || item.counter_price
                                                     ? `${item.counterprice || item.counter_price} AED`
                                                     : '-'} */}
-                                                    {item.counterprice
-                                                    ? item.counterprice.toLowerCase().includes('aed')
-                                                        ? item.counterprice.replace(/aed/i, 'AED') // Replace 'days' with 'Days'
-                                                        : `${item.counterprice} AED` // Append ' Days' if 'days' is not found
+                                                    {item.counter_price
+                                                    ? item.counter_price.toLowerCase().includes('aed')
+                                                        ? item.counter_price.replace(/aed/i, 'AED') 
+                                                        : `${item.counter_price} AED` 
                                                     : '-'}
                                             </span>
                                         </div>

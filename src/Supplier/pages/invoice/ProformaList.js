@@ -93,7 +93,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                             </td>
                                             <td>
                                                 <div className="mx-0">
-                                                    <span className="item-title text-color">{invoice.buyer_company || 'Pharma Private Ltd'}</span>
+                                                    <span className="item-title text-color">{invoice.buyer_name || 'Pharma Private Ltd'}</span>
                                                 </div>
                                             </td>
 
