@@ -75,7 +75,7 @@ const OrderInvoiceList = () => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Action</span>
-                                        <span className="table-g-not-name"><Link to={`/buyer/invoice-design`}>
+                                        <span className="table-g-not-name"><Link to={`/buyer/invoice-design/13434234`}>
                                             <div className='invoice-details-button-column'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                             </div>

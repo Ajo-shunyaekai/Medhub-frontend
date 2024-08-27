@@ -5,7 +5,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 const ActiveAssignDriver = ({productList}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2; 
+    const ordersPerPage = 5; 
     
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },

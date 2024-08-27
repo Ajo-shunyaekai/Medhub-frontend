@@ -246,7 +246,7 @@ const OrderDetails = ({socket}) => {
                         Volume
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
-                    {orderDetails?.shipment_details?.shipment_details?.total_volume || '4'} cm
+                    {orderDetails?.shipment_details?.shipment_details?.total_volume || '4'} L
                     </div>
                 </div>
             </div>
@@ -257,30 +257,28 @@ const OrderDetails = ({socket}) => {
 
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
+
+            {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && (
                 <div className="buyer-order-details-payment-left-section">
                     <div className="buyer-order-details-payment-terms-cont">
-                        <div className="buyer-order-details-payment-first-terms-cont">
-                            <div className="buyer-order-details-payment-first-terms-heading">
-                                Payment Terms
-                            </div>
-                            <div className="buyer-order-details-payment-first-terms-text">
-                                <ul className="buyer-order-details-payment-ul-section">
-                                    
-                               { orderDetails?.enquiry?.payment_terms?.map((data,i) => {
-                                        return (
-                                    <li className="buyer-order-details-payment-li-section">
-                                        {data}.
-                                    </li>
-                                   )
-                                        
-                                        
-                                })
-                            }
-                                </ul>
-                            </div>
+                    <div className="buyer-order-details-payment-first-terms-cont">
+                        <div className="buyer-order-details-payment-first-terms-heading">
+                        Payment Terms
+                        </div>
+                        <div className="buyer-order-details-payment-first-terms-text">
+                        <ul className="buyer-order-details-payment-ul-section">
+                            {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
+                            <li key={i} className="buyer-order-details-payment-li-section">
+                                {data}.
+                            </li>
+                            ))}
+                        </ul>
                         </div>
                     </div>
+                    </div>
                 </div>
+                )}
+                
                 <div className='active-order-details-payment-right-section'>
                
                 {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
@@ -346,9 +344,11 @@ const OrderDetails = ({socket}) => {
              {/* {
                 orderDetails?.order_status === 'completed' ?
              } */}
+             {orderDetails?.status === 'Completed' && (
              <div className='buyer-order-details-invoice-list-section'>
                 <OrderInvoiceList />
             </div>
+             )}
             {/* End the assign driver section */}
             <CustomModal
                 isOpen={isModalOpen}
