@@ -121,7 +121,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                                     ? item.est_delivery_days.toLowerCase().includes('days')
                                                         ? item.est_delivery_days.replace(/days/i, 'Days') 
                                                         : `${item.est_delivery_days} Days` 
-                                                    : '-'}
+                                                    : '10 Days'}
                                             </span>
                                         </div>
                                     </td>

@@ -182,7 +182,7 @@ const OrderDetails = ({socket}) => {
             {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
             <> */}
 
-{orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+           {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
             <div className='active-order-details-left-bottom-containers'>
                 <div className='active-order-details-left-bottom-vehichle'>
                     <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
@@ -239,6 +239,14 @@ const OrderDetails = ({socket}) => {
                     </div>
                     <div className="buyer-order-details-left-top-main-contents">
                     {orderDetails?.shipment_details?.shipment_details?.length || '4'} cm
+                    </div>
+                </div>
+                <div className="buyer-order-details-top-order-cont">
+                    <div className="buyer-order-details-left-top-main-heading">
+                        Volume
+                    </div>
+                    <div className="buyer-order-details-left-top-main-contents">
+                    {orderDetails?.shipment_details?.shipment_details?.total_volume || '4'} cm
                     </div>
                 </div>
             </div>

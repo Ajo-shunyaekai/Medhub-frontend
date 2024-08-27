@@ -58,7 +58,10 @@ const ActiveAssignDriver = ({productList}) => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Total Amount</span>
-                                        <span className="table-g-not-name">{order.total_amount || order.item_price} AED</span>
+                                        <span className="table-g-not-name">
+                                            {/* {order.total_amount || order.item_price} AED */}
+                                            {order.total_amount || order.item_price ? `${order.total_amount || order.item_price} AED` : '-'}
+                                            </span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
@@ -67,9 +70,9 @@ const ActiveAssignDriver = ({productList}) => {
                                         <span className="table-g-not-name" >
                                         {order?.est_delivery_days
                                             ? order.est_delivery_days.toLowerCase().includes('days')
-                                                ? order.est_delivery_days.replace(/days/i, 'Days') // Replace 'days' with 'Days'
-                                                : `${order.est_delivery_days} Days` // Append ' Days' if 'days' is not found
-                                            : '-'}
+                                                ? order.est_delivery_days.replace(/days/i, 'Days') 
+                                                : `${order.est_delivery_days} Days` 
+                                            : '10 Days'}
                                         </span>
                                     </div>
                                 </td>
