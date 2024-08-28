@@ -31,9 +31,9 @@ const MySuplier = () => {
                 pageNo   : currentPage,
                 pageSize : itemsPerPage
             }
-            postRequestWithToken('buyer/supplier-list', obj, async (response) => {
+            postRequestWithToken('buyer/my-supplier-list', obj, async (response) => {
                 if (response.code === 200) {
-                    setMySuppliers(response.result.suppliers)
+                    setMySuppliers(response.result.data)
                     setTotalItems(response.result.totalItems)
                 } else {
                    console.log('error in  buyer/supplier-list api');
@@ -52,27 +52,27 @@ const MySuplier = () => {
                     <div className='mysupplier-card-section' key={i}>
                         <div className='mysupplier-card-first-uppar-section'>
                             <div className='mysupplier-card-content-section'>
-                                <div className='mysupplier-name-head'>{supplier.supplier_name}</div>
-                                <div className='mysupplier-description'>License No: {supplier.license_no || 'LIC-097342'}</div>
+                                <div className='mysupplier-name-head'>{supplier?.supplier_details?.supplier_name}</div>
+                                <div className='mysupplier-description'>License No: {supplier?.supplier_details?.license_no || 'LIC-097342'}</div>
                             </div>
                             <div className='mysupplier-image-section'>
                                 {/* <img src={card1} /> */}
-                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplier?.supplier_image[0]}`} />
+                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplier?.supplier_details?.supplier_image[0]}`} />
                             </div>
                         </div>
                         <div className='mysupplier-card-first-section'>
                             <div className='mysupplier-card-heading'>Country Origin</div>
-                            <div className='mysupplier-card-text'>{supplier.country_of_origin || 'United Arab Emirated'}</div>
+                            <div className='mysupplier-card-text'>{supplier?.supplier_details?.country_of_origin || 'United Arab Emirated'}</div>
                         </div>
                         <div className='mysupplier-card-first-section'>
                             <div className='mysupplier-card-heading'>Contact Number</div>
-                            <div className='mysupplier-card-text'>{supplier.contact_person_country_code || +91} {supplier.contact_person_mobile_no || 9868708723}</div>
+                            <div className='mysupplier-card-text'>{supplier?.supplier_details?.contact_person_country_code || +91} {supplier?.supplier_details?.contact_person_mobile_no || 9868708723}</div>
                         </div>
                         <div className='mysupplier-card-first-section'>
                             <div className='mysupplier-card-heading'>Description</div>
-                            <div className='mysupplier-card-text'>{supplier.description || 'test description'}</div>
+                            <div className='mysupplier-card-text'>{supplier?.supplier_details?.description || 'test description'}</div>
                         </div>
-                        <Link to={`/buyer/supplier-details/${supplier.supplier_id}`}>
+                        <Link to={`/buyer/supplier-details/${supplier?.supplier_details?.supplier_id}`}>
                             <div className='mysupplier-card-button'>
                                 <div className='mysupplier-card-button-details'>View Details</div>
                             </div>

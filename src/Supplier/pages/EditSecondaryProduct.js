@@ -45,7 +45,6 @@ const EditSecondaryProduct = () => {
     
     const productTypeOptions = [
         { value: 'secondary_market', label: 'Secondary Market' },
-        // { value: 'secondary_market', label: 'Secondary Market' }
     ];
 
     const formTypesOptions = [
@@ -165,14 +164,14 @@ const EditSecondaryProduct = () => {
     useEffect(() => {
         if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
             const initialSections = medicineDetails?.inventory_info?.map(item => ({
-                strength: '', // Set default or adjust if needed
-                quantity: { value: item.quantity, label: item.quantity }, // Adjust to match your Select options
+                strength: '', 
+                quantity: { value: item.quantity, label: item.quantity }, 
                 typeOfForm: null,
                 productCategory: null,
                 unitPrice: item.unit_price,
                 estDeliveryTime: item.est_delivery_days,
                 totalPrice: item.total_price,
-                condition: { value: '', label: '' } // Adjust based on available conditions
+                condition: { value: '', label: '' } 
             }));
             
             setFormSections(initialSections);
@@ -196,20 +195,7 @@ const EditSecondaryProduct = () => {
         const countryOptions = countryList().getData();
         setCountries(countryOptions);
     }, []);
-    // const handleConditionChange = (index, selected) => {
-    //     const newFormSections = [...formSections];
-    //     newFormSections[index].condition = selected;
-    //     setErrors(prevErrors => ({
-    //         ...prevErrors,
-    //         [`condition${index}`]: ''
-    //     }));
-    //     const conditions = newFormSections.map(section => section.condition);
-    //     setFormData(prevFormData => ({
-    //         ...prevFormData,
-    //         condition: conditions
-    //     }));
-    //     setFormSections(newFormSections);
-    // };
+   
     
     const handleQuantityChange = (index, selected) => {
         const newFormSections = [...formSections];
@@ -247,8 +233,6 @@ const EditSecondaryProduct = () => {
     const addFormSection = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
-
-        // if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
                     newProductValid = false;
@@ -278,34 +262,6 @@ const EditSecondaryProduct = () => {
 
                 setErrors({});
             }
-        // } 
-        // else if (productType && productType.label === 'Secondary Market') {
-
-        //     formSections.forEach((section, index) => {
-        //         if (!section.quantityNo || !section.unitPrice || !section.condition) {
-        //             secondaryMarketValue = false;
-        //             setErrors(prevErrors => ({
-        //                 ...prevErrors,
-        //                 [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
-        //                 [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
-        //                 [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
-
-        //             }));
-        //         }
-        //     });
-        //     if (secondaryMarketValue && productType.label === 'Secondary Market') {
-        //         setFormSections([
-        //             ...formSections,
-        //             {
-        //                 id: formSections.length,
-        //                 quantityNo: '',
-        //                 unitPricee: '',
-        //                 condition: ''
-        //             }
-        //         ]);
-        //         setErrors({});
-        //     }
-        // }
     };
 
     const removeFormSection = (index) => {
@@ -319,8 +275,6 @@ const EditSecondaryProduct = () => {
         setProductType(selected);
     };
 
-    // const [images, setImages] = useState([])
-    // console.log('setImages',images);
     const [defaultFormType, setDefaultFormType] = useState(null);
     const [defaultCategory, setDefaultCategory] = useState(null)
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
@@ -359,19 +313,16 @@ const EditSecondaryProduct = () => {
                     shelfLife: result?.shelf_life || '',
                     dossierType: result?.dossier_type || '',
                     dossierStatus: result?.dossier_status || '',
-                    // productCategory: result.medicine_category || '',
                     productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
                     totalQuantity: result?.total_quantity || '',
                     gmpApprovals: result?.gmp_approvals || '',
                     shippingTime: result?.shipping_time || '',
-                    // originCountry: result.country_of_origin || '',
                     originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
                     registeredIn: result?.registered_in || [],
                     stockedIn: result?.stocked_in || [],
                     availableFor: result?.available_for || '',
                     tags: result?.tags?.join(', ') || '',
                     description: result?.description || '',
-                    // product_image: result?.medicine_image || [],
                     invoice_image: [],
                     purchasedOn: result?.purchased_on || '',
                     minPurchaseUnit: result?.min_purchase_unit || '',
@@ -383,10 +334,7 @@ const EditSecondaryProduct = () => {
                     pdtQuantity: result?.total_quantity,
                     unitPrice: result?.unit_price,
                     condition: { label: result?.condition, value: result?.condition } || null,
-                   
-
                 }));
-                // setImages(result?.medicine_image || []);
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
@@ -525,13 +473,11 @@ const EditSecondaryProduct = () => {
         if (productType && productType.label === 'New Product') {
             if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         }
-
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
         if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
         if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
-        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
         if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
         if (formData?.registeredIn?.length === 0) formErrors.registeredIn = 'Registered in is Required';
         if (formData?.stockedIn?.length === 0) formErrors.stockedIn = 'Stocked in is Required';
@@ -553,29 +499,16 @@ const EditSecondaryProduct = () => {
                 if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
             });
         } else if (productType && productType.label === 'Secondary Market') {
-            // formSections.forEach((section, index) => {
-            //     if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
-            //     if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
-            //     if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
-            // });
         }
-
-        // if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
-
-
         stockedInSections.forEach((section, index) => {
             if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
             if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
             if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
         });
-
-
-
         if (productType && productType.label === 'Secondary Market') {
             if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
             if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
             if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
-            // if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
         }
 
         setErrors(formErrors);
@@ -592,12 +525,10 @@ const EditSecondaryProduct = () => {
             return;
         }
         e.preventDefault()
-console.log('FORMDATA',formData);
         if (validateForm()) {
 
             const newFormData = new FormData()
             const secondaryFormData = new FormData()
-
             const registered = formData.registeredIn?.map(country => {
                 return country ? country.label : '';
             }) || [];
@@ -616,7 +547,6 @@ console.log('FORMDATA',formData);
                 const quantities = formData.quantity?.map(qty => {
                     return qty ? qty?.label : ''
                 })
-               
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);
@@ -633,10 +563,7 @@ console.log('FORMDATA',formData);
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
                 newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                // registered.forEach(item => newFormData.append('registered_in[]', item));
-                // newFormData.append('registered_in[]', formData.registeredIn);
                 formData.registeredIn.forEach(item =>  newFormData.append('registered_in[]', item) )
-                // stocked.forEach(item => newFormData.append('stocked_in[]', item));
                 formData.stockedIn.forEach(item =>  newFormData.append('stocked_in[]', item) )
                 newFormData.append('available_for', formData.availableFor);
                 newFormData.append('tags', formData.tags);
@@ -649,7 +576,6 @@ console.log('FORMDATA',formData);
                 newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
                 newFormData.append('manufacturer_name', formData?.manufacturerName)
                 newFormData.append('manufacturer_description', formData?.manufacturerDescription)
-                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
                 newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
                 postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
@@ -674,12 +600,10 @@ console.log('FORMDATA',formData);
                 secondaryFormData.append('medicine_name', formData.productName);
                 secondaryFormData.append('product_type', 'secondary market');
                 secondaryFormData.append('purchased_on', formData.purchasedOn);
-
                 countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
                 secondaryFormData.append('strength', formData.strength);
                 secondaryFormData.append('unit_tax', formData.unitTax);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
-
                 secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
                 secondaryFormData.append('shelf_life', formData.shelfLife);
@@ -689,8 +613,6 @@ console.log('FORMDATA',formData);
                 secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
                 secondaryFormData.append('shipping_time', formData.shippingTime);
                 secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                // registered.forEach(item => secondaryFormData.append('registered_in[]', item));
-                // stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
                 formData.registeredIn.forEach(item =>  secondaryFormData.append('registered_in[]', item) )
                 formData.stockedIn.forEach(item =>  secondaryFormData.append('stocked_in[]', item) )
                 secondaryFormData.append('available_for', formData.availableFor);
@@ -907,7 +829,6 @@ console.log('FORMDATA',formData);
             stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
         }));
         const options = selectedOptions.map(option => ({ label: option.label }));
-        // setStockedInOptions(options);
     };
 const [condition, setCondition] = useState()
     const handleConditionChange = (selected) => {
@@ -977,7 +898,6 @@ const [condition, setCondition] = useState()
                                             placeholderButtonLabel="Select Countries"
                                             onChange={handleAvailableInChange}
                                             value={defaultCountryAvailableIn}
-                                            // getDropdownButtonLabel={getDropdownButtonLabel}
                                         />
                                          {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
@@ -1091,7 +1011,6 @@ const [condition, setCondition] = useState()
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    // value={productCategory}
                                     value={formData.productCategory}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
@@ -1150,10 +1069,8 @@ const [condition, setCondition] = useState()
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
-                                    // value={countryOfOrigin}
                                     value={formData.originCountry}
                                     onChange={handleCountryOriginChange}
-                                    
                                 />
                                 {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
@@ -1163,7 +1080,6 @@ const [condition, setCondition] = useState()
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
                                     value={defaultRegisteredIn}
-                                    // onChange={setDefaultRegisteredIn}
                                     onChange={handleRegisteredInChange}
                                 />
                                 {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
@@ -1173,10 +1089,8 @@ const [condition, setCondition] = useState()
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
-                                    // onChange={setDefaultStockedIn}
                                     onChange={handleStockedInChange}
                                     value={defaultStockedIn}
-                                    // getDropdownButtonLabel={getDropdownButtonLabel}
                                 />
                                 {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
                             </div>
@@ -1240,7 +1154,6 @@ const [condition, setCondition] = useState()
                                                     placeholder="Select Stocked in Country"
                                                     name='stockedInCountry'
                                                 />
-                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
                                                 {errors[`stockedInCountry${index}`] && (
                                                     <div className={styles['add-product-errors']} style={{ color: 'red' }}>
                                                         Stocked in Country is Required
@@ -1397,7 +1310,6 @@ const [condition, setCondition] = useState()
                                                         name='pdtQuantity'
                                                         placeholder='Enter Quantity'
                                                         value={formData.pdtQuantity}
-                                                        // onChange={(event) => handleInputChange(index, event)}
                                                         onChange={handleChange}
                                                     />
                                                     {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
@@ -1411,7 +1323,6 @@ const [condition, setCondition] = useState()
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
                                                         value={formData.unitPrice}
-                                                        // onChange={(event) => handleInputChange(index, event)}
                                                         onChange={handleChange}
                                                     />
                                                      {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>
@@ -1423,7 +1334,6 @@ const [condition, setCondition] = useState()
                                                     <Select
                                                         className={styles['create-invoice-div-input-select']}
                                                         value={formData.condition}
-                                                        // onChange={(selected) => handleConditionChange(index, selected)}
                                                         onChange={handleConditionChange}
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
@@ -1509,7 +1419,6 @@ const [condition, setCondition] = useState()
                                         </div>
                                     </>
                                 )}
-
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
