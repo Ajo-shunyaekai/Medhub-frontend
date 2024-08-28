@@ -6,7 +6,8 @@ import ImageAddUploader from './ImageAppUploader';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import { postRequest } from '../api/Requests';
+import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
+import { toast } from 'react-toastify';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -41,11 +42,13 @@ const EditSecondaryProduct = () => {
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
 
+    
     const productTypeOptions = [
-        { value: 'secondary_market', label: 'Secondary Market' }
+        { value: 'secondary_market', label: 'Secondary Market' },
+        // { value: 'secondary_market', label: 'Secondary Market' }
     ];
 
-    const formTypes = [
+    const formTypesOptions = [
         { value: 'tablet', label: 'Tablet' },
         { value: 'syrup', label: 'Syrup' }
     ];
@@ -62,14 +65,67 @@ const EditSecondaryProduct = () => {
         { value: '2000-5000', label: '2000-5000' },
     ];
     const productCategoryOptions = [
-        { value: 'generies', label: 'Generies' },
+        { value: 'generies', label: 'Generics' },
         { value: 'orignals', label: 'Orignals' },
         { value: 'biosimilars', label: 'Biosimilars' },
         { value: 'medicaldevices', label: 'Medical Devices' },
-        { value: 'nutraceuticals', label: 'Nutraceuticals' }
+        { value: 'nutraceuticals', label: 'Nutraceutical' }
     ];
 
     const [productType, setProductType] = useState({ value: 'secondary_market', label: 'Secondary Market' });
+    const [formType, setFormType] = useState()
+    const [productCategory, setProductCategory] = useState()
+    const [countryOfOrigin, setCountryOfOrigin] = useState('')
+    const [registeredCountries, setRegisteredCountries] = useState([])
+    const [stockedIn, setStockedIn] = useState([])
+    const [availableCountries, setAvailableCountries] = useState([])
+    const [medicineImages, setMedicineImages] = useState([])
+    const [invoiceImages, setInvoiceImages] = useState([])
+    const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
+    const [stockedInOptions, setStockedInOptions] = useState([])
+    const [packageType, setPackageType] = useState('Box');
+
+  
+    const [errors, setErrors] = useState({});
+    const [formData, setFormData] = useState({
+        productName: '',
+        productType: productType,
+        composition: '',
+        unitTax: '',
+        strength: '',
+        typeOfForm: null,
+        shelfLife: '',
+        dossierType: '',
+        dossierStatus: '',
+        productCategory: null,
+        totalQuantity: '',
+        gmpApprovals: '',
+        shippingTime: '',
+        originCountry: '',
+        registeredIn: '',
+        stockedIn: '',
+        availableFor: '',
+        tags: '',
+        description: '',
+        product_image: medicineImages,
+        invoice_image: invoiceImages,
+        //for secondary market
+        purchasedOn: '',
+        minPurchaseUnit: '',
+        countryAvailableIn: '',
+        manufacturerName: '',
+        manufacturerOriginCountry: '',
+        manufacturerDescription: '',
+        stockedInData: '',
+
+        quantity: [],
+    unitPrice: [],
+    totalPrice: [],
+    estDeliveryTime: [],
+    unitPrice: '',
+    pdtQuantity: '',
+    condition: ''
+    })
     const [formSections, setFormSections] = useState([
         {
             strength: '',
@@ -78,23 +134,95 @@ const EditSecondaryProduct = () => {
             productCategory: null,
             unitPrice: '',
             estDeliveryTime: '',
-            condition: ''
+            condition: '',
+            totalPrice: ''
         }
     ]);
+
+    const [stockedInSections, setStockedInSections] = useState([
+        {
+            stockedInCountry: '',
+            stockedInQuantity: '',
+            stockedInType: 'Box',
+        }
+    ]);
+
+    useEffect(() => {
+        setFormData({
+            ...formData,
+            product_image: medicineImages
+        });
+    }, [medicineImages])
+
+    useEffect(() => {
+        setFormData({
+            ...formData,
+            invoice_image: invoiceImages
+        });
+    }, [invoiceImages])
+
+
+    useEffect(() => {
+        if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
+            const initialSections = medicineDetails?.inventory_info?.map(item => ({
+                strength: '', // Set default or adjust if needed
+                quantity: { value: item.quantity, label: item.quantity }, // Adjust to match your Select options
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: item.unit_price,
+                estDeliveryTime: item.est_delivery_days,
+                totalPrice: item.total_price,
+                condition: { value: '', label: '' } // Adjust based on available conditions
+            }));
+            
+            setFormSections(initialSections);
+
+            setFormData(prev => ({
+                ...prev,
+                pdtQuantity: medicineDetails?.total_quantity,
+                unitPrice: medicineDetails?.unit_price,
+                condition: medicineDetails?.condition,
+                    quantity: initialSections.map(section => section.quantity),
+                unitPrice: initialSections.map(section => section.unitPrice),
+                totalPrice: initialSections.map(section => section.totalPrice),
+                estDeliveryTime: initialSections.map(section => section.estDeliveryTime),
+            }))
+        }
+    }, [medicineDetails]);
+
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
         const countryOptions = countryList().getData();
         setCountries(countryOptions);
     }, []);
-    const handleConditionChange = (index, selected) => {
-        const newFormSections = [...formSections];
-        newFormSections[index].condition = selected;
-        setFormSections(newFormSections);
-    };
+    // const handleConditionChange = (index, selected) => {
+    //     const newFormSections = [...formSections];
+    //     newFormSections[index].condition = selected;
+    //     setErrors(prevErrors => ({
+    //         ...prevErrors,
+    //         [`condition${index}`]: ''
+    //     }));
+    //     const conditions = newFormSections.map(section => section.condition);
+    //     setFormData(prevFormData => ({
+    //         ...prevFormData,
+    //         condition: conditions
+    //     }));
+    //     setFormSections(newFormSections);
+    // };
+    
     const handleQuantityChange = (index, selected) => {
         const newFormSections = [...formSections];
         newFormSections[index].quantity = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`quantity${index}`]: ''
+        }));
+        const quantities = newFormSections.map(section => section.quantity);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            quantity: quantities
+        }));
         setFormSections(newFormSections);
     };
 
@@ -103,21 +231,81 @@ const EditSecondaryProduct = () => {
         const newFormSections = [...formSections];
         newFormSections[index][name] = value;
         setFormSections(newFormSections);
+
+        const unitPrices = newFormSections.map(section => section.unitPrice);
+        const totalPrices = newFormSections.map(section => section.totalPrice);
+        const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            unitPrice: unitPrices,
+            totalPrice: totalPrices,
+            estDeliveryTime: estDeliveryTimes,
+        }));
     };
+
     const addFormSection = () => {
-        setFormSections([
-            ...formSections,
-            {
-                strength: '',
-                quantity: null,
-                typeOfForm: null,
-                totalPrice: '',
-                unitPrice: '',
-                shelfLife: '',
-                estDeliveryTime: '',
-                condition: ''
+        let newProductValid = true;
+        let secondaryMarketValue = true;
+
+        // if (productType && productType.label === 'New Product') {
+            formSections.forEach((section, index) => {
+                if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
+                    newProductValid = false;
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
+                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
+                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
+
+                    }));
+                }
+            });
+            if (newProductValid && productType.label === 'New Product') {
+                setFormSections([
+                    ...formSections,
+                    {
+                        id: formSections.length,
+                        quantity: null,
+                        typeOfForm: null,
+                        totalPrice: '',
+                        unitPrice: '',
+                        shelfLife: '',
+                        estDeliveryTime: '',
+                    }
+                ]);
+
+                setErrors({});
             }
-        ]);
+        // } 
+        // else if (productType && productType.label === 'Secondary Market') {
+
+        //     formSections.forEach((section, index) => {
+        //         if (!section.quantityNo || !section.unitPrice || !section.condition) {
+        //             secondaryMarketValue = false;
+        //             setErrors(prevErrors => ({
+        //                 ...prevErrors,
+        //                 [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
+        //                 [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
+        //                 [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
+
+        //             }));
+        //         }
+        //     });
+        //     if (secondaryMarketValue && productType.label === 'Secondary Market') {
+        //         setFormSections([
+        //             ...formSections,
+        //             {
+        //                 id: formSections.length,
+        //                 quantityNo: '',
+        //                 unitPricee: '',
+        //                 condition: ''
+        //             }
+        //         ]);
+        //         setErrors({});
+        //     }
+        // }
     };
 
     const removeFormSection = (index) => {
@@ -131,6 +319,16 @@ const EditSecondaryProduct = () => {
         setProductType(selected);
     };
 
+    // const [images, setImages] = useState([])
+    // console.log('setImages',images);
+    const [defaultFormType, setDefaultFormType] = useState(null);
+    const [defaultCategory, setDefaultCategory] = useState(null)
+    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
+    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
+    const [defaultStockedIn, setDefaultStockedIn] = useState([])
+    const [defaultCountryAvailableIn, setDefaultCountryAvailableIn] = useState([])
+    const [inventoryInfo, setInventoryInfo] = useState([]);
+  
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
@@ -147,24 +345,62 @@ const EditSecondaryProduct = () => {
         
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response?.result?.data)
+                setMedicineDetails(response?.result?.data);
+                const result = response?.result?.data;
+
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    productName: result?.medicine_name || '',
+                    productType: { label: result?.medicine_type, value: result?.medicine_type } || null,
+                    composition: result?.composition || '',
+                    unitTax: result?.unit_tax || '',
+                    strength: result?.strength || '',
+                    typeOfForm: { label: result?.type_of_form, value: result?.type_of_form } || null,
+                    shelfLife: result?.shelf_life || '',
+                    dossierType: result?.dossier_type || '',
+                    dossierStatus: result?.dossier_status || '',
+                    // productCategory: result.medicine_category || '',
+                    productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
+                    totalQuantity: result?.total_quantity || '',
+                    gmpApprovals: result?.gmp_approvals || '',
+                    shippingTime: result?.shipping_time || '',
+                    // originCountry: result.country_of_origin || '',
+                    originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
+                    registeredIn: result?.registered_in || [],
+                    stockedIn: result?.stocked_in || [],
+                    availableFor: result?.available_for || '',
+                    tags: result?.tags?.join(', ') || '',
+                    description: result?.description || '',
+                    // product_image: result?.medicine_image || [],
+                    invoice_image: [],
+                    purchasedOn: result?.purchased_on || '',
+                    minPurchaseUnit: result?.min_purchase_unit || '',
+                    countryAvailableIn: result?.country_available_in || [],
+                    manufacturerName: result?.manufacturer_name || '',
+                    manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
+                    manufacturerDescription: result?.manufacturer_description || '',
+                    stockedInData: result?.stockedIn_details || [],
+                    pdtQuantity: result?.total_quantity,
+                    unitPrice: result?.unit_price,
+                    condition: { label: result?.condition, value: result?.condition } || null,
+                   
+
+                }));
+                // setImages(result?.medicine_image || []);
+                setProductCategory(result?.medicine_category)
+                setCountryOfOrigin(result?.country_of_origin)
+                setFormType(result?.type_of_form)
+                setCondition(result?.condition)
+               
             } else {
                console.log('error in med details api');
             }
           })
     },[])
 
-    const [defaultFormType, setDefaultFormType] = useState(null);
-    const [defaultCategory, setDefaultCategory] = useState(null)
-    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
-    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
-    const [inventoryInfo, setInventoryInfo] = useState([]);
-    const [defaultStockedIn, setDefaultStockedIn] = useState([])
-    const [defaultCountryAvailableIn, setDefaultCountryAvailableIn] = useState([])
-
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
-            const selectedFormType = formTypes.find(option => option.label === medicineDetails?.type_of_form);
+            const selectedFormType = formTypesOptions.find(option => option.label === medicineDetails?.type_of_form);
             setDefaultFormType(selectedFormType);
         }
         if(medicineDetails?.medicine_category) {
@@ -181,28 +417,515 @@ const EditSecondaryProduct = () => {
             );
             setDefaultRegisteredIn(selectedRegisteredIn);
         }
-        if (medicineDetails?.inventory_info) {
-            setInventoryInfo(medicineDetails.inventory_info);
-        }
-        if (medicineDetails?.registered_in) {
+        if (medicineDetails?.stocked_in) {
             const selectedStockedIn = countries.filter(option => 
                 medicineDetails?.stocked_in.includes(option.label)
             );
-            setDefaultStockedIn(selectedStockedIn)
+            setDefaultStockedIn(selectedStockedIn);
         }
         if (medicineDetails?.country_available_in) {
-            const selectedCountryAvailableIn = countries.filter(option => 
+            const countryAvailableIn = countries.filter(option => 
                 medicineDetails?.country_available_in.includes(option.label)
             );
-            setDefaultCountryAvailableIn(selectedCountryAvailableIn)
+            setDefaultCountryAvailableIn(countryAvailableIn);
+        }
+        if (medicineDetails?.inventory_info) {
+            setInventoryInfo(medicineDetails.inventory_info);
+        }
+        if(medicineDetails?.manufacturer_country_of_origin) {
+            const manufacturerCountry = countries.find(option => option.label === medicineDetails?.manufacturer_country_of_origin )
+            setManufacturerCountryOfOrigin(manufacturerCountry)
         }
     }, [medicineDetails]);
+
+    useEffect(() => {
+        if (medicineDetails?.stockedIn_details) {
+            const initialSections = medicineDetails?.stockedIn_details?.map(detail => ({
+                stockedInCountry: { label: detail.stocked_in_country, value: detail.stocked_in_country },
+                stockedInQuantity: detail.stocked_quantity,
+                stockedInType: detail.stocked_in_type
+            }));
+            setStockedInSections(initialSections);
+        }
+    }, [medicineDetails]);
+
+    const addStockedInSection = () => {
+        let newProductValid = true;
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry || !section.stockedInQuantity || !section.stockedInType) {
+                newProductValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`stockedInCountry${index}`]: !section.stockedInCountry ? 'stockedInCountry is Required' : '',
+                    [`stockedInQuantity${index}`]: !section.stockedInQuantity ? 'stockedInQuantity is Required' : '',
+                    [`stockedInType${index}`]: !section.stockedInType ? 'stockedInType is Required' : '',
+
+                }));
+            }
+        });
+
+        if (newProductValid) {
+            setStockedInSections(prevSections => [
+                ...prevSections,
+                {
+                    stockedInCountry: null,
+                    stockedInQuantity: '',
+                    stockedInType: 'Box'
+                }
+            ]);
+            setErrors({});
+        }
+    };
+
+    const handleStockedInCountryChange = (index, selected) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInCountry = selected;
+        setStockedInSections(updatedSections);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            stockedInData: updatedSections
+        }));
+    };
+
+    const handleStockedInputChange = (index, event) => {
+        const { name, value } = event.target;
+        if (/^\d*$/.test(value)) {
+            const updatedSections = [...stockedInSections];
+            updatedSections[index][name] = value;
+            setStockedInSections(updatedSections);
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                stockedInData: updatedSections
+            }));
+        }
+    };
+
+    const handlePackageSelection = (index, packageType) => {
+        const updatedSections = [...stockedInSections];
+        updatedSections[index].stockedInType = packageType;
+        setStockedInSections(updatedSections);
+    };
+
+    const removeStockedInFormSection = (index) => {
+        setStockedInSections(prevSections => prevSections.filter((_, i) => i !== index));
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!formData.productName) formErrors.productName = 'Product Name is Required';
+        if (!productType) formErrors.productType = 'Product Type is Required';
+        if (!formData.composition) formErrors.composition = 'Composition is Required';
+        if (!formData.strength) formErrors.strength = 'Strength is Required';
+        if (!formData.unitTax) formErrors.unitTax = 'Unit Tax is Required';
+        if (!formType) formErrors.typeOfForm = 'Type of Form is Required';
+        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf Life is Required';
+        if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
+        if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
+        if (productType && productType.label === 'New Product') {
+            if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
+        }
+
+        if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
+        if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
+        if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
+        if (!formData.tags) formErrors.tags = 'Tags are Required';
+        if (!formData.description) formErrors.description = 'Description is Required';
+        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
+        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
+        if (formData?.registeredIn?.length === 0) formErrors.registeredIn = 'Registered in is Required';
+        if (formData?.stockedIn?.length === 0) formErrors.stockedIn = 'Stocked in is Required';
+        if (!productCategory) formErrors.productCategory = 'Product Category is Required';
+
+        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer Name is Required';
+        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
+        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
+
+        if (!formData.pdtQuantity) formErrors.pdtQuantity = 'Quantity is Required';
+        if (!formData.unitPrice) formErrors.unitPrice = 'Unit Price is Required';
+        if (!formData.condition) formErrors.condition = 'Condition is Required';
+
+        if (productType && productType.label === 'New Product') {
+            formSections.forEach((section, index) => {
+                if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
+                if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
+                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+                if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
+            });
+        } else if (productType && productType.label === 'Secondary Market') {
+            // formSections.forEach((section, index) => {
+            //     if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
+            //     if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
+            //     if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
+            // });
+        }
+
+        // if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
+
+
+        stockedInSections.forEach((section, index) => {
+            if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
+            if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
+            if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
+        });
+
+
+
+        if (productType && productType.label === 'Secondary Market') {
+            if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
+            if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
+            if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
+            // if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    }
+
+    const handleSubmit = (e) => {
+
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
+        e.preventDefault()
+console.log('FORMDATA',formData);
+        if (validateForm()) {
+
+            const newFormData = new FormData()
+            const secondaryFormData = new FormData()
+
+            const registered = formData.registeredIn?.map(country => {
+                return country ? country.label : '';
+            }) || [];
+
+            const stocked = formData.stockedIn?.map(country => {
+                return country ? country.label : '';
+            }) || []
+
+            const simplifiedStockedInSections = stockedInSections.map(section => ({
+                stocked_in_country: section.stockedInCountry?.label || '',
+                stocked_quantity: section.stockedInQuantity || '',
+                stocked_in_type: section.stockedInType || ''
+            }));
+            if (productType && productType.label === 'New Product') {
+
+                const quantities = formData.quantity?.map(qty => {
+                    return qty ? qty?.label : ''
+                })
+               
+                newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                newFormData.append('medicine_id',  medicineId);
+                newFormData.append('medicine_name', formData.productName);
+                newFormData.append('product_type', 'new');
+                newFormData.append('composition', formData.composition);
+                newFormData.append('unit_tax', formData.unitTax);
+                newFormData.append('strength', formData.strength);
+                newFormData.append('type_of_form', formData.typeOfForm?.label);
+                newFormData.append('shelf_life', formData.shelfLife);
+                newFormData.append('dossier_type', formData.dossierType);
+                newFormData.append('dossier_status', formData.dossierStatus);
+                newFormData.append('product_category', formData.productCategory?.label);
+                newFormData.append('total_quantity', formData.totalQuantity);
+                newFormData.append('gmp_approvals', formData.gmpApprovals);
+                newFormData.append('shipping_time', formData.shippingTime);
+                newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
+                // registered.forEach(item => newFormData.append('registered_in[]', item));
+                // newFormData.append('registered_in[]', formData.registeredIn);
+                formData.registeredIn.forEach(item =>  newFormData.append('registered_in[]', item) )
+                // stocked.forEach(item => newFormData.append('stocked_in[]', item));
+                formData.stockedIn.forEach(item =>  newFormData.append('stocked_in[]', item) )
+                newFormData.append('available_for', formData.availableFor);
+                newFormData.append('tags', formData.tags);
+                newFormData.append('description', formData.description);
+                quantities.forEach(item => newFormData.append('quantity[]', item));
+                formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
+                formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
+                formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
+                Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
+                newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                newFormData.append('manufacturer_name', formData?.manufacturerName)
+                newFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
+                newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
+
+                postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
+                    if (response.code === 200) {
+                        toast(response.message, { type: "success" });
+                        setTimeout(() => {
+                            navigate('/supplier/product/newproduct')
+                        }, 1000);
+                    } else {
+                        toast(response.message, { type: "error" });
+                        console.log('error in new  /medicine/add-medicine');
+                    }
+                })
+
+            } else if (productType && productType.label === 'Secondary Market') {
+                const countryLabels = formData.countryAvailableIn?.map(country => {
+                    return country ? country.label : '';
+                }) || [];
+
+                secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                secondaryFormData.append('medicine_id',  medicineId);
+                secondaryFormData.append('medicine_name', formData.productName);
+                secondaryFormData.append('product_type', 'secondary market');
+                secondaryFormData.append('purchased_on', formData.purchasedOn);
+
+                countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
+                secondaryFormData.append('strength', formData.strength);
+                secondaryFormData.append('unit_tax', formData.unitTax);
+                secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
+
+                secondaryFormData.append('composition', formData.composition);
+                secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
+                secondaryFormData.append('shelf_life', formData.shelfLife);
+                secondaryFormData.append('dossier_type', formData.dossierType);
+                secondaryFormData.append('dossier_status', formData.dossierStatus);
+                secondaryFormData.append('product_category', formData.productCategory?.label);
+                secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
+                secondaryFormData.append('shipping_time', formData.shippingTime);
+                secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
+                // registered.forEach(item => secondaryFormData.append('registered_in[]', item));
+                // stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
+                formData.registeredIn.forEach(item =>  secondaryFormData.append('registered_in[]', item) )
+                formData.stockedIn.forEach(item =>  secondaryFormData.append('stocked_in[]', item) )
+                secondaryFormData.append('available_for', formData.availableFor);
+                secondaryFormData.append('tags', formData.tags);
+                secondaryFormData.append('description', formData.description);
+                secondaryFormData.append('quantity', formData.pdtQuantity);
+                secondaryFormData.append('unit_price', formData.unitPrice);
+                secondaryFormData.append('condition', formData.condition?.label);
+                Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
+                Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
+                secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
+                secondaryFormData.append('manufacturer_name', formData?.manufacturerName)
+                secondaryFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                secondaryFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
+
+                postRequestWithTokenAndFile('/medicine/edit-medicine', secondaryFormData, async (response) => {
+                    if (response.code === 200) {
+                        toast(response.message, { type: "success" });
+
+                        setTimeout(() => {
+                            navigate('/supplier/product/secondarymarket')
+                        }, 1000);
+                    } else {
+                        toast(response.message, { type: "error" });
+                        console.log('error in secondary  /medicine/add-medicine');
+                    }
+                })
+            }
+        } else {
+            toast('Some Fields are Missing', { type: "error" });
+            console.log('errorrrrr', formData);
+        }
+    }
+
+    const resetForm = () => {
+        setProductType({ value: 'new_product', label: 'New Product' });
+        setFormType('');
+        setProductCategory('');
+        setCountryOfOrigin('');
+        setRegisteredCountries([]);
+        setStockedIn([]);
+        setAvailableCountries([]);
+        setMedicineImages([]);
+        setInvoiceImages([]);
+        setErrors({});
+        setFormData({
+            productName: '',
+            productType: { value: 'new_product', label: 'New Product' },
+            composition: '',
+            strength: '',
+            typeOfForm: '',
+            shelfLife: '',
+            dossierType: '',
+            dossierStatus: '',
+            productCategory: '',
+            totalQuantity: '',
+            gmpApprovals: '',
+            shippingTime: '',
+            originCountry: '',
+            registeredIn: '',
+            stockedIn: '',
+            availableFor: '',
+            tags: '',
+            description: '',
+            product_image: '',
+            invoice_image: '',
+            purchasedOn: '',
+            minPurchaseUnit: '',
+            countryAvailableIn: ''
+        });
+        setFormSections([
+            {
+                strength: '',
+                quantity: null,
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: '',
+                totalPrice: '',
+                estDeliveryTime: '',
+                condition: '',
+                quantityNo: '',
+                unitPricee: ''
+            }
+        ])
+    };
+
+    const handleCancel = () => {
+        resetForm()
+    }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        let newErrors = {};
+        let isValid = true;
+
+        if (name === 'description') {
+            if (value.length > 1000) {
+                newErrors.description = 'Description cannot exceed 1000 characters';
+                isValid = false;
+            } else {
+                newErrors.description = '';
+            }
+        }
+        if (name === 'productName' || name === 'dossierStatus') {
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit' || name === 'pdtQuantity') {
+            if (!/^\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors.unitTax = '';
+            }
+        }
+        if (isValid) {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+        }
+        setErrors(prevState => ({ ...prevState, ...newErrors }));
+    };
+
+    const handlemanufacturerCountryOriginChange = (selected) => {
+        setManufacturerCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, manufacturerOriginCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: 'Manufacturer country of origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, manufacturerOriginCountry: '' }));
+        }
+    };
+
+    const handleCountryOriginChange = (selected) => {
+        setCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, originCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, originCountry: '' }));
+        }
+    };
+
+    const handleAvailableInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            countryAvailableIn: selectedLabels
+        });
+        setDefaultCountryAvailableIn(selectedOptions || [])
+        setErrors(prevState => ({
+            ...prevState,
+            countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
+        }));
+
+    }
+
+    const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
+        if (value && value.length) {
+            return value.map(country => country.label).join(', ');
+        }
+        return placeholderButtonLabel;
+    };
+
+    const handleFormTypeChange = (selected) => {
+        setFormType(selected)
+        setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
+        }
+    };
+
+    const handleProductCategoryChange = (selected) => {
+        setProductCategory(selected)
+        setFormData(prevState => ({ ...prevState, productCategory: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, productCategory: 'Product category is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, productCategory: '' }));
+        }
+    };
+
+    const handleRegisteredInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            registeredIn: selectedLabels
+        });
+        setDefaultRegisteredIn(selectedOptions || []);
+        setErrors(prevState => ({
+            ...prevState,
+            registeredIn: selectedLabels.length === 0 ? 'Registered in is Required' : ''
+        }));
+    };
+
+    const handleStockedInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            stockedIn: selectedLabels
+        });
+        setDefaultStockedIn(selectedOptions || [])
+        setErrors(prevState => ({
+            ...prevState,
+            stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
+        }));
+        const options = selectedOptions.map(option => ({ label: option.label }));
+        // setStockedInOptions(options);
+    };
+const [condition, setCondition] = useState()
+    const handleConditionChange = (selected) => {
+        setCondition(selected)
+        setFormData(prevState => ({ ...prevState, condition: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, condition: 'Condition is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, condition: '' }));
+        }
+    };
+
     return (
         <>
             <div className={styles['create-invoice-container']}>
                 <div className={styles['create-invoice-heading']}>Edit Product</div>
                 <div className={styles['create-invoice-section']}>
-                    <form className={styles['craete-invoice-form']} >
+                    <form className={styles['craete-invoice-form']} onSubmit={handleSubmit}>
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-add-item-cont']}>
                                 <div className={styles['create-invoice-form-heading']}>Product Details</div>
@@ -213,10 +936,12 @@ const EditSecondaryProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='productName'
+                                    value={formData.productName}
                                     placeholder='Enter Product Name'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.medicine_name}
+                                    onChange={handleChange}
                                 />
+                                {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Type</label>
@@ -227,74 +952,34 @@ const EditSecondaryProduct = () => {
                                     options={productTypeOptions}
                                     placeholder="Select Product Type"
                                 />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Product Category</label>
-                                <Select
-                                    className={styles['create-invoice-div-input-select']}
-                                    options={productCategoryOptions}
-                                    placeholder="Select Product Category"
-                                    value={defaultCategory}
-                                    onChange={(selectedOption) => {
-                                        setDefaultCategory(selectedOption);
-                                    }}
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Country of Origin</label>
-                                <Select
-                                    className={styles['create-invoice-div-input-select']}
-                                    name='originCountry'
-                                    options={countries}
-                                    placeholder="Select Country of Origin"
-                                    autoComplete='off'
-                                    value={defaultCountryOfOrigin}
-                                    onChange={(selectedOption) => {
-                                        setDefaultCountryOfOrigin(selectedOption);
-                                    }}
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Registered In</label>
-                                <MultiSelectDropdown
-                                    options={countries}
-                                    placeholderButtonLabel="Select Countries"
-                                    value={defaultRegisteredIn}
-                                    onChange={setDefaultRegisteredIn}
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Stocked In</label>
-                                <MultiSelectDropdown
-                                    options={countries}
-                                    placeholderButtonLabel="Select Countries"
-                                    value={defaultStockedIn}
-                                    onChange={setDefaultRegisteredIn}
-                                />
+                                 {errors.productType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productType}</div>}
                             </div>
 
                             {productType && productType.value === 'secondary_market' && (
                                 <>
-                                    
-                                    <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Country Available In</label>
-                                        <MultiSelectDropdown
-                                            options={countries}
-                                            placeholderButtonLabel="Select Countries"
-                                            value={defaultCountryAvailableIn}
-                                            onChange={setDefaultCountryAvailableIn}
-                                        />
-                                    </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Purchased On</label>
                                         <input
                                             className={styles['create-invoice-div-input']}
                                             type='text'
                                             name='purchasedOn'
-                                            placeholder='Enter Purchased On'
+                                            placeholder='Enter Purchased on'
                                             autoComplete='off'
-                                            defaultValue={medicineDetails?.purchased_on}
+                                            value={formData.purchasedOn}
+                                            onChange={handleChange}
                                         />
+                                        {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Country Available In</label>
+                                        <MultiSelectDropdown
+                                            options={countries}
+                                            placeholderButtonLabel="Select Countries"
+                                            onChange={handleAvailableInChange}
+                                            value={defaultCountryAvailableIn}
+                                            // getDropdownButtonLabel={getDropdownButtonLabel}
+                                        />
+                                         {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Minimum Purchase Unit</label>
@@ -304,10 +989,11 @@ const EditSecondaryProduct = () => {
                                             name='minPurchaseUnit'
                                             placeholder='Enter Min Purchase Unit'
                                             autoComplete='off'
-                                            defaultValue={medicineDetails?.min_purchase_unit}
+                                            value={formData.minPurchaseUnit}
+                                            onChange={handleChange}
                                         />
+                                        {errors.minPurchaseUnit && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.minPurchaseUnit}</div>}
                                     </div>
-                                    
                                 </>
                             )}
                             <div className={styles['create-invoice-div-container']}>
@@ -318,8 +1004,10 @@ const EditSecondaryProduct = () => {
                                     name='composition'
                                     placeholder='Enter Composition'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.composition}
+                                    value={formData.composition}
+                                    onChange={handleChange}
                                 />
+                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
@@ -329,20 +1017,36 @@ const EditSecondaryProduct = () => {
                                     name='strength'
                                     placeholder='Enter Strength'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.strength}
+                                    value={formData.strength}
+                                    onChange={handleChange}
                                 />
+                                {errors.strength && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.strength}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Type of form</label>
+                                <label className={styles['create-invoice-div-label']}>Tax%</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='unitTax'
+                                    placeholder='Enter Tax%'
+                                    autoComplete='off'
+                                    value={formData.unitTax}
+                                    onChange={handleChange}
+                                />
+                                {errors.unitTax && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitTax}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Type of Form</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    options={formTypes}
+                                    // value={formType}
+                                    value={formData.typeOfForm}
+                                    options={formTypesOptions}
+                                    onChange={handleFormTypeChange}
                                     placeholder="Select Type of Form"
-                                    value={defaultFormType}
-                                    onChange={(selectedOption) => {
-                                        setDefaultFormType(selectedOption);
-                                    }}
+                                    name='typeOfForm'
                                 />
+                                {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
@@ -352,32 +1056,10 @@ const EditSecondaryProduct = () => {
                                     name='shelfLife'
                                     placeholder='Enter Shelf Life'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.shelf_life}
+                                    value={formData.shelfLife}
+                                    onChange={handleChange}
                                 />
-                            </div>
-                            {productType && productType.value === 'new_product' && (
-                                <>
-                                    <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Total Quantity</label>
-                                        <input
-                                            className={styles['create-invoice-div-input']}
-                                            type='text'
-                                            name='gmpApprovals'
-                                            placeholder='Enter Total Quantity'
-                                            autoComplete='off'
-                                        />
-                                    </div>
-                                </>
-                            )}
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Shipping Time</label>
-                                <input
-                                    className={styles['create-invoice-div-input']}
-                                    type='text'
-                                    name='shippingTime'
-                                    placeholder='Enter Shipping Time'
-                                    defaultValue={medicineDetails?.shipping_time}
-                                />
+                                {errors.shelfLife && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shelfLife}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Type</label>
@@ -387,8 +1069,10 @@ const EditSecondaryProduct = () => {
                                     name='dossierType'
                                     placeholder='Enter Dossier Type'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.dossier_type}
+                                    value={formData.dossierType}
+                                    onChange={handleChange}
                                 />
+                                {errors.dossierType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierType}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Status</label>
@@ -398,11 +1082,41 @@ const EditSecondaryProduct = () => {
                                     name='dossierStatus'
                                     placeholder='Enter Dossier Status'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.dossier_status}
+                                    value={formData.dossierStatus}
+                                    onChange={handleChange}
                                 />
+                                {errors.dossierStatus && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierStatus}</div>}
                             </div>
-
-
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Product Category</label>
+                                <Select
+                                    className={styles['create-invoice-div-input-select']}
+                                    // value={productCategory}
+                                    value={formData.productCategory}
+                                    options={productCategoryOptions}
+                                    placeholder="Select Product Category"
+                                    name='produtCategory'
+                                    onChange={handleProductCategoryChange}
+                                />
+                                {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
+                            </div>
+                            {productType && productType.value === 'new_product' && (
+                                <>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Total Quantity</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name='totalQuantity'
+                                            placeholder='Enter Total Quantity'
+                                            autoComplete='off'
+                                            value={formData.totalQuantity}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
+                                    </div>
+                                </>
+                            )}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
                                 <input
@@ -411,30 +1125,84 @@ const EditSecondaryProduct = () => {
                                     name='gmpApprovals'
                                     placeholder='Enter GMP Approvals'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.gmp_approvals}
+                                    value={formData.gmpApprovals}
+                                    onChange={handleChange}
                                 />
+                                {errors.gmpApprovals && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.gmpApprovals}</div>}
                             </div>
-
-
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Available For</label>
+                                <label className={styles['create-invoice-div-label']}>Shipping Time</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='shippingTime'
+                                    placeholder='Enter Shipping Time'
+                                    value={formData.shippingTime}
+                                    onChange={handleChange}
+                                />
+                                {errors.shippingTime && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shippingTime}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country of Origin</label>
+                                <Select
+                                    className={styles['create-invoice-div-input-select']}
+                                    name='originCountry'
+                                    options={countries}
+                                    placeholder="Select Country of Origin"
+                                    autoComplete='off'
+                                    // value={countryOfOrigin}
+                                    value={formData.originCountry}
+                                    onChange={handleCountryOriginChange}
+                                    
+                                />
+                                {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Registered In</label>
+                                <MultiSelectDropdown
+                                    options={countries}
+                                    placeholderButtonLabel="Select Countries"
+                                    value={defaultRegisteredIn}
+                                    // onChange={setDefaultRegisteredIn}
+                                    onChange={handleRegisteredInChange}
+                                />
+                                {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Stocked in</label>
+                                <MultiSelectDropdown
+                                    options={countries}
+                                    placeholderButtonLabel="Select Countries"
+                                    // onChange={setDefaultStockedIn}
+                                    onChange={handleStockedInChange}
+                                    value={defaultStockedIn}
+                                    // getDropdownButtonLabel={getDropdownButtonLabel}
+                                />
+                                {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Available for</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='availableFor'
-                                    placeholder='Enter Available For'
-                                    defaultValue={medicineDetails?.available_for}
+                                    placeholder='Enter Available for'
+                                    value={formData.availableFor}
+                                    onChange={handleChange}
                                 />
+                                {errors.availableFor && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.availableFor}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Tags</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
-                                    name='availableFor'
+                                    name='tags'
                                     placeholder='Enter Tags'
-                                    defaultValue={medicineDetails?.tags}
+                                    value={formData.tags}
+                                    onChange={handleChange}
                                 />
+                                {errors.tags && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.tags}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Product Description</label>
@@ -443,17 +1211,125 @@ const EditSecondaryProduct = () => {
                                     name="description"
                                     rows="4"
                                     cols="50"
+                                    value={formData.description}
                                     placeholder='Enter Description'
-                                    defaultValue={medicineDetails?.description}
+                                    onChange={handleChange}
                                 />
+                                {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
+
+                          {/* Start the stocked in section */}
+                          <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-section']}>
+                                <div className={styles['create-invoice-add-item-cont']}>
+                                    <div className={styles['create-invoice-form-heading']}>Stocked in Details</div>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addStockedInSection}>Add More</span>
+                                </div>
+                                {stockedInSections.map((section, index) => (
+                                    <div className={styles['form-item-container']} >
+                                        {/* {productType && productType.value === 'new_product' && ( */}
+                                        <div className={styles['create-invoice-new-product-section-containers']}>
+                                            <div className={styles['create-invoice-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Country</label>
+                                                <Select
+                                                    className={styles['create-invoice-div-input-select']}
+                                                    value={section.stockedInCountry}
+                                                    onChange={(selected) => handleStockedInCountryChange(index, selected)}
+                                                    options={defaultStockedIn}
+                                                    placeholder="Select Stocked in Country"
+                                                    name='stockedInCountry'
+                                                />
+                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
+                                                {errors[`stockedInCountry${index}`] && (
+                                                    <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                        Stocked in Country is Required
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles['add-product-div-container']}>
+                                                <label className={styles['create-invoice-div-label']}>Stocked in Quantity</label>
+                                                <div className={styles.quantitySelector}>
+                                                    <div className={styles.inputGroup}>
+                                                        <input
+                                                            type="text"
+                                                            name="stockedInQuantity"
+                                                            onChange={(event) => handleStockedInputChange(index, event)}
+                                                            value={section.stockedInQuantity}
+                                                            placeholder={`Enter ${packageType} Quantity`}
+                                                            className={styles['add-product-div-input']}
+                                                        />
+                                                        <button
+                                                            className={`${styles.optionButton} ${styles.selected}`}
+                                                        >
+                                                            {section.stockedInType}
+                                                        </button>
+                                                    </div>
+
+                                                    <div className={styles.radioGroup}>
+                                                        <label>
+                                                            <input
+                                                                name={`stockedInType_${index}`}
+                                                                type="radio"
+                                                                value="Box"
+                                                                checked={section.stockedInType === 'Box'}
+                                                                onChange={() => handlePackageSelection(index, 'Box')}
+                                                            />
+                                                            <span>Box</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                name={`stockedInType_${index}`}
+                                                                value="Strip"
+                                                                checked={section.stockedInType === 'Strip'}
+                                                                onChange={() => handlePackageSelection(index, 'Strip')}
+                                                            />
+                                                            <span>Strip</span>
+                                                        </label>
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                value="Pack"
+                                                                name={`stockedInType_${index}`}
+                                                                checked={section.stockedInType === 'Pack'}
+                                                                onChange={() => handlePackageSelection(index, 'Pack')}
+                                                            />
+                                                            <span>Pack</span>
+                                                        </label>
+                                                    </div>
+
+
+                                                </div>
+                                                <div className={styles['quanity-error-section']}>
+                                                    {errors[`stockedInQuantity${index}`] && (
+                                                        <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                            Stocked in Quantity is Required
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {/* )} */}
+                                        {stockedInSections.length > 1 && (
+                                            <div className={styles['addproduct-add-cross-icon']} onClick={() => removeStockedInFormSection(index)}>
+                                                <CloseIcon />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {/* End the stocked in section */}
 
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
-                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                    <span className={styles['create-invoice-add-item-button']} 
+                                    // onClick={addFormSection}
+                                    >Add More</span>
                                 </div>
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
@@ -469,6 +1345,7 @@ const EditSecondaryProduct = () => {
                                                         options={quantityOptions}
                                                         placeholder="Select Quantity"
                                                     />
+                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -478,9 +1355,10 @@ const EditSecondaryProduct = () => {
                                                         type='text'
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
-                                                        value={section.unitPrice}
+                                                        defaultValue={section.unitPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                    {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Total Price</label>
@@ -489,9 +1367,10 @@ const EditSecondaryProduct = () => {
                                                         type='text'
                                                         name='totalPrice'
                                                         placeholder='Enter Total Price'
-                                                        value={section.totalPrice}
+                                                        defaultValue={section.totalPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                     {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -504,6 +1383,7 @@ const EditSecondaryProduct = () => {
                                                         value={section.estDeliveryTime}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
                                             </div>
                                         )}
@@ -514,11 +1394,13 @@ const EditSecondaryProduct = () => {
                                                     <input
                                                         className={styles['create-invoice-div-input']}
                                                         type='text'
-                                                        name='quantity'
+                                                        name='pdtQuantity'
                                                         placeholder='Enter Quantity'
-                                                        value={section.quantity}
-                                                        onChange={(event) => handleInputChange(index, event)}
+                                                        value={formData.pdtQuantity}
+                                                        // onChange={(event) => handleInputChange(index, event)}
+                                                        onChange={handleChange}
                                                     />
+                                                    {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -528,19 +1410,26 @@ const EditSecondaryProduct = () => {
                                                         type='text'
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
-                                                        value={section.unitPrice}
-                                                        onChange={(event) => handleInputChange(index, event)}
+                                                        value={formData.unitPrice}
+                                                        // onChange={(event) => handleInputChange(index, event)}
+                                                        onChange={handleChange}
                                                     />
+                                                     {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                        {errors[`unitPricee${index}`]}
+                                                        </div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Condition</label>
                                                     <Select
                                                         className={styles['create-invoice-div-input-select']}
-                                                        value={section.condition}
-                                                        onChange={(selected) => handleConditionChange(index, selected)}
+                                                        value={formData.condition}
+                                                        // onChange={(selected) => handleConditionChange(index, selected)}
+                                                        onChange={handleConditionChange}
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
+                                                    {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
+                                                    
                                                 </div>
                                             </div>
                                         )}
@@ -553,17 +1442,70 @@ const EditSecondaryProduct = () => {
                                 ))}
                             </div>
                         </div>
+
+                        {/* start the manufacturer details */}
+                        <div className={styles['create-invoice-inner-form-section']}>
+                            <div className={styles['create-invoice-add-item-cont']}>
+                                <div className={styles['create-invoice-form-heading']}>Manufacturer Details</div>
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Manufacturer Name</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='manufacturerName'
+                                    placeholder='Enter Manufacturer Name'
+                                    autoComplete='off'
+                                    defaultValue={medicineDetails?.manufacturer_name}
+                                    onChange={handleChange}
+                                />
+                                {errors.manufacturerName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerName}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country of Origin</label>
+                                <Select
+                                    className={styles['create-invoice-div-input-select']}
+                                    name='originCountry'
+                                    options={countries}
+                                    placeholder="Select Country of Origin"
+                                    autoComplete='off'
+                                    value={manufacturerCountryOfOrigin}
+                                    onChange={handlemanufacturerCountryOriginChange}
+                                />
+                                {errors.manufacturerOriginCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerOriginCountry}</div>}
+                            </div>
+                            <div className={styles['create-manufaturer-div-container-description']}>
+                                <label className={styles['create-invoice-div-label']}>About Manufacturer</label>
+                                <textarea
+                                    className={styles['create-invoice-div-input']}
+                                    name="manufacturerDescription"
+                                    rows="4"
+                                    cols="20"
+                                    defaultValue={medicineDetails?.manufacturer_description}
+                                    placeholder='Enter About Manufacturer'
+                                    onChange={handleChange}
+                                />
+                                {errors.manufacturerDescription && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerDescription}</div>}
+                            </div>
+                        </div>
+                        {/* end the manufacturer details */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-product-image-section']}>
                                 <div className={styles['create-invoice-upload-purchase']}>
                                     <div className={styles['create-invoice-form-heading']}>Upload Product Image</div>
-                                    <ImageAddUploader />
+                                    <ImageAddUploader 
+                                    image={medicineImages}
+                                    setImage={setMedicineImages}
+                                    />
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
                                         <div className={styles['create-invoice-upload-purchase']}>
                                             <div className={styles['create-invoice-form-heading']}>Upload Purchase Invoice</div>
-                                            <AddPdfUpload />
+                                            <AddPdfUpload
+                                             invoiceImage={invoiceImages}
+                                             setInvoiceImage={setInvoiceImages}
+                                             />
                                         </div>
                                     </>
                                 )}
@@ -571,8 +1513,8 @@ const EditSecondaryProduct = () => {
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                            <div className={styles['create-invoices-cancel']}>Cancel</div>
-                            <button type="submit" className={styles['create-invoices-submit']}>Add Product</button>
+                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
+                            <button type="submit" className={styles['create-invoices-submit']}>Edit Product</button>
                         </div>
                     </form>
 

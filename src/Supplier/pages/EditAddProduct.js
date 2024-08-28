@@ -48,7 +48,7 @@ const AddProduct = () => {
         // { value: 'secondary_market', label: 'Secondary Market' }
     ];
 
-    const formTypes = [
+    const formTypesOptions = [
         { value: 'tablet', label: 'Tablet' },
         { value: 'syrup', label: 'Syrup' }
     ];
@@ -85,6 +85,7 @@ const AddProduct = () => {
     const [stockedInOptions, setStockedInOptions] = useState([])
     const [packageType, setPackageType] = useState('Box');
 
+  
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         productName: '',
@@ -115,7 +116,12 @@ const AddProduct = () => {
         manufacturerName: '',
         manufacturerOriginCountry: '',
         manufacturerDescription: '',
-        stockedInData: ''
+        stockedInData: '',
+
+        quantity: [],
+    unitPrice: [],
+    totalPrice: [],
+    estDeliveryTime: [],
     })
     const [formSections, setFormSections] = useState([
         {
@@ -139,6 +145,14 @@ const AddProduct = () => {
     ]);
 
     useEffect(() => {
+        setFormData({
+            ...formData,
+            product_image: medicineImages
+        });
+    }, [medicineImages])
+
+
+    useEffect(() => {
         if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
             const initialSections = medicineDetails?.inventory_info?.map(item => ({
                 strength: '', // Set default or adjust if needed
@@ -151,8 +165,17 @@ const AddProduct = () => {
                 condition: { value: '', label: '' } // Adjust based on available conditions
             }));
             setFormSections(initialSections);
+
+            setFormData(prev => ({
+                ...prev,
+                    quantity: initialSections.map(section => section.quantity),
+                unitPrice: initialSections.map(section => section.unitPrice),
+                totalPrice: initialSections.map(section => section.totalPrice),
+                estDeliveryTime: initialSections.map(section => section.estDeliveryTime),
+            }))
         }
     }, [medicineDetails]);
+
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
@@ -162,11 +185,30 @@ const AddProduct = () => {
     const handleConditionChange = (index, selected) => {
         const newFormSections = [...formSections];
         newFormSections[index].condition = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`condition${index}`]: ''
+        }));
+        const conditions = newFormSections.map(section => section.condition);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            condition: conditions
+        }));
         setFormSections(newFormSections);
     };
+    
     const handleQuantityChange = (index, selected) => {
         const newFormSections = [...formSections];
         newFormSections[index].quantity = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`quantity${index}`]: ''
+        }));
+        const quantities = newFormSections.map(section => section.quantity);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            quantity: quantities
+        }));
         setFormSections(newFormSections);
     };
 
@@ -175,28 +217,24 @@ const AddProduct = () => {
         const newFormSections = [...formSections];
         newFormSections[index][name] = value;
         setFormSections(newFormSections);
+
+        const unitPrices = newFormSections.map(section => section.unitPrice);
+        const totalPrices = newFormSections.map(section => section.totalPrice);
+        const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            unitPrice: unitPrices,
+            totalPrice: totalPrices,
+            estDeliveryTime: estDeliveryTimes,
+        }));
     };
 
-    // const addFormSection = () => {
-    //     setFormSections([
-    //         ...formSections,
-    //         {
-    //             strength: '',
-    //             quantity: null,
-    //             typeOfForm: null,
-    //             totalPrice: '',
-    //             unitPrice: '',
-    //             shelfLife: '',
-    //             estDeliveryTime: '',
-    //             condition: ''
-    //         }
-    //     ]);
-    // };
     const addFormSection = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
 
-        if (productType && productType.label === 'New Product') {
+        // if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
                     newProductValid = false;
@@ -226,33 +264,34 @@ const AddProduct = () => {
 
                 setErrors({});
             }
-        } else if (productType && productType.label === 'Secondary Market') {
+        // } 
+        // else if (productType && productType.label === 'Secondary Market') {
 
-            formSections.forEach((section, index) => {
-                if (!section.quantityNo || !section.unitPrice || !section.condition) {
-                    secondaryMarketValue = false;
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
-                        [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
-                        [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
+        //     formSections.forEach((section, index) => {
+        //         if (!section.quantityNo || !section.unitPrice || !section.condition) {
+        //             secondaryMarketValue = false;
+        //             setErrors(prevErrors => ({
+        //                 ...prevErrors,
+        //                 [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
+        //                 [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
+        //                 [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
 
-                    }));
-                }
-            });
-            if (secondaryMarketValue && productType.label === 'Secondary Market') {
-                setFormSections([
-                    ...formSections,
-                    {
-                        id: formSections.length,
-                        quantityNo: '',
-                        unitPricee: '',
-                        condition: ''
-                    }
-                ]);
-                setErrors({});
-            }
-        }
+        //             }));
+        //         }
+        //     });
+        //     if (secondaryMarketValue && productType.label === 'Secondary Market') {
+        //         setFormSections([
+        //             ...formSections,
+        //             {
+        //                 id: formSections.length,
+        //                 quantityNo: '',
+        //                 unitPricee: '',
+        //                 condition: ''
+        //             }
+        //         ]);
+        //         setErrors({});
+        //     }
+        // }
     };
 
     const removeFormSection = (index) => {
@@ -266,6 +305,15 @@ const AddProduct = () => {
         setProductType(selected);
     };
 
+    // const [images, setImages] = useState([])
+    // console.log('setImages',images);
+    const [defaultFormType, setDefaultFormType] = useState(null);
+    const [defaultCategory, setDefaultCategory] = useState(null)
+    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
+    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
+    const [defaultStockedIn, setDefaultStockedIn] = useState([])
+    const [inventoryInfo, setInventoryInfo] = useState([]);
+  
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
@@ -282,23 +330,56 @@ const AddProduct = () => {
         
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response?.result?.data)
+                setMedicineDetails(response?.result?.data);
+                const result = response?.result?.data;
+
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    productName: result?.medicine_name || '',
+                    productType: { label: result?.medicine_type, value: result?.medicine_type } || null,
+                    composition: result?.composition || '',
+                    unitTax: result?.unit_tax || '',
+                    strength: result?.strength || '',
+                    typeOfForm: { label: result?.type_of_form, value: result?.type_of_form } || null,
+                    shelfLife: result?.shelf_life || '',
+                    dossierType: result?.dossier_type || '',
+                    dossierStatus: result?.dossier_status || '',
+                    // productCategory: result.medicine_category || '',
+                    productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
+                    totalQuantity: result?.total_quantity || '',
+                    gmpApprovals: result?.gmp_approvals || '',
+                    shippingTime: result?.shipping_time || '',
+                    // originCountry: result.country_of_origin || '',
+                    originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
+                    registeredIn: result?.registered_in || [],
+                    stockedIn: result?.stocked_in || [],
+                    availableFor: result?.available_for || '',
+                    tags: result?.tags?.join(', ') || '',
+                    description: result?.description || '',
+                    // product_image: result?.medicine_image || [],
+                    invoice_image: [],
+                    purchasedOn: '',
+                    minPurchaseUnit: '',
+                    countryAvailableIn: result?.country_available_in || [],
+                    manufacturerName: result?.manufacturer_name || '',
+                    manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
+                    manufacturerDescription: result?.manufacturer_description || '',
+                    stockedInData: result?.stockedIn_details || []
+                }));
+                // setImages(result?.medicine_image || []);
+                setProductCategory(result?.medicine_category)
+                setCountryOfOrigin(result?.country_of_origin)
+                setFormType(result?.type_of_form)
+               
             } else {
                console.log('error in med details api');
             }
           })
     },[])
 
-    const [defaultFormType, setDefaultFormType] = useState(null);
-    const [defaultCategory, setDefaultCategory] = useState(null)
-    const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
-    const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
-    const [inventoryInfo, setInventoryInfo] = useState([]);
-  
-
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
-            const selectedFormType = formTypes.find(option => option.label === medicineDetails?.type_of_form);
+            const selectedFormType = formTypesOptions.find(option => option.label === medicineDetails?.type_of_form);
             setDefaultFormType(selectedFormType);
         }
         if(medicineDetails?.medicine_category) {
@@ -315,8 +396,29 @@ const AddProduct = () => {
             );
             setDefaultRegisteredIn(selectedRegisteredIn);
         }
+        if (medicineDetails?.stocked_in) {
+            const selectedStockedIn = countries.filter(option => 
+                medicineDetails?.stocked_in.includes(option.label)
+            );
+            setDefaultStockedIn(selectedStockedIn);
+        }
         if (medicineDetails?.inventory_info) {
             setInventoryInfo(medicineDetails.inventory_info);
+        }
+        if(medicineDetails?.manufacturer_country_of_origin) {
+            const manufacturerCountry = countries.find(option => option.label === medicineDetails?.manufacturer_country_of_origin )
+            setManufacturerCountryOfOrigin(manufacturerCountry)
+        }
+    }, [medicineDetails]);
+
+    useEffect(() => {
+        if (medicineDetails?.stockedIn_details) {
+            const initialSections = medicineDetails?.stockedIn_details?.map(detail => ({
+                stockedInCountry: { label: detail.stocked_in_country, value: detail.stocked_in_country },
+                stockedInQuantity: detail.stocked_quantity,
+                stockedInType: detail.stocked_in_type
+            }));
+            setStockedInSections(initialSections);
         }
     }, [medicineDetails]);
 
@@ -352,6 +454,10 @@ const AddProduct = () => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInCountry = selected;
         setStockedInSections(updatedSections);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            stockedInData: updatedSections
+        }));
     };
 
     const handleStockedInputChange = (index, event) => {
@@ -360,6 +466,10 @@ const AddProduct = () => {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
             setStockedInSections(updatedSections);
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                stockedInData: updatedSections
+            }));
         }
     };
 
@@ -396,8 +506,8 @@ const AddProduct = () => {
         if (!formData.description) formErrors.description = 'Description is Required';
         // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
         if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
-        if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is Required';
-        if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is Required';
+        if (formData?.registeredIn?.length === 0) formErrors.registeredIn = 'Registered in is Required';
+        if (formData?.stockedIn?.length === 0) formErrors.stockedIn = 'Stocked in is Required';
         if (!productCategory) formErrors.productCategory = 'Product Category is Required';
 
         if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer Name is Required';
@@ -419,7 +529,7 @@ const AddProduct = () => {
             });
         }
 
-        if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
+        // if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
 
 
         stockedInSections.forEach((section, index) => {
@@ -451,7 +561,7 @@ const AddProduct = () => {
             return;
         }
         e.preventDefault()
-
+console.log('FORMDATA',formData);
         if (validateForm()) {
 
             const newFormData = new FormData()
@@ -475,8 +585,9 @@ const AddProduct = () => {
                 const quantities = formData.quantity?.map(qty => {
                     return qty ? qty?.label : ''
                 })
-
+               
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);
                 newFormData.append('product_type', 'new');
                 newFormData.append('composition', formData.composition);
@@ -491,8 +602,11 @@ const AddProduct = () => {
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
                 newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                registered.forEach(item => newFormData.append('registered_in[]', item));
-                stocked.forEach(item => newFormData.append('stocked_in[]', item));
+                // registered.forEach(item => newFormData.append('registered_in[]', item));
+                // newFormData.append('registered_in[]', formData.registeredIn);
+                formData.registeredIn.forEach(item =>  newFormData.append('registered_in[]', item) )
+                // stocked.forEach(item => newFormData.append('stocked_in[]', item));
+                formData.stockedIn.forEach(item =>  newFormData.append('stocked_in[]', item) )
                 newFormData.append('available_for', formData.availableFor);
                 newFormData.append('tags', formData.tags);
                 newFormData.append('description', formData.description);
@@ -507,7 +621,7 @@ const AddProduct = () => {
                 // newFormData.append('stocked_in_details', simplifiedStockedInSections)
                 newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
-                postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
+                postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
                     if (response.code === 200) {
                         toast(response.message, { type: "success" });
                         setTimeout(() => {
@@ -683,6 +797,85 @@ const AddProduct = () => {
         }
     };
 
+    const handleCountryOriginChange = (selected) => {
+        setCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, originCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, originCountry: '' }));
+        }
+    };
+
+    const handleAvailableInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            countryAvailableIn: selectedOptions
+        });
+        setAvailableCountries(selectedOptions)
+        setErrors(prevState => ({
+            ...prevState,
+            countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
+        }));
+
+    }
+
+    const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
+        if (value && value.length) {
+            return value.map(country => country.label).join(', ');
+        }
+        return placeholderButtonLabel;
+    };
+
+    const handleFormTypeChange = (selected) => {
+        setFormType(selected)
+        setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
+        }
+    };
+
+    const handleProductCategoryChange = (selected) => {
+        setProductCategory(selected)
+        setFormData(prevState => ({ ...prevState, productCategory: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, productCategory: 'Product category is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, productCategory: '' }));
+        }
+    };
+
+    const handleRegisteredInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            registeredIn: selectedLabels
+        });
+        setDefaultRegisteredIn(selectedOptions || []);
+        setErrors(prevState => ({
+            ...prevState,
+            registeredIn: selectedLabels.length === 0 ? 'Registered in is Required' : ''
+        }));
+    };
+
+    const handleStockedInChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+        setFormData({
+            ...formData,
+            stockedIn: selectedLabels
+        });
+        setDefaultStockedIn(selectedOptions || [])
+        setErrors(prevState => ({
+            ...prevState,
+            stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
+        }));
+        const options = selectedOptions.map(option => ({ label: option.label }));
+        // setStockedInOptions(options);
+    };
+
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -699,10 +892,12 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='productName'
-                                    defaultValue={medicineDetails?.medicine_name}
+                                    value={formData.productName}
                                     placeholder='Enter Product Name'
                                     autoComplete='off'
+                                    onChange={handleChange}
                                 />
+                                {errors.productName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productName}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Type</label>
@@ -713,6 +908,7 @@ const AddProduct = () => {
                                     options={productTypeOptions}
                                     placeholder="Select Product Type"
                                 />
+                                 {errors.productType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productType}</div>}
                             </div>
 
                             {productType && productType.value === 'secondary_market' && (
@@ -723,17 +919,22 @@ const AddProduct = () => {
                                             className={styles['create-invoice-div-input']}
                                             type='text'
                                             name='purchasedOn'
-                                            placeholder='Enter Purchased On'
+                                            placeholder='Enter Purchased on'
                                             autoComplete='off'
+                                            value={formData.purchasedOn}
+                                            onChange={handleChange}
                                         />
+                                        {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available In</label>
                                         <MultiSelectDropdown
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
-                                            // value={defaultCountryAvailableIn}
+                                            onChange={handleAvailableInChange}
+                                            getDropdownButtonLabel={getDropdownButtonLabel}
                                         />
+                                         {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Minimum Purchase Unit</label>
@@ -743,7 +944,10 @@ const AddProduct = () => {
                                             name='minPurchaseUnit'
                                             placeholder='Enter Min Purchase Unit'
                                             autoComplete='off'
+                                            value={formData.minPurchaseUnit}
+                                            onChange={handleChange}
                                         />
+                                        {errors.minPurchaseUnit && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.minPurchaseUnit}</div>}
                                     </div>
                                 </>
                             )}
@@ -754,9 +958,11 @@ const AddProduct = () => {
                                     type='text'
                                     name='composition'
                                     placeholder='Enter Composition'
-                                    defaultValue={medicineDetails?.composition}
                                     autoComplete='off'
+                                    value={formData.composition}
+                                    onChange={handleChange}
                                 />
+                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
@@ -764,23 +970,38 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='strength'
-                                    defaultValue={medicineDetails?.strength}
                                     placeholder='Enter Strength'
                                     autoComplete='off'
+                                    value={formData.strength}
+                                    onChange={handleChange}
                                 />
+                                {errors.strength && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.strength}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Type of form</label>
+                                <label className={styles['create-invoice-div-label']}>Tax%</label>
+                                <input
+                                    className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='unitTax'
+                                    placeholder='Enter Tax%'
+                                    autoComplete='off'
+                                    value={formData.unitTax}
+                                    onChange={handleChange}
+                                />
+                                {errors.unitTax && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitTax}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Type of Form</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    options={formTypes}
+                                    // value={formType}
+                                    value={formData.typeOfForm}
+                                    options={formTypesOptions}
+                                    onChange={handleFormTypeChange}
                                     placeholder="Select Type of Form"
-                                    value={defaultFormType}
-                                    onChange={(selectedOption) => {
-                                        setDefaultFormType(selectedOption);
-                                        console.log('Selected form type:', selectedOption);
-                                    }}
+                                    name='typeOfForm'
                                 />
+                                {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
@@ -788,10 +1009,12 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='shelfLife'
-                                    defaultValue={medicineDetails?.shelf_life}
                                     placeholder='Enter Shelf Life'
                                     autoComplete='off'
+                                    value={formData.shelfLife}
+                                    onChange={handleChange}
                                 />
+                                {errors.shelfLife && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shelfLife}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Type</label>
@@ -799,10 +1022,12 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='dossierType'
-                                    defaultValue={medicineDetails?.dossier_type}
                                     placeholder='Enter Dossier Type'
                                     autoComplete='off'
+                                    value={formData.dossierType}
+                                    onChange={handleChange}
                                 />
+                                {errors.dossierType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierType}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Dossier Status</label>
@@ -810,22 +1035,25 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='dossierStatus'
-                                    defaultValue={medicineDetails?.dossier_status}
                                     placeholder='Enter Dossier Status'
                                     autoComplete='off'
+                                    value={formData.dossierStatus}
+                                    onChange={handleChange}
                                 />
+                                {errors.dossierStatus && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.dossierStatus}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
+                                    // value={productCategory}
+                                    value={formData.productCategory}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
-                                    value={defaultCategory}
-                                    onChange={(selectedOption) => {
-                                        setDefaultCategory(selectedOption);
-                                    }}
+                                    name='produtCategory'
+                                    onChange={handleProductCategoryChange}
                                 />
+                                {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
                             {productType && productType.value === 'new_product' && (
                                 <>
@@ -834,11 +1062,13 @@ const AddProduct = () => {
                                         <input
                                             className={styles['create-invoice-div-input']}
                                             type='text'
-                                            name='gmpApprovals'
-                                            defaultValue={medicineDetails?.total_quantity}
+                                            name='totalQuantity'
                                             placeholder='Enter Total Quantity'
                                             autoComplete='off'
+                                            value={formData.totalQuantity}
+                                            onChange={handleChange}
                                         />
+                                        {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
                             )}
@@ -848,10 +1078,12 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='gmpApprovals'
-                                    defaultValue={medicineDetails?.gmp_approvals}
                                     placeholder='Enter GMP Approvals'
                                     autoComplete='off'
+                                    value={formData.gmpApprovals}
+                                    onChange={handleChange}
                                 />
+                                {errors.gmpApprovals && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.gmpApprovals}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shipping Time</label>
@@ -859,9 +1091,11 @@ const AddProduct = () => {
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='shippingTime'
-                                    defaultValue={medicineDetails?.shipping_time}
                                     placeholder='Enter Shipping Time'
+                                    value={formData.shippingTime}
+                                    onChange={handleChange}
                                 />
+                                {errors.shippingTime && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shippingTime}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Country of Origin</label>
@@ -871,11 +1105,12 @@ const AddProduct = () => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
-                                    value={defaultCountryOfOrigin}
-                                    onChange={(selectedOption) => {
-                                        setDefaultCountryOfOrigin(selectedOption);
-                                    }}
+                                    // value={countryOfOrigin}
+                                    value={formData.originCountry}
+                                    onChange={handleCountryOriginChange}
+                                    
                                 />
+                                {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Registered In</label>
@@ -883,39 +1118,59 @@ const AddProduct = () => {
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
                                     value={defaultRegisteredIn}
-                                    onChange={setDefaultRegisteredIn}
+                                    // onChange={setDefaultRegisteredIn}
+                                    onChange={handleRegisteredInChange}
                                 />
+                                {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Available For</label>
+                                <label className={styles['create-invoice-div-label']}>Stocked in</label>
+                                <MultiSelectDropdown
+                                    options={countries}
+                                    placeholderButtonLabel="Select Countries"
+                                    // onChange={setDefaultStockedIn}
+                                    onChange={handleStockedInChange}
+                                    value={defaultStockedIn}
+                                    // getDropdownButtonLabel={getDropdownButtonLabel}
+                                />
+                                {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Available for</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='availableFor'
-                                    defaultValue={medicineDetails?.available_for}
-                                    placeholder='Enter Available For'
+                                    placeholder='Enter Available for'
+                                    value={formData.availableFor}
+                                    onChange={handleChange}
                                 />
+                                {errors.availableFor && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.availableFor}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Tags</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
-                                    name='availableFor'
-                                    defaultValue={medicineDetails?.tags}
+                                    name='tags'
                                     placeholder='Enter Tags'
+                                    value={formData.tags}
+                                    onChange={handleChange}
                                 />
+                                {errors.tags && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.tags}</div>}
                             </div>
                             <div className={styles['create-invoice-div-container-description']}>
                                 <label className={styles['create-invoice-div-label']}>Product Description</label>
                                 <textarea
                                     className={styles['create-invoice-div-input']}
                                     name="description"
-                                    defaultValue={medicineDetails?.description}
                                     rows="4"
                                     cols="50"
+                                    value={formData.description}
                                     placeholder='Enter Description'
+                                    onChange={handleChange}
                                 />
+                                {errors.description && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.description}</div>}
                             </div>
                         </div>
 
@@ -936,7 +1191,7 @@ const AddProduct = () => {
                                                     className={styles['create-invoice-div-input-select']}
                                                     value={section.stockedInCountry}
                                                     onChange={(selected) => handleStockedInCountryChange(index, selected)}
-                                                    options={stockedInOptions}
+                                                    options={defaultStockedIn}
                                                     placeholder="Select Stocked in Country"
                                                     name='stockedInCountry'
                                                 />
@@ -1043,6 +1298,7 @@ const AddProduct = () => {
                                                         options={quantityOptions}
                                                         placeholder="Select Quantity"
                                                     />
+                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1055,6 +1311,7 @@ const AddProduct = () => {
                                                         defaultValue={section.unitPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                    {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Total Price</label>
@@ -1066,6 +1323,7 @@ const AddProduct = () => {
                                                         defaultValue={section.totalPrice}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                     {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1078,6 +1336,7 @@ const AddProduct = () => {
                                                         value={section.estDeliveryTime}
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
+                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
                                             </div>
                                         )}
@@ -1141,14 +1400,11 @@ const AddProduct = () => {
                                     name='manufacturerName'
                                     placeholder='Enter Manufacturer Name'
                                     autoComplete='off'
-                                    value={formData.manufacturerName}
+                                    defaultValue={medicineDetails?.manufacturer_name}
                                     onChange={handleChange}
                                 />
                                 {errors.manufacturerName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerName}</div>}
                             </div>
-
-
-
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Country of Origin</label>
                                 <Select
@@ -1169,7 +1425,7 @@ const AddProduct = () => {
                                     name="manufacturerDescription"
                                     rows="4"
                                     cols="20"
-                                    value={formData.manufacturerDescription}
+                                    defaultValue={medicineDetails?.manufacturer_description}
                                     placeholder='Enter About Manufacturer'
                                     onChange={handleChange}
                                 />
@@ -1181,7 +1437,10 @@ const AddProduct = () => {
                             <div className={styles['create-invoice-product-image-section']}>
                                 <div className={styles['create-invoice-upload-purchase']}>
                                     <div className={styles['create-invoice-form-heading']}>Upload Product Image</div>
-                                    <ImageAddUploader />
+                                    <ImageAddUploader 
+                                    image={medicineImages}
+                                    setImage={setMedicineImages}
+                                    />
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>

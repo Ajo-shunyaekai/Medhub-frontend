@@ -465,7 +465,7 @@ const AddProduct = () => {
                 newErrors[name] = '';
             }
         }
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
             if (!/^\d*$/.test(value)) {
                 isValid = false;
             } else {
