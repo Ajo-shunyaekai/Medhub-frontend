@@ -51,7 +51,7 @@ const ActiveOrdersDetails = () => {
             <div className='active-order-main-section-container'>
                 <div className='active-order-details-conatiner-heading'>Order ID:<span>{orderDetails?.order_id}</span></div>
                 {orderDetails?.status === "Shipment Details Submitted" && (
-                    <Link to='/supplier/create-invoice'>
+                    <Link to={`/supplier/create-invoice/${orderDetails?.order_id}`}>
                         <div className='active-order-main-create-invoice'>Create Invoice</div>
                     </Link>
                 )}

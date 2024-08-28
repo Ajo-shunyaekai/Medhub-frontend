@@ -3,8 +3,14 @@ import styles from '../../style/createInvoice.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
+import { useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../../api/Requests';
 
 const CreateInvoice = () => {
+    const {orderId} = useParams()
+    const navigate = useNavigate();
+
+    const [orderDetails, setOrderDetails] = useState(null);
     const [formData, setFormData] = useState({
         operationCountries: [],
         originCountry: ''
@@ -36,6 +42,29 @@ const CreateInvoice = () => {
         newFormItems[index].productName = selectedOption.value;
         setFormItems(newFormItems);
     };
+
+    useEffect(() => {
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
+
+        const obj = {
+            order_id: orderId,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
+        };
+
+        postRequestWithToken('supplier/order/supplier-order-details', obj, (response) => {
+            if (response.code === 200) {
+                setOrderDetails(response.result);
+            } else {
+                console.log('error in order details api');
+            }
+        });
+    }, [orderId, navigate]);
 
     return (
         <div className={styles['create-invoice-container']}>

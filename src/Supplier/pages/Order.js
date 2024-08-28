@@ -21,7 +21,7 @@ const Order = () => {
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 2;
+    const ordersPerPage = 5;
 
      const getActiveLinkFromPath = (path) => {
         switch (path) {
@@ -120,29 +120,10 @@ const Order = () => {
                     })()}
                 </div>
                 <div className="order-container">
-                    {/* <div className="order-container-left">
-                        <div onClick={() => handleLinkClick('order-request')} className={activeLink === 'order-request' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
-                            <img src={order_list} alt="order icon" />
-                            <div>Order Request</div>
-                        </div>
-                        <div onClick={() => handleLinkClick('active')} className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
-                            <img src={order_list} alt="order icon" />
-                            <div>Active Orders</div>
-                        </div>
-                        <div onClick={() => handleLinkClick('completed')} className={activeLink === 'completed' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
-                            <img src={order_list} alt="order icon" />
-                            <div>Completed Orders</div>
-                        </div>
-                    </div> */}
+                    
 
                    <div className="order-container-left">
-                    {/* <div
-                        onClick={() => handleLinkClick('pending')}
-                        className={activeLink === 'order-request' ? 'active order-left-wrapper' : 'order-left-wrapper'}
-                    >
-                        <img src={order_list} alt="order icon" />
-                        <div>Order Request</div>
-                    </div> */}
+                    
                     <div
                         onClick={() => handleLinkClick('active')}
                         className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}

@@ -191,7 +191,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/pending-invoice" element={<PendingInvoice />} />
                         <Route path="/supplier/complete-invoice" element={<CompleteInvoice />} />
                         <Route path="/supplier/ongoing-invoice" element={<OngoingInvoice />} />
-                        <Route path="/supplier/create-invoice" element={<CreateInvoice />} />
+                        <Route path="/supplier/create-invoice/:orderId" element={<CreateInvoice />} />
                         <Route path="/supplier/order-requests" element={<OrderRequests />} />
                         <Route path="/supplier/ongoing-orders" element={<DashboardOngoing />} />
                         <Route path="/supplier/completed-orders" element={<CompletedOrders />} />
