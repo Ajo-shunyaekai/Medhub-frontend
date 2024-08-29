@@ -82,12 +82,14 @@ const OrderDetails = ({socket}) => {
         console.log('OBJ:', obj);
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
+                
                 // setOrderDetails((prevDetails) => ({
                 //     ...prevDetails,
                 //     order_status : 'Awaiting Details from Seller',
                 // }));
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
+                        toast('Logistics Details Submitted Successfully', {type:'success'})
                         setOrderDetails(response.result);
                         // socket.emit('bookLogisctics', {
                         //     supplierId: orderDetails?.supplier_id, 

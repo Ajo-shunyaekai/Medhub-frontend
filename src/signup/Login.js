@@ -8,9 +8,11 @@ import { Link } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from 'react-spinners';
 
 
 const Login = () => {
+    const [buttonLoading, setButtonLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +46,7 @@ const Login = () => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
+            setButtonLoading(true)
             let obj = {
                 email,
                 password
@@ -51,6 +54,7 @@ const Login = () => {
             postRequest('buyer/login', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: "success" });
+                    
                     sessionStorage.setItem('buyer_id', response.result.buyer_id)
                     sessionStorage.setItem('buyer_name', response.result.buyer_name)
                     sessionStorage.setItem('buyer_email', response.result.buyer_email)
@@ -66,11 +70,13 @@ const Login = () => {
                     sessionStorage.setItem('list_count', response.result.list_count)
                     setTimeout(() => {
                         navigate("/buyer");
-                    }, 1000);
+                    }, 500);
                 } else {
+                    setButtonLoading(false)
                     toast(response.message, { type: "error" });
                     console.log('error while login')
                 }
+                setButtonLoading(false)
             })
 
         }
@@ -160,7 +166,27 @@ const Login = () => {
                     <div className='login-form-main-buttons'>
                        
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
-                        <button type='submit' className='login-form-main-login'>Login</button>
+                        {/* <button type='submit' className='login-form-main-login'>Login</button> */}
+                        <button
+                            type='submit'
+                            className='login-form-main-login'
+                            disabled={buttonLoading}
+                            style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px'
+                            }}
+                        >
+                            {buttonLoading ? (
+                            <>
+                                <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+                                Logging in...
+                            </>
+                            ) : (
+                            'Login'
+                            )}
+                        </button>
                     </div>
                 </form>
                 <div className="header__center">OR</div>

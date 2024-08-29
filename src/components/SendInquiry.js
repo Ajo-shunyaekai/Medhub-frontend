@@ -8,6 +8,7 @@ import { postRequestWithToken } from '../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 
 const SendInquiry = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -15,6 +16,7 @@ const SendInquiry = () => {
   const navigate = useNavigate();
   
   const itemsPerPage = 3;
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [checkedState, setCheckedState] = useState({});
   const [list, setList] = useState([]);
@@ -104,6 +106,7 @@ const SendInquiry = () => {
       return;
     }
     
+    
     const selectedItems = [];
     Object.entries(groupedProducts).forEach(([supplierName, supplierData]) => {
       const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
@@ -131,7 +134,7 @@ const SendInquiry = () => {
     if(enquiryPayload.items.length === 0) {
       return toast('Select at least one item', { type: "error" });
     }
-
+    setButtonLoading(true)
     postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {
       if (response.code === 200) {
         // toast(response.message, { type: "success" });
@@ -153,109 +156,9 @@ const SendInquiry = () => {
         toast(response.message, { type: "error" });
         console.log('error in send-enquiry api', response);
       }
+      setButtonLoading(false)
     });
   }
-
-  // return (
-
-  //   <div className='send-enquiry-container'>
-  //     <div className='send-enquiry-heading'>Send Enquiry</div>
-  //     <div className='send-enquiry-main-section'>
-  //       <div className='send-enquiry-inner-section'>
-  //         <div className='send-enquiry-upper-section'>
-  //           <div className='send-enquiry-upper-left-sec'>
-  //             <span className='send-enquiry-upper-left-head'>Your Enquiries</span>
-  //           </div>
-  //           <div className='send-enquiry-upper-right-sec'>
-  //             <div className='send-enquiry-upper-right-content'>
-  //               <span className='send-enquiry-upper-right-total'>Total:</span>
-  //               <span className='send-enquiry-upper-right-number'>{totalItems} Enquiries</span>
-  //             </div>
-  //             <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
-  //               <span className='send-enquiry-upper-right-button'>Send Enquiry</span>
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className='send-enquiry-container-inner-container'>
-  //           {Object.entries(groupedProducts).map(([supplierName, supplierData]) => (
-  //             <div key={supplierData?.list_id} className='send-enquiry-supplier-list-container'>
-  //               <div className='send-enquiry-supplier-list-upper-section'>
-  //                 <div className='send-enquiry-supplier-list-heading'>Supplier Name:</div>
-  //                 <div className='send-enquiry-supplier-list-text'>{supplierName}</div>
-  //               </div>
-  //               {supplierData.items.map(product => (
-  //                 <div key={product?._id} className='send-enquiry-inner-bottom-section-container'>
-  //                   <div className='send-enquiry-inner-checkbox'>
-  //                     <label className="custom-checkbox-label">
-  //                       <input
-  //                         type='checkbox'
-  //                         className='custom-checkbox'
-  //                         checked={checkedState[product?._id] || false}
-  //                         onChange={() => handleCheckboxChange(product?._id)}
-  //                       />
-  //                       <span className="custom-checkbox-checkmark"></span>
-  //                     </label>
-  //                   </div>
-  //                   <div className='send-enquiry-inner-image'> 
-  //                     <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' />
-  //                   </div>
-  //                   <div className='send-enquiry-inner-content'>
-  //                     <div className='send-enquiry-inner-top-container'>
-  //                       <div className='send-enquiry-inner-top-head-section'>
-  //                         <span className='send-enquiry-inner-top-heading'>{product?.medicine_name}</span>
-  //                       </div>
-  //                       <div className='send-enquiry-inner-top-text-section'>
-  //                         <span className='send-enquiry-inner-top-supplier'>{supplierData?.supplier_details?.supplier_name}</span>
-  //                       </div>
-  //                     </div>
-  //                     <div className='send-enquiry-inner-bottom-section'>
-  //                       <div className='send-enquiry-inner-bottom-container'>
-  //                         <span className='send-enquiry-inner-bootom-head'>Unit Price:</span>
-  //                         <span className='send-enquiry-inner-bootom-text'>{product?.unit_price}</span>
-  //                       </div>
-  //                       <div className='send-enquiry-inner-bottom-container'>
-  //                         <span className='send-enquiry-inner-bootom-head'>Target Price:</span>
-  //                         <span className='send-enquiry-inner-bootom-text'>{product?.target_price}</span>
-  //                       </div>
-  //                       <div className='send-enquiry-inner-bottom-container'>
-  //                         <span className='send-enquiry-inner-bootom-head'>Est. Delivery Time:</span>
-  //                         <span className='send-enquiry-inner-bootom-text'>{product?.est_delivery_days} Days</span>
-  //                       </div>
-  //                     </div>
-  //                   </div>
-  //                   <div className='send-enquiry-remove-section'>
-  //                     <HighlightOffOutlinedIcon
-  //                       className='send-enquiry-clear-icon'
-  //                       onClick={() => handleRemoveItem(supplierData?.list_id, product?._id)}
-  //                     />
-  //                   </div>
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           ))}
-  //         </div>
-  //         <div className='pagi-container'>
-  //           <Pagination
-  //             activePage={currentPage}
-  //             itemsCountPerPage={itemsPerPage}
-  //             totalItemsCount={totalItems}
-  //             pageRangeDisplayed={5}
-  //             onChange={handlePageChange}
-  //             itemClass="page-item"
-  //             linkClass="page-link"
-  //             prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-  //             nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-  //             hideFirstLastPages={true}
-  //           />
-  //           <div className='pagi-total'>
-  //             Total Items: {totalItems}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
 
   return (
     <div className='send-enquiry-container'>
@@ -273,9 +176,21 @@ const SendInquiry = () => {
                 <span className='send-enquiry-upper-right-total'>Total:</span>
                 <span className='send-enquiry-upper-right-number'>{totalItems} Inquiries</span>
               </div>
-              <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
+              {/* <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
                 <span className='send-enquiry-upper-right-button'>Send Inquiry</span>
-              </div>
+              </div> */}
+               <div className='send-enquiry-upper-right-button-sec' onClick={handleSendEnquiry}>
+      <span className='send-enquiry-upper-right-button'>
+        {buttonLoading ? (
+          <>
+            <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+            Sending...
+          </>
+        ) : (
+          'Send Inquiry'
+        )}
+      </span>
+    </div>
             </div>
          
           </div>

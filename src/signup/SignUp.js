@@ -11,6 +11,7 @@ import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -39,6 +40,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SignUp = () => {
+    const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -116,28 +118,12 @@ const SignUp = () => {
         { value: 'medical devices', label: 'Medical Devices' },
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
-
-
-    // const handleImageUpload = (hasImage, file, imageType) => {
-    //     setFormData({
-    //         ...formData,
-    //         [`${imageType}Image`]: hasImage ? file : null,
-    //     });
-
-    //     setErrors(prevState => ({
-    //         ...prevState,
-    //         [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is required` : '',
-    //     }));
-
-    // };
     
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
-            [`${imageType}Image`]: null,  // Clear the existing image first
+            [`${imageType}Image`]: null, 
         }));
-    
-        // Adding a slight delay to ensure the previous image is cleared
         setTimeout(() => {
             setFormData(prevState => ({
                 ...prevState,
@@ -238,7 +224,7 @@ const SignUp = () => {
 
     const handleSubmit = () => {
         if (validateForm() && isChecked) {
-
+            setButtonLoading(true)
             const formDataToSend = new FormData();
 
             const countryLabels = formData.operationCountries?.map(country => {
@@ -311,10 +297,13 @@ const SignUp = () => {
                     setSelectedOptions([])
                     setResetUploaders(true);
                     setShowModal(true)
+                    setButtonLoading(false)
                 } else {
+                    setButtonLoading(false)
                     toast(response.message, {type: 'error'})
                     console.log('error in buyer/register api');
                 }
+                setButtonLoading(false)
             })
         } else {
             toast('Some Fields are Missing', {type: 'error'})
@@ -697,7 +686,27 @@ const SignUp = () => {
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                            <button type='submit' className='signup-form-button-submit'>Submit</button>
+                            {/* <button type='submit' className='signup-form-button-submit'>Submit</button> */}
+                            <button
+                            type='submit'
+                            className='signup-form-button-submit'
+                            disabled={buttonLoading}
+                            style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px'
+                            }}
+                        >
+                            {buttonLoading ? (
+                            <>
+                                <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+                                Submitting...
+                            </>
+                            ) : (
+                            'Submit'
+                            )}
+                        </button>
                         </div>
                     </form>
                 </div>

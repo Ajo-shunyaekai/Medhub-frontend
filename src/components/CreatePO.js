@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const countryCodes = [
     '+1',    // USA, Canada
@@ -165,6 +166,7 @@ const CreatePO = () => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
 
+    const [buttonLoading, setButtonLoading] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
     const [poNumber, setPONumber] = useState();
     const [orderItems, setOrderItems] = useState([]);
@@ -269,6 +271,7 @@ const CreatePO = () => {
             navigate("/buyer/login");
             return;
         }
+        setButtonLoading(true)
         const updatedOrderItems = orderItems.map((item) => {
             const est_delivery_days = item.est_delivery_days
             const unitTax = item.medicine_details.unit_tax || 0;
@@ -299,84 +302,18 @@ const CreatePO = () => {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/buyer/inquiry-purchase-orders/purchased')
-                }, 1000)
+                }, 500)
             } else {
+                setButtonLoading(false)
                 console.log('error in order list api', response);
                 toast(response.message, { type: 'error' })
             }
+            setButtonLoading(false)
         });
     };
 
-    // const formatPhoneNumber = (phoneNumber, countryCode) => {
-    //     // Remove non-numeric characters from the phone number
-    //     const cleanedNumber = phoneNumber.replace(/\D/g, '');
-    
-    //     // Format as +countryCode-number
-    //     return `+${countryCode}-${cleanedNumber}`;
-    // };
-
-    // const handleSupplierPhoneChange = (value) => {
-    //     // console.log("value", value);
-        
-    //     let countryCode = '';
-    //     let mobileNumber = value;
-    
-    //     // Find the longest matching country code
-    //     for (let code of countryCodes) {
-    //         if (value.startsWith(code)) {
-    //             countryCode = code.replace('+', ''); // Remove the '+'
-    //             mobileNumber = value.substring(code.length); // Remaining part of the string
-    //             break;
-    //         }
-    //     }
-    //     if (countryCode && mobileNumber) {
-    //         // Format the phone number
-    //         const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            
-    //         console.log("formattedPhoneNumber", formattedPhoneNumber);
-            
-    //         // Update the state with the formatted phone number
-    //         setValue('supplierMobile', formattedPhoneNumber);
-    //     } else {
-    //         // Handle case where no country code is found or invalid value
-    //         console.error('Invalid phone number format or unknown country code');
-    //     }
-    // };
-
-    // const handleBuyerPhoneChange = (value) => {
-    //     // console.log("value", value);
-        
-    //     let countryCode = '';
-    //     let mobileNumber = value;
-    
-    //     // Find the longest matching country code
-    //     for (let code of countryCodes) {
-    //         if (value.startsWith(code)) {
-    //             countryCode = code.replace('+', ''); // Remove the '+'
-    //             mobileNumber = value.substring(code.length); // Remaining part of the string
-    //             break;
-    //         }
-    //     }
-    
-    //     if (countryCode && mobileNumber) {
-    //         // Format the phone number
-    //         const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            
-    //         console.log("formattedPhoneNumber", formattedPhoneNumber);
-            
-    //         // Update the state with the formatted phone number
-    //         setValue('buyerMobile', formattedPhoneNumber);
-    //     } else {
-    //         // Handle case where no country code is found or invalid value
-    //         console.error('Invalid phone number format or unknown country code');
-    //     }
-    // };
-
     const formatPhoneNumber = (phoneNumber, countryCode) => {
-        // Remove non-numeric characters from the phone number
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
-        
-        // Format as +countryCode-number
         return `+${countryCode}-${cleanedNumber}`;
     };
     
@@ -384,25 +321,17 @@ const CreatePO = () => {
         let countryCode = '';
         let mobileNumber = value;
     
-        // Find the longest matching country code
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
-                countryCode = code.replace('+', ''); // Remove the '+'
-                mobileNumber = value.substring(code.length); // Remaining part of the string
+                countryCode = code.replace('+', ''); 
+                mobileNumber = value.substring(code.length); 
                 break;
             }
         }
-    
         if (countryCode && mobileNumber) {
-            // Format the phone number
             const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-    
-            console.log("formattedPhoneNumber", formattedPhoneNumber);
-    
-            // Update the state with the formatted phone number
             setValue(type, formattedPhoneNumber);
         } else {
-            // Handle case where no country code is found or invalid value
             console.error('Invalid phone number format or unknown country code');
         }
     };
@@ -681,7 +610,27 @@ const CreatePO = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                    <button type='submit' className={styles['create-invoices-submit']}>Submit</button>
+                    {/* <button type='submit' className={styles['create-invoices-submit']}>Submit</button> */}
+                    <button
+                        type='submit'
+                        className={styles['create-invoices-submit']}
+                        disabled={buttonLoading} // Disable the button while loading
+                        style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px',
+                        }}
+                    >
+                        {buttonLoading ? (
+                        <>
+                            <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+                            Submitting...
+                        </>
+                        ) : (
+                        'Submit'
+                        )}
+                    </button>
                     <div className={styles['create-invoices-cancel']}>Cancel</div>
                 </div>
             </form>

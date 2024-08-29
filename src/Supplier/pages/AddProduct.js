@@ -9,6 +9,8 @@ import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from 'react-spinners';
+import Loader from '../components/Loader';
 
 
 const MultiSelectOption = ({ children, ...props }) => (
@@ -78,6 +80,7 @@ const AddProduct = () => {
         { value: 'nutraceuticals', label: 'Nutraceuticals' }
     ];
 
+    const [loading, setLoading] = useState(false);
     const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' },);
     const [formType, setFormType] = useState()
     const [productCategory, setProductCategory] = useState()
@@ -166,6 +169,10 @@ const AddProduct = () => {
     const handleStockedInCountryChange = (index, selected) => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInCountry = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`stockedInCountry${index}`]: ''
+        }));
         setStockedInSections(updatedSections);
     };
 
@@ -174,6 +181,10 @@ const AddProduct = () => {
         if (/^\d*$/.test(value)) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [`stockedInQuantity${index}`]: ''
+            }));
             setStockedInSections(updatedSections);
         }
     };
@@ -445,11 +456,54 @@ const AddProduct = () => {
         return placeholderButtonLabel;
     };
 
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+    //     let newErrors = {};
+    //     let isValid = true;
+
+    //     if (name === 'description') {
+    //         if (value.length > 1000) {
+    //             newErrors.description = 'Description cannot exceed 1000 characters';
+    //             isValid = false;
+    //         } else {
+    //             newErrors.description = '';
+    //         }
+    //     }
+    //     else if (name === 'productName' || name === 'dossierStatus') {
+    //         if (!/^[a-zA-Z\s]*$/.test(value)) {
+    //             isValid = false;
+    //         } else {
+    //             newErrors[name] = '';
+    //         }
+    //     }
+    //     else if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
+    //         if (!/^\d*$/.test(value)) {
+    //             isValid = false;
+    //         } else {
+    //             newErrors[name] = '';
+    //         }
+    //     }
+    //     else if (name === 'unitTax') {
+    //         if (!/^\d*\.?\d*$/.test(value)) {
+    //             isValid = false;
+    //         } else {
+    //             newErrors.unitTax = '';
+    //         }
+    //     }
+    //     if (isValid) {
+    //         setFormData(prevState => ({ ...prevState, [name]: value }));
+    //         setErrors(prevState => ({ ...prevState, ...newErrors }));
+    //     }
+    //     setErrors(prevState => ({ ...prevState, ...newErrors }));
+    // };
+
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        let newErrors = {};
+        let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-
+    
+        // Validate based on the field
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -457,33 +511,115 @@ const AddProduct = () => {
             } else {
                 newErrors.description = '';
             }
-        }
-        if (name === 'productName' || name === 'dossierStatus') {
+        } else if (name === 'productName' || name === 'dossierStatus') {
             if (!/^[a-zA-Z\s]*$/.test(value)) {
+                newErrors[name] = 'Only letters and spaces are allowed';
                 isValid = false;
             } else {
                 newErrors[name] = '';
             }
-        }
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
+        } else if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
+                newErrors[name] = 'Only numbers are allowed';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                newErrors[name] = 'Invalid unit tax format';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'composition') {
+            // Add validation for composition if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Composition is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'strength') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Strength is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'shelfLife') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Shelf Life is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'dossierType') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Dossier Type  is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'gmpApprovals') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'GMP Approvals is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'shippingTime') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Shipping Time is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'availableFor') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Available For is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'tags') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Tags are required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerName') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerDescription') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
                 isValid = false;
             } else {
                 newErrors[name] = '';
             }
         }
-        if (name === 'unitTax') {
-            if (!/^\d*\.?\d*$/.test(value)) {
-                isValid = false;
-            } else {
-                newErrors.unitTax = '';
-            }
-        }
+    
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-        setErrors(prevState => ({ ...prevState, ...newErrors }));
+        setErrors(newErrors);
     };
+    
 
     useEffect(() => {
         setFormData({
@@ -562,7 +698,7 @@ const AddProduct = () => {
             });
         }
 
-        if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
+        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
 
 
         stockedInSections.forEach((section, index) => {
@@ -607,6 +743,64 @@ const AddProduct = () => {
         }
     ]);
 
+    const resetForm = () => {
+        setProductType({ value: 'new_product', label: 'New Product' });
+        setFormType('');
+        setProductCategory('');
+        setCountryOfOrigin('');
+        setRegisteredCountries([]);
+        setStockedIn([]);
+        setAvailableCountries([]);
+        setMedicineImages([]);
+        setInvoiceImages([]);
+        setErrors({});
+        setFormData({
+            productName: '',
+            productType: { value: 'new_product', label: 'New Product' },
+            composition: '',
+            strength: '',
+            unitTax: '',
+            typeOfForm: '',
+            shelfLife: '',
+            dossierType: '',
+            dossierStatus: '',
+            productCategory: '',
+            totalQuantity: '',
+            gmpApprovals: '',
+            shippingTime: '',
+            originCountry: '',
+            registeredIn: '',
+            stockedIn: '',
+            availableFor: '',
+            tags: '',
+            description: '',
+            product_image: '',
+            invoice_image: '',
+            purchasedOn: '',
+            minPurchaseUnit: '',
+            countryAvailableIn: '',
+            manufacturerName: '',
+            manufacturerOriginCountry: '',
+            manufacturerDescription: '',
+            stockedInData: ''
+        });
+        setFormSections([
+            {
+                strength: '',
+                quantity: null,
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: '',
+                totalPrice: '',
+                estDeliveryTime: '',
+                condition: '',
+                quantityNo: '',
+                unitPricee: ''
+            }
+        ])
+    };
+
+
     const handleSubmit = (e) => {
 
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -619,7 +813,7 @@ const AddProduct = () => {
         e.preventDefault()
 
         if (validateForm()) {
-
+            setLoading(true)
             const newFormData = new FormData()
             const secondaryFormData = new FormData()
 
@@ -675,11 +869,16 @@ const AddProduct = () => {
 
                 postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
                     if (response.code === 200) {
+                        resetForm()
                         toast(response.message, { type: "success" });
+                        setLoading(false)
+                        
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
+                        
                     } else {
+                        setLoading(false)
                         toast(response.message, { type: "error" });
                         console.log('error in new  /medicine/add-medicine');
                     }
@@ -726,75 +925,29 @@ const AddProduct = () => {
 
                 postRequestWithTokenAndFile('/medicine/add-medicine', secondaryFormData, async (response) => {
                     if (response.code === 200) {
+                        resetForm()
                         toast(response.message, { type: "success" });
-
+                        setLoading(false)
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);
+                        
                     } else {
+                        setLoading(false)
                         toast(response.message, { type: "error" });
                         console.log('error in secondary  /medicine/add-medicine');
                     }
+                    // setButtonLoading(false)
                 })
             }
         } else {
+            setLoading(false)
             toast('Some Fields are Missing', { type: "error" });
             console.log('errorrrrr', formData);
         }
     }
 
-    const resetForm = () => {
-        setProductType({ value: 'new_product', label: 'New Product' });
-        setFormType('');
-        setProductCategory('');
-        setCountryOfOrigin('');
-        setRegisteredCountries([]);
-        setStockedIn([]);
-        setAvailableCountries([]);
-        setMedicineImages([]);
-        setInvoiceImages([]);
-        setErrors({});
-        setFormData({
-            productName: '',
-            productType: { value: 'new_product', label: 'New Product' },
-            composition: '',
-            strength: '',
-            typeOfForm: '',
-            shelfLife: '',
-            dossierType: '',
-            dossierStatus: '',
-            productCategory: '',
-            totalQuantity: '',
-            gmpApprovals: '',
-            shippingTime: '',
-            originCountry: '',
-            registeredIn: '',
-            stockedIn: '',
-            availableFor: '',
-            tags: '',
-            description: '',
-            product_image: '',
-            invoice_image: '',
-            purchasedOn: '',
-            minPurchaseUnit: '',
-            countryAvailableIn: ''
-        });
-        setFormSections([
-            {
-                strength: '',
-                quantity: null,
-                typeOfForm: null,
-                productCategory: null,
-                unitPrice: '',
-                totalPrice: '',
-                estDeliveryTime: '',
-                condition: '',
-                quantityNo: '',
-                unitPricee: ''
-            }
-        ])
-    };
-
+  
     const handleCancel = () => {
         resetForm()
     }
@@ -811,6 +964,7 @@ const AddProduct = () => {
 
 
     const makeApiCall = debounce((productName, productTypeLabel) => {
+        setLoading(true)
         const obj = {
             medicine_name: productName,
             medicine_type: productTypeLabel === 'New Product'
@@ -823,6 +977,7 @@ const AddProduct = () => {
         postRequest('/medicine/get-medicine-by-name', obj, async (response) => {
             if (response.code === 200) {
                 if (response.result) {
+                    setLoading(false)
                     toast(response.message, { type: "success" });
                     setMedicineData(response.result)
                     const result = response.result;
@@ -865,14 +1020,27 @@ const AddProduct = () => {
                 }
 
             } else {
+                setLoading(false)
                 toast(response.message, { type: "error" });
                 console.log('error in get-medicine-by-name api');
             }
         });
     }, 500);
 
+    // useEffect(() => {
+    //     if(formData.product_image.length > 0) {
+    //         setErrors(prevErrors => ({
+    //             ...prevErrors,
+    //             product_image: ''
+    //         }));
+    //     }
+    // },[formData.product_image])
+
     return (
         <>
+         {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles['create-invoice-container']}>
                 <ToastContainer />
                 <div className={styles['create-invoice-heading']}>Add Product</div>
@@ -1473,7 +1641,8 @@ const AddProduct = () => {
                                         image={medicineImages}
                                         setImage={setMedicineImages}
                                     />
-                                    {!medicineImages || errors.product_image && <div className={styles['add-product-errors']} style={{ color: 'red', fontSize: '12px' }}>{errors.medicineImage}</div>}
+                                    {/* {!medicineImages || errors.product_image && <div className={styles['add-product-errors']} style={{ color: 'red', fontSize: '12px' }}>{errors.medicineImage}</div>} */}
+                                    {/* {errors.product_image && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.product_image}</div>} */}
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
@@ -1492,6 +1661,28 @@ const AddProduct = () => {
 
                         <div className={styles['craete-invoices-button']}>
                             <button type='submit' className={styles['create-invoices-submit']}>Add Product</button>
+                            {/* <button
+                                type='submit'
+                                className={styles['create-invoices-submit']}
+                                disabled={buttonLoading} // Disable button while loading
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '10px',
+                                    opacity: buttonLoading ? 0.5 : 1, // Optionally adjust opacity when loading
+                                    cursor: buttonLoading ? 'not-allowed' : 'pointer', // Adjust cursor style
+                                }}
+                            >
+                                {buttonLoading ? (
+                                <>
+                                    <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+                                    Adding...
+                                </>
+                                ) : (
+                                'Add Product'
+                                )}
+                            </button> */}
                             <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
@@ -1499,6 +1690,7 @@ const AddProduct = () => {
                 </div>
 
             </div>
+            )}
         </>
     );
 };

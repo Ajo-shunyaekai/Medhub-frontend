@@ -26,52 +26,97 @@ const ImageUploaders = ({ image, setImage}) => {
         setShowModal(!showModal);
     };
 
-    const handleImageUpload = (event) => {
-        const files = event.target.files;
-        const newImages = [];
-        let count = images.length;
+//     const handleImageUpload = (event) => {
+//         console.log('yess');
+//         const files = event.target.files;
+//         const newImages = [];
+//         let count = images.length;
 
-        for (let i = 0; i < files.length && count < maxImages; i++) {
-            const file = files[i];
+//         for (let i = 0; i < files.length && count < maxImages; i++) {
+//             const file = files[i];
 
-            if (file) {
-                const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
-                const isValidSize = file.size <= 2 * 1024 * 1024;
+//             if (file) {
+//                 const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+//                 const isValidSize = file.size <= 2 * 1024 * 1024;
 
-                if (!isValidType) {
-                    setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');
-                    return;
-                }
+//                 if (!isValidType) {
+//                     setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');
+//                     return;
+//                 }
 
-                if (!isValidSize) {
-                    setErrorMessage('File size exceeds the limit of 2MB.');
-                    return;
-                }
+//                 if (!isValidSize) {
+//                     setErrorMessage('File size exceeds the limit of 2MB.');
+//                     return;
+//                 }
 
-                setErrorMessage(''); 
+//                 setErrorMessage(''); 
 
-                newImages.push(file);
-                count++;
+//                 newImages.push(file);
+//                 count++;
 
-                if (count >= minImages && count <= maxImages) {
-                    setImages([...images, ...newImages]);
-                    setUploadAreaHeight('80px'); // Adjusting upload area height
-                } else if (count > maxImages) {
-                    setErrorMessage(`You can upload a maximum of ${maxImages} images.`);
-                }
+//                 if (count >= minImages && count <= maxImages) {
+//                     setImages([...images, ...newImages]);
+//                     setUploadAreaHeight('80px'); // Adjusting upload area height
+//                 } else if (count > maxImages) {
+//                     setErrorMessage(`You can upload a maximum of ${maxImages} images.`);
+//                 }
+//             }
+//         }
+
+//         setImage([...images, ...newImages]); 
+// };
+
+
+const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const newImages = [];
+    let count = images.length;
+console.log('fikes',files);
+    for (let i = 0; i < files.length && count < maxImages; i++) {
+        const file = files[i];
+
+        if (file) {
+            const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+            const isValidSize = file.size <= 2 * 1024 * 1024;
+
+            if (!isValidType) {
+                setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');
+                return;
+            }
+
+            if (!isValidSize) {
+                setErrorMessage('File size exceeds the limit of 2MB.');
+                return;
+            }
+
+            setErrorMessage(''); 
+
+            newImages.push(file);
+            count++;
+
+            if (count > maxImages) {
+                setErrorMessage(`You can upload a maximum of ${maxImages} images.`);
+                break; // Exit the loop if the maximum number of images is reached
             }
         }
+    }
 
-        setImage([...images, ...newImages]); 
-    };
+    // Update the images state
+    if (newImages.length > 0) {
+        setImages(prevImages => [...prevImages, ...newImages]);
+        setImage(prevImages => [...prevImages, ...newImages]); 
+        setUploadAreaHeight('80px');
+    }
+};
 
+    console.log('images',images);
     const handleImageRemove = (index) => {
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
         setImages(updatedImages);
-        setImage(updatedImages); // Update parent state with updated images
+        setImage(updatedImages); 
 
-        if (updatedImages.length === 0) {
+        if (image.length === 0) {
             setErrorMessage('Please upload at least one image.');
         } else {
             setErrorMessage('');

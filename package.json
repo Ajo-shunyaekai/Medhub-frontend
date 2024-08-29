@@ -56,6 +56,7 @@
     "react-scripts": "^5.0.1",
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
+    "react-spinners": "^0.14.1",
     "react-svg-circular-progressbar": "^1.0.1",
     "react-svg-worldmap": "^2.0.0-alpha.16",
     "react-toastify": "^10.0.5",

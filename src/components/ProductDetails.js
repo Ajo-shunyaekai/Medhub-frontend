@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from 'react-spinners';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { medicineId } = useParams();
 
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [details, setDetails] = useState();
   const [medId, setMedId] = useState(medicineId);
   const [supplierId, setSupplierId] = useState();
@@ -122,6 +124,7 @@ const ProductDetails = () => {
     e.preventDefault();
 
     if (validateInputs()) {
+      setButtonLoading(true)
       const obj = {
         medicine_id: medId,
         supplier_id: supplierId,
@@ -132,7 +135,6 @@ const ProductDetails = () => {
         unit_price: selectedDetails.unit_price,
         est_delivery_time: selectedDetails.est_delivery_days
       };
-      console.log(obj);
 
       postRequestWithToken('buyer/add-to-list', obj, async (response) => {
         if (response.code === 200) {
@@ -142,31 +144,26 @@ const ProductDetails = () => {
             navigate('/buyer/send-inquiry')
           }, 1000);
         } else {
+          toast(response.message, { type: "error" });
           console.log('error in similar-medicine-list api');
         }
+        setButtonLoading(false)
       });
+    } else {
+      toast('Some Fields are missing', { type: "error" });
+      setButtonLoading(false)
     }
   };
 
   const handleQuantityChange = (e) => {
     const value = e.target.value;
-    // Allow only numeric values and prevent other characters
     if (/^\d*$/.test(value)) {
         setQuantityRequired(value);
     }
 };
 
-// const handleTargetPriceChange = (e) => {
-//     const value = e.target.value;
-//     // Allow only numeric values and prevent other characters
-//     if (/^\d*$/.test(value)) {
-//         setTargetPrice(value);
-//     }
-// };
-
 const handleTargetPriceChange = (e) => {
   const value = e.target.value;
-  // Allow only numeric values, optional decimal point, and digits after the decimal
   if (/^\d*\.?\d*$/.test(value)) {
       setTargetPrice(value);
   }
@@ -260,10 +257,6 @@ const handleTargetPriceChange = (e) => {
                 <div className="buyer-product-details-four-left-text">Available for  :</div>
                 <div className="buyer-product-details-four-right-text">{details?.available_for}</div>
               </div>
-              {/* <div className="buyer-product-details-county">
-                <div className="buyer-product-details-four-left-text">Comments :</div>
-                <div className="buyer-product-details-four-right-text">{details?.description}</div>
-              </div> */}
             </div>
           </div>
           <div className="buyer-product-details-company-section">
@@ -361,7 +354,29 @@ const handleTargetPriceChange = (e) => {
 
           </div>
           <div className="buyer-product-details-main-button-section">
-            <button className="buyer-product-details-list-button" onClick={handleAddToList}>Add to List</button>
+            {/* <button className="buyer-product-details-list-button" onClick={handleAddToList}>
+              Add to List
+              </button> */}
+               <button
+      className="buyer-product-details-list-button"
+      onClick={handleAddToList}
+      disabled={buttonLoading}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px'
+      }}
+    >
+      {buttonLoading ? (
+        <>
+          <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
+          Adding...
+        </>
+      ) : (
+        'Add to List'
+      )}
+    </button>
             <div className="buyer-product-details-cancel-button"
             onClick={() => {
               setQuantityRequired('');
