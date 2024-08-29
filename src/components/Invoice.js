@@ -6,11 +6,14 @@ import PendingInvoice from '../components/invoice/PendingInvoice';
 import PaidInvoice from '../components/invoice/CompleteInvoice';
 import ProformaInvoice from './invoice/ProformaInvoice';
 import { postRequestWithToken } from '../api/Requests';
+import Loader from './Loader';
+import { toast } from 'react-toastify';
 
 const Invoice = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
     const [invoiceList, setInvoiceList] = useState([]);
     const [totalInvoices, setTotalInvoices] = useState(0);
@@ -33,8 +36,6 @@ const Invoice = () => {
 
         const newIndex = getActiveLinkFromPath(location.pathname);
         setActiveIndex(newIndex);
-
-        // Fetch invoice data based on the new activeIndex
         fetchInvoices(newIndex);
 
     }, [location.pathname]);
@@ -55,22 +56,15 @@ const Invoice = () => {
             // page_no: currentPage, 
             // limit: invoicesPerPage,
         };
-
-        // const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'proforma';
-        // const obj = {
-        //     buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-        //     filterKey: filterKey,
-        //     page_no: currentPage,
-        //     limit: invoicesPerPage,
-        // };
-
         postRequestWithToken('buyer/order/buyer-invoice-list', obj, (response) => {
             if (response.code === 200) {
                 setInvoiceList(response.result.data);
                 // setTotalInvoices(response.result.totalItems);
             } else {
+                toast(response.message, {type:'error'})
                 console.log('Error in invoice list API:', response);
             }
+            setLoading(false);
         });
     };
 
@@ -101,62 +95,68 @@ const Invoice = () => {
     };
 
     return (
-        <div className={styles['invoice-container']}>
-            <div className={styles['complete-container-invoice-section']}>
-                <div className={styles['complete-conatiner-head']}>Invoices</div>
-            </div>
-            <div className={styles['invoice-wrapper']}>
-                <div className={styles['invoice-wrapper-left']}>
-                    <div
-                        onClick={() => handleLinkClick('pending')}
-                        className={`${activeIndex === 0 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
-                    >
-                        <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Pending Invoices</div>
+        <>
+            {loading ? (
+                        <Loader />
+                    ) : (
+                <div className={styles['invoice-container']}>
+                    <div className={styles['complete-container-invoice-section']}>
+                        <div className={styles['complete-conatiner-head']}>Invoices</div>
                     </div>
-                    <div
-                        onClick={() => handleLinkClick('paid')}
-                        className={`${activeIndex === 1 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
-                    >
-                        <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Paid Invoices</div>
-                    </div>
-                    <div
-                        onClick={() => handleLinkClick('active')}
-                        className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
-                    >
-                        <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Proforma Invoices</div>
+                    <div className={styles['invoice-wrapper']}>
+                        <div className={styles['invoice-wrapper-left']}>
+                            <div
+                                onClick={() => handleLinkClick('pending')}
+                                className={`${activeIndex === 0 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div>Pending Invoices</div>
+                            </div>
+                            <div
+                                onClick={() => handleLinkClick('paid')}
+                                className={`${activeIndex === 1 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div>Paid Invoices</div>
+                            </div>
+                            <div
+                                onClick={() => handleLinkClick('active')}
+                                className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div>Proforma Invoices</div>
+                            </div>
+                        </div>
+                        <div className={styles['invoice-wrapper-right']}>
+                            {activeIndex === 0 && 
+                            <PendingInvoice 
+                                invoiceList={invoiceList} 
+                                currentPage={currentPage} 
+                                totalInvoices={totalInvoices} 
+                                invoicesPerPage={invoicesPerPage} 
+                                handlePageChange={handlePageChange} 
+                            />}
+                            {activeIndex === 1 && 
+                            <PaidInvoice 
+                                invoiceList={invoiceList} 
+                                currentPage={currentPage} 
+                                totalInvoices={totalInvoices} 
+                                invoicesPerPage={invoicesPerPage} 
+                                handlePageChange={handlePageChange} 
+                            />}
+                            {activeIndex === 2 && 
+                            <ProformaInvoice 
+                                invoiceList={invoiceList} 
+                                currentPage={currentPage} 
+                                totalInvoices={totalInvoices} 
+                                invoicesPerPage={invoicesPerPage} 
+                                handlePageChange={handlePageChange} 
+                            />}
+                        </div>
                     </div>
                 </div>
-                <div className={styles['invoice-wrapper-right']}>
-                    {activeIndex === 0 && 
-                    <PendingInvoice 
-                        invoiceList={invoiceList} 
-                        currentPage={currentPage} 
-                        totalInvoices={totalInvoices} 
-                        invoicesPerPage={invoicesPerPage} 
-                        handlePageChange={handlePageChange} 
-                    />}
-                    {activeIndex === 1 && 
-                    <PaidInvoice 
-                        invoiceList={invoiceList} 
-                        currentPage={currentPage} 
-                        totalInvoices={totalInvoices} 
-                        invoicesPerPage={invoicesPerPage} 
-                        handlePageChange={handlePageChange} 
-                    />}
-                    {activeIndex === 2 && 
-                    <ProformaInvoice 
-                        invoiceList={invoiceList} 
-                        currentPage={currentPage} 
-                        totalInvoices={totalInvoices} 
-                        invoicesPerPage={invoicesPerPage} 
-                        handlePageChange={handlePageChange} 
-                    />}
-                </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
 

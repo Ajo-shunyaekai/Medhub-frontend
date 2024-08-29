@@ -1,0 +1,13 @@
+/* components/Loader.module.css */
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Ensures it stays centered relative to the screen */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: Adds a slight overlay */
+    z-index: 9999; /* Ensures it stays on top of other content */
+}

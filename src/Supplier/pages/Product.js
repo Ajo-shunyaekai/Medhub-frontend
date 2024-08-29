@@ -5,11 +5,13 @@ import '../style/addproductlist.css';
 import SecondaryMarket from './SecondaryMarket';
 import NewProduct from './NewProduct';
 import { postRequest, postRequestWithToken } from '../api/Requests';
+import Loader from '../components/Loader';
 
 const Product = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
     const [totalItems, setTotalItems] = useState()
     const [currentPage, setCurrentPage] = useState(1)
@@ -87,9 +89,10 @@ const Product = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     }, [medicineType, currentPage])
-
+    console.log(medicineList)
     return (
         <>
             <div className={styles['product-main-conatiners']}>
@@ -110,7 +113,29 @@ const Product = () => {
                     Secondary Market
                 </div>
                 </div>
-                {activeButton === 'newproduct' && 
+                {loading ? (
+                     <Loader />
+                ) : (
+                    <>
+                        {activeButton === 'newproduct' && 
+                            <NewProduct
+                                productList={medicineList}
+                                totalItems={totalItems}
+                                currentPage={currentPage}
+                                itemsPerPage={itemsPerPage}
+                                handlePageChange={handlePageChange}
+                            />}
+                        {activeButton === 'secondarymarket' && 
+                            <SecondaryMarket 
+                                productList={medicineList}
+                                totalItems={totalItems}
+                                currentPage={currentPage}
+                                itemsPerPage={itemsPerPage}
+                                handlePageChange={handlePageChange}
+                            />}
+                    </>
+                )}
+                {/* {activeButton === 'newproduct' && 
                 <NewProduct
                     productList = {medicineList}
                     totalItems = {totalItems}
@@ -125,14 +150,10 @@ const Product = () => {
                     currentPage = {currentPage}
                     itemsPerPage    = {itemsPerPage}
                     handlePageChange = {handlePageChange}
-                />}
+                />} */}
             </div>
         </>
     )
 }
 
 export default Product;
-
-
-
-

@@ -8,10 +8,13 @@ import { postRequestWithToken } from '../../api/Requests';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
-
+import Loader from '../Loader';
+import { toast } from 'react-toastify';
 
 const BuySeller = ({active}) => {
     const navigate = useNavigate()
+
+    const [loading, setLoading] = useState(true);
     const [openDropdown, setOpenDropdown]   = useState(null);
     const [supplierList, setSupplierList]   = useState([])
     const [inputValue, setInputValue]       = useState('');
@@ -77,8 +80,10 @@ const BuySeller = ({active}) => {
                     setSupplierList(response.result.suppliers)
                     setTotalItems(response.result.totalItems)
                 } else {
+                    toast(response.message, {type:'error'})
                    console.log('error in supplier list api',response);
                 }
+                setLoading(false);
               })
             }
     },[searchKey, filterCountry, currentPage])
@@ -107,9 +112,10 @@ const BuySeller = ({active}) => {
 
     return (
         <>
-            <div className='buy-seller-container'>
-
-            </div>
+            {loading ? (
+                     <Loader />
+                ) : (
+                    <>
             {/* start the search container code */}
             <div className='buy-seller-search-container'>
                 <input className='buy-seller-search-input' type='text' placeholder='Search Seller' 
@@ -239,6 +245,8 @@ const BuySeller = ({active}) => {
                     </div>
                 </div>
             </div>
+            </>
+        )}
         </>
     )
 }

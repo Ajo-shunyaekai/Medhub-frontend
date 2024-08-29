@@ -21,7 +21,6 @@ import {countryToCodeMapping, convertCountryToCode} from '../assest/countryCodes
 
 
 const SupplierDashboard = () => {
-    console.log('supplierIdLocalStorage, supplierIdSessionStorage');
     const navigate = useNavigate()
 
     const [countryData, setCountryData]     = useState([]);

@@ -12,10 +12,13 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Pagination from 'react-js-pagination';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../Loader';
+import { toast } from 'react-toastify';
 
 const Buy2ndMarket = ({active}) => {
     const navigate = useNavigate()
     
+    const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
     const [inputValue, setInputValue]     = useState('')
     const [searchKey, setSearchKey]       = useState(null)
@@ -78,14 +81,19 @@ const Buy2ndMarket = ({active}) => {
                     setMedicineList(response.result.data)
                     setTotalitems(response.result.totalItems)
                 } else {
+                    toast(response.message, {type:'error'})
                    console.log('error in medicine list api',response);
                 }
+                setLoading(false);
               })
         }
     },[searchKey, currentPage, filterCategory])
    
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className='byproduct-product-main-section-container'>
             <div className='byproduct-seller-main-heading'>Lorem Ipsum is simply dummy text</div>
                 <div className='byproduct-seller-pharma-card'>
@@ -231,6 +239,7 @@ const Buy2ndMarket = ({active}) => {
                         </div>
                 </div>
             </div>
+        )}
         </>
     );
 }

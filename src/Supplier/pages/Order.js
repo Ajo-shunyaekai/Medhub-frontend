@@ -8,16 +8,16 @@ import OrderRequest from './OrderRequest';
 import ActiveOrders from './ActiveOrder';
 import CompletedOrders from './CompleteOrder';
 import DeletedOrders from './DeletedOrder';
-// import SupSidebar from '../components/SupSidebar';
 import { postRequestWithToken } from '../api/Requests';
+import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 
 const Order = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-
-    // const [activeLink, setActiveLink]   = useState('order-request');
+    const [loading, setLoading] = useState(true);
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -25,8 +25,6 @@ const Order = () => {
 
      const getActiveLinkFromPath = (path) => {
         switch (path) {
-            // case '/supplier/order/order-request':
-            //     return 'order-request';
             case '/supplier/order/active':
                 return 'active';
             case '/supplier/order/completed':
@@ -41,9 +39,6 @@ const Order = () => {
     const handleLinkClick = (link) => {
         setCurrentPage(1);
         switch (link) {
-            // case 'order-request':
-            //     navigate('/supplier/order/order-request');
-            //     break;
             case 'active':
                 navigate('/supplier/order/active');
                 break;
@@ -96,14 +91,19 @@ const Order = () => {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className='order-main-container'>
                 <div className="order-name">
                     {(() => {
@@ -184,6 +184,7 @@ const Order = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     )
 }

@@ -6,11 +6,14 @@ import PendingInvoice from '../invoice/PendingInvoice';
 import PaidInvoice from '../invoice/CompleteInvoice'; 
 import { postRequestWithToken } from '../../api/Requests';
 import ProformaList from './ProformaList';
+import Loader from '../../components/Loader';
+import { toast } from 'react-toastify';
 
 const Invoice = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
     const [invoiceList, setInvoiceList] = useState([]);
     const [totalInvoices, setTotalInvoices] = useState();
@@ -58,8 +61,10 @@ const Invoice = () => {
                 setTotalInvoices(response.result.totalItems)
                 // setTotalOrders(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                 console.log('error in invoice list api', response);
             }
+            setLoading(false);
         });
     }, [activeIndex, currentPage]);
 
@@ -91,6 +96,9 @@ const Invoice = () => {
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
            <div className={styles['invoice-container']}>
             <div className={styles['complete-container-invoice-section']}>
                 <div className={styles['complete-conatiner-head']}>Invoices</div>
@@ -153,6 +161,7 @@ const Invoice = () => {
                 </div>
             </div>
         </div>
+        )}
         </>
     );
 };

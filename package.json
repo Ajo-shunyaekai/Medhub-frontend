@@ -49,6 +49,7 @@
     "react-image-file-resizer": "^0.4.8",
     "react-international-phone": "^4.3.0",
     "react-js-pagination": "^3.0.2",
+    "react-loader-spinner": "^6.1.6",
     "react-multiselect-checkboxes": "^0.1.1",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.23.1",

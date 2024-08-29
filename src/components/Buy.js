@@ -6,6 +6,8 @@ import Buy2ndMarket from './sections/Buy2ndMarket';
 import { postRequestWithToken } from '../api/Requests';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+
+
 const Buy = () => {
     const location = useLocation();
     const navigate = useNavigate();

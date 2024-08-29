@@ -5,12 +5,15 @@ import order_list from '../assest/dashboard/order_list.svg';
 import OnGoingOrder from './inquiry/OnGoingOrder';
 import PurchasedOrder from './inquiry/PurchasedOrder'
 import { postRequestWithToken } from '../api/Requests';
+import Loader from './Loader';
+import { toast } from 'react-toastify';
 
 
 const InquiryPurchaseOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [inquiryList, setInquiryList] = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -69,8 +72,10 @@ const InquiryPurchaseOrder = () => {
                 setInquiryList(response.result.data)
                 setTotalInquiries(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                console.log('error in order list api',response);
             }
+            setLoading(false);
         })
         if (activeLink === 'purchased') {
             obj.status = 'pending'
@@ -79,13 +84,19 @@ const InquiryPurchaseOrder = () => {
                     setPOList(response.result.data)
                     setTotalPoList(response.result.totalItems)
                 } else {
+                    toast(response.message, {type:'error'})
                     console.log('error in purchased order list api', response);
                 }
+                setLoading(false);
             });
         } 
     },[activeLink, currentPage])
 
     return (
+        <>
+        {loading ? (
+                     <Loader />
+                ) : (
         <div className='inquiry-purchase-main-container'>
             <div className="inquiry-purchase-name">
                 Inquiry & Purchased Orders
@@ -131,6 +142,8 @@ const InquiryPurchaseOrder = () => {
                 </div>
             </div>
         </div>
+         )}
+        </>
     );
 }
 

@@ -5,12 +5,15 @@ import order_list from '../assest/dashboard/order_list.svg';
 import OnGoingOrder from './inquiry/OnGoingOrder';
 import PurchasedOrder from './inquiry/PurchasedOrder'
 import { postRequestWithToken } from '../api/Requests';
+import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 
 const InquiryPurchaseOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [inquiryList, setInquiryList]       = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
     const [currentPage, setCurrentPage]       = useState(1); 
@@ -70,8 +73,10 @@ const InquiryPurchaseOrder = () => {
                 setInquiryList(response.result.data)
                 setTotalInquiries(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                console.log('error in order list api',response);
             }
+            setLoading(false);
         })
         if (activeLink === 'purchased') {
             obj.status = 'pending'
@@ -80,58 +85,66 @@ const InquiryPurchaseOrder = () => {
                     setPOList(response.result.data)
                     setTotalPoList(response.result.totalItems)
                 } else {
+                    toast(response.message, {type:'error'})
                     console.log('error in purchased order list api', response);
                 }
+                setLoading(false);
             });
         } 
     },[activeLink, currentPage])
 
     return (
-        <div className='inquiry-purchase-main-container'>
-            <div className="inquiry-purchase-name">
-                Inquiry & Purchased Orders
-            </div>
-            <div className="inquiry-purchase-container">
-                <div className="inquiry-purchase-container-left">
-                    <div
-                        onClick={() => handleLinkClick('ongoing')}
-                        className={activeLink === 'ongoing' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
-                    >
-                        <img src={order_list} alt="inquiry-purchase icon" />
-                        <div>Inquiry Request</div>
+        <>
+            {loading ? (
+                <Loader />
+        ) : (
+            <div className='inquiry-purchase-main-container'>
+                <div className="inquiry-purchase-name">
+                    Inquiry & Purchased Orders
+                </div>
+                <div className="inquiry-purchase-container">
+                    <div className="inquiry-purchase-container-left">
+                        <div
+                            onClick={() => handleLinkClick('ongoing')}
+                            className={activeLink === 'ongoing' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
+                        >
+                            <img src={order_list} alt="inquiry-purchase icon" />
+                            <div>Inquiry Request</div>
+                        </div>
+                        <div
+                            onClick={() => handleLinkClick('purchased')}
+                            className={activeLink === 'purchased' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
+                        >
+                            <img src={order_list} alt="inquiry-purchase icon" />
+                            <div>Purchased Orders</div>
+                        </div>
                     </div>
-                    <div
-                        onClick={() => handleLinkClick('purchased')}
-                        className={activeLink === 'purchased' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
-                    >
-                        <img src={order_list} alt="inquiry-purchase icon" />
-                        <div>Purchased Orders</div>
+                    <div className="inquiry-purchase-container-right">
+                        <div responsive="xl" className='inquiry-purchase-table-responsive'>
+                            {activeLink === 'ongoing' &&
+                            <OnGoingOrder
+                                inquiryList       = {inquiryList} 
+                                totalInquiries    = {totalInquiries} 
+                                currentPage       = {currentPage}
+                                inquiryPerPage    = {inquiryPerPage}
+                                handlePageChange  = {handlePageChange}
+                                activeLink        = {activeLink}
+                            />}
+                            {activeLink === 'purchased' && 
+                            <PurchasedOrder
+                                poList           = {poList}
+                                totalPoList      = {totalPoList} 
+                                currentPage      = {currentPage}
+                                inquiryPerPage   = {inquiryPerPage}
+                                handlePageChange = {handlePageChange}
+                                activeLink       = {activeLink}
+                            />}
+                        </div>
                     </div>
                 </div>
-                <div className="inquiry-purchase-container-right">
-                    <div responsive="xl" className='inquiry-purchase-table-responsive'>
-                        {activeLink === 'ongoing' &&
-                        <OnGoingOrder
-                            inquiryList       = {inquiryList} 
-                            totalInquiries    = {totalInquiries} 
-                            currentPage       = {currentPage}
-                            inquiryPerPage    = {inquiryPerPage}
-                            handlePageChange  = {handlePageChange}
-                            activeLink        = {activeLink}
-                        />}
-                        {activeLink === 'purchased' && 
-                        <PurchasedOrder
-                            poList           = {poList}
-                            totalPoList      = {totalPoList} 
-                            currentPage      = {currentPage}
-                            inquiryPerPage   = {inquiryPerPage}
-                            handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
-                        />}
-                    </div>
-                </div>
             </div>
-        </div>
+        )}
+    </>
     );
 }
 

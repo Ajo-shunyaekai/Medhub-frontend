@@ -9,13 +9,15 @@ import CompletedOrders from '../components/orders/CompleteOrder';
 import PendingOrders from '../components/orders/DeletedOrder';
 import Sidebar from '../components/Sidebar';
 import { postRequestWithToken } from '../api/Requests';
+import Loader from './Loader';
+import { toast } from 'react-toastify';
 
 
 const Order = () => {
     const location  = useLocation();
-     const navigate = useNavigate()
+    const navigate = useNavigate()
 
-    // const [activeLink, setActiveLink]   = useState('active'); 
+    const [loading, setLoading] = useState(true);
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -29,8 +31,6 @@ const Order = () => {
                 return 'active';
             case '/buyer/order/completed':
                 return 'completed';
-            // case '/buyer/order/pending':
-            //     return 'pending';
             default:
                 return 'active';
         }
@@ -47,9 +47,6 @@ const Order = () => {
             case 'completed':
                 navigate('/buyer/order/completed');
                 break;
-            // case 'pending':
-            //     navigate('/buyer/order/pending');
-            //     break;
             default:
                 navigate('/buyer/order/active');
         }
@@ -67,26 +64,29 @@ const Order = () => {
         navigate("/buyer/login");
         return;
         }
-        
         const obj = {
             buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
             filterKey : activeLink,
             page_no   : currentPage, 
             limit     : ordersPerPage,
         }
-
         postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
             if (response.code === 200) {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     return (
         <>
+         {loading ? (
+                     <Loader />
+                ) : (
             <div className='order-main-container'>
                 <div className="order-name">
                 Orders
@@ -105,10 +105,7 @@ const Order = () => {
                             <div>Completed Orders</div>
                         </div>
 
-                        {/* <div onClick={() => handleLinkClick('pending')} className={activeLink === 'pending' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
-                            <img src={order_list} alt="order icon" />
-                            <div>Pending Orders</div>
-                        </div> */}
+                     
                     </div>
 
                     {/* Order Right side table  */}
@@ -150,6 +147,7 @@ const Order = () => {
                     </div>
                 </div>
             </div >
+        )}
         </>
     )
 }
