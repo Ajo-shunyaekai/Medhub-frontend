@@ -37,37 +37,82 @@ const Invoice = () => {
         setActiveIndex(getActiveLinkFromPath(location.pathname));
     }, [location.pathname]);
 
+    // useEffect(() => {
+    //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    //     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+
+    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+    //     navigate("/supplier/login");
+    //     return;
+    //     }
+    //     console.log(activeIndex);
+    //     const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
+
+    //     const obj = {
+    //         supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+    //         filterKey   : filterKey,
+    //         page_no     : currentPage,
+    //         limit       : invoicesPerPage,
+    //     };
+
+    //     postRequestWithToken('supplier/order/supplier-invoice-list', obj, async (response) => {
+    //         if (response.code === 200) {
+    //             setInvoiceList(response.result.data);
+    //             setTotalInvoices(response.result.totalItems)
+    //             // setTotalOrders(response.result.totalItems)
+    //         } else {
+    //             toast(response.message, {type:'error'})
+    //             console.log('error in invoice list api', response);
+    //         }
+    //         setLoading(false);
+    //     });
+    // }, [activeIndex, currentPage]);
+
+
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
+    
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
-        console.log(activeIndex);
+    
         const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
-
+    
         const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey: filterKey,
-            page_no: currentPage,
-            limit: invoicesPerPage,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            filterKey   : filterKey,
+            page_no     : currentPage,
+            limit       : invoicesPerPage,
         };
-
-        postRequestWithToken('supplier/order/supplier-invoice-list', obj, async (response) => {
-            if (response.code === 200) {
-                setInvoiceList(response.result.data);
-                setTotalInvoices(response.result.totalItems)
-                // setTotalOrders(response.result.totalItems)
-            } else {
-                toast(response.message, {type:'error'})
-                console.log('error in invoice list api', response);
-            }
-            setLoading(false);
-        });
+    
+        // Call a different API for Proforma Invoices (when activeIndex is 2)
+        if (activeIndex === 2) {
+            postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalInvoices(response.result.totalItems)
+                } else {
+                    toast(response.message, {type:'error'});
+                    console.log('error in proforma invoice list api', response);
+                }
+                setLoading(false);
+            });
+        } else {
+            postRequestWithToken('supplier/order/supplier-invoice-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalInvoices(response.result.totalItems)
+                } else {
+                    toast(response.message, {type:'error'});
+                    console.log('error in invoice list api', response);
+                }
+                setLoading(false);
+            });
+        }
     }, [activeIndex, currentPage]);
-
+    
     const handleLinkClick = (link) => {
         setCurrentPage(1)
         switch (link) {

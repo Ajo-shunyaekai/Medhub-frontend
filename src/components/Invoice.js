@@ -18,7 +18,7 @@ const Invoice = () => {
     const [invoiceList, setInvoiceList] = useState([]);
     const [totalInvoices, setTotalInvoices] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const invoicesPerPage = 8;
+    const invoicesPerPage = 5;
 
     useEffect(() => {
         const getActiveLinkFromPath = (path) => {
@@ -53,19 +53,43 @@ const Invoice = () => {
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             filterKey: filterKey,
-            // page_no: currentPage, 
-            // limit: invoicesPerPage,
+            page_no: currentPage, 
+            limit: invoicesPerPage,
         };
-        postRequestWithToken('buyer/order/buyer-invoice-list', obj, (response) => {
-            if (response.code === 200) {
-                setInvoiceList(response.result.data);
-                // setTotalInvoices(response.result.totalItems);
-            } else {
-                toast(response.message, {type:'error'})
-                console.log('Error in invoice list API:', response);
-            }
-            setLoading(false);
-        });
+        // postRequestWithToken('buyer/order/buyer-invoice-list', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setInvoiceList(response.result.data);
+        //         // setTotalInvoices(response.result.totalItems);
+        //     } else {
+        //         toast(response.message, {type:'error'})
+        //         console.log('Error in invoice list API:', response);
+        //     }
+        //     setLoading(false);
+        // });
+
+        if (activeIndex === 2) {
+            postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalInvoices(response.result.totalItems)
+                } else {
+                    toast(response.message, {type:'error'});
+                    console.log('error in proforma invoice list api', response);
+                }
+                setLoading(false);
+            });
+        } else {
+            postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalInvoices(response.result.totalItems)
+                } else {
+                    toast(response.message, {type:'error'});
+                    console.log('error in invoice list api', response);
+                }
+                setLoading(false);
+            });
+        }
     };
 
     const handleLinkClick = (link) => {

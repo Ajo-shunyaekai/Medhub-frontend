@@ -3,27 +3,28 @@ import InvoiceCardDesign from './InvoiceCardDesign';
 import InvoiceDesign from '../../style/invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
 import { postRequestWithToken } from '../../api/Requests';
-import { useParams} from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment/moment';
 
 
 function InvoiceTemplate({invoice}) {
-    const { orderId }                     = useParams()
-    const [orderDetails, setOrderDetails] = useState()
+    const { invoiceId }                     = useParams()
+    const navigate    = useNavigate();
+    const [invoiceDetails, setInvoiceDetails] = useState(null);
 
     useEffect(() => {
-        const obj = {order_id: orderId}
+        const obj = {invoice_id: invoiceId}
 
-        postRequestWithToken('buyer/order/invoice-details', obj, async (response) => {
+        postRequestWithToken('invoice/invoice-details', obj, async (response) => {
             if (response.code === 200) {
-                setOrderDetails(response.result)
+                setInvoiceDetails(response.result);
             } else {
                console.log('error in order details api');
             }
           })
     },[])
 
-    const orderedDate = moment(orderDetails?.created_at).format("DD/MM/YYYY")
+    // const orderedDate = moment(orderDetails?.created_at).format("DD/MM/YYYY")
 
     const handleDownload = () => {
         const element = document.getElementById('invoice-content');
@@ -56,11 +57,11 @@ function InvoiceTemplate({invoice}) {
                             <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
                                 <td style={{ display: 'flex', justifyContent: 'end' }}>
                                     <p style={{ fontSize: '16px', fontWeight: '500' }}>Invoice Number : </p>
-                                    <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_number || invoice?.invoice_no}</p>
+                                    <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{invoiceDetails?.invoice_no}</p>
                                 </td>
                                 <td style={{ display: 'flex', justifyContent: 'end', paddingBottom: '10px' }}>
                                     <p style={{ fontSize: '15px', fontWeight: '500' }}>Date : </p>
-                                    <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderedDate || moment(invoice?.created_at).format("DD/MM/YYYY")}</p>
+                                    <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{invoiceDetails?.invoice_date}</p>
                                 </td>
                             </tr>
                         </thead>
@@ -72,22 +73,22 @@ function InvoiceTemplate({invoice}) {
                                             <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
                                                 <td style={{ verticalAlign: 'top', width: '60%', paddingRight: '20px', paddingBottom: '20px' }}>
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
-                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{orderDetails?.supplier?.supplier_name || invoice?.supplier?.supplier_name}</p>
-                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{orderDetails?.supplier?.supplier_address || invoice?.supplier?.supplier_address}</p>
-                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p>
+                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{invoiceDetails?.supplier_name}</p>
+                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{invoiceDetails?.supplier_address}</p>
+                                                    {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;1266547896</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.supplier_vat_reg_no}</p>
                                                     </td>
                                                 </td>
                                                 <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
                                                     <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
-                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{orderDetails?.buyer_company || invoice?.buyer_company}</p>
-                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{orderDetails?.shipping_details?.address || invoice?.shipping_details?.address}</p>
-                                                    <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p>
+                                                    <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{invoiceDetails?.buyer_name}</p>
+                                                    <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{invoiceDetails?.buyer_address}</p>
+                                                    {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>VAT Reg No :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;1266547896</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{invoiceDetails?.buyer_vat_reg_no}</p>
                                                     </td>
                                                 </td>
                                             </tr>
@@ -99,15 +100,16 @@ function InvoiceTemplate({invoice}) {
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>S.No</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Description</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
-                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Price</td>
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
+                                                                <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
                                                                 <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             
                                                             {
-                                                                (orderDetails && orderDetails?.items && orderDetails?.items?.length) ?
-                                                                  orderDetails?.items?.map((item, i) => {
+                                                                (invoiceDetails &&invoiceDetails?.items && invoiceDetails?.items?.length) ?
+                                                                 invoiceDetails?.items?.map((item, i) => {
                                                                     const totalPrice = item.quantity * 50; 
                                                                     subtotal += totalPrice;
                                                                     vatAmount = subtotal * 0.20
@@ -117,16 +119,19 @@ function InvoiceTemplate({invoice}) {
                                                                         <p style={{ fontWeight: 500, fontSize: '14px' }}>{i + 1}.</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name || item.product_name} (500mg)</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item.strength})</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity}</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} AED</p>
                                                                     </td>
                                                                     <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity * 50} AED</p>
+                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
+                                                                            </td>
+                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount} AED</p>
                                                                     </td>
                                                                     </tr>
                                                                      );
@@ -167,27 +172,27 @@ function InvoiceTemplate({invoice}) {
                                                                     <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                     <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                         <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>1234567890123456</p>
+                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.account_number}</p>
                                                                     </tr>
                                                                     <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '6px' }}>
                                                                         <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
-                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>147852</p>
+                                                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.sort_code}</p>
                                                                     </tr>
                                                                 </td>
                                                                 <td style={{ width: '550px' }} >
                                                                     <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                         <tbody>
-                                                                            <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                            {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
                                                                                 <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{subtotal} AED</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
                                                                                 <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{vatAmount} AED</p>
-                                                                            </tr>
+                                                                            </tr> */}
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{subtotal + vatAmount} AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{invoiceDetails?.total_payable_amount} AED</p>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -209,18 +214,16 @@ function InvoiceTemplate({invoice}) {
                                     <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
                                         <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
-                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p>
-                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p>
-                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p>
+                                        {
+                                                    invoiceDetails?.payment_terms?.map((term, i) => {
+                                                        return (
+                                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                            <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                             {term}
+                                                        </p>
+                                                        )
+                                                    })
+                                                }
                                         </div>
                                     </td>
                                 </tr>

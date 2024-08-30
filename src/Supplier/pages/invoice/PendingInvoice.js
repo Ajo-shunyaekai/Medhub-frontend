@@ -96,25 +96,25 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                         <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                             <tr className='table-row v-middle'>
                                                 <td>
-                                                    <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
+                                                    <span className="item-title">{invoice.invoice_no}</span>
                                                 </td>
                                                 <td>
                                                     <span className="item-title">{invoice.order_id}</span>
                                                 </td>
                                                 <td>
                                                     <div className="mx-0">
-                                                        <span className="item-title text-color">{invoice.buyer_company || 'Pharma Private Ltd'}</span>
+                                                        <span className="item-title text-color">{invoice.buyer_name}</span>
                                                     </div>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.totalPrice} AED</span>
+                                                    <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice?.order_status?.charAt(0).toUpperCase() + invoice?.order_status?.slice(1) }</span>
+                                                    <span className="item-title text-color">{invoice?.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1) }</span>
                                                 </td>
                                                 <td className='pending-invoices-td'>
                                                     <div className='invoice-details-button-row'>
-                                                        <Link to='/supplier/invoice-design'>
+                                                        <Link to={`/supplier/invoice-design/${invoice.invoice_id}`}>
                                                             <div className='invoice-details-button-column'>
                                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                                             </div>

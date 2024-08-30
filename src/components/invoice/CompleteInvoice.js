@@ -86,17 +86,17 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                 invoiceList.map((invoice, i) => (
                                     <tr key={i} data-id="9" className='table-row v-middle'>
                                         <td>
-                                            <span className="item-title">{invoice.invoice_number}</span>
+                                            <span className="item-title">{invoice.invoice_no}</span>
                                         </td>
                                         <td>
                                             <span className="item-title">{invoice.order_id}</span>
                                         </td>
                                         <td>
-                                            <span className="item-title">{invoice?.supplier?.supplier_name}</span>
+                                            <span className="item-title">{invoice?.supplier_name}</span>
                                         </td>
                                         <td>
                                             <div className="mx-0">
-                                                <span className="item-title text-color">{invoice.totalPrice} AED</span>
+                                                <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
                                             </div>
                                         </td>
 
@@ -104,7 +104,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                             <span className="item-title text-color">COD</span>
                                         </td>
                                         <td className="flex">
-                                            <span className="item-title text-color">{invoice.order_status === 'completed' ? 'Paid' : ''}</span>
+                                            <span className="item-title text-color">{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</span>
                                         </td>
                                         <td>
                                             <div className='invoice-details-button-row'>

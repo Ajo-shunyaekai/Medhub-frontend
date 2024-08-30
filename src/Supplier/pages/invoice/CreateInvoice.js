@@ -13,11 +13,14 @@ const CreateInvoice = () => {
     const {orderId} = useParams()
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState();
     const [orderDetails, setOrderDetails] = useState(null);
     const [formData, setFormData] = useState({
         orderId: '',
+        purchaseOrderId: '',
+        enquiryId: '',
         invoiceNo: '',
         invoiceDate: '',
         supplierId: '',
@@ -41,7 +44,7 @@ const CreateInvoice = () => {
         buyerContactPersonCountryCode: '',
         buyerVatRegNo: '',
         orderItems: [],
-        vatPercentage: 20,
+        vatPercentage: '',
         totalPayableAmount: '',
         accountNo: '',
         sortCode: ''
@@ -62,10 +65,18 @@ useEffect(() => {
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0'); 
     const year = today.getFullYear();
+    const formattedDate = `${day}-${month}-${year}`;
     setCurrentDate(`${day}-${month}-${year}`);
 
     const generateRandomNumber = () => Math.floor(10000000 + Math.random() * 90000000);
-    setInvoiceNumber(generateRandomNumber());
+    const generatedInvoiceNumber = generateRandomNumber();
+    setInvoiceNumber(generatedInvoiceNumber);
+
+    setFormData(prevState => ({
+        ...prevState,
+        invoiceNo: generatedInvoiceNumber,
+        invoiceDate: formattedDate
+    }));
 }, [orderId]);
 
 const handleSupplierCountryOriginChange = (selected) => {
@@ -96,6 +107,7 @@ const handleBuyerCountryOriginChange = (selected) => {
             navigate("/supplier/login");
             return;
         }
+        
         const obj = {
             order_id: orderId,
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
@@ -108,13 +120,15 @@ const handleBuyerCountryOriginChange = (selected) => {
                 const formattedSupplierMobile = `${data.supplier?.supplier_country_code || ''}-${data.supplier?.supplier_mobile || ''}`;
                 const formattedBuyerMobile = `${data.buyer?.buyer_country_code || ''}-${data.buyer?.buyer_mobile || ''}`;
 
-                const vatPercentage = 20;
-                const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
-                const totalPayableAmount = (parseFloat(data.total_due_amount) + vatAmount).toFixed(2);
+                // const vatPercentage = 20;
+                // const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
+                // const totalPayableAmount = (parseFloat(data.total_due_amount) + vatAmount).toFixed(2);
 
                 setFormData(prevFormData => ({
                     ...prevFormData,
                     orderId: data.order_id,
+                    purchaseOrderId: data.purchaseOrder_id,
+                    enquiryId: data.enquiry_id,
                     supplierId: data.supplier_id,
                     supplierName: data?.supplier?.supplier_name,
                     supplierEmail: data?.supplier?.supplier_email,
@@ -140,8 +154,8 @@ const handleBuyerCountryOriginChange = (selected) => {
                     buyerVatRegNo: data?.buyer?.vat_reg_no,
                     orderItems: data.items,
                     // vatPercentage: data.vat_percentage,
-                    // totalPayableAmount: data.total_due_amount,
-                    totalPayableAmount: totalPayableAmount,
+                    totalPayableAmount: data.total_due_amount,
+                    // totalPayableAmount: totalPayableAmount,
                     // accountNo: data.account_no,
                     // sortCode: data.sort_code
                 }));
@@ -238,17 +252,24 @@ const handleBuyerCountryOriginChange = (selected) => {
         e.preventDefault()
 
         if (validateForm()) {
-
+            setLoading(true)
            console.log('FORM',formData);
            postRequestWithToken('supplier/invoice/create-invoice', formData, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type:'success'})
+                setTimeout(() => {
+                    navigate('/supplier/invoice/pending')
+                    setLoading(false)
+                }, 1000)
+                
             } else {
+                setLoading(false)
                 toast(response.message, {type:'error'})
                console.log('error in create-invoice api',response);
             }
         })
         } else {
+            setLoading(false)
             toast('Some Fields are Missing', { type: "error" });
             console.log('errorrrrr', formData);
         }
@@ -262,7 +283,6 @@ const handleBuyerCountryOriginChange = (selected) => {
         resetForm()
     }
 
-   
     const handlePhoneChange = (value) => {
         if (value) {
             // Parse the phone number
@@ -300,8 +320,6 @@ const handleBuyerCountryOriginChange = (selected) => {
             }));
         }
     };
-    console.log('formDat',formData);
-    
 
     return (
         <>
@@ -385,7 +403,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                                     value={formData.supplierCountry}
                                     onChange={handleSupplierCountryOriginChange}
                                 />
-                            {errors.supplierCountry && <p style={{color: 'red'}}>{errors.supplierCountry.message}</p>}
+                            {errors.supplierCountry && <p style={{color: 'red'}}>{errors.supplierCountry}</p>}
                         </div>
 
                         <div className={styles['create-invoice-div-container']}>
@@ -396,7 +414,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                                 value={formData.supplierVatRegNo}
                                 onChange={handleChange}
                                 />
-                            {errors.supplierVatRegNo && <p style={{color: 'red'}}>{errors.supplierVatRegNo.message}</p>}
+                            {errors.supplierVatRegNo && <p style={{color: 'red'}}>{errors.supplierVatRegNo}</p>}
                         </div>
 
                         
@@ -453,8 +471,8 @@ const handleBuyerCountryOriginChange = (selected) => {
                                             options={countries}
                                         autoComplete='off'
                                         value={formData.buyerCountry}
-                                            onChange={handleBuyerCountryOriginChange}
-                                        readOnly
+                                            // onChange={handleBuyerCountryOriginChange}
+                                            isDisabled={true}
                                     />
                             {errors.buyerCountry && <p style={{color: 'red'}}>{errors.buyerCountry.message}</p>}
                         </div>
@@ -528,7 +546,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                     <div className={styles['create-invoice-section']}>
                 <div className={styles['create-invoice-form-heading']}></div>
                     <form className={styles['craete-invoice-form']}>
-                        <div className={styles['create-invoice-div-container']}>
+                        {/* <div className={styles['create-invoice-div-container']}>
                         <label className={styles['create-invoice-div-label']}>VAT @ 20%</label>
                             <input className={styles['create-invoice-div-input']} 
                             type='text' name='vatPercentage' 
@@ -537,7 +555,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                             onChange={handleVatPercentageChange}
                             readOnly
                             />
-                        </div>
+                        </div> */}
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
                             <input className={styles['create-invoice-div-input']} 
@@ -557,6 +575,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                             value={formData.accountNo}
                             onChange={handleChange}
                             />
+                            {errors.accountNo && <p style={{color: 'red'}}>{errors.accountNo}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Sort Code</label>
@@ -566,11 +585,24 @@ const handleBuyerCountryOriginChange = (selected) => {
                             value={formData.sortCode}
                             onChange={handleChange}
                             />
+                            {errors.sortCode && <p style={{color: 'red'}}>{errors.sortCode}</p>}
+                            
                     </div>
                     </form>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                    <button type='submit' className={styles['create-invoices-submit']}>Create Invoice</button>
+                    <button 
+                    type='submit' 
+                    className={styles['create-invoices-submit']}
+                    disabled={loading}
+                    >
+                        {/* Create Invoice */}
+                        {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Create Invoice'
+                            )}
+                    </button>
                     <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                 </div>
             </form>

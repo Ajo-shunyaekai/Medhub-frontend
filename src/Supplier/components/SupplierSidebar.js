@@ -197,7 +197,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/completed-orders" element={<CompletedOrders />} />
                         <Route path="/supplier/image-uploader" element={<ImageUploader />} />
                         <Route path="/supplier/success-modal" element={<SuccessModal />} />
-                        <Route path="/supplier/invoice-design" element={<InvoiceDesign />} />
+                        <Route path="/supplier/invoice-design/:invoiceId" element={<InvoiceDesign />} />
                         <Route path="/supplier/active-orders-details/:orderId" element={<ActiveOrdersDetails />} />
                         <Route path="/supplier/active-assign-driver" element={<ActiveAssignDriver />} />
                         <Route path="/supplier/buyer-details/:buyerId" element={<BuyerDetails />} />

@@ -199,7 +199,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/ongoing-invoice" element={<OngoingInvoice />} />
                                         <Route path="/buyer/pending-invoice" element={<PendingInvoice />} />
                                         <Route path="/buyer/upload-document" element={<UploadDocument />} />
-                                        <Route path="/buyer/invoice-design/:orderId" element={<InvoiceDesign />} />
+                                        <Route path="/buyer/invoice-design/:invoiceId" element={<InvoiceDesign />} />
                                         <Route path="/buyer/custom-modal" element={<CustomModal />} />
                                         <Route path="/buyer/invoice-card-design" element={<InvoiceCardDesign />} />
                                         <Route path="/buyer/product-details-card" element={<ProductDetailsCard />} />

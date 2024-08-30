@@ -118,44 +118,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                             })
                         ) : (
                             <>
-                                {/* {
-                                invoiceListt.map((invoice, i) => (
-                                    <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
-                                        <tr className='table-row v-middle'>
-                                            <td>
-                                                <span className="item-title">{invoice.invoice_no}</span>
-                                            </td>
-                                            <td>
-                                                <span className="item-title">{invoice.order_id}</span>
-                                            </td>
-                                            <td>
-                                                <div className="mx-0">
-                                                    <span className="item-title text-color">{invoice.customer_name}</span>
-                                                </div>
-                                            </td>
-                                            <td className="flex">
-                                                <span className="item-title text-color">{invoice.order_amount}</span>
-                                            </td>
-                                            <td className="flex">
-                                                <span className="item-title text-color">{invoice.order_status}</span>
-                                            </td>
-                                            <td className='pending-invoices-td'>
-                                                <div className='invoice-details-button-row'>
-                                                    <Link to='/supplier/proforma-invoice-details'>
-                                                        <div className='invoice-details-button-column'>
-                                                            <VisibilityOutlinedIcon className='invoice-view' />
-                                                        </div>
-                                                    </Link>
-                                                    <div className='invoice-details-button-column-download'>
-                                                        <CloudDownloadOutlinedIcon className='invoice-view' />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-        
-                                    </tbody>
-                                ))
-                            } */}
+                               
                                 <p>No Proforma Invoices</p>
                             </>
                         )
