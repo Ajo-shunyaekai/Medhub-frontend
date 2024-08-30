@@ -14,6 +14,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { medicineId } = useParams();
 
+  const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [details, setDetails] = useState();
   const [medId, setMedId] = useState(medicineId);
@@ -124,7 +125,7 @@ const ProductDetails = () => {
     e.preventDefault();
 
     if (validateInputs()) {
-      setButtonLoading(true)
+      setLoading(true)
       const obj = {
         medicine_id: medId,
         supplier_id: supplierId,
@@ -142,14 +143,16 @@ const ProductDetails = () => {
           sessionStorage.setItem('list_count', response.result.listCount)
           setTimeout(() => {
             navigate('/buyer/send-inquiry')
+            setLoading(true)
           }, 1000);
         } else {
+          setLoading(false)
           toast(response.message, { type: "error" });
           console.log('error in similar-medicine-list api');
         }
-        setButtonLoading(false)
       });
     } else {
+      setLoading(false)
       toast('Some Fields are missing', { type: "error" });
       setButtonLoading(false)
     }
@@ -354,29 +357,19 @@ const handleTargetPriceChange = (e) => {
 
           </div>
           <div className="buyer-product-details-main-button-section">
-            {/* <button className="buyer-product-details-list-button" onClick={handleAddToList}>
-              Add to List
-              </button> */}
-               <button
-      className="buyer-product-details-list-button"
-      onClick={handleAddToList}
-      disabled={buttonLoading}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '10px'
-      }}
-    >
-      {buttonLoading ? (
-        <>
-          <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-          Adding...
-        </>
-      ) : (
-        'Add to List'
-      )}
-    </button>
+            <button 
+            className="buyer-product-details-list-button" 
+            onClick={handleAddToList}
+            disabled={loading}
+            >
+              {/* Add to List */}
+              {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Add to List'
+                            )}
+              </button>
+               
             <div className="buyer-product-details-cancel-button"
             onClick={() => {
               setQuantityRequired('');

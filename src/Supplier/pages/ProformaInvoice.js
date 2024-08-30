@@ -171,6 +171,7 @@ const ProformaInvoice = () => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
+    const [loading, setLoading] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
     const [dueDate, setDueDate] = useState('')
     const [invoiceNumber, setInvoiceNumber] = useState();
@@ -178,6 +179,7 @@ const ProformaInvoice = () => {
     const [orderItems, setOrderItems] = useState([])
     const [dateError, setDateError] = useState('')
     const [dateValue, setDateValue] = useState();
+    const [mobileError, setMobileError] = useState('')
 
     const handlePaymentDueDateChange = (e) => {
         setDateValue(e)
@@ -280,6 +282,27 @@ const ProformaInvoice = () => {
     
         return `${day}-${month}-${year}`;
     };
+
+    const resetForm = () => {
+       setValue('supplierName', '')
+       setValue('supplierMobile', '')
+       setValue('newSupplierMobile', '')
+       setValue('supplierAddress', '')
+       setValue('supplierEmail', '')
+       setValue('depositDue', '')
+       setValue('depositRequested', '')
+    };
+
+    const handleCancel = () => {
+        resetForm()
+    }
+    const validateSupplierMobile = (mobile) => {
+        // This regex matches strings that start with a country code like +91 or +971
+        // and ensures that there's at least one digit after the country code.
+        const validMobileRegex = /^\+\d{1,3}-?\d{5,14}$/;
+    
+        return validMobileRegex.test(mobile);
+    }
     
     const onSubmit = (data) => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -291,6 +314,13 @@ const ProformaInvoice = () => {
             toast('Some fields are missing', {type: 'error'})
             return false;
         }
+        if (!validateSupplierMobile(data.supplierMobile)) {
+            setMobileError('Supplier Mobile No is Invalid or Required');
+            toast('Supplier Mobile No is Invalid or Required', { type: 'error' });
+            return false;
+        }
+
+        setLoading(true)
         setDateError('');
         const updatedOrderItems = orderItems.map(item => ({
             ...item,
@@ -323,14 +353,18 @@ const ProformaInvoice = () => {
         };
         postRequestWithToken('buyer/order/create-order', obj, async (response) => {
             if (response.code === 200) {
+                
                 toast(response.message, { type: 'success' })
-                setTimeout(() => {
+                // setTimeout(() => {
                     navigate('/supplier/order/active')
-                }, 1000)
+                // }, 500)
+                setLoading(false)
             } else {
+                setLoading(false)
                 console.log('error in create-order api', response);
                 toast(response.message, { type: 'error' })
             }
+            // setLoading(false)
         });
 
     };
@@ -400,9 +434,11 @@ const ProformaInvoice = () => {
                             <label className={styles['create-invoice-div-label']}>Name</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='supplierName' placeholder='Enter Name'
-                                {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} />
+                                {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} 
+                                />
+                                {errors.supplierName && <p style={{color: 'red'}}>{errors.supplierName.message}</p>}
                         </div>
-                        {errors.supplierName && <p>{errors.supplierName.message}</p>}
+                        
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Invoice Number</label>
                             <input className={styles['create-invoice-div-input']} type='text'
@@ -484,7 +520,7 @@ const ProformaInvoice = () => {
                             value={watch('supplierMobile')}
                             onChange={handleSupplierPhoneChange}
                         />
-                            {errors.supplierMobile && <p style={{color: 'red'}}>{errors.supplierMobile.message}</p>}
+                            {mobileError && <p style={{color: 'red'}}>{mobileError}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -609,8 +645,19 @@ const ProformaInvoice = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                    <button type='submit' className={styles['create-invoices-submit']}>Create Proforma Invoice</button>
-                    <div className={styles['create-invoices-cancel']}>Cancel</div>
+                    <button 
+                    type='submit' 
+                    className={styles['create-invoices-submit']}
+                    disabled={loading}
+                    >
+                        {/* Create Proforma Invoice */}
+                        {loading ? (
+                                <div className={styles['loading-spinner']}></div> 
+                            ) : (
+                                'Create Proforma Invoice'
+                            )}
+                    </button>
+                    <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                 </div>
             </form>
         </div >

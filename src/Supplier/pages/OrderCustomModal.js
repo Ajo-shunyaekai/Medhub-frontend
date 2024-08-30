@@ -228,7 +228,7 @@ const countryCodeMap = {
 };
 
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
-    console.log(logiscticsData);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         suppliername: '',
         supplierEmail: '',
@@ -382,7 +382,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         if (!formData.supplierEmail || !/\S+@\S+\.\S+/.test(formData.supplierEmail)) newErrors.supplierEmail = 'Valid Email is required';
         if (!formData.supplierMobile || formData.supplierMobile.length < 10) newErrors.supplierMobile = 'Valid Mobile No. is required';
         if (!formData.address) newErrors.address = 'Address is required';
-        if (!formData.pincode || formData.pincode.length < 6) newErrors.pincode = 'Valid Pincode is required';
+        // if (!formData.pincode || formData.pincode.length < 6) newErrors.pincode = 'Valid Pincode is required';
         if (!formData.packages) newErrors.packages = 'No. of Packages is required';
         if (!formData.weight) newErrors.weight = 'Weight is required';
         if (!formData.length || !formData.width || !formData.height) newErrors.dimensions = 'Length, Width and Height are required';
@@ -393,9 +393,10 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     };
 
     const handleSubmit = (e) => {
+        console.log('yes');
         e.preventDefault();
         if (!validateForm()) return;
-        console.log('value',value);
+        setLoading(true)
         const formattedData = {
             supplier_details: {
                 name: formData.suppliername,
@@ -441,14 +442,15 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                 toast('Details submitted successfully', { type: 'success' })
                 setRefresh(true)
                 onClose()
+                setLoading(false)
             } else {
+                setLoading(false)
                 toast(response.message, { type: 'error' })
                 console.log('error in order details api');
             }
-        });
-        // ; 
+        }); 
     };
-console.log('errors',errors);
+
     return (
         <div className={styles['order-modal-overlay']}>
             <div className={styles['order-modal-content-section']}>
@@ -536,7 +538,7 @@ console.log('errors',errors);
                                 name="pincode"
                                 value={formData.pincode}
                                 onChange={handleChange}
-                                required
+                                // required
                             />
                         </div>
                     </div>
@@ -743,7 +745,18 @@ console.log('errors',errors);
                         </div>
                     </div>
                     <div className={styles['modal-order-button-section']}>
-                        <button type="submit" className={styles.submitButton}>Submit</button>
+                        <button 
+                        type="submit" 
+                        className={styles.submitButton}
+                        disabled={loading}
+                        >
+                            {/* Submit */}
+                            {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Submit'
+                            )}
+                            </button>
                     </div>
                 </form>
             </div>

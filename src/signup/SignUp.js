@@ -40,6 +40,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SignUp = () => {
+    const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
@@ -224,7 +225,8 @@ const SignUp = () => {
 
     const handleSubmit = () => {
         if (validateForm() && isChecked) {
-            setButtonLoading(true)
+            setLoading(true)
+            // setButtonLoading(true)
             const formDataToSend = new FormData();
 
             const countryLabels = formData.operationCountries?.map(country => {
@@ -297,15 +299,18 @@ const SignUp = () => {
                     setSelectedOptions([])
                     setResetUploaders(true);
                     setShowModal(true)
-                    setButtonLoading(false)
+                    // setButtonLoading(false)
+                    setLoading(false)
                 } else {
-                    setButtonLoading(false)
+                    // setButtonLoading(false)
+                    setLoading(false)
                     toast(response.message, {type: 'error'})
                     console.log('error in buyer/register api');
                 }
-                setButtonLoading(false)
+                // setButtonLoading(false)
             })
         } else {
+            setLoading(false)
             toast('Some Fields are Missing', {type: 'error'})
         }
     };
@@ -686,27 +691,19 @@ const SignUp = () => {
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                            {/* <button type='submit' className='signup-form-button-submit'>Submit</button> */}
-                            <button
-                            type='submit'
+                            <button 
+                            type='submit' 
                             className='signup-form-button-submit'
-                            disabled={buttonLoading}
-                            style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '10px'
-                            }}
-                        >
-                            {buttonLoading ? (
-                            <>
-                                <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-                                Submitting...
-                            </>
+                            disabled={loading}
+                            >
+                                {/* Submit */}
+                                {loading ? (
+                                <div className='loading-spinner'></div> 
                             ) : (
-                            'Submit'
+                                'Submit'
                             )}
-                        </button>
+                            </button>
+                            
                         </div>
                     </form>
                 </div>

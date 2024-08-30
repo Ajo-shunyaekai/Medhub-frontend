@@ -14,6 +14,7 @@ const OnGoingInquiriesDetails = () => {
   const { inquiryId } = useParams();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
   const [inquiryDetails, setInquiryDetails] = useState();
   const [acceptedItems, setAcceptedItems] = useState([]);
   const [rejectedItems, setRejectedItems] = useState([]);
@@ -128,6 +129,7 @@ const OnGoingInquiriesDetails = () => {
       navigate("/buyer/login");
       return;
     }
+    setLoading(true)
     const obj = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       enquiry_id: inquiryId,

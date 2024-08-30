@@ -39,6 +39,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SupplierSignUp = () => {
+    const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -276,7 +277,7 @@ const SupplierSignUp = () => {
 
     const handleSubmit = () => {
         if (validateForm() && isChecked) {
-
+            setLoading(true)
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
                 return country ? country.label : '';
@@ -347,12 +348,15 @@ const SupplierSignUp = () => {
                     setSelectedCompanyType(null)
                     setResetUploaders(true);
                     setShowModal(true);
+                    setLoading(false)
                 } else {
+                    setLoading(false)
                     toast(response.message, {type: 'error'})
                     console.log('error in supplier/register api');
                 }
             })
         } else {
+            setLoading(false)
             toast('Some Fields are Missing', {type: 'error'})
         }
     };
@@ -706,7 +710,18 @@ const SupplierSignUp = () => {
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                            <button type='submit' className='signup-form-button-submit'>Submit</button>
+                            <button 
+                             type='submit' 
+                             className='signup-form-button-submit'
+                             disabled={loading}
+                             >
+                                {/* Submit */}
+                                {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Submit'
+                            )}
+                                </button>
                         </div>
                     </form>
                 </div>

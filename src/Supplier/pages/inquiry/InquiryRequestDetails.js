@@ -14,6 +14,7 @@ const InquiryRequestDetails = () => {
     const navigate = useNavigate();
     const [paymentTerms, setPaymentTerms] = useState(['']);
 
+    const [loading, setLoading] = useState(false);
     const [inquiryDetails, setInquiryDetails] = useState()
 
     const handleAddTerm = () => {
@@ -79,7 +80,7 @@ const InquiryRequestDetails = () => {
             toast('Counter price must be provided for items that are not accepted.', { type: 'error' })
             return;
         }
-
+        setLoading(true)
         const transformedQuotationItems = quotationItems.map(item => ({
             itemId: item._id,
             medicine_id: item.medicine_id,
@@ -102,11 +103,13 @@ const InquiryRequestDetails = () => {
         postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
+
                 setTimeout(() => {
                     navigate('/supplier/inquiry-purchase-orders/ongoing')
-                }, 1000);
-
+                }, 300);
+               setLoading(true)
             } else {
+                setLoading(false)
                 toast(response.message, { type: 'error' })
                 console.log('error in enquiry/submit-quotation api', response);
             }
@@ -191,8 +194,17 @@ const InquiryRequestDetails = () => {
             <div className='inquiry-details-button-section'>
                 {inquiryDetails?.enquiry_status === 'pending' && (
                 <>
-                    <div className='inquiry-details-submit-button' onClick={handleSubmitQuotation}>
-                        Submit Quotation
+                    <div 
+                    className='inquiry-details-submit-button' 
+                    onClick={handleSubmitQuotation}
+                    disabled={loading}
+                    >
+                        {/* Submit Quotation */}
+                        {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Submit Quotation'
+                            )}
                     </div>
                     <a href={mailtoLink} className='inquiry-details-cancel-button'>
                         Contact Buyer

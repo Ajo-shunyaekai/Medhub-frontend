@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const SupplierLogin = () => {
+    const [loading, setLoading] = useState(false);
     const [email, setEmail]               = useState('');
     const [password, setPassword]         = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -47,6 +48,7 @@ const SupplierLogin = () => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
+            setLoading(true)
             let obj = {
                 email,
                 password
@@ -69,15 +71,17 @@ const SupplierLogin = () => {
                     sessionStorage.setItem('token',response.result.token)
                     setTimeout(() => {
                         navigate("/supplier");
+                        setLoading(true)
                       }, 1000);
                 } else {
+                    setLoading(false)
                     toast(response.message, { type: "error" });
                     console.log('error while login')
                 }
             })
         }
     };
-
+console.log(loading);
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         if (errors.email) {
@@ -160,7 +164,18 @@ const SupplierLogin = () => {
                     </div>
                     <div className='login-form-main-buttons'>
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
-                        <button type='submit' className='login-form-main-login'>Login</button>
+                        <button 
+                        type='submit' 
+                        className='login-form-main-login'
+                        disabled={loading}
+                        >
+                            {/* Login */}
+                            {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Login'
+                            )}
+                            </button>
                     </div>
                 </form>
                 <div className="header__center">OR</div>

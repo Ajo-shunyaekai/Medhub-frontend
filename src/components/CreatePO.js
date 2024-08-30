@@ -166,6 +166,7 @@ const CreatePO = () => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
     const [poNumber, setPONumber] = useState();
@@ -271,7 +272,7 @@ const CreatePO = () => {
             navigate("/buyer/login");
             return;
         }
-        setButtonLoading(true)
+        setLoading(true)
         const updatedOrderItems = orderItems.map((item) => {
             const est_delivery_days = item.est_delivery_days
             const unitTax = item.medicine_details.unit_tax || 0;
@@ -302,13 +303,13 @@ const CreatePO = () => {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/buyer/inquiry-purchase-orders/purchased')
-                }, 500)
+                    setLoading(true)
+                }, 1000)
             } else {
-                setButtonLoading(false)
+                setLoading(false)
                 console.log('error in order list api', response);
                 toast(response.message, { type: 'error' })
             }
-            setButtonLoading(false)
         });
     };
 
@@ -610,28 +611,20 @@ const CreatePO = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                    {/* <button type='submit' className={styles['create-invoices-submit']}>Submit</button> */}
                     <button
-                        type='submit'
-                        className={styles['create-invoices-submit']}
-                        disabled={buttonLoading} // Disable the button while loading
-                        style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '10px',
-                        }}
-                    >
-                        {buttonLoading ? (
-                        <>
-                            <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-                            Submitting...
-                        </>
-                        ) : (
-                        'Submit'
-                        )}
-                    </button>
-                    <div className={styles['create-invoices-cancel']}>Cancel</div>
+                     type='submit'
+                      className={styles['create-invoices-submit']}
+                      disabled={loading}
+                      >
+                        {/* Submit */}
+                        {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Submit'
+                            )}
+                      </button>
+                    
+                    {/* <div className={styles['create-invoices-cancel']}>Cancel</div> */}
                 </div>
             </form>
         </div>

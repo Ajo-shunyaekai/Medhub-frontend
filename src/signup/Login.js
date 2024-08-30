@@ -12,6 +12,7 @@ import { ClipLoader } from 'react-spinners';
 
 
 const Login = () => {
+    const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,7 +47,7 @@ const Login = () => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            setButtonLoading(true)
+            setLoading(true)
             let obj = {
                 email,
                 password
@@ -70,13 +71,14 @@ const Login = () => {
                     sessionStorage.setItem('list_count', response.result.list_count)
                     setTimeout(() => {
                         navigate("/buyer");
+                        setLoading(true)
                     }, 500);
                 } else {
-                    setButtonLoading(false)
+                    setLoading(false)
                     toast(response.message, { type: "error" });
                     console.log('error while login')
                 }
-                setButtonLoading(false)
+                
             })
 
         }
@@ -166,27 +168,19 @@ const Login = () => {
                     <div className='login-form-main-buttons'>
                        
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
-                        {/* <button type='submit' className='login-form-main-login'>Login</button> */}
-                        <button
-                            type='submit'
-                            className='login-form-main-login'
-                            disabled={buttonLoading}
-                            style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '10px'
-                            }}
+                        <button 
+                        type='submit' 
+                        className='login-form-main-login'
+                        disabled={loading}
                         >
-                            {buttonLoading ? (
-                            <>
-                                <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-                                Logging in...
-                            </>
+                            {/* Login */}
+                            {loading ? (
+                                <div className='loading-spinner'></div> 
                             ) : (
-                            'Login'
+                                'Login'
                             )}
                         </button>
+                       
                     </div>
                 </form>
                 <div className="header__center">OR</div>

@@ -164,6 +164,7 @@ const EditCreatePO = () => {
     const { purchaseOrderId } = useParams()
     const navigate            = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [poDetails, setPoDetails] = useState();
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -237,6 +238,7 @@ const EditCreatePO = () => {
             navigate("/buyer/login");
             return;
         }
+        setLoading(true)
         const supplierId = poDetails?.supplier_details[0]?.supplier_id;  
         const enquiryId  = poDetails?.enquiry_id;    
 
@@ -252,8 +254,10 @@ const EditCreatePO = () => {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
                     navigate('/buyer/inquiry-purchase-orders/purchased')
+                    setLoading(true)
                 },1000)
             } else {
+                setLoading(false)
                 console.log('error in order list api', response);
                 toast(response.message, {type: 'error'})
             }
@@ -516,7 +520,18 @@ const EditCreatePO = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                <button type='submit' className={styles['create-invoices-submit']}>Edit</button>
+                <button 
+                type='submit' 
+                className={styles['create-invoices-submit']}
+                disabled={loading}
+                >
+                    {/* Edit */}
+                    {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Edit'
+                            )}
+                    </button>
                     <div className={styles['create-invoices-cancel']}>Cancel</div>
                    
                 </div>

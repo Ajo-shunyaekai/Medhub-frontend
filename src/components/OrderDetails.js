@@ -16,6 +16,7 @@ const OrderDetails = ({socket}) => {
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage = localStorage.getItem('buyer_id');
 
+    const [loading, setLoading] = useState(false);
     const [activeButton, setActiveButton] = useState('1h');
     const [orderDetails, setOrderDetails] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,12 +43,18 @@ const OrderDetails = ({socket}) => {
         setActiveButton(value);
     };
 
+    const onClose = () => {
+        setIsModalOpen(false)
+        setLoading(false)
+    }
+
     const handleModalSubmit = (data) => {
         console.log('Modal Data:', data);
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate('/buyer/login');
             return;
         }
+        setLoading(true)
         let type = '';
         if (data.doorToDoor) {
             type = 'door to door';
@@ -82,26 +89,25 @@ const OrderDetails = ({socket}) => {
         console.log('OBJ:', obj);
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
-                
-                // setOrderDetails((prevDetails) => ({
-                //     ...prevDetails,
-                //     order_status : 'Awaiting Details from Seller',
-                // }));
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
                         toast('Logistics Details Submitted Successfully', {type:'success'})
                         setOrderDetails(response.result);
+                        onClose()
+                        setLoading(false)
                         // socket.emit('bookLogisctics', {
                         //     supplierId: orderDetails?.supplier_id, 
                         //     message: 'Logisctics Booked',
                           
                         //   });
                     } else {
+                        setLoading(false)
                         toast(response.message, {type:'error'})
                         console.log('error in order details api');
                     }
                 });
             } else {
+                setLoading(false)
                 toast(response.message, {type:'error'})
                 console.log('Error updating order status');
             }
@@ -354,8 +360,12 @@ const OrderDetails = ({socket}) => {
             {/* End the assign driver section */}
             <CustomModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                // onClose={() => setIsModalOpen(false)}
+                // onClose={onClose}
+                setIsModalOpen = {setIsModalOpen}
                 onSubmit={handleModalSubmit}
+                setLoading ={setLoading}
+                loading = {loading}
             />
         </div>
     );

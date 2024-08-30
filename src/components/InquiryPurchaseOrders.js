@@ -147,4 +147,8 @@ const InquiryPurchaseOrder = () => {
     );
 }
 
+
+
+
+
 export default InquiryPurchaseOrder;

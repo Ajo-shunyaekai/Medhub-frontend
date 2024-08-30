@@ -12,6 +12,7 @@ const CancelInquiryList = () => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
     const [inquiryDetails, setInquiryDetails] = useState();
     const [selectedReasons, setSelectedReasons] = useState({
         UnavailableProduct: false,
@@ -45,6 +46,12 @@ const CancelInquiryList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const selectedReasonKey = Object.keys(selectedReasons).find(key => selectedReasons[key]);
+        if (!selectedReasonKey) {
+            toast("Please select a reason for cancelling the inquiry.", { type: "error" });
+            return; 
+        }
+        setLoading(true)
         const reasonMap = {
             UnavailableProduct: 'Unavailable product',
             IncorrectPricing: 'Incorrect pricing',
@@ -53,9 +60,7 @@ const CancelInquiryList = () => {
             ChangeInRequirement: 'Change in requirement',
             Other: 'Inquiry by mistake',
         };
-    
-        // Find the selected reason
-        const selectedReasonKey = Object.keys(selectedReasons).find(key => selectedReasons[key]);
+
         const reason = reasonMap[selectedReasonKey];
 
         const obj = {
@@ -66,30 +71,18 @@ const CancelInquiryList = () => {
             comment: text
         };
 
-        console.log('obj', obj);
-        // console.log('comment:', text);
-
         postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
         if (response.code === 200) {
             toast(response.message, { type: "success" });
             setTimeout(() => {
                 navigate(`/buyer/ongoing-inquiries-details/${inquiryId}`);
-               
+                setLoading(true)
             },1000)
           
-          
-        //   setInquiryDetails((prevDetails) => ({
-        //     ...prevDetails,
-        //     status: 'cancelled', 
-        //     items: prevDetails.items.map(item => ({
-        //       ...item,
-        //       status: 'cancelled' 
-        //     }))
-        //   }));
-          
         } else {
-          toast(response.message, { type: "error" });
-          console.log("error in cancel-enquiry api", response);
+            setLoading(true)
+            toast(response.message, { type: "error" });
+            console.log("error in cancel-enquiry api", response);
         }
       }
     );
@@ -154,7 +147,18 @@ const CancelInquiryList = () => {
                         </div>
                     </div>
                     <div className={styles.buttonContainer}>
-                        <button type="submit" className={styles.submitButton}>Cancel</button>
+                        <button
+                         type="submit" 
+                         className={styles.submitButton}
+                         disabled={loading}
+                         >
+                            {/* Cancel */}
+                            {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Cancel'
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

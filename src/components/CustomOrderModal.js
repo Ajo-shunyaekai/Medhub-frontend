@@ -11,7 +11,7 @@ import {
 import "react-country-state-city/dist/react-country-state-city.css";
 
 
-const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
+const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsModalOpen }) => {
     const [doorToDoor, setDoorToDoor] = useState(true);
     const [customClearance, setCustomClearance] = useState(false);
     const [transportMode, setTransportMode] = useState('');
@@ -70,7 +70,7 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
         }
         onSubmit({ doorToDoor, customClearance, transportMode, dropLocation });
         reset();
-        onClose();
+        // onClose();
     };
 
     const handleSelectChange = (value) => {
@@ -171,10 +171,14 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
 
     if (!isOpen) return null;
 
+    const handleClose = () => {
+        setIsModalOpen(false)
+    }
+
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <span className={styles.close} onClick={() => { onClose(); reset(); }}>&times;</span>
+                <span className={styles.close} onClick={handleClose}>&times;</span>
                 <div className={styles.modalHeading}>Book Logistics</div>
                 <div className={styles.modalCustomContent}>
                     <div className={styles['custom-modal-checkbox-sections']}>
@@ -336,15 +340,23 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit }) => {
                     </div>
                 </div>
                 <div className={styles.modalcustombuttonsec}>
-                    <button className={styles['custom-modal-label-button-section']} onClick={handleSubmit}>
-                        Request Seller for Further Details
+                    <button 
+                    className={styles['custom-modal-label-button-section']}
+                     onClick={handleSubmit}
+                     disabled={loading}
+                     >
+                        {/* Request Seller for Further Details */}
+                        {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Request Seller for Further Details'
+                            )}
                     </button>
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default CustomOrderModal;
 

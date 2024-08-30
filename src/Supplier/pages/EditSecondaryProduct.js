@@ -8,6 +8,8 @@ import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
 import { toast } from 'react-toastify';
+import { InputMask } from '@react-input/mask';
+import Loader from '../components/Loader';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -71,6 +73,7 @@ const EditSecondaryProduct = () => {
         { value: 'nutraceuticals', label: 'Nutraceutical' }
     ];
 
+    const [loading, setLoading] = useState(false);
     const [productType, setProductType] = useState({ value: 'secondary_market', label: 'Secondary Market' });
     const [formType, setFormType] = useState()
     const [productCategory, setProductCategory] = useState()
@@ -428,6 +431,10 @@ const EditSecondaryProduct = () => {
     const handleStockedInCountryChange = (index, selected) => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInCountry = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`stockedInCountry${index}`]: ''
+        }));
         setStockedInSections(updatedSections);
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -440,6 +447,10 @@ const EditSecondaryProduct = () => {
         if (/^\d*$/.test(value)) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [`stockedInQuantity${index}`]: ''
+            }));
             setStockedInSections(updatedSections);
             setFormData(prevFormData => ({
                 ...prevFormData,
@@ -515,6 +526,77 @@ const EditSecondaryProduct = () => {
         return Object.keys(formErrors).length === 0;
     }
 
+    const resetForm = () => {
+        setProductType({ value: 'secondary_market', label: 'Secondary Market' });
+        setFormType('');
+        setProductCategory('');
+        setCountryOfOrigin('');
+        setRegisteredCountries([]);
+        setStockedIn([]);
+        setAvailableCountries([]);
+        setMedicineImages([]);
+        setInvoiceImages([]);
+        setStockedInSections([
+            {
+                stockedInCountry: '',
+                stockedInQuantity: '',
+                stockedInType: 'Box',
+            }
+        ])
+        setManufacturerCountryOfOrigin('')
+        setDefaultRegisteredIn([])
+        setDefaultStockedIn([])
+        setDefaultCountryAvailableIn([])
+        setErrors({});
+        setFormData({
+            productName: '',
+            productType: { value: 'secondary_market', label: 'Secondary Market' },
+            composition: '',
+            strength: '',
+            unitTax: '',
+            typeOfForm: '',
+            shelfLife: '',
+            dossierType: '',
+            dossierStatus: '',
+            productCategory: '',
+            totalQuantity: '',
+            gmpApprovals: '',
+            shippingTime: '',
+            originCountry: '',
+            registeredIn: '',
+            stockedIn: '',
+            availableFor: '',
+            tags: '',
+            description: '',
+            product_image: '',
+            invoice_image: '',
+            purchasedOn: '',
+            minPurchaseUnit: '',
+            countryAvailableIn: '',
+            manufacturerName: '',
+            manufacturerOriginCountry: '',
+            manufacturerDescription: '',
+            stockedInData: '',
+            unitPrice: '',
+            pdtQuantity: '',
+            condition: ''
+        });
+        setFormSections([
+            {
+                strength: '',
+                quantity: null,
+                typeOfForm: null,
+                productCategory: null,
+                unitPrice: '',
+                totalPrice: '',
+                estDeliveryTime: '',
+                condition: '',
+                quantityNo: '',
+                unitPricee: ''
+            }
+        ])
+    };
+
     const handleSubmit = (e) => {
 
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -526,7 +608,7 @@ const EditSecondaryProduct = () => {
         }
         e.preventDefault()
         if (validateForm()) {
-
+            setLoading(true);
             const newFormData = new FormData()
             const secondaryFormData = new FormData()
             const registered = formData.registeredIn?.map(country => {
@@ -580,14 +662,18 @@ const EditSecondaryProduct = () => {
 
                 postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
                     if (response.code === 200) {
+                        resetForm()
+                        setLoading(false);
                         toast(response.message, { type: "success" });
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
                     } else {
+                        setLoading(false);
                         toast(response.message, { type: "error" });
                         console.log('error in new  /medicine/add-medicine');
                     }
+                    setLoading(false);
                 })
 
             } else if (productType && productType.label === 'Secondary Market') {
@@ -630,75 +716,27 @@ const EditSecondaryProduct = () => {
 
                 postRequestWithTokenAndFile('/medicine/edit-medicine', secondaryFormData, async (response) => {
                     if (response.code === 200) {
+                        resetForm()
+                        setLoading(false);
                         toast(response.message, { type: "success" });
 
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);
                     } else {
+                        setLoading(false);
                         toast(response.message, { type: "error" });
                         console.log('error in secondary  /medicine/add-medicine');
                     }
+                    setLoading(false);
                 })
             }
         } else {
+            setLoading(false);
             toast('Some Fields are Missing', { type: "error" });
             console.log('errorrrrr', formData);
         }
     }
-
-    const resetForm = () => {
-        setProductType({ value: 'new_product', label: 'New Product' });
-        setFormType('');
-        setProductCategory('');
-        setCountryOfOrigin('');
-        setRegisteredCountries([]);
-        setStockedIn([]);
-        setAvailableCountries([]);
-        setMedicineImages([]);
-        setInvoiceImages([]);
-        setErrors({});
-        setFormData({
-            productName: '',
-            productType: { value: 'new_product', label: 'New Product' },
-            composition: '',
-            strength: '',
-            typeOfForm: '',
-            shelfLife: '',
-            dossierType: '',
-            dossierStatus: '',
-            productCategory: '',
-            totalQuantity: '',
-            gmpApprovals: '',
-            shippingTime: '',
-            originCountry: '',
-            registeredIn: '',
-            stockedIn: '',
-            availableFor: '',
-            tags: '',
-            description: '',
-            product_image: '',
-            invoice_image: '',
-            purchasedOn: '',
-            minPurchaseUnit: '',
-            countryAvailableIn: ''
-        });
-        setFormSections([
-            {
-                strength: '',
-                quantity: null,
-                typeOfForm: null,
-                productCategory: null,
-                unitPrice: '',
-                totalPrice: '',
-                estDeliveryTime: '',
-                condition: '',
-                quantityNo: '',
-                unitPricee: ''
-            }
-        ])
-    };
-
     const handleCancel = () => {
         resetForm()
     }
@@ -723,11 +761,26 @@ const EditSecondaryProduct = () => {
                 newErrors[name] = '';
             }
         }
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit' || name === 'pdtQuantity') {
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
                 isValid = false;
             } else {
                 newErrors[name] = '';
+            }
+        } 
+        if (name === 'pdtQuantity') {
+            if (!/^\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'unitPrice') {
+            console.log('name',name);
+            if (!/^\d*\.?\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors.unitPrice = '';
             }
         }
         if (name === 'unitTax') {
@@ -735,6 +788,84 @@ const EditSecondaryProduct = () => {
                 isValid = false;
             } else {
                 newErrors.unitTax = '';
+            }
+        } else if (name === 'composition') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Composition is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'strength') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Strength is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'shelfLife') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Shelf Life is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'purchasedOn') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Purchased On is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        else if (name === 'dossierType') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Dossier Type  is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'gmpApprovals') {
+            if (value.trim() === '') {
+                newErrors[name] = 'GMP Approvals is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'shippingTime') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Shipping Time is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'availableFor') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Available For is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'tags') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Tags are required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerName') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerDescription') {
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
             }
         }
         if (isValid) {
@@ -880,14 +1011,17 @@ const [condition, setCondition] = useState()
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Purchased On</label>
-                                        <input
+                                        <InputMask
                                             className={styles['create-invoice-div-input']}
-                                            type='text'
+                                            type="text"
+                                            mask="dd-mm-yyyy" 
+                                            placeholder='DD-MM-YYYY'
                                             name='purchasedOn'
-                                            placeholder='Enter Purchased on'
+                                            // placeholder='Enter Purchased on'
                                             autoComplete='off'
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
+                                            replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
                                         />
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
                                     </div>
@@ -1312,7 +1446,8 @@ const [condition, setCondition] = useState()
                                                         value={formData.pdtQuantity}
                                                         onChange={handleChange}
                                                     />
-                                                    {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>}
+                                                    {/* {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>} */}
+                                                    {errors.pdtQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.pdtQuantity}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1325,9 +1460,10 @@ const [condition, setCondition] = useState()
                                                         value={formData.unitPrice}
                                                         onChange={handleChange}
                                                     />
-                                                     {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>
+                                                     {/* {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>
                                                         {errors[`unitPricee${index}`]}
-                                                        </div>}
+                                                        </div>} */}
+                                                        {errors.unitPrice && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitPrice}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Condition</label>
@@ -1338,7 +1474,8 @@ const [condition, setCondition] = useState()
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
-                                                    {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>}
+                                                    {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
+                                                    {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
                                                     
                                                 </div>
                                             </div>
@@ -1366,7 +1503,7 @@ const [condition, setCondition] = useState()
                                     name='manufacturerName'
                                     placeholder='Enter Manufacturer Name'
                                     autoComplete='off'
-                                    defaultValue={medicineDetails?.manufacturer_name}
+                                    defaultValue={formData?.manufacturerName}
                                     onChange={handleChange}
                                 />
                                 {errors.manufacturerName && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.manufacturerName}</div>}
@@ -1391,7 +1528,7 @@ const [condition, setCondition] = useState()
                                     name="manufacturerDescription"
                                     rows="4"
                                     cols="20"
-                                    defaultValue={medicineDetails?.manufacturer_description}
+                                    defaultValue={formData?.manufacturerDescription}
                                     placeholder='Enter About Manufacturer'
                                     onChange={handleChange}
                                 />
@@ -1422,8 +1559,19 @@ const [condition, setCondition] = useState()
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
-                            <button type="submit" className={styles['create-invoices-submit']}>Edit Product</button>
+                            <div className={styles['create-invoices-cancel']} 
+                            onClick={handleCancel}>Cancel</div>
+                            <button type="submit"
+                             className={styles['create-invoices-submit']}
+                             disabled={loading}
+                             >
+                                {/* Edit Product */}
+                                {loading ? (
+                    <div className={styles['loading-spinner']}></div> // Show spinner when loading
+                ) : (
+                    'Edit Product'
+                )}
+                                </button>
                         </div>
                     </form>
 

@@ -193,10 +193,13 @@ const AddProduct = () => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
-        if (name === 'unitPrice' || name === 'totalPrice' || name === 'estDeliveryTime' || name === 'unitPricee' || name === 'quantityNo') {
+        if (name === 'unitPrice' || name === 'totalPrice' ||  name === 'unitPricee' ) {
             if (!/^\d*\.?\d*$/.test(value)) {
                 isValid = false;
             }
+        }
+        if (name === 'estDeliveryTime' || name === 'quantityNo') {
+            isValid = /^\d*$/.test(value); 
         }
         if (isValid) {
             newFormSections[index][name] = value;
@@ -513,7 +516,7 @@ const AddProduct = () => {
             }
         } else if (name === 'productName' || name === 'dossierStatus') {
             if (!/^[a-zA-Z\s]*$/.test(value)) {
-                newErrors[name] = 'Only letters and spaces are allowed';
+                newErrors[name] = 'Only letters are allowed';
                 isValid = false;
             } else {
                 newErrors[name] = '';
@@ -882,6 +885,7 @@ const AddProduct = () => {
                         toast(response.message, { type: "error" });
                         console.log('error in new  /medicine/add-medicine');
                     }
+                    setLoading(false)
                 })
 
             } else if (productType && productType.label === 'Secondary Market') {
@@ -937,6 +941,7 @@ const AddProduct = () => {
                         toast(response.message, { type: "error" });
                         console.log('error in secondary  /medicine/add-medicine');
                     }
+                    setLoading(false)
                     // setButtonLoading(false)
                 })
             }
@@ -1024,6 +1029,7 @@ const AddProduct = () => {
                 toast(response.message, { type: "error" });
                 console.log('error in get-medicine-by-name api');
             }
+            setLoading(false)
         });
     }, 500);
 
@@ -1038,9 +1044,9 @@ const AddProduct = () => {
 
     return (
         <>
-         {loading ? (
+         {/* {loading ? (
                      <Loader />
-                ) : (
+                ) : ( */}
             <div className={styles['create-invoice-container']}>
                 <ToastContainer />
                 <div className={styles['create-invoice-heading']}>Add Product</div>
@@ -1660,29 +1666,19 @@ const AddProduct = () => {
                         </div>
 
                         <div className={styles['craete-invoices-button']}>
-                            <button type='submit' className={styles['create-invoices-submit']}>Add Product</button>
-                            {/* <button
-                                type='submit'
-                                className={styles['create-invoices-submit']}
-                                disabled={buttonLoading} // Disable button while loading
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '10px',
-                                    opacity: buttonLoading ? 0.5 : 1, // Optionally adjust opacity when loading
-                                    cursor: buttonLoading ? 'not-allowed' : 'pointer', // Adjust cursor style
-                                }}
+                            <button 
+                            type='submit'
+                            className={styles['create-invoices-submit']}
+                            disabled={loading}
                             >
-                                {buttonLoading ? (
-                                <>
-                                    <ClipLoader size={20} color={"#ffffff"} loading={buttonLoading} />
-                                    Adding...
-                                </>
-                                ) : (
+                                {/* Add Product */}
+                                {loading ? (
+                                <div className={styles['loading-spinner']}></div> 
+                            ) : (
                                 'Add Product'
-                                )}
-                            </button> */}
+                            )}
+                            </button>
+                            
                             <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
@@ -1690,7 +1686,7 @@ const AddProduct = () => {
                 </div>
 
             </div>
-            )}
+            {/* )} */}
         </>
     );
 };
