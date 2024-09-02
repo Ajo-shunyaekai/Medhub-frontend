@@ -312,6 +312,14 @@ const AddProduct = () => {
         if (formSections.length > 1) {
             const newFormSections = formSections.filter((_, i) => i !== index);
             setFormSections(newFormSections);
+
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                quantity: prevFormData.quantity.filter((_, i) => i !== index),
+                unitPrice: prevFormData.unitPrice.filter((_, i) => i !== index),
+                totalPrice: prevFormData.totalPrice.filter((_, i) => i !== index),
+                estDeliveryTime: prevFormData.estDeliveryTime.filter((_, i) => i !== index),
+            }));
         }
     };
 
@@ -672,7 +680,6 @@ console.log('FORMDATA',formData);
                 const quantities = formData.quantity?.map(qty => {
                     return qty ? qty?.label : ''
                 })
-               
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);

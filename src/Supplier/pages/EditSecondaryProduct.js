@@ -86,6 +86,7 @@ const EditSecondaryProduct = () => {
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
     const [stockedInOptions, setStockedInOptions] = useState([])
     const [packageType, setPackageType] = useState('Box');
+    const [condition, setCondition] = useState()
 
   
     const [errors, setErrors] = useState({});
@@ -249,7 +250,7 @@ const EditSecondaryProduct = () => {
                     }));
                 }
             });
-            if (newProductValid && productType.label === 'New Product') {
+            if (newProductValid) {
                 setFormSections([
                     ...formSections,
                     {
@@ -271,6 +272,14 @@ const EditSecondaryProduct = () => {
         if (formSections.length > 1) {
             const newFormSections = formSections.filter((_, i) => i !== index);
             setFormSections(newFormSections);
+
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                quantity: prevFormData.quantity.filter((_, i) => i !== index),
+                unitPrice: prevFormData.unitPrice.filter((_, i) => i !== index),
+                totalPrice: prevFormData.totalPrice.filter((_, i) => i !== index),
+                estDeliveryTime: prevFormData.estDeliveryTime.filter((_, i) => i !== index),
+            }));
         }
     };
 
@@ -341,7 +350,12 @@ const EditSecondaryProduct = () => {
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
-                setCondition(result?.condition)
+                // setCondition(result?.condition)
+                setCondition(
+                    result?.condition
+                        ? { label: result?.condition, value: result?.condition }
+                        : null // Default to null if no condition is found
+                );
                
             } else {
                console.log('error in med details api');
@@ -615,6 +629,10 @@ const EditSecondaryProduct = () => {
                 return country ? country.label : '';
             }) || [];
 
+            const quantities = formData.quantity?.map(qty => {
+                return qty ? qty?.label : ''
+            })
+
             const stocked = formData.stockedIn?.map(country => {
                 return country ? country.label : '';
             }) || []
@@ -626,9 +644,7 @@ const EditSecondaryProduct = () => {
             }));
             if (productType && productType.label === 'New Product') {
 
-                const quantities = formData.quantity?.map(qty => {
-                    return qty ? qty?.label : ''
-                })
+               
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);
@@ -689,6 +705,7 @@ const EditSecondaryProduct = () => {
                 countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
                 secondaryFormData.append('strength', formData.strength);
                 secondaryFormData.append('unit_tax', formData.unitTax);
+                secondaryFormData.append('total_quantity', formData.totalQuantity);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
                 secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
@@ -704,9 +721,13 @@ const EditSecondaryProduct = () => {
                 secondaryFormData.append('available_for', formData.availableFor);
                 secondaryFormData.append('tags', formData.tags);
                 secondaryFormData.append('description', formData.description);
-                secondaryFormData.append('quantity', formData.pdtQuantity);
-                secondaryFormData.append('unit_price', formData.unitPrice);
-                secondaryFormData.append('condition', formData.condition?.label);
+                // secondaryFormData.append('quantity', formData.pdtQuantity);
+                // secondaryFormData.append('unit_price', formData.unitPrice);
+                quantities.forEach(item => secondaryFormData.append('quantity[]', item));
+                formData.unitPrice.forEach(price => secondaryFormData.append('unit_price[]', price));
+                formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
+                formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
+                secondaryFormData.append('condition', condition?.label);
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -961,15 +982,17 @@ const EditSecondaryProduct = () => {
         }));
         const options = selectedOptions.map(option => ({ label: option.label }));
     };
-const [condition, setCondition] = useState()
-    const handleConditionChange = (selected) => {
-        setCondition(selected)
-        setFormData(prevState => ({ ...prevState, condition: selected }));
-        if (!selected) {
-            setErrors(prevState => ({ ...prevState, condition: 'Condition is Required' }));
-        } else {
-            setErrors(prevState => ({ ...prevState, condition: '' }));
-        }
+
+     const handleConditionChange = (selected) => {
+        const selectedValue = selected ? selected.label : ''; 
+        setCondition(selected);
+        // setFormData(prevState => ({ ...prevState, condition: selectedValue }));
+    
+        // if (!selectedValue) {
+        //     setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
+        // } else {
+        //     setErrors(prevState => ({ ...prevState, condition: '' }));
+        // }
     };
 
     return (
@@ -1024,6 +1047,18 @@ const [condition, setCondition] = useState()
                                             replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
                                         />
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Condition</label>
+                                        <Select
+                                            className={styles['create-invoice-div-input-select']}
+                                            value={condition}
+                                            onChange={ handleConditionChange}
+                                            options={conditionOptions}
+                                            placeholder="Select Condition"
+                                        />
+                                        {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
+                                        {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available In</label>
@@ -1153,7 +1188,7 @@ const [condition, setCondition] = useState()
                                 />
                                 {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
-                            {productType && productType.value === 'new_product' && (
+                            {/* {productType && productType.value === 'new_product' && ( */}
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Total Quantity</label>
@@ -1169,7 +1204,7 @@ const [condition, setCondition] = useState()
                                         {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
-                            )}
+                            {/* )} */}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
                                 <input
@@ -1375,13 +1410,13 @@ const [condition, setCondition] = useState()
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
                                     <span className={styles['create-invoice-add-item-button']} 
-                                    // onClick={addFormSection}
+                                    onClick={addFormSection}
                                     >Add More</span>
                                 </div>
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
 
-                                        {productType && productType.value === 'new_product' && (
+                                        {/* {productType && productType.value === 'new_product' && ( */}
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
@@ -1433,8 +1468,9 @@ const [condition, setCondition] = useState()
                                                     {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
                                             </div>
-                                        )}
-                                        {productType && productType.value === 'secondary_market' && (
+                                        {/* )} */}
+
+                                        {/* {productType && productType.value === 'secondary_market' && (
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
@@ -1446,7 +1482,7 @@ const [condition, setCondition] = useState()
                                                         value={formData.pdtQuantity}
                                                         onChange={handleChange}
                                                     />
-                                                    {/* {errors[`quantityNo${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantityNo${index}`]}</div>} */}
+                                                   
                                                     {errors.pdtQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.pdtQuantity}</div>}
                                                 </div>
 
@@ -1460,9 +1496,7 @@ const [condition, setCondition] = useState()
                                                         value={formData.unitPrice}
                                                         onChange={handleChange}
                                                     />
-                                                     {/* {errors[`unitPricee${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>
-                                                        {errors[`unitPricee${index}`]}
-                                                        </div>} */}
+                                                     
                                                         {errors.unitPrice && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitPrice}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1474,12 +1508,12 @@ const [condition, setCondition] = useState()
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
-                                                    {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
+                                                    
                                                     {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
                                                     
                                                 </div>
                                             </div>
-                                        )}
+                                        )} */}
                                         {formSections.length > 1 && (
                                             <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
                                                 <CloseIcon />

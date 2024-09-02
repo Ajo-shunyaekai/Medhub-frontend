@@ -46,24 +46,29 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Unit Price :</div>
                                 <div className='search-details-card-test-text'>
-                                {search?.inventory_info?.map((item) => item.unit_price).join(', ')} AED
+                                {search?.inventory_info?.[0]?.unit_price} AED
                                     </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Total Quantity :</div>
                                 <div className='search-details-card-test-text'>
-                                   {search?.total_quantity}
+                                   {search?.inventory_info?.[0]?.quantity}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Delivery Time :</div>
                                 <div className='search-details-card-test-text'>
-                                {search?.inventory_info?.map((item) => item.est_delivery_days).join(', ')}
+                                {/* {search?.inventory_info?.map((item) => item.est_delivery_days).join(', ')} */}
+                                {search?.inventory_info?.[0]?.est_delivery_days 
+                                    ? search.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
+                                        ? search.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
+                                        : `${search.inventory_info[0].est_delivery_days} Days`
+                                    : 'N/A'}
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Country Available in :</div>
-                                <div className='search-details-card-test-text'>{search?.stocked_in?.join(', ')}</div>
+                                <div className='search-details-card-test-text'>{search.country_available_in?.join(', ') || search.stocked_in?.join(', ')}</div>
                             </div>
                             {/* <Link to='/market-product-details'>
                                 <div className='search-details-inner-card-button-sec'>

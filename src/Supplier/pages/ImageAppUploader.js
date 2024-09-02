@@ -68,6 +68,7 @@ const ImageUploaders = ({ image, setImage}) => {
 
 
 const handleImageUpload = (event) => {
+    console.log('yess');
     const files = event.target.files;
     const newImages = [];
     let count = images.length;

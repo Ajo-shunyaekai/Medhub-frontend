@@ -219,6 +219,7 @@ const ProductDetails = () => {
                                 })
                             }
                         </div>
+                        
                         <div className='product-details-container'>
                             <div className="product-details-country-section">
                                 <div className="product-details-county">

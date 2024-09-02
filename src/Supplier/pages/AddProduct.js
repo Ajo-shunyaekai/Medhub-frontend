@@ -83,6 +83,7 @@ const AddProduct = () => {
     const [loading, setLoading] = useState(false);
     const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' },);
     const [formType, setFormType] = useState()
+    const [condition, setCondition] = useState()
     const [productCategory, setProductCategory] = useState()
     const [countryOfOrigin, setCountryOfOrigin] = useState('')
     const [registeredCountries, setRegisteredCountries] = useState([])
@@ -123,6 +124,7 @@ const AddProduct = () => {
         purchasedOn: '',
         minPurchaseUnit: '',
         countryAvailableIn: '',
+        condition : '',
         manufacturerName: '',
         manufacturerOriginCountry: '',
         manufacturerDescription: '',
@@ -134,23 +136,8 @@ const AddProduct = () => {
         setCountries(countryOptions);
     }, []);
 
-    const handleConditionChange = (index, selected) => {
-        const newFormSections = [...formSections];
-        newFormSections[index].condition = selected;
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [`condition${index}`]: ''
-        }));
-        const conditions = newFormSections.map(section => section.condition);
-        setFormData({
-            ...formData,
-            condition: conditions
-        });
-        setFormSections(newFormSections);
-    };
-
     const handleQuantityChange = (index, selected) => {
-        if (productType.label === 'New Product') {
+        // if (productType.label === 'New Product') {
             const newFormSections = [...formSections];
             newFormSections[index].quantity = selected;
             setErrors(prevErrors => ({
@@ -163,7 +150,7 @@ const AddProduct = () => {
                 quantity: quantities
             });
             setFormSections(newFormSections);
-        }
+        // }
     };
 
     const handleStockedInCountryChange = (index, selected) => {
@@ -218,7 +205,7 @@ const AddProduct = () => {
                 [`${name}${index}`]: ''
             }));
 
-            if (productType.label === 'New Product') {
+            // if (productType.label === 'New Product') {
                 const unitPrices = newFormSections.map(section => section.unitPrice);
                 const totalPrices = newFormSections.map(section => section.totalPrice);
                 const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
@@ -229,15 +216,15 @@ const AddProduct = () => {
                     totalPrice: totalPrices,
                     estDeliveryTime: estDeliveryTimes
                 });
-            } else {
-                const unitPrices = newFormSections.map(section => section.unitPricee);
-                const quantities = newFormSections.map(section => section.quantityNo);
-                setFormData({
-                    ...formData,
-                    unitPricee: unitPrices,
-                    quantityNo: quantities,
-                });
-            }
+            // } else {
+            //     const unitPrices = newFormSections.map(section => section.unitPricee);
+            //     const quantities = newFormSections.map(section => section.quantityNo);
+            //     setFormData({
+            //         ...formData,
+            //         unitPricee: unitPrices,
+            //         quantityNo: quantities,
+            //     });
+            // }
             setFormSections(newFormSections);
         }
     };
@@ -246,7 +233,7 @@ const AddProduct = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
 
-        if (productType && productType.label === 'New Product') {
+        // if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
                     newProductValid = false;
@@ -260,7 +247,7 @@ const AddProduct = () => {
                     }));
                 }
             });
-            if (newProductValid && productType.label === 'New Product') {
+            if (newProductValid ) {
                 setFormSections([
                     ...formSections,
                     {
@@ -276,33 +263,33 @@ const AddProduct = () => {
 
                 setErrors({});
             }
-        } else if (productType && productType.label === 'Secondary Market') {
+        // } else if (productType && productType.label === 'Secondary Market') {
 
-            formSections.forEach((section, index) => {
-                if (!section.quantityNo || !section.unitPrice || !section.condition) {
-                    secondaryMarketValue = false;
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
-                        [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
-                        [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
+        //     formSections.forEach((section, index) => {
+        //         if (!section.quantityNo || !section.unitPrice || !section.condition) {
+        //             secondaryMarketValue = false;
+        //             setErrors(prevErrors => ({
+        //                 ...prevErrors,
+        //                 [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
+        //                 [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
+        //                 [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
 
-                    }));
-                }
-            });
-            if (secondaryMarketValue && productType.label === 'Secondary Market') {
-                setFormSections([
-                    ...formSections,
-                    {
-                        id: formSections.length,
-                        quantityNo: '',
-                        unitPricee: '',
-                        condition: ''
-                    }
-                ]);
-                setErrors({});
-            }
-        }
+        //             }));
+        //         }
+        //     });
+        //     if (secondaryMarketValue && productType.label === 'Secondary Market') {
+        //         setFormSections([
+        //             ...formSections,
+        //             {
+        //                 id: formSections.length,
+        //                 quantityNo: '',
+        //                 unitPricee: '',
+        //                 condition: ''
+        //             }
+        //         ]);
+        //         setErrors({});
+        //     }
+        // }
     };
 
     const addStockedInSection = () => {
@@ -379,6 +366,19 @@ const AddProduct = () => {
             setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
         }
     };
+
+    const handleConditionChange = (selected) => {
+        const selectedValue = selected ? selected.label : ''; 
+        setCondition(selected);
+        setFormData(prevState => ({ ...prevState, condition: selectedValue }));
+    
+        if (!selectedValue) {
+            setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, condition: '' }));
+        }
+    };
+    
 
     const handleProductCategoryChange = (selected) => {
         setProductCategory(selected)
@@ -459,54 +459,11 @@ const AddProduct = () => {
         return placeholderButtonLabel;
     };
 
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target;
-    //     let newErrors = {};
-    //     let isValid = true;
-
-    //     if (name === 'description') {
-    //         if (value.length > 1000) {
-    //             newErrors.description = 'Description cannot exceed 1000 characters';
-    //             isValid = false;
-    //         } else {
-    //             newErrors.description = '';
-    //         }
-    //     }
-    //     else if (name === 'productName' || name === 'dossierStatus') {
-    //         if (!/^[a-zA-Z\s]*$/.test(value)) {
-    //             isValid = false;
-    //         } else {
-    //             newErrors[name] = '';
-    //         }
-    //     }
-    //     else if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
-    //         if (!/^\d*$/.test(value)) {
-    //             isValid = false;
-    //         } else {
-    //             newErrors[name] = '';
-    //         }
-    //     }
-    //     else if (name === 'unitTax') {
-    //         if (!/^\d*\.?\d*$/.test(value)) {
-    //             isValid = false;
-    //         } else {
-    //             newErrors.unitTax = '';
-    //         }
-    //     }
-    //     if (isValid) {
-    //         setFormData(prevState => ({ ...prevState, [name]: value }));
-    //         setErrors(prevState => ({ ...prevState, ...newErrors }));
-    //     }
-    //     setErrors(prevState => ({ ...prevState, ...newErrors }));
-    // };
-
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-    
-        // Validate based on the field
+
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -623,7 +580,6 @@ const AddProduct = () => {
         setErrors(newErrors);
     };
     
-
     useEffect(() => {
         setFormData({
             ...formData,
@@ -667,9 +623,9 @@ const AddProduct = () => {
         if (!formData.shelfLife) formErrors.shelfLife = 'Shelf Life is Required';
         if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
         if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
-        if (productType && productType.label === 'New Product') {
+        // if (productType && productType.label === 'New Product') {
             if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
-        }
+        // }
 
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
         if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
@@ -686,20 +642,27 @@ const AddProduct = () => {
         if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
         if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
 
-        if (productType && productType.label === 'New Product') {
-            formSections.forEach((section, index) => {
-                if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
-                if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
-                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
-                if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
-            });
-        } else if (productType && productType.label === 'Secondary Market') {
-            formSections.forEach((section, index) => {
-                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
-                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
-                if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
-            });
-        }
+        formSections.forEach((section, index) => {
+            if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
+            if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
+            if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+            if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
+        });
+
+        // if (productType && productType.label === 'New Product') {
+        //     formSections.forEach((section, index) => {
+        //         if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
+        //         if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
+        //         if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+        //         if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
+        //     });
+        // } else if (productType && productType.label === 'Secondary Market') {
+        //     formSections.forEach((section, index) => {
+        //         if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
+        //         if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
+        //         if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
+        //     });
+        // }
 
         if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
 
@@ -716,6 +679,7 @@ const AddProduct = () => {
             if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
             if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
             if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
+            if (!formData.condition) formErrors.condition = 'Condition is Required';
             if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
         }
 
@@ -824,6 +788,10 @@ const AddProduct = () => {
                 return country ? country.label : '';
             }) || [];
 
+            const quantities = formData.quantity?.map(qty => {
+                return qty ? qty?.label : ''
+            })
+
             const stocked = formData.stockedIn?.map(country => {
                 return country ? country.label : '';
             }) || []
@@ -834,10 +802,6 @@ const AddProduct = () => {
                 stocked_in_type: section.stockedInType || ''
             }));
             if (productType && productType.label === 'New Product') {
-
-                const quantities = formData.quantity?.map(qty => {
-                    return qty ? qty?.label : ''
-                })
 
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 newFormData.append('medicine_name', formData.productName);
@@ -902,7 +866,7 @@ const AddProduct = () => {
                 secondaryFormData.append('strength', formData.strength);
                 secondaryFormData.append('unit_tax', formData.unitTax);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
-
+                secondaryFormData.append('total_quantity', formData.totalQuantity);
                 secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
                 secondaryFormData.append('shelf_life', formData.shelfLife);
@@ -917,9 +881,17 @@ const AddProduct = () => {
                 secondaryFormData.append('available_for', formData.availableFor);
                 secondaryFormData.append('tags', formData.tags);
                 secondaryFormData.append('description', formData.description);
-                secondaryFormData.append('quantity', formData.quantityNo.join(','));
-                secondaryFormData.append('unit_price', formData.unitPricee);
-                secondaryFormData.append('condition', formData.condition[0].value);
+                // secondaryFormData.append('quantity', formData.quantityNo.join(','));
+                // secondaryFormData.append('unit_price', formData.unitPricee);
+
+                // formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
+                // formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
+                // formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
+                quantities.forEach(item => secondaryFormData.append('quantity[]', item));
+                formData.unitPrice.forEach(price => secondaryFormData.append('unit_price[]', price));
+                formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
+                formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
+                secondaryFormData.append('condition', formData.condition);
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -1100,6 +1072,18 @@ const AddProduct = () => {
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Condition</label>
+                                        <Select
+                                            className={styles['create-invoice-div-input-select']}
+                                            value={condition}
+                                            onChange={ handleConditionChange}
+                                            options={conditionOptions}
+                                            placeholder="Select Condition"
+                                        />
+                                        {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
+                                        {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available in</label>
                                         <MultiSelectDropdown
                                             options={countries}
@@ -1177,6 +1161,7 @@ const AddProduct = () => {
                                 />
                                 {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
+                            
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
                                 <input
@@ -1230,7 +1215,7 @@ const AddProduct = () => {
                                 {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
 
-                            {productType && productType.value === 'new_product' && (
+                            {/* {productType && productType.value === 'new_product' && ( */}
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Total Quantity</label>
@@ -1246,7 +1231,7 @@ const AddProduct = () => {
                                         {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
-                            )}
+                            {/* )} */}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
                                 <input
@@ -1455,22 +1440,22 @@ const AddProduct = () => {
                         {/* inventory section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
-                                {productType && productType.value === 'new_product' && (
+                                {/* {productType && productType.value === 'new_product' && ( */}
                                     <div className={styles['create-invoice-add-item-cont']}>
                                         <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
                                         <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
                                     </div>
-                                )}
+                                {/* )} */}
 
-                                {productType && productType.value === 'secondary_market' && (
+                                {/* {productType && productType.value === 'secondary_market' && (
                                     <div className={styles['create-invoice-add-item-cont']}>
                                         <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
                                     </div>
-                                )}
+                                )} */}
 
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container-add-product']} key={index}>
-                                        {productType && productType.value === 'new_product' && (
+                                        {/* {productType && productType.value === 'new_product' && ( */}
                                             <div className={styles['add-product-main-section-container']}>
                                                 <div className={styles['create-invoice-new-product-section-containers']}>
                                                     <div className={styles['create-invoice-div-container']}>
@@ -1532,9 +1517,9 @@ const AddProduct = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                        )}
+                                        {/* )} */}
 
-                                        {productType && productType.value === 'secondary_market' && (
+                                        {/* {productType && productType.value === 'secondary_market' && (
                                             <div className={styles['add-product-main-section-container']}>
                                                 <div className={styles['create-invoice-new-product-section-containers']}>
                                                     <div className={styles['create-invoice-div-container']}>
@@ -1582,7 +1567,7 @@ const AddProduct = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                        )}
+                                        )} */}
                                     </div>
                                 ))}
                             </div>
