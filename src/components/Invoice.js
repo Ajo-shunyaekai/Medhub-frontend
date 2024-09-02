@@ -144,8 +144,6 @@ const Invoice = () => {
         }
     };
     
-
-console.log('activeIndex',activeIndex);
     const handleLinkClick = (link) => {
         setCurrentPage(1);
         switch (link) {

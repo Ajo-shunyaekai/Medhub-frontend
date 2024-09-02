@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import  '../../style/pendingInvoice.css';
@@ -16,34 +16,84 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
 
     const navigate = useNavigate()
 
+    const [selectedInvoiceId, setSelectedInvoiceId] = useState()
+    const [selectedOrderId, setSelectedOrderId] = useState()
+
     const [showModal, setShowModal] = useState(false);
-    const handleShowModal = () => setShowModal(true);
+
+    const handleModal = (invoiceId, orderId) => {
+        setSelectedInvoiceId(invoiceId)
+        setSelectedOrderId(orderId)
+        setShowModal(true)
+    };
     const handleCloseModal = () => setShowModal(false);
 
     //invoice download
-    const handleDownload = (invoice) => {
-        const element = document.createElement('div');
-        document.body.appendChild(element);
+    // const handleDownload = (invoice) => {
+    //     const element = document.createElement('div');
+    //     document.body.appendChild(element);
 
-        // Render the InvoiceTemplate with the given invoice data
-        ReactDOM.render(<InvoiceTemplate invoice={invoice} />, element);
+    //     // Render the InvoiceTemplate with the given invoice data
+    //     ReactDOM.render(<InvoiceTemplate invoice={invoice} />, element);
 
-        // Set options for html2pdf
-        const options = {
-            margin: 0.5,
-            filename: `invoice_${invoice.invoice_number}.pdf`,
-            image: { type: 'jpeg', quality: 1.00 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
+    //     // Set options for html2pdf
+    //     const options = {
+    //         margin: 0.5,
+    //         filename: `invoice_${invoice.invoice_number}.pdf`,
+    //         image: { type: 'jpeg', quality: 1.00 },
+    //         html2canvas: { scale: 2 },
+    //         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    //     };
 
-        // Generate PDF
-        html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
-            // Clean up the temporary container
-            ReactDOM.unmountComponentAtNode(element);
-            document.body.removeChild(element);
-        });
+    //     // Generate PDF
+    //     html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
+    //         // Clean up the temporary container
+    //         ReactDOM.unmountComponentAtNode(element);
+    //         document.body.removeChild(element);
+    //     });
+    // };
+
+    const iframeRef = useRef(null);
+
+    const handleDownload = (invoiceId) => {
+        const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
+        if (iframeRef.current) {
+            
+            iframeRef.current.src = invoiceUrl;
+        }
     };
+
+    useEffect(() => {
+        const iframe = iframeRef.current;
+
+        if (iframe) {
+            const handleIframeLoad = () => {
+                setTimeout(() => {
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    const element = iframeDocument.getElementById('invoice-content');
+                    if (element) {
+                        const options = {
+                            margin: 0.5,
+                            filename: `invoice_${iframeDocument.title}.pdf`,
+                            image: { type: 'jpeg', quality: 1.00 },
+                            html2canvas: { scale: 2 },
+                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+
+                        html2pdf().from(element).set(options).save();
+                    } else {
+                        console.error('Invoice content element not found');
+                    }
+                }, 500);
+            };
+
+            iframe.addEventListener('load', handleIframeLoad);
+
+            return () => {
+                iframe.removeEventListener('load', handleIframeLoad);
+            };
+        }
+    }, []);
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -101,7 +151,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                             </td>
                                             <td className='pending-invoices-td'>
                                                 <div className='invoice-details-button-row'>
-                                                    <div className='invoice-details-button-column-pay' onClick={handleShowModal}>
+                                                    <div className='invoice-details-button-column-pay' onClick={() => {handleModal(invoice.invoice_id, invoice.order_id)}}>
                                                         <span
                                                             className='invoices-details-button-pay'
                                                             variant="primary"
@@ -111,15 +161,21 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                         </span>
                                                     </div>
 
-                                                    <PayModal showModal={showModal} handleClose={handleCloseModal} />
+                                                    <PayModal 
+                                                       showModal={showModal} 
+                                                       handleClose={handleCloseModal}  
+                                                       invoiceId = {selectedInvoiceId}
+                                                       orderId = {selectedOrderId}
+                                                    />
                                                     <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                                         <div className='invoice-details-button-column'>
                                                             <VisibilityOutlinedIcon className='invoice-view' />
                                                         </div>
                                                     </Link>
-                                                    <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice)}>
+                                                    <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice.invoice_id)}>
                                                         <CloudDownloadOutlinedIcon className='invoice-view' />
                                                     </div>
+                                                    <iframe ref={iframeRef} style={{ display: 'none' }} title="invoice-download-iframe"></iframe>
 
                                                 </div>
                                             </td>

@@ -15,7 +15,7 @@ const injectStyles = () => {
     document.head.appendChild(style);
 };
 
-function PayModal({ showModal, handleClose }) {
+function PayModal({ showModal, handleClose, invoiceId, orderId }) {
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [chequeImage, setChequeImage] = useState(null);
 

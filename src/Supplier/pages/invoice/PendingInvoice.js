@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import styles from '../../style/pendingInvoice.css';
@@ -50,29 +50,71 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
     // };
 
      //invoice download
-     const handleDownload = (invoice) => {
-        const element = document.createElement('div');
-        document.body.appendChild(element);
+    //  const handleDownload = (invoice) => {
+    //     const element = document.createElement('div');
+    //     document.body.appendChild(element);
 
-        // Render the InvoiceTemplate with the given invoice data
-        ReactDOM.render(<InvoiceDesign invoice={invoice} />, element);
+    //     // Render the InvoiceTemplate with the given invoice data
+    //     ReactDOM.render(<InvoiceDesign invoice={invoice} />, element);
 
-        // Set options for html2pdf
-        const options = {
-            margin: 0.5,
-            filename: `invoice_${invoice.invoice_number}.pdf`,
-            image: { type: 'jpeg', quality: 1.00 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
+    //     // Set options for html2pdf
+    //     const options = {
+    //         margin: 0.5,
+    //         filename: `invoice_${invoice.invoice_number}.pdf`,
+    //         image: { type: 'jpeg', quality: 1.00 },
+    //         html2canvas: { scale: 2 },
+    //         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    //     };
 
-        // Generate PDF
-        html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
-            // Clean up the temporary container
-            ReactDOM.unmountComponentAtNode(element);
-            document.body.removeChild(element);
-        });
+    //     // Generate PDF
+    //     html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
+    //         // Clean up the temporary container
+    //         ReactDOM.unmountComponentAtNode(element);
+    //         document.body.removeChild(element);
+    //     });
+    //  };
+
+     const iframeRef = useRef(null);
+
+     const handleDownload = (invoiceId) => {
+         const invoiceUrl = `/supplier/invoice-design/${invoiceId}`;
+         if (iframeRef.current) {
+             
+             iframeRef.current.src = invoiceUrl;
+         }
      };
+ 
+     useEffect(() => {
+         const iframe = iframeRef.current;
+ 
+         if (iframe) {
+             const handleIframeLoad = () => {
+                 setTimeout(() => {
+                     const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                     const element = iframeDocument.getElementById('invoice-content');
+                     if (element) {
+                         const options = {
+                             margin: 0.5,
+                             filename: `invoice_${iframeDocument.title}.pdf`,
+                             image: { type: 'jpeg', quality: 1.00 },
+                             html2canvas: { scale: 2 },
+                             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                         };
+ 
+                         html2pdf().from(element).set(options).save();
+                     } else {
+                         console.error('Invoice content element not found');
+                     }
+                 }, 500);
+             };
+ 
+             iframe.addEventListener('load', handleIframeLoad);
+ 
+             return () => {
+                 iframe.removeEventListener('load', handleIframeLoad);
+             };
+         }
+     }, []);
 
     return (
         <div className='pending-invo-container' >
@@ -119,9 +161,11 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                                             </div>
                                                         </Link>
-                                                        <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice.order_id)}>
+                                                        <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice.invoice_id)}>
                                                             <CloudDownloadOutlinedIcon className='invoice-view' />
                                                         </div>
+
+                                                        <iframe ref={iframeRef} style={{ display: 'none' }} title="invoice-download-iframe"></iframe>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -131,46 +175,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             })
                         ) : (
                             <>
-                            <p>No Pending Invoices</p>
-                            {/* {
-                                invoiceListt.map((invoice, i) => (
-                                    <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
-                                        <tr className='table-row v-middle'>
-                                            <td>
-                                                <span className="item-title">{invoice.invoice_no}</span>
-                                            </td>
-                                            <td>
-                                                <span className="item-title">{invoice.order_id}</span>
-                                            </td>
-                                            <td>
-                                                <div className="mx-0">
-                                                    <span className="item-title text-color">{invoice.customer_name}</span>
-                                                </div>
-                                            </td>
-                                            <td className="flex">
-                                                <span className="item-title text-color">{invoice.order_amount}</span>
-                                            </td>
-                                            <td className="flex">
-                                                <span className="item-title text-color">{invoice.order_status}</span>
-                                            </td>
-                                            <td className='pending-invoices-td'>
-                                                <div className='invoice-details-button-row'>
-                                                    <Link to='/supplier/invoice-design'>
-                                                        <div className='invoice-details-button-column'>
-                                                            <VisibilityOutlinedIcon className='invoice-view' />
-                                                        </div>
-                                                    </Link>
-                                                    <div className='invoice-details-button-column-download'>
-                                                        <CloudDownloadOutlinedIcon className='invoice-view' />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-        
-                                    </tbody>
-                                ))
-                            } */}
-                            
+                            <p>No Pending Invoices</p>                            
                             </>
                         )
                     }
