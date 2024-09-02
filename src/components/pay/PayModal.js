@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import UploadDocument from '../../components/pay/UploadDocument';
 import '../../style/custommodal.css'
+import { postRequestWithToken, postRequestWithTokenAndFile } from '../../api/Requests';
+import { toast } from 'react-toastify';
 
 const injectStyles = () => {
     const style = document.createElement('style');
@@ -16,6 +18,7 @@ const injectStyles = () => {
 };
 
 function PayModal({ showModal, handleClose, invoiceId, orderId }) {
+    console.log(invoiceId, orderId);
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [chequeImage, setChequeImage] = useState(null);
 
@@ -50,7 +53,10 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
 
     const validateDate = (value) => {
         console.log('value',value);
-        const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{2})$/;
+        // const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{2})$/;
+        // return datePattern.test(value);
+
+        const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4})$/;
         return datePattern.test(value);
     };
 
@@ -162,17 +168,40 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                 if (!validateDate(date)) {
                     setErrors(prevErrors => ({ ...prevErrors, date: 'Date must be in DD/MM/YY format' }));
                 } else {
-                    const payment_obj = {
-                        payment_mode: modeOfPayment,
-                        amount: amount,
-                        transaction_id: transactionId,
-                        payment_date: date,
-                        image: uploadedImage
-                    };
-                    console.log('payment_obj', payment_obj);
-                    handleClose();
-                console.log('payment_obj',payment_obj);
-                handleClose();
+                    const formData = new FormData()
+                    
+                    formData.append('order_id', orderId)
+                    formData.append('invoice_id', invoiceId)
+                    formData.append('payment_mode', modeOfPayment)
+                    formData.append('amount_paid', amount)
+                    formData.append('transaction_id', transactionId)
+                    formData.append('payment_date', date)
+                    formData.append('transaction_image', uploadedImage)
+
+                    // const obj = {
+                    //     order_id : orderId,
+                    //     invoice_id : invoiceId,
+                    //     payment_mode: modeOfPayment,
+                    //     amount: amount,
+                    //     transaction_id: transactionId,
+                    //     payment_date: date,
+                    //     image: uploadedImage
+                    // };
+                    // console.log('payment_obj', obj);
+                    postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
+                        if (response.code === 200) {
+                            toast(response.message, { type: 'success' });
+                            handleClose();
+                            // setInvoiceList(response.result.data);
+                            // setTotalInvoices(response.result.totalItems);
+                        } else {
+                            toast(response.message, { type: 'error' });
+                            console.log('Error in proforma invoice list API:', response);
+                        }
+                        // setLoading(false);
+                    });
+                   
+                // handleClose();
             }
         }
         };
@@ -200,7 +229,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                             onBlur={() => handleBlur('modeOfPayment', modeOfPayment)}
                             >
                             <option value="">Select</option>
-                            <option value="Cash">Cash</option>
+                            {/* <option value="Cash">Cash</option> */}
                             <option value="Cheque">Cheque</option>
                             <option value="Online">Net Banking</option>
                         </select>

@@ -152,9 +152,9 @@ const handleBuyerCountryOriginChange = (selected) => {
                     buyerContactPersonMobile: data?.buyer?.contact_person_mobile,
                     buyerContactPersonCountryCode: data?.buyer?.contact_person_country_code,
                     buyerVatRegNo: data?.buyer?.vat_reg_no,
-                    orderItems: data.items,
+                    orderItems: data?.items,
                     // vatPercentage: data.vat_percentage,
-                    totalPayableAmount: data.total_due_amount,
+                    totalPayableAmount: data?.pending_amount,
                     // totalPayableAmount: totalPayableAmount,
                     // accountNo: data.account_no,
                     // sortCode: data.sort_code

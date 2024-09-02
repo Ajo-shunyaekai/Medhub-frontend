@@ -13,6 +13,8 @@ import { ClipLoader } from 'react-spinners';
 const SendInquiry = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const buyerNameSessionStorage = sessionStorage.getItem("buyer_name");
+  const buyerNameLocalStorage = localStorage.getItem("buyer_name");
   const navigate = useNavigate();
   
   const itemsPerPage = 3;
@@ -112,15 +114,18 @@ const SendInquiry = () => {
       const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
       if (selectedItemDetails.length > 0) {
         selectedItems.push({
-          supplier_id         : supplierData.supplier_details.supplier_id,
-          list_id             : supplierData.list_id,
-          item_details        : selectedItemDetails.map(item => ({
-            item_id           : item._id,
-            medicine_id       : item.medicine_id,
-            unit_price        : item.unit_price,
-            quantity_required : item.quantity_required,
-            est_delivery_days : item.est_delivery_days,
-            target_price      : item.target_price
+          supplier_id            : supplierData.supplier_details.supplier_id,
+          supplier_name          : supplierData.supplier_details.supplier_name,
+          supplier_email         : supplierData.supplier_details.supplier_email,
+          supplier_contact_email : supplierData.supplier_details.contact_person_email,
+          list_id                : supplierData.list_id,
+          item_details           : selectedItemDetails.map(item => ({
+            item_id              : item._id,
+            medicine_id          : item.medicine_id,
+            unit_price           : item.unit_price,
+            quantity_required    : item.quantity_required,
+            est_delivery_days    : item.est_delivery_days,
+            target_price         : item.target_price
           }))
         });
       } 
@@ -129,6 +134,7 @@ const SendInquiry = () => {
 
     const enquiryPayload = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+      buyer_name : buyerNameSessionStorage || buyerNameLocalStorage,
       items: selectedItems
     };
     if(enquiryPayload.items.length === 0) {
