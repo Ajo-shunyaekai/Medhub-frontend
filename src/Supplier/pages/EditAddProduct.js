@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import EditImageUploader from './EditImageUploader';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -326,7 +327,7 @@ const AddProduct = () => {
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
     };
-
+    const [images, setImages] = useState([])
     const [defaultFormType, setDefaultFormType] = useState(null);
     const [defaultCategory, setDefaultCategory] = useState(null)
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
@@ -386,7 +387,7 @@ const AddProduct = () => {
                     manufacturerDescription: result?.manufacturer_description || '',
                     stockedInData: result?.stockedIn_details || []
                 }));
-                // setImages(result?.medicine_image || []);
+                setMedicineImages(result?.medicine_image || []);
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
@@ -1558,7 +1559,11 @@ console.log('FORMDATA',formData);
                             <div className={styles['create-invoice-product-image-section']}>
                                 <div className={styles['create-invoice-upload-purchase']}>
                                     <div className={styles['create-invoice-form-heading']}>Upload Product Image</div>
-                                    <ImageAddUploader 
+                                    {/* <ImageAddUploader 
+                                    image={medicineImages}
+                                    setImage={setMedicineImages}
+                                    /> */}
+                                    <EditImageUploader
                                     image={medicineImages}
                                     setImage={setMedicineImages}
                                     />
