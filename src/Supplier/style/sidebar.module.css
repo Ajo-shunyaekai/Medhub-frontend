@@ -58,7 +58,22 @@ body{
   cursor: pointer;
   display: none !important;
 }
-
+.sidebars_section{
+display: flex;
+flex-direction: column;
+}
+.dropdownToggle{
+  width: 180px;
+    font-size: 14px;
+    display: flex;
+    color: #5e676f;
+    text-decoration: none;
+    justify-content: start;
+    align-items: center;
+    margin: 0px 10px 0px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .nav_search_container {
   width: 100%;
   padding: 5px 10px;

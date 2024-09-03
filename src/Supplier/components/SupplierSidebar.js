@@ -66,7 +66,7 @@ import ActiveInvoiceList from '../pages/ActiveInvoiceList.js';
 import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
-
+import PendingProducts from '../pages/PendingProducts.js';
 const SupplierSidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -228,7 +228,8 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/purchased-order" element={<PurchasedOrder />} />
                         <Route path="/supplier/inquiry-request-details/:inquiryId" element={<InquiryRequestDetails />} />
                         <Route path="/supplier/inquiry-product-list" element={<InquiryProductList />} />
-
+                        <Route path="/supplier/pending-products-list" element={<PendingProducts/>} />
+                        
                         {/* End the inquiry orders */}
                     </Routes>
                 </SupSidebar>

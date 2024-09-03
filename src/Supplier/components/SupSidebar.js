@@ -8,13 +8,15 @@ import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import TocOutlinedIcon from '@mui/icons-material/TocOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 // Mobile sidebar
@@ -23,17 +25,23 @@ import Drawer from '@mui/material/Drawer';
 import { postRequestWithToken } from '../api/Requests';
 
 
-const SupSidebar = ({ children, dragWindow, 
+const SupSidebar = ({ children, dragWindow,
     // notificationList, count, handleClick 
 }) => {
     const navigate = useNavigate()
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const [isDropOpen, setIsDropOpen] = useState(false);
+    const [isIconOpen, setIsIconOpen] = useState(false);
 
+    const toggleDropdown = () => {
+        setIsDropOpen(!isDropOpen);
+        setIsIconOpen(!isIconOpen);
+    };
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
-    
+
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
 
@@ -45,7 +53,7 @@ const SupSidebar = ({ children, dragWindow,
 
     // Add full screen code
     const [isFullScreen, setIsFullScreen] = useState(false);
-    
+
     useEffect(() => {
         const handleFullScreenChange = () => {
             const isCurrentlyFullScreen = document.fullscreenElement !== null;
@@ -62,9 +70,9 @@ const SupSidebar = ({ children, dragWindow,
 
     const handleClick = (id, event) => {
         const obj = {
-            notification_id : id,
-            event ,
-            status : 1
+            notification_id: id,
+            event,
+            status: 1
         }
         postRequestWithToken('supplier/update-notification-status', obj, (response) => {
             if (response.code === 200) {
@@ -78,47 +86,23 @@ const SupSidebar = ({ children, dragWindow,
     useEffect(() => {
         // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         //     navigate("/supplier/login");
-        if(!supplierIdSessionStorage && !supplierIdLocalStorage ) {
+        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
         }
-            const obj = {
-                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-                // pageNo: 1,
-                // pageSize: 5
-            };
-        
-            postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-                if (response.code === 200) {
-                    setNotificationList(response.result.data);
-                    setCount(response.result.totalItems || 0);
-                } else {
-                    console.log('error in order details api');
-                }
-            });
-        // }
-    
-        // Ensure socket is defined and connected
-        // if (socket) {
-        //     console.log('socket',socket);
-            
-        //     socket.on('receiveNotification', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-                
-        //         toast(`New inquiry received: ${notification.message}`, { type: "success" });
-        //     });
+        const obj = {
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            // pageNo: 1,
+            // pageSize: 5
+        };
 
-        //     socket.on('logiscticsSubmitted', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-                
-        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-        //     });
-    
-        //     return () => {
-        //         socket.off('receiveNotification');
-        //     };
-        // } else {
-        //     console.error('Socket is not initialized');
-        // }
+        postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems || 0);
+            } else {
+                console.log('error in order details api');
+            }
+        });
     }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
 
     const toggleFullScreen = () => {
@@ -287,34 +271,34 @@ const SupSidebar = ({ children, dragWindow,
         //         });
     }
 
-    const handleNavigation = (notificationId,event,eventId,linkId) => {
+    const handleNavigation = (notificationId, event, eventId, linkId) => {
         switch (event) {
-          case 'enquiry':
-            setIsNotificationOpen(false)
-            navigate(`/supplier/inquiry-request-details/${eventId}`);
-            updateStatusApi(notificationId)
-            handleClick(notificationId, event)
-            break;
-          case 'order':
-            setIsNotificationOpen(false)
-            navigate(`/supplier/active-orders-details/${eventId}`);
-            handleClick(notificationId, event)
-            break;
-            case 'purchaseorder':
+            case 'enquiry':
                 setIsNotificationOpen(false)
-                    navigate(`/supplier/purchased-order-details/${linkId}`);
+                navigate(`/supplier/inquiry-request-details/${eventId}`);
+                updateStatusApi(notificationId)
                 handleClick(notificationId, event)
                 break;
-          default:
-            navigate('/supplier/'); 
-            break;
+            case 'order':
+                setIsNotificationOpen(false)
+                navigate(`/supplier/active-orders-details/${eventId}`);
+                handleClick(notificationId, event)
+                break;
+            case 'purchaseorder':
+                setIsNotificationOpen(false)
+                navigate(`/supplier/purchased-order-details/${linkId}`);
+                handleClick(notificationId, event)
+                break;
+            default:
+                navigate('/supplier/');
+                break;
         }
-      };
+    };
 
-      const handleNotificationNavigate = () => {
+    const handleNotificationNavigate = () => {
         setIsNotificationOpen(false)
         navigate(`/supplier/notification-list`)
-      }
+    }
 
     return (
         <>
@@ -337,9 +321,9 @@ const SupSidebar = ({ children, dragWindow,
                             <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
                             <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
-                                <NotificationsNoneOutlinedIcon 
-                                    className={styles.nav_icon_color} 
-                                    onClick={NotificationDropdown} 
+                                <NotificationsNoneOutlinedIcon
+                                    className={styles.nav_icon_color}
+                                    onClick={NotificationDropdown}
                                 />
                             </Badge>
                             {isNotificationOpen && (
@@ -347,42 +331,42 @@ const SupSidebar = ({ children, dragWindow,
                                     {/* Notificatio content goes here */}
                                     <div className={styles.noti_wrapper}>
                                         <div className={styles.noti_top_wrapper}>
-                                       
-                                     {
-                                        notificationList?.slice(0, 5).map((data, i) => {
-                                            // let additionalInfo = '';
-                                            
-                                            // if (data.event === 'order' || data.event === 'purchaseorder') {
-                                            //     additionalInfo = `for ${data.event_id}`;
-                                            // } else if (data.event === 'enquiry') {
-                                            //     additionalInfo = `from: ${data.buyer.buyer_name}`;
-                                            // }
 
-                                            return (
-                                                <div className={styles.noti_profile_wrapper} 
-                                                onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)} key={i}>
-                                                    <div className={styles.noti_profile}>
-                                                        {data.event_type.charAt(0)}
-                                                    </div>
-                                                    <div className={styles.noti_profile_text}>
-                                                        {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}:  */}
-                                                        <span>
-                                                            {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
-                                                        </span>
-                                                        {/* {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>} */}
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                            {
+                                                notificationList?.slice(0, 5).map((data, i) => {
+                                                    let additionalInfo = '';
+
+                                                    if (data.event === 'order' || data.event === 'purchaseorder') {
+                                                        additionalInfo = `for ${data.event_id}`;
+                                                    } else if (data.event === 'enquiry') {
+                                                        additionalInfo = `from: ${data.buyer.buyer_name}`;
+                                                    }
+
+                                                    return (
+                                                        <div className={styles.noti_profile_wrapper}
+                                                            onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)} key={i}>
+                                                            <div className={styles.noti_profile}>
+                                                                {data.event_type.charAt(0)}
+                                                            </div>
+                                                            <div className={styles.noti_profile_text}>
+                                                                {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}:  */}
+                                                                <span>
+                                                                    {data.message.length > 50 ? `${data.message.slice(0, 50)}...` : data.message}
+                                                                </span>
+                                                                {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </div>
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                              {count} Notifications
+                                                {count} Notifications
                                             </div>
 
                                             {/* <Link to='/supplier/notification-list'> */}
-                                                <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
+                                            <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
                                             {/* </Link> */}
                                         </div>
                                     </div>
@@ -444,11 +428,30 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
+                        {/* start the dropdown container */}
+                        <div className={`${styles.dropdown} ${styles.sidebars_section}`} style={{ marginTop: '8px' }}>
+                            <div className={styles.dropdownToggle} onClick={toggleDropdown}>
+                                <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4' }} /></div>
+                                <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
+                                {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+                            </div>
+                            {isOpen && isDropOpen && (
+                                <div className={styles.dropdownContent}>
+                                    <Link to="/supplier/product" className={styles.sidebar_text} activeclassname={styles.active}>
+                                        <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                                        <div className={styles.sidebar_text}>Add Products</div>
+                                    </Link>
+                                    <Link to="/supplier/pending-products-list" className={styles.sidebar_text} activeclassname={styles.active}>
+                                        <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                                        <div className={styles.sidebar_text}>Pending Products</div>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                        {/* end the dropdown container */}
 
-                        <Link to="/supplier/product" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4' }} /></div>
-                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
-                        </Link>
+
+
                         <Link to="/supplier/inquiry-purchase-orders" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><ManageSearchIcon style={{ color: '#20c997', fontSize: '22px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inquiry</div>
@@ -457,7 +460,7 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
                         </Link>
-                       
+
 
                         <div className={styles.mobile_order_btn}>
                             <div className={styles.sidebar_text} onClick={toggleAccordion}>
