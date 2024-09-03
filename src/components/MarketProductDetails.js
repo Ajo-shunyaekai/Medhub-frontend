@@ -157,34 +157,42 @@ const MarketProductDetails = () => {
 
     const handleAddToList = async (e) => {
         e.preventDefault();
+        const quantityRequiredNumber = Number(quantityRequired);
+        const minPurchaseUnit = Number(details?.min_purchase_unit);
     
         if (validateInputs()) {
-          setLoading(true)
-          const obj = {
-            medicine_id: medId,
-            supplier_id: supplierId,
-            buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-            quantity_required: quantityRequired,
-            target_price: targetPrice,
-            quantity: selectedDetails.quantity,
-            unit_price: selectedDetails.unit_price,
-            est_delivery_time: selectedDetails.est_delivery_days
-          };
-    
-          postRequestWithToken('buyer/add-to-list', obj, async (response) => {
-            if (response.code === 200) {
-              toast(response.message, { type: "success" });
-              sessionStorage.setItem('list_count', response.result.listCount)
-              setTimeout(() => {
-                navigate('/buyer/send-inquiry')
-                setLoading(true)
-              }, 1000);
+            if(quantityRequiredNumber < minPurchaseUnit) {
+                toast('Quantity required should be greater than or equal to minimum purchase unit',{type: 'error'})
+                return
             } else {
-              setLoading(false)
-              toast(response.message, { type: "error" });
-              console.log('error in similar-medicine-list api');
+                setLoading(true)
+                const obj = {
+                  medicine_id: medId,
+                  supplier_id: supplierId,
+                  buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
+                  quantity_required: quantityRequired,
+                  target_price: targetPrice,
+                  quantity: selectedDetails.quantity,
+                  unit_price: selectedDetails.unit_price,
+                  est_delivery_time: selectedDetails.est_delivery_days
+                };
+          
+                postRequestWithToken('buyer/add-to-list', obj, async (response) => {
+                  if (response.code === 200) {
+                    toast(response.message, { type: "success" });
+                    sessionStorage.setItem('list_count', response.result.listCount)
+                    setTimeout(() => {
+                      navigate('/buyer/send-inquiry')
+                      setLoading(true)
+                    }, 1000);
+                  } else {
+                    setLoading(false)
+                    toast(response.message, { type: "error" });
+                    console.log('error in similar-medicine-list api');
+                  }
+                });
             }
-          });
+         
         } else {
           setLoading(false)
           toast('Some Fields are missing', { type: "error" });
@@ -198,7 +206,7 @@ const MarketProductDetails = () => {
             setQuantityRequired(value);
         }
     };
-    
+
     const handleTargetPriceChange = (e) => {
       const value = e.target.value;
       if (/^\d*\.?\d*$/.test(value)) {
@@ -371,9 +379,6 @@ const MarketProductDetails = () => {
                                                 </div>
                                             ))}
                                         </>
-                                       
-                                     
-                                        
                                     </div>
                                 </div>
 
