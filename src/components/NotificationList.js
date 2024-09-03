@@ -9,49 +9,7 @@ import { postRequestWithToken } from '../api/Requests';
 import moment from 'moment/moment';
 
 const NotificationList = () => {
-    const notificationList = [
-        {
-            supplier_id: "00001",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "00001",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "00001",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "00001",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "00001",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "000324",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "0002341",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-        {
-            supplier_id: "000222",
-            notification_date: "12-08-2024",
-            message: "Supplier send the submit quotations"
-        },
-
-    ]
+   
     const navigate = useNavigate();
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
@@ -137,10 +95,10 @@ const NotificationList = () => {
                                         additionalInfo = `from: ${notification.supplier?.supplier_name}`;
                                     }
 
-                                    let displayMessage = notification.message;
-                                    if (notification.message === 'Enquiry quotation submitted') {
-                                        displayMessage = `Enquiry quotation received `;
-                                    }
+                                    // let displayMessage = notification.message;
+                                    // if (notification.message === 'Enquiry quotation submitted') {
+                                    //     displayMessage = `Enquiry quotation received `;
+                                    // }
 
                                     return (
                                 <tbody className='notification-container-tbody' key={index}>
@@ -154,7 +112,8 @@ const NotificationList = () => {
                                         </td>
                                         <td className='notification-section-tds'>
                                             <div className="notification-section-heading">
-                                                {displayMessage} {additionalInfo}
+                                                {notification.message} 
+                                                {/* {additionalInfo} */}
                                             </div>
                                         </td>
                                         <td className='notification-section-button-cont'>

@@ -265,11 +265,11 @@ const NotificationList = () => {
                             {notificationOrders?.map((notification, index) => {
                                 let additionalInfo = '';
 
-                                if (notification.event === 'order' || notification.event === 'purchaseorder') {
-                                    additionalInfo = `for ${notification.event_id}`;
-                                } else if (notification.event === 'enquiry') {
-                                    additionalInfo = `from: ${notification.buyer?.buyer_name}`;
-                                }
+                                // if (notification.event === 'order' || notification.event === 'purchaseorder') {
+                                //     additionalInfo = `for ${notification.event_id}`;
+                                // } else if (notification.event === 'enquiry') {
+                                //     additionalInfo = `from: ${notification.buyer?.buyer_name}`;
+                                // }
 
                                 return (
                                     <tbody className='notification-container-tbody' key={notification.notification_id || index}>
@@ -282,7 +282,8 @@ const NotificationList = () => {
                                             </td>
                                             <td className='notification-section-tds'>
                                                 <div className="notification-section-heading">
-                                                    {notification.message} {additionalInfo}
+                                                    {notification.message} 
+                                                    {/* {additionalInfo} */}
                                                 </div>
                                             </td>
                                             <td className='notification-section-button-cont'>

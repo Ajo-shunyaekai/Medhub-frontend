@@ -350,13 +350,13 @@ const SupSidebar = ({ children, dragWindow,
                                        
                                      {
                                         notificationList?.slice(0, 5).map((data, i) => {
-                                            let additionalInfo = '';
+                                            // let additionalInfo = '';
                                             
-                                            if (data.event === 'order' || data.event === 'purchaseorder') {
-                                                additionalInfo = `for ${data.event_id}`;
-                                            } else if (data.event === 'enquiry') {
-                                                additionalInfo = `from: ${data.buyer.buyer_name}`;
-                                            }
+                                            // if (data.event === 'order' || data.event === 'purchaseorder') {
+                                            //     additionalInfo = `for ${data.event_id}`;
+                                            // } else if (data.event === 'enquiry') {
+                                            //     additionalInfo = `from: ${data.buyer.buyer_name}`;
+                                            // }
 
                                             return (
                                                 <div className={styles.noti_profile_wrapper} 
@@ -367,9 +367,9 @@ const SupSidebar = ({ children, dragWindow,
                                                     <div className={styles.noti_profile_text}>
                                                         {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type}:  */}
                                                         <span>
-                                                            {data.message.length > 50 ? `${data.message.slice(0, 50)}...` : data.message}
+                                                            {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
                                                         </span>
-                                                        {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
+                                                        {/* {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>} */}
                                                     </div>
                                                 </div>
                                             )

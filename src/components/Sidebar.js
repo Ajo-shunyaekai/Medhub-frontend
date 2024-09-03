@@ -349,7 +349,7 @@ const Sidebar = ({ children, dragWindow,
                                     className={styles.nav_icon_color} 
                                     onClick={NotificationDropdown} 
                                 />
-                               </Badge>
+                            </Badge>
 
                             {isNotificationOpen && (
                                 <div className={styles.noti_container}>
@@ -359,20 +359,20 @@ const Sidebar = ({ children, dragWindow,
 
                                             {
                                                 notificationList?.slice(0, 5).map((data,i) => {
-                                                    let additionalInfo = '';
+                                                    // let additionalInfo = '';
                                             
-                                                    if (data.event_type === 'Order created') {
-                                                        additionalInfo = `for ${data.connected_id}`;
-                                                    } else if (data.event_type === 'Shipment details submitted') {
-                                                        additionalInfo = `for: ${data.event_id}`;
-                                                    } else if (data.event_type === 'Enquiry quotation') {
-                                                        additionalInfo = `from: ${data.supplier.supplier_name}`;
-                                                    }
+                                                    // if (data.event_type === 'Order created') {
+                                                    //     additionalInfo = `for ${data.connected_id}`;
+                                                    // } else if (data.event_type === 'Shipment details submitted') {
+                                                    //     additionalInfo = `for: ${data.event_id}`;
+                                                    // } else if (data.event_type === 'Enquiry quotation') {
+                                                    //     additionalInfo = `from: ${data.supplier.supplier_name}`;
+                                                    // }
 
                                                     let displayMessage = data.message;
-                                                        if (data.message === 'Enquiry quotation submitted') {
-                                                            displayMessage = `Enquiry quotation received `;
-                                                        }
+                                                    //     if (data.message === 'Enquiry quotation submitted') {
+                                                    //         displayMessage = `Enquiry quotation received `;
+                                                    //     }
                                                     return (
                                                         <div className={styles.noti_profile_wrapper}
                                                          onClick={() => handleNavigation(data.notification_id,data.event, data.event_id, data.link_id)}>
@@ -382,9 +382,9 @@ const Sidebar = ({ children, dragWindow,
                                                             <div className={styles.noti_profile_text}>
                                                                 {/* {data.event_type.length > 50 ? `${data.event_type.slice(0, 50)}...` : data.event_type} */}
                                                                 <span>
-                                                                {displayMessage.length > 50 ? `${displayMessage.slice(0, 50)}...` : displayMessage}
+                                                                {displayMessage.length > 100 ? `${displayMessage.slice(0, 100)}...` : displayMessage}
                                                         </span>
-                                                        {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>}
+                                                        {/* {additionalInfo && <div className={styles.additional_info}>{additionalInfo}</div>} */}
                                                             </div>
                                                             
                                                         </div>
