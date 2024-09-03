@@ -7,7 +7,7 @@ import moment from "moment-timezone";
 const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2;
+    const ordersPerPage = 5;
 
     const activeOrders = [
         { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
@@ -101,9 +101,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Counter Price</span>
                                             <span className="table-g-not-name">
-                                                {/* {item.counterprice || item.counter_price
-                                                    ? `${item.counterprice || item.counter_price} AED`
-                                                    : '-'} */}
+                                                
                                                     {item.counter_price
                                                     ? item.counter_price.toLowerCase().includes('aed')
                                                         ? item.counter_price.replace(/aed/i, 'AED') 
@@ -116,7 +114,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
                                             <span className="table-g-not-name">
-                                                {/* {item.est_delivery_days} Days */}
+                                                
                                                 {item.est_delivery_days
                                                     ? item.est_delivery_days.toLowerCase().includes('days')
                                                         ? item.est_delivery_days.replace(/days/i, 'Days') 
@@ -135,28 +133,8 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             </div>
                                         </td>
                                     )}
-                                    {/* <td className='tables-tds'>
-                                <div className="table-g-section-content-button">
-                                    <span className="table-g-not-name-button" onClick={() => handleAccept(item.medicine_id, item._id)}>Accept</span>
-                                    <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.medicine_id, item._id)}>Reject</span>
-                                </div>
-                        </td> */}
-
-                                    {/* <td className='tables-tds'>
-                                <div className="table-g-section-content-button">
-                                    {isAccepted(item) ? (
-                                        <span className="table-g-not-name-button accepted">Accepted</span>
-                                    ) : isRejected(item) ? (
-                                        <span className="table-g-not-reject-buttons rejected">Rejected</span>
-                                    ) : (
-                                        <>
-                                            <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item)}>Accept</span>
-                                            <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item)}>Reject</span>
-                                        </>
-                                    )}
-                                </div>
-                            </td> */}
-
+                                   
+                                   {inquiryDetails.enquiry_status !== 'PO created' && (
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content-button">
                                             {item.status === 'pending' ? (
@@ -165,12 +143,19 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                                     <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item, 'rejected')}>Reject</span>
                                                 </>
                                             ) : item.status === 'accepted' ? (
-                                                <span className="table-g-not-name-button accepted" onClick={() => handleRejectClick(item, 'rejected')}>Accepted</span>
+                                                <span className="table-g-not-name-button accepted"
+                                                // onClick={() => handleRejectClick(item, 'rejected')}
+                                                >
+                                                    Accepted</span>
                                             ) : item.status === 'rejected' ? (
-                                                <span className="table-g-not-reject-buttons rejected" onClick={() => handleAcceptClick(item, 'accepted')}>Rejected</span>
+                                                <span className="table-g-not-reject-buttons rejected"
+                                                //  onClick={() => handleAcceptClick(item, 'accepted')}
+                                                 >
+                                                    Rejected</span>
                                             ) : null}
                                         </div>
                                     </td>
+                                    )}
 
                                     <td></td>
                                 </tr>
