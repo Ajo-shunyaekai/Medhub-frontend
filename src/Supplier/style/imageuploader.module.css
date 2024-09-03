@@ -25,11 +25,20 @@
   cursor: pointer;
   text-align: center;
 }
-
+.image-file-name{
+  -webkit-line-clamp: 1 !important;
+  margin-right: 20px !important;
+  -webkit-box-orient: vertical !important;
+  display: -webkit-box !important;
+  font-size: 12px !important;  
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+}
 .uploaded-image {
   transition: transform 0.3s ease;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .remove-icon {
@@ -95,8 +104,8 @@
 
 .close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: -6px;
+  right: 8px;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;

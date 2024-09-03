@@ -198,7 +198,7 @@ font-weight: 500;
 @media screen and (max-width: 1400px) {
     .modalContent {
         width: 500px;
-        height: 500px;
-        top: 10px;
+        height: 460px;
+        top: 20px;
     }
 }

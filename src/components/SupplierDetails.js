@@ -7,6 +7,7 @@ import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
+import SupplySecondaryList from './orders/SupplySecondaryList';
 
 const SupplierDetails = () => {
     const location = useLocation();
@@ -17,6 +18,8 @@ const SupplierDetails = () => {
         switch (path) {
             case `/buyer/supplier-details/products/${supplierId}`:
                 return 'products';
+            case `/buyer/supplier-details/secondary/${supplierId}`:
+                return 'secondary';
             case `/buyer/supplier-details/orders/${supplierId}`:
                 return 'orders';
             default:
@@ -31,6 +34,10 @@ const SupplierDetails = () => {
             case 'products':
                 navigate(`/buyer/supplier-details/products/${supplierId}`);
                 setActiveTab('products');
+                break;
+            case 'secondary':
+                navigate(`/buyer/supplier-details/secondary/${supplierId}`);
+                setActiveTab('secondary');
                 break;
             case 'orders':
                 navigate(`/buyer/supplier-details/orders/${supplierId}`);
@@ -47,24 +54,26 @@ const SupplierDetails = () => {
     const showProducts = () => {
         setActiveTab('products');
     };
-
+    const showSecondary = () => {
+        setActiveTab('secondary');
+    };
     const showOrders = () => {
         setActiveTab('orders');
     };
 
-   
 
-    const [supplier, setSupplier]                     = useState()
+
+    const [supplier, setSupplier] = useState()
 
     const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
-    const [totalOrders, setTotalOrders]               = useState()
-    const [currentOrderPage, setCurrentOrderPage]     = useState(1)
-    const ordersPerPage                               = 2;
+    const [totalOrders, setTotalOrders] = useState()
+    const [currentOrderPage, setCurrentOrderPage] = useState(1)
+    const ordersPerPage = 2;
 
-    const [productList, setProductList]               = useState([])
-    const [totalProducts, setTotalProducts]           = useState()
-    const [currentPage, setCurrentPage]               = useState(1); 
-    const productsPerPage                             = 2;
+    const [productList, setProductList] = useState([])
+    const [totalProducts, setTotalProducts] = useState()
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 2;
 
     const handleProductPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -73,12 +82,12 @@ const SupplierDetails = () => {
     const handleOrderPageChange = (pageNumber) => {
         setCurrentOrderPage(pageNumber);
     };
-    
+
 
     //supplier-details
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
@@ -86,40 +95,40 @@ const SupplierDetails = () => {
         }
 
         const obj = {
-            supplier_id : supplierId,
-            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
+            supplier_id: supplierId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
 
         }
         postRequestWithToken('buyer/supplier-details', obj, async (response) => {
             if (response.code === 200) {
                 setSupplier(response.result)
             } else {
-               console.log('error in supplier-details api');
+                console.log('error in supplier-details api');
             }
-          })
-    },[])
+        })
+    }, [])
 
     //buyer-supplier-orders
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         const fetchBuyerSupplierOrder = () => {
             const obj = {
-                buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
-                supplier_id : supplierId,
-                pageSize    : ordersPerPage,
-                pageNo      : currentOrderPage,
-                order_type  : ''
+                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                supplier_id: supplierId,
+                pageSize: ordersPerPage,
+                pageNo: currentOrderPage,
+                order_type: ''
             }
-    
-            postRequestWithToken('buyer/buyer-supplier-orders', obj, async(response) => {
-                if(response.code === 200) {
+
+            postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
+                if (response.code === 200) {
                     setBuyerSupplierOrder(response.result)
                     setTotalOrders(response.result.totalOrders)
                 } else {
@@ -128,23 +137,23 @@ const SupplierDetails = () => {
             })
         }
         fetchBuyerSupplierOrder()
-    },[currentOrderPage])
+    }, [currentOrderPage])
 
     //supplier-product-list
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         const obj = {
-            supplier_id : supplierId,
-            buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
-            pageSize    : productsPerPage,
-            pageNo      : currentPage
+            supplier_id: supplierId,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            pageSize: productsPerPage,
+            pageNo: currentPage
         }
 
         postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
@@ -152,11 +161,11 @@ const SupplierDetails = () => {
                 setProductList(response.result.data)
                 setTotalProducts(response.result.totalItems)
             } else {
-               console.log('error in supplier-details api');
+                console.log('error in supplier-details api');
             }
-          })
-    },[currentPage])
-    
+        })
+    }, [currentPage])
+
     return (
         <>
             <div className='buyer-supplier-details-container'>
@@ -168,7 +177,7 @@ const SupplierDetails = () => {
                                 <div className='buyer-supplier-details-company-type-button'>{supplier?.supplier_type || 'Manufacturer'}</div>
                             </div>
                             <div className='buyer-supplier-details-left-inner-section'>
-                                    <div className='buyer-supplier-details-left-inner-sec-text'>Supplier ID: {supplier?.supplier_id || 'SUP-0987RF67R'}</div>
+                                <div className='buyer-supplier-details-left-inner-sec-text'>Supplier ID: {supplier?.supplier_id || 'SUP-0987RF67R'}</div>
                                 <div className='buyer-supplier-details-left-inner-img-container'>
                                     <div className='buyer-supplier-details-left-inner-mobile-button'>
                                         <PhoneInTalkOutlinedIcon className='buyer-supplier-details-left-inner-icon' />
@@ -186,7 +195,7 @@ const SupplierDetails = () => {
                             <div className='buyer-supplier-details-description-content'>{supplier?.description || 'test description'}</div>
                         </div>
                         <div className='buyer-supplier-details-section'>
-                        <div className='buyer-supplier-details-inner-section'>
+                            <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Contact Person Name:</div>
                                 <div className='buyer-supplier-details-inner-text'>{supplier?.contact_person_name || 'Ashutosh Sharma'}</div>
                             </div>
@@ -218,7 +227,7 @@ const SupplierDetails = () => {
                                 <div className='buyer-supplier-details-inner-head'>Tax No.</div>
                                 <div className='buyer-supplier-details-inner-text'>{supplier?.tax_no}</div>
                             </div>
-                            
+
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Country of Origin</div>
                                 <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_origin || 'United Arab Emirates'}</div>
@@ -227,9 +236,9 @@ const SupplierDetails = () => {
                                 <div className='buyer-supplier-details-inner-head'>Country of Operation</div>
                                 <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_operation?.join(', ')}</div>
                             </div>
-                            
-                           
-                            
+
+
+
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Payment Terms</div>
                                 <div className='buyer-supplier-details-inner-text'>{supplier?.payment_terms || 'COD, Debit'}</div>
@@ -238,12 +247,12 @@ const SupplierDetails = () => {
                                 <div className='buyer-supplier-details-inner-head'>Est. Delivery Time</div>
                                 <div className='buyer-supplier-details-inner-text'>
                                     {/* {supplier?.estimated_delivery_time || '12 days'} */}
-                                    {supplier?.estimated_delivery_time 
-                                            ? supplier?.estimated_delivery_time .toLowerCase().includes('days')
-                                                ? supplier?.estimated_delivery_time .replace(/days/i, 'Days') 
-                                                : `${supplier?.estimated_delivery_time } Days` // 
-                                            : '10 Days'}
-                                    </div>
+                                    {supplier?.estimated_delivery_time
+                                        ? supplier?.estimated_delivery_time.toLowerCase().includes('days')
+                                            ? supplier?.estimated_delivery_time.replace(/days/i, 'Days')
+                                            : `${supplier?.estimated_delivery_time} Days` // 
+                                        : '10 Days'}
+                                </div>
                             </div>
                             <div className='buyer-supplier-details-inner-section'>
                                 <div className='buyer-supplier-details-inner-head'>Tags</div>
@@ -255,23 +264,23 @@ const SupplierDetails = () => {
                         <div className='buyer-supplier-details-uppar-card-section'>
                             <div className='buyer-supplier-details-uppar-card-inner-section'>
                                 <div className='buyer-supplier-details-card-container'>
-                                {/* <Link to='/supplier-completed'> */}
-                                <Link to={`/buyer/supplier-completed/${supplierId}`}>
-                                    <div className='buyer-supplier-details-card-container-contents'>
-                                        <div className='buyer-supplier-details-card-conteianer-head'>Completed Orders</div>
-                                        <div className='buyer-supplier-details-card-conteianer-text'>{buyerSupplierOrder?.completedCount || 0}</div>
-                                    </div>
+                                    {/* <Link to='/supplier-completed'> */}
+                                    <Link to={`/buyer/supplier-completed/${supplierId}`}>
+                                        <div className='buyer-supplier-details-card-container-contents'>
+                                            <div className='buyer-supplier-details-card-conteianer-head'>Completed Orders</div>
+                                            <div className='buyer-supplier-details-card-conteianer-text'>{buyerSupplierOrder?.completedCount || 0}</div>
+                                        </div>
                                     </Link>
 
                                 </div>
                                 <div className='buyer-supplier-details-card-container'>
-                                {/* <Link to='/supplier-active'> */}
-                                <Link to={`/buyer/supplier-active/${supplierId}`}>
-                                    <div className='buyer-supplier-details-card-container-contents'>
-                                        <div className='buyer-supplier-details-card-conteianer-head'>Active Orders</div>
-                                        <div className='buyer-supplier-details-card-conteianer-text'>{buyerSupplierOrder?.activeCount || 0}</div>
-                                    </div>
-                                </Link>
+                                    {/* <Link to='/supplier-active'> */}
+                                    <Link to={`/buyer/supplier-active/${supplierId}`}>
+                                        <div className='buyer-supplier-details-card-container-contents'>
+                                            <div className='buyer-supplier-details-card-conteianer-head'>Active Orders</div>
+                                            <div className='buyer-supplier-details-card-conteianer-text'>{buyerSupplierOrder?.activeCount || 0}</div>
+                                        </div>
+                                    </Link>
 
                                 </div>
                                 {/* <div className='buyer-supplier-details-card-container'>
@@ -286,32 +295,43 @@ const SupplierDetails = () => {
                             </div>
                         </div>
                         <div className='buyer-supplier-details-bottom-table-section'>
-                        
+
                             <div className='buyer-supplier-details-bottom-group-container'>
                                 <button className={`buyer-supplier-details-product-bottom ${activeButton === 'products' ? 'active' : ''}`} onClick={() => handleButtonClick('products')}>
-                                    Products
+                                    New Products
+                                </button>
+                                <button className={`buyer-supplier-details-list-bottom ${activeButton === 'secondary' ? 'active' : ''}`} onClick={() => handleButtonClick('secondary')}>
+                                    Secondary Products
                                 </button>
                                 <button className={`buyer-supplier-details-list-bottom ${activeButton === 'orders' ? 'active' : ''}`} onClick={() => handleButtonClick('orders')}>
                                     Previous Orders List
                                 </button>
                             </div>
                             <div className='list-section'>
-                                {activeTab === 'products' ? 
-                                <SupplyProductList 
-                                productsData    ={productList} 
-                                totalProducts   = {totalProducts}
-                                currentPage     = {currentPage}
-                                productsPerPage = {productsPerPage}
-                                handleProductPageChange = {handleProductPageChange}
-                                /> 
-                                : 
-                                <SupplyOrderList 
-                                orderList     = {buyerSupplierOrder?.orderList} 
-                                totalOrders   = {totalOrders}
-                                currentPage   = {currentOrderPage}
-                                ordersPerPage = {ordersPerPage}
-                                handleOrderPageChange = {handleOrderPageChange}
-                                />}
+                                {activeTab === 'products' ?
+                                    <SupplyProductList
+                                        productsData={productList}
+                                        totalProducts={totalProducts}
+                                        currentPage={currentPage}
+                                        productsPerPage={productsPerPage}
+                                        handleProductPageChange={handleProductPageChange}
+                                    />
+                                    : activeTab === 'secondary' ?
+                                        <SupplySecondaryList
+                                            productsData={productList}
+                                            totalProducts={totalProducts}
+                                            currentPage={currentPage}
+                                            productsPerPage={productsPerPage}
+                                            handleProductPageChange={handleProductPageChange}
+                                        />
+                                        :
+                                        <SupplyOrderList
+                                            orderList={buyerSupplierOrder?.orderList}
+                                            totalOrders={totalOrders}
+                                            currentPage={currentOrderPage}
+                                            ordersPerPage={ordersPerPage}
+                                            handleOrderPageChange={handleOrderPageChange}
+                                        />}
                             </div>
                             {/* <SupplyOrderList orderList = {buyerSupplierOrder?.orderList}/> */}
                         </div>

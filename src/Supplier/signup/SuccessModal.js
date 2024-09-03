@@ -23,9 +23,9 @@ function SuccessModal({ show, handleClose }) {
                     <div className={styles['signup-modal-image-section']}>
                         <img src={Success} />
                     </div>
-                    <div className={styles['signup-modal-cont-heading']}>Registration Successful</div>
+                    <div className={styles['signup-modal-cont-heading']}>Thank You for Signing Up!!</div>
                     <div className={styles['signup-modal-cont-text']}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        Your registration is being reviewed. You’ll receive an email once it's approved.
                     </div>
                     <Link to='/supplier/login'>
                         <div className={styles['signup-modal-cont-button']}>

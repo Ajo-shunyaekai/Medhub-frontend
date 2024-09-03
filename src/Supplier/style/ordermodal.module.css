@@ -130,9 +130,9 @@
 
 @media screen and (max-width: 1400px) {
   .order-modal-content-section {
-    height: 500px;
+    height: 450px;
     overflow: scroll;
     max-width: 500px;
-   top: 14px;
+   top: 20px;
   }
 }

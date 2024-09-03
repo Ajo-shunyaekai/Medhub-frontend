@@ -145,22 +145,18 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                                 <img src={PDFIcon} alt="PDF" className={styles['pdf-icon']} />
                             )}
                             <div className={styles['file-info']}>
-                                <span style={{ marginRight: '10px', fontSize: '12px', cursor: 'pointer' }}>{file.name}</span>
+                                <span className={styles['image-file-name']}>{file.name}</span>
                             </div>
                             <img src={CrossIcon} alt="Remove" className={styles['remove-icon']} onClick={(event) => handleFileRemove(file.name, event)} />
                         </div>
                     </div>
                 ))}
             </div>
-            {modalOpen && modalContent && (
+            {modalOpen && modalContent && modalContent.type.startsWith('image') && (
                 <div className={styles['modal']} onClick={closeModal}>
                     <div className={styles['modal-content']} onClick={(e) => e.stopPropagation()}>
                         <span className={styles['close']} onClick={closeModal}>&times;</span>
-                        {modalContent.type.startsWith('image') ? (
-                            <img src={modalContent.preview} alt="Enlarged view" className={styles['modal-image']} />
-                        ) : (
-                            <iframe src={modalContent.preview} className={styles['modal-pdf']} title="PDF Preview" />
-                        )}
+                        <img src={modalContent.preview} alt="Enlarged view" className={styles['modal-image']} />
                     </div>
                 </div>
             )}

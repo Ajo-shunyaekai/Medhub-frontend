@@ -296,7 +296,7 @@ ul {
   font-size: 13px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  /* Number of lines to show */
+  height: 50px;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

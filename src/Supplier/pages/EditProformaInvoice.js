@@ -512,7 +512,7 @@ const EditProformaInvoice = () => {
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>
-                    <button type='submit' className={styles['create-invoices-submit']}>Edit</button>
+                    <button type='submit' className={styles['create-invoices-submit']}>Save</button>
                     <div className={styles['create-invoices-cancel']}>Cancel</div>
                 </div>
             </form>

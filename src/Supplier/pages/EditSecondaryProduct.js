@@ -1593,8 +1593,7 @@ const EditSecondaryProduct = () => {
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                            <div className={styles['create-invoices-cancel']} 
-                            onClick={handleCancel}>Cancel</div>
+                           
                             <button type="submit"
                              className={styles['create-invoices-submit']}
                              disabled={loading}
@@ -1603,9 +1602,11 @@ const EditSecondaryProduct = () => {
                                 {loading ? (
                     <div className={styles['loading-spinner']}></div> // Show spinner when loading
                 ) : (
-                    'Edit Product'
+                    'Save'
                 )}
                                 </button>
+                                <div className={styles['create-invoices-cancel']} 
+                            onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
 

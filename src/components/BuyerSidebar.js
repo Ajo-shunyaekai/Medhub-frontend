@@ -67,6 +67,7 @@ import ThankYou from './ThankYou.js';
 import { toast } from 'react-toastify';
 import NotificationList from './NotificationList.js'
 import CancelnquiryList from './CancelnquiryList.js';
+import SupplySecondaryList from './orders/SupplySecondaryList.js';
 
 const BuyerSidebar = () => {
     const location = useLocation();
@@ -188,6 +189,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/pending-details/:orderId" element={<PendingDetails />} />
                                         <Route path="/buyer/medicine-details/:medicineId" element={<ProductDetails />} />
                                         <Route path="/buyer/supplier-details/products/:supplierId" element={<SupplierDetails />} />
+                                        <Route path="/buyer/supplier-details/secondary/:supplierId" element={<SupplierDetails />} />
                                         <Route path="/buyer/supplier-details/orders/:supplierId" element={<SupplierDetails />} />
                                         <Route path="/buyer/supplier-details/:supplierId" element={<SupplierDetails />} />
                                         <Route path="/buyer/completed-orders" element={<CompletedOrders />} />
