@@ -10,6 +10,8 @@ import { postRequest, postRequestWithTokenAndFile } from '../api/Requests';
 import { toast } from 'react-toastify';
 import { InputMask } from '@react-input/mask';
 import Loader from '../components/Loader';
+import EditImageUploader from './EditImageUploader';
+import EditPdfUpload from './EditPdfUpload';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -347,6 +349,8 @@ const EditSecondaryProduct = () => {
                     unitPrice: result?.unit_price,
                     condition: { label: result?.condition, value: result?.condition } || null,
                 }));
+                setMedicineImages(result?.medicine_image || [])
+                setInvoiceImages(result?.invoice_image || [])
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
@@ -693,9 +697,11 @@ const EditSecondaryProduct = () => {
                 })
 
             } else if (productType && productType.label === 'Secondary Market') {
+                
                 const countryLabels = formData.countryAvailableIn?.map(country => {
-                    return country ? country.label : '';
+                    return country ;
                 }) || [];
+                console.log('Country Labels:', countryLabels);
 
                 secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 secondaryFormData.append('medicine_id',  medicineId);
@@ -728,6 +734,7 @@ const EditSecondaryProduct = () => {
                 formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
                 formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
                 secondaryFormData.append('condition', condition?.label);
+                // Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -1574,18 +1581,27 @@ const EditSecondaryProduct = () => {
                             <div className={styles['create-invoice-product-image-section']}>
                                 <div className={styles['create-invoice-upload-purchase']}>
                                     <div className={styles['create-invoice-form-heading']}>Upload Product Image</div>
-                                    <ImageAddUploader 
+                                    {/* <ImageAddUploader 
                                     image={medicineImages}
                                     setImage={setMedicineImages}
+                                    /> */}
+                                    <EditImageUploader
+                                      image={medicineImages}
+                                      setImage={setMedicineImages}
                                     />
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
                                         <div className={styles['create-invoice-upload-purchase']}>
                                             <div className={styles['create-invoice-form-heading']}>Upload Purchase Invoice</div>
-                                            <AddPdfUpload
+                                            {/* <AddPdfUpload
                                              invoiceImage={invoiceImages}
                                              setInvoiceImage={setInvoiceImages}
+                                             /> */}
+                                             <EditPdfUpload
+                                             invoiceImage={invoiceImages}
+                                             setInvoiceImage={setInvoiceImages}
+
                                              />
                                         </div>
                                     </>

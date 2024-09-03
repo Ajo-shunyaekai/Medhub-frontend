@@ -998,6 +998,8 @@ console.log('FORMDATA',formData);
         // setStockedInOptions(options);
     };
 
+ 
+
     return (
         <>
             <div className={styles['create-invoice-container']}>
@@ -1572,7 +1574,9 @@ console.log('FORMDATA',formData);
                                     <>
                                         <div className={styles['create-invoice-upload-purchase']}>
                                             <div className={styles['create-invoice-form-heading']}>Upload Purchase Invoice</div>
-                                            <AddPdfUpload />
+                                            <AddPdfUpload 
+                                            
+                                            />
                                         </div>
                                     </>
                                 )}

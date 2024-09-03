@@ -463,122 +463,56 @@ const AddProduct = () => {
         const { name, value } = event.target;
         let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-
+    
+        // Clear the error message for the field being updated
+        newErrors[name] = '';
+    
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
                 isValid = false;
-            } else {
-                newErrors.description = '';
             }
         } else if (name === 'productName' || name === 'dossierStatus') {
-            if (!/^[a-zA-Z\s]*$/.test(value)) {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
                 newErrors[name] = 'Only letters are allowed';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
             }
         } else if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
-            if (!/^\d*$/.test(value)) {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^\d*$/.test(value)) {
                 newErrors[name] = 'Only numbers are allowed';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
             }
         } else if (name === 'unitTax') {
-            if (!/^\d*\.?\d*$/.test(value)) {
+            // Only check for invalid format if the value is not empty
+            if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
                 newErrors[name] = 'Invalid unit tax format';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
             }
-        } else if (name === 'composition') {
-            // Add validation for composition if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Composition is required';
+        }  else if (name === 'shippingTime') {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^\d{1,2}$/.test(value)) {
+                newErrors[name] = 'Invalid Format';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'strength') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Strength is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'shelfLife') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Shelf Life is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'dossierType') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Dossier Type  is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'gmpApprovals') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'GMP Approvals is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'shippingTime') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Shipping Time is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'availableFor') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Available For is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'tags') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Tags are required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerName') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerDescription') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
             }
         }
+        // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
+        //     // Validate only if the value is not empty
+        //     if (value.trim() === '') {
+        //         newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
+        //         isValid = false;
+        //     }
+        // }
     
+        // Update the form data if valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
         setErrors(newErrors);
     };
+    
+    
     
     useEffect(() => {
         setFormData({

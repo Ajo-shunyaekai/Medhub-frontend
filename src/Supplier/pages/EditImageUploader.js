@@ -165,7 +165,8 @@ const EditImageUploader = ({ image, setImage }) => {
 
     useEffect(() => {
         if (!image || image.length < minImages) {
-            // setErrorMessage('Please Upload at Least One Image.');
+            setImages([])
+            setErrorMessage('Please Upload at Least One Image.');
         } else {
             setImages(image)
             setErrorMessage('');
@@ -247,7 +248,9 @@ const EditImageUploader = ({ image, setImage }) => {
     return (
         <>
             <div className={styles['add-image-uploader']}>
-                <div className={styles['add-upload-area']} onClick={handleImageClick} style={{ height: uploadAreaHeight }}>
+                <div className={styles['add-upload-area']} 
+                onClick={handleImageClick} 
+                style={{ height: uploadAreaHeight }}>
                     <img src={UploadImage} alt="Upload" className={styles['add-upload-icon']} />
                     <p className={styles['add-upload-text']}>Click here to Upload</p>
                     <input
@@ -264,7 +267,9 @@ const EditImageUploader = ({ image, setImage }) => {
                     {images.map((image, index) => {
                        
                         return (
-                            <div className={styles['add-image-preview']} key={index} onClick={() => handleImageClick2(image)}>
+                            <div className={styles['add-image-preview']} key={index} 
+                            // onClick={() => handleImageClick2(image)}
+                            >
                             {/* <img src={typeof image === 'string' ? image : URL.createObjectURL(image)} alt="Uploaded" className={styles['add-uploaded-image']} /> */}
                             <img 
                                 src={
