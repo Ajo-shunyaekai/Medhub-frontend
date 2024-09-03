@@ -269,14 +269,11 @@ const handleBuyerCountryOriginChange = (selected) => {
             }
         })
         } else {
-            setLoading(false)
-            toast('Some Fields are Missing', { type: "error" });
-            console.log('errorrrrr', formData);
+            
         }
     }
 
     const resetForm = () => {
-        
     };
 
     const handleCancel = () => {

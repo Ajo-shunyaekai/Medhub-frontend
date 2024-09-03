@@ -78,7 +78,7 @@ const InquiryPurchaseOrder = () => {
             setLoading(false);
         })
         if (activeLink === 'purchased') {
-            obj.status = 'pending'
+            obj.status = 'active'
             postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
                 if (response.code === 200) {
                     setPOList(response.result.data)

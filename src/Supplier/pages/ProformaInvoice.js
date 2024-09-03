@@ -164,6 +164,127 @@ const countryCodes = [
     '+1954', // Venezuela
 ];
 
+const phoneValidationRules = {
+    '1': /^\d{10}$/,                // USA/Canada: 10 digits
+    '44': /^(\d{10}|\d{11})$/,      // UK: 10 or 11 digits
+    '33': /^\d{10}$/,                // France: 10 digits
+    '49': /^\d{11,14}$/,             // Germany: 11 to 14 digits (including country code)
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits, starts with 6-9
+    '81': /^\d{10}$/,                // Japan: 10 digits
+    '82': /^\d{10}$/,                // South Korea: 10 digits
+    '61': /^(\d{9}|\d{10})$/,        // Australia: 9 or 10 digits
+    '971': /^\d{7,9}$/,              // UAE: 7 to 9 digits
+    '55': /^\d{10,11}$/,             // Brazil: 10 or 11 digits
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '52': /^\d{10}$/,                // Mexico: 10 digits
+    '46': /^\d{6,11}$/,              // Sweden: 6 to 11 digits
+    '34': /^\d{9}$/,                 // Spain: 9 digits
+    '64': /^\d{9}$/,                 // New Zealand: 9 digits
+    '39': /^\d{10}$/,                // Italy: 10 digits
+    '55': /^\d{11}$/,                // Brazil: 11 digits (often with 2-digit area code, note that '55' is duplicated)
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '53': /^\d{8}$/,                 // Cuba: 8 digits
+    '20': /^\d{10}$/,                // Egypt: 10 digits
+    '90': /^\d{10}$/,                // Turkey: 10 digits
+    '7': /^(\d{10}|\d{11})$/,        // Russia: 10 or 11 digits
+    '44': /^(\d{10}|\d{11})$/,       // UK: 10 or 11 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits, starts with 6-9
+    '52': /^\d{10}$/,                // Mexico: 10 digits
+    '55': /^\d{11}$/,                // Brazil: 11 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits
+    '971': /^\d{7,9}$/,              // UAE: 7 to 9 digits
+    '60': /^\d{9,10}$/,              // Malaysia: 9 or 10 digits
+    '62': /^\d{10,13}$/,             // Indonesia: 10 to 13 digits
+    '63': /^\d{10}$/,                // Philippines: 10 digits
+    '86': /^\d{11}$/,                // China: 11 digits
+    '90': /^\d{10}$/,                // Turkey: 10 digits
+    '98': /^\d{10}$/,                // Iran: 10 digits
+    '92': /^\d{10}$/,                // Pakistan: 10 digits
+    '94': /^\d{10}$/,                // Sri Lanka: 10 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits
+    '20': /^\d{10}$/,                // Egypt: 10 digits
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '41': /^\d{10}$/,                // Switzerland: 10 digits
+    '47': /^\d{8}$/,                 // Norway: 8 digits
+    '48': /^\d{9}$/,                 // Poland: 9 digits
+    '30': /^\d{10}$/,                // Greece: 10 digits
+    '31': /^\d{10}$/,                // Netherlands: 10 digits
+    '32': /^\d{9}$/,                 // Belgium: 9 digits
+    '33': /^\d{10}$/,                // France: 10 digits
+    '34': /^\d{9}$/,                 // Spain: 9 digits
+    '35': /^\d{8,9}$/,              // Portugal: 8 or 9 digits
+    '36': /^\d{9}$/,                // Hungary: 9 digits
+    '37': /^\d{8}$/,                // Moldova: 8 digits
+    '38': /^\d{9}$/,                // Slovenia:
+
+    '38': /^\d{9}$/,                // Slovenia: 9 digits
+    '39': /^\d{10}$/,               // Italy: 10 digits
+    '40': /^\d{10}$/,               // Romania: 10 digits
+    '41': /^\d{10}$/,               // Switzerland: 10 digits
+    '42': /^\d{9}$/,                // Slovakia: 9 digits
+    '43': /^\d{10}$/,               // Austria: 10 digits
+    '44': /^(\d{10}|\d{11})$/,     // UK: 10 or 11 digits (note this is duplicated in the list)
+    '45': /^\d{8}$/,                // Denmark: 8 digits
+    '46': /^\d{6,11}$/,             // Sweden: 6 to 11 digits
+    '47': /^\d{8}$/,                // Norway: 8 digits
+    '48': /^\d{9}$/,                // Poland: 9 digits
+    '49': /^\d{11,14}$/,            // Germany: 11 to 14 digits (including country code)
+    '50': /^\d{10}$/,               // Mongolia: 10 digits
+    '51': /^\d{9}$/,                // Peru: 9 digits
+    '52': /^\d{10}$/,               // Mexico: 10 digits
+    '53': /^\d{8}$/,                // Cuba: 8 digits
+    '54': /^\d{10}$/,               // Argentina: 10 digits
+    '55': /^\d{11}$/,               // Brazil: 11 digits
+    '56': /^\d{9}$/,                // Chile: 9 digits
+    '57': /^\d{10}$/,               // Colombia: 10 digits
+    '58': /^\d{11}$/,               // Venezuela: 11 digits
+    '60': /^\d{9,10}$/,             // Malaysia: 9 or 10 digits
+    '61': /^(\d{9}|\d{10})$/,       // Australia: 9 or 10 digits
+    '62': /^\d{10,13}$/,            // Indonesia: 10 to 13 digits
+    '63': /^\d{10}$/,               // Philippines: 10 digits
+    '64': /^\d{9}$/,                // New Zealand: 9 digits
+    '65': /^\d{8}$/,                // Singapore: 8 digits
+    '66': /^\d{9,10}$/,             // Thailand: 9 or 10 digits
+    '81': /^\d{10}$/,               // Japan: 10 digits
+    '82': /^\d{10}$/,               // South Korea: 10 digits
+    '84': /^\d{10}$/,               // Vietnam: 10 digits
+    '86': /^\d{11}$/,               // China: 11 digits
+    '90': /^\d{10}$/,               // Turkey: 10 digits
+    '92': /^\d{10}$/,               // Pakistan: 10 digits
+    '93': /^\d{9}$/,                // Afghanistan: 9 digits
+    '94': /^\d{10}$/,               // Sri Lanka: 10 digits
+    '98': /^\d{10}$/,               // Iran: 10 digits
+    '992': /^\d{9}$/,              // Tajikistan: 9 digits
+    '993': /^\d{9}$/,              // Turkmenistan: 9 digits
+    '994': /^\d{9}$/,              // Azerbaijan: 9 digits
+    '995': /^\d{9}$/,              // Georgia: 9 digits
+    '996': /^\d{9}$/,              // Kyrgyzstan: 9 digits
+    '998': /^\d{9}$/,              // Uzbekistan: 9 digits
+    '213': /^\d{9}$/,              // Algeria: 9 digits
+    '216': /^\d{8}$/,              // Tunisia: 8 digits
+    '218': /^\d{9}$/,              // Libya: 9 digits
+    '220': /^\d{7}$/,              // Gambia: 7 digits
+    '221': /^\d{9}$/,              // Senegal: 9 digits
+    '222': /^\d{8}$/,              // Mauritania: 8 digits
+    '223': /^\d{8}$/,              // Mali: 8 digits
+    '224': /^\d{9}$/,              // Guinea: 9 digits
+    '225': /^\d{8}$/,              // Côte d'Ivoire: 8 digits
+    '226': /^\d{8}$/,              // Burkina Faso: 8 digits
+    '227': /^\d{8}$/,              // Niger: 8 digits
+    '228': /^\d{8}$/,              // Togo: 8 digits
+    '229': /^\d{8}$/,              // Benin: 8 digits
+    '230': /^\d{7}$/,              // Mauritius: 7 digits
+    '231': /^\d{7}$/,              // Liberia: 7 digits
+    '232': /^\d{8}$/,              // Sierra Leone: 8 digits
+    '233': /^\d{10}$/,             // Ghana: 10 digits
+    '234': /^\d{10}$/,             // Nigeria: 10 digits
+    '235': /^\d{8}$/,              // Chad: 8 digits
+    '236': /^\d{8}$/,              // Central African Republic: 8 digits
+    '237': /^\d{9}$/,              // Cameroon: 9 digits
+    '238': /^\d{7}$/,              // Cape Verde: 7 digits
+    '239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
+}
+
 const ProformaInvoice = () => {
     const { purchaseOrderId } = useParams();
     const navigate            = useNavigate();
@@ -180,17 +301,12 @@ const ProformaInvoice = () => {
     const [dateError, setDateError] = useState('')
     const [dateValue, setDateValue] = useState();
     const [mobileError, setMobileError] = useState('')
-
-    const handlePaymentDueDateChange = (e) => {
-        setDateValue(e)
-        setDateError(null)
-    }
-
-    const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
-        defaultValues: {
-            invoiceDate: '',
+    const [errors, setErrors]    = useState({})
+    const [formData, setFormData] = useState({
+        invoiceDate: '',
             invoiceDueDate: '',
             invoiceNumber: '',
+            dueDate : '',
             depositRequested : '',
             depositDue : '',
             supplierName: '',
@@ -204,20 +320,43 @@ const ProformaInvoice = () => {
             buyerMobile: '',
             newBuyerMobile: '',
             orderItems: [],
-        }
-    });
+            paymentTerms : '',
+            totalDueAmount : ''
+    })
 
+    const handlePaymentDueDateChange = (e) => {
+        setDateValue(e)
+        setDateError(null)
+        setFormData(prevState => ({
+            ...prevState,
+            dueDate: formatDate(e)
+        }));
+    }
+
+    const formatDate = (date) => {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+        const year = date.getFullYear();
+    
+        return `${day}-${month}-${year}`;
+    };
     useEffect(() => {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0'); 
         const year = today.getFullYear();
-        setCurrentDate(`${day}-${month}-${year}`);
-        setValue('invoiceDate', `${day}-${month}-${year}`);
+        const formattedDate = `${day}-${month}-${year}`;
+        setCurrentDate(formattedDate);
+        // setValue('invoiceDate', `${day}-${month}-${year}`);
 
         const generateRandomNumber = () => Math.floor(10000000 + Math.random() * 90000000);
-        setInvoiceNumber(generateRandomNumber());
-        setValue('invoiceNumber', generateRandomNumber());
+        const generatedInvoiceNumber = generateRandomNumber();
+
+        setFormData(prevState => ({
+            ...prevState,
+            invoiceNumber: generatedInvoiceNumber,
+            invoiceDate: formattedDate
+        }));
 
         const dueDate = new Date(today);
         dueDate.setDate(today.getDate() + 15);
@@ -226,9 +365,9 @@ const ProformaInvoice = () => {
         const dueYear = dueDate.getFullYear();
         const formattedDueDate = `${dueDay}-${dueMonth}-${dueYear}`;
         setDueDate(formattedDueDate)
-        setValue('invoiceDueDate', formattedDueDate);
+        // setValue('invoiceDueDate', formattedDueDate);
 
-    }, [setValue]);
+    }, []);
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -242,56 +381,99 @@ const ProformaInvoice = () => {
         postRequestWithToken('supplier/purchaseorder/get-po-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result);
-                setValue('supplierName', response?.result?.supplier_details[0]?.supplier_name);
-                setValue('supplierAddress', response?.result?.supplier_details[0]?.supplier_address);
-                setValue('supplierEmail', response?.result?.supplier_details[0]?.contact_person_email);
-                const supplierDetails = response.result.supplier_details[0];
-                const countryCode = supplierDetails.contact_person_country_code || '';
-                const mobileNumber = supplierDetails.contact_person_mobile_no || '';
-                const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
-                const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
-                setValue('supplierMobile', formattedPhoneNumber);
-                setValue('newSupplierMobile',newFormattedPhoneNumber)
-                setValue('buyerName', response?.result?.buyer_details[0]?.buyer_name);
-                setValue('buyerAddress', response?.result?.buyer_details[0]?.buyer_address);
-                setValue('buyerEmail', response?.result?.buyer_details[0]?.contact_person_email);
-                const  buyerDetails = response.result.buyer_details[0];
-                const buyerCountryCode = buyerDetails.contact_person_country_code || '';
-                const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
-                const formattedBuyerPhoneNumber = `${buyerCountryCode} ${buyerMobileNumber}`;
-                const newFormattedBuyerPhoneNumber = `${buyerCountryCode}-${buyerMobileNumber}`;
-                setValue('buyerMobile', formattedBuyerPhoneNumber);
-                setValue('newBuyerMobile',newFormattedBuyerPhoneNumber)
-                const totalDueAmount = response?.result?.order_items.reduce((total, item) => total + parseFloat(item.total_amount), 0);
-                setValue('totalDueAmount', totalDueAmount?.toFixed(2));
-                setValue('orderItems', response?.result?.order_items)
+                const data = response.result
+                const formattedSupplierMobile = `${data?.supplier_country_code || ''}-${data?.supplier_mobile || ''}`;
+                const formattedBuyerMobile = `${data?.buyer_country_code || ''}-${data?.buyer_mobile || ''}`;
+
                 const paymentTermsString = response?.result?.enquiry_details[0]?.payment_terms?.join('\n'); 
-                setValue('paymentTerms', paymentTermsString);
-                setOrderItems(response?.result?.order_items)
-                setValue('paymentDueDate', '');
+        
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    poId: data.purchaseOrder_id,
+                    description : data.additional_instructions,
+                    supplierId: data?.supplier_id,
+                    supplierName: data?.supplier_name,
+                    supplierEmail: data?.supplier_email,
+                    supplierAddress: data?.supplier_address,
+                    supplierMobile: formattedSupplierMobile,
+                    supplierContactPersonMobile: data?.supplier_details[0]?.contact_person_mobile_no,
+                    supplierContactPersonCountryCode: data?.supplier_details[0]?.contact_person_country_code,
+                    supplierRegNo: data?.supplier_regNo,
+                    buyerId: data?.buyer_details?.buyer_id,
+                    buyerName: data?.buyer_name,
+                    buyerEmail: data?.buyer_email,
+                    buyerAddress : data?.buyer_address,
+                    buyerMobile: formattedBuyerMobile,
+                    buyerRegNo: data?.buyer_regNo,
+                    orderItems: data?.order_items,
+                    totalDueAmount : data?.total_amount,
+                    paymentTerms : paymentTermsString
+                }));
+                setOrderItems(data?.order_items)
             } else {
                 console.log('error in order list api', response);
             }
         });
-    }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage, setValue]);
+    }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
 
-    const formatDate = (date) => {
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
-        const year = date.getFullYear();
-    
-        return `${day}-${month}-${year}`;
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        let newErrors = {};
+        let isValid = true;
+
+        if (name === 'description') {
+            if (value.length > 1000) {
+                newErrors.description = 'Description cannot exceed 1000 characters';
+                isValid = false;
+            } else {
+                newErrors.description = '';
+            }
+        }
+        if (name === 'productName' || name === 'dossierStatus') {
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
+            if (!/^\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors.unitTax = '';
+            }
+        }
+        if (isValid) {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+        }
+        setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
 
     const resetForm = () => {
-       setValue('supplierName', '')
-       setValue('supplierMobile', '')
-       setValue('newSupplierMobile', '')
-       setValue('supplierAddress', '')
-       setValue('supplierEmail', '')
-       setValue('depositDue', '')
-       setValue('depositRequested', '')
+    
     };
+
+    const validateForm = () => {
+        let formErrors = {};
+        if(!formData.supplierName) formErrors.supplierName = 'Supplier Name is Required'
+        if(!formData.supplierEmail) formErrors.supplierEmail = 'Supplier Email is Required'
+        if(!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
+        if(!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
+        if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested is Required'
+        if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
+        if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
+
+        // if(!formData.suppl) formErrors.buyerRegNo = 'Buyer VAT Reg No. is Required'
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    }
 
     const handleCancel = () => {
         resetForm()
@@ -304,74 +486,87 @@ const ProformaInvoice = () => {
         return validMobileRegex.test(mobile);
     }
     
-    const onSubmit = (data) => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
             return;
         }
-        if (dateValue === undefined || dateValue === null || dateValue === '' ) {
-            setDateError('Payment Due Date is Required');
-            toast('Some fields are missing', {type: 'error'})
-            return false;
+        // if (dateValue === undefined || dateValue === null || dateValue === '' ) {
+        //     setDateError('Payment Due Date is Required');
+        //     toast('Some fields are missing', {type: 'error'})
+        //     return false;
+        // }
+        // if (!validateSupplierMobile(data.supplierMobile)) {
+        //     setMobileError('Supplier Mobile No is Invalid or Required');
+        //     toast('Supplier Mobile No is Invalid or Required', { type: 'error' });
+        //     return false;
+        // }
+
+        if(validateForm()) {
+            setLoading(true)
+            setDateError('');
+            const updatedOrderItems = orderItems.map(item => ({
+                ...item,
+                unit_tax: item?.medicine_details?.unit_tax,
+                est_delivery_days: item?.est_delivery_days,
+            }));
+    
+            const  buyerDetails = inquiryDetails.buyer_details[0];
+            const buyerCountryCode = buyerDetails.contact_person_country_code || '';
+            const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
+            const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
+            const  supplierDetails = inquiryDetails.supplier_details[0];
+            const supplierCountryCode = supplierDetails.contact_person_country_code || '';
+            const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
+            const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
+    
+            const obj = {
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                enquiry_id: inquiryDetails?.enquiry_id,
+                purchaseOrder_id: purchaseOrderId,
+                buyer_id: inquiryDetails?.buyer_id,
+                orderItems: updatedOrderItems,
+                data: {
+                    ...formData,
+                    // dueDate: formatDate(dateValue),
+                    newBuyerMobile: formattedBuyerPhoneNumber,
+                    newSupplierMobile: formattedSupplierPhoneNumber,
+                },
+                totalAmount: roundedGrandTotalAmount
+            };
+            postRequestWithToken('buyer/order/create-order', obj, async (response) => {
+                if (response.code === 200) {
+                    
+                    toast(response.message, { type: 'success' })
+                    // setTimeout(() => {
+                        navigate('/supplier/order/active')
+                    // }, 500)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                    console.log('error in create-order api', response);
+                    toast(response.message, { type: 'error' })
+                }
+                // setLoading(false)
+            });
+        } else {
+            setLoading(false)
+            toast('Some Fields are Missing', { type: "error" });
+            console.log('errorrrrr', formData);
         }
-        if (!validateSupplierMobile(data.supplierMobile)) {
-            setMobileError('Supplier Mobile No is Invalid or Required');
-            toast('Supplier Mobile No is Invalid or Required', { type: 'error' });
-            return false;
-        }
-
-        setLoading(true)
-        setDateError('');
-        const updatedOrderItems = orderItems.map(item => ({
-            ...item,
-            unit_tax: item?.medicine_details?.unit_tax,
-            est_delivery_days: item?.est_delivery_days,
-        }));
-
-        const  buyerDetails = inquiryDetails.buyer_details[0];
-        const buyerCountryCode = buyerDetails.contact_person_country_code || '';
-        const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
-        const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
-        const  supplierDetails = inquiryDetails.supplier_details[0];
-        const supplierCountryCode = supplierDetails.contact_person_country_code || '';
-        const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
-        const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
-
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            enquiry_id: inquiryDetails?.enquiry_id,
-            purchaseOrder_id: purchaseOrderId,
-            buyer_id: inquiryDetails?.buyer_id,
-            orderItems: updatedOrderItems,
-            data: {
-                ...data,
-                dueDate: formatDate(dateValue),
-                newBuyerMobile: formattedBuyerPhoneNumber,
-                newSupplierMobile: formattedSupplierPhoneNumber,
-            },
-            totalAmount: roundedGrandTotalAmount
-        };
-        postRequestWithToken('buyer/order/create-order', obj, async (response) => {
-            if (response.code === 200) {
-                
-                toast(response.message, { type: 'success' })
-                // setTimeout(() => {
-                    navigate('/supplier/order/active')
-                // }, 500)
-                setLoading(false)
-            } else {
-                setLoading(false)
-                console.log('error in create-order api', response);
-                toast(response.message, { type: 'error' })
-            }
-            // setLoading(false)
-        });
+       
 
     };
 
     const handleNumberInput = (event) => {
-        const value = event.target.value;
-        event.target.value = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); 
+        const { name, value } = event.target;
+        const cleanedValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: cleanedValue,
+        }));
     };
 
     const grandTotalAmount = orderItems.reduce((total, item) => {
@@ -380,33 +575,29 @@ const ProformaInvoice = () => {
 
     const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
 
+ 
+
     const formatPhoneNumber = (phoneNumber, countryCode) => {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
         return `+${countryCode}-${cleanedNumber}`;
     };
     
-    const handleBuyerPhoneChange = (value) => {
-        let countryCode = '';
-        let mobileNumber = value;
+    const validatePhoneNumber = (phoneNumber, countryCode) => {
     
-        for (let code of countryCodes) {
-            if (value.startsWith(code)) {
-                countryCode = code.replace('+', ''); 
-                mobileNumber = value.substring(code.length);
-                break;
-            }
-        }
-        if (countryCode && mobileNumber) {
-            const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            setValue('buyerMobile', formattedPhoneNumber);
+        const validationRule = phoneValidationRules[countryCode];
+        if (validationRule) {
+            return validationRule.test(phoneNumber);
         } else {
-            console.error('Invalid phone number format or unknown country code');
+            return false; 
         }
     };
 
-    const handleSupplierPhoneChange = (value) => {
+    const handlePhoneChange = (value, type) => {
         let countryCode = '';
         let mobileNumber = value;
+        let isValidNumber = false;
+    
+        // Extract the country code and the mobile number
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
                 countryCode = code.replace('+', ''); 
@@ -414,10 +605,32 @@ const ProformaInvoice = () => {
                 break;
             }
         }
+    
+        // Validate the phone number based on the country code
         if (countryCode && mobileNumber) {
-            const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            setValue('supplierMobile', formattedPhoneNumber);
+            isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
+    
+            if (isValidNumber) {
+                const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
+                console.log("formattedPhoneNumber", formattedPhoneNumber);
+    
+                // Update formData with the formatted phone number
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: formattedPhoneNumber,  // Here, type should be 'buyerMobile' to update the correct field
+                }));
+            } else {
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: '',  // Clear the field if invalid
+                }));
+                console.error('Invalid phone number format for the specified country code');
+            }
         } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [type]: '',  // Clear the field if invalid
+            }));
             console.error('Invalid phone number format or unknown country code');
         }
     };
@@ -426,7 +639,9 @@ const ProformaInvoice = () => {
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
-            <form className={styles['craete-invoice-form']} onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles['craete-invoice-form']} 
+            onSubmit={handleSubmit}
+            >
                 <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-form-heading']}>Supplier</div>
                     <div className={styles['create-invoice-inner-form-container']}>
@@ -434,9 +649,11 @@ const ProformaInvoice = () => {
                             <label className={styles['create-invoice-div-label']}>Name</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='supplierName' placeholder='Enter Name'
-                                {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} 
+                                value={formData.supplierName}
+                                onChange={handleChange}
+                                // {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} 
                                 />
-                                {errors.supplierName && <p style={{color: 'red'}}>{errors.supplierName.message}</p>}
+                                {errors.supplierName && <p style={{color: 'red'}}>{errors.supplierName}</p>}
                         </div>
                         
                         <div className={styles['create-invoice-div-container']}>
@@ -444,9 +661,10 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 placeholder='Enter Invoice Number'
                                 name='invoiceNumber'
-                                value={invoiceNumber}
+                                value={formData.invoiceNumber}
                                 readOnly
-                                {...register('invoiceNumber')} />
+                                // {...register('invoiceNumber')} 
+                                />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
@@ -455,7 +673,8 @@ const ProformaInvoice = () => {
                                 placeholder='Enter Invoice Generate Date'
                                 value={currentDate}
                                 readOnly
-                                {...register('invoiceDate')} />
+                                // {...register('invoiceDate')} 
+                                />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Payment Due Date</label>
@@ -469,27 +688,29 @@ const ProformaInvoice = () => {
                                 format="dd/MM/yyyy"
                                 placeholder='dd/MM/yyyy'
                             />
-                             {dateError && <p style={{color: 'red'}}>{dateError}</p>}
+                             {errors.dueDate && <p style={{color: 'red'}}>{errors.dueDate}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='depositRequested'
                                 placeholder='Enter Deposit Requested'
-                                {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested is Required' })}
+                                value={formData.depositRequested}
+                                // {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested is Required' })}
                                 onInput={handleNumberInput}
                                 />
-                                {errors.depositRequested && <p style={{color: 'red'}}>{errors.depositRequested.message}</p>}
+                                {errors.depositRequested && <p style={{color: 'red'}}>{errors.depositRequested}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Due</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='depositDue'
                                 placeholder='Enter Deposit Due'
-                                {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
+                                value={formData.depositDue}
+                                // {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
                                 onInput={handleNumberInput}
                                  />
-                                 {errors.depositDue && <p style={{color: 'red'}}>{errors.depositDue.message}</p>}
+                                 {errors.depositDue && <p style={{color: 'red'}}>{errors.depositDue}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
@@ -497,8 +718,9 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='totalDueAmount'
                                 placeholder='Enter Total Due Amount'
-                                {...register('totalDueAmount',
-                                )}
+                                // {...register('totalDueAmount',
+                                // )}
+                                value={formData.totalDueAmount}
                                 onInput={handleNumberInput}
                                 />
                         </div>
@@ -507,8 +729,11 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='supplierEmail'
                                 placeholder='Enter Email ID'
-                                {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })} />
-                            {errors.supplierEmail && <p style={{color: 'red'}}>{errors.supplierEmail.message}</p>}
+                                value={formData.supplierEmail}
+                                onChange={handleChange}
+                                // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })} 
+                                />
+                            {errors.supplierEmail && <p style={{color: 'red'}}>{errors.supplierEmail}</p>}
                         </div>
 
                         <div className={styles['create-invoice-div-container']}>
@@ -516,19 +741,24 @@ const ProformaInvoice = () => {
                             <PhoneInput
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
-                            name='phoneinput'
-                            value={watch('supplierMobile')}
-                            onChange={handleSupplierPhoneChange}
+                            name='supplierMobile'
+                            // value={watch('supplierMobile')}
+                            value={formData.supplierMobile}
+                            // onChange={handleSupplierPhoneChange}
+                            onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
                         />
-                            {mobileError && <p style={{color: 'red'}}>{mobileError}</p>}
+                            {errors.supplierMobile && <p style={{color: 'red'}}>{errors.supplierMobile}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='supplierAddress'
                                 placeholder='Enter Address'
-                                {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })} />
-                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress.message}</p>}
+                                value={formData.supplierAddress}
+                                onChange={handleChange}
+                                // {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })} 
+                                />
+                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress}</p>}
                         </div>
                     </div>
                 </div>
@@ -540,8 +770,10 @@ const ProformaInvoice = () => {
                             <input className={styles['create-invoice-div-input']} type='text'
                                 name='buyerName' placeholder='Enter Name'
                                 readOnly
-                                {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })} />
-                            {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName.message}</p>}
+                                value={formData.buyerName}
+                                // {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })}
+                                />
+                            {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -549,8 +781,10 @@ const ProformaInvoice = () => {
                                 name='buyerEmail'
                                 placeholder='Enter Email ID'
                                 readOnly
-                                {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })} />
-                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail.message}</p>}
+                                value={formData.buyerEmail}
+                                // {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })} 
+                                />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile No.</label>
@@ -558,11 +792,12 @@ const ProformaInvoice = () => {
                             className='signup-form-section-phone-input'
                             defaultCountry="ae"
                             name='phoneinput'
-                            value={watch('buyerMobile')}
+                            // value={watch('buyerMobile')}
+                            value={formData.buyerMobile}
                             disabled
-                            onChange={handleBuyerPhoneChange}
+                            // onChange={handleBuyerPhoneChange}
                         />
-                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile.message}</p>}
+                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -570,8 +805,10 @@ const ProformaInvoice = () => {
                                 name='buyerAddress'
                                 placeholder='Enter Address'
                                 readOnly
-                                {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })} />
-                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress.message}</p>}
+                                value={formData.buyerAddress}
+                                // {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })} 
+                                />
+                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress}</p>}
                         </div>
                     </div>
                 </div>
@@ -638,7 +875,8 @@ const ProformaInvoice = () => {
                                 rows="4"
                                 cols="10"
                                 placeholder='Enter Payment Terms'
-                                {...register('paymentTerms')}
+                                value={formData.paymentTerms}
+                                // {...register('paymentTerms')}
                                 readOnly 
                             />
                         </div>

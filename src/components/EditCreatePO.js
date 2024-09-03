@@ -160,34 +160,163 @@ const countryCodes = [
     '+1954', // Venezuela
 ];
 
+const phoneValidationRules = {
+    '1': /^\d{10}$/,                // USA/Canada: 10 digits
+    '44': /^(\d{10}|\d{11})$/,      // UK: 10 or 11 digits
+    '33': /^\d{10}$/,                // France: 10 digits
+    '49': /^\d{11,14}$/,             // Germany: 11 to 14 digits (including country code)
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits, starts with 6-9
+    '81': /^\d{10}$/,                // Japan: 10 digits
+    '82': /^\d{10}$/,                // South Korea: 10 digits
+    '61': /^(\d{9}|\d{10})$/,        // Australia: 9 or 10 digits
+    '971': /^\d{7,9}$/,              // UAE: 7 to 9 digits
+    '55': /^\d{10,11}$/,             // Brazil: 10 or 11 digits
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '52': /^\d{10}$/,                // Mexico: 10 digits
+    '46': /^\d{6,11}$/,              // Sweden: 6 to 11 digits
+    '34': /^\d{9}$/,                 // Spain: 9 digits
+    '64': /^\d{9}$/,                 // New Zealand: 9 digits
+    '39': /^\d{10}$/,                // Italy: 10 digits
+    '55': /^\d{11}$/,                // Brazil: 11 digits (often with 2-digit area code, note that '55' is duplicated)
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '53': /^\d{8}$/,                 // Cuba: 8 digits
+    '20': /^\d{10}$/,                // Egypt: 10 digits
+    '90': /^\d{10}$/,                // Turkey: 10 digits
+    '7': /^(\d{10}|\d{11})$/,        // Russia: 10 or 11 digits
+    '44': /^(\d{10}|\d{11})$/,       // UK: 10 or 11 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits, starts with 6-9
+    '52': /^\d{10}$/,                // Mexico: 10 digits
+    '55': /^\d{11}$/,                // Brazil: 11 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits
+    '971': /^\d{7,9}$/,              // UAE: 7 to 9 digits
+    '60': /^\d{9,10}$/,              // Malaysia: 9 or 10 digits
+    '62': /^\d{10,13}$/,             // Indonesia: 10 to 13 digits
+    '63': /^\d{10}$/,                // Philippines: 10 digits
+    '86': /^\d{11}$/,                // China: 11 digits
+    '90': /^\d{10}$/,                // Turkey: 10 digits
+    '98': /^\d{10}$/,                // Iran: 10 digits
+    '92': /^\d{10}$/,                // Pakistan: 10 digits
+    '94': /^\d{10}$/,                // Sri Lanka: 10 digits
+    '91': /^[6-9]\d{9}$/,            // India: 10 digits
+    '20': /^\d{10}$/,                // Egypt: 10 digits
+    '27': /^\d{10}$/,                // South Africa: 10 digits
+    '41': /^\d{10}$/,                // Switzerland: 10 digits
+    '47': /^\d{8}$/,                 // Norway: 8 digits
+    '48': /^\d{9}$/,                 // Poland: 9 digits
+    '30': /^\d{10}$/,                // Greece: 10 digits
+    '31': /^\d{10}$/,                // Netherlands: 10 digits
+    '32': /^\d{9}$/,                 // Belgium: 9 digits
+    '33': /^\d{10}$/,                // France: 10 digits
+    '34': /^\d{9}$/,                 // Spain: 9 digits
+    '35': /^\d{8,9}$/,              // Portugal: 8 or 9 digits
+    '36': /^\d{9}$/,                // Hungary: 9 digits
+    '37': /^\d{8}$/,                // Moldova: 8 digits
+    '38': /^\d{9}$/,                // Slovenia:
+
+    '38': /^\d{9}$/,                // Slovenia: 9 digits
+    '39': /^\d{10}$/,               // Italy: 10 digits
+    '40': /^\d{10}$/,               // Romania: 10 digits
+    '41': /^\d{10}$/,               // Switzerland: 10 digits
+    '42': /^\d{9}$/,                // Slovakia: 9 digits
+    '43': /^\d{10}$/,               // Austria: 10 digits
+    '44': /^(\d{10}|\d{11})$/,     // UK: 10 or 11 digits (note this is duplicated in the list)
+    '45': /^\d{8}$/,                // Denmark: 8 digits
+    '46': /^\d{6,11}$/,             // Sweden: 6 to 11 digits
+    '47': /^\d{8}$/,                // Norway: 8 digits
+    '48': /^\d{9}$/,                // Poland: 9 digits
+    '49': /^\d{11,14}$/,            // Germany: 11 to 14 digits (including country code)
+    '50': /^\d{10}$/,               // Mongolia: 10 digits
+    '51': /^\d{9}$/,                // Peru: 9 digits
+    '52': /^\d{10}$/,               // Mexico: 10 digits
+    '53': /^\d{8}$/,                // Cuba: 8 digits
+    '54': /^\d{10}$/,               // Argentina: 10 digits
+    '55': /^\d{11}$/,               // Brazil: 11 digits
+    '56': /^\d{9}$/,                // Chile: 9 digits
+    '57': /^\d{10}$/,               // Colombia: 10 digits
+    '58': /^\d{11}$/,               // Venezuela: 11 digits
+    '60': /^\d{9,10}$/,             // Malaysia: 9 or 10 digits
+    '61': /^(\d{9}|\d{10})$/,       // Australia: 9 or 10 digits
+    '62': /^\d{10,13}$/,            // Indonesia: 10 to 13 digits
+    '63': /^\d{10}$/,               // Philippines: 10 digits
+    '64': /^\d{9}$/,                // New Zealand: 9 digits
+    '65': /^\d{8}$/,                // Singapore: 8 digits
+    '66': /^\d{9,10}$/,             // Thailand: 9 or 10 digits
+    '81': /^\d{10}$/,               // Japan: 10 digits
+    '82': /^\d{10}$/,               // South Korea: 10 digits
+    '84': /^\d{10}$/,               // Vietnam: 10 digits
+    '86': /^\d{11}$/,               // China: 11 digits
+    '90': /^\d{10}$/,               // Turkey: 10 digits
+    '92': /^\d{10}$/,               // Pakistan: 10 digits
+    '93': /^\d{9}$/,                // Afghanistan: 9 digits
+    '94': /^\d{10}$/,               // Sri Lanka: 10 digits
+    '98': /^\d{10}$/,               // Iran: 10 digits
+    '992': /^\d{9}$/,              // Tajikistan: 9 digits
+    '993': /^\d{9}$/,              // Turkmenistan: 9 digits
+    '994': /^\d{9}$/,              // Azerbaijan: 9 digits
+    '995': /^\d{9}$/,              // Georgia: 9 digits
+    '996': /^\d{9}$/,              // Kyrgyzstan: 9 digits
+    '998': /^\d{9}$/,              // Uzbekistan: 9 digits
+    '213': /^\d{9}$/,              // Algeria: 9 digits
+    '216': /^\d{8}$/,              // Tunisia: 8 digits
+    '218': /^\d{9}$/,              // Libya: 9 digits
+    '220': /^\d{7}$/,              // Gambia: 7 digits
+    '221': /^\d{9}$/,              // Senegal: 9 digits
+    '222': /^\d{8}$/,              // Mauritania: 8 digits
+    '223': /^\d{8}$/,              // Mali: 8 digits
+    '224': /^\d{9}$/,              // Guinea: 9 digits
+    '225': /^\d{8}$/,              // Côte d'Ivoire: 8 digits
+    '226': /^\d{8}$/,              // Burkina Faso: 8 digits
+    '227': /^\d{8}$/,              // Niger: 8 digits
+    '228': /^\d{8}$/,              // Togo: 8 digits
+    '229': /^\d{8}$/,              // Benin: 8 digits
+    '230': /^\d{7}$/,              // Mauritius: 7 digits
+    '231': /^\d{7}$/,              // Liberia: 7 digits
+    '232': /^\d{8}$/,              // Sierra Leone: 8 digits
+    '233': /^\d{10}$/,             // Ghana: 10 digits
+    '234': /^\d{10}$/,             // Nigeria: 10 digits
+    '235': /^\d{8}$/,              // Chad: 8 digits
+    '236': /^\d{8}$/,              // Central African Republic: 8 digits
+    '237': /^\d{9}$/,              // Cameroon: 9 digits
+    '238': /^\d{7}$/,              // Cape Verde: 7 digits
+    '239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
+}
+
 const EditCreatePO = () => {
     const { purchaseOrderId } = useParams()
     const navigate            = useNavigate();
+    const [errors, setErrors]    = useState({})
+    const [formData, setFormData] = useState({
+        purchaseOrderId: '',
+        poDate: '',
+        poNumber : '',
+        description : '',
+        poStatus : '',
+        buyerId: '',
+        buyerName: '',
+        buyerAddress: '',
+        buyerEmail: '',
+        buyerMobile: '',
+        buyerCountryCode: '',
+        buyerContactPersonMobile: '',
+        buyerContactPersonCountryCode: '',
+        buyerRegNo: '',
+        supplierId: '',
+        supplierName: '',
+        supplierEmail: '',
+        supplierAddress: '',
+        supplierMobile: '',
+        supplierCountryCode: '',
+        supplierContactPersonMobile: '',
+        supplierContactPersonCountryCode: '',
+        supplierRegNo: '',
+        orderItems: [],
+    })
 
     const [loading, setLoading] = useState(false);
     const [poDetails, setPoDetails] = useState();
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-    const { register, handleSubmit, control, setValue, watch, formState: { errors } } = useForm({
-        defaultValues: {
-            poDate: '',
-            poNumber: '',
-            supplierName: '',
-            supplierAddress: '',
-            supplierEmail: '',
-            supplierMobile: '',
-            supplierRegNo: '',
-            buyerName: '',
-            buyerAddress: '',
-            buyerEmail: '',
-            buyerMobile: '',
-            buyerRegNo: '',
-            orderItems: [],
-            description: ''
-        }
-    });
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -200,98 +329,196 @@ const EditCreatePO = () => {
         };
         postRequestWithToken('buyer/purchaseorder/get-po-details', obj, async (response) => {
             if (response.code === 200) {
-                setPoDetails(response?.result);
-                setValue('poId', response?.result?.purchaseOrder_id);
-                setValue('poDate', response?.result?.po_date);
-                setValue('poNumber', response?.result?.po_number);
-                setValue('description', response?.result?.additional_instructions);
-                setValue('poStatus', response?.result?.po_status);
-                setValue('buyerName', response?.result?.buyer_name);
-                setValue('buyerEmail', response?.result?.buyer_email);
-                // setValue('buyerMobile', response?.result?.buyer_mobile);
-                const buyerDetails = response.result;
-                const buyerCountryCode = buyerDetails.buyer_country_code || '';
-                const buyerMobileNumber = buyerDetails.buyer_mobile || '';
-                const buyerFormattedPhoneNumber = `${buyerCountryCode}${buyerMobileNumber}`;
-                setValue('buyerMobile', buyerFormattedPhoneNumber);
-                setValue('buyerAddress', response?.result?.buyer_address);
-                setValue('buyerRegNo', response?.result?.buyer_regNo);
-                setValue('supplierName', response?.result?.supplier_name);
-                setValue('supplierEmail', response?.result?.supplier_email);
-                // setValue('supplierMobile', response?.result?.supplier_mobile);
-                const supplierDetails = response.result;
-                const countryCode = supplierDetails.supplier_country_code || '';
-                const mobileNumber = supplierDetails.supplier_mobile || '';
-                const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
-                setValue('supplierMobile', formattedPhoneNumber);
-                setValue('supplierAddress', response?.result?.supplier_address);
-                setValue('supplierRegNo', response?.result?.supplier_regNo);
-                setValue('orderItems', response?.result?.order_items);
+                setPoDetails(response.result)
+                const data = response.result
+                const formattedSupplierMobile = `${data?.supplier_country_code || ''}-${data?.supplier_mobile || ''}`;
+                const formattedBuyerMobile = `${data.buyer_country_code || ''}-${data.buyer_mobile || ''}`;
+
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    poId: data.purchaseOrder_id,
+                    poDate: data.po_date,
+                    poNumber : data.po_number,
+                    description : data.additional_instructions,
+                    supplierId: data.supplier_id,
+                    supplierName: data?.supplier_name,
+                    supplierEmail: data?.supplier_email,
+                    supplierAddress: data?.supplier_address,
+                    supplierMobile: formattedSupplierMobile,
+                    supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+                    supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+                    supplierRegNo: data?.supplier_regNo,
+                    buyerId: data.buyer_id,
+                    buyerName: data?.buyer_name,
+                    buyerEmail: data?.buyer_email,
+                    buyerAddress: data?.buyer_address,
+                    buyerMobile: formattedBuyerMobile,
+                    buyerRegNo: data?.buyer_regNo,
+                    orderItems: data?.items,
+                }));
             } else {
                 console.log('error in order list api', response);
             }
         });
-    }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, purchaseOrderId, setValue]);
+    }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, purchaseOrderId]);
 
-    const onSubmit = (data) => {
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        let newErrors = {};
+        let isValid = true;
+
+        if (name === 'description') {
+            if (value.length > 1000) {
+                newErrors.description = 'Description cannot exceed 1000 characters';
+                isValid = false;
+            } else {
+                newErrors.description = '';
+            }
+        }
+        if (name === 'productName' || name === 'dossierStatus') {
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
+            if (!/^\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+        if (name === 'unitTax') {
+            if (!/^\d*\.?\d*$/.test(value)) {
+                isValid = false;
+            } else {
+                newErrors.unitTax = '';
+            }
+        }
+        if (isValid) {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+        }
+        setErrors(prevState => ({ ...prevState, ...newErrors }));
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+        if(!formData.buyerName) formErrors.buyerName = 'Buyer Name is Required'
+        if(!formData.buyerEmail) formErrors.buyerEmail = 'Buyer Email is Required'
+        if(!formData.buyerAddress) formErrors.buyerAddress = 'Buyer Address is Required'
+        if(!formData.buyerMobile) formErrors.buyerMobile = 'Buyer Mobile is Required'
+        if(!formData.buyerRegNo) formErrors.buyerRegNo = 'Buyer VAT Reg No. is Required'
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
-        setLoading(true)
-        const supplierId = poDetails?.supplier_details[0]?.supplier_id;  
-        const enquiryId  = poDetails?.enquiry_id;    
-
-        const obj = {
-            buyer_id         : buyerIdSessionStorage || buyerIdLocalStorage,
-            purchaseOrder_id : purchaseOrderId,
-            supplier_id      : supplierId,
-            enquiry_id       : enquiryId,
-            data
-        };
-        postRequestWithToken('buyer/purchaseorder/edit-po', obj, async (response) => {
-            if (response.code === 200) {
-                toast(response.message, {type: 'success'})
-                setTimeout(() => {
-                    navigate('/buyer/inquiry-purchase-orders/purchased')
-                    setLoading(true)
-                },1000)
-            } else {
-                setLoading(false)
-                console.log('error in order list api', response);
-                toast(response.message, {type: 'error'})
-            }
-        });
+        if(validateForm()) {
+            setLoading(true)
+            const supplierId = poDetails?.supplier_id;  
+            const enquiryId  = poDetails?.enquiry_id;    
+    
+            const obj = {
+                buyer_id         : buyerIdSessionStorage || buyerIdLocalStorage,
+                purchaseOrder_id : purchaseOrderId,
+                supplier_id      : supplierId,
+                enquiry_id       : enquiryId,
+                data             : formData
+            };  
+            postRequestWithToken('buyer/purchaseorder/edit-po', obj, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message, {type: 'success'})
+                    setTimeout(() => {
+                        navigate('/buyer/inquiry-purchase-orders/purchased')
+                        setLoading(true)
+                    },1000)
+                } else {
+                    setLoading(false)
+                    console.log('error in order list api', response);
+                    toast(response.message, {type: 'error'})
+                }
+            });
+        } else {
+            setLoading(false)
+            toast('Some Fields are Missing', { type: "error" });
+            console.log('errorrrrr', formData);
+        }
+       
     };
 
     const formatPhoneNumber = (phoneNumber, countryCode) => {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
         return `+${countryCode}-${cleanedNumber}`;
     };
+    const validatePhoneNumber = (phoneNumber, countryCode) => {
     
+        const validationRule = phoneValidationRules[countryCode];
+        if (validationRule) {
+            return validationRule.test(phoneNumber);
+        } else {
+            return false; // Invalid country code
+        }
+    };
+
     const handlePhoneChange = (value, type) => {
         let countryCode = '';
         let mobileNumber = value;
+        let isValidNumber = false;
+    
+        // Extract the country code and the mobile number
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
-                countryCode = code.replace('+', ''); // Remove the '+'
+                countryCode = code.replace('+', ''); 
                 mobileNumber = value.substring(code.length); 
                 break;
             }
         }
+    
+        // Validate the phone number based on the country code
         if (countryCode && mobileNumber) {
-            const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-            console.log("formattedPhoneNumber", formattedPhoneNumber);
-            setValue(type, formattedPhoneNumber);
+            isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
+    
+            if (isValidNumber) {
+                const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
+                console.log("formattedPhoneNumber", formattedPhoneNumber);
+    
+                // Update formData with the formatted phone number
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: formattedPhoneNumber,  // Here, type should be 'buyerMobile' to update the correct field
+                }));
+            } else {
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: '',  // Clear the field if invalid
+                }));
+                console.error('Invalid phone number format for the specified country code');
+            }
         } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [type]: '',  // Clear the field if invalid
+            }));
             console.error('Invalid phone number format or unknown country code');
         }
     };
 
+    
+
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Edit Purchase Order</div>
-            <form className={styles['create-po-main-form-container']} onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles['create-po-main-form-container']} 
+            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
+            >
             <div className={styles['create-invoice-section']}>
                     <div className={styles['create-invoice-form-heading']}>Buyer</div>
                     <div className={styles['craete-invoice-form']}>
@@ -302,9 +529,10 @@ const EditCreatePO = () => {
                                 type='text'
                                 name='buyerName'
                                 placeholder='Enter Name'
-                                {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
+                                value={formData.buyerName}
+                                onChange={handleChange}
                             />
-                            {errors.buyerName && <p>{errors.buyerName.message}</p>}
+                             {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -313,9 +541,10 @@ const EditCreatePO = () => {
                                 type='text'
                                 name='buyerAddress'
                                 placeholder='Enter Address'
-                                {...register('buyerAddress', { validate: value => value.trim() !== '' || 'Buyer address is required' })}
+                                value={formData.buyerAddress} 
+                                onChange={handleChange}
                             />
-                            {errors.buyerAddress && <p>{errors.buyerAddress.message}</p>}
+                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -324,9 +553,11 @@ const EditCreatePO = () => {
                                 type='email'
                                 name='buyerEmail'
                                 placeholder='Enter Email ID'
-                                {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                                value={formData.buyerEmail}
+                                onChange={handleChange}
+                                
                             />
-                            {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile Number</label>
@@ -334,12 +565,11 @@ const EditCreatePO = () => {
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
                                 name='buyerMobile'
-                                value={watch('buyerMobile')}
                                 placeholder='Enter Mobile No.'
+                                value={formData.buyerMobile}
                                 onChange={(value) => handlePhoneChange(value, 'buyerMobile')}
-                                // {...register('buyerMobile', { validate: value => value.trim() !== '' || 'Buyer mobile number is required' })}
                             />
-                            {errors.buyerMobile && <p>{errors.buyerMobile.message}</p>}
+                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
@@ -348,9 +578,10 @@ const EditCreatePO = () => {
                                 type='text'
                                 name='buyerRegNo'
                                 placeholder='Enter Company Registration Number'
-                                {...register('buyerRegNo', { validate: value => value.trim() !== '' || 'Buyer registration number is required' })}
+                                value={formData.buyerRegNo}
+                                onChange={handleChange}
                             />
-                            {errors.buyerRegNo && <p>{errors.buyerRegNo.message}</p>}
+                            {errors.buyerRegNo && <p style={{color: 'red'}}>{errors.buyerRegNo}</p>}
                         </div>
                     </div>
                 </div>
@@ -363,9 +594,9 @@ const EditCreatePO = () => {
                                 className={styles['create-invoice-div-input']}
                                 type='text'
                                 name='poDate'
-                                // value={currentDate}
+                                value={formData.poDate}
                                 readOnly
-                                {...register('poDate')}
+                                // {...register('poDate')}
                             />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -374,9 +605,10 @@ const EditCreatePO = () => {
                                 className={styles['create-invoice-div-input']}
                                 type='text'
                                 name='poNumber'
+                                value={formData.poNumber}
                                 // value={poNumber}
                                 readOnly
-                                {...register('poNumber')}
+                                // {...register('poNumber')}
                             />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -386,8 +618,9 @@ const EditCreatePO = () => {
                                 type='text'
                                 name='supplierName'
                                 placeholder='Enter Name'
+                                value={formData.supplierName}
                                 readOnly
-                                {...register('supplierName', { validate: value => value.trim() !== '' || 'Supplier name is required' })}
+                                // {...register('supplierName', { validate: value => value.trim() !== '' || 'Supplier name is required' })}
                             />
                             {errors.supplierName && <p>{errors.supplierName.message}</p>}
                         </div>
@@ -398,8 +631,9 @@ const EditCreatePO = () => {
                                 type='text'
                                 name='supplierAddress'
                                 placeholder='Enter Address'
+                                value={formData.supplierAddress}
                                 readOnly
-                                {...register('supplierAddress', { validate: value => value.trim() !== '' || 'Supplier address is required' })}
+                                // {...register('supplierAddress', { validate: value => value.trim() !== '' || 'Supplier address is required' })}
                             />
                             {errors.supplierAddress && <p>{errors.supplierAddress.message}</p>}
                         </div>
@@ -410,8 +644,9 @@ const EditCreatePO = () => {
                                 type='email'
                                 name='supplierEmail'
                                 placeholder='Enter Email ID'
+                                value={formData.supplierEmail}
                                 readOnly
-                                {...register('supplierEmail', { validate: value => value.trim() !== '' || 'Supplier email is required' })}
+                                // {...register('supplierEmail', { validate: value => value.trim() !== '' || 'Supplier email is required' })}
                             />
                             {errors.supplierEmail && <p>{errors.supplierEmail.message}</p>}
                         </div>
@@ -421,10 +656,11 @@ const EditCreatePO = () => {
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
                                 name='supplierMobile'
-                                value={watch('supplierMobile')}
+                                // value={watch('supplierMobile')}
+                                value={formData.supplierMobile}
                                 disabled
                                 placeholder='Enter Mobile No.'
-                                onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
+                                // onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
                                 // {...register('supplierMobile', { validate: value => value.trim() !== '' || 'Supplier mobile number is required' })}
                             />
                             {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
@@ -437,7 +673,8 @@ const EditCreatePO = () => {
                                 name='supplierRegNo'
                                 placeholder='Enter Company Registration Number'
                                 readOnly
-                                {...register('supplierRegNo', { validate: value => value.trim() !== '' || 'Supplier registration number is required' })}
+                                value={formData.supplierRegNo}
+                                // {...register('supplierRegNo', { validate: value => value.trim() !== '' || 'Supplier registration number is required' })}
                             />
                             {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
                         </div>
@@ -514,7 +751,8 @@ const EditCreatePO = () => {
                                 rows="4"
                                 cols="10"
                                 placeholder='Enter Description'
-                                {...register('description')}
+                                value={formData.description}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -525,7 +763,6 @@ const EditCreatePO = () => {
                 className={styles['create-invoices-submit']}
                 disabled={loading}
                 >
-                    {/* Edit */}
                     {loading ? (
                                 <div className='loading-spinner'></div> 
                             ) : (
