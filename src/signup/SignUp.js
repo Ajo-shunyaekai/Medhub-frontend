@@ -140,10 +140,14 @@ const SignUp = () => {
     
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prevState => ({ ...prevState, [name]: value }));
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+        } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, designation: '' }));
+        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, delivertime: '' }));
         } else {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
             setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };

@@ -130,20 +130,22 @@ const SupplierSignUp = () => {
         }));
 
     };
-    console.log('forIMage',formData)
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
+    
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-        } else if (name === 'designation' && !/^[a-zA-Z\s]*$/.test(value)) {
-            // setErrors(prevState => ({ ...prevState, designation: 'Designation should contain only letters' }));
+        } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, designation: '' }));
+        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, delivertime: '' }));
         } else {
             setFormData(prevState => ({ ...prevState, [name]: value }));
             setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };
+    
 
     const handlePhoneChange = (name, value) => {
         setErrors(prevState => ({ ...prevState, [name]: '' }));
@@ -482,7 +484,7 @@ const SupplierSignUp = () => {
                                 value={formData.vatRegistrationNo}
                                 onChange={handleChange}
                             />
-                            {errors.vatRegistrationNol && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
+                            {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Phone No.</label>
