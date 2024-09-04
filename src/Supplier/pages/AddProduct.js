@@ -473,15 +473,25 @@ const AddProduct = () => {
                 isValid = false;
             }
         } else if (name === 'productName' || name === 'dossierStatus') {
+<<<<<<< Updated upstream
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
                 newErrors[name] = 'Only letters are allowed';
+=======
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                newErrors[name] = 'Only Letters are Allowed';
+>>>>>>> Stashed changes
                 isValid = false;
             }
         } else if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
+<<<<<<< Updated upstream
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^\d*$/.test(value)) {
                 newErrors[name] = 'Only numbers are allowed';
+=======
+            if (!/^\d*$/.test(value)) {
+                newErrors[name] = 'Only Numbers are Allowed';
+>>>>>>> Stashed changes
                 isValid = false;
             }
         } else if (name === 'unitTax') {
@@ -495,6 +505,83 @@ const AddProduct = () => {
             if (value.trim() && !/^\d{1,2}$/.test(value)) {
                 newErrors[name] = 'Invalid Format';
                 isValid = false;
+<<<<<<< Updated upstream
+=======
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'strength') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Strength is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'shelfLife') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Shelf Life is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'dossierType') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Dossier Type  is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'gmpApprovals') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'GMP Approvals is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } 
+        else if (name === 'shippingTime') {
+            if (!/^\d*$/.test(value)) {
+                newErrors[name] = 'Only Numbers are Allowed';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'availableFor') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Available For is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'tags') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Tags are required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerName') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerDescription') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+>>>>>>> Stashed changes
             }
         }
         // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
@@ -1188,6 +1275,7 @@ const AddProduct = () => {
                                     placeholder='Enter Shipping Time'
                                     value={formData.shippingTime}
                                     onChange={handleChange}
+                                    maxLength={2}
                                 />
                                 {errors.shippingTime && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.shippingTime}</div>}
                             </div>

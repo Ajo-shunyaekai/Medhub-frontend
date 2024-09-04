@@ -191,7 +191,7 @@
   .search-details-two {
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: baseline;
     gap: 1rem;
     /* width: 100%; */
   }
