@@ -799,6 +799,11 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
               <div className={styles.sidebar_text}>Product Requests
               </div>
             </Link>
+            <Link to="/admin/product-update-request" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Product Update Requests
+              </div>
+            </Link>
             <Link to="/admin/approved-product" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Approved Products

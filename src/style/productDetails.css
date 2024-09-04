@@ -606,9 +606,9 @@
 }
 
 .buyer-product-details-card-img-cont-sec {
-  width: 170px;
+  width: 160px;
+  height: 120px;
 }
-
 .buyer-product-details-card-img-cont-sec img {
   width: 100%;
   height: auto;

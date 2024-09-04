@@ -8,7 +8,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 
-const ProductRequests = () => {
+const ProductUpdateRequest = () => {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 4;
@@ -53,7 +53,7 @@ const ProductRequests = () => {
     return (
         <>
             <div className='rejected-main-container'>
-                <div className="rejected-main-head">Product Requests</div>
+                <div className="rejected-main-head">Product Update Requests</div>
                 <div className="rejected-container">
                     <div className="rejected-container-right-2">
                         <Table responsive="xxl" className='rejected-table-responsive'>
@@ -145,4 +145,4 @@ const ProductRequests = () => {
     );
 }
 
-export default ProductRequests;
+export default ProductUpdateRequest;

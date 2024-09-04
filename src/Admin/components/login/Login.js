@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import logincss from '../../style/login.css';
+import '../../style/login.css';
 import logo from '../../assest/signup.svg';
-import { Link } from 'react-router-dom';
 import { postRequest } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,14 +20,14 @@ const Login = () => {
 
         // Email validation
         if (!email) {
-            newErrors.email = 'Email is required';
+            newErrors.email = 'Email is Required';
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'Email address is invalid';
+            newErrors.email = 'Email address is Invalid';
         }
 
         // Password validation
         if (!password) {
-            newErrors.password = 'Password is required';
+            newErrors.password = 'Password is Required';
         } else if (!/(?=.*[A-Z])/.test(password)) {
             newErrors.password = 'Password must contain at least one uppercase letter';
         } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
@@ -143,13 +142,6 @@ const Login = () => {
                         <button type='submit' className='login-form-main-login'>Login</button>
                     </div>
                 </form>
-                {/* <div className="header__center">OR</div>
-                <div className='login-form-main-signup'>
-                    <span className='login__signup__content'>Don't have an account?</span>
-                    <Link to='/admin/sign-up'>
-                        <span className='login__signup__here'>&nbsp;Signup here</span>
-                    </Link>
-                </div> */}
             </div>
         </div>
     );

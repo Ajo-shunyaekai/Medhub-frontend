@@ -47,6 +47,8 @@ import OrderDetails from './buyer/OrderDetails.js';
 import SupplierOrderDetails from './seller/OrderDetails.js'
 import NotificationList from './NotificationList.js'
 import { postRequestWithToken } from '../api/Requests.js';
+import ProductUpdateRequest from './products/ProductUpdateRequest.js';
+
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -154,7 +156,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-request-details/:buyerId" element={<DetailsBuyerRequest/>} />
                   <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
-
+                  <Route path="/admin/product-update-request" element={<ProductUpdateRequest/>} />
+                  
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-invoice/pending" element={<BuyerInvoice/>} />
