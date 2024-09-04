@@ -416,6 +416,28 @@ const ProformaInvoice = () => {
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
 
+    const resetForm = () => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+           
+            // supplierId: data?.supplier_id,
+            supplierName: '',
+            supplierEmail: '',
+            supplierAddress: '',
+            supplierMobile: '',
+            dueDate : '',
+            depositRequested : '',
+            depositDue : '',
+            
+            
+        }));
+        setDateValue()
+    }
+
+    const handleCancel = () => {
+        resetForm()
+    }
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         let newErrors = {};
@@ -456,10 +478,6 @@ const ProformaInvoice = () => {
         setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
 
-    const resetForm = () => {
-    
-    };
-
     const validateForm = () => {
         let formErrors = {};
         if(!formData.supplierName) formErrors.supplierName = 'Supplier Name is Required'
@@ -475,9 +493,6 @@ const ProformaInvoice = () => {
         return Object.keys(formErrors).length === 0;
     }
 
-    const handleCancel = () => {
-        resetForm()
-    }
     const validateSupplierMobile = (mobile) => {
         // This regex matches strings that start with a country code like +91 or +971
         // and ensures that there's at least one digit after the country code.
@@ -559,15 +574,39 @@ const ProformaInvoice = () => {
 
     };
 
+    // const handleNumberInput = (event) => {
+    //     const { name, value } = event.target;
+    //     const cleanedValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    
+    //     setFormData(prevState => ({
+    //         ...prevState,
+    //         [name]: cleanedValue,
+    //     }));
+    // };
+    
     const handleNumberInput = (event) => {
         const { name, value } = event.target;
-        const cleanedValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    
+        // Remove any characters that are not digits or a single decimal point
+        let cleanedValue = value.replace(/[^0-9.]/g, '');
+    
+        // Ensure only one decimal point is allowed
+        cleanedValue = cleanedValue.replace(/(\..*?)\..*/g, '$1');
+    
+        // Limit to three digits after the decimal point
+        if (cleanedValue.includes('.')) {
+            const [integerPart, decimalPart] = cleanedValue.split('.');
+            cleanedValue = decimalPart.length > 3 
+                ? `${integerPart}.${decimalPart.slice(0, 3)}` 
+                : cleanedValue;
+        }
     
         setFormData(prevState => ({
             ...prevState,
             [name]: cleanedValue,
         }));
     };
+    
 
     const grandTotalAmount = orderItems.reduce((total, item) => {
         return total + (parseFloat(item?.total_amount) || 0);

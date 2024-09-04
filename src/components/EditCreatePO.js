@@ -410,6 +410,23 @@ const EditCreatePO = () => {
         setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
 
+    const resetForm = () => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            // buyerId: '',
+            buyerName: '',
+            buyerEmail: '',
+            buyerAddress: '',
+            buyerMobile: '',
+            buyerRegNo: '',
+            // orderItems: data?.items,
+        }));
+    }
+
+    const handleCancel = () => {
+        resetForm()
+    }
+
     const validateForm = () => {
         let formErrors = {};
         if(!formData.buyerName) formErrors.buyerName = 'Buyer Name is Required'
@@ -777,7 +794,7 @@ const EditCreatePO = () => {
                                 'Edit'
                             )}
                     </button>
-                    <div className={styles['create-invoices-cancel']}>Cancel</div>
+                    <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                    
                 </div>
             </form>
