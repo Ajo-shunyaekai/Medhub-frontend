@@ -449,8 +449,28 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
             navigate(`/buyer/purchased-order-details/${linkId}`);
             handleClick(notificationId, event)
             break;
+      case 'addnewmedicinerequest':
+        setIsNotificationOpen(false)
+        navigate(`/admin/product-requests`);
+        handleClick(notificationId, event)
+        break;    
+    case 'addsecondarymedicinerequest':
+        setIsNotificationOpen(false)
+        navigate(`/admin/product-requests`);
+        handleClick(notificationId, event)
+        break;        
+      case 'editnewmedicinerequest':
+          setIsNotificationOpen(false)
+          navigate(`/admin/edit-requests`);
+          handleClick(notificationId, event)
+          break;    
+      case 'editsecondarymedicinerequest':
+          setIsNotificationOpen(false)
+          navigate(`/admin/edit-requests`);
+          handleClick(notificationId, event)
+          break;     
       default:
-        navigate('/buyer/'); // Default to home or another page if event_type doesn't match
+        navigate('/admin/'); // Default to home or another page if event_type doesn't match
         break;
     }
   };

@@ -289,6 +289,16 @@ const SupSidebar = ({ children, dragWindow,
                 navigate(`/supplier/purchased-order-details/${linkId}`);
                 handleClick(notificationId, event)
                 break;
+            case 'addnewmedicine':
+                setIsNotificationOpen(false)
+                navigate(`/supplier/product-details/${eventId}`);
+                handleClick(notificationId, event)
+                break;
+            case 'addsecondarymedicine':
+                setIsNotificationOpen(false)
+                navigate(`/supplier/secondary-product-details/${eventId}`);
+                handleClick(notificationId, event)
+                break;    
             default:
                 navigate('/supplier/');
                 break;
