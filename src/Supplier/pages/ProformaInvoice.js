@@ -720,8 +720,9 @@ const ProformaInvoice = () => {
                                 placeholder='Enter Total Due Amount'
                                 // {...register('totalDueAmount',
                                 // )}
+                                readOnly
                                 value={formData.totalDueAmount}
-                                onInput={handleNumberInput}
+                                // onInput={handleNumberInput}
                                 />
                         </div>
                         <div className={styles['create-invoice-div-container']}>

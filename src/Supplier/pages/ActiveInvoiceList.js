@@ -30,11 +30,11 @@ const ActiveInvoiceList = () => {
 
     return (
         <>
-            <Link to='/supplier/create-invoice'>
+            {/* <Link to='/supplier/create-invoice'>
                 <div className='active-invoice-list-button-section'>
                     <div className='active-invoice-list'>Generate Invoice</div>
                 </div>
-            </Link>
+            </Link> */}
             <div className='inquiry-invoice-list-main-container'>
             <div className="card-body">
                 <div>
