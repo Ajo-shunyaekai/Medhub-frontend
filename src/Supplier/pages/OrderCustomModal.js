@@ -227,6 +227,83 @@ const countryCodeMap = {
     '+998': 'uz', // Uzbekistan
 };
 
+const phoneValidationRules = {
+    '+1': /^\d{10}$/,                // USA/Canada: 10 digits
+    '+44': /^(\d{10}|\d{11})$/,      // UK: 10 or 11 digits
+    '+33': /^\d{10}$/,                // France: 10 digits
+    '+49': /^\d{11,14}$/,             // Germany: 11 to 14 digits (including country code)
+    '+91': /^[6-9]\d{9}$/,            // India: 10 digits, starts with 6-9
+    '+81': /^\d{10}$/,                // Japan: 10 digits
+    '+82': /^\d{10}$/,                // South Korea: 10 digits
+    '+61': /^(\d{9}|\d{10})$/,        // Australia: 9 or 10 digits
+    '+971': /^\d{7,9}$/,              // UAE: 7 to 9 digits
+    '+55': /^\d{10,11}$/,             // Brazil: 10 or 11 digits
+    '+27': /^\d{10}$/,                // South Africa: 10 digits
+    '+52': /^\d{10}$/,                // Mexico: 10 digits
+    '+46': /^\d{6,11}$/,              // Sweden: 6 to 11 digits
+    '+34': /^\d{9}$/,                 // Spain: 9 digits
+    '+64': /^\d{9}$/,                 // New Zealand: 9 digits
+    '+39': /^\d{10}$/,                // Italy: 10 digits
+    '+53': /^\d{8}$/,                 // Cuba: 8 digits
+    '+20': /^\d{10}$/,                // Egypt: 10 digits
+    '+90': /^\d{10}$/,                // Turkey: 10 digits
+    '+7': /^(\d{10}|\d{11})$/,        // Russia: 10 or 11 digits
+    '+60': /^\d{9,10}$/,              // Malaysia: 9 or 10 digits
+    '+62': /^\d{10,13}$/,             // Indonesia: 10 to 13 digits
+    '+63': /^\d{10}$/,                // Philippines: 10 digits
+    '+86': /^\d{11}$/,                // China: 11 digits
+    '+98': /^\d{10}$/,                // Iran: 10 digits
+    '+92': /^\d{10}$/,                // Pakistan: 10 digits
+    '+94': /^\d{10}$/,                // Sri Lanka: 10 digits
+    '+41': /^\d{10}$/,                // Switzerland: 10 digits
+    '+47': /^\d{8}$/,                 // Norway: 8 digits
+    '+48': /^\d{9}$/,                 // Poland: 9 digits
+    '+30': /^\d{10}$/,                // Greece: 10 digits
+    '+31': /^\d{10}$/,                // Netherlands: 10 digits
+    '+32': /^\d{9}$/,                 // Belgium: 9 digits
+    '+35': /^\d{8,9}$/,              // Portugal: 8 or 9 digits
+    '+36': /^\d{9}$/,                // Hungary: 9 digits
+    '+37': /^\d{8}$/,                // Moldova: 8 digits
+    '+38': /^\d{9}$/,                // Slovenia: 9 digits
+    '+40': /^\d{10}$/,               // Romania: 10 digits
+    '+42': /^\d{9}$/,                // Slovakia: 9 digits
+    '+43': /^\d{10}$/,               // Austria: 10 digits
+    '+45': /^\d{8}$/,                // Denmark: 8 digits
+    '+50': /^\d{10}$/,               // Mongolia: 10 digits
+    '+51': /^\d{9}$/,                // Peru: 9 digits
+    '+54': /^\d{10}$/,               // Argentina: 10 digits
+    '+56': /^\d{9}$/,                // Chile: 9 digits
+    '+57': /^\d{10}$/,               // Colombia: 10 digits
+    '+58': /^\d{11}$/,               // Venezuela: 11 digits
+    '+65': /^\d{8}$/,                // Singapore: 8 digits
+    '+66': /^\d{9,10}$/,             // Thailand: 9 or 10 digits
+    '+84': /^\d{10}$/,               // Vietnam: 10 digits
+    '+93': /^\d{9}$/,                // Afghanistan: 9 digits
+    '+213': /^\d{9}$/,              // Algeria: 9 digits
+    '+216': /^\d{8}$/,              // Tunisia: 8 digits
+    '+218': /^\d{9}$/,              // Libya: 9 digits
+    '+220': /^\d{7}$/,              // Gambia: 7 digits
+    '+221': /^\d{9}$/,              // Senegal: 9 digits
+    '+222': /^\d{8}$/,              // Mauritania: 8 digits
+    '+223': /^\d{8}$/,              // Mali: 8 digits
+    '+224': /^\d{9}$/,              // Guinea: 9 digits
+    '+225': /^\d{8}$/,              // Côte d'Ivoire: 8 digits
+    '+226': /^\d{8}$/,              // Burkina Faso: 8 digits
+    '+227': /^\d{8}$/,              // Niger: 8 digits
+    '+228': /^\d{8}$/,              // Togo: 8 digits
+    '+229': /^\d{8}$/,              // Benin: 8 digits
+    '+230': /^\d{7}$/,              // Mauritius: 7 digits
+    '+231': /^\d{7}$/,              // Liberia: 7 digits
+    '+232': /^\d{8}$/,              // Sierra Leone: 8 digits
+    '+233': /^\d{10}$/,             // Ghana: 10 digits
+    '+234': /^\d{10}$/,             // Nigeria: 10 digits
+    '+235': /^\d{8}$/,              // Chad: 8 digits
+    '+236': /^\d{8}$/,              // Central African Republic: 8 digits
+    '+237': /^\d{9}$/,              // Cameroon: 9 digits
+    '+238': /^\d{7}$/,              // Cape Verde: 7 digits
+    '+239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
+}
+
 const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -293,20 +370,45 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     const handleSelectChange = (selectedOption) => {
         setPickupTime(selectedOption.value);
         setFormData({ ...formData, pickupTime: selectedOption.value })
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            pickupTime: ''
+        }));
     };
 
+
     const handlePhoneChange = (phone) => {
-        
         const phoneNumber = parsePhoneNumberFromString(phone);
-       
+    
         if (phoneNumber) {
             const countryCode = `+${phoneNumber.countryCallingCode}`;
-            const nationalNumber = phoneNumber.nationalNumber; 
-           const fomatedNumber =  `${countryCode}-${nationalNumber}`
-            // setBuyerCountryCode(countryCode); 
-            console.log('fomatedNumber',fomatedNumber);
-            setSupplierMobileNumber(fomatedNumber); 
-            setFormData({ ...formData, supplierMobile: fomatedNumber })
+            const nationalNumber = phoneNumber.nationalNumber;
+            const formattedNumber = `${countryCode}-${nationalNumber}`;
+            
+            // Validate phone number length based on country code
+            const validationRule = phoneValidationRules[countryCode];
+            if (validationRule && validationRule.test(nationalNumber)) {
+                setSupplierMobileNumber(formattedNumber);
+                setFormData({ ...formData, supplierMobile: formattedNumber });
+                setErrors((prevErrors) => {
+                    const newErrors = { ...prevErrors };
+                    delete newErrors.supplierMobile; // Clear error if phone number is valid
+                    return newErrors;
+                });
+            } else {
+                // Phone number is invalid
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    supplierMobile: ''
+                    // supplierMobile: `Phone number should match the pattern for ${countryCode}`
+                }));
+            }
+        } else {
+            // Phone number parsing failed
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                supplierMobile: ''
+            }));
         }
     };
 
@@ -375,28 +477,97 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     }, [formData.length, formData.width, formData.height]);
 
     if (!show) return null;
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         let filteredValue = value;
-        if (['supplierMobile', 'pincode', 'packages', 'length', 'width', 'height'].includes(name)) {
+    
+        // Handle different input fields
+        if (['supplierMobile', 'pincode'].includes(name)) {
             filteredValue = value.replace(/[^0-9]/g, '');
+            if (name === 'pincode') {
+                filteredValue = filteredValue.slice(0, 6); // Limit to 6 digits for pincode
+            }
         }
-
+        
+        if (['packages'].includes(name)) {
+            filteredValue = value.replace(/[^0-9]/g, '').slice(0, 4);
+        }
+        
+        if (['length', 'width', 'height'].includes(name)) {
+            filteredValue = value.replace(/[^0-9]/g, '').slice(0, 3);
+        }
+        
         if (name === 'weight') {
             filteredValue = value.replace(/[^0-9.]/g, '');
             const parts = filteredValue.split('.');
             if (parts.length > 2) {
                 filteredValue = parts[0] + '.' + parts.slice(1).join('');
             }
+            // Limit to 6 digits including decimal places
+            if (filteredValue.split('.').length > 1) {
+                const [integerPart, decimalPart] = filteredValue.split('.');
+                if (decimalPart.length > 5) {
+                    filteredValue = integerPart + '.' + decimalPart.slice(0, 5);
+                }
+            } else if (filteredValue.length > 6) {
+                filteredValue = filteredValue.slice(0, 6);
+            }
         }
+        
         if (['suppliername', 'cityDistrict', 'state'].includes(name)) {
             filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
         }
+    
+        // Update form data
         setFormData((prevData) => ({
             ...prevData,
             [name]: filteredValue,
         }));
+    
+        // Clear errors for fields where valid input is entered
+        setErrors((prevErrors) => {
+            const newErrors = { ...prevErrors };
+            
+            // Adjust validation conditions as necessary
+            if (name === 'supplierMobile' && filteredValue.length >= 10) {
+                delete newErrors.supplierMobile;
+            }
+            if (name === 'pincode' && filteredValue.length >= 6) {
+                delete newErrors.pincode;
+            }
+            if (name === 'packages' && filteredValue.length > 0) {
+                delete newErrors.packages;
+            }
+            if (['length', 'width', 'height'].includes(name) && filteredValue.length > 0) {
+                delete newErrors[name];
+            }
+            if (name === 'weight' && filteredValue.length > 0) {
+                delete newErrors.weight;
+            }
+            if (['suppliername', 'cityDistrict', 'state'].includes(name) && filteredValue.length > 0) {
+                delete newErrors[name];
+            }
+    
+            // Additional error clearing logic for email, address, and mobile
+            if (name === 'supplierEmail' && /\S+@\S+\.\S+/.test(filteredValue)) {
+                delete newErrors.supplierEmail;
+            }
+            if (name === 'address' && filteredValue.length > 0) {
+                delete newErrors.address;
+            }
+            if (name === 'supplierMobile' && filteredValue.length >= 10) {
+                delete newErrors.supplierMobile;
+            }
+            
+            return newErrors;
+        });
     };
+    
+    
+    
+
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
