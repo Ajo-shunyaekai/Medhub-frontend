@@ -56,7 +56,7 @@ const SupplierLogin = () => {
 
             postRequest('supplier/login', obj, async(response) => {
                 if(response.code === 200) {
-                    toast(response.message, { type: "success" });
+                    // toast(response.message, { type: "success" });
                     sessionStorage.setItem('supplier_id',response.result.supplier_id)
                     sessionStorage.setItem('supplier_name',response.result.supplier_name)
                     sessionStorage.setItem('supplier_email',response.result.supplier_email)

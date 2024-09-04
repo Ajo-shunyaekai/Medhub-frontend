@@ -218,23 +218,93 @@ const EditSecondaryProduct = () => {
         setFormSections(newFormSections);
     };
 
+  
+
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
-        newFormSections[index][name] = value;
+        let isValid = true;
+    
+        // Validation logic
+        if (name === 'unitPrice') {
+            // Allow numbers with up to 3 digits before the decimal point and up to 3 digits after the decimal point
+            isValid = /^\d{0,4}(\.\d{0,3})?$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid unit price. Please enter up to 3 digits before the decimal point and up to 3 digits after the decimal point.'
+                }));
+            }
+        } else if (name === 'totalPrice') {
+            // Allow numbers with up to 5 digits before the decimal point and up to 3 digits after the decimal point
+            isValid = /^\d{0,8}(\.\d{0,3})?$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid total price. Please enter up to 5 digits before the decimal point and up to 3 digits after the decimal point.'
+                }));
+            }
+        } else if (name === 'estDeliveryTime') {
+            // Allow only numbers with up to 2 digits
+            isValid = /^\d{0,3}$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid delivery time. Please enter up to 2 digits.'
+                }));
+            }
+        } else if (name === 'quantityNo') {
+            // Allow only numbers
+            isValid = /^\d*$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid quantity. Please enter only numbers.'
+                }));
+            }
+        } else if (name === 'unitPricee') {
+            // Handle validation for unitPricee if applicable
+            // Allow numbers with up to 3 digits after the decimal point
+            isValid = /^\d*\.?\d{0,3}$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid value. Please enter a valid number with up to 3 digits after the decimal point.'
+                }));
+            }
+        }
+    
+        // If input is valid, update the formSections and formData
+        if (isValid) {
+            newFormSections[index][name] = value;
+    
+            const unitPrices = newFormSections.map(section => section.unitPrice);
+            const totalPrices = newFormSections.map(section => section.totalPrice);
+            const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+    
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                unitPrice: unitPrices,
+                totalPrice: totalPrices,
+                estDeliveryTime: estDeliveryTimes,
+            }));
+    
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [`${name}${index}`]: ''
+            }));
+        } else {
+            // If input is invalid, do not update formData and set error
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [`${name}${index}`]: 'Invalid input.'
+            }));
+        }
+    
         setFormSections(newFormSections);
-
-        const unitPrices = newFormSections.map(section => section.unitPrice);
-        const totalPrices = newFormSections.map(section => section.totalPrice);
-        const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            unitPrice: unitPrices,
-            totalPrice: totalPrices,
-            estDeliveryTime: estDeliveryTimes,
-        }));
     };
+    
+    
 
     const addFormSection = () => {
         let newProductValid = true;
@@ -348,6 +418,7 @@ const EditSecondaryProduct = () => {
                     pdtQuantity: result?.total_quantity,
                     unitPrice: result?.unit_price,
                     condition: { label: result?.condition, value: result?.condition } || null,
+                    product_image : result?.medicine_image || []
                 }));
                 setMedicineImages(result?.medicine_image || [])
                 setInvoiceImages(result?.invoice_image || [])
@@ -462,7 +533,7 @@ const EditSecondaryProduct = () => {
 
     const handleStockedInputChange = (index, event) => {
         const { name, value } = event.target;
-        if (/^\d*$/.test(value)) {
+        if (/^\d*$/.test(value) && value.length <= 8) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
             setErrors(prevErrors => ({
@@ -701,8 +772,8 @@ const EditSecondaryProduct = () => {
                 const countryLabels = formData.countryAvailableIn?.map(country => {
                     return country ;
                 }) || [];
-                console.log('Country Labels:', countryLabels);
 
+                console.log('fIMage', formData.product_image);
                 secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 secondaryFormData.append('medicine_id',  medicineId);
                 secondaryFormData.append('medicine_name', formData.productName);
@@ -771,135 +842,131 @@ const EditSecondaryProduct = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        let newErrors = {};
+        let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-
+    
+        // Clear the error message for the field being updated
+        newErrors[name] = '';
+    
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
                 isValid = false;
-            } else {
-                newErrors.description = '';
             }
-        }
-        if (name === 'productName' || name === 'dossierStatus') {
-            if (!/^[a-zA-Z\s]*$/.test(value)) {
+        } else if (name === 'productName' || name === 'dossierStatus') {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
+                newErrors[name] = '';
+                isValid = false;
+            }
+        } else if (name === 'totalQuantity') {
+            // Allow only up to 5 digits
+            if (value.trim() && !/^\d{1,8}$/.test(value)) {
+                newErrors[name] = '';
+                isValid = false;
+            }
+        } else if (name === 'minPurchaseUnit') {
+            // Allow only up to 3 digits
+            if (value.trim() && !/^\d{1,3}$/.test(value)) {
+                newErrors[name] = '';
+                isValid = false;
+            }
+        } else if (name === 'unitTax') {
+            // Regular expression to match up to 2 digits before the decimal and up to 2 digits after the decimal
+            const regex = /^\d{0,2}(\.\d{0,3})?$/;
+
+            if (value.trim() && !regex.test(value)) {
+                newErrors[name] = '';
                 isValid = false;
             } else {
-                newErrors[name] = '';
+                newErrors[name] = ''; // Clear error if input is valid
             }
-        }
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
-            if (!/^\d*$/.test(value)) {
+        }  else if (name === 'shippingTime') {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^\d{1,3}$/.test(value)) {
+                newErrors[name] = '';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
             }
+
+            
         } 
-        if (name === 'pdtQuantity') {
-            if (!/^\d*$/.test(value)) {
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
-        if (name === 'unitPrice') {
-            console.log('name',name);
-            if (!/^\d*\.?\d*$/.test(value)) {
-                isValid = false;
-            } else {
-                newErrors.unitPrice = '';
-            }
-        }
-        if (name === 'unitTax') {
-            if (!/^\d*\.?\d*$/.test(value)) {
-                isValid = false;
-            } else {
-                newErrors.unitTax = '';
-            }
-        } else if (name === 'composition') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Composition is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'strength') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Strength is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'shelfLife') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Shelf Life is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'purchasedOn') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Purchased On is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
-        else if (name === 'dossierType') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Dossier Type  is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'gmpApprovals') {
-            if (value.trim() === '') {
-                newErrors[name] = 'GMP Approvals is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'shippingTime') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Shipping Time is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'availableFor') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Available For is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'tags') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Tags are required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerName') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerDescription') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
+        // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
+        //     // Validate only if the value is not empty
+        //     if (value.trim() === '') {
+        //         newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
+        //         isValid = false;
+        //     }
+        // }
+    
+        // Update the form data if valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-        setErrors(prevState => ({ ...prevState, ...newErrors }));
+        setErrors(newErrors);
+    };
+    
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        let newErrors = { ...errors };
+        let isValid = true;
+    
+        if (name === 'purchasedOn') {
+            // Validate the format dd/mm/yyyy
+            if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                const [day, month, year] = value.split('/').map(Number);
+                const currentYear = new Date().getFullYear();
+    
+                // Helper function to check if a year is a leap year
+                const isLeapYear = (year) => {
+                    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+                };
+    
+                // Days allowed per month
+                const daysInMonth = {
+                    1: 31, // January
+                    2: isLeapYear(year) ? 29 : 28, // February (leap year check)
+                    3: 31, // March
+                    4: 30, // April
+                    5: 31, // May
+                    6: 30, // June
+                    7: 31, // July
+                    8: 31, // August
+                    9: 30, // September
+                    10: 31, // October
+                    11: 30, // November
+                    12: 31, // December
+                };
+    
+                // Validate month (01 to 12)
+                if (month < 1 || month > 12) {
+                    newErrors[name] = 'Invalid month. Please use a month between 01 and 12.';
+                    isValid = false;
+                }
+                // Validate day based on the month and year
+                else if (day < 1 || day > daysInMonth[month]) {
+                    newErrors[name] = `Invalid day. The month ${String(month).padStart(2, '0')} has ${daysInMonth[month]} days.`;
+                    isValid = false;
+                }
+                // Validate year (less than or equal to current year)
+                else if (year > currentYear) {
+                    newErrors[name] = `Invalid year. Year cannot be greater than ${currentYear}.`;
+                    isValid = false;
+                } else {
+                    delete newErrors[name]; // Clear the error if valid
+                    isValid = true;
+                }
+            } else if (value.trim()) {
+                // If the input doesn't match the dd/mm/yyyy format
+                newErrors[name] = 'Invalid date format. Please use dd/mm/yyyy';
+                isValid = false;
+            } else {
+                delete newErrors[name]; // Clear the error if input is empty
+                isValid = true;
+            }
+    
+            setErrors(newErrors);
+        }
     };
 
     const handlemanufacturerCountryOriginChange = (selected) => {
@@ -1044,13 +1111,14 @@ const EditSecondaryProduct = () => {
                                         <InputMask
                                             className={styles['create-invoice-div-input']}
                                             type="text"
-                                            mask="dd-mm-yyyy" 
-                                            placeholder='DD-MM-YYYY'
+                                            mask="dd/mm/yyyy" 
+                                            placeholder='DD/MM/YYYY'
                                             name='purchasedOn'
                                             // placeholder='Enter Purchased on'
                                             autoComplete='off'
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
+                                            onBlur={handleBlur} 
                                             replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
                                         />
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}

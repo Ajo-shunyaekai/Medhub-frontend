@@ -54,7 +54,7 @@ const Login = () => {
             }
             postRequest('buyer/login', obj, async (response) => {
                 if (response.code === 200) {
-                    toast(response.message, { type: "success" });
+                    // toast(response.message, { type: "success" });
                     
                     sessionStorage.setItem('buyer_id', response.result.buyer_id)
                     sessionStorage.setItem('buyer_name', response.result.buyer_name)

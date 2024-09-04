@@ -167,7 +167,7 @@ const AddProduct = () => {
         const { name, value } = event.target;
     
         // Allow only numbers and up to 5 digits
-        if (/^\d*$/.test(value) && value.length <= 5) {
+        if (/^\d*$/.test(value) && value.length <= 8) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
     
@@ -181,58 +181,76 @@ const AddProduct = () => {
     };
     
 
+
     // const handleInputChange = (index, event) => {
     //     const { name, value } = event.target;
     //     const newFormSections = [...formSections];
     //     let isValid = true;
-    //     if (name === 'unitPrice' || name === 'totalPrice' ||  name === 'unitPricee' ) {
-    //         if (!/^\d*\.?\d*$/.test(value)) {
+    
+    //     if (name === 'unitPrice') {
+    //         // Allow only numbers with up to 3 digits before the decimal point
+    //         if (!/^\d{0,4}(\.\d*)?$/.test(value)) {
     //             isValid = false;
+    //             setErrors(prevErrors => ({
+    //                 ...prevErrors,
+    //                 [`${name}${index}`]: ''
+    //             }));
     //         }
+    //     } else if (name === 'totalPrice') {
+    //         // Allow only numbers with up to 5 digits before the decimal point
+    //         if (!/^\d{0,8}(\.\d*)?$/.test(value)) {
+    //             isValid = false;
+    //             setErrors(prevErrors => ({
+    //                 ...prevErrors,
+    //                 [`${name}${index}`]: ''
+    //             }));
+    //         }
+    //     } else if (name === 'estDeliveryTime') {
+    //         // Allow only numbers with up to 2 digits
+    //         if (!/^\d{0,3}$/.test(value)) {
+    //             isValid = false;
+    //             setErrors(prevErrors => ({
+    //                 ...prevErrors,
+    //                 [`${name}${index}`]: ''
+    //             }));
+    //         }
+    //     } else if (name === 'quantityNo') {
+    //         // Allow only numbers
+    //         isValid = /^\d*$/.test(value);
+    //         if (!isValid) {
+    //             setErrors(prevErrors => ({
+    //                 ...prevErrors,
+    //                 [`${name}${index}`]: ''
+    //             }));
+    //         }
+    //     } else if (name === 'unitPricee') {
+    //         // Handle validation for unitPricee if applicable
+    //         isValid = /^\d*\.?\d*$/.test(value);
     //     }
-    //     if (name === 'estDeliveryTime' || name === 'quantityNo') {
-    //         isValid = /^\d*$/.test(value); 
-    //     }
+    
     //     if (isValid) {
     //         newFormSections[index][name] = value;
-    //         setFormSections(newFormSections);
-    //     }
-    //     if (value.trim() === '') {
-    //         setErrors(prevErrors => ({
-    //             ...prevErrors,
-    //             [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} is Required`
-    //         }));
-    //     } else if (!isValid) {
-         
-    //     } else {
     //         setErrors(prevErrors => ({
     //             ...prevErrors,
     //             [`${name}${index}`]: ''
     //         }));
-
-    //         // if (productType.label === 'New Product') {
-    //             const unitPrices = newFormSections.map(section => section.unitPrice);
-    //             const totalPrices = newFormSections.map(section => section.totalPrice);
-    //             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-
-    //             setFormData({
-    //                 ...formData,
-    //                 unitPrice: unitPrices,
-    //                 totalPrice: totalPrices,
-    //                 estDeliveryTime: estDeliveryTimes
-    //             });
-    //         // } else {
-    //         //     const unitPrices = newFormSections.map(section => section.unitPricee);
-    //         //     const quantities = newFormSections.map(section => section.quantityNo);
-    //         //     setFormData({
-    //         //         ...formData,
-    //         //         unitPricee: unitPrices,
-    //         //         quantityNo: quantities,
-    //         //     });
-    //         // }
-    //         setFormSections(newFormSections);
+            
+    //         // Update formData state
+    //         const unitPrices = newFormSections.map(section => section.unitPrice);
+    //         const totalPrices = newFormSections.map(section => section.totalPrice);
+    //         const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+    
+    //         setFormData({
+    //             ...formData,
+    //             unitPrice: unitPrices,
+    //             totalPrice: totalPrices,
+    //             estDeliveryTime: estDeliveryTimes
+    //         });
     //     }
+    
+    //     setFormSections(newFormSections);
     // };
+
 
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
@@ -240,30 +258,30 @@ const AddProduct = () => {
         let isValid = true;
     
         if (name === 'unitPrice') {
-            // Allow only numbers with up to 3 digits before the decimal point
-            if (!/^\d{0,3}(\.\d*)?$/.test(value)) {
+            // Allow up to 4 digits before the decimal point and up to 3 digits after the decimal point
+            if (!/^\d{0,4}(\.\d{0,3})?$/.test(value)) {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: ''
+                    [`${name}${index}`]: 'Invalid unit price format'
                 }));
             }
         } else if (name === 'totalPrice') {
-            // Allow only numbers with up to 5 digits before the decimal point
-            if (!/^\d{0,5}(\.\d*)?$/.test(value)) {
+            // Allow up to 5 digits before the decimal point and up to 3 digits after the decimal point
+            if (!/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: ''
+                    [`${name}${index}`]: 'Invalid total price format'
                 }));
             }
         } else if (name === 'estDeliveryTime') {
-            // Allow only numbers with up to 2 digits
-            if (!/^\d{0,2}$/.test(value)) {
+            // Allow only numbers with up to 3 digits
+            if (!/^\d{0,3}$/.test(value)) {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: ''
+                    [`${name}${index}`]: 'Invalid delivery time format'
                 }));
             }
         } else if (name === 'quantityNo') {
@@ -272,12 +290,18 @@ const AddProduct = () => {
             if (!isValid) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: ''
+                    [`${name}${index}`]: 'Invalid quantity format'
                 }));
             }
         } else if (name === 'unitPricee') {
             // Handle validation for unitPricee if applicable
             isValid = /^\d*\.?\d*$/.test(value);
+            if (!isValid) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid unitPricee format'
+                }));
+            }
         }
     
         if (isValid) {
@@ -286,7 +310,7 @@ const AddProduct = () => {
                 ...prevErrors,
                 [`${name}${index}`]: ''
             }));
-            
+    
             // Update formData state
             const unitPrices = newFormSections.map(section => section.unitPrice);
             const totalPrices = newFormSections.map(section => section.totalPrice);
@@ -298,6 +322,11 @@ const AddProduct = () => {
                 totalPrice: totalPrices,
                 estDeliveryTime: estDeliveryTimes
             });
+        } else {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                [`${name}${index}`]: 'Invalid input'
+            }));
         }
     
         setFormSections(newFormSections);
@@ -548,7 +577,6 @@ const AddProduct = () => {
                 isValid = false;
             }
         } else if (name === 'productName' || name === 'dossierStatus') {
-<<<<<<< Updated upstream
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
                 newErrors[name] = '';
@@ -556,7 +584,7 @@ const AddProduct = () => {
             }
         } else if (name === 'totalQuantity') {
             // Allow only up to 5 digits
-            if (value.trim() && !/^\d{1,5}$/.test(value)) {
+            if (value.trim() && !/^\d{1,8}$/.test(value)) {
                 newErrors[name] = '';
                 isValid = false;
             }
@@ -564,88 +592,37 @@ const AddProduct = () => {
             // Allow only up to 3 digits
             if (value.trim() && !/^\d{1,3}$/.test(value)) {
                 newErrors[name] = '';
-=======
-            if (!/^[a-zA-Z\s]*$/.test(value)) {
-                newErrors[name] = 'Only Letters are Allowed';
-                isValid = false;
-            }
-        } else if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
-            if (!/^\d*$/.test(value)) {
-                newErrors[name] = 'Only Numbers are Allowed';
->>>>>>> Stashed changes
                 isValid = false;
             }
         } else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
-<<<<<<< Updated upstream
-            // if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
-            //     newErrors[name] = 'Invalid unit tax format';
-            //     isValid = false;
-            // }
-            if (value.trim() && !/^\d{1,2}(\.\d{1,2})?$/.test(value)) {
+           
+            const regex = /^\d{0,2}(\.\d{0,3})?$/;
+
+            if (value.trim() && !regex.test(value)) {
                 newErrors[name] = '';
-=======
-            if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
-                newErrors[name] = 'Invalid Tax% Format';
->>>>>>> Stashed changes
                 isValid = false;
+            } else {
+                newErrors[name] = ''; // Clear error if input is valid
             }
         }  else if (name === 'shippingTime') {
-            // Only check for invalid characters if the value is not empty
-            if (value.trim() && !/^\d{1,2}$/.test(value)) {
-<<<<<<< Updated upstream
-=======
-                newErrors[name] = 'Invalid Format';
-                isValid = false;
-            } else {
->>>>>>> Stashed changes
+            
+            const regex = /^\d{1,3}(-\d{1,2})?$/;
+
+            // Partial match is allowed but full input should be validated
+            if (value.trim() && !regex.test(value)) {
                 newErrors[name] = '';
                 isValid = false;
+            } else {
+                // Show error only when the input is fully invalid
+                if (value.trim() && !regex.test(value) && !/^\d{1,2}$/.test(value)) {
+                    newErrors[name] = '';
+                    isValid = false;
+                } else {
+                    newErrors[name] = ''; // Clear error if input is valid
+                }
             }
         } 
-<<<<<<< Updated upstream
-=======
-        else if (name === 'shippingTime') {
-            if (!/^\d*$/.test(value)) {
-                newErrors[name] = 'Only Numbers are Allowed';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'availableFor') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Available For is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'tags') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Tags are required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerName') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerDescription') {
-            // Add validation for strength if needed
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
->>>>>>> Stashed changes
         // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
         //     // Validate only if the value is not empty
         //     if (value.trim() === '') {

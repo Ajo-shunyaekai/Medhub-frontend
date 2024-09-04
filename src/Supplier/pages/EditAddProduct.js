@@ -215,35 +215,96 @@ const AddProduct = () => {
         setFormSections(newFormSections);
     };
 
+
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
     
-        if (name === 'unitPrice' || name === 'totalPrice') {
-            isValid = /^\d*\.?\d*$/.test(value); 
+        // Validation logic
+        if (name === 'unitPrice') {
+            // Allow numbers with up to 3 digits before the decimal point and up to 3 digits after the decimal point
+            const regex = /^\d{0,4}(\.\d{0,3})?$/;
+            if (!regex.test(value)) {
+                isValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid unit price. Please enter up to 3 digits before the decimal point and up to 3 digits after the decimal point.'
+                }));
+            }
+        } else if (name === 'totalPrice') {
+            // Allow numbers with up to 5 digits before the decimal point and up to 3 digits after the decimal point
+            const regex = /^\d{0,8}(\.\d{0,3})?$/;
+            if (!regex.test(value)) {
+                isValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid total price. Please enter up to 5 digits before the decimal point and up to 3 digits after the decimal point.'
+                }));
+            }
+        } else if (name === 'estDeliveryTime') {
+            // Allow only numbers with up to 2 digits
+            const regex = /^\d{0,3}$/;
+            if (!regex.test(value)) {
+                isValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid delivery time. Please enter up to 2 digits.'
+                }));
+            }
+        } else if (name === 'quantityNo') {
+            // Allow only numbers
+            const regex = /^\d*$/;
+            if (!regex.test(value)) {
+                isValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid quantity. Please enter only numbers.'
+                }));
+            }
+        } else if (name === 'unitPricee') {
+            // Allow numbers with up to 3 digits before the decimal point and up to 3 digits after the decimal point
+            const regex = /^\d{0,3}(\.\d{0,3})?$/;
+            if (!regex.test(value)) {
+                isValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`${name}${index}`]: 'Invalid value. Please enter a valid number with up to 3 digits before the decimal point and up to 3 digits after the decimal point.'
+                }));
+            }
         }
-        if (name === 'estDeliveryTime') {
-            isValid = /^\d*$/.test(value); 
-        }
+    
+        // If input is valid, update the formSections and formData
         if (isValid) {
+            newFormSections[index][name] = value;
+    
+            const unitPrices = newFormSections.map(section => section.unitPrice);
+            const totalPrices = newFormSections.map(section => section.totalPrice);
+            const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+    
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                unitPrice: unitPrices,
+                totalPrice: totalPrices,
+                estDeliveryTime: estDeliveryTimes,
+            }));
+    
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`${name}${index}`]: ''
-            }))
-            newFormSections[index][name] = value;
-            setFormSections(newFormSections);
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                [name]: newFormSections.map(section => section[name]),
             }));
         } else {
+            // If input is invalid, do not update formData and set error
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [`${name}${index}`]: `${name.charAt(0).toUpperCase() + name.slice(1)} must be a valid number`
+                [`${name}${index}`]: 'Invalid input.'
             }));
+            
         }
+    
+        setFormSections(newFormSections);
     };
+    
     
     const addFormSection = () => {
         let newProductValid = true;
@@ -487,7 +548,7 @@ const AddProduct = () => {
 
     const handleStockedInputChange = (index, event) => {
         const { name, value } = event.target;
-        if (/^\d*$/.test(value)) {
+        if (/^\d*$/.test(value) && value.length <= 8) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
             setErrors(prevErrors => ({
@@ -799,114 +860,70 @@ console.log('FORMDATA',formData);
         resetForm()
     }
 
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        let newErrors = {};
+        let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-
+    
+        // Clear the error message for the field being updated
+        newErrors[name] = '';
+    
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
                 isValid = false;
-            } else {
-                newErrors.description = '';
             }
-        }
-        if (name === 'productName' || name === 'dossierStatus') {
-            if (!/^[a-zA-Z\s]*$/.test(value)) {
-                isValid = false;
-            } else {
+        } else if (name === 'productName' || name === 'dossierStatus') {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
                 newErrors[name] = '';
-            }
-        }
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
-            if (!/^\d*$/.test(value)) {
                 isValid = false;
-            } else {
+            }
+        } else if (name === 'totalQuantity') {
+            // Allow only up to 5 digits
+            if (value.trim() && !/^\d{1,8}$/.test(value)) {
                 newErrors[name] = '';
-            }
-        }
-        if (name === 'unitTax') {
-            if (!/^\d*\.?\d*$/.test(value)) {
                 isValid = false;
-            } else {
-                newErrors.unitTax = '';
             }
-        } else if (name === 'composition') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Composition is required';
-                isValid = false;
-            } else {
+        } else if (name === 'minPurchaseUnit') {
+            // Allow only up to 3 digits
+            if (value.trim() && !/^\d{1,3}$/.test(value)) {
                 newErrors[name] = '';
+                isValid = false;
             }
-        } else if (name === 'strength') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Strength is required';
+        } else if (name === 'unitTax') {
+            // Regular expression to match up to 2 digits before the decimal and up to 2 digits after the decimal
+            const regex = /^\d{0,2}(\.\d{0,3})?$/;
+
+            if (value.trim() && !regex.test(value)) {
+                newErrors[name] = '';
                 isValid = false;
             } else {
-                newErrors[name] = '';
+                newErrors[name] = ''; // Clear error if input is valid
             }
-        } else if (name === 'shelfLife') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Shelf Life is required';
+        }  else if (name === 'shippingTime') {
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^\d{1,3}$/.test(value)) {
+                newErrors[name] = '';
                 isValid = false;
-            } else {
-                newErrors[name] = '';
             }
-        } else if (name === 'dossierType') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Dossier Type  is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'gmpApprovals') {
-            if (value.trim() === '') {
-                newErrors[name] = 'GMP Approvals is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'shippingTime') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Shipping Time is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'availableFor') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Available For is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'tags') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Tags are required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerName') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        } else if (name === 'manufacturerDescription') {
-            if (value.trim() === '') {
-                newErrors[name] = 'Manufacturer Name is required';
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
+
+            
+        } 
+        // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
+        //     // Validate only if the value is not empty
+        //     if (value.trim() === '') {
+        //         newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
+        //         isValid = false;
+        //     }
+        // }
+    
+        // Update the form data if valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-        setErrors(prevState => ({ ...prevState, ...newErrors }));
+        setErrors(newErrors);
     };
 
     const handlemanufacturerCountryOriginChange = (selected) => {
