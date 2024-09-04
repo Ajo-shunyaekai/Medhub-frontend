@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import logincss from '../style/login.css';
+import '../style/login.css';
 import logo from '../assest/signup.svg';
 import { Link } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
@@ -24,14 +24,14 @@ const SupplierLogin = () => {
 
         // Email validation
         if (!email) {
-            newErrors.email = 'Email is required';
+            newErrors.email = 'Email is Required';
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'Email address is invalid';
+            newErrors.email = 'Email Address is Invalid';
         }
 
         // Password validation
         if (!password) {
-            newErrors.password = 'Password is required';
+            newErrors.password = 'Password is Required';
         } else if (!/(?=.*[A-Z])/.test(password)) {
             newErrors.password = 'Password must contain at least one uppercase letter';
         } 

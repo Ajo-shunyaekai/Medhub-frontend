@@ -653,7 +653,7 @@ const ProformaInvoice = () => {
                                 onChange={handleChange}
                                 // {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} 
                                 />
-                                {errors.supplierName && <p style={{color: 'red'}}>{errors.supplierName}</p>}
+                                {errors.supplierName && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierName}</p>}
                         </div>
                         
                         <div className={styles['create-invoice-div-container']}>
@@ -688,7 +688,7 @@ const ProformaInvoice = () => {
                                 format="dd/MM/yyyy"
                                 placeholder='dd/MM/yyyy'
                             />
-                             {errors.dueDate && <p style={{color: 'red'}}>{errors.dueDate}</p>}
+                             {errors.dueDate && <p style={{color: 'red', fontSize: '12px'}}>{errors.dueDate}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
@@ -699,7 +699,7 @@ const ProformaInvoice = () => {
                                 // {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested is Required' })}
                                 onInput={handleNumberInput}
                                 />
-                                {errors.depositRequested && <p style={{color: 'red'}}>{errors.depositRequested}</p>}
+                                {errors.depositRequested && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositRequested}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Due</label>
@@ -710,7 +710,7 @@ const ProformaInvoice = () => {
                                 // {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
                                 onInput={handleNumberInput}
                                  />
-                                 {errors.depositDue && <p style={{color: 'red'}}>{errors.depositDue}</p>}
+                                 {errors.depositDue && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositDue}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
@@ -733,7 +733,7 @@ const ProformaInvoice = () => {
                                 onChange={handleChange}
                                 // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })} 
                                 />
-                            {errors.supplierEmail && <p style={{color: 'red'}}>{errors.supplierEmail}</p>}
+                            {errors.supplierEmail && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierEmail}</p>}
                         </div>
 
                         <div className={styles['create-invoice-div-container']}>
@@ -747,7 +747,7 @@ const ProformaInvoice = () => {
                             // onChange={handleSupplierPhoneChange}
                             onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
                         />
-                            {errors.supplierMobile && <p style={{color: 'red'}}>{errors.supplierMobile}</p>}
+                            {errors.supplierMobile && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierMobile}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -758,7 +758,7 @@ const ProformaInvoice = () => {
                                 onChange={handleChange}
                                 // {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })} 
                                 />
-                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress}</p>}
+                            {errors.supplierAddress && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierAddress}</p>}
                         </div>
                     </div>
                 </div>
@@ -773,7 +773,7 @@ const ProformaInvoice = () => {
                                 value={formData.buyerName}
                                 // {...register('buyerName', { validate: value => value?.trim() !== '' || 'Buyer name is required' })}
                                 />
-                            {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName}</p>}
+                            {errors.buyerName && <p style={{color: 'red', fontSize: '12px'}}>{errors.buyerName}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
@@ -784,7 +784,7 @@ const ProformaInvoice = () => {
                                 value={formData.buyerEmail}
                                 // {...register('buyerEmail', { validate: value => value?.trim() !== '' || 'Buyer email is required' })} 
                                 />
-                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                            {errors.buyerEmail && <p style={{color: 'red', fontSize: '12px'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile No.</label>
@@ -797,7 +797,7 @@ const ProformaInvoice = () => {
                             disabled
                             // onChange={handleBuyerPhoneChange}
                         />
-                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile}</p>}
+                            {errors.buyerMobile && <p style={{color: 'red', fontSize: '12px'}}>{errors.buyerMobile}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Address</label>
@@ -808,7 +808,7 @@ const ProformaInvoice = () => {
                                 value={formData.buyerAddress}
                                 // {...register('buyerAddress', { validate: value => value?.trim() !== '' || 'Buyer address is required' })} 
                                 />
-                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress}</p>}
+                            {errors.buyerAddress && <p style={{color: 'red', fontSize: '12px'}}>{errors.buyerAddress}</p>}
                         </div>
                     </div>
                 </div>

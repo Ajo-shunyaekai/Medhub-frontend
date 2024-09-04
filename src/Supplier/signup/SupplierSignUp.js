@@ -207,8 +207,8 @@ const SupplierSignUp = () => {
         if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
-        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No is Required';
+        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
 
 
         setErrors(formErrors);

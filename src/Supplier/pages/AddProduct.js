@@ -596,21 +596,34 @@ const AddProduct = () => {
             }
         } else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
+<<<<<<< Updated upstream
            
             const regex = /^\d{0,2}(\.\d{0,3})?$/;
 
             if (value.trim() && !regex.test(value)) {
+=======
+            // if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
+            //     newErrors[name] = 'Invalid unit tax format';
+            //     isValid = false;
+            // }
+            if (value.trim() && !/^\d{1,2}(\.\d{1,2})?$/.test(value)) {
+>>>>>>> Stashed changes
                 newErrors[name] = '';
                 isValid = false;
             } else {
                 newErrors[name] = ''; // Clear error if input is valid
             }
         }  else if (name === 'shippingTime') {
+<<<<<<< Updated upstream
             
             const regex = /^\d{1,3}(-\d{1,2})?$/;
 
             // Partial match is allowed but full input should be validated
             if (value.trim() && !regex.test(value)) {
+=======
+            // Only check for invalid characters if the value is not empty
+            if (value.trim() && !/^\d{1,2}$/.test(value)) {
+>>>>>>> Stashed changes
                 newErrors[name] = '';
                 isValid = false;
             } else {

@@ -338,6 +338,10 @@
   .supplier-details-inner-head {
     font-size: 14px;
   }
+  .tooltip {
+    top: 9% !important;
+    left: 48% !important;
+}
 }
 @media screen and (max-width: 1250px) {
   .supplier-details-left-inner-container {

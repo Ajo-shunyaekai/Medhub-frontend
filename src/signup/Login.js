@@ -24,13 +24,13 @@ const Login = () => {
         const newErrors = {};
 
         if (!email) {
-            newErrors.email = 'Email is required';
+            newErrors.email = 'Email is Required';
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'Email address is invalid';
+            newErrors.email = 'Email Address is Invalid';
         }
 
         if (!password) {
-            newErrors.password = 'Password is required';
+            newErrors.password = 'Password is Required';
             // } else if (!/(?=.*[A-Z])/.test(password)) {
             //     newErrors.password = 'Password must contain at least one uppercase letter';
             // } else if (!/(?=.*[!@#$%^&*])/.test(password)) {

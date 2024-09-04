@@ -86,7 +86,7 @@ const SignUp = () => {
         setSelectedOptions(selected);
         setFormData(prevState => ({ ...prevState, interestedIn: selected }));
         if (!selected) {
-            setErrors(prevState => ({ ...prevState, interestedIn: 'Interested In is required' }));
+            setErrors(prevState => ({ ...prevState, interestedIn: 'Interested In is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, interestedIn: '' }));
         }
@@ -106,7 +106,7 @@ const SignUp = () => {
         setSelectedCompanyType(selectedOption);
         setFormData(prevState => ({ ...prevState, companyType: selectedOption }));
         if (!selectedOption) {
-            setErrors(prevState => ({ ...prevState, companyType: 'Company Type is required' }));
+            setErrors(prevState => ({ ...prevState, companyType: 'Company Type is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, companyType: '' }));
         }
@@ -134,7 +134,7 @@ const SignUp = () => {
     
         setErrors(prevState => ({
             ...prevState,
-            [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is required` : '',
+            [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
         }));
     };
     
@@ -179,37 +179,37 @@ const SignUp = () => {
     const validateForm = () => {
         let formErrors = {};
 
-        if (!formData.companyType) formErrors.companyType = 'Company Type is required';
-        if (!formData.companyName) formErrors.companyName = 'Company Name is required';
-        if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is required';
-        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is required';
+        if (!formData.companyType) formErrors.companyType = 'Company Type is Required';
+        if (!formData.companyName) formErrors.companyName = 'Company Name is Required';
+        if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
+        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
         if (!companyPhone || companyPhone.length <= 12) {
-            formErrors.companyPhone = 'Company phone no. is required';
+            formErrors.companyPhone = 'Company Phone No. is Required';
         }
-        if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is required';
-        if (!formData.designation) formErrors.designation = 'Designation is required';
-        if (!formData.email) formErrors.email = 'Email ID is required';
+        if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
+        if (!formData.designation) formErrors.designation = 'Designation is Required';
+        if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
         if (!mobile || mobile.length <= 12) {
-            formErrors.mobile = 'Mobile no. is required';
+            formErrors.mobile = 'Mobile No. is Required';
         }
-        if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is required';
-        if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is required';
-        if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is required';
-        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is required';
-        if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue = 'Yearly Purchase Value is required';
-        if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is required';
-        if (!formData.interestedIn) formErrors.interestedIn = 'Interested in  is required';
+        if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
+        if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
+        if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
+        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is Required';
+        if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue = 'Yearly Purchase Value is Required';
+        if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
+        if (!formData.interestedIn) formErrors.interestedIn = 'Interested in  is Required';
         if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-        if (!formData.description) formErrors.description = 'Description is required';
+        if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
-        if (!formData.taxImage) formErrors.taxImage = 'Tax image is required';
-        if (!formData.logoImage) formErrors.logoImage = 'Logo image is required';
-        if (!formData.licenseImage) formErrors.licenseImage = 'License image is required';
-        if (!formData.certificateImage) formErrors.certificateImage = 'Certificate image is required';
-        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No is Required';
+        if (!formData.taxImage) formErrors.taxImage = 'Tax Image is Required';
+        if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
+        if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
+        if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
+        if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
 
         setErrors(formErrors);
 
@@ -336,7 +336,7 @@ const SignUp = () => {
 
         setFormData({ ...formData, originCountry: selectedOption.label })
         if (!selectedOption) {
-            setErrors(prevState => ({ ...prevState, originCountry: 'Country of origin is required' }));
+            setErrors(prevState => ({ ...prevState, originCountry: 'Country of Origin is Required' }));
         } else {
             setErrors(prevState => ({ ...prevState, originCountry: '' }));
         }
@@ -352,7 +352,7 @@ const SignUp = () => {
 
         setErrors(prevState => ({
             ...prevState,
-            operationCountries: selectedLabels.length === 0 ? 'Country of operation is required' : ''
+            operationCountries: selectedLabels.length === 0 ? 'Country of Operation is Required' : ''
         }));
     };
 

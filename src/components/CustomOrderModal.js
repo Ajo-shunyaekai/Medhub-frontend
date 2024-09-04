@@ -49,16 +49,16 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
 
     const validate = () => {
         const newErrors = {};
-        if (!doorToDoor && !customClearance) newErrors.checkboxes = 'Please select at least one option.';
-        if (!transportMode) newErrors.transportMode = 'Please select a mode of transport.';
-        if (!dropLocation.name) newErrors.name = 'Name is required.';
-        if (!dropLocation.email) newErrors.email = 'Email id is required.';
-        if (!dropLocation.contact) newErrors.contact = 'Mobile number is required.';
-        if (!dropLocation.address) newErrors.address = 'Address is required.';
-        if (!dropLocation.country) newErrors.country = 'Country is required.';
-        if (!dropLocation.cityDistrict) newErrors.cityDistrict = 'City is required.';
-        if (!dropLocation.state) newErrors.state = 'State is required.';
-        // if (!dropLocation.pincode) newErrors.pincode = 'Pincode is required.';
+        if (!doorToDoor && !customClearance) newErrors.checkboxes = 'Please Select at Least One Option.';
+        if (!transportMode) newErrors.transportMode = 'Please Select a Mode of Transport.';
+        if (!dropLocation.name) newErrors.name = 'Name is Required.';
+        if (!dropLocation.email) newErrors.email = 'Email ID is Required.';
+        if (!dropLocation.contact) newErrors.contact = 'Mobile Number is Required.';
+        if (!dropLocation.address) newErrors.address = 'Address is Required.';
+        if (!dropLocation.country) newErrors.country = 'Country is Required.';
+        if (!dropLocation.cityDistrict) newErrors.cityDistrict = 'City is Required.';
+        if (!dropLocation.state) newErrors.state = 'State is Required.';
+        // if (!dropLocation.pincode) newErrors.pincode = 'Pincode is Required.';
         return newErrors;
     };
 
@@ -228,8 +228,8 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                     </div>
                                 </div>
                             )}
-                        </div>
-                        {errors.transportMode && <div className={styles.error}>{errors.transportMode}</div>}
+                            {errors.transportMode && <div className={styles.error}>{errors.transportMode}</div>}
+                        </div>                       
                     </div>
                     <div className={styles['custom-modal-input-form-containers-section']}>
                         <label className={styles.selectModalText}>Drop Details</label>
