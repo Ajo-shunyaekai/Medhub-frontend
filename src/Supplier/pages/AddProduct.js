@@ -548,6 +548,7 @@ const AddProduct = () => {
                 isValid = false;
             }
         } else if (name === 'productName' || name === 'dossierStatus') {
+<<<<<<< Updated upstream
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
                 newErrors[name] = '';
@@ -563,25 +564,88 @@ const AddProduct = () => {
             // Allow only up to 3 digits
             if (value.trim() && !/^\d{1,3}$/.test(value)) {
                 newErrors[name] = '';
+=======
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                newErrors[name] = 'Only Letters are Allowed';
+                isValid = false;
+            }
+        } else if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
+            if (!/^\d*$/.test(value)) {
+                newErrors[name] = 'Only Numbers are Allowed';
+>>>>>>> Stashed changes
                 isValid = false;
             }
         } else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
+<<<<<<< Updated upstream
             // if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
             //     newErrors[name] = 'Invalid unit tax format';
             //     isValid = false;
             // }
             if (value.trim() && !/^\d{1,2}(\.\d{1,2})?$/.test(value)) {
                 newErrors[name] = '';
+=======
+            if (value.trim() && !/^\d*\.?\d*$/.test(value)) {
+                newErrors[name] = 'Invalid Tax% Format';
+>>>>>>> Stashed changes
                 isValid = false;
             }
         }  else if (name === 'shippingTime') {
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^\d{1,2}$/.test(value)) {
+<<<<<<< Updated upstream
+=======
+                newErrors[name] = 'Invalid Format';
+                isValid = false;
+            } else {
+>>>>>>> Stashed changes
                 newErrors[name] = '';
                 isValid = false;
             }
         } 
+<<<<<<< Updated upstream
+=======
+        else if (name === 'shippingTime') {
+            if (!/^\d*$/.test(value)) {
+                newErrors[name] = 'Only Numbers are Allowed';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'availableFor') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Available For is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'tags') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Tags are required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerName') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        } else if (name === 'manufacturerDescription') {
+            // Add validation for strength if needed
+            if (value.trim() === '') {
+                newErrors[name] = 'Manufacturer Name is required';
+                isValid = false;
+            } else {
+                newErrors[name] = '';
+            }
+        }
+>>>>>>> Stashed changes
         // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
         //     // Validate only if the value is not empty
         //     if (value.trim() === '') {
