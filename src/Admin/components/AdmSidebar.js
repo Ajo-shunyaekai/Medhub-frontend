@@ -432,23 +432,23 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
 
 const handleNavigation = (notificationId,event, eventId,linkId) => {
     switch (event) {
-      case 'enquiry':
-        setIsNotificationOpen(false)
-        // navigate('/buyer/inquiry-purchase-orders/ongoing');
-        navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
-        updateStatusApi(notificationId)
-        handleClick(notificationId, event)
-        break;
-      case 'order':
-        setIsNotificationOpen(false)
-        navigate(`/buyer/order-details/${eventId}`);
-        handleClick(notificationId, event)
-        break;
-      case 'purchaseorder':
-            setIsNotificationOpen(false)
-            navigate(`/buyer/purchased-order-details/${linkId}`);
-            handleClick(notificationId, event)
-            break;
+      // case 'enquiry':
+      //   setIsNotificationOpen(false)
+      //   // navigate('/buyer/inquiry-purchase-orders/ongoing');
+      //   navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
+      //   updateStatusApi(notificationId)
+      //   handleClick(notificationId, event)
+      //   break;
+      // case 'order':
+      //   setIsNotificationOpen(false)
+      //   navigate(`/buyer/order-details/${eventId}`);
+      //   handleClick(notificationId, event)
+      //   break;
+      // case 'purchaseorder':
+      //       setIsNotificationOpen(false)
+      //       navigate(`/buyer/purchased-order-details/${linkId}`);
+      //       handleClick(notificationId, event)
+      //       break;
       case 'addnewmedicinerequest':
         setIsNotificationOpen(false)
         navigate(`/admin/product-requests`);
@@ -468,7 +468,17 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
           setIsNotificationOpen(false)
           navigate(`/admin/edit-requests`);
           handleClick(notificationId, event)
-          break;     
+          break;   
+      case 'buyerregistration':
+        setIsNotificationOpen(false)
+        navigate(`/admin/buyer-request`);
+        handleClick(notificationId, event)
+        break;  
+      case 'supplierregistration':
+        setIsNotificationOpen(false)
+        navigate(`/admin/seller-request`);
+        handleClick(notificationId, event)
+        break;    
       default:
         navigate('/admin/'); // Default to home or another page if event_type doesn't match
         break;

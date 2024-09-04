@@ -606,11 +606,7 @@ const AddProduct = () => {
                 newErrors[name] = ''; // Clear error if input is valid
             }
         }  else if (name === 'shippingTime') {
-<<<<<<< Updated upstream
-            
-=======
            
->>>>>>> Stashed changes
             const regex = /^\d{1,3}(-\d{1,2})?$/;
 
             // Partial match is allowed but full input should be validated

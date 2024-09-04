@@ -292,8 +292,10 @@ const CreatePO = () => {
     const [currentDate, setCurrentDate] = useState('');
     const [poNumber, setPONumber] = useState();
     const [orderItems, setOrderItems] = useState([]);
+    const [rejectedItems, setRejectedItems] = useState([])
     const [inquiryDetails, setInquiryDetails] = useState();
     const [itemId, setItemId] = useState([])
+    const [rejectedItemId, setRejectedItemId] = useState([])
     const [errors, setErrors]    = useState({})
     const [formData, setFormData] = useState({
         purchaseOrderId: '',
@@ -346,6 +348,7 @@ const CreatePO = () => {
         setPONumber(generatedInvoiceNumber);
     
         const storedItems = sessionStorage.getItem('acceptedQuotationItems');
+        const rejectedItems = sessionStorage.getItem('rejectedQuotationItems');
         if (storedItems) {
             try {
                 const parsedItems = JSON.parse(storedItems);
@@ -356,6 +359,21 @@ const CreatePO = () => {
                 }));
                 const itemIds = parsedItems.map(item => item._id);
                 setItemId(itemIds);
+            } catch (error) {
+                console.error('Error parsing stored items:', error);
+            }
+        }
+
+        if (rejectedItems) {
+            try {
+                const parsedItems = JSON.parse(rejectedItems);
+                setRejectedItems(parsedItems);
+                setFormData(prevState => ({
+                    ...prevState,
+                    rejectedItems: parsedItems,
+                }));
+                const itemIds = parsedItems.map(item => item._id);
+                setRejectedItemId(itemIds);
             } catch (error) {
                 console.error('Error parsing stored items:', error);
             }
@@ -495,6 +513,7 @@ const CreatePO = () => {
                 enquiry_id: inquiryId,
                 supplier_id: inquiryDetails?.supplier?.supplier_id,
                 itemIds: itemId,
+                rejectedIds  :rejectedItemId,
                 data: newData,
                 grandTotalAmount
             };
