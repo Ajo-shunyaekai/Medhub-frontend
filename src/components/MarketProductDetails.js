@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
 import CountryDetails from '../components/sections/CountryDetails';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import SupplierPurchaseInvoice from './pay/SupplierPurchaseInvoice';
+import Invoice from '../assest/invoice.pdf'
 import Select from 'react-select';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -30,33 +30,33 @@ const MarketProductDetails = () => {
     const itemsPerPage = 2;
 
     const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedDetails, setSelectedDetails] = useState({});
-  const [quantityRequired, setQuantityRequired] = useState('');
-  const [targetPrice, setTargetPrice] = useState('');
-  const [errors, setErrors] = useState({});
+    const [selectedDetails, setSelectedDetails] = useState({});
+    const [quantityRequired, setQuantityRequired] = useState('');
+    const [targetPrice, setTargetPrice] = useState('');
+    const [errors, setErrors] = useState({});
 
-  const hasInventoryInfo = details && details.inventory_info && details.inventory_info.length > 0;
+    const hasInventoryInfo = details && details.inventory_info && details.inventory_info.length > 0;
 
-  const options = hasInventoryInfo
-    ? details.inventory_info.map((item, index) => ({
-      value: index,
-      label: item.quantity
-    }))
-    : [];
+    const options = hasInventoryInfo
+        ? details.inventory_info.map((item, index) => ({
+            value: index,
+            label: item.quantity
+        }))
+        : [];
 
-  useEffect(() => {
-    if (hasInventoryInfo) {
-      setSelectedOption(options[0]);
-      setSelectedDetails(details.inventory_info[0]);
-    }
-  }, [details]);
+    useEffect(() => {
+        if (hasInventoryInfo) {
+            setSelectedOption(options[0]);
+            setSelectedDetails(details.inventory_info[0]);
+        }
+    }, [details]);
 
-  const handleSelectChange = (selectedOption) => {
-    setQuantityRequired('')
-    setTargetPrice('')
-    setSelectedOption(selectedOption);
-    setSelectedDetails(details.inventory_info[selectedOption.value]);
-  };
+    const handleSelectChange = (selectedOption) => {
+        setQuantityRequired('')
+        setTargetPrice('')
+        setSelectedOption(selectedOption);
+        setSelectedDetails(details.inventory_info[selectedOption.value]);
+    };
 
     const handleDownloadPDF = () => {
         const input = document.getElementById('invoice-section');
@@ -140,14 +140,14 @@ const MarketProductDetails = () => {
     const validateInputs = () => {
         let formErrors = {};
         if (!quantityRequired || isNaN(quantityRequired) || quantityRequired <= 0) {
-          formErrors.quantityRequired = 'Please enter a valid quantity.';
+            formErrors.quantityRequired = 'Please enter a valid quantity.';
         }
         if (!targetPrice || isNaN(targetPrice) || targetPrice <= 0) {
-          formErrors.targetPrice = 'Please enter a valid target price.';
+            formErrors.targetPrice = 'Please enter a valid target price.';
         }
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
-      };
+    };
 
     const handleMedicineClick = (newMedicineId, newMedicine) => {
         setMedId(newMedicineId)
@@ -159,48 +159,48 @@ const MarketProductDetails = () => {
         e.preventDefault();
         const quantityRequiredNumber = Number(quantityRequired);
         const minPurchaseUnit = Number(details?.min_purchase_unit);
-    
+
         if (validateInputs()) {
-            if(quantityRequiredNumber < minPurchaseUnit) {
-                toast('Quantity required should be greater than or equal to minimum purchase unit',{type: 'error'})
+            if (quantityRequiredNumber < minPurchaseUnit) {
+                toast('Quantity required should be greater than or equal to minimum purchase unit', { type: 'error' })
                 return
             } else {
                 setLoading(true)
                 const obj = {
-                  medicine_id: medId,
-                  supplier_id: supplierId,
-                  buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-                  quantity_required: quantityRequired,
-                  target_price: targetPrice,
-                  quantity: selectedDetails.quantity,
-                  unit_price: selectedDetails.unit_price,
-                  est_delivery_time: selectedDetails.est_delivery_days
+                    medicine_id: medId,
+                    supplier_id: supplierId,
+                    buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
+                    quantity_required: quantityRequired,
+                    target_price: targetPrice,
+                    quantity: selectedDetails.quantity,
+                    unit_price: selectedDetails.unit_price,
+                    est_delivery_time: selectedDetails.est_delivery_days
                 };
-          
+
                 postRequestWithToken('buyer/add-to-list', obj, async (response) => {
-                  if (response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    sessionStorage.setItem('list_count', response.result.listCount)
-                    setTimeout(() => {
-                      navigate('/buyer/send-inquiry')
-                      setLoading(true)
-                    }, 1000);
-                  } else {
-                    setLoading(false)
-                    toast(response.message, { type: "error" });
-                    console.log('error in similar-medicine-list api');
-                  }
+                    if (response.code === 200) {
+                        toast(response.message, { type: "success" });
+                        sessionStorage.setItem('list_count', response.result.listCount)
+                        setTimeout(() => {
+                            navigate('/buyer/send-inquiry')
+                            setLoading(true)
+                        }, 1000);
+                    } else {
+                        setLoading(false)
+                        toast(response.message, { type: "error" });
+                        console.log('error in similar-medicine-list api');
+                    }
                 });
             }
-         
+
         } else {
-          setLoading(false)
-          toast('Some Fields are missing', { type: "error" });
-          setButtonLoading(false)
+            setLoading(false)
+            toast('Some Fields are missing', { type: "error" });
+            setButtonLoading(false)
         }
-      };
-    
-      const handleQuantityChange = (e) => {
+    };
+
+    const handleQuantityChange = (e) => {
         const value = e.target.value;
         if (/^\d*$/.test(value)) {
             setQuantityRequired(value);
@@ -208,10 +208,10 @@ const MarketProductDetails = () => {
     };
 
     const handleTargetPriceChange = (e) => {
-      const value = e.target.value;
-      if (/^\d*\.?\d*$/.test(value)) {
-          setTargetPrice(value);
-      }
+        const value = e.target.value;
+        if (/^\d*\.?\d*$/.test(value)) {
+            setTargetPrice(value);
+        }
     };
 
     return (
@@ -371,10 +371,10 @@ const MarketProductDetails = () => {
                                             {details?.stockedIn_details?.map((item, index) => (
                                                 <div className='buyer-product-details-main-company-section' key={index}>
                                                     <div className='buyer-product-details-main-company-stockedin'>
-                                                    {item.stocked_in_country}
+                                                        {item.stocked_in_country}
                                                     </div>
                                                     <div className='buyer-product-details-main-company-totalquantity'>
-                                                    {item.stocked_quantity} {item.stocked_in_type}
+                                                        {item.stocked_quantity} {item.stocked_in_type}
                                                     </div>
                                                 </div>
                                             ))}
@@ -402,72 +402,72 @@ const MarketProductDetails = () => {
                             </div>
                         </div>
                         <div className="buyer-product-details-container">
-            <div className="buyer-product-range-details">
-              <div className="buyer-product-range-select">
-                <div className="buyer-product-range-heading">Quantity</div>
-                <Select className="buyer-product-range-select-fields" options={options} value={selectedOption} onChange={handleSelectChange} />
-              </div>
-              <div className="buyer-product-range-text">
-                <div className="buyer-product-range-heading">Unit Price</div>
-                <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} AED`} readOnly />
-              </div>
-              <div className="buyer-product-range-text">
-                <div className="buyer-product-range-heading">Est. Delivery Time</div>
-                <input className="buyer-product-range-input" type="text" 
-                // value={selectedDetails.est_delivery_days}
-                value={
-                  selectedDetails.est_delivery_days
-                      ? selectedDetails.est_delivery_days.toLowerCase().includes('days')
-                          ? selectedDetails.est_delivery_days.replace(/days/i, 'Days')
-                          : `${selectedDetails.est_delivery_days} Days`
-                      : ''
-              }
-                 readOnly />
-              </div>
-              <div className="buyer-product-range-text">
-                <div className="buyer-product-range-heading">Quantity Required</div>
-                <input className="buyer-product-range-input" type="text"
-                 placeholder='Enter Qty Req.' value={quantityRequired} 
-                //  onChange={(e) => setQuantityRequired(e.target.value)} 
-                onInput={handleQuantityChange}
-                 />
-                {errors.quantityRequired && <div className="buyer-product-error">{errors.quantityRequired}</div>}
-              </div>
-              <div className="buyer-product-range-text">
-                <div className="buyer-product-range-heading">Target Price</div>
-                <input className="buyer-product-range-input" type="text" placeholder='Enter Target Price' 
-                value={targetPrice} 
-                // onChange={(e) => setTargetPrice(e.target.value)}
-                onInput={handleTargetPriceChange}
-                 />
-                {errors.targetPrice && <div className="buyer-product-error">{errors.targetPrice}</div>}
-              </div>
-            </div>
+                            <div className="buyer-product-range-details">
+                                <div className="buyer-product-range-select">
+                                    <div className="buyer-product-range-heading">Quantity</div>
+                                    <Select className="buyer-product-range-select-fields" options={options} value={selectedOption} onChange={handleSelectChange} />
+                                </div>
+                                <div className="buyer-product-range-text">
+                                    <div className="buyer-product-range-heading">Unit Price</div>
+                                    <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} AED`} readOnly />
+                                </div>
+                                <div className="buyer-product-range-text">
+                                    <div className="buyer-product-range-heading">Est. Delivery Time</div>
+                                    <input className="buyer-product-range-input" type="text"
+                                        // value={selectedDetails.est_delivery_days}
+                                        value={
+                                            selectedDetails.est_delivery_days
+                                                ? selectedDetails.est_delivery_days.toLowerCase().includes('days')
+                                                    ? selectedDetails.est_delivery_days.replace(/days/i, 'Days')
+                                                    : `${selectedDetails.est_delivery_days} Days`
+                                                : ''
+                                        }
+                                        readOnly />
+                                </div>
+                                <div className="buyer-product-range-text">
+                                    <div className="buyer-product-range-heading">Quantity Required</div>
+                                    <input className="buyer-product-range-input" type="text"
+                                        placeholder='Enter Qty Req.' value={quantityRequired}
+                                        //  onChange={(e) => setQuantityRequired(e.target.value)} 
+                                        onInput={handleQuantityChange}
+                                    />
+                                    {errors.quantityRequired && <div className="buyer-product-error">{errors.quantityRequired}</div>}
+                                </div>
+                                <div className="buyer-product-range-text">
+                                    <div className="buyer-product-range-heading">Target Price</div>
+                                    <input className="buyer-product-range-input" type="text" placeholder='Enter Target Price'
+                                        value={targetPrice}
+                                        // onChange={(e) => setTargetPrice(e.target.value)}
+                                        onInput={handleTargetPriceChange}
+                                    />
+                                    {errors.targetPrice && <div className="buyer-product-error">{errors.targetPrice}</div>}
+                                </div>
+                            </div>
 
-          </div>
-          <div className="buyer-product-details-main-button-section">
-            <button 
-            className="buyer-product-details-list-button" 
-            onClick={handleAddToList}
-            disabled={loading}
-            >
-              {/* Add to List */}
-              {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Add to List'
-                            )}
-              </button>
-               
-            <div className="buyer-product-details-cancel-button"
-            onClick={() => {
-              setQuantityRequired('');
-              setTargetPrice('');
-              setErrors({ ...errors, quantityRequired: '', targetPrice: '' });
-          }}>
-            Cancel
-            </div>
-          </div>
+                        </div>
+                        <div className="buyer-product-details-main-button-section">
+                            <button
+                                className="buyer-product-details-list-button"
+                                onClick={handleAddToList}
+                                disabled={loading}
+                            >
+                                {/* Add to List */}
+                                {loading ? (
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Add to List'
+                                )}
+                            </button>
+
+                            <div className="buyer-product-details-cancel-button"
+                                onClick={() => {
+                                    setQuantityRequired('');
+                                    setTargetPrice('');
+                                    setErrors({ ...errors, quantityRequired: '', targetPrice: '' });
+                                }}>
+                                Cancel
+                            </div>
+                        </div>
                         {/* start the ecommerce card */}
                         <div className='buyer-product-details-card-container'>
                             {/* <ProductDetailsCard /> */}
@@ -487,12 +487,18 @@ const MarketProductDetails = () => {
                     <div className="market-modal" onClick={closeModal}>
                         <div className="market-modal-content">
                             <span className="market-close" onClick={toggleModal}>&times;</span>
-                            <div id="invoice-section">
-                                <SupplierPurchaseInvoice />
+                            <div id="invoice-section" style={{ backgroundColor: 'transparent' }}>
+                                <iframe
+                                    src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    style={{ border: 'none' }}
+                                    width="100%"
+                                    height="500px"
+                                    title="Invoice"
+                                />
                             </div>
-                            <div className='invoice-download-button-container'>
+                            {/* <div className='invoice-download-button-container'>
                                 <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 )}

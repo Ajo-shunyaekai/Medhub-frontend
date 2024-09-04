@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
 import para from '../assest/para.webp';
+import Invoice from '../../assest/invoice.pdf'
 import CountryDetails from '../pages/CountryDetails';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -52,22 +53,22 @@ const SecondaryProductDetails = () => {
         // navigate("/supplier/login");
         // return;
         // }
-        
+
         const obj = {
-            medicine_id : medId,
+            medicine_id: medId,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
-        
+
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setMedicineDetails(response?.result?.data)
             } else {
-               console.log('error in med details api');
+                console.log('error in med details api');
             }
-          })
-    },[])
+        })
+    }, [])
 
-   
+
     return (
         <>
             {console.log("showModal state:", showModal)}
@@ -80,15 +81,15 @@ const SecondaryProductDetails = () => {
                                     {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '50mg'})</span>
                                 </h4>
                                 <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
-                                {medicineDetails?.composition}
+                                    {medicineDetails?.composition}
                                 </p>
                             </div>
-                          <Link to={`/supplier/edit-secondary-product/${medicineDetails?.medicine_id}`}>
-                            <div className="product-details-sec-one-right">
-                                <button className='product-details-send-btn'>Edit</button>
-                            </div>
+                            <Link to={`/supplier/edit-secondary-product/${medicineDetails?.medicine_id}`}>
+                                <div className="product-details-sec-one-right">
+                                    <button className='product-details-send-btn'>Edit</button>
+                                </div>
                             </Link>
-                            
+
                         </div>
                     </div>
 
@@ -171,12 +172,12 @@ const SecondaryProductDetails = () => {
                                         <div className='product-details-two-left-text'>GMP Approvals :</div>
                                         <div className='product-details-two-right-text'>{medicineDetails?.gmp_approvals}</div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
-                          {/* start the stocked on container */}
-                          <div className='product-details-container'>
+                        {/* start the stocked on container */}
+                        <div className='product-details-container'>
                             <div className="product-details-stockedin-section-main-container">
                                 <div className='product-stockedin-head'>Stocked In</div>
                                 <div className='product-stockedin-head-section'>
@@ -184,29 +185,29 @@ const SecondaryProductDetails = () => {
                                     <div className='product-stockedin-head-country'>Quantity</div>
                                 </div>
                                 {medicineDetails?.stockedIn_details?.map((item, index) => (
-                                <div className='product-stockedin-head-section' key={index}>
-                                    <div className='product-stockedin-head-country-name'>
-                                    {item.stocked_in_country}
+                                    <div className='product-stockedin-head-section' key={index}>
+                                        <div className='product-stockedin-head-country-name'>
+                                            {item.stocked_in_country}
                                         </div>
-                                    <div className='product-stockedin-head-qty-name'>
-                                    {item.stocked_quantity} {item.stocked_in_type}
+                                        <div className='product-stockedin-head-qty-name'>
+                                            {item.stocked_quantity} {item.stocked_in_type}
                                         </div>
-                                </div>
+                                    </div>
                                 ))}
-                                
-                               
+
+
                             </div>
                         </div>
                         {/* end the stocked on container */}
                         <div className='product-details-container'>
-                            <div className="product-details-section-two-img"> 
-                                        {medicineDetails?.medicine_image?.map((image, j) => (
-                                            <div className="product-details-sec-img-left" key={j}>
-                                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${image.medicine_name} ${j}`} className="responsive-image" />
-                                            </div>
-                                
-                                        ))}
-                                 </div>
+                            <div className="product-details-section-two-img">
+                                {medicineDetails?.medicine_image?.map((image, j) => (
+                                    <div className="product-details-sec-img-left" key={j}>
+                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${image.medicine_name} ${j}`} className="responsive-image" />
+                                    </div>
+
+                                ))}
+                            </div>
                         </div>
 
                         <div className='product-details-container'>
@@ -221,41 +222,41 @@ const SecondaryProductDetails = () => {
                                 medicineDetails?.inventory_info?.map((info, k) => {
                                     return (
                                         <div className="product-range-details">
-                                            <div className="product-range-text"> <input className="product-range-input" type=" text" 
-                                            value={info?.quantity} 
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text"
+                                                value={info?.quantity}
                                             /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" 
-                                            // value={info?.unit_price}
-                                            value={
-                                                info?.unit_price
-                                                  ? info.unit_price.toLowerCase().includes('aed')
-                                                    ? info.unit_price.replace(/aed/i, 'AED')
-                                                    : `${info.unit_price} AED`
-                                                  : ''
-                                              }
-                                             /> 
+                                            <div className="product-range-text"><input className="product-range-input" type="text"
+                                                // value={info?.unit_price}
+                                                value={
+                                                    info?.unit_price
+                                                        ? info.unit_price.toLowerCase().includes('aed')
+                                                            ? info.unit_price.replace(/aed/i, 'AED')
+                                                            : `${info.unit_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
-                                            <div className="product-range-text"><input className="product-range-input" 
-                                            type="text" 
-                                            // value={info?.total_price} 
-                                            value={
-                                                info?.total_price
-                                                  ? info.total_price.toLowerCase().includes('aed')
-                                                    ? info.total_price.replace(/aed/i, 'AED')
-                                                    : `${info.total_price} AED`
-                                                  : ''
-                                              }
-                                            /> 
+                                            <div className="product-range-text"><input className="product-range-input"
+                                                type="text"
+                                                // value={info?.total_price} 
+                                                value={
+                                                    info?.total_price
+                                                        ? info.total_price.toLowerCase().includes('aed')
+                                                            ? info.total_price.replace(/aed/i, 'AED')
+                                                            : `${info.total_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
                                             <div className="product-range-text"> <input className="product-range-input" type="text"
-                                            // value={info?.est_delivery_days} 
-                                            value={
-                                                info?.est_delivery_days
-                                                  ? info.est_delivery_days.toLowerCase().includes('days')
-                                                    ? info.est_delivery_days.replace(/days/i, 'Days')
-                                                    : `${info.est_delivery_days} Days`
-                                                  : ''
-                                              }
+                                                // value={info?.est_delivery_days} 
+                                                value={
+                                                    info?.est_delivery_days
+                                                        ? info.est_delivery_days.toLowerCase().includes('days')
+                                                            ? info.est_delivery_days.replace(/days/i, 'Days')
+                                                            : `${info.est_delivery_days} Days`
+                                                        : ''
+                                                }
                                             />
                                             </div>
                                         </div>
@@ -269,7 +270,7 @@ const SecondaryProductDetails = () => {
                             <div className="product-details-country-section">
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Registered in :</div>
-                                    <div className='product-details-four-right-text'> <CountryDetails countryData = {medicineDetails?.registered_in}/></div>
+                                    <div className='product-details-four-right-text'> <CountryDetails countryData={medicineDetails?.registered_in} /></div>
                                 </div>
                                 <div className="product-details-county">
                                     <div className='product-details-four-left-text'>Tags :</div>
@@ -294,8 +295,8 @@ const SecondaryProductDetails = () => {
                             </div>
                         </div>
 
-                          {/* start the manufacturue details */}
-                          <div className='product-details-container'>
+                        {/* start the manufacturue details */}
+                        <div className='product-details-container'>
                             <div className="product-details-section-two">
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
@@ -324,12 +325,18 @@ const SecondaryProductDetails = () => {
                     <div className="market-modal">
                         <div className="market-modal-content">
                             <span className="market-close" onClick={closeModal}>&times;</span>
-                            <div id="invoice-section">
-                                <SupplierPurchaseInvoice />
+                            <div id="invoice-section" style={{ backgroundColor: 'transparent' }}>
+                                <iframe
+                                    src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    style={{ border: 'none' }}
+                                    width="100%"
+                                    height="500px"
+                                    title="Invoice"
+                                />
                             </div>
-                            <div className='invoice-download-button-container'>
+                            {/* <div className='invoice-download-button-container'>
                                 <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 )}

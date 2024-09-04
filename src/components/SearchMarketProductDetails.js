@@ -5,7 +5,8 @@ import SearchMarketDetailsCard from './SearchMarketDetailsCard';
 import SearchFilterSection from './SearchFilterSection';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import SupplierPurchaseInvoice from './pay/SupplierPurchaseInvoice'
+// import SupplierPurchaseInvoice from './pay/SupplierPurchaseInvoice'
+import Invoice from '../assest/invoice.pdf'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 
@@ -296,12 +297,16 @@ const SearchMarketProductDetails = () => {
                     <div className="market-modal" onClick={closeModal}>
                         <div className="market-modal-content">
                             <span className="market-close" onClick={toggleModal}>&times;</span>
-                            <div id="invoice-section">
-                                <SupplierPurchaseInvoice invoice  ={details?.invoice_image}/>
+                            <div id="invoice-section" style={{ backgroundColor: 'transparent' }}>
+                                <iframe
+                                    src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    style={{ border: 'none' }}
+                                    width="100%"
+                                    height="500px"
+                                    title="Invoice"
+                                />
                             </div>
-                            <div className='invoice-download-button-container'>
-                                <button id="invoice-download-button" onClick={handleDownloadPDF}>Download Invoice</button>
-                            </div>
+
                         </div>
                     </div>
                 )}
