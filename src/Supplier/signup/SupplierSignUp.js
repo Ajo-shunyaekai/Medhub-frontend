@@ -133,6 +133,14 @@ const SupplierSignUp = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
+        if (name === 'registrationNo' || name === 'vatRegistrationNo') {
+            // Limit input to 16 characters for registrationNo and vatRegistrationNo
+            if (value.length > 16) {
+                setErrors(prevState => ({ ...prevState, [name]: '' }));
+                return;
+            }
+        }
     
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));

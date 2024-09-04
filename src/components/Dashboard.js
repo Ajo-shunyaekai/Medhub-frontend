@@ -95,13 +95,13 @@ const Dashboard = () => {
                                 <Link to='/buyer/inquiry-purchase-orders/ongoing'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Ongoing Inquiries</div>
-                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.enquiryCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/inquiry-purchase-orders/purchased'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Purchased Orders</div>
-                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.purchaseOrderCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                 <Link to='/buyer/ongoing-orders'>

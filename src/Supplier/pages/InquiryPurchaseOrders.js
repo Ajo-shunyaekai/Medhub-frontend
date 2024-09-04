@@ -36,6 +36,7 @@ const InquiryPurchaseOrder = () => {
     const activeLink = getActiveLinkFromPath(location.pathname);
 
     const handleLinkClick = (link) => {
+        setCurrentPage(1)
         switch (link) {
             case 'ongoing':
                 navigate('/supplier/inquiry-purchase-orders/ongoing');

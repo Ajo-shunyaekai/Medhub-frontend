@@ -105,7 +105,7 @@ const PurchasedOrderDetails = () => {
                                                     
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_country_code || '+91'} {poDetails?.buyer_mobile}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_country_code} {poDetails?.buyer_mobile}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Email ID :</p>
@@ -113,7 +113,7 @@ const PurchasedOrderDetails = () => {
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_details[0]?.registration_no}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.buyer_regNo}</p>
                                                     </td>
                                                 </td>
                                                 <td style={{ verticalAlign: 'top', width: '40%', paddingBottom: '20px' }}>
@@ -123,7 +123,7 @@ const PurchasedOrderDetails = () => {
                                                    
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_country_code || '+91'} {poDetails?.supplier_mobile}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_country_code } {poDetails?.supplier_mobile}</p>
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Email ID :</p>
@@ -131,7 +131,7 @@ const PurchasedOrderDetails = () => {
                                                     </td>
                                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Company Registration No. :</p>
-                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_details[0]?.registration_no}</p>
+                                                        <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>&nbsp;{poDetails?.supplier_regNo}</p>
                                                     </td>
                                                 </td>
                                             </tr>

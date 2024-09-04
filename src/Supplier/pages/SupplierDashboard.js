@@ -100,7 +100,7 @@ const SupplierDashboard = () => {
                                     <Link to='/supplier/inquiry-purchase-orders/purchased'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Purchased Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/ongoing-orders'>

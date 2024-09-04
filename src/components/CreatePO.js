@@ -439,6 +439,14 @@ const CreatePO = () => {
                 newErrors.unitTax = '';
             }
         }
+        if (name === 'buyerRegNo') {
+            if (!/^[a-zA-Z0-9]{0,16}$/.test(value)) {
+                newErrors.buyerRegNo = '';
+                isValid = false;
+            } else {
+                newErrors.buyerRegNo = '';
+            }
+        }
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
