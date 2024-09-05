@@ -574,21 +574,21 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     const validateForm = () => {
         const newErrors = {};
         // Basic validation rules
-        if (!formData.suppliername) newErrors.suppliername = 'Name is required';
-        if (!formData.supplierEmail || !/\S+@\S+\.\S+/.test(formData.supplierEmail)) newErrors.supplierEmail = 'Valid Email is required';
-        if (!formData.supplierMobile || formData.supplierMobile.length < 10) newErrors.supplierMobile = 'Valid Mobile No. is required';
-        if (!formData.address) newErrors.address = 'Address is required';
-        if (!supplierCountryName) newErrors.supplierCountry = 'Country is required';
-        if (!supplierState) newErrors.supplierState = 'State is required';
-        if (!supplierDistrict) newErrors.supplierDistrict = 'City/District is required';
+        if (!formData.suppliername) newErrors.suppliername = 'Name is Required';
+        if (!formData.supplierEmail || !/\S+@\S+\.\S+/.test(formData.supplierEmail)) newErrors.supplierEmail = 'Valid Email is Required';
+        if (!formData.supplierMobile || formData.supplierMobile.length < 10) newErrors.supplierMobile = 'Valid Mobile No. is Required';
+        if (!formData.address) newErrors.address = 'Address is Required';
+        if (!supplierCountryName) newErrors.supplierCountry = 'Country is Required';
+        if (!supplierState) newErrors.supplierState = 'State is Required';
+        if (!supplierDistrict) newErrors.supplierDistrict = 'City/District is Required';
         // if (!formData.pincode || formData.pincode.length < 6) newErrors.pincode = 'Valid Pincode is required';
-        if (!formData.packages) newErrors.packages = 'No. of Packages is required';
-        if (!formData.weight) newErrors.weight = 'Weight is required';
-        if (!formData.length) newErrors.length = 'Length is required';
-        if (!formData.width) newErrors.width = 'Width is required';
-        if (!formData.height) newErrors.height= 'Height is required';
-        if (!formData.volume) newErrors.volume = 'Volume is required';
-        if (!formData.pickupTime) newErrors.pickupTime = 'Pickup Time is required';
+        if (!formData.packages) newErrors.packages = 'No. of Packages is Required';
+        if (!formData.weight) newErrors.weight = 'Weight is Required';
+        if (!formData.length) newErrors.length = 'Length is Required';
+        if (!formData.width) newErrors.width = 'Width is Required';
+        if (!formData.height) newErrors.height= 'Height is Required';
+        if (!formData.volume) newErrors.volume = 'Volume is Required';
+        if (!formData.pickupTime) newErrors.pickupTime = 'Pickup Time is Required';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -653,7 +653,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
             }); 
         }  else {
             setLoading(false)
-            toast('Some fields are Missing', {type:'error'})
+            toast('Some Fields are Missing', {type:'error'})
         }
        
     };
@@ -673,7 +673,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             className={styles['order-modal-input']}
                             // required
                              />
-                             {errors.suppliername && <span style={{color: 'red'}} className={styles.error}>{errors.suppliername}</span>}
+                             {errors.suppliername && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.suppliername}</span>}
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Email ID</label>
@@ -684,7 +684,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             value={formData.supplierEmail}
                             onChange={handleChange} 
                         />
-                        {errors.supplierEmail && <span style={{color: 'red'}} className={styles.error}>{errors.supplierEmail}</span>}
+                        {errors.supplierEmail && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.supplierEmail}</span>}
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Mobile No</label>
@@ -696,7 +696,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             name="supplierMobile"
                             // required
                             />
-                            {errors.supplierMobile && <span style={{color: 'red'}} className={styles.error}>{errors.supplierMobile}</span>}
+                            {errors.supplierMobile && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.supplierMobile}</span>}
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Address</label>
@@ -707,7 +707,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             onChange={handleChange}
                             // required
                         />
-                        {errors.address && <span style={{color: 'red'}} className={styles.error}>{errors.address}</span>}
+                        {errors.address && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.address}</span>}
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
                         <div className={styles['order-modal-dic-container']}>
@@ -717,7 +717,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 onChange={handleSupplierCountryChange}
                                 placeHolder="Select Country"
                             />
-                            {errors.supplierCountry && <div style={{color: 'red'}} className={styles['error-message']}>{errors.supplierCountry}</div>}
+                            {errors.supplierCountry && <div style={{color: 'red', fontSize: '12px'}} className={styles['error-message']}>{errors.supplierCountry}</div>}
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>State</label>
@@ -727,7 +727,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 onChange={handleSupplierState}
                                 placeHolder="Select State"
                             />
-                            {errors.supplierState && <div style={{color: 'red'}} className={styles['error-message']}>{errors.supplierState}</div>}
+                            {errors.supplierState && <div style={{color: 'red', fontSize: '12px'}} className={styles['error-message']}>{errors.supplierState}</div>}
                         </div>
                     </div>
                     <div className={styles['order-modal-custom-main-sections']}>
@@ -740,7 +740,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 onChange={handleCityChange}
                                 placeHolder="Select City"
                             />
-                            {errors.supplierDistrict && <div style={{color: 'red'}} className={styles['error-message']}>{errors.supplierDistrict}</div>}
+                            {errors.supplierDistrict && <div style={{color: 'red', fontSize: '12px'}} className={styles['error-message']}>{errors.supplierDistrict}</div>}
                         </div>
                         <div className={styles['order-modal-dic-container']}>
                             <label className={styles['order-modal-label']}>Pin Code (optional)</label>
@@ -775,7 +775,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 placeholder="Select Time of Pickup"
                                 onChange={handleSelectChange}
                             />
-                            {errors.pickupTime && <span style={{color: 'red'}} className={styles.error}>{errors.pickupTime}</span>}
+                            {errors.pickupTime && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.pickupTime}</span>}
                         </div>
                     </div>
                     <div className={styles['order-modal-main-heading']}>Shipment Details</div>
@@ -789,7 +789,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             onChange={handleChange}
                             // required
                         />
-                        {errors.packages && <span style={{color: 'red'}} className={styles.error}>{errors.packages}</span>}
+                        {errors.packages && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.packages}</span>}
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <label className={styles['order-modal-label']}>Total Weight</label>
@@ -801,24 +801,24 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                             onChange={handleChange}
                             // required
                         />
-                        {errors.weight && <span style={{color: 'red'}} className={styles.error}>{errors.weight}</span>}
+                        {errors.weight && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.weight}</span>}
                     </div>
                     <div className={styles['order-modal-dic-container']}>
                         <div className={styles['order-modal-custom-main-sections']}>
                             <div className={styles['order-modal-dic-container']}>
                                 <label className={styles['order-modal-label']}>Height</label>
                                 <input placeholder='Enter Height' className={styles['order-modal-input']} name="height" value={formData.height} onChange={handleChange}  />
-                                {errors.height && <span style={{color: 'red'}} className={styles.error}>{errors.height}</span>}
+                                {errors.height && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.height}</span>}
                             </div>
                             <div className={styles['order-modal-dic-container']}>
                                 <label className={styles['order-modal-label']}>Width</label>
                                 <input placeholder='Enter Width' className={styles['order-modal-input']} name="width" value={formData.width} onChange={handleChange}  />
-                                {errors.width && <span style={{color: 'red'}} className={styles.error}>{errors.width}</span>}
+                                {errors.width && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.width}</span>}
                             </div>
                             <div className={styles['order-modal-dic-container']}>
                                 <label className={styles['order-modal-label']}>Length</label>
                                 <input placeholder='Enter Length' className={styles['order-modal-input']} name="length" value={formData.length} onChange={handleChange}  />
-                                {errors.length && <span style={{color: 'red'}} className={styles.error}>{errors.length}</span>}
+                                {errors.length && <span style={{color: 'red', fontSize: '12px'}} className={styles.error}>{errors.length}</span>}
                             </div>
                         </div>
                     </div>
