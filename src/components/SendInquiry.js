@@ -138,7 +138,7 @@ const SendInquiry = () => {
       items: selectedItems
     };
     if(enquiryPayload.items.length === 0) {
-      return toast('Select at least one item', { type: "error" });
+      return toast('Select Atleast One Item', { type: "error" });
     }
     setButtonLoading(true)
     postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {

@@ -215,69 +215,63 @@ const AddProduct = () => {
         setFormSections(newFormSections);
     };
 
-
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
     
-        // Validation logic
+        // Validation logic based on the input name
         if (name === 'unitPrice') {
-            // Allow numbers with up to 3 digits before the decimal point and up to 3 digits after the decimal point
-            const regex = /^\d{0,4}(\.\d{0,3})?$/;
-            if (!regex.test(value)) {
+            // Restrict input to max 4 digits before decimal, and 3 digits after
+            if (/^\d{0,4}(\.\d{0,3})?$/.test(value)) {
+                isValid = true;
+            } else {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: 'Invalid unit price. Please enter up to 3 digits before the decimal point and up to 3 digits after the decimal point.'
+                    [`${name}${index}`]: ''
                 }));
             }
         } else if (name === 'totalPrice') {
-            // Allow numbers with up to 5 digits before the decimal point and up to 3 digits after the decimal point
-            const regex = /^\d{0,8}(\.\d{0,3})?$/;
-            if (!regex.test(value)) {
+            // Restrict input to max 8 digits before decimal, and 3 digits after
+            if (/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
+                isValid = true;
+            } else {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: 'Invalid total price. Please enter up to 5 digits before the decimal point and up to 3 digits after the decimal point.'
+                    [`${name}${index}`]: ''
                 }));
             }
         } else if (name === 'estDeliveryTime') {
-            // Allow only numbers with up to 2 digits
-            const regex = /^\d{0,3}$/;
-            if (!regex.test(value)) {
+            // Restrict input to 3 digits for delivery time
+            if (/^\d{0,3}$/.test(value)) {
+                isValid = true;
+            } else {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
-                    [`${name}${index}`]: 'Invalid delivery time. Please enter up to 2 digits.'
+                    [`${name}${index}`]: ''
                 }));
             }
         } else if (name === 'quantityNo') {
-            // Allow only numbers
-            const regex = /^\d*$/;
-            if (!regex.test(value)) {
+            // Allow only whole numbers
+            if (/^\d*$/.test(value)) {
+                isValid = true;
+            } else {
                 isValid = false;
                 setErrors(prevErrors => ({
                     ...prevErrors,
                     [`${name}${index}`]: 'Invalid quantity. Please enter only numbers.'
                 }));
             }
-        } else if (name === 'unitPricee') {
-            // Allow numbers with up to 3 digits before the decimal point and up to 3 digits after the decimal point
-            const regex = /^\d{0,3}(\.\d{0,3})?$/;
-            if (!regex.test(value)) {
-                isValid = false;
-                setErrors(prevErrors => ({
-                    ...prevErrors,
-                    [`${name}${index}`]: 'Invalid value. Please enter a valid number with up to 3 digits before the decimal point and up to 3 digits after the decimal point.'
-                }));
-            }
         }
     
-        // If input is valid, update the formSections and formData
+        // If the input is valid, update the form sections and reset any errors
         if (isValid) {
             newFormSections[index][name] = value;
     
+            // Update formData with the newly modified values
             const unitPrices = newFormSections.map(section => section.unitPrice);
             const totalPrices = newFormSections.map(section => section.totalPrice);
             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
@@ -289,22 +283,18 @@ const AddProduct = () => {
                 estDeliveryTime: estDeliveryTimes,
             }));
     
+            // Clear errors for this input
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`${name}${index}`]: ''
             }));
         } else {
-            // If input is invalid, do not update formData and set error
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                [`${name}${index}`]: 'Invalid input.'
-            }));
-            
+            // Prevent the input from updating if invalid
+            event.target.value = newFormSections[index][name] || '';
         }
     
         setFormSections(newFormSections);
     };
-    
     
     const addFormSection = () => {
         let newProductValid = true;
@@ -567,6 +557,7 @@ const AddProduct = () => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInType = packageType;
         setStockedInSections(updatedSections);
+        setPackageType(packageType)
     };
 
     const removeStockedInFormSection = (index) => {
