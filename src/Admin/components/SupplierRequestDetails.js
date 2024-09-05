@@ -154,11 +154,6 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
-
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Interested In :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.interested_in?.join(', ')}</div>
-                                </div> */}
                             </div>
 
                         </div>

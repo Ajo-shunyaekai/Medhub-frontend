@@ -124,7 +124,7 @@ const AddProduct = () => {
         purchasedOn: '',
         minPurchaseUnit: '',
         countryAvailableIn: '',
-        condition : '',
+        condition: '',
         manufacturerName: '',
         manufacturerOriginCountry: '',
         manufacturerDescription: '',
@@ -138,18 +138,18 @@ const AddProduct = () => {
 
     const handleQuantityChange = (index, selected) => {
         // if (productType.label === 'New Product') {
-            const newFormSections = [...formSections];
-            newFormSections[index].quantity = selected;
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                [`quantity${index}`]: ''
-            }));
-            const quantities = newFormSections.map(section => section.quantity);
-            setFormData({
-                ...formData,
-                quantity: quantities
-            });
-            setFormSections(newFormSections);
+        const newFormSections = [...formSections];
+        newFormSections[index].quantity = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`quantity${index}`]: ''
+        }));
+        const quantities = newFormSections.map(section => section.quantity);
+        setFormData({
+            ...formData,
+            quantity: quantities
+        });
+        setFormSections(newFormSections);
         // }
     };
 
@@ -165,28 +165,28 @@ const AddProduct = () => {
 
     const handleStockedInputChange = (index, event) => {
         const { name, value } = event.target;
-   
+
         // Allow only numbers and up to 5 digits
         if (/^\d*$/.test(value) && value.length <= 8) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
-   
+
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`stockedInQuantity${index}`]: ''
             }));
-   
+
             setStockedInSections(updatedSections);
         }
     };
-   
+
 
 
     // const handleInputChange = (index, event) => {
     //     const { name, value } = event.target;
     //     const newFormSections = [...formSections];
     //     let isValid = true;
-   
+
     //     if (name === 'unitPrice') {
     //         // Allow only numbers with up to 3 digits before the decimal point
     //         if (!/^\d{0,4}(\.\d*)?$/.test(value)) {
@@ -227,19 +227,19 @@ const AddProduct = () => {
     //         // Handle validation for unitPricee if applicable
     //         isValid = /^\d*\.?\d*$/.test(value);
     //     }
-   
+
     //     if (isValid) {
     //         newFormSections[index][name] = value;
     //         setErrors(prevErrors => ({
     //             ...prevErrors,
     //             [`${name}${index}`]: ''
     //         }));
-           
+
     //         // Update formData state
     //         const unitPrices = newFormSections.map(section => section.unitPrice);
     //         const totalPrices = newFormSections.map(section => section.totalPrice);
     //         const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-   
+
     //         setFormData({
     //             ...formData,
     //             unitPrice: unitPrices,
@@ -247,7 +247,7 @@ const AddProduct = () => {
     //             estDeliveryTime: estDeliveryTimes
     //         });
     //     }
-   
+
     //     setFormSections(newFormSections);
     // };
 
@@ -256,7 +256,7 @@ const AddProduct = () => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
-   
+
         if (name === 'unitPrice') {
             // Allow up to 4 digits before the decimal point and up to 3 digits after the decimal point
             if (!/^\d{0,4}(\.\d{0,3})?$/.test(value)) {
@@ -303,19 +303,19 @@ const AddProduct = () => {
                 }));
             }
         }
-   
+
         if (isValid) {
             newFormSections[index][name] = value;
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`${name}${index}`]: ''
             }));
-   
+
             // Update formData state
             const unitPrices = newFormSections.map(section => section.unitPrice);
             const totalPrices = newFormSections.map(section => section.totalPrice);
             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-   
+
             setFormData({
                 ...formData,
                 unitPrice: unitPrices,
@@ -328,45 +328,45 @@ const AddProduct = () => {
                 [`${name}${index}`]: 'Invalid input'
             }));
         }
-   
+
         setFormSections(newFormSections);
     };
-   
+
 
     const addFormSection = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
 
         // if (productType && productType.label === 'New Product') {
-            formSections.forEach((section, index) => {
-                if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
-                    newProductValid = false;
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
-                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
-                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
-                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
+        formSections.forEach((section, index) => {
+            if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
+                newProductValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
+                    [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
+                    [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                    [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
 
-                    }));
-                }
-            });
-            if (newProductValid ) {
-                setFormSections([
-                    ...formSections,
-                    {
-                        id: formSections.length,
-                        quantity: null,
-                        typeOfForm: null,
-                        totalPrice: '',
-                        unitPrice: '',
-                        shelfLife: '',
-                        estDeliveryTime: '',
-                    }
-                ]);
-
-                setErrors({});
+                }));
             }
+        });
+        if (newProductValid) {
+            setFormSections([
+                ...formSections,
+                {
+                    id: formSections.length,
+                    quantity: null,
+                    typeOfForm: null,
+                    totalPrice: '',
+                    unitPrice: '',
+                    shelfLife: '',
+                    estDeliveryTime: '',
+                }
+            ]);
+
+            setErrors({});
+        }
         // } else if (productType && productType.label === 'Secondary Market') {
 
         //     formSections.forEach((section, index) => {
@@ -475,14 +475,14 @@ const AddProduct = () => {
         const selectedValue = selected ? selected.label : '';
         setCondition(selected);
         setFormData(prevState => ({ ...prevState, condition: selectedValue }));
-   
+
         if (!selectedValue) {
             setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
         } else {
             setErrors(prevState => ({ ...prevState, condition: '' }));
         }
     };
-   
+
 
     const handleProductCategoryChange = (selected) => {
         setProductCategory(selected)
@@ -567,10 +567,10 @@ const AddProduct = () => {
         const { name, value } = event.target;
         let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-   
+
         // Clear the error message for the field being updated
         newErrors[name] = '';
-   
+
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -596,7 +596,7 @@ const AddProduct = () => {
             }
         } else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
-           
+
             const regex = /^\d{0,2}(\.\d{0,3})?$/;
 
             if (value.trim() && !regex.test(value)) {
@@ -605,8 +605,8 @@ const AddProduct = () => {
             } else {
                 newErrors[name] = ''; // Clear error if input is valid
             }
-        }  else if (name === 'shippingTime') {
-           
+        } else if (name === 'shippingTime') {
+
             const regex = /^\d{1,3}(-\d{1,2})?$/;
 
             // Partial match is allowed but full input should be validated
@@ -630,31 +630,31 @@ const AddProduct = () => {
         //         isValid = false;
         //     }
         // }
-   
+
         // Update the form data if valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
         setErrors(newErrors);
     };
-   
+
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
         let newErrors = { ...errors };
         let isValid = true;
-   
+
         if (name === 'purchasedOn') {
             // Validate the format dd/mm/yyyy
             if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
                 const [day, month, year] = value.split('/').map(Number);
                 const currentYear = new Date().getFullYear();
-   
+
                 // Helper function to check if a year is a leap year
                 const isLeapYear = (year) => {
                     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
                 };
-   
+
                 // Days allowed per month
                 const daysInMonth = {
                     1: 31, // January
@@ -670,7 +670,7 @@ const AddProduct = () => {
                     11: 30, // November
                     12: 31, // December
                 };
-   
+
                 // Validate month (01 to 12)
                 if (month < 1 || month > 12) {
                     newErrors[name] = 'Invalid month. Please use a month between 01 and 12.';
@@ -697,13 +697,13 @@ const AddProduct = () => {
                 delete newErrors[name]; // Clear the error if input is empty
                 isValid = true;
             }
-   
+
             setErrors(newErrors);
         }
     };
-   
-   
-   
+
+
+
     useEffect(() => {
         setFormData({
             ...formData,
@@ -748,7 +748,7 @@ const AddProduct = () => {
         if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
         if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
         // if (productType && productType.label === 'New Product') {
-            if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
+        if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         // }
 
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
@@ -963,11 +963,11 @@ const AddProduct = () => {
                         resetForm()
                         toast(response.message, { type: "success" });
                         setLoading(false)
-                       
+
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
-                       
+
                     } else {
                         setLoading(false)
                         toast(response.message, { type: "error" });
@@ -1031,7 +1031,7 @@ const AddProduct = () => {
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);
-                       
+
                     } else {
                         setLoading(false)
                         toast(response.message, { type: "error" });
@@ -1048,7 +1048,7 @@ const AddProduct = () => {
         }
     }
 
- 
+
     const handleCancel = () => {
         resetForm()
     }
@@ -1140,15 +1140,14 @@ const AddProduct = () => {
 
     return (
         <>
-         {/* {loading ? (
+            {/* {loading ? (
                      <Loader />
                 ) : ( */}
+          <ToastContainer />
             <div className={styles['create-invoice-container']}>
-                <ToastContainer />
                 <div className={styles['create-invoice-heading']}>Add Product</div>
                 <div className={styles['create-invoice-section']}>
                     <form className={styles['craete-invoice-form']} onSubmit={handleSubmit}>
-
                         {/* details section */}
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-add-item-cont']}>
@@ -1201,7 +1200,7 @@ const AddProduct = () => {
                                         <Select
                                             className={styles['create-invoice-div-input-select']}
                                             value={condition}
-                                            onChange={ handleConditionChange}
+                                            onChange={handleConditionChange}
                                             options={conditionOptions}
                                             placeholder="Select Condition"
                                         />
@@ -1286,7 +1285,7 @@ const AddProduct = () => {
                                 />
                                 {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
-                           
+
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
                                 <input
@@ -1341,21 +1340,21 @@ const AddProduct = () => {
                             </div>
 
                             {/* {productType && productType.value === 'new_product' && ( */}
-                                <>
-                                    <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Total Quantity</label>
-                                        <input
-                                            className={styles['create-invoice-div-input']}
-                                            type='text'
-                                            name='totalQuantity'
-                                            placeholder='Enter Total Quantity'
-                                            autoComplete='off'
-                                            value={formData.totalQuantity}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
-                                    </div>
-                                </>
+                            <>
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Total Quantity</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name='totalQuantity'
+                                        placeholder='Enter Total Quantity'
+                                        autoComplete='off'
+                                        value={formData.totalQuantity}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
+                                </div>
+                            </>
                             {/* )} */}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
@@ -1566,10 +1565,10 @@ const AddProduct = () => {
                         <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 {/* {productType && productType.value === 'new_product' && ( */}
-                                    <div className={styles['create-invoice-add-item-cont']}>
-                                        <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
-                                        <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
-                                    </div>
+                                <div className={styles['create-invoice-add-item-cont']}>
+                                    <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                </div>
                                 {/* )} */}
 
                                 {/* {productType && productType.value === 'secondary_market' && (
@@ -1581,67 +1580,67 @@ const AddProduct = () => {
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container-add-product']} key={index}>
                                         {/* {productType && productType.value === 'new_product' && ( */}
-                                            <div className={styles['add-product-main-section-container']}>
-                                                <div className={styles['create-invoice-new-product-section-containers']}>
-                                                    <div className={styles['create-invoice-div-container']}>
-                                                        <label className={styles['create-invoice-div-label']}>Quantity</label>
-                                                        <Select
-                                                            className={styles['create-invoice-div-input-select']}
-                                                            value={section.quantity}
-                                                            onChange={(selected) => handleQuantityChange(index, selected)}
-                                                            options={quantityOptions}
-                                                            placeholder="Select Quantity"
-                                                            name='quantity'
-                                                        />
-                                                        {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
-                                                    </div>
-
-                                                    <div className={styles['create-invoice-div-container']}>
-                                                        <label className={styles['create-invoice-div-label']}>Unit Price</label>
-                                                        <input
-                                                            className={styles['create-invoice-div-input']}
-                                                            type='text'
-                                                            name='unitPrice'
-                                                            placeholder='Enter Unit Price'
-                                                            value={section.unitPrice}
-                                                            onChange={(event) => handleInputChange(index, event)}
-                                                        />
-                                                        {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
-                                                    </div>
-
-                                                    <div className={styles['create-invoice-div-container']}>
-                                                        <label className={styles['create-invoice-div-label']}>Total Price</label>
-                                                        <input
-                                                            className={styles['create-invoice-div-input']}
-                                                            type='text'
-                                                            name='totalPrice'
-                                                            placeholder='Enter Total Price'
-                                                            value={section.totalPrice}
-                                                            onChange={(event) => handleInputChange(index, event)}
-                                                        />
-                                                        {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
-                                                    </div>
-
-                                                    <div className={styles['create-invoice-div-container']}>
-                                                        <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>
-                                                        <input
-                                                            className={styles['create-invoice-div-input']}
-                                                            type='text'
-                                                            name='estDeliveryTime'
-                                                            placeholder='Enter Est. Delivery Time'
-                                                            value={section.estDeliveryTime}
-                                                            onChange={(event) => handleInputChange(index, event)}
-                                                        />
-                                                        {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
-                                                    </div>
+                                        <div className={styles['add-product-main-section-container']}>
+                                            <div className={styles['create-invoice-new-product-section-containers']}>
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Quantity</label>
+                                                    <Select
+                                                        className={styles['create-invoice-div-input-select']}
+                                                        value={section.quantity}
+                                                        onChange={(selected) => handleQuantityChange(index, selected)}
+                                                        options={quantityOptions}
+                                                        placeholder="Select Quantity"
+                                                        name='quantity'
+                                                    />
+                                                    {errors[`quantity${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`quantity${index}`]}</div>}
                                                 </div>
 
-                                                {formSections.length > 1 && (
-                                                    <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
-                                                        <CloseIcon />
-                                                    </div>
-                                                )}
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                                    <input
+                                                        className={styles['create-invoice-div-input']}
+                                                        type='text'
+                                                        name='unitPrice'
+                                                        placeholder='Enter Unit Price'
+                                                        value={section.unitPrice}
+                                                        onChange={(event) => handleInputChange(index, event)}
+                                                    />
+                                                    {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
+                                                </div>
+
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Total Price</label>
+                                                    <input
+                                                        className={styles['create-invoice-div-input']}
+                                                        type='text'
+                                                        name='totalPrice'
+                                                        placeholder='Enter Total Price'
+                                                        value={section.totalPrice}
+                                                        onChange={(event) => handleInputChange(index, event)}
+                                                    />
+                                                    {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
+                                                </div>
+
+                                                <div className={styles['create-invoice-div-container']}>
+                                                    <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>
+                                                    <input
+                                                        className={styles['create-invoice-div-input']}
+                                                        type='text'
+                                                        name='estDeliveryTime'
+                                                        placeholder='Enter Est. Delivery Time'
+                                                        value={section.estDeliveryTime}
+                                                        onChange={(event) => handleInputChange(index, event)}
+                                                    />
+                                                    {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
+                                                </div>
                                             </div>
+
+                                            {formSections.length > 1 && (
+                                                <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
+                                                    <CloseIcon />
+                                                </div>
+                                            )}
+                                        </div>
                                         {/* )} */}
 
                                         {/* {productType && productType.value === 'secondary_market' && (
@@ -1777,18 +1776,18 @@ const AddProduct = () => {
 
                         <div className={styles['craete-invoices-button']}>
                             <button
-                            type='submit'
-                            className={styles['create-invoices-submit']}
-                            disabled={loading}
+                                type='submit'
+                                className={styles['create-invoices-submit']}
+                                disabled={loading}
                             >
                                 {/* Add Product */}
                                 {loading ? (
-                                <div className={styles['loading-spinner']}></div>
-                            ) : (
-                                'Add Product'
-                            )}
+                                    <div className={styles['loading-spinner']}></div>
+                                ) : (
+                                    'Add Product'
+                                )}
                             </button>
-                           
+
                             <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
