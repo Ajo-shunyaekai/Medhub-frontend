@@ -733,10 +733,10 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Seller Transaction</div>
             </Link>
-            {/* <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
+            <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
-              <div className={styles.sidebar_text}>Seller Transaction</div>
-            </Link> */}
+              <div className={styles.sidebar_text}>Inquiries</div>
+            </Link>
             <Link to="/admin/seller-order" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Order</div>
