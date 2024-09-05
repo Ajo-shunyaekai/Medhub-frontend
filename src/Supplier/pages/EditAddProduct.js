@@ -588,6 +588,7 @@ const AddProduct = () => {
         if (productType && productType.label === 'New Product') {
             if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         }
+        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
 
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
         if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';

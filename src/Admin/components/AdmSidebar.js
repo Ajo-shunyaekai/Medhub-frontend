@@ -461,12 +461,12 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
         break;        
       case 'editnewmedicinerequest':
           setIsNotificationOpen(false)
-          navigate(`/admin/edit-requests`);
+          navigate(`/admin/product-update-request`);
           handleClick(notificationId, event)
           break;    
       case 'editsecondarymedicinerequest':
           setIsNotificationOpen(false)
-          navigate(`/admin/edit-requests`);
+          navigate(`/admin/product-update-request`);
           handleClick(notificationId, event)
           break;   
       case 'buyerregistration':

@@ -591,6 +591,8 @@ const EditSecondaryProduct = () => {
         if (!formData.unitPrice) formErrors.unitPrice = 'Unit Price is Required';
         if (!formData.condition) formErrors.condition = 'Condition is Required';
 
+        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
+
         if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
@@ -609,6 +611,7 @@ const EditSecondaryProduct = () => {
             if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
             if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
             if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
+            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
         }
 
         setErrors(formErrors);

@@ -16,6 +16,7 @@ const SecondaryProductDetails = () => {
 
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
+    const [invoiceImage, setInvoiceImage] = useState([])
 
     const handleDownloadPDF = () => {
         const input = document.getElementById('invoice-section');
@@ -62,6 +63,7 @@ const SecondaryProductDetails = () => {
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setMedicineDetails(response?.result?.data)
+                setInvoiceImage(response?.result?.data?.invoice_image[0])
             } else {
                 console.log('error in med details api');
             }
@@ -327,7 +329,8 @@ const SecondaryProductDetails = () => {
                             <span className="market-close" onClick={closeModal}>&times;</span>
                             <div id="invoice-section" style={{ backgroundColor: 'transparent' }}>
                                 <iframe
-                                    src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    // src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/invoice_image/${invoiceImage}#toolbar=0&navpanes=0&scrollbar=0`}
                                     style={{ border: 'none' }}
                                     width="100%"
                                     height="500px"
