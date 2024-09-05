@@ -587,7 +587,7 @@ const EditSecondaryProduct = () => {
         if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
         if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
 
-        if (!formData.pdtQuantity) formErrors.pdtQuantity = 'Quantity is Required';
+        // if (!formData.pdtQuantity) formErrors.pdtQuantity = 'Quantity is Required';
         if (!formData.unitPrice) formErrors.unitPrice = 'Unit Price is Required';
         if (!formData.condition) formErrors.condition = 'Condition is Required';
 
@@ -636,6 +636,7 @@ const EditSecondaryProduct = () => {
         setDefaultRegisteredIn([])
         setDefaultStockedIn([])
         setDefaultCountryAvailableIn([])
+        setCondition()
         setErrors({});
         setFormData({
             productName: '',
@@ -667,7 +668,7 @@ const EditSecondaryProduct = () => {
             manufacturerDescription: '',
             stockedInData: '',
             unitPrice: '',
-            pdtQuantity: '',
+            // pdtQuantity: '',
             condition: ''
         });
         setFormSections([
@@ -1060,13 +1061,20 @@ const EditSecondaryProduct = () => {
      const handleConditionChange = (selected) => {
         const selectedValue = selected ? selected.label : ''; 
         setCondition(selected);
-        // setFormData(prevState => ({ ...prevState, condition: selectedValue }));
-    
-        // if (!selectedValue) {
-        //     setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
+
+        // setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
+        // if (!selected) {
+        //     setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
         // } else {
-        //     setErrors(prevState => ({ ...prevState, condition: '' }));
+        //     setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
         // }
+        setFormData(prevState => ({ ...prevState, condition: selectedValue }));
+    
+        if (!selectedValue) {
+            setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, condition: '' }));
+        }
     };
 
     return (

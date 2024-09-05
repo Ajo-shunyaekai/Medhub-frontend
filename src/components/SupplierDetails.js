@@ -68,12 +68,12 @@ const SupplierDetails = () => {
     const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentOrderPage, setCurrentOrderPage] = useState(1)
-    const ordersPerPage = 2;
+    const ordersPerPage = 3;
 
     const [productList, setProductList] = useState([])
     const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 2;
+    const productsPerPage = 3;
 
     const handleProductPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -86,6 +86,7 @@ const SupplierDetails = () => {
 
     //supplier-details
     useEffect(() => {
+        setActiveTab('products')
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
@@ -140,31 +141,37 @@ const SupplierDetails = () => {
     }, [currentOrderPage])
 
     //supplier-product-list
+  
+
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
+    
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
-
+    
+        const medicineType = activeTab === 'products' ? 'new' : activeTab === 'secondary' ? 'secondary market' : '';
+    
         const obj = {
             supplier_id: supplierId,
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             pageSize: productsPerPage,
-            pageNo: currentPage
+            pageNo: currentPage,
+            medicine_type: medicineType  // Add this line to filter by medicine_type
         }
-
+    
         postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
             if (response.code === 200) {
-                setProductList(response.result.data)
-                setTotalProducts(response.result.totalItems)
+                setProductList(response.result.data);
+                setTotalProducts(response.result.totalItems);
             } else {
-                console.log('error in supplier-details api');
+                console.log('error in supplier-product-list api');
             }
         })
-    }, [currentPage])
+    }, [currentPage, activeTab]);  // Include activeTab in the dependency array to refetch when the tab changes
+    
 
     return (
         <>

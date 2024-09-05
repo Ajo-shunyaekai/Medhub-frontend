@@ -27,7 +27,7 @@ const PendingProducts = () => {
     const [totalOrders, setTotalOrders] = useState()
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage     = 2;
+    const ordersPerPage     = 5;
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     // const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -47,12 +47,12 @@ const PendingProducts = () => {
         
         const obj = {
             supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey : 'completed',
+            status : 0,
             page_no   : currentPage, 
             limit     : ordersPerPage,
         }
 
-        postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
+        postRequestWithToken('supplier/medicine-request-list', obj, async (response) => {
             if (response.code === 200) {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
@@ -96,27 +96,27 @@ const PendingProducts = () => {
                             {
                                     orderList && orderList?.length > 0 ? (
                                         orderList.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + item.quantity;
-                                              }, 0);
+                                            // const totalQuantity = order.items.reduce((total, item) => {
+                                            //     return total + item.quantity;
+                                            //   }, 0);
                                               const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_id}</div>
+                                            <div className='completed-table-text-color'>{order.medicine_id}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{orderedDate}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.buyer.buyer_name}</div>
+                                            <div className='table-text-color'>{order.medicine_name}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{totalQuantity}</div>
+                                            <div className='completed-table-text-color'>{order.total_quantity}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1) }</div>
+                                            <div className='completed-table-text-color'>{order.status === 0 ? 'Pending' :  order.status === 1 ? 'Accepted' : order.status === 2 ? 'Rejected' : ''}</div>
                                         </div>
                                         {/* <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/supplier/active-orders-details/${order.order_id}`}>
