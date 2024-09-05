@@ -738,17 +738,29 @@ const EditCreatePO = () => {
                                     {errors.orderItems?.[index]?.quantity && <p>{errors.orderItems[index].quantity.message}</p>}
                                 </div>
                                 <div className={styles['create-invoice-div-container']}>
-                                    <label className={styles['create-invoice-div-label']}>Unit Price</label>
+                                    <label className={styles['create-invoice-div-label']}>Price</label>
                                     <input
                                         className={styles['create-invoice-div-input']}
                                         type='text'
                                         name={`orderItems[${index}].unitPrice`}
-                                        placeholder='Enter Unit Price'
-                                        value = {item?.unit_price}
+                                        placeholder='Enter Price'
+                                        value = {item?.counter_price || item?.target_price}
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.unitPrice && <p>{errors.orderItems[index].unitPrice.message}</p>}
                                 </div>
+                                <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Tax%</label>
+                                        <input
+                                            className={styles['create-invoice-div-input']}
+                                            type='text'
+                                            name={`orderItems[${index}].unitTax`}
+                                            placeholder='Enter Unit Tax'
+                                            value={item?.medicine_details?.unit_tax}
+                                            readOnly
+                                        />
+                                        {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}
+                                    </div>
                                 <div className={styles['create-invoice-div-container']}>
                                     <label className={styles['create-invoice-div-label']}>Total Amount</label>
                                     <input
@@ -756,7 +768,7 @@ const EditCreatePO = () => {
                                         type='text'
                                         name={`orderItems[${index}].totalAmount`}
                                         placeholder='Enter Total Amount'
-                                        value = {item?.total_amount || item?.counter_price} 
+                                        value = {item?.total_amount} 
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.totalAmount && <p>{errors.orderItems[index].totalAmount.message}</p>}

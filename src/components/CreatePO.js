@@ -498,6 +498,7 @@ const CreatePO = () => {
                 const totalPrice = (item?.counter_price || item?.target_price) * item.quantity_required;
                 const totalTax = totalPrice * (unitTax / 100);
                 const totalAmount = totalPrice + totalTax;
+                // const totalAmount = totalPrice + (unitTax / 100);
     
                 return {
                     ...item,

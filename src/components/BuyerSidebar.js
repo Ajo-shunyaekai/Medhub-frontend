@@ -192,6 +192,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/supplier-details/secondary/:supplierId" element={<SupplierDetails />} />
                                         <Route path="/buyer/supplier-details/orders/:supplierId" element={<SupplierDetails />} />
                                         <Route path="/buyer/supplier-details/:supplierId" element={<SupplierDetails />} />
+                                        {/* <Route path="/buyer/supplier-details/:supplierId" element={<Navigate to="/buyer/supplier-details/products/:supplierId" />} /> */}
                                         <Route path="/buyer/completed-orders" element={<CompletedOrders />} />
                                         <Route path="/buyer/ongoing-orders" element={<OngoingOrders />} />
                                         <Route path="/buyer/supply-order-list" element={<SupplyOrderList />} />

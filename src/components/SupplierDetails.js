@@ -49,22 +49,8 @@ const SupplierDetails = () => {
         }
     };
 
-    const [activeTab, setActiveTab] = useState('products');
-
-    const showProducts = () => {
-        setActiveTab('products');
-    };
-    const showSecondary = () => {
-        setActiveTab('secondary');
-    };
-    const showOrders = () => {
-        setActiveTab('orders');
-    };
-
-
-
+    const [activeTab, setActiveTab] = useState('');
     const [supplier, setSupplier] = useState()
-
     const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentOrderPage, setCurrentOrderPage] = useState(1)
@@ -86,7 +72,7 @@ const SupplierDetails = () => {
 
     //supplier-details
     useEffect(() => {
-        setActiveTab('products')
+        
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
@@ -109,68 +95,59 @@ const SupplierDetails = () => {
         })
     }, [])
 
-    //buyer-supplier-orders
+console.log(activeButton, activeTab);
+    //supplier-product-list
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
-        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
-        }
-
-        const fetchBuyerSupplierOrder = () => {
-            const obj = {
-                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-                supplier_id: supplierId,
-                pageSize: ordersPerPage,
-                pageNo: currentOrderPage,
-                order_type: ''
+    
+        // if(activeButton === 'products' || activeButton === 'secondary') {
+            if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+                navigate("/buyer/login");
+                return;
             }
-
-            postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
+        
+            const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary market' : '';
+        
+            const obj = {
+                supplier_id: supplierId,
+                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                pageSize: productsPerPage,
+                pageNo: currentPage,
+                medicine_type: medicineType  // Add this line to filter by medicine_type
+            }
+        
+            postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
                 if (response.code === 200) {
-                    setBuyerSupplierOrder(response.result)
-                    setTotalOrders(response.result.totalOrders)
+                    setProductList(response.result.data);
+                    setTotalProducts(response.result.totalItems);
                 } else {
-                    console.log('error in buyer-supplier-orders api');
+                    console.log('error in supplier-product-list api');
                 }
             })
-        }
-        fetchBuyerSupplierOrder()
-    }, [currentOrderPage])
 
-    //supplier-product-list
-  
-
-    useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+            const fetchBuyerSupplierOrder = () => {
+                const obj = {
+                    buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                    supplier_id: supplierId,
+                    pageSize: ordersPerPage,
+                    pageNo: currentOrderPage,
+                    order_type: ''
+                }
     
-        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
-        }
-    
-        const medicineType = activeTab === 'products' ? 'new' : activeTab === 'secondary' ? 'secondary market' : '';
-    
-        const obj = {
-            supplier_id: supplierId,
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            pageSize: productsPerPage,
-            pageNo: currentPage,
-            medicine_type: medicineType  // Add this line to filter by medicine_type
-        }
-    
-        postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
-            if (response.code === 200) {
-                setProductList(response.result.data);
-                setTotalProducts(response.result.totalItems);
-            } else {
-                console.log('error in supplier-product-list api');
+                postRequestWithToken('buyer/buyer-supplier-orders', obj, async (response) => {
+                    if (response.code === 200) {
+                        setBuyerSupplierOrder(response.result)
+                        setTotalOrders(response.result.totalOrders)
+                    } else {
+                        console.log('error in buyer-supplier-orders api');
+                    }
+                })
             }
-        })
-    }, [currentPage, activeTab]);  // Include activeTab in the dependency array to refetch when the tab changes
+            fetchBuyerSupplierOrder()
+        // }
+        
+    }, [currentPage, activeTab, currentOrderPage]);  // Include activeTab in the dependency array to refetch when the tab changes
     
 
     return (
@@ -315,7 +292,7 @@ const SupplierDetails = () => {
                                 </button>
                             </div>
                             <div className='list-section'>
-                                {activeTab === 'products' ?
+                                {activeButton === 'products' ?
                                     <SupplyProductList
                                         productsData={productList}
                                         totalProducts={totalProducts}
@@ -323,7 +300,7 @@ const SupplierDetails = () => {
                                         productsPerPage={productsPerPage}
                                         handleProductPageChange={handleProductPageChange}
                                     />
-                                    : activeTab === 'secondary' ?
+                                    : activeButton === 'secondary' ?
                                         <SupplySecondaryList
                                             productsData={productList}
                                             totalProducts={totalProducts}

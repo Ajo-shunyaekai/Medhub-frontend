@@ -17,7 +17,7 @@ const InquiryPurchaseOrder = () => {
     const [inquiryList, setInquiryList]       = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
     const [currentPage, setCurrentPage]       = useState(1); 
-    const inquiryPerPage = 3;
+    const inquiryPerPage = 5;
 
     const [poList, setPOList]           = useState([])
     const [totalPoList, setTotalPoList] = useState()

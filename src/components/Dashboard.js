@@ -95,25 +95,25 @@ const Dashboard = () => {
                                 <Link to='/buyer/inquiry-purchase-orders/ongoing'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Ongoing Inquiries</div>
-                                            <div className='top-text'>{orderSummary?.enquiryCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.enquiryCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/inquiry-purchase-orders/purchased'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Purchased Orders</div>
-                                            <div className='top-text'>{orderSummary?.purchaseOrderCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
                                         </div>
                                     </Link>
                                 <Link to='/buyer/ongoing-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.activeCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/completed-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.completedCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     
@@ -121,7 +121,7 @@ const Dashboard = () => {
                                 <div className='bottom-container'>
                                 <Link to='/buyer/invoice'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'>{orderSummary?.activeCount?.count || 0}</span></div>
+                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <ProgressBar />
                                         </div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                                 </Link>
                                 <Link to='/buyer/invoice/pending'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'>{orderSummary?.activeCount?.count || 0}</span></div>
+                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <OrangeBar />
                                         </div>
@@ -140,7 +140,7 @@ const Dashboard = () => {
                             <div className='cart-top-left-section'>
                                 <div className='left-head'>Total Purchase</div>
                                 <div className='circular-process'>
-                                    <CircularBar totalPurchase = {orderSummary?.totalPurchaseAmount[0]?.total_purchase}/>
+                                    <CircularBar totalPurchase = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase}/>
                                 </div>
                             </div>
                         </div>

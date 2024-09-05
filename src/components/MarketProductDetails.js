@@ -24,6 +24,7 @@ const MarketProductDetails = () => {
     const [medicineName, setMedicineName] = useState()
     const [newMedicineName, setNewMedicineName] = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
+    const [invoiceImage, setInvoiceImage] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState()
@@ -103,9 +104,10 @@ const MarketProductDetails = () => {
 
         postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
-                setDetails(response.result?.data)
-                setMedicineName(response.result?.data?.medicine_name)
-                setSupplierId(response.result?.data?.supplier_id)
+                setDetails(response?.result?.data)
+                setInvoiceImage(response?.result?.data?.invoice_image[0])
+                setMedicineName(response?.result?.data?.medicine_name)
+                setSupplierId(response?.result?.data?.supplier_id)
             } else {
                 console.log('error in med details api');
             }
@@ -488,8 +490,16 @@ const MarketProductDetails = () => {
                         <div className="market-modal-content">
                             <span className="market-close" onClick={toggleModal}>&times;</span>
                             <div id="invoice-section" style={{ backgroundColor: 'transparent' }}>
-                                <iframe
+                                {/* <iframe
                                     src={`${Invoice}#toolbar=0&navpanes=0&scrollbar=0`}
+                                    style={{ border: 'none' }}
+                                    width="100%"
+                                    height="500px"
+                                    title="Invoice"
+                                /> */}
+
+                                <iframe
+                                    src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/invoice_image/${invoiceImage}#toolbar=0&navpanes=0&scrollbar=0`}
                                     style={{ border: 'none' }}
                                     width="100%"
                                     height="500px"
