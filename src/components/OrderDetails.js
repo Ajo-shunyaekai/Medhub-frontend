@@ -266,7 +266,7 @@ const OrderDetails = ({socket}) => {
             {/* Start the end section */}
             <div className="buyer-order-details-payment-container">
 
-            {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && (
+            {/* {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && ( */}
                 <div className="buyer-order-details-payment-left-section">
                     <div className="buyer-order-details-payment-terms-cont">
                     <div className="buyer-order-details-payment-first-terms-cont">
@@ -285,7 +285,7 @@ const OrderDetails = ({socket}) => {
                     </div>
                     </div>
                 </div>
-                )}
+                {/* )} */}
                 
                 <div className='active-order-details-payment-right-section'>
                

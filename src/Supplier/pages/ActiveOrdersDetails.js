@@ -184,7 +184,7 @@ const ActiveOrdersDetails = () => {
             <div className='active-order-details-payment-container'>
                 <div className='active-order-details-payment-left-section'>
                     <div className='active-order-details-payment-terms-cont'>
-                    {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && (
+                    {/* {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && ( */}
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
                             <div className='active-order-details-payment-first-terms-text'>
@@ -202,7 +202,7 @@ const ActiveOrdersDetails = () => {
                                 </ul>
                             </div>
                         </div>
-                    )}
+                    {/* )} */}
                     {orderDetails?.status === 'Completed' && (
                         <div className='active-order-details-payment-first-terms-cont'>
                             <div className='active-order-details-payment-detention-head'>Payment Status</div>
