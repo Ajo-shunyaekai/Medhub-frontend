@@ -68,16 +68,16 @@ const InquiryRequestDetails = () => {
         }
 
         if (quotationItems.length !== inquiryDetails?.items.length) {
-            return toast('Please accept or enter the counter price to proceed', { type: 'error' })
+            return toast('Please Accept or Enter the Counter Price to Proceed', { type: 'error' })
         }
 
         if (paymentTerms.length === 0 || paymentTerms.every(term => term.trim() === '')) {
-            return toast('Payment term is required', { type: 'error' });
+            return toast('Payment Term is Required', { type: 'error' });
         }
         const validationErrors = quotationItems.some(item => !item.accepted && item.counterPrice === undefined);
 
         if (validationErrors) {
-            toast('Counter price must be provided for items that are not accepted.', { type: 'error' })
+            toast('Counter Price must be Provided for Items that are not Accepted.', { type: 'error' })
             return;
         }
         setLoading(true)

@@ -197,7 +197,7 @@ const MarketProductDetails = () => {
 
         } else {
             setLoading(false)
-            toast('Some Fields are missing', { type: "error" });
+            toast('Some Fields are Missing', { type: "error" });
             setButtonLoading(false)
         }
     };

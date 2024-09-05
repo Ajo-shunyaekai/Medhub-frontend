@@ -48,7 +48,7 @@ const CancelInquiryList = () => {
         e.preventDefault();
         const selectedReasonKey = Object.keys(selectedReasons).find(key => selectedReasons[key]);
         if (!selectedReasonKey) {
-            toast("Please select a reason for cancelling the inquiry.", { type: "error" });
+            toast("Please Select a Reason for Cancelling the Inquiry.", { type: "error" });
             return; 
         }
         setLoading(true)

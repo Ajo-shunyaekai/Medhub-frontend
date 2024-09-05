@@ -218,7 +218,7 @@ const OnGoingInquiriesDetails = () => {
     if (acceptedItems.length > 0) {
       navigate(`/buyer/Create-PO/${inquiryId}`);
     } else {
-      toast('Please accept at least one item before creating a purchase order.', {type: 'error'})
+      toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
     }
   };
 

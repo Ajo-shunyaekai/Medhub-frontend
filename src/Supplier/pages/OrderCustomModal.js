@@ -653,7 +653,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
             }); 
         }  else {
             setLoading(false)
-            toast('Some fields are missing', {type:'error'})
+            toast('Some fields are Missing', {type:'error'})
         }
        
     };
