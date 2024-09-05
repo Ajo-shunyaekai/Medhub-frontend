@@ -325,7 +325,7 @@ const AddProduct = () => {
         } else {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                [`${name}${index}`]: 'Invalid input'
+                [`${name}${index}`]: ''
             }));
         }
 
@@ -965,7 +965,8 @@ const AddProduct = () => {
                         setLoading(false)
 
                         setTimeout(() => {
-                            navigate('/supplier/product/newproduct')
+                            // navigate('/supplier/product/newproduct')
+                            navigate('/supplier/pending-products-list')
                         }, 1000);
 
                     } else {
@@ -1029,7 +1030,8 @@ const AddProduct = () => {
                         toast(response.message, { type: "success" });
                         setLoading(false)
                         setTimeout(() => {
-                            navigate('/supplier/product/secondarymarket')
+                            // navigate('/supplier/product/secondarymarket')
+                            navigate('/supplier/pending-products-list')
                         }, 1000);
 
                     } else {
@@ -1060,6 +1062,8 @@ const AddProduct = () => {
         const updatedSections = [...stockedInSections];
         updatedSections[index].stockedInType = packageType;
         setStockedInSections(updatedSections);
+        setPackageType(packageType)
+
     };
     // end the stocked in section
 
