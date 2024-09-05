@@ -19,7 +19,7 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
 
     useEffect(() => {
         if (!invoiceImage || invoiceImage.length === 0) {
-            // setErrorMessage('Please Upload at Least One Purchase Invoice.');
+            setErrorMessage('Please Upload at Least One Purchase Invoice.');
         } else {
             setErrorMessage('');
         }

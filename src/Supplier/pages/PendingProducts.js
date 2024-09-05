@@ -48,8 +48,8 @@ const PendingProducts = () => {
         const obj = {
             supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
             status : 0,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            pageNo   : currentPage, 
+            pageSize     : ordersPerPage,
         }
 
         postRequestWithToken('supplier/medicine-request-list', obj, async (response) => {
@@ -126,7 +126,7 @@ const PendingProducts = () => {
                                     </div>
                                 ) 
                             })
-                        ) : 'no orders'
+                        ) : 'No Pending Product Requests'
                     }
                             </tbody>
                         </Table>

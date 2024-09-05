@@ -16,7 +16,7 @@ const ImageUploaders = ({ image, setImage}) => {
 
     useEffect(() => {
         if (!image || image.length < minImages) {
-            // setErrorMessage('Please Upload at Least One Image.');
+            setErrorMessage('Please Upload at Least One Image.');
         } else {
             setErrorMessage('');
         }
