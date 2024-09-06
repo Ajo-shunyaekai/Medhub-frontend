@@ -92,8 +92,6 @@ const ProductRequestDetails = () => {
     return (
         <>
             <div className='main-product-details-container'>
-
-
                 <div className="product-details-cover">
 
                     <div className='product-details-container-main'>
