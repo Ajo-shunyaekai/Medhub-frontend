@@ -268,12 +268,6 @@ const ProductRequestDetails = () => {
                                     <div className='product-details-four-left-text'>Available for :</div>
                                     <div className='product-details-four-right-text'>{medicineDetails?.available_for}</div>
                                 </div>
-                                {/* <div className="product-details-county">
-                                    <div className='product-details-four-left-text'>Comments :</div>
-                                    <div className='product-details-four-right-text'>
-                                        {medicineDetails?.description}
-                                    </div>
-                                </div> */}
 
                             </div>
                         </div>

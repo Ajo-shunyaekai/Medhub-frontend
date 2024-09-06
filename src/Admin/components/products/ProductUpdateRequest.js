@@ -40,9 +40,9 @@ const ProductUpdateRequest = () => {
             pageSize  : productsPerPage,
         }
 
-        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
+        postRequestWithToken('admin/get-medicine-edit-request-list', obj, async (response) => {
             if (response.code === 200) {
-                setProductList(response.result.data)
+                setProductList(response.result)
                 setTotalItems(response.result.totalItems)
             } else {
                console.log('error in get-medicine-list api',response);
@@ -80,45 +80,52 @@ const ProductUpdateRequest = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                            {productList?.map((product, index) => (
+                            {productList && productList.length > 0 ? (
+                                productList.map((product, index) => (
                                     <div className='rejected-table-row-container' key={index}>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.supplier_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.medicine_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='table-text-color'>{product.medicine_name}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.strength}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            {/* <div className='rejected-table-text-color'>{product.status}</div> */}
-                                            <div className='rejected-table-text-color'>
-                                                {(() => {
-                                                    switch (product.status) {
-                                                    case 0:
-                                                        return 'Pending';
-                                                    case 1:
-                                                        return 'Approved';
-                                                    case 2:
-                                                        return 'Rejected';
-                                                    default:
-                                                        return '';
-                                                    }
-                                                })()}
-                                                </div>
-
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to={`/admin/product-request-details/${product.medicine_id}`}>
-                                                <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.supplier_id}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.medicine_id}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-2'>
+                                        <div className='table-text-color'>{product.medicine_name}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.strength}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>
+                                        {(() => {
+                                            switch (product.status) {
+                                            case 0:
+                                                return 'Pending';
+                                            case 1:
+                                                return 'Approved';
+                                            case 2:
+                                                return 'Rejected';
+                                            default:
+                                                return '';
+                                            }
+                                        })()}
                                         </div>
                                     </div>
-                                ))}
+                                    <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
+                                        <Link to={`/admin/product-request-details/${product.medicine_id}`}>
+                                        <div className='rejected-table rejected-table-view'>
+                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                ))
+                                ) : (
+                                <div className='no-data-message'>
+                                    No Product Update Requests
+                                </div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>
