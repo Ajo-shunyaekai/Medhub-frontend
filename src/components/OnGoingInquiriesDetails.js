@@ -341,6 +341,7 @@ const OnGoingInquiriesDetails = () => {
           </a>
         </div>
       ) : null}
+      
 {/* 
 {inquiryDetails?.quotation_items?.some(item => item.status === 'pending') ? (
     <div className="pending-order-button-section">
