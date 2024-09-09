@@ -47,7 +47,8 @@ const CreateInvoice = () => {
         vatPercentage: '',
         totalPayableAmount: '',
         accountNo: '',
-        sortCode: ''
+        sortCode: '',
+        grandTotal : ''
     })
 
 const [errors, setErrors]                                   = useState({})
@@ -118,7 +119,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                 setOrderDetails(response.result);
                 const data = response.result
                 const formattedSupplierMobile = `${data.supplier?.supplier_country_code || ''}-${data.supplier?.supplier_mobile || ''}`;
-                const formattedBuyerMobile = `${data.buyer?.buyer_country_code || ''}-${data.buyer?.buyer_mobile || ''}`;
+                const formattedBuyerMobile    = `${data.buyer?.buyer_country_code || ''}-${data.buyer?.buyer_mobile || ''}`;
 
                 // const vatPercentage = 20;
                 // const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
@@ -153,6 +154,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                     buyerContactPersonCountryCode: data?.buyer?.contact_person_country_code,
                     buyerVatRegNo: data?.buyer?.vat_reg_no,
                     orderItems: data?.items,
+                    grandTotal: data?.pending_amount,
                     // totalPayableAmount: data?.pending_amount,
                 }));
             } else {
