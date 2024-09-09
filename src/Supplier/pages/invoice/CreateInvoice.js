@@ -547,14 +547,13 @@ const handleBuyerCountryOriginChange = (selected) => {
                     <form className={styles['craete-invoice-form']}>
                         
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
+                            <label className={styles['create-invoice-div-label']}>Name of Bank</label>
                             <input className={styles['create-invoice-div-input']} 
                             type='text' 
                             name='totalPayableAmount' 
-                            placeholder='Enter Total Payable Amount' 
+                            placeholder='Enter Name of Bank' 
                             value={formData.totalPayableAmount}
                             onChange={handleChange}
-                            // readOnly
                             />
                             {errors.totalPayableAmount && <p style={{color: 'red'}}>{errors.totalPayableAmount}</p>}
                         </div>
