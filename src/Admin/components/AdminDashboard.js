@@ -179,8 +179,8 @@ const AdminDashboard = () => {
                                 <img src={Trending} alt='img' />
                             </div>
                             <div className='bottom-text-cont'>
-                                <div className='bottom-text-head'>Weekly top sell</div>
-                                <div className='bottom-text-pect'>+ 2.50%</div>
+                                <div className='bottom-text-head'>Inquiries</div>
+                                <div className='bottom-text-pect'>12</div>
                             </div>
                         </div>
                         <div className='bottom-arrow-cont'>
@@ -189,26 +189,26 @@ const AdminDashboard = () => {
                     </div>
                     <div className='bottom-section-right-cont'>
                         <div className='bottom-cont-left-sec'>
-                            <div className='bottom-cont-left-head'>Task statistics</div>
+                            <div className='bottom-cont-left-head'>Orders</div>
                             <div className='bottom-cont-left-cart'>
                                 <div className='bottom-cont-left-one'>
                                     <div className='bottom-cont-left-text'>52</div>
-                                    <div className='bottom-cont-left-num'>Tasks</div>
+                                    <div className='bottom-cont-left-num'>Purchased Orders</div>
                                 </div>
                                 <div className='bottom-cont-left-one'>
                                     <div className='bottom-cont-left-texts'>+15</div>
-                                    <div className='bottom-cont-left-num'>Added</div>
+                                    <div className='bottom-cont-left-num'>Active Orders</div>
                                 </div>
                                 <div className='bottom-cont-left-one'>
                                     <div className='bottom-cont-left-text'>45.5%</div>
-                                    <div className='bottom-cont-left-num'>Remain</div>
+                                    <div className='bottom-cont-left-num'>Completed Orders</div>
                                 </div>
                             </div>
                         </div>
                         <div className='bottom-cont-right-sec'>
                             <div className='bottom-cont-right-sec-head'>This week</div>
                             <div className='bottom-cont-right-sec-completion'>
-                                <div className='bottom-cont-right-sections-head'>Task completion</div>
+                                <div className='bottom-cont-right-sections-head'>Invoices</div>
                                 <div className='bottom-cont-right-sect-progress'> <PinkBar /> <span className='bottom-cont-right-cont-pinkbar'>65%</span> </div>
                             </div>
                         </div>
