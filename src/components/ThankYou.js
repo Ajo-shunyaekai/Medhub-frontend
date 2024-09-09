@@ -15,7 +15,7 @@ const ThankYou = () => {
                 <div className='thank-you-main-heading'>Thank You for Sending Us Your Inquiry!!</div>
                 <div className='thank-you-main-content'>We’ve received your inquiry,
                     and our team will respond to you shortly.</div>
-                <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                <Link to='/buyer/'>
                     <div className='thank-you-buttons-section'>
                         <span className='thank-you-buttons'>Go Back</span>
                     </div>

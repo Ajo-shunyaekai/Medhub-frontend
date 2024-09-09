@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const CreateInvoice = () => {
-    const {orderId} = useParams()
+    const { orderId } = useParams()
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
@@ -48,57 +48,57 @@ const CreateInvoice = () => {
         totalPayableAmount: '',
         accountNo: '',
         sortCode: '',
-        grandTotal : ''
+        grandTotal: ''
     })
 
-const [errors, setErrors]                                   = useState({})
-const [countries, setCountries]                             = useState([]);
-const [supplierCountryOfOrigin, setSupplierCountryOfOrigin] = useState('')
-const [buyerCountryOfOrigin, setBuyerCountryOfOrigin]       = useState('')
+    const [errors, setErrors] = useState({})
+    const [countries, setCountries] = useState([]);
+    const [supplierCountryOfOrigin, setSupplierCountryOfOrigin] = useState('')
+    const [buyerCountryOfOrigin, setBuyerCountryOfOrigin] = useState('')
 
-useEffect(() => {
-    const countryOptions = countryList().getData();
-    setCountries(countryOptions);
-}, []);
+    useEffect(() => {
+        const countryOptions = countryList().getData();
+        setCountries(countryOptions);
+    }, []);
 
-useEffect(() => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); 
-    const year = today.getFullYear();
-    const formattedDate = `${day}-${month}-${year}`;
-    setCurrentDate(`${day}-${month}-${year}`);
+    useEffect(() => {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
+        setCurrentDate(`${day}-${month}-${year}`);
 
-    const generateRandomNumber = () => Math.floor(10000000 + Math.random() * 90000000);
-    const generatedInvoiceNumber = generateRandomNumber();
-    setInvoiceNumber(generatedInvoiceNumber);
+        const generateRandomNumber = () => Math.floor(10000000 + Math.random() * 90000000);
+        const generatedInvoiceNumber = generateRandomNumber();
+        setInvoiceNumber(generatedInvoiceNumber);
 
-    setFormData(prevState => ({
-        ...prevState,
-        invoiceNo: generatedInvoiceNumber,
-        invoiceDate: formattedDate
-    }));
-}, [orderId]);
+        setFormData(prevState => ({
+            ...prevState,
+            invoiceNo: generatedInvoiceNumber,
+            invoiceDate: formattedDate
+        }));
+    }, [orderId]);
 
-const handleSupplierCountryOriginChange = (selected) => {
-    setSupplierCountryOfOrigin(selected)
-    setFormData(prevState => ({ ...prevState, supplierCountry: selected }));
-    if (!selected) {
-        setErrors(prevState => ({ ...prevState, supplierCountry: 'Supplie Country of Origin is Required' }));
-    } else {
-        setErrors(prevState => ({ ...prevState, supplierCountry: '' }));
-    }
-};
+    const handleSupplierCountryOriginChange = (selected) => {
+        setSupplierCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, supplierCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, supplierCountry: 'Supplie Country of Origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, supplierCountry: '' }));
+        }
+    };
 
-const handleBuyerCountryOriginChange = (selected) => {
-    setBuyerCountryOfOrigin(selected)
-    setFormData(prevState => ({ ...prevState, buyerCountry: selected }));
-    if (!selected) {
-        setErrors(prevState => ({ ...prevState, buyerCountry: 'Buyer Country of Origin is Required' }));
-    } else {
-        setErrors(prevState => ({ ...prevState, buyerCountry: '' }));
-    }
-};
+    const handleBuyerCountryOriginChange = (selected) => {
+        setBuyerCountryOfOrigin(selected)
+        setFormData(prevState => ({ ...prevState, buyerCountry: selected }));
+        if (!selected) {
+            setErrors(prevState => ({ ...prevState, buyerCountry: 'Buyer Country of Origin is Required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, buyerCountry: '' }));
+        }
+    };
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -108,7 +108,7 @@ const handleBuyerCountryOriginChange = (selected) => {
             navigate("/supplier/login");
             return;
         }
-        
+
         const obj = {
             order_id: orderId,
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
@@ -119,7 +119,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                 setOrderDetails(response.result);
                 const data = response.result
                 const formattedSupplierMobile = `${data.supplier?.supplier_country_code || ''}-${data.supplier?.supplier_mobile || ''}`;
-                const formattedBuyerMobile    = `${data.buyer?.buyer_country_code || ''}-${data.buyer?.buyer_mobile || ''}`;
+                const formattedBuyerMobile = `${data.buyer?.buyer_country_code || ''}-${data.buyer?.buyer_mobile || ''}`;
 
                 // const vatPercentage = 20;
                 // const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
@@ -163,7 +163,7 @@ const handleBuyerCountryOriginChange = (selected) => {
         });
     }, [orderId, navigate]);
 
-    
+
 
     const handleVatPercentageChange = (e) => {
         const { name, value } = e.target;
@@ -178,7 +178,7 @@ const handleBuyerCountryOriginChange = (selected) => {
         let newErrors = {};
         let isValid = true;
 
-        if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
+        if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
                 isValid = false;
             } else {
@@ -221,24 +221,24 @@ const handleBuyerCountryOriginChange = (selected) => {
     const validateForm = () => {
         let formErrors = {};
 
-        if(!formData.supplierName) formErrors.supplierName = 'Supplier Name is Required'
-        if(!formData.supplierEmail) formErrors.supplierEmail = 'Supplier Email is Required'
-        if(!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
-        if(!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
-        if(!formData.supplierVatRegNo) formErrors.supplierVatRegNo = 'Supplier VAT Reg No. is Required'
-        if(!formData.supplierCountry) formErrors.supplierCountry = 'Supplier Country is Required'
+        if (!formData.supplierName) formErrors.supplierName = 'Supplier Name is Required'
+        if (!formData.supplierEmail) formErrors.supplierEmail = 'Supplier Email is Required'
+        if (!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
+        if (!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
+        if (!formData.supplierVatRegNo) formErrors.supplierVatRegNo = 'Supplier VAT Reg No. is Required'
+        if (!formData.supplierCountry) formErrors.supplierCountry = 'Supplier Country is Required'
 
-        if(!formData.buyerName) formErrors.buyerName = 'Buyer Name is Required'
-        if(!formData.buyerEmail) formErrors.buyerEmail = 'Buyer Email is Required'
-        if(!formData.buyerAddress) formErrors.buyerAddress = 'Buyer Address is Required'
-        if(!formData.buyerMobile) formErrors.buyerMobile = 'Buyer Mobile is Required'
-        if(!formData.buyerVatRegNo) formErrors.buyerVatRegNo = 'Buyer VAT Reg No. is Required'
-        if(!formData.buyerCountry) formErrors.buyerCountry = 'Buyer Country is Required'
+        if (!formData.buyerName) formErrors.buyerName = 'Buyer Name is Required'
+        if (!formData.buyerEmail) formErrors.buyerEmail = 'Buyer Email is Required'
+        if (!formData.buyerAddress) formErrors.buyerAddress = 'Buyer Address is Required'
+        if (!formData.buyerMobile) formErrors.buyerMobile = 'Buyer Mobile is Required'
+        if (!formData.buyerVatRegNo) formErrors.buyerVatRegNo = 'Buyer VAT Reg No. is Required'
+        if (!formData.buyerCountry) formErrors.buyerCountry = 'Buyer Country is Required'
 
-        if(!formData.accountNo) formErrors.accountNo = 'Account Number is Required'
-        if(!formData.sortCode) formErrors.sortCode = 'Sort Code is Required'
-        if(!formData.totalPayableAmount) formErrors.totalPayableAmount = 'Total Payable Amount is Required'
-       
+        if (!formData.accountNo) formErrors.accountNo = 'Account Number is Required'
+        if (!formData.sortCode) formErrors.sortCode = 'Sort Code is Required'
+        if (!formData.totalPayableAmount) formErrors.totalPayableAmount = 'Total Payable Amount is Required'
+
 
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
@@ -257,23 +257,23 @@ const handleBuyerCountryOriginChange = (selected) => {
 
         if (validateForm()) {
             setLoading(true)
-           console.log('FORM',formData);
-           postRequestWithToken('supplier/invoice/create-invoice', formData, async (response) => {
-            if (response.code === 200) {
-                toast(response.message, {type:'success'})
-                setTimeout(() => {
-                    navigate('/supplier/invoice/pending')
+            console.log('FORM', formData);
+            postRequestWithToken('supplier/invoice/create-invoice', formData, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message, { type: 'success' })
+                    setTimeout(() => {
+                        navigate('/supplier/invoice/pending')
+                        setLoading(false)
+                    }, 1000)
+
+                } else {
                     setLoading(false)
-                }, 1000)
-                
-            } else {
-                setLoading(false)
-                toast(response.message, {type:'error'})
-               console.log('error in create-invoice api',response);
-            }
-        })
+                    toast(response.message, { type: 'error' })
+                    console.log('error in create-invoice api', response);
+                }
+            })
         } else {
-            
+
         }
     }
 
@@ -288,15 +288,15 @@ const handleBuyerCountryOriginChange = (selected) => {
         if (value) {
             // Parse the phone number
             const phoneNumber = parsePhoneNumberFromString(value);
-    
+
             if (phoneNumber) {
                 // Extract country code and national number
                 const countryCode = phoneNumber.countryCallingCode;
                 const mobile = phoneNumber.nationalNumber;
-    
+
                 // Format the phone number as +{code}-{mobile}
                 const formattedMobile = `+${countryCode}-${mobile}`;
-    
+
                 // Update the state with formatted mobile number
                 console.log('Formatted Mobile:', formattedMobile);
                 setFormData(prevFormData => ({
@@ -321,81 +321,81 @@ const handleBuyerCountryOriginChange = (selected) => {
             }));
         }
     };
-
+    const totalPayableAmount = formData?.orderItems?.reduce((total, item) => total + item.total_amount, 0);
     return (
         <>
             <div className={styles['create-invoice-container']}>
-            <div className={styles['create-invoice-heading']}>Create Invoice</div>
-            <form className={styles['craete-invoice-form']} 
-                onSubmit={handleSubmit}
-            >
-                <div className={styles['create-invoice-section']}>
-                    <div className={styles['create-invoice-form-heading']}>Supplier</div>
-                    <div className={styles['create-invoice-inner-form-container']}>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Name</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='supplierName' placeholder='Enter Supplier Name'
-                                value={formData.supplierName}
-                                onChange={handleChange}
+                <div className={styles['create-invoice-heading']}>Create Invoice</div>
+                <form className={styles['craete-invoice-form']}
+                    onSubmit={handleSubmit}
+                >
+                    <div className={styles['create-invoice-section']}>
+                        <div className={styles['create-invoice-form-heading']}>Supplier</div>
+                        <div className={styles['create-invoice-inner-form-container']}>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Name</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='supplierName' placeholder='Enter Supplier Name'
+                                    value={formData.supplierName}
+                                    onChange={handleChange}
                                 />
-                                {errors.supplierName && <p style={{color: 'red'}}>{errors.supplierName}</p>}
-                        </div>
-                        
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Invoice Number</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                placeholder='Enter Invoice Number'
-                                name='invoiceNumber'
-                                value={invoiceNumber}
-                                readOnly
-                                />
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='invoiceDate'
-                                placeholder='Enter Invoice Generate Date'
-                                value={currentDate}
-                                readOnly
-                                />
-                        </div>
-                        
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Email ID</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='supplierEmail'
-                                placeholder='Enter Email ID'
-                                value={formData.supplierEmail}
-                                onChange={handleChange}
-                            />
-                            {errors.supplierEmail && <p style={{color: 'red'}}>{errors.supplierEmail}</p>}
-                        </div>
+                                {errors.supplierName && <p style={{ color: 'red' }}>{errors.supplierName}</p>}
+                            </div>
 
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                            <PhoneInput
-                                className='signup-form-section-phone-input'
-                                defaultCountry="ae"
-                                name='phoneinput'
-                                value={formData.supplierMobile}
-                                onChange={handlePhoneChange}
-                            />
-                            {errors.supplierMobile && <p style={{color: 'red'}}>{errors.supplierMobile}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Address</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='supplierAddress'
-                                placeholder='Enter Address'
-                                value={formData.supplierAddress}
-                                onChange={handleChange}
-                            />
-                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress}</p>}
-                        </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Invoice Number</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    placeholder='Enter Invoice Number'
+                                    name='invoiceNumber'
+                                    value={invoiceNumber}
+                                    readOnly
+                                />
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Invoice Generate Date</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='invoiceDate'
+                                    placeholder='Enter Invoice Generate Date'
+                                    value={currentDate}
+                                    readOnly
+                                />
+                            </div>
 
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Country</label>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Email ID</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='supplierEmail'
+                                    placeholder='Enter Email ID'
+                                    value={formData.supplierEmail}
+                                    onChange={handleChange}
+                                />
+                                {errors.supplierEmail && <p style={{ color: 'red' }}>{errors.supplierEmail}</p>}
+                            </div>
+
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                                <PhoneInput
+                                    className='signup-form-section-phone-input'
+                                    defaultCountry="ae"
+                                    name='phoneinput'
+                                    value={formData.supplierMobile}
+                                    onChange={handlePhoneChange}
+                                />
+                                {errors.supplierMobile && <p style={{ color: 'red' }}>{errors.supplierMobile}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Address</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='supplierAddress'
+                                    placeholder='Enter Address'
+                                    value={formData.supplierAddress}
+                                    onChange={handleChange}
+                                />
+                                {errors.supplierAddress && <p style={{ color: 'red' }}>{errors.supplierAddress}</p>}
+                            </div>
+
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
                                     name='supplierCountry'
@@ -404,201 +404,212 @@ const handleBuyerCountryOriginChange = (selected) => {
                                     value={formData.supplierCountry}
                                     onChange={handleSupplierCountryOriginChange}
                                 />
-                            {errors.supplierCountry && <p style={{color: 'red'}}>{errors.supplierCountry}</p>}
-                        </div>
+                                {errors.supplierCountry && <p style={{ color: 'red' }}>{errors.supplierCountry}</p>}
+                            </div>
 
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='supplierVatRegNo'
-                                placeholder='Enter VAT Reg No'
-                                value={formData.supplierVatRegNo}
-                                onChange={handleChange}
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='supplierVatRegNo'
+                                    placeholder='Enter VAT Reg No'
+                                    value={formData.supplierVatRegNo}
+                                    onChange={handleChange}
                                 />
-                            {errors.supplierVatRegNo && <p style={{color: 'red'}}>{errors.supplierVatRegNo}</p>}
-                        </div>
+                                {errors.supplierVatRegNo && <p style={{ color: 'red' }}>{errors.supplierVatRegNo}</p>}
+                            </div>
 
-                        
+
+                        </div>
                     </div>
-                </div>
-                <div className={styles['create-invoice-section']}>
-                    <div className={styles['create-invoice-form-heading']}>Buyer</div>
-                    <div className={styles['create-invoice-inner-form-container']}>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Name</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='buyerName' placeholder='Enter Name'
-                                readOnly
-                                value={formData.buyerName}
+                    <div className={styles['create-invoice-section']}>
+                        <div className={styles['create-invoice-form-heading']}>Buyer</div>
+                        <div className={styles['create-invoice-inner-form-container']}>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Name</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='buyerName' placeholder='Enter Name'
+                                    readOnly
+                                    value={formData.buyerName}
                                 />
-                            {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Email ID</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='buyerEmail'
-                                placeholder='Enter Email ID'
-                                readOnly
-                                value={formData.buyerEmail}
+                                {errors.buyerName && <p style={{ color: 'red' }}>{errors.buyerName.message}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Email ID</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='buyerEmail'
+                                    placeholder='Enter Email ID'
+                                    readOnly
+                                    value={formData.buyerEmail}
                                 />
-                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Mobile No.</label>
-                            <PhoneInput
-                            className='signup-form-section-phone-input'
-                            defaultCountry="ae"
-                            name='phoneinput'
-                            value={formData.buyerMobile}
-                            disabled
-                        />
-                            {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Address</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='buyerAddress'
-                                placeholder='Enter Address'
-                                readOnly
-                                value={formData.buyerAddress}
+                                {errors.buyerEmail && <p style={{ color: 'red' }}>{errors.buyerEmail.message}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Mobile No.</label>
+                                <PhoneInput
+                                    className='signup-form-section-phone-input'
+                                    defaultCountry="ae"
+                                    name='phoneinput'
+                                    value={formData.buyerMobile}
+                                    disabled
                                 />
-                            {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress.message}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Country</label>
+                                {errors.buyerMobile && <p style={{ color: 'red' }}>{errors.buyerMobile.message}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Address</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='buyerAddress'
+                                    placeholder='Enter Address'
+                                    readOnly
+                                    value={formData.buyerAddress}
+                                />
+                                {errors.buyerAddress && <p style={{ color: 'red' }}>{errors.buyerAddress.message}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Country</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                            name='buyerCountryy'
-                                            options={countries}
-                                        autoComplete='off'
-                                        value={formData.buyerCountry}
-                                            // onChange={handleBuyerCountryOriginChange}
-                                            isDisabled={true}
-                                    />
-                            {errors.buyerCountry && <p style={{color: 'red'}}>{errors.buyerCountry.message}</p>}
-                        </div>
+                                    name='buyerCountryy'
+                                    options={countries}
+                                    autoComplete='off'
+                                    value={formData.buyerCountry}
+                                    // onChange={handleBuyerCountryOriginChange}
+                                    isDisabled={true}
+                                />
+                                {errors.buyerCountry && <p style={{ color: 'red' }}>{errors.buyerCountry.message}</p>}
+                            </div>
 
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='buyerVatRegNo'
-                                placeholder='Enter VAT Reg No'
-                                value={formData.buyerVatRegNo}
-                                readOnly
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>VAT Reg No.</label>
+                                <input className={styles['create-invoice-div-input']} type='text'
+                                    name='buyerVatRegNo'
+                                    placeholder='Enter VAT Reg No'
+                                    value={formData.buyerVatRegNo}
+                                    readOnly
                                 />
-                            {errors.buyerVatRegNo && <p style={{color: 'red'}}>{errors.buyerVatRegNo.message}</p>}
+                                {errors.buyerVatRegNo && <p style={{ color: 'red' }}>{errors.buyerVatRegNo.message}</p>}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className={styles['create-invoice-section']}>
-                    {formData?.orderItems?.map((item, index) => {
-                        return (
-                            <div className={styles['form-item-container']} key={item.id}>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Product Name</label>
-                                <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`}
-                                    placeholder='Enter Product Name'
-                                    value={item?.medicine_name}
-                                    readOnly
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Quantity</label>
-                                <input className={styles['create-invoice-div-input']} type='text'
-                                    name={`Qty-${item.id}`}
-                                    placeholder='Enter Quantity'
-                                    value={item?.quantity_required}
-                                    readOnly
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Price</label>
-                                <input className={styles['create-invoice-div-input']} type='text'
-                                    name={`UnitPrice-${item.id}`}
-                                    placeholder='Enter Price'
-                                    value={item?.counter_price || item?.target_price}
-                                    readOnly
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Tax%</label>
-                                <input className={styles['create-invoice-div-input']} type='text'
-                                    name={`UnitPrice-${item.id}`}
-                                    placeholder='Enter Tax%'
-                                    value={item?.unit_tax}
-                                    readOnly
-                                />
-                            </div>
-                            <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Total Amount</label>
-                                <input className={styles['create-invoice-div-input']} type='text'
-                                    name={`TotalAmount-${item.id}`} placeholder='Enter Total Amount'
-                                    value={item?.total_amount}
-                                    readOnly
-                                />
-                            </div>
-                        </div>
-                        )
-                    }
-                        
-                    )}
-                </div>
-                
                     <div className={styles['create-invoice-section']}>
-                <div className={styles['create-invoice-form-heading']}></div>
-                    <form className={styles['craete-invoice-form']}>
-                        
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Name of Bank</label>
-                            <input className={styles['create-invoice-div-input']} 
-                            type='text' 
-                            name='totalPayableAmount' 
-                            placeholder='Enter Name of Bank' 
-                            value={formData.totalPayableAmount}
-                            onChange={handleChange}
-                            />
-                            {errors.totalPayableAmount && <p style={{color: 'red'}}>{errors.totalPayableAmount}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>Account Number</label>
-                            <input className={styles['create-invoice-div-input']} 
-                            type='text' 
-                            name='accountNo' 
-                            placeholder='Enter Account Number' 
-                            value={formData.accountNo}
-                            onChange={handleChange}
-                            />
-                            {errors.accountNo && <p style={{color: 'red'}}>{errors.accountNo}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Sort Code</label>
-                            <input className={styles['create-invoice-div-input']} 
-                            type='text' name='sortCode' 
-                            placeholder='Enter Sort Code' 
-                            value={formData.sortCode}
-                            onChange={handleChange}
-                            />
-                            {errors.sortCode && <p style={{color: 'red'}}>{errors.sortCode}</p>}
-                            
+                        {formData?.orderItems?.map((item, index) => (
+                            <div className={styles['form-item-container']} key={item.id}>
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Product Name</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`ProductName-${item.id}`}
+                                        placeholder='Enter Product Name'
+                                        value={item?.medicine_name}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Quantity</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`Qty-${item.id}`}
+                                        placeholder='Enter Quantity'
+                                        value={item?.quantity_required}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Price</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`UnitPrice-${item.id}`}
+                                        placeholder='Enter Price'
+                                        value={item?.counter_price || item?.target_price}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Tax%</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`Tax-${item.id}`}
+                                        placeholder='Enter Tax%'
+                                        value={item?.unit_tax}
+                                        readOnly
+                                    />
+                                </div>
+
+                                {/* Common Total Payable Amount */}
+                                <div className={styles['create-invoice-div-container']}>
+                                    <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
+                                    <input
+                                        className={styles['create-invoice-div-input']}
+                                        type='text'
+                                        name={`TotalAmount-${item.id}`}
+                                        placeholder='Enter Total Payable Amount'
+                                        value={totalPayableAmount} 
+                                        readOnly
+                                    />
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    </form>
-                </div>
-                <div className={styles['craete-invoices-button']}>
-                    <button 
-                    type='submit' 
-                    className={styles['create-invoices-submit']}
-                    disabled={loading}
-                    >
-                        {/* Create Invoice */}
-                        {loading ? (
-                                <div className='loading-spinner'></div> 
+
+                    <div className={styles['create-invoice-section']}>
+                        <div className={styles['create-invoice-inner-form-container']}>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Name of Bank</label>
+                                <input className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='totalPayableAmount'
+                                    placeholder='Enter Name of Bank'
+                                    value={formData.totalPayableAmount}
+                                    onChange={handleChange}
+                                />
+                                {errors.totalPayableAmount && <p style={{ color: 'red', fontSize: '12px' }}>{errors.totalPayableAmount}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Account Number</label>
+                                <input className={styles['create-invoice-div-input']}
+                                    type='text'
+                                    name='accountNo'
+                                    placeholder='Enter Account Number'
+                                    value={formData.accountNo}
+                                    onChange={handleChange}
+                                />
+                                {errors.accountNo && <p style={{ color: 'red', fontSize: '12px' }}>{errors.accountNo}</p>}
+                            </div>
+                            <div className={styles['create-invoice-div-container']}>
+                                <label className={styles['create-invoice-div-label']}>Sort Code</label>
+                                <input className={styles['create-invoice-div-input']}
+                                    type='text' name='sortCode'
+                                    placeholder='Enter Sort Code'
+                                    value={formData.sortCode}
+                                    onChange={handleChange}
+                                />
+                                {errors.sortCode && <p style={{ color: 'red', fontSize: '12px' }}>{errors.sortCode}</p>}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles['craete-invoices-button']}>
+                        <button
+                            type='submit'
+                            className={styles['create-invoices-submit']}
+                            disabled={loading}
+                        >
+                            {/* Create Invoice */}
+                            {loading ? (
+                                <div className='loading-spinner'></div>
                             ) : (
                                 'Create Invoice'
                             )}
-                    </button>
-                    <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
-                </div>
-            </form>
+                        </button>
+                        <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
+                    </div>
+                </form>
             </div >
         </>
     );
