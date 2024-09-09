@@ -8,52 +8,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const BuyerPaid = ({invoiceList, totalItems, currentPage, listPerPage, handlePageChange}) => {
-
-//     const pending = [
-//         {
-//             invoice_id: "125252",
-//             order_id: "14785236",
-//             supplier_name: "Atom Pharma",
-//             amount:"450 AED",
-//             status:"Paid"
-
-//         },
-//         {
-//           invoice_id: "125252",
-//           order_id: "14785236",
-//           supplier_name: "Atom Pharma",
-//           amount:"450 AED",
-//           status:"Paid"
-
-//       },
-//       {
-//         invoice_id: "125252",
-//         order_id: "14785236",
-//         supplier_name: "Atom Pharma",
-//         amount:"450 AED",
-//         status:"Paid"
-
-//     },
-//     {
-//       invoice_id: "125252",
-//       order_id: "14785236",
-//       supplier_name: "Atom Pharma",
-//       amount:"450 AED",
-//       status:"Paid"
-
-//   },
-//     ];
-
-//     const [currentPage, setCurrentPage] = useState(1);
-//     const ordersPerPage = 4;
-//     const indexOfLastOrder = currentPage * ordersPerPage;
-//     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-//     const currentOrders = pending.slice(indexOfFirstOrder, indexOfLastOrder);
-
-//     const handlePageChange = (pageNumber) => {
-//         setCurrentPage(pageNumber);
-//     };
-
     return (
         <>
             <div className={styles['invoice-main-container']}>
@@ -83,22 +37,27 @@ const BuyerPaid = ({invoiceList, totalItems, currentPage, listPerPage, handlePag
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {invoiceList?.map((invoice, index) => (
+                            {invoiceList && invoiceList.length > 0 ? (
+                                    invoiceList.map((invoice, index) => (
                                     <div className={styles['invoice-table-row-container']} key={index}>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.invoice_number}</div>
+                                            <div className={styles['invoice-table-text-color']}>{invoice.invoice_no}</div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
                                             <div className={styles['invoice-table-text-color']}>{invoice.order_id}</div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.supplier?.supplier_name}</div>
+                                            <div className={styles['invoice-table-text-color']}>{invoice.supplier_name}</div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.totalPrice}</div>
+                                            <div className={styles['invoice-table-text-color']}>
+                                            {invoice.total_payable_amount ? `${invoice.total_payable_amount} AED` : ''}
+                                            </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.order_status}</div>
+                                            <div className={styles['invoice-table-text-color']}>
+                                              {invoice.status ? `${invoice.status.charAt(0).toUpperCase()}${invoice.status.slice(1)}` : ''}
+                                           </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-btn']} ${styles['invoice-table-order-1']}`}>
                                             <Link to='/admin/order-details'>
@@ -108,7 +67,10 @@ const BuyerPaid = ({invoiceList, totalItems, currentPage, listPerPage, handlePag
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                 ))
+                                ) : (
+                                    <div className={styles['no-data-message']}>No data available</div>
+                                )}
                             </tbody>
                         </Table>
                         <div className={styles['invoice-pagi-container']}>

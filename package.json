@@ -23,6 +23,7 @@
     "chartjs-plugin-colorschemes": "^0.4.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cra-template": "^1.2.0",
+    "firebase": "^10.13.1",
     "html2pdf.js": "^0.10.2",
     "i": "^0.3.7",
     "libphonenumber-js": "^1.11.2",

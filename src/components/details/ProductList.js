@@ -133,8 +133,21 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             </div>
                                         </td>
                                     )}
+
+{/* {inquiryDetails.enquiry_status === 'PO created' && (item?.status !== 'pending' || item?.status === 'accepted' || item?.status === 'rejected') && (
+    <td className='tables-tds'>
+        <div className="table-g-section-content">
+            <span className="table-g-driver-name">Status</span>
+            <span className="table-g-not-name">
+                {item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '-'}
+            </span>
+        </div>
+    </td>
+)} */}
+
                                    
                                    {inquiryDetails.enquiry_status !== 'PO created' && (
+                                   
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content-button">
                                             {item.status === 'pending' ? (
@@ -156,6 +169,29 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                         </div>
                                     </td>
                                     )}
+
+
+{/* { inquiryDetails?.quotation_items?.some(item => item.status === 'pending') && (
+    <td className='tables-tds'>
+        <div className="table-g-section-content-button">
+            {item.status === 'pending' ? (
+                <>
+                    <span className="table-g-not-name-button" onClick={() => handleAcceptClick(item, 'accepted')}>Accept</span>
+                    <span className="table-g-not-reject-buttons" onClick={() => handleRejectClick(item, 'rejected')}>Reject</span>
+                </>
+            ) : item.status === 'accepted' ? (
+                <span className="table-g-not-name-button accepted">
+                    Accepted
+                </span>
+            ) : item.status === 'rejected' ? (
+                <span className="table-g-not-reject-buttons rejected">
+                    Rejected
+                </span>
+            ) : null}
+        </div>
+    </td>
+)} */}
+
 
                                     <td></td>
                                 </tr>

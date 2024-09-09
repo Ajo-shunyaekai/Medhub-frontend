@@ -330,17 +330,6 @@ const OnGoingInquiriesDetails = () => {
       {inquiryDetails?.enquiry_status === 'Quotation submitted' ? (
         <div className="pending-order-button-section">
 
-          {/* {acceptedItems.length > 0 ? (
-            <Link to={`/buyer/Create-PO/${inquiryId}`}>
-              <div className="pending-order-create-order">
-                Create Purchase Order
-              </div>
-            </Link>
-          ) : (
-            <div className="pending-order-create-order">
-              Create Purchase Order
-            </div>
-          )} */}
           <div className="pending-order-create-order"
           onClick={handleCreatePOClick}
           style={{ cursor: 'pointer' }}
@@ -352,6 +341,23 @@ const OnGoingInquiriesDetails = () => {
           </a>
         </div>
       ) : null}
+{/* 
+{inquiryDetails?.quotation_items?.some(item => item.status === 'pending') ? (
+    <div className="pending-order-button-section">
+        <div className="pending-order-create-order"
+            onClick={handleCreatePOClick}
+            style={{ cursor: 'pointer' }}
+        >
+            Create Purchase Order
+        </div>
+        <a href={mailtoLink} className="pending-order-contact-order">
+            Contact Supplier
+        </a>
+    </div>
+) : null} */}
+
+
+
 
     </div>
   );

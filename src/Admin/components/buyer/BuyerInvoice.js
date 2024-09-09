@@ -10,6 +10,9 @@ const SellerInvoice = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
     const getActiveLinkFromPath = (path) => {
         switch (path) {
             case '/admin/buyer-invoice/paid':
@@ -40,21 +43,18 @@ const SellerInvoice = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [invoiceList, setInvoiceList] = useState()
     const [totalItems, setTotalItems]   = useState()
-    const listPerPage     = 2;
+    const listPerPage     = 5;
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
 
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
         const filterKey = activeLink === 'paid' ? 'completed' : 'pending';
         const obj = {
-            admin_id    : 'ADM-b9c743706ae7',
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
             filterKey   : filterKey,
-            supportType : activeLink,
             pageNo      : currentPage, 
             pageSize    : listPerPage,
         }
