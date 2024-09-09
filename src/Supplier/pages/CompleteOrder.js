@@ -120,7 +120,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                     orderList && orderList.length > 0 ? (
                                         orderList?.map((order,i) => {
                                             const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + item.quantity;
+                                                return total + (item?.quantity || item?.quantity_required);
                                               }, 0);
                                               const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (

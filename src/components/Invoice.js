@@ -109,7 +109,7 @@ const Invoice = () => {
             return;
         }
     
-        const filterKey = index === 0 ? 'pending' : index === 1 ? 'completed' : 'active';
+        const filterKey = index === 0 ? 'pending' : index === 1 ? 'paid' : 'active';
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             filterKey: filterKey,

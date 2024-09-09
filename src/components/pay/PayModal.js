@@ -185,7 +185,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
             const formData = new FormData();
             formData.append('order_id', orderId);
             formData.append('invoice_id', invoiceId);
-            formData.append('payment_mode', modeOfPayment);
+            formData.append('mode_of_payment', modeOfPayment);
             formData.append('amount_paid', amount);
             formData.append('transaction_id', transactionId);
             formData.append('payment_date', date);

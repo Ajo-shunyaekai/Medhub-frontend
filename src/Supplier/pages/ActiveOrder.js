@@ -126,7 +126,7 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                                             <div className="order-section-heading">{orderedDate}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order?.buyer?.buyer_name || 'MedicaLink Global'}</div>
+                                                            <div className="order-section-heading">{order?.buyer?.buyer_name || 'MedicalLink Global'}</div>
                                                         </td>
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">{totalQuantity}</div>

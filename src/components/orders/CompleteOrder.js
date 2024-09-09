@@ -51,7 +51,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                     orderList && orderList.length > 0 ? (
                                     orderList?.map((order,i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + item.quantity;
+                                            return total + (item?.quantity || item?.quantity_required);
                                           }, 0);
                                           const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                         return (
@@ -70,7 +70,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                                             <div className="order-section-heading">{totalQuantity}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_status === 'completed' ? 'Delivered': ''}</div>
+                                                            <div className="order-section-heading">{order?.order_status.charAt(0).toUpperCase() + order?.order_status.slice(1)}</div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>

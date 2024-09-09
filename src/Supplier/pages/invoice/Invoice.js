@@ -78,7 +78,7 @@ const Invoice = () => {
             return;
         }
     
-        const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
+        const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'paid' : 'active';
     
         const obj = {
             supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,

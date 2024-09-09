@@ -641,7 +641,7 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
             }
             postRequestWithToken('supplier/order/submit-details', obj, (response) => {
                 if (response.code === 200) {
-                    toast('Details submitted successfully', { type: 'success' })
+                    toast('Details Submitted Successfully', { type: 'success' })
                     setRefresh(true)
                     onClose()
                     setLoading(false)
