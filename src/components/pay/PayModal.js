@@ -51,160 +51,150 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
         }
     }, [showModal]);
 
-    const validateDate = (value) => {
-        console.log('value',value);
-        // const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{2})$/;
-        // return datePattern.test(value);
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        let newErrors = { ...errors };
+        let isValid = true;
 
-        const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4})$/;
-        return datePattern.test(value);
+        if (name === 'date') {
+            // Validate the format dd/mm/yyyy
+            if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                const [day, month, year] = value.split('/').map(Number);
+                const currentYear = new Date().getFullYear();
+
+                // Helper function to check if a year is a leap year
+                const isLeapYear = (year) => {
+                    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+                };
+
+                // Days allowed per month
+                const daysInMonth = {
+                    1: 31, // January
+                    2: isLeapYear(year) ? 29 : 28, // February (leap year check)
+                    3: 31, // March
+                    4: 30, // April
+                    5: 31, // May
+                    6: 30, // June
+                    7: 31, // July
+                    8: 31, // August
+                    9: 30, // September
+                    10: 31, // October
+                    11: 30, // November
+                    12: 31, // December
+                };
+
+                // Validate month (01 to 12)
+                if (month < 1 || month > 12) {
+                    newErrors[name] = 'Invalid Month';
+                    isValid = false;
+                }
+                // Validate day based on the month and year
+                else if (day < 1 || day > daysInMonth[month]) {
+                    newErrors[name] = `Invalid Day`;
+                    isValid = false;
+                }
+                // Validate year (less than or equal to current year)
+                else if (year > currentYear) {
+                    newErrors[name] = `Invalid Year.`;
+                    isValid = false;
+                } else {
+                    delete newErrors[name]; // Clear the error if valid
+                    isValid = true;
+                }
+            } else if (value.trim()) {
+                // If the input doesn't match the dd/mm/yyyy format
+                newErrors[name] = 'Invalid Date Format. Please Use dd/mm/yyyy';
+                isValid = false;
+            } else {
+                delete newErrors[name]; // Clear the error if input is empty
+                isValid = true;
+            }
+
+            setErrors(newErrors);
+        }
     };
 
-    const validateField = (fieldName, value) => {
+    const validateAmount = (value) => {
+        const amountPattern = /^\d{1,8}(\.\d{0,3})?$/;
+        return amountPattern.test(value);
+    };
+
+    const validateTransactionId = (value) => {
+        const transactionIdPattern = /^[a-zA-Z0-9]{1,20}$/;
+        return transactionIdPattern.test(value);
+    };
+
+    const handleChange = (fieldName, value) => {
+        let isValid = false;
+
         switch (fieldName) {
             case 'modeOfPayment':
-                if (!value) {
-                    return 'Mode of Payment is Required';
-                }
+                isValid = value !== '';
+                if (isValid) setModeOfPayment(value);
                 break;
             case 'amount':
-                if (!value) {
-                    return 'Amount is Required';
-                }
+                isValid = validateAmount(value);
+                if (isValid) setAmount(value);
                 break;
             case 'transactionId':
-                if (!value) {
-                    return 'Transaction ID is Required';
-                }
+                isValid = validateTransactionId(value);
+                if (isValid) setTransactionId(value);
                 break;
-            case 'date':
-                if (!value) {
-                    return 'Date is Required';
-                }
-                break;
-            // case 'date':
-            // if (!value) {
-            //     return 'Date is required';
-            // } else if (!validateDate(value)) {
-            //     return 'Date must be in DD/MM/YY format';
-            // }
-            // break;
-                case 'image':
-            if (!isImageUploaded) {
-                return 'Image is required';
-            }
-            break;
+                case 'date':
+                    // Ensure that the value is a valid date format before setting it
+                    isValid = validateDate(value);
+                    if (isValid) setDate(value);
+                    break;
             default:
                 break;
         }
-        return '';
+
+        setErrors(prevErrors => ({ ...prevErrors, [fieldName]: isValid ? '' : '' }));
     };
 
+    const handleImageUploadStatus = (status, image) => {
+        setIsImageUploaded(status);
+        setUploadedImage(image);
+        setErrors(prevErrors => ({ ...prevErrors, image: status ? '' : 'Image is required' }));
+    };
 
     const validateForm = () => {
         const errors = {};
 
-        errors.modeOfPayment = validateField('modeOfPayment', modeOfPayment);
-        errors.amount        = validateField('amount', amount);
-        errors.transactionId = validateField('transactionId', transactionId);
-        errors.date          = validateField('date', date);
-        errors.image         = validateField('image', isImageUploaded);
+        errors.modeOfPayment = modeOfPayment === '' ? 'Mode of Payment is required' : '';
+        errors.amount = !validateAmount(amount) ? 'Amount Paid is Required' : '';
+        errors.transactionId = !validateTransactionId(transactionId) ? 'Transaction ID is Required' : '';
+        errors.date = !validateDate(date) ? 'Date is Required' : '';
+        errors.image = !isImageUploaded ? 'Image is Required' : '';
 
         setErrors(errors);
 
         return Object.values(errors).every(error => error === '');
     };
 
-    const handleBlur = (fieldName, value) => {
-        const error = validateField(fieldName, value);
-        setErrors(prevErrors => ({ ...prevErrors, [fieldName]: error }));
-    };
+    const handleSave = () => {
+        if (validateForm()) {
+            const formData = new FormData();
+            formData.append('order_id', orderId);
+            formData.append('invoice_id', invoiceId);
+            formData.append('payment_mode', modeOfPayment);
+            formData.append('amount_paid', amount);
+            formData.append('transaction_id', transactionId);
+            formData.append('payment_date', date);
+            formData.append('transaction_image', uploadedImage);
 
-    const handleFocus = (fieldName) => {
-    const error = validateField(fieldName, eval(fieldName));
-    setErrors(prevErrors => ({ ...prevErrors, [fieldName]: error }));
-   };
-
-   const handleChange = (fieldName, value) => {
-        switch (fieldName) {
-            case 'modeOfPayment':
-                setModeOfPayment(value);
-                break;
-            case 'amount':
-                setAmount(value);
-                break;
-            case 'transactionId':
-                setTransactionId(value);
-                break;
-            case 'date':
-                setDate(value);
-                // if (validateDate(value)) {
-                //     console.log('validateDate(value)',value);
-                //     setDate(value);
-                // }
-                break;
-            default:
-                break;
-        }
-        setErrors(prevErrors => ({ ...prevErrors, [fieldName]: '' }));
-    };
-
-        const handleImageUploadStatus = (status, image) => {
-            setIsImageUploaded(status);
-            setUploadedImage(image);
-            setErrors(prevErrors => ({ ...prevErrors, image: '' }));
-        };
-
-        const handleSave = () => {
-            if (validateForm()) {
-                // validateDate(date)
-                // const payment_obj = {
-                //     payment_mode   : modeOfPayment,
-                //     amount         : amount,
-                //     transaction_id : transactionId,
-                //     payment_date   : date,
-                //     image          : uploadedImage
-                // }
-                if (!validateDate(date)) {
-                    setErrors(prevErrors => ({ ...prevErrors, date: 'Date must be in DD/MM/YY format' }));
+            postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
+                if (response.code === 200) {
+                    toast(response.message, { type: 'success' });
+                    handleClose();
                 } else {
-                    const formData = new FormData()
-                    
-                    formData.append('order_id', orderId)
-                    formData.append('invoice_id', invoiceId)
-                    formData.append('payment_mode', modeOfPayment)
-                    formData.append('amount_paid', amount)
-                    formData.append('transaction_id', transactionId)
-                    formData.append('payment_date', date)
-                    formData.append('transaction_image', uploadedImage)
-
-                    // const obj = {
-                    //     order_id : orderId,
-                    //     invoice_id : invoiceId,
-                    //     payment_mode: modeOfPayment,
-                    //     amount: amount,
-                    //     transaction_id: transactionId,
-                    //     payment_date: date,
-                    //     image: uploadedImage
-                    // };
-                    // console.log('payment_obj', obj);
-                    postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
-                        if (response.code === 200) {
-                            toast(response.message, { type: 'success' });
-                            handleClose();
-                            // setInvoiceList(response.result.data);
-                            // setTotalInvoices(response.result.totalItems);
-                        } else {
-                            toast(response.message, { type: 'error' });
-                            console.log('Error in proforma invoice list API:', response);
-                        }
-                        // setLoading(false);
-                    });
-                   
-                // handleClose();
-            }
+                    toast(response.message, { type: 'error' });
+                    console.log('Error in proforma invoice list API:', response);
+                }
+            });
         }
-        };
+    };
+
 
 
     return (
@@ -226,7 +216,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                             defaultValue="Select" 
                             value={modeOfPayment}
                             onChange={e => handleChange('modeOfPayment', e.target.value)}
-                            onBlur={() => handleBlur('modeOfPayment', modeOfPayment)}
+                            // onBlur={() => handleBlur('modeOfPayment', modeOfPayment)}
                             >
                             <option value="">Select</option>
                             {/* <option value="Cash">Cash</option> */}
@@ -244,7 +234,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                             placeholder='Enter the Amount' 
                             value={amount}
                             onChange={e => handleChange('amount', e.target.value)}
-                            onBlur={() => handleBlur('amount', amount)}
+                            // onBlur={() => handleBlur('amount', amount)}
                             autoComplete='off' />
                              {errors.amount && <span className="error">{errors.amount}</span>}
                     </div>
@@ -255,7 +245,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                             name='amount' 
                             value={transactionId}
                             onChange={e => handleChange('transactionId', e.target.value)}
-                            onBlur={() => handleBlur('transactionId', transactionId)}
+                            // onBlur={() => handleBlur('transactionId', transactionId)}
                             placeholder='Enter the Transaction ID' 
                             autoComplete='off' />
                              {errors.transactionId && <span className="error">{errors.transactionId}</span>}
@@ -269,7 +259,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
                             name='amount' 
                             value={date}
                             onChange={e => handleChange('date', e.target.value)}
-                            onBlur={() => handleBlur('date', date)}
+                            onBlur={handleBlur}
                             placeholder='DD/MM/YY' 
                             autoComplete='off'
                              />
