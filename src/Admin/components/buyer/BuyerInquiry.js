@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../../style/order.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import InquiryRequest from './InquiryRequest';
-import PurchasedOrder from './PurchasedOrder';
+import BuyerOngoingInquiry from './BuyerOngoingInquiry';
+import BuyerPurchasedOrder from './BuyerPurchasedOrder';
 import { postRequestWithToken } from '../../api/Requests';
-const SellerInquiry = () => {
+const BuyerInquiry = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -14,9 +14,9 @@ const SellerInquiry = () => {
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/admin/seller-inquiry/inquiry':
+            case '/admin/buyer-inquiry/inquiry':
                 return 'inquiry';
-                case '/admin/seller-purchased/purchased':
+                case '/admin/buyer-purchased/purchased':
                 return 'purchased';
             default:
                 return 'inquiry';
@@ -29,13 +29,13 @@ const SellerInquiry = () => {
         setCurrentPage(1)
         switch (link) {
             case 'inquiry':
-                navigate('/admin/seller-inquiry/inquiry');
+                navigate('/admin/buyer-inquiry/inquiry');
                 break;
                 case 'purchased':
-                navigate('/admin/seller-purchased/purchased');
+                navigate('/admin/buyer-purchased/purchased');
                 break;
             default:
-                navigate('/admin/seller-inquiry/inquiry');
+                navigate('/admin/buyer-inquiry/inquiry');
         }
     };
 
@@ -74,7 +74,7 @@ const SellerInquiry = () => {
         <>
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
-                    <div className={styles['complete-conatiner-head']}>Inquiry & Purchased Orders</div>
+                    <div className={styles['complete-conatiner-head']}>Orders</div>
                 </div>
                 <div className={styles[`order-wrapper`]}>
                     <div className={styles[`order-wrapper-left`]}>
@@ -83,7 +83,7 @@ const SellerInquiry = () => {
                             className={`${activeLink === 'inquiry' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div>Inquiry Request</div>
+                            <div>Ongoing Inquiries</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('purchased')}
@@ -95,7 +95,7 @@ const SellerInquiry = () => {
                     </div>
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'inquiry' &&
-                         <InquiryRequest
+                         <BuyerOngoingInquiry
                             orderList        = {orderList} 
                             totalOrders      = {totalOrders} 
                             currentPage      = {currentPage}
@@ -103,8 +103,8 @@ const SellerInquiry = () => {
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                          />}
-                        {activeLink === 'purchased' &&
-                        <PurchasedOrder
+                        {activeLink === 'purchased' && 
+                        <BuyerPurchasedOrder
                             orderList        = {orderList} 
                             totalOrders      = {totalOrders} 
                             currentPage      = {currentPage}
@@ -119,4 +119,4 @@ const SellerInquiry = () => {
     );
 }
 
-export default SellerInquiry;
+export default BuyerInquiry;

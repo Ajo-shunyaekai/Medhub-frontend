@@ -733,9 +733,9 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Seller Transaction</div>
             </Link>
-            <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
+            <Link to="/admin/seller-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
-              <div className={styles.sidebar_text}>Inquiries</div>
+              <div className={styles.sidebar_text}>Inquiry</div>
             </Link>
             <Link to="/admin/seller-order" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
@@ -780,6 +780,10 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
             <Link to="/admin/buyer-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
               <div className={styles.sidebar_text}>Buyer Transaction</div>
+            </Link>
+            <Link to="/admin/buyer-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
+              <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />
+              <div className={styles.sidebar_text}>Inquiry</div>
             </Link>
             <Link to="/admin/buyer-order" className={styles.sidebar_text} activeclassname={styles.active}>
               <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft:"10px" }} />

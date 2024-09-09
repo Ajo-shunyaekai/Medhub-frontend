@@ -47,9 +47,15 @@ import OrderDetails from './buyer/OrderDetails.js';
 import SupplierOrderDetails from './seller/OrderDetails.js'
 import NotificationList from './NotificationList.js'
 import { postRequestWithToken } from '../api/Requests.js';
-import ProductUpdateRequest from './products/ProductUpdateRequest.js';
-
-
+import ProductUpdateRequest from './products/ProductUpdateRequest.js'; 
+import SellerInquiry from './seller/SellerInquiry.js';
+import InquiryRequest from './seller/InquiryRequest.js';
+import PurchasedOrder from './seller/PurchasedOrder.js';
+import BuyerOngoingInquiry from './buyer/BuyerOngoingInquiry.js';
+import BuyerPurchasedOrder from './buyer/BuyerPurchasedOrder.js';
+import BuyerInquiry from './buyer/BuyerInquiry.js';
+import InquiryRequestDetails from './seller/InquiryRequestDetails.js';
+import PurchasedOrderDetails from './seller/PurchasedOrderDetails.js';
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -91,24 +97,6 @@ const AdminSidebar = () => {
                 console.log('error in order details api');
             }
         });
-
-        // Ensure socket is defined and connected
-        // if (socket) {
-        //     console.log('socket',socket);
-            
-        //     socket.on('orderCreated', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-        //         // setNotificationList((prevList) => [notification, ...prevList]);
-        //         // setCount((prevCount) => prevCount + 1);
-        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-        //     });
-    
-        //     return () => {
-        //         socket.off('receiveNotification');
-        //     };
-        // } else {
-        //     console.error('Socket is not initialized');
-        // }
     },[refresh, adminIdSessionStorage, adminIdLocalStorage]) ;
     
     useEffect( () => { 
@@ -157,6 +145,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
                   <Route path="/admin/product-update-request" element={<ProductUpdateRequest/>} />
+                  <Route path="/admin/inquiry-request-details" element={<InquiryRequestDetails/>} />
+                  <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails/>} />
                   
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
@@ -170,7 +160,16 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-support" element={<Navigate to="/admin/buyer-support/complaint" />} />
                   <Route path="/admin/buyer-complaint" element={<BuyerComplaint/>} />
                   <Route path="/admin/buyer-feedback" element={<BuyerFeedback/>} />    
-                  <Route path="/admin/buyer-details/:buyerId" element={<BuyerDetails />} />    
+                  <Route path="/admin/buyer-details/:buyerId" element={<BuyerDetails />} />   
+                  {/* start the seller inquiry route  */}
+                  <Route path="/admin/seller-inquiry/inquiry" element={<SellerInquiry />} />
+                   <Route path="/admin/seller-purchased/purchased" element={<SellerInquiry/>} />
+                    <Route path="/admin/seller-inquiry" element={<Navigate to="/admin/seller-inquiry/inquiry" />} />
+                  {/* end the seller inquiry route */}
+                  <Route path="/admin/buyer-inquiry/inquiry" element={<BuyerInquiry/>} />
+                   <Route path="/admin/buyer-purchased/purchased" element={<BuyerInquiry/>} />
+                    <Route path="/admin/buyer-inquiry" element={<Navigate to="/admin/buyer-inquiry/inquiry" />} />
+                  BuyerInquiry
                   {/* end the buyer route */}
 
                    {/* Start the order route */}
@@ -203,21 +202,4 @@ const AdminSidebar = () => {
 
   
 }
-
-// function App() {
-//   return (
-//     <>
-//       <div className='App'>
-//         <BrowserRouter>
-//           <Routes>
-//             <Route path="/*" element={<IncludeSidebar />} />
-//             <Route path="/sign-up" element={<SignUp />} />
-//             <Route path="/login" element={<Login />} />
-//           </Routes>
-//         </BrowserRouter>
-//       </div>
-//     </>
-//   );
-// }
-
 export default AdminSidebar;
