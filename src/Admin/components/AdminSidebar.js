@@ -47,6 +47,7 @@ import OrderDetails from './buyer/OrderDetails.js';
 import SupplierOrderDetails from './seller/OrderDetails.js'
 import NotificationList from './NotificationList.js'
 import { postRequestWithToken } from '../api/Requests.js';
+<<<<<<< Updated upstream
 import ProductUpdateRequest from './products/ProductUpdateRequest.js'; 
 import SellerInquiry from './seller/SellerInquiry.js';
 import InquiryRequest from './seller/InquiryRequest.js';
@@ -56,6 +57,11 @@ import BuyerPurchasedOrder from './buyer/BuyerPurchasedOrder.js';
 import BuyerInquiry from './buyer/BuyerInquiry.js';
 import InquiryRequestDetails from './seller/InquiryRequestDetails.js';
 import PurchasedOrderDetails from './seller/PurchasedOrderDetails.js';
+=======
+import ProductUpdateRequest from './products/ProductUpdateRequest.js';
+
+
+>>>>>>> Stashed changes
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -145,8 +151,11 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
                   <Route path="/admin/product-update-request" element={<ProductUpdateRequest/>} />
+<<<<<<< Updated upstream
                   <Route path="/admin/inquiry-request-details" element={<InquiryRequestDetails/>} />
                   <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails/>} />
+=======
+>>>>>>> Stashed changes
                   
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
