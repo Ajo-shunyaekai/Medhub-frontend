@@ -352,9 +352,9 @@ const OrderDetails = ({socket}) => {
              {/* {
                 orderDetails?.order_status === 'completed' ?
              } */}
-             {orderDetails?.status === 'Completed' && (
+             {orderDetails?.invoices && orderDetails?.invoices.length > 0 &&(
              <div className='buyer-order-details-invoice-list-section'>
-                <OrderInvoiceList />
+                <OrderInvoiceList invoiceData = {orderDetails?.invoices} />
             </div>
              )}
             {/* End the assign driver section */}

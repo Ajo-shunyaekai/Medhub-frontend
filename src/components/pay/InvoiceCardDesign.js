@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../style/invoicecard.module.css'
 import Cheque from '../../assest/cheque.png'
 
-const InvoiceCardDesign = () => {
+const InvoiceCardDesign = ({invoiceDetails}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {

@@ -254,11 +254,11 @@ const ActiveOrdersDetails = () => {
                             <div className='active-order-details-right-details-row-one'>
                                 <div className='active-order-details-right-pickupdata'>
                                     <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
-                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.name}</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.logistics_details?.drop_location?.name}</div>
                                 </div>
                                 <div className='active-order-details-right-pickupdata'>
                                     <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                    <div className='active-order-details-right-pickdata-text'>{orderDetails.logistics_details.drop_location.mobile}</div>
+                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.logistics_details?.drop_location?.mobile}</div>
                                 </div>
                                 <div className='active-order-details-right-pickupdata-address'>
                                     <div className='active-order-details-right-pickdata-head'>Address</div>
@@ -286,9 +286,9 @@ const ActiveOrdersDetails = () => {
             {/* {
                 orderDetails?.order_status === 'compla'
             } */}
-            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+            {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
                 <div className='active-order-details-invoice-list-section'>
-                    <ActiveInvoiceList />
+                    <ActiveInvoiceList invoiceData = {orderDetails?.invoices}/>
                 </div>
             )}
             {/* Modal Component */}

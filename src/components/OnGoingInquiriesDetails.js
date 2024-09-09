@@ -183,44 +183,31 @@ const OnGoingInquiriesDetails = () => {
 
   const handleCancel = () => {
     navigate(`/buyer/cancel-inquiry-list/${inquiryId}`)
-    // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //   navigate("/buyer/login");
-    //   return;
-    // }
-    // const obj = {
-    //   buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage,
-    //   enquiry_id  : inquiryId,
-    //   supplier_id : inquiryDetails?.supplier?.supplier_id
-    // };
-
-    // postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
-    //     if (response.code === 200) {
-    //       toast(response.message, { type: "success" });
-    //       setInquiryDetails((prevDetails) => ({
-    //         ...prevDetails,
-    //         status: 'cancelled', 
-    //         items: prevDetails.items.map(item => ({
-    //           ...item,
-    //           status: 'cancelled' 
-    //         }))
-    //       }));
-
-    //     } else {
-    //       toast(response.message, { type: "error" });
-    //       console.log("error in cancel-enquiry api", response);
-    //     }
-    //   }
-    // );
-
   }
 
+  // const handleCreatePOClick = () => {
+  //   if (acceptedItems.length > 0) {
+  //     navigate(`/buyer/Create-PO/${inquiryId}`);
+  //   } else {
+  //     toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
+  //   }
+  // };
+
   const handleCreatePOClick = () => {
-    if (acceptedItems.length > 0) {
-      navigate(`/buyer/Create-PO/${inquiryId}`);
+    const totalProcessedItems = acceptedItems.length + rejectedItems.length;
+    const totalQuotationItems = inquiryDetails?.quotation_items?.length || 0;
+  
+    if (totalProcessedItems === totalQuotationItems) {
+      if (acceptedItems.length > 0) {
+        navigate(`/buyer/Create-PO/${inquiryId}`);
+      } else {
+        toast('Please Accept At Least One Item Before Creating Purchase Order.', { type: 'error' });
+      }
     } else {
-      toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
+      toast('Please Accept or Reject All Quotation Items Before Creating Purchase Order.', { type: 'error' });
     }
   };
+  
 
   return (
     <div className="ongoing-details-container">

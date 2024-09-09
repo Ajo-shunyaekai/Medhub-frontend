@@ -321,7 +321,8 @@ const ProformaInvoice = () => {
             newBuyerMobile: '',
             orderItems: [],
             paymentTerms : '',
-            totalDueAmount : ''
+            totalDueAmount : '',
+            totalAmount: ''
     })
 
     const handlePaymentDueDateChange = (e) => {
@@ -406,7 +407,8 @@ const ProformaInvoice = () => {
                     buyerMobile: formattedBuyerMobile,
                     buyerRegNo: data?.buyer_regNo,
                     orderItems: data?.order_items,
-                    totalDueAmount : data?.total_amount,
+                    // totalDueAmount : data?.total_amount,
+                    totalAmount : data?.total_amount,
                     paymentTerms : paymentTermsString
                 }));
                 setOrderItems(data?.order_items)
@@ -428,6 +430,7 @@ const ProformaInvoice = () => {
             dueDate : '',
             depositRequested : '',
             depositDue : '',
+            totalDueAmount : ''
             
             
         }));
@@ -487,6 +490,7 @@ const ProformaInvoice = () => {
         if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested is Required'
         if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
         if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
+        if(!formData.totalDueAmount) formErrors.totalDueAmount = 'Total Due Amount is Required'
 
         // if(!formData.suppl) formErrors.buyerRegNo = 'Buyer VAT Reg No. is Required'
         setErrors(formErrors);
@@ -759,10 +763,11 @@ const ProformaInvoice = () => {
                                 placeholder='Enter Total Due Amount'
                                 // {...register('totalDueAmount',
                                 // )}
-                                readOnly
+                                // readOnly
                                 value={formData.totalDueAmount}
-                                // onInput={handleNumberInput}
+                                onInput={handleNumberInput}
                                 />
+                                {errors.totalDueAmount && <p style={{color: 'red', fontSize: '12px'}}>{errors.totalDueAmount}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>

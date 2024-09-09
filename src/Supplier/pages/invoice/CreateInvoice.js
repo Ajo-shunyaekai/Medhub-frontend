@@ -153,11 +153,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                     buyerContactPersonCountryCode: data?.buyer?.contact_person_country_code,
                     buyerVatRegNo: data?.buyer?.vat_reg_no,
                     orderItems: data?.items,
-                    // vatPercentage: data.vat_percentage,
-                    totalPayableAmount: data?.pending_amount,
-                    // totalPayableAmount: totalPayableAmount,
-                    // accountNo: data.account_no,
-                    // sortCode: data.sort_code
+                    // totalPayableAmount: data?.pending_amount,
                 }));
             } else {
                 console.log('error in order details api');
@@ -180,21 +176,6 @@ const handleBuyerCountryOriginChange = (selected) => {
         let newErrors = {};
         let isValid = true;
 
-        if (name === 'description') {
-            if (value.length > 1000) {
-                newErrors.description = 'Description cannot exceed 1000 characters';
-                isValid = false;
-            } else {
-                newErrors.description = '';
-            }
-        }
-        if (name === 'productName' || name === 'dossierStatus') {
-            if (!/^[a-zA-Z\s]*$/.test(value)) {
-                isValid = false;
-            } else {
-                newErrors[name] = '';
-            }
-        }
         if (name === 'totalQuantity' || name === 'minPurchaseUnit' ) {
             if (!/^\d*$/.test(value)) {
                 isValid = false;
@@ -207,6 +188,26 @@ const handleBuyerCountryOriginChange = (selected) => {
                 isValid = false;
             } else {
                 newErrors.unitTax = '';
+            }
+        }
+        if (name === 'accountNo' || name === 'sortCode') {
+            if (!/^[a-zA-Z0-9]*$/.test(value)) {
+                isValid = false;
+                newErrors[name] = '';
+            } else if (value.length > 20) {
+                isValid = false;
+                newErrors[name] = '';
+            } else {
+                newErrors[name] = '';
+            }
+        }
+
+        if (name === 'totalPayableAmount') {
+            if (!/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
+                isValid = false;
+                newErrors.totalPayableAmount = '';
+            } else {
+                newErrors.totalPayableAmount = '';
             }
         }
         if (isValid) {
@@ -234,6 +235,7 @@ const handleBuyerCountryOriginChange = (selected) => {
 
         if(!formData.accountNo) formErrors.accountNo = 'Account Number is Required'
         if(!formData.sortCode) formErrors.sortCode = 'Sort Code is Required'
+        if(!formData.totalPayableAmount) formErrors.totalPayableAmount = 'Total Payable Amount is Required'
        
 
         setErrors(formErrors);
@@ -543,16 +545,7 @@ const handleBuyerCountryOriginChange = (selected) => {
                     <div className={styles['create-invoice-section']}>
                 <div className={styles['create-invoice-form-heading']}></div>
                     <form className={styles['craete-invoice-form']}>
-                        {/* <div className={styles['create-invoice-div-container']}>
-                        <label className={styles['create-invoice-div-label']}>VAT @ 20%</label>
-                            <input className={styles['create-invoice-div-input']} 
-                            type='text' name='vatPercentage' 
-                            placeholder='Enter Vat @ 20%' 
-                            value={formData.vatPercentage}
-                            onChange={handleVatPercentageChange}
-                            readOnly
-                            />
-                        </div> */}
+                        
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
                             <input className={styles['create-invoice-div-input']} 
@@ -560,8 +553,10 @@ const handleBuyerCountryOriginChange = (selected) => {
                             name='totalPayableAmount' 
                             placeholder='Enter Total Payable Amount' 
                             value={formData.totalPayableAmount}
-                            readOnly
+                            onChange={handleChange}
+                            // readOnly
                             />
+                            {errors.totalPayableAmount && <p style={{color: 'red'}}>{errors.totalPayableAmount}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                         <label className={styles['create-invoice-div-label']}>Account Number</label>

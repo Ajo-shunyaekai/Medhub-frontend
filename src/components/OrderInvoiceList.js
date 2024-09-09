@@ -5,7 +5,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link } from 'react-router-dom';
 
-const OrderInvoiceList = () => {
+const OrderInvoiceList = ({invoiceData}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 4; 
     
@@ -19,7 +19,7 @@ const OrderInvoiceList = () => {
         { invoiceno: '1254124125', orderid: '1478523698', suppliername: 'Paramceutical Agency', amount: '250 USD', status:'Paid' },
     ];
 
-    const data =  OrderInvoice;
+    const data =  invoiceData;
 
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -43,39 +43,41 @@ const OrderInvoiceList = () => {
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Invoice No.</span>
-                                        <span className="table-g-not-names">{invoice.invoiceno }</span>
+                                        <span className="table-g-not-names">{invoice.invoice_no }</span>
                                     </div>
                                 </td>
                                 <td className='tables-td-cont' >
                                     <div className="table-second-container">
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Order ID</span>
-                                            <span className="table-g-not-name">{invoice.orderid}</span>
+                                            <span className="table-g-not-name">{invoice.order_id}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Supplier Name</span>
-                                        <span className="table-g-not-name">{invoice.suppliername}</span>
+                                        <span className="table-g-not-name">{invoice.supplier_name}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Amount</span>
-                                        <span className="table-g-not-name">{invoice.amount}</span>
+                                        <span className="table-g-not-name">{invoice.total_payable_amount}</span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Status</span>
-                                        <span className="table-g-not-name">{invoice.status}</span>
+                                        <span className="table-g-not-name">
+                                        {invoice.invoice_status.charAt(0).toUpperCase() + invoice.invoice_status.slice(1)}
+                                        </span>
                                     </div>
                                 </td>
                                 <td className='tables-td'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Action</span>
-                                        <span className="table-g-not-name"><Link to={`/buyer/invoice-design/13434234`}>
+                                        <span className="table-g-not-name"><Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                             <div className='invoice-details-button-column'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
                                             </div>
