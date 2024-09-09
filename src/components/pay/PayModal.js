@@ -191,7 +191,7 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
             formData.append('payment_date', date);
             formData.append('transaction_image', uploadedImage);
 
-            postRequestWithTokenAndFile('buyer/invoice/update-payment-statu', formData, async (response) => {
+            postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: 'success' });
                     handleClose();
