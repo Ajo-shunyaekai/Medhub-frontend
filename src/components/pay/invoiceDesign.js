@@ -235,9 +235,11 @@ function InvoiceTemplate({invoice}) {
                 </div>
                 {invoiceDetails?.invoice_status === 'paid' && (
                 <div className='invoice-card-section-design'>
-                    <InvoiceCardDesign invoiceDetails = {invoiceDetails}/>
+                    <InvoiceCardDesign 
+                    invoiceDetails = {invoiceDetails}
+                    />
                 </div>
-            )}
+             )} 
                 </div>
             </div >
         </div >

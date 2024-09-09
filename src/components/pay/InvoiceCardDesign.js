@@ -19,28 +19,31 @@ const InvoiceCardDesign = ({invoiceDetails}) => {
                     <div className={styles['invoice-card-section']}>
                         <div className={styles['invoice-card-conts']}>
                             <div className={styles['invoice-card-conts-head']}>Mode of Payment :</div>
-                            <div className={styles['invoice-card-conts-text']}>Cheque</div>
+                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.mode_of_payment}</div>
                         </div>
                         <div className={styles['invoice-card-conts']}>
                             <div className={styles['invoice-card-conts-head']}>Amount :</div>
-                            <div className={styles['invoice-card-conts-text']}>422</div>
+                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.amount_paid} AED</div>
                         </div>
                     </div>
                     <div className={styles['invoice-card-section']}>
                         <div className={styles['invoice-card-conts']}>
                             <div className={styles['invoice-card-conts-head']}>Transaction ID :</div>
-                            <div className={styles['invoice-card-conts-text']}>TRE12345678</div>
+                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.transaction_id}</div>
                         </div>
                         <div className={styles['invoice-card-conts']}>
                             <div className={styles['invoice-card-conts-head']}>Date :</div>
-                            <div className={styles['invoice-card-conts-text']}>12/04/2024</div>
+                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.payment_date}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className={styles['invoice-card-img-container']}>
                 <div className={styles['invoice-card-img']}>
-                    <img src={Cheque} alt="Cheque" onClick={openModal} style={{ cursor: 'pointer' }} />
+                    <img 
+                    // src={Cheque} 
+                    src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/invoice_images/${invoiceDetails?.transaction_image[0]}`}
+                    alt="Cheque" onClick={openModal} style={{ cursor: 'pointer' }} />
                 </div>
             </div>
 
@@ -48,7 +51,10 @@ const InvoiceCardDesign = ({invoiceDetails}) => {
                 <div className={styles['modal-overlay']}>
                     <div className={styles['modal-content']}>
                         <span onClick={closeModal} className={styles['close-button']}>&times;</span>
-                        <img src={Cheque} alt="Cheque" className={styles['modal-image']} />
+                        <img 
+                        // src={Cheque} 
+                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/invoice_images/${invoiceDetails?.transaction_image[0]}`}
+                        alt="Cheque" className={styles['modal-image']} />
                     </div>
                 </div>
             )}
