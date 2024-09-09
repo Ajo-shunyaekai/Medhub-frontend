@@ -165,28 +165,48 @@ const AddProduct = () => {
 
     const handleStockedInputChange = (index, event) => {
         const { name, value } = event.target;
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         // Allow only numbers and up to 5 digits
         if (/^\d*$/.test(value) && value.length <= 8) {
             const updatedSections = [...stockedInSections];
             updatedSections[index][name] = value;
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`stockedInQuantity${index}`]: ''
             }));
+<<<<<<< Updated upstream
 
             setStockedInSections(updatedSections);
         }
     };
 
+=======
+   
+            setStockedInSections(updatedSections);
+        }
+    };
+   
+>>>>>>> Stashed changes
 
 
     // const handleInputChange = (index, event) => {
     //     const { name, value } = event.target;
     //     const newFormSections = [...formSections];
     //     let isValid = true;
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
     //     if (name === 'unitPrice') {
     //         // Allow only numbers with up to 3 digits before the decimal point
     //         if (!/^\d{0,4}(\.\d*)?$/.test(value)) {
@@ -227,19 +247,31 @@ const AddProduct = () => {
     //         // Handle validation for unitPricee if applicable
     //         isValid = /^\d*\.?\d*$/.test(value);
     //     }
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
     //     if (isValid) {
     //         newFormSections[index][name] = value;
     //         setErrors(prevErrors => ({
     //             ...prevErrors,
     //             [`${name}${index}`]: ''
     //         }));
+<<<<<<< Updated upstream
 
+=======
+           
+>>>>>>> Stashed changes
     //         // Update formData state
     //         const unitPrices = newFormSections.map(section => section.unitPrice);
     //         const totalPrices = newFormSections.map(section => section.totalPrice);
     //         const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
     //         setFormData({
     //             ...formData,
     //             unitPrice: unitPrices,
@@ -247,7 +279,11 @@ const AddProduct = () => {
     //             estDeliveryTime: estDeliveryTimes
     //         });
     //     }
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
     //     setFormSections(newFormSections);
     // };
 
@@ -256,7 +292,11 @@ const AddProduct = () => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         if (name === 'unitPrice') {
             // Allow up to 4 digits before the decimal point and up to 3 digits after the decimal point
             if (!/^\d{0,4}(\.\d{0,3})?$/.test(value)) {
@@ -303,19 +343,31 @@ const AddProduct = () => {
                 }));
             }
         }
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         if (isValid) {
             newFormSections[index][name] = value;
             setErrors(prevErrors => ({
                 ...prevErrors,
                 [`${name}${index}`]: ''
             }));
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
             // Update formData state
             const unitPrices = newFormSections.map(section => section.unitPrice);
             const totalPrices = newFormSections.map(section => section.totalPrice);
             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
             setFormData({
                 ...formData,
                 unitPrice: unitPrices,
@@ -328,10 +380,17 @@ const AddProduct = () => {
                 [`${name}${index}`]: ''
             }));
         }
+<<<<<<< Updated upstream
 
         setFormSections(newFormSections);
     };
 
+=======
+   
+        setFormSections(newFormSections);
+    };
+   
+>>>>>>> Stashed changes
 
     const addFormSection = () => {
         let newProductValid = true;
@@ -475,14 +534,22 @@ const AddProduct = () => {
         const selectedValue = selected ? selected.label : '';
         setCondition(selected);
         setFormData(prevState => ({ ...prevState, condition: selectedValue }));
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         if (!selectedValue) {
             setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
         } else {
             setErrors(prevState => ({ ...prevState, condition: '' }));
         }
     };
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
 
     const handleProductCategoryChange = (selected) => {
         setProductCategory(selected)
@@ -567,10 +634,17 @@ const AddProduct = () => {
         const { name, value } = event.target;
         let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
+<<<<<<< Updated upstream
 
         // Clear the error message for the field being updated
         newErrors[name] = '';
 
+=======
+   
+        // Clear the error message for the field being updated
+        newErrors[name] = '';
+   
+>>>>>>> Stashed changes
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -596,7 +670,11 @@ const AddProduct = () => {
             }
         } else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
+<<<<<<< Updated upstream
 
+=======
+           
+>>>>>>> Stashed changes
             const regex = /^\d{0,2}(\.\d{0,3})?$/;
 
             if (value.trim() && !regex.test(value)) {
@@ -605,8 +683,13 @@ const AddProduct = () => {
             } else {
                 newErrors[name] = ''; // Clear error if input is valid
             }
+<<<<<<< Updated upstream
         } else if (name === 'shippingTime') {
 
+=======
+        }  else if (name === 'shippingTime') {
+           
+>>>>>>> Stashed changes
             const regex = /^\d{1,3}(-\d{1,2})?$/;
 
             // Partial match is allowed but full input should be validated
@@ -630,31 +713,51 @@ const AddProduct = () => {
         //         isValid = false;
         //     }
         // }
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         // Update the form data if valid
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
         setErrors(newErrors);
     };
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
         let newErrors = { ...errors };
         let isValid = true;
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
         if (name === 'purchasedOn') {
             // Validate the format dd/mm/yyyy
             if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
                 const [day, month, year] = value.split('/').map(Number);
                 const currentYear = new Date().getFullYear();
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
                 // Helper function to check if a year is a leap year
                 const isLeapYear = (year) => {
                     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
                 };
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
                 // Days allowed per month
                 const daysInMonth = {
                     1: 31, // January
@@ -670,7 +773,11 @@ const AddProduct = () => {
                     11: 30, // November
                     12: 31, // December
                 };
+<<<<<<< Updated upstream
 
+=======
+   
+>>>>>>> Stashed changes
                 // Validate month (01 to 12)
                 if (month < 1 || month > 12) {
                     newErrors[name] = 'Invalid month. Please use a month between 01 and 12.';
@@ -697,6 +804,7 @@ const AddProduct = () => {
                 delete newErrors[name]; // Clear the error if input is empty
                 isValid = true;
             }
+<<<<<<< Updated upstream
 
             setErrors(newErrors);
         }
@@ -704,6 +812,15 @@ const AddProduct = () => {
 
 
 
+=======
+   
+            setErrors(newErrors);
+        }
+    };
+   
+   
+   
+>>>>>>> Stashed changes
     useEffect(() => {
         setFormData({
             ...formData,
@@ -963,12 +1080,20 @@ const AddProduct = () => {
                         resetForm()
                         toast(response.message, { type: "success" });
                         setLoading(false)
+<<<<<<< Updated upstream
 
+=======
+                       
+>>>>>>> Stashed changes
                         setTimeout(() => {
                             // navigate('/supplier/product/newproduct')
                             navigate('/supplier/pending-products-list')
                         }, 1000);
+<<<<<<< Updated upstream
 
+=======
+                       
+>>>>>>> Stashed changes
                     } else {
                         setLoading(false)
                         toast(response.message, { type: "error" });
@@ -1033,7 +1158,11 @@ const AddProduct = () => {
                             // navigate('/supplier/product/secondarymarket')
                             navigate('/supplier/pending-products-list')
                         }, 1000);
+<<<<<<< Updated upstream
 
+=======
+                       
+>>>>>>> Stashed changes
                     } else {
                         setLoading(false)
                         toast(response.message, { type: "error" });
@@ -1050,7 +1179,11 @@ const AddProduct = () => {
         }
     }
 
+<<<<<<< Updated upstream
 
+=======
+ 
+>>>>>>> Stashed changes
     const handleCancel = () => {
         resetForm()
     }
@@ -1289,7 +1422,11 @@ const AddProduct = () => {
                                 />
                                 {errors.typeOfForm && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.typeOfForm}</div>}
                             </div>
+<<<<<<< Updated upstream
 
+=======
+                           
+>>>>>>> Stashed changes
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Shelf Life</label>
                                 <input
@@ -1780,6 +1917,7 @@ const AddProduct = () => {
 
                         <div className={styles['craete-invoices-button']}>
                             <button
+<<<<<<< Updated upstream
                                 type='submit'
                                 className={styles['create-invoices-submit']}
                                 disabled={loading}
@@ -1792,6 +1930,20 @@ const AddProduct = () => {
                                 )}
                             </button>
 
+=======
+                            type='submit'
+                            className={styles['create-invoices-submit']}
+                            disabled={loading}
+                            >
+                                {/* Add Product */}
+                                {loading ? (
+                                <div className={styles['loading-spinner']}></div>
+                            ) : (
+                                'Add Product'
+                            )}
+                            </button>
+                           
+>>>>>>> Stashed changes
                             <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
