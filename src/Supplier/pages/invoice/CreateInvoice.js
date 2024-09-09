@@ -46,6 +46,7 @@ const CreateInvoice = () => {
         orderItems: [],
         vatPercentage: '',
         totalPayableAmount: '',
+        bankName : '',
         accountNo: '',
         sortCode: '',
         grandTotal: ''
@@ -178,6 +179,18 @@ const CreateInvoice = () => {
         let newErrors = {};
         let isValid = true;
 
+        if (name === 'bankName') {
+            if (!/^[a-zA-Z\s]*$/.test(value)) {
+                isValid = false;
+                newErrors.bankName = '';
+            } else if (value.length > 30) {
+                isValid = false;
+                newErrors.bankName = '';
+            } else {
+                newErrors.bankName = '';
+            }
+        }
+
         if (name === 'totalQuantity' || name === 'minPurchaseUnit') {
             if (!/^\d*$/.test(value)) {
                 isValid = false;
@@ -235,6 +248,7 @@ const CreateInvoice = () => {
         if (!formData.buyerVatRegNo) formErrors.buyerVatRegNo = 'Buyer VAT Reg No. is Required'
         if (!formData.buyerCountry) formErrors.buyerCountry = 'Buyer Country is Required'
 
+         if (!formData.bankName) formErrors.bankName = 'Bank Name is Required'
         if (!formData.accountNo) formErrors.accountNo = 'Account Number is Required'
         if (!formData.sortCode) formErrors.sortCode = 'Sort Code is Required'
         if (!formData.totalPayableAmount) formErrors.totalPayableAmount = 'Total Payable Amount is Required'
@@ -542,19 +556,22 @@ const CreateInvoice = () => {
                                 </div>
 
                                 {/* Common Total Payable Amount */}
-                                <div className={styles['create-invoice-div-container']}>
+                                
+                            </div>
+                        ))}
+                        <div className={styles['create-invoice-div-container']}>
                                     <label className={styles['create-invoice-div-label']}>Total Payable Amount</label>
                                     <input
                                         className={styles['create-invoice-div-input']}
                                         type='text'
-                                        name={`TotalAmount-${item.id}`}
+                                        name='totalPayableAmount'
                                         placeholder='Enter Total Payable Amount'
-                                        value={totalPayableAmount} 
-                                        readOnly
+                                        value={formData.totalPayableAmount} 
+                                        onChange={handleChange}
+                                        // readOnly
                                     />
-                                </div>
-                            </div>
-                        ))}
+                                    {errors.totalPayableAmount && <p style={{ color: 'red', fontSize: '12px' }}>{errors.totalPayableAmount}</p>}
+                        </div>
                     </div>
 
                     <div className={styles['create-invoice-section']}>
@@ -563,12 +580,12 @@ const CreateInvoice = () => {
                                 <label className={styles['create-invoice-div-label']}>Name of Bank</label>
                                 <input className={styles['create-invoice-div-input']}
                                     type='text'
-                                    name='totalPayableAmount'
+                                    name='bankName'
                                     placeholder='Enter Name of Bank'
-                                    value={formData.totalPayableAmount}
+                                    value={formData.bankName}
                                     onChange={handleChange}
                                 />
-                                {errors.totalPayableAmount && <p style={{ color: 'red', fontSize: '12px' }}>{errors.totalPayableAmount}</p>}
+                                {errors.bankName && <p style={{ color: 'red', fontSize: '12px' }}>{errors.bankName}</p>}
                             </div>
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Account Number</label>
