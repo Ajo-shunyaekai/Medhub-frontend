@@ -134,9 +134,24 @@ const SupplierSignUp = () => {
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        if (name === 'registrationNo' || name === 'vatRegistrationNo') {
-            // Limit input to 16 characters for registrationNo and vatRegistrationNo
+        const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
+
+        // if (name === 'registrationNo' || name === 'vatRegistrationNo') {
+        //     // Limit input to 16 characters for registrationNo and vatRegistrationNo
+        //     if (value.length > 16) {
+        //         setErrors(prevState => ({ ...prevState, [name]: '' }));
+        //         return;
+        //     }
+        // }
+
+        if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
             if (value.length > 16) {
+                setErrors(prevState => ({ ...prevState, [name]: '' }));
+                return;
+            }
+            
+            // Disallow spaces in these fields
+            if (!alphanumericNoSpaceRegex.test(value)) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
