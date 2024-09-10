@@ -118,17 +118,36 @@ const SupplierSignUp = () => {
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
 
-    const handleImageUpload = (hasImage, file, imageType) => {
-        setFormData({
-            ...formData,
-            [`${imageType}Image`]: hasImage ? file : null,
-        });
+    // const handleImageUpload = (hasImage, file, imageType) => {
+    //     setFormData({
+    //         ...formData,
+    //         [`${imageType}Image`]: hasImage ? file : null,
+    //     });
 
+    //     setErrors(prevState => ({
+    //         ...prevState,
+    //         [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
+    //     }));
+
+    // };
+
+
+    const handleImageUpload = (hasImage, file, imageType) => {
+        setFormData(prevState => ({
+            ...prevState,
+            [`${imageType}Image`]: null, 
+        }));
+        setTimeout(() => {
+            setFormData(prevState => ({
+                ...prevState,
+                [`${imageType}Image`]: hasImage ? file : null,
+            }));
+        }, 0);
+    
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
         }));
-
     };
 
     const handleChange = (event) => {
@@ -228,6 +247,7 @@ const SupplierSignUp = () => {
         if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.tags.split(',').map(tag => tag.trim()).length > 5) formErrors.tags = 'You can only enter up to 5 tags';
         if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
+        
         if (!formData.taxImage) formErrors.taxImage = 'Tax Image is Required';
         if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
@@ -235,7 +255,7 @@ const SupplierSignUp = () => {
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
 
-
+        console.log('Validation Errors:', formErrors);
         setErrors(formErrors);
 
         return Object.keys(formErrors).length === 0;
@@ -300,8 +320,10 @@ const SupplierSignUp = () => {
         return placeholderButtonLabel;
     };
 
-    const handleSubmit = () => {
-        if (validateForm() && isChecked) {
+    const handleSubmit = async() => {
+        const isFormValid = await validateForm();
+    console.log('Is Form Valid:', isFormValid);
+        if (isFormValid && isChecked) {
             setLoading(true)
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
@@ -329,10 +351,15 @@ const SupplierSignUp = () => {
             // formDataToSend.append('country_of_operation', countryLabels);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
-            Array.from(formData.logoImage).forEach(file => formDataToSend.append('supplier_image', file));
-            Array.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
-            Array.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
-            Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
+            // Array?.from(formData.logoImage).forEach(file => formDataToSend.append('supplier_image', file));
+            // Array?.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
+            // Array?.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
+            // Array?.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
+
+            (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));
+        (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));
+        (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(file => formDataToSend.append('tax_image', file));
+        (Array.isArray(formData.certificateImage) ? formData.certificateImage : []).forEach(file => formDataToSend.append('certificate_image', file));
 
             postRequestWithFile('supplier/register', formDataToSend, async (response) => {
                 if (response.code === 200) {
