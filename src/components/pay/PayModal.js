@@ -18,7 +18,7 @@ const injectStyles = () => {
     document.head.appendChild(style);
 };
 
-function PayModal({ showModal, handleClose, invoiceId, orderId }) {
+function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplierId }) {
     console.log(invoiceId, orderId);
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [chequeImage, setChequeImage] = useState(null);
@@ -185,6 +185,8 @@ function PayModal({ showModal, handleClose, invoiceId, orderId }) {
             const formData = new FormData();
             formData.append('order_id', orderId);
             formData.append('invoice_id', invoiceId);
+            formData.append('buyer_id', buyerId);
+            formData.append('supplier_id', supplierId);
             formData.append('mode_of_payment', modeOfPayment);
             formData.append('amount_paid', amount);
             formData.append('transaction_id', transactionId);

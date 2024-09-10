@@ -166,6 +166,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                        handleClose={handleCloseModal}  
                                                        invoiceId = {selectedInvoiceId}
                                                        orderId = {selectedOrderId}
+                                                       buyerId = {invoice.buyer_id}
+                                                       supplierId = {invoice.supplier_id}
                                                     />
                                                     <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                                         <div className='invoice-details-button-column'>
