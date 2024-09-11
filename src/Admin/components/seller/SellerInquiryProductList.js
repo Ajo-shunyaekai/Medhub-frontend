@@ -16,7 +16,7 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = items?.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -30,34 +30,38 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
             </div>
             <table className="table">
                 <tbody>
-
-                    <tr>
+                {currentOrders?.map((item, i) => (
+                    <tr key={i}>
                         <td className='tables-td'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Product ID</span>
-                                <span className="table-g-not-names">PRO123456</span>
+                                <span className="table-g-not-names">{item.medicine_id}</span>
                             </div>
                         </td>
                         <td className='tables-td-cont'>
                             <div className="table-second-container">
-                                <span className="table-g-section">G</span>
+                                <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Product Name</span>
-                                    <span className="table-g-not-name">Paracetamol</span>
+                                    <span className="table-g-not-name">{item?.medicine_details?.medicine_name}</span>
                                 </div>
                             </div>
                         </td>
                         <td className='tables-td'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Quantity Req.</span>
-                                <span className="table-g-not-name">500</span>
+                                <span className="table-g-not-name">{item.quantity_required}</span>
                             </div>
                         </td>
                         <td className='tables-td'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Target Price</span>
                                 <span className="table-g-not-name">
-                                    1 AED
+                                {item.target_price
+                                    ? item.target_price.toLowerCase().includes('aed')
+                                        ? item.target_price.replace(/days/i, 'AED')
+                                        : `${item.target_price} AED` 
+                                    : '-'}
                                 </span>
                             </div>
                         </td>
@@ -72,7 +76,11 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Est. Delivery Time</span>
                                 <span className="table-g-not-name">
-                                    14 Days
+                                    {item.est_delivery_days
+                                        ? item.est_delivery_days.toLowerCase().includes('days')
+                                            ? item.est_delivery_days.replace(/days/i, 'Days')
+                                            : `${item.est_delivery_days} Days` 
+                                        : '-'}
                                 </span>
                             </div>
                         </td>
@@ -80,11 +88,12 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Status</span>
                                 <span className="table-g-not-name">
-                                    Pending
+                                   {item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                                 </span>
                             </div>
                         </td>
                     </tr>
+                     ))}
                 </tbody>
             </table>
             <div className='pagi-container'>

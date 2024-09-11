@@ -5,6 +5,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import InquiryRequest from './InquiryRequest';
 import PurchasedOrder from './PurchasedOrder';
 import { postRequestWithToken } from '../../api/Requests';
+import { toast } from 'react-toastify';
+
 const SellerInquiry = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,10 +41,10 @@ const SellerInquiry = () => {
         }
     };
 
-    const [orderList, setOrderList]     = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [list, setList]     = useState([])
+    const [totalList, setTotalList] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 5;
+    const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -56,18 +58,32 @@ const SellerInquiry = () => {
         const obj = {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : activeLink,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            pageNo    : currentPage, 
+            pageSize  : listPerPage,
         }
 
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+        postRequestWithToken('admin/get-inquiry-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setList(response.result.data)
+                setTotalList(response.result.totalItems)
             } else {
                console.log('error in order list api',response);
             }
           })
+
+          if (activeLink === 'purchased') {
+            obj.status = 'active'
+            postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setList(response.result.data)
+                    setTotalList(response.result.totalItems)
+                } else {
+                    toast(response.message, {type:'error'})
+                    console.log('error in purchased order list api', response);
+                }
+                // setLoading(false);
+            });
+        } 
     },[activeLink, currentPage])
 
     return (
@@ -96,19 +112,19 @@ const SellerInquiry = () => {
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'inquiry' &&
                          <InquiryRequest
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            inquiryList      = {list} 
+                            totalInquiries   = {totalList} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            inquiriesPerPage = {listPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                          />}
                         {activeLink === 'purchased' &&
                         <PurchasedOrder
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            orderList        = {list} 
+                            totalOrders      = {totalList} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            ordersPerPage    = {listPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}

@@ -5,8 +5,8 @@ import { postRequestWithToken } from '../../api/Requests';
 import SellerInquiryProductList from './SellerInquiryProductList';
 
 const SellerInquiryDetails = () => {
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const { inquiryId } = useParams()
     const navigate = useNavigate();
@@ -31,17 +31,17 @@ const SellerInquiryDetails = () => {
     };
 
     useEffect(() => {
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        //     navigate("/supplier/login");
-        //     return;
-        // }
-
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            enquiry_id: inquiryId
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
         }
 
-        postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
+        const obj = {
+            admin_id   : adminIdSessionStorage || adminIdLocalStorage,
+            enquiry_id : inquiryId
+        }
+
+        postRequestWithToken('admin/get-inquiry-details', obj, async (response) => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
             } else {
@@ -70,16 +70,16 @@ const SellerInquiryDetails = () => {
                                 <Link to={`/supplier/buyer-details/${inquiryDetails?.buyer.buyer_id}`}>
                                     <div className='inquiry-details-top-inquiry-cont'>
                                         <div className='inquiry-details-left-top-main-heading'> Buyer Name</div>
-                                        <div className='inquiry-details-left-top-main-contents'>MediLab Pharmacy</div>
+                                        <div className='inquiry-details-left-top-main-contents'>{inquiryDetails?.buyer.buyer_id}</div>
                                     </div>
                                 </Link>
                                 <div className='inquiry-details-top-inquiry-cont'>
                                     <div className='inquiry-details-left-top-main-heading'>Type</div>
-                                    <div className='inquiry-details-left-top-main-contents'>End User</div>
+                                    <div className='inquiry-details-left-top-main-contents'>{inquiryDetails?.buyer.buyer_type}</div>
                                 </div>
                                 <div className='inquiry-details-top-inquiry-cont'>
                                     <div className='inquiry-details-left-top-main-heading'>Country of Origin</div>
-                                    <div className='inquiry-details-left-top-main-contents'>United Arab Emirates</div>
+                                    <div className='inquiry-details-left-top-main-contents'>{inquiryDetails?.buyer.country_of_origin}</div>
                                   
                                 </div>
                             </div>
@@ -98,21 +98,30 @@ const SellerInquiryDetails = () => {
                     quotationItems={quotationItems}
                 />
             </div>
-           
+            {inquiryDetails?.quotation_items?.length > 0 &&
+             inquiryDetails?.payment_terms?.length > 0 ? (
             <div className='inquiry-details-payment-container'>
                 <div className='inquiry-details-payment-left-section'>
                     <div className='inquiry-details-payment-detention-cont'>                 
                         <div className='inquiry-details-payment-sections'>
                             <span className='inquiry-details-payment-terms'>Payment Terms</span>
                             <ul className='inquiry-details-ul'>
-                                <li className='inquiry-details-li'>30% Advance Payment</li>
-                                <li className='inquiry-details-li'>70% After Delivery</li>
+                            {inquiryDetails?.payment_terms?.map((terms, i) => {
+                                 return (
+                                <li className='inquiry-details-li'>{terms}</li>
+                               
+                            );
+                        })}
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='inquiry-details-button-section'>
+             ) : (
+                ""
+              )}
+
+            {/* <div className='inquiry-details-button-section'>
                 {inquiryDetails?.enquiry_status === 'pending' && (
                 <>
                     <div 
@@ -120,7 +129,7 @@ const SellerInquiryDetails = () => {
                     // onClick={handleSubmitQuotation}
                     disabled={loading}
                     >
-                        {/* Submit Quotation */}
+                      
                         {loading ? (
                                 <div className='loading-spinner'></div> 
                             ) : (
@@ -133,7 +142,7 @@ const SellerInquiryDetails = () => {
                 </>
             )}
 
-            </div>
+            </div> */}
         </div>
     );
 };

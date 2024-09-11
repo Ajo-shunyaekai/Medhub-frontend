@@ -42,6 +42,30 @@ const SupplierRequestDetails = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+    
+    const handleAccept = () => {
+        const obj = {
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            supplier_id : supplierId,
+            action      : 'accept'
+        }
+
+        postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, { type: 'success' })
+                setTimeout(() => {
+                    navigate('/admin/seller-request')
+                }, 1000)
+
+                // setSupplierDetails(response.result)
+            } else {
+                console.log('error in accept-reject-supplier api', response);
+                toast(response.message, { type: 'error' })
+            }
+        })
+    }
+
+
 
     return (
         <>
@@ -187,7 +211,7 @@ const SupplierRequestDetails = () => {
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div className='buyer-details-button-accept'>
+                            <div className='buyer-details-button-accept' onClick={handleAccept}>
                                 Accept
                             </div>
                             <div className='buyer-details-button-reject' onClick={handleRejectClick}>

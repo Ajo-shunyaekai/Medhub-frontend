@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import styles from '../../style/activeorders.module.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
+import moment from 'moment-timezone';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const InquiryRequest = () => {
+const InquiryRequest = ({inquiryList, totalInquiries, currentPage, inquiriesPerPage, handlePageChange, activeLink }) => {
     const actives = [
         {
             id: "125252",
@@ -46,13 +47,13 @@ const InquiryRequest = () => {
         }
     ];
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
-    const totalOrders = actives.length;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const ordersPerPage = 5;
+    // const totalOrders = actives.length;
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
     return (
         <>
@@ -80,38 +81,48 @@ const InquiryRequest = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {actives.map((order, index) => (
-                                    <div className={styles['actives-table-row-container']} key={index}>
+                            {inquiryList.length > 0 ? (
+                              inquiryList.map(ongoing => (
+                                    <div className={styles['actives-table-row-container']} key={ongoing.ongoing_id}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.id}</div>
+                                            <div className={styles['actives-table-text-color']}>{ongoing.enquiry_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.date}</div>
+                                            <div className={styles['actives-table-text-color']}>{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer_name}</div>
+                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{ongoing?.buyer.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                             <div className={styles['actives-table-text-color']}>
-                                                {order.status.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                                             </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={'/admin/seller-inquiry-details'}>
+                                            <Link to={`/admin/seller-inquiry-details/${ongoing?.enquiry_id}`}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    <tbody>
+                                      <tr>
+                                        <td colSpan="5" className="no-data-message">
+                                          No Ongoing Inquiries
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  )}
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                itemsCountPerPage={inquiriesPerPage}
+                                totalItemsCount={totalInquiries}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles['page-item']}
@@ -121,7 +132,7 @@ const InquiryRequest = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['actives-pagi-total']}>
-                                <div>Total Items: {totalOrders}</div>
+                                <div>Total Items: {totalInquiries}</div>
                             </div>
                         </div>
                     </div>
