@@ -9,7 +9,7 @@ import { postRequest } from '../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
-// import { messaging, getToken, onMessage } from '../utils/firebaseUtils';
+import { messaging, getToken, onMessage } from '../utils/firebaseUtils';
 
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
     //         const permission = await Notification.requestPermission();
     //         if (permission === 'granted') {
     //             const token = await getToken(messaging, {
-    //                 vapidKey: 'BADfFmyXWaKOV21JyLmR7PfacLLzxdDM0XEHbMb8APqn_Ep8CvHUsVh4XBOGwq_bGFQJgQnojmJ9J-JAkdho0zM' // You need to provide this key
+    //                 vapidKey: process.env.REACT_APP_VAPID_KEY // You need to provide this key
     //             });
     //             if (token) {
     //                 console.log('FCM Token:', token);
@@ -100,7 +100,7 @@ const Login = () => {
                         navigate("/buyer");
                         setLoading(true)
                     }, 500);
-                    // requestNotificationPermission();
+                    requestNotificationPermission();
                     
                 } else {
                     setLoading(false)
