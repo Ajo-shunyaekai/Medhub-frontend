@@ -100,7 +100,7 @@ const Login = () => {
                         navigate("/buyer");
                         setLoading(true)
                     }, 500);
-                    requestNotificationPermission();
+                    // requestNotificationPermission();
                     
                 } else {
                     setLoading(false)
