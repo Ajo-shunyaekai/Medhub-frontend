@@ -1,13 +1,15 @@
 // importScripts('https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js');
 // importScripts('https://www.gstatic.com/firebasejs/10.13.1/firebase-messaging.js');
 
+
+
 // const firebaseConfig = {
-//     apiKey: "AIzaSyBrY026qHVYLbSjcPokZsBXDlbjTME2XhY",
-//     authDomain: "deliver-push-notifications.firebaseapp.com",
-//     projectId: "deliver-push-notifications",
-//     storageBucket: "deliver-push-notifications.appspot.com",
-//     messagingSenderId: "524993354310",
-//     appId: "1:524993354310:web:48c1a0910471f5f5540847"
+//     apiKey            : window.firebaseConfig.apiKey,
+//     authDomain        : window.firebaseConfig.authDomain,
+//     projectId         : window.firebaseConfig.projectId,
+//     storageBucket     : window.firebaseConfig.storageBucket,
+//     messagingSenderId : window.firebaseConfig.messagingSenderId,
+//     appId             : window.firebaseConfig.appId,
 //   };
 
 // firebase.initializeApp(firebaseConfig);
