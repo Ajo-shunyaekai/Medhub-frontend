@@ -9,9 +9,12 @@ import { postRequest } from '../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
+// import { messaging, getToken, onMessage } from '../utils/firebaseUtils';
 
 
 const Login = () => {
+    const [fcmToken, setFcmToken] = useState(null)
+
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [email, setEmail] = useState('');
@@ -19,6 +22,29 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
+
+    // const requestNotificationPermission = async () => {
+    //     try {
+    //         const permission = await Notification.requestPermission();
+    //         if (permission === 'granted') {
+    //             const token = await getToken(messaging, {
+    //                 vapidKey: 'BADfFmyXWaKOV21JyLmR7PfacLLzxdDM0XEHbMb8APqn_Ep8CvHUsVh4XBOGwq_bGFQJgQnojmJ9J-JAkdho0zM' // You need to provide this key
+    //             });
+    //             if (token) {
+    //                 console.log('FCM Token:', token);
+    //                 // Optionally, send the token to your server
+    //                 // await postRequest('/save-fcm-token', { token });
+    //             } else {
+    //                 console.log('No registration token available.');
+    //             }
+    //         } else {
+    //             console.error('Notification permission denied.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error getting FCM token:', error);
+    //     }
+    // };
 
     const validateForm = () => {
         const newErrors = {};
@@ -40,6 +66,7 @@ const Login = () => {
         return newErrors;
     };
 
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -73,6 +100,8 @@ const Login = () => {
                         navigate("/buyer");
                         setLoading(true)
                     }, 500);
+                    // requestNotificationPermission();
+                    
                 } else {
                     setLoading(false)
                     toast(response.message, { type: "error" });
