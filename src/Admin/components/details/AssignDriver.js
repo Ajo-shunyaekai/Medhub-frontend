@@ -37,7 +37,7 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">{item.medicine_id || item.product_id }</span>
+                                            <span className="table-g-not-names">PR123456</span>
                                         </div>
                                     </td>
                                     <td className='tables-td-cont' >
@@ -45,20 +45,20 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                                             <span className="table-g-section">{item?.medicine_name?.charAt(0) || item?.product_name?.charAt(0) }</span>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
-                                                <span className="table-g-not-name">{item.medicine_name || item.product_name} </span>
+                                                <span className="table-g-not-name">Paracetamol</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Quantity</span>
-                                            <span className="table-g-not-name">{item.quantity_required || item.quantity}</span>
+                                            <span className="table-g-not-name">500</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
-                                            <span className="table-g-driver-name">Total Price</span>
-                                            <span className="table-g-not-name">{item.total_amount || item.item_price} AED</span>
+                                            <span className="table-g-driver-name">Total Amount</span>
+                                            <span className="table-g-not-name">22500 AED</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>

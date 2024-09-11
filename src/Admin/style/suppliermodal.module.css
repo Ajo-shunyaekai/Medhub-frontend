@@ -1,0 +1,73 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  width: 500px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.commentsSection {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.ModaltextArea{
+  background-color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    font-size: 14px !important;
+    outline: none !important;
+    padding: 12px !important;
+}
+.supplierIdSection{
+  font-size: 16px;
+  font-weight: 600;
+}
+.labelReject{
+  font-size: 16px;
+  font-weight: 600;
+}
+.closeButton {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 22px;
+  background-color: #fff;
+  border: 1px solid #5e676f;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px #0000000d !important;
+  color: #5e676f;
+}
+
+.rejectButton {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  outline: none !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 22px;
+}

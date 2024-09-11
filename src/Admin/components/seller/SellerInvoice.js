@@ -5,6 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PendingInvoice from './PendingInvoice'
 import PaidInvoice from './PaidInvoice' 
 import { postRequestWithToken } from '../../api/Requests';
+import SellerProformaInvoice from './SellerProformaInvoice';
 
 const SellerInvoice = () => {
     const location = useLocation();
@@ -19,6 +20,8 @@ const SellerInvoice = () => {
                 return 'paid';
             case '/admin/seller-invoice/pending':
                 return 'pending';
+                case '/admin/seller-invoice/proforma':
+                    return 'proforma';
             default:
                 return 'paid';
         }
@@ -35,6 +38,9 @@ const SellerInvoice = () => {
             case 'pending':
                 navigate('/admin/seller-invoice/pending');
                 break;
+                case 'proforma':
+                    navigate('/admin/seller-invoice/proforma');
+                    break;
             default:
                 navigate('/admin/seller-invoice/paid');
         }
@@ -95,6 +101,15 @@ const SellerInvoice = () => {
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
                             <div>Pending Invoices</div>
                         </div>
+                        <div
+                            onClick={() => handleLinkClick('proforma')}
+                            className={`${activeLink === 'proforma' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                        >
+                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                            <div>Proforma Invoices</div>
+                        </div>
+
+                        
                     </div>
                     <div className={styles[`invoice-wrapper-right`]}>
                         {activeLink === 'paid' && 
@@ -113,6 +128,15 @@ const SellerInvoice = () => {
                             listPerPage = {listPerPage}
                             handlePageChange = {handlePageChange}
                         />}
+                         {activeLink === 'proforma' && 
+                        <SellerProformaInvoice  
+                            invoiceList = {invoiceList}
+                            totalItems = {totalItems}
+                            currentPage = {currentPage}
+                            listPerPage = {listPerPage}
+                            handlePageChange = {handlePageChange}
+                        />}
+
                     </div>
                 </div>
             </div>

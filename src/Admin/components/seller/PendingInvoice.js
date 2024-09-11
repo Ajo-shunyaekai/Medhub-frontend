@@ -19,7 +19,7 @@ const PendingInvoice = ({invoiceList, totalItems, currentPage, listPerPage, hand
                             <thead>
                                 <div className={styles['invoice-table-row-container']} style={{ backgroundColor: 'transparent' }}>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                        <span className={styles['invoice-header-text-color']}>invoice No.</span>
+                                        <span className={styles['invoice-header-text-color']}>Invoice No.</span>
                                     </div>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
                                         <span className={styles['invoice-header-text-color']}>Order ID</span>
@@ -62,7 +62,7 @@ const PendingInvoice = ({invoiceList, totalItems, currentPage, listPerPage, hand
                                                 </div>
                                             </div>
                                             <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-btn']} ${styles['invoice-table-order-1']}`}>
-                                                <Link to='/admin/order-details'>
+                                                <Link to='/admin/seller-invoice-details'>
                                                     <div className={`${styles['invoice-table']} ${styles['invoice-table-view']}`}>
                                                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                     </div>

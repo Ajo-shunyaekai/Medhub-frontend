@@ -8,55 +8,56 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from 'moment/moment';
 
-const BuyerPurchasedOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange }) => {
-    const actives = [
+const BuyerPurchasedOrder = () => {
+    // Static data for orders
+    const orderList = [
         {
-            id: "125252",
-            date: "12/10/2024",
-            supplier_name: "Mezorays Pharma",
-            quantity: "250 AED",
+            order_id: "125252",
+            created_at: "2024-10-12",
+            supplier: { supplier_name: "Mezorays Pharma" },
+            items: [{ quantity: 250 }],
             status: "In-process"
         },
         {
-            id: "125254",
-            date: "12/11/2024",
-            supplier_name: "Shree Sai Healthcare",
-            quantity: "250 AED",
+            order_id: "125254",
+            created_at: "2024-11-12",
+            supplier: { supplier_name: "Shree Sai Healthcare" },
+            items: [{ quantity: 250 }],
             status: "In-process"
         },
         {
-            id: "125248",
-            date: "10/8/2024",
-            supplier_name: "Om Sai International",
-            quantity: "250 AED",
+            order_id: "125248",
+            created_at: "2024-08-10",
+            supplier: { supplier_name: "Om Sai International" },
+            items: [{ quantity: 250 }],
             status: "In-process"
         },
         {
-            id: "125258",
-            date: "1/11/2024",
-            supplier_name: "R S Healthcare",
-            quantity: "250 AED",
+            order_id: "125258",
+            created_at: "2024-11-01",
+            supplier: { supplier_name: "R S Healthcare" },
+            items: [{ quantity: 250 }],
             status: "In-process"
         },
         {
-            id: "125259",
-            date: "14/10/2024",
-            supplier_name: "Naval Enterprises",
-            quantity: "250 AED",
+            order_id: "125259",
+            created_at: "2024-10-14",
+            supplier: { supplier_name: "Naval Enterprises" },
+            items: [{ quantity: 250 }],
             status: "In-process"
-        },
-
+        }
     ];
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 4;
+    const totalOrders = orderList.length;
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orderList.slice(indexOfFirstOrder, indexOfLastOrder);
 
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -81,20 +82,15 @@ const BuyerPurchasedOrder = ({ orderList, totalOrders, currentPage, ordersPerPag
                                     <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                         <span className={styles['actives-header-text-color']}>Total Amount</span>
                                     </div>
-                                    {/* <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                        <span className={styles['actives-header-text-color']}>Status</span>
-                                    </div> */}
                                     <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                         <span className={styles['actives-header-text-color']}>Action</span>
                                     </div>
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {orderList?.map((order, index) => {
-                                    const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + (item.quantity || item.quantity_required);
-                                    }, 0);
-                                    const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                {currentOrders.map((order, index) => {
+                                    const totalQuantity = order.items.reduce((total, item) => total + item.quantity, 0);
+                                    const orderedDate = moment(order.created_at).format("DD/MM/YYYY");
                                     return (
                                         <div className={styles['actives-table-row-container']} key={index}>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
@@ -107,17 +103,11 @@ const BuyerPurchasedOrder = ({ orderList, totalOrders, currentPage, ordersPerPag
                                                 <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                                <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.supplier?.supplier_name}</div>
+                                                <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.supplier.supplier_name}</div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                                 <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
                                             </div>
-                                            {/* <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                                <div className={styles['actives-table-text-color']}>
-                                                    {order.order_status ? 'Order Placed' : ''}
-                                                    {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                                </div>
-                                            </div> */}
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
                                                 <Link to={`/admin/order-details/${order.order_id}`}>
                                                     <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
@@ -126,10 +116,8 @@ const BuyerPurchasedOrder = ({ orderList, totalOrders, currentPage, ordersPerPag
                                                 </Link>
                                             </div>
                                         </div>
-                                    )
-                                }
-
-                                )}
+                                    );
+                                })}
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>
@@ -154,6 +142,6 @@ const BuyerPurchasedOrder = ({ orderList, totalOrders, currentPage, ordersPerPag
             </div>
         </>
     );
-}
+};
 
 export default BuyerPurchasedOrder;

@@ -56,9 +56,21 @@ import BuyerPurchasedOrder from './buyer/BuyerPurchasedOrder.js';
 import BuyerInquiry from './buyer/BuyerInquiry.js';
 import InquiryRequestDetails from './seller/InquiryRequestDetails.js';
 import PurchasedOrderDetails from './seller/PurchasedOrderDetails.js';
+<<<<<<< Updated upstream
 // import ProductUpdateRequest from './products/ProductUpdateRequest.js';
 
 
+=======
+import SellerInquiryDetails from './seller/SellerInquiryDetails.js';
+import SellerInquiryProductList from './seller/SellerInquiryProductList.js';
+import SellerPurchasedOrderDetails from './seller/SellerPurchasedOrderDetails.js';
+import SellerActiveCodinator from './seller/SellerActiveCodinator.js';
+import SellerActiveInvoiceList from './seller/SellerActiveInvoiceList.js';
+import SellerProformaInvoice from './seller/SellerProformaInvoice.js';
+import SellerInvoiceDetails from './seller/SellerInvoiceDetails.js';
+import ProformaInvoiceDetails from './seller/ProformaInvoiceDetails.js';
+
+>>>>>>> Stashed changes
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -138,6 +150,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/feedback" element={<Feedback />} />
                   <Route path="/admin/seller-invoice/paid" element={<SellerInvoice/>} />
                   <Route path="/admin/seller-invoice/pending" element={<SellerInvoice/>} />
+                  <Route path="/admin/seller-invoice/proforma" element={<SellerInvoice/>} />
                   <Route path="/admin/seller-invoice" element={<Navigate to="/admin/seller-invoice/paid" />} />
                   <Route path="/admin/pending-invoice" element={<PendingInvoice/>} />
                   <Route path="/admin/paid-invoice" element={<PaidInvoice/>} />
@@ -148,6 +161,18 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
                   <Route path="/admin/product-update-request" element={<ProductUpdateRequest/>} />
+<<<<<<< Updated upstream
+=======
+                  <Route path="/admin/inquiry-request-details" element={<InquiryRequestDetails/>} />
+                  <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails/>} />
+                  <Route path="/admin/seller-inquiry-details" element={<SellerInquiryDetails/>} />
+                  <Route path="/admin/seller-inquiry-product-list" element={<SellerInquiryProductList/>} />
+                  <Route path="/admin/seller-purchased-order-details" element={<SellerPurchasedOrderDetails/>} />
+                  <Route path="/admin/seller-active-codinator" element={<SellerActiveCodinator/>} />
+                  <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
+                  <Route path="/admin/seller-invoice-details" element={<SellerInvoiceDetails/>} />
+                  <Route path="/admin/proforma-invoice-details" element={<ProformaInvoiceDetails/>} />
+>>>>>>> Stashed changes
                   
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />

@@ -9,13 +9,15 @@ import Certificate from '../assest/Medical_certificate.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
+import BuyerCustomModal from './BuyerCustomModal';
 
 
 const DetailsBuyerRequest = () => {
-    const {buyerId} = useParams()
-    const navigate  = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { buyerId } = useParams()
+    const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [buyerDetails, setBuyerDetails] = useState()
 
     useEffect(() => {
@@ -24,39 +26,46 @@ const DetailsBuyerRequest = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            buyer_id  : buyerId,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id: buyerId,
         }
         postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
             if (response.code === 200) {
                 setBuyerDetails(response.result)
             } else {
-               console.log('error in get-buyer-details api',response);
+                console.log('error in get-buyer-details api', response);
             }
         })
-    },[])
+    }, [])
 
-    const handleAcceptReject = (action) => {
-        const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            buyer_id  : buyerId,
-            action
-        }
+    // const handleAcceptReject = (action) => {
+    //     const obj = {
+    //         admin_id: adminIdSessionStorage || adminIdLocalStorage,
+    //         buyer_id: buyerId,
+    //         action
+    //     }
 
-        postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
-            if (response.code === 200) {
-                
-                toast(response.message, {type: 'success'})
-                setTimeout(() => {
-                    navigate('/admin/buyer-request')
-                },1000)
-                // setSupplierDetails(response.result)
-            } else {
-               console.log('error in accept-reject-supplier api',response);
-               toast(response.message, {type: 'error'})
-            }
-        })
-    }
+    //     postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
+    //         if (response.code === 200) {
+
+    //             toast(response.message, { type: 'success' })
+    //             setTimeout(() => {
+    //                 navigate('/admin/buyer-request')
+    //             }, 1000)
+    //             // setSupplierDetails(response.result)
+    //         } else {
+    //             console.log('error in accept-reject-supplier api', response);
+    //             toast(response.message, { type: 'error' })
+    //         }
+    //     })
+    // }
+    const handleRejectClick = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
     return (
         <>
             <div className='buyer-details-container'>
@@ -135,11 +144,20 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>License Expiry Date :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
+                                </div>
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Company Registartion No. :</div>
+                                    <div className='buyer-details-inner-text'>COM147852369</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
+                                    <div className='buyer-details-inner-text'>VAT14785236</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
@@ -168,38 +186,48 @@ const DetailsBuyerRequest = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={TradeLicense} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/license_images/${buyerDetails?.license_image[0]}`}
-                                        alt='License' />
+                                        <img
+                                            // src={TradeLicense} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/license_images/${buyerDetails?.license_image[0]}`}
+                                            alt='License' />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        //    src={TaxCertificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/tax_images/${buyerDetails?.tax_image[0]}`}
-                                           alt='Tax' />
+                                        <img
+                                            //    src={TaxCertificate} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/tax_images/${buyerDetails?.tax_image[0]}`}
+                                            alt='Tax' />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        //   src={Certificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/certificate_images/${buyerDetails?.certificate_image[0]}`}
-                                          alt='Certificate' />
+                                        <img
+                                            //   src={Certificate} 
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/certificate_images/${buyerDetails?.certificate_image[0]}`}
+                                            alt='Certificate' />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className='buyer-details-button-containers'>
-                        <div className='buyer-details-button-reject'  onClick={() => {handleAcceptReject('reject')}}>Reject</div>
-                        <div className='buyer-details-button-accept'  onClick={() => {handleAcceptReject('accept')}}>Accept</div>
+                    <div className='buyer-details-container'>
+                        {/* Rest of your JSX content */}
+                        <div className='buyer-details-button-containers'>
+                            <div className='buyer-details-button-accept'>
+                                Accept
+                            </div>
+                            <div className='buyer-details-button-reject' onClick={handleRejectClick}>
+                                Reject
+                            </div>
+                        </div>
 
+                        {isModalOpen && (
+                            <BuyerCustomModal onClose={closeModal} />
+                        )}
                     </div>
                 </div>
             </div>

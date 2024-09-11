@@ -8,10 +8,11 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from 'moment/moment';
 
-const BuyerOngoingInquiry = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
+const BuyerOngoingInquiry = () => {
+    // Static data for orders
     const actives = [
         {
-           id: "125252",
+            id: "125252",
             date: "12/10/2024",
             supplier_name: "Mezorays Pharma",
             quantity:"250 AED",
@@ -19,44 +20,44 @@ const BuyerOngoingInquiry = ({orderList, totalOrders, currentPage, ordersPerPage
         },
         {
             id: "125254",
-             date: "12/11/2024",
-             supplier_name: "Shree Sai Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "12/11/2024",
+            supplier_name: "Shree Sai Healthcare",
+            quantity:"250 AED",
+            status:"In-process"
+        },
+        {
             id: "125248",
-             date: "10/8/2024",
-             supplier_name: "Om Sai International",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "10/8/2024",
+            supplier_name: "Om Sai International",
+            quantity:"250 AED",
+            status:"In-process"
+        },
+        {
             id: "125258",
-             date: "1/11/2024",
-             supplier_name: "R S Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "1/11/2024",
+            supplier_name: "R S Healthcare",
+            quantity:"250 AED",
+            status:"In-process"
+        },
+        {
             id: "125259",
-             date: "14/10/2024",
-             supplier_name: "Naval Enterprises",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-
+            date: "14/10/2024",
+            supplier_name: "Naval Enterprises",
+            quantity:"250 AED",
+            status:"In-process"
+        },
     ];
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 4;
 
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -84,47 +85,41 @@ const BuyerOngoingInquiry = ({orderList, totalOrders, currentPage, ordersPerPage
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {orderList?.map((order, index) => {
-                                    const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + (item.quantity || item.quantity_required);
-                                      }, 0);
-                                      const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                {currentOrders.map((order, index) => {
+                                    const orderedDate = moment(order.date, "DD/MM/YYYY").format("DD/MM/YYYY");
                                     return (
                                         <div className={styles['actives-table-row-container']} key={index}>
-                                        <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
-                                        </div>
-                                        <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{orderedDate}</div>
-                                        </div>
-                                        <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.supplier?.supplier_name}</div>
-                                        </div>
-                                        <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>
-                                                {/* {order.order_status ? 'Order Placed' : ''} */}
-                                                {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
+                                                <div className={styles['actives-table-text-color']}>{order.id}</div>
+                                            </div>
+                                            <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
+                                                <div className={styles['actives-table-text-color']}>{orderedDate}</div>
+                                            </div>
+                                            <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
+                                                <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.supplier_name}</div>
+                                            </div>
+                                            <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
+                                                <div className={styles['actives-table-text-color']}>
+                                                    {order.status}
                                                 </div>
+                                            </div>
+                                            <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
+                                                <Link to={`/admin/order-details/${order.id}`}>
+                                                    <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
+                                                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                                    </div>
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/order-details/${order.order_id}`}>
-                                                <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
-                                                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
                                     )
-                                }
-                                    
-                                )}
+                                })}
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={actives.length}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles['page-item']}
@@ -134,7 +129,7 @@ const BuyerOngoingInquiry = ({orderList, totalOrders, currentPage, ordersPerPage
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['actives-pagi-total']}>
-                                <div>Total Items: {totalOrders}</div>
+                                <div>Total Items: {actives.length}</div>
                             </div>
                         </div>
                     </div>

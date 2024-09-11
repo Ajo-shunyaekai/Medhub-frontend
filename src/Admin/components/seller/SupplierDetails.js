@@ -145,10 +145,14 @@ const SupplierDetails = () => {
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
                                 </div>
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.approx_yearly_purchase_value}</div>
-                                </div> */}
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Company Registration No. :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>VAT Registration No :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_registration_no}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Origin :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_origin}</div>
@@ -157,13 +161,7 @@ const SupplierDetails = () => {
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
-
-                                {/* <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Interested In :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.interested_in?.join(', ')}</div>
-                                </div> */}
                             </div>
-
                         </div>
                     </div>
                     <div className='buyer-details-card-section'>

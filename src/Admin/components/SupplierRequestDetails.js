@@ -1,58 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import '../style/detailsrequest.css'
+import '../style/detailsrequest.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
-
+import SupplierCustomModal from './SupplierCustomModal';
 
 const SupplierRequestDetails = () => {
-    const { supplierId } = useParams()
-    const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [supplierDetails, setSupplierDetails] = useState();
+    const { supplierId } = useParams();
+    const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
-    const [supplierDetails, setSupplierDetails] = useState()
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
         }
+
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             supplier_id: supplierId,
-        }
+        };
+
         postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
             if (response.code === 200) {
-                setSupplierDetails(response.result)
+                setSupplierDetails(response.result);
             } else {
                 console.log('error in get-supplier-details api', response);
             }
-        })
-    }, [])
+        });
+    }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
 
-    const handleAcceptReject = (action) => {
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            supplier_id: supplierId,
-            action
-        }
+    const handleRejectClick = () => {
+        setIsModalOpen(true);
+    };
 
-        postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
-            if (response.code === 200) {
-                toast(response.message, { type: 'success' })
-                setTimeout(() => {
-                    navigate('/admin/seller-request')
-                }, 1000)
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
-                // setSupplierDetails(response.result)
-            } else {
-                console.log('error in accept-reject-supplier api', response);
-                toast(response.message, { type: 'error' })
-            }
-        })
-    }
     return (
         <>
             <div className='buyer-details-container'>
@@ -63,8 +53,10 @@ const SupplierRequestDetails = () => {
                             <div className='buyer-details-uppar-main-logo-section'>
                                 <div className='buyer-details-company-logo-container'>
                                     <div className='buyer-details-company-logo-section'>
-                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image[0]}`} alt='CompanyLogo' />
-                                        {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details[0]?.buyer_image[0]}`} */}
+                                        <img
+                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierDetails?.supplier_image[0]}`}
+                                            alt='CompanyLogo'
+                                        />
                                     </div>
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
@@ -74,7 +66,9 @@ const SupplierRequestDetails = () => {
                                         </div>
                                         <div className='buyer-details-left-inner-section'>
                                             <div className='buyer-details-left-company-type'>
-                                                <div className='buyer-details-left-inner-sec-text'>Supplier ID: {supplierDetails?.supplier_id}</div>
+                                                <div className='buyer-details-left-inner-sec-text'>
+                                                    Supplier ID: {supplierDetails?.supplier_id}
+                                                </div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
@@ -139,13 +133,12 @@ const SupplierRequestDetails = () => {
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registration No. :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.registration_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>VAT Registartion No :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
+                                    <div className='buyer-details-inner-head'>VAT Registration No :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_registration_no}</div>
                                 </div>
-                               
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Origin :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_origin}</div>
@@ -155,7 +148,6 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div className='buyer-details-card-section'>
@@ -165,45 +157,52 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
                                         <img
-                                            // src={TradeLicense} 
                                             src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
-                                            alt='License' />
+                                            alt='License'
+                                        />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
                                         <img
-                                            // src={TaxCertificate} 
                                             src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
-                                            alt='Tax' />
+                                            alt='Tax'
+                                        />
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
                                         <img
-                                            // src={Certificate} 
                                             src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
-                                            alt='Certificate' />
+                                            alt='Certificate'
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className='buyer-details-button-containers'>
-                        <div className='buyer-details-button-accept' onClick={() => { handleAcceptReject('accept') }}>Accept</div>
-                        <div className='buyer-details-button-reject' onClick={() => { handleAcceptReject('reject') }}>Reject</div>
+                    <div className='buyer-details-container'>
+                        {/* Rest of your JSX content */}
+                        <div className='buyer-details-button-containers'>
+                            <div className='buyer-details-button-accept'>
+                                Accept
+                            </div>
+                            <div className='buyer-details-button-reject' onClick={handleRejectClick}>
+                                Reject
+                            </div>
+                        </div>
+
+                        {isModalOpen && (
+                            <SupplierCustomModal onClose={closeModal} />
+                        )}
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default SupplierRequestDetails
-
-
-
-
+export default SupplierRequestDetails;

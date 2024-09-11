@@ -6,47 +6,53 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import moment from 'moment/moment';
 
-const InquiryRequest = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
+const InquiryRequest = () => {
     const actives = [
         {
-           id: "125252",
+            id: "125252",
             date: "12/10/2024",
             buyer_name: "Mezorays Pharma",
-            quantity:"250 AED",
-            status:"In-process"
+            quantity: "250 AED",
+            status: "In-process"
         },
         {
             id: "125254",
-             date: "12/11/2024",
-             buyer_name: "Shree Sai Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "12/11/2024",
+            buyer_name: "Shree Sai Healthcare",
+            quantity: "250 AED",
+            status: "In-process"
+        },
+        {
             id: "125248",
-             date: "10/8/2024",
-             buyer_name: "Om Sai International",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "10/8/2024",
+            buyer_name: "Om Sai International",
+            quantity: "250 AED",
+            status: "In-process"
+        },
+        {
             id: "125258",
-             date: "1/11/2024",
-             buyer_name: "R S Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
+            date: "1/11/2024",
+            buyer_name: "R S Healthcare",
+            quantity: "250 AED",
+            status: "In-process"
+        },
+        {
             id: "125259",
-             date: "14/10/2024",
-             buyer_name: "Naval Enterprises",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-
+            date: "14/10/2024",
+            buyer_name: "Naval Enterprises",
+            quantity: "250 AED",
+            status: "In-process"
+        }
     ];
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 5;
+    const totalOrders = actives.length;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -74,44 +80,35 @@ const InquiryRequest = ({orderList, totalOrders, currentPage, ordersPerPage, han
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {orderList?.map((order, index) => {
-                                    const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + (item.quantity || item.quantity_required);
-                                      }, 0);
-                                      const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                    return (
+                                {actives.map((order, index) => (
                                     <div className={styles['actives-table-row-container']} key={index}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
+                                            <div className={styles['actives-table-text-color']}>{order.id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{orderedDate}</div>
+                                            <div className={styles['actives-table-text-color']}>{order.date}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
+                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer_name}</div>
                                         </div>
-  
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                             <div className={styles['actives-table-text-color']}>
-                                                {/* {order.order_status ? 'Order Placed' : ''} */}
-                                                {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                                </div>
+                                                {order.status.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/supplier-order-details/${order.order_id}`}>
+                                            <Link to={'/admin/seller-inquiry-details'}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>
                                             </Link>
                                         </div>
                                     </div>
-                                )
-                            }  
-                            )}
+                                ))}
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>
-                        <Pagination
+                            <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
                                 totalItemsCount={totalOrders}
@@ -124,7 +121,7 @@ const InquiryRequest = ({orderList, totalOrders, currentPage, ordersPerPage, han
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['actives-pagi-total']}>
-                            <div>Total Items: {totalOrders}</div>
+                                <div>Total Items: {totalOrders}</div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +132,3 @@ const InquiryRequest = ({orderList, totalOrders, currentPage, ordersPerPage, han
 }
 
 export default InquiryRequest;
-
-
-
-

@@ -175,12 +175,6 @@ const OrderDetails = ({socket}) => {
                 <AssignDriver orderItems={orderDetails?.items}  orderDetails = {orderDetails}/>
             </div>
             {/* end the assign driver section */}
-            {/* start the main component heading */}
-
-            {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
-            <> */}
-
-            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
                         <div className='active-order-details-left-bottom-containers'>
                             <div className='active-order-details-left-bottom-vehichle'>
                                 <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
@@ -199,7 +193,6 @@ const OrderDetails = ({socket}) => {
                                 <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
                             </div>
                         </div>
-            )}
             {/* end the main component heading */}
             {/* start the main component heading */}
             {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
@@ -325,11 +318,11 @@ const OrderDetails = ({socket}) => {
             </div>
             {/* end the section */}
             {/* Start the assign driver section */}
-            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
             <div className='buyer-order-details-codinator-section-cont'>
                 <BuyerActiveCodinator productList={orderDetails?.items} />
             </div>
-            )}
+            {/* )} */}
 
              {/* {
                 orderDetails?.order_status === 'completed' ?

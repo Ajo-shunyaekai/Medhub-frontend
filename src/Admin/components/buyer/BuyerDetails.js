@@ -106,6 +106,10 @@ const BuyerDetails = () => {
                             </div>
                         </div>
                         <div className='buyer-details-description-section'>
+                            <div className='buyer-details-description-head'>Reason for Rejected Buyer</div>
+                            <div className='buyer-details-description-content'>{buyerDetails?.description}</div>
+                        </div>
+                        <div className='buyer-details-description-section'>
                             <div className='buyer-details-description-head'>Description</div>
                             <div className='buyer-details-description-content'>{buyerDetails?.description}</div>
                         </div>
@@ -135,11 +139,20 @@ const BuyerDetails = () => {
                                     <div className='buyer-details-inner-head'>License Expiry Date :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
-                            </div>
-                            <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
+                                </div>
+
+                            </div>
+                            <div className='buyer-details-inner-left-section'>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Company Registartion No. :</div>
+                                    <div className='buyer-details-inner-text'>COM147852369</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
+                                    <div className='buyer-details-inner-text'>VAT14785236</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>

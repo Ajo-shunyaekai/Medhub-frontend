@@ -2,227 +2,225 @@ import React, { useEffect, useState } from 'react';
 import '../../style/adminsupplierdetails.css'
 import AssignDriver from '../details/AssignDriver';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { postRequestWithToken } from '../../api/Requests';
+import SellerActiveCodinator from './SellerActiveCodinator';
+import SellerActiveInvoiceList from './SellerActiveInvoiceList';
 
-const OrderDetails = ({productList}) => {
+const OrderDetails = () => {
+    const { orderId } = useParams();
+    const navigate = useNavigate();
 
-    const { orderId } = useParams()
-    const navigate    = useNavigate()
-
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
-
-    const [orderDetails, setOrderDetails] = useState()
+    const [orderDetails, setOrderDetails] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
+        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
         const obj = {
-            order_id    : orderId,
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-        }
+            order_id: orderId,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
+        };
+    }, [orderId, navigate, refresh]);
 
-        postRequestWithToken('admin/order-details', obj, async (response) => {
-            if (response.code === 200) {
-                setOrderDetails(response.result)
-            } else {
-               console.log('error in order details api');
-            }
-          })
-    },[])
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     return (
-        <div className='suppliers-details-container'>
-        <div className='suppliers-details-conatiner-heading'>Order ID:<span>{orderDetails?.order_id}</span></div>
-        <div className='suppliers-details-section'>
-            <div className='suppliers-details-left-section'>
-                <div className='suppliers-details-top-inner-section'>
-                    <div className='suppliers-details-left-inner-section-container'>
-                        <div className='suppliers-details-left-top-containers'>
-                            <Link to={`/supplier/buyer-details/${orderDetails?.buyer_id}`}>
-                                <div className='suppliers-details-top-order-cont'>
-                                    <div className='suppliers-details-left-top-main-heading'> Buyer Name</div>
-                                    <div className='suppliers-details-left-top-main-contents'> {orderDetails?.buyer?.buyer_name || 'MedicalLink Globals'}</div>
+        <div className='active-order-details-container'>
+            <div className='active-order-main-section-container'>
+                <div className='active-order-details-conatiner-heading'>Order ID:<span>14785552</span></div>
+            </div>
+            <div className='active-order-details-section'>
+                <div className='active-order-details-left-section'>
+                    <div className='active-order-details-top-inner-section'>
+                        <div className='active-order-details-left-inner-section-container'>
+                            <div className='active-order-details-left-top-containers'>
+                                <Link to={`/supplier/buyer-details/${orderDetails?.buyer_id}`}>
+                                    <div className='active-order-details-top-order-cont'>
+                                        <div className='active-order-details-left-top-main-heading'> Buyer Name</div>
+                                        <div className='active-order-details-left-top-main-contents'>Pharmaceuticals</div>
+                                    </div>
+                                </Link>
+                                <div className='active-order-details-top-order-cont'>
+                                    <div className='active-order-details-left-top-main-heading'> Order Status</div>
+                                    <div className='active-order-details-left-top-main-contents'>
+                                        Shipment Details Submitted
+                                    </div>
                                 </div>
-                            </Link>
-                            <div className='suppliers-details-top-order-cont'>
-                                <div className='suppliers-details-left-top-main-heading'> Order Status</div>
-                                <div className='suppliers-details-left-top-main-contents'> {orderDetails?.order_status}</div>
                             </div>
-                            <div className='suppliers-details-top-order-cont'>
-                                <div className='suppliers-details-left-top-main-heading-button'> Tracking</div>
-                                <div className='suppliers-details-left-top-main-contents'> </div>
+                            <div className='active-order-details-left-bottom-containers'>
+                                <div className='buyer-order-details-left-bottom-vehichle'>
+                                    <div className='active-order-details-left-bottom-vehicle-head'>Country of Origin</div>
+                                    <div className='active-order-details-left-bottom-vehicle-text'>{orderDetails?.country_of_origin || 'India'}</div>
+                                </div>
+                                <div className='active-order-details-left-bottom-vehichle-no'>
+                                    <div className='active-order-details-left-bottom-vehichle-no-head'>Type</div>
+                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type || 'End User'}</div>
+                                </div>
                             </div>
                         </div>
-                        <div className='suppliers-details-left-bottom-containers'>
-                            <div className='suppliers-details-left-bottom-vehichle'>
-                                <div className='suppliers-details-left-bottom-vehicle-head'>Vehicle Type</div>
-                                <div className='suppliers-details-left-bottom-vehicle-text'>20 FT Flatbed Open Body</div>
-                            </div>
-                            <div className='suppliers-details-left-bottom-vehichle-no'>
-                                <div className='suppliers-details-left-bottom-vehichle-no-head'>Total Cost</div>
-                                <div className='suppliers-details-left-bottom-vehichle-no-text'>4000 AED</div>
-                            </div>
-
-                        </div>
                     </div>
-                    {/* <div className='suppliers-details-right-inner-section-container'>
-                        <div className='suppliers-details-right-inner-circular-bar-section'>
-                            <div className='suppliers-details-right-inner-section-heading'>Order Status</div>
-
-                        </div>
-                        <div className='suppliers-details-right-inner-circular-bar-section'>
-                            <div className='suppliers-details-right-inner-section-heading'>Tracking</div>
-
-                        </div>
-                    </div> */}
-                </div>
-                <div className='suppliers-details-top-bottom-sction'>
-                    <div className='suppliers-details-top-bottom-order-sect'>
-                        <div className='suppliers-details-top-bottom-order-heading'>Commodity</div>
-                        <div className='suppliers-details-top-bottom-order-content'>Steel Plates - 20 Ton</div>
-                    </div>
-                    <div className='suppliers-details-top-bottom-order-sect'>
-                        <div className='suppliers-details-top-bottom-order-heading'>Order Rate</div>
-                        <div className='suppliers-details-top-bottom-order-content'>AED 2152/TRWB</div>
-                    </div>
-                    <div className='suppliers-details-top-bottom-order-sect'>
-                        <div className='suppliers-details-top-bottom-order-heading'>Order Date & Time</div>
-                        <div className='suppliers-details-top-bottom-order-content'>24/12/2019, 12:00 PM</div>
-                    </div>
-                </div>
-
-
-            </div>
-            {/* <div className='suppliers-details-right-section'>
-                <div className='suppliers-details-map-container'>
-                    <WorldMap
-                        color="red"
-                        value-suffix="people"
-                        size="sm"
-                        data={countryData}
-                    />
-                </div>
-            </div> */}
-        </div>
-        {/* start the assign driver section */}
-        <div className='suppliers-details-assign-driver-section'>
-            <AssignDriver productList = {orderDetails?.items}/>
-        </div>
-        {/* end the assign driver section */}
-
-        {/* Start the end section */}
-        <div className='suppliers-details-payment-container'>
-            <div className='suppliers-details-payment-left-section'>
-                <div className='suppliers-details-payment-terms-cont'>
-                    <div className='suppliers-details-payment-first-terms-cont'>
-                        <div className='suppliers-details-payment-detention-head'>Due Invoices</div>
-                        <div className='suppliers-details-payment-detention-content'>
-                            <div className='suppliers-details-payment-detention-date'>20</div>
-                            {/* <div className='suppliers-details-payment-detention-time'>AED 300</div> */}
-                        </div>
-                    </div>
-                    <div className='suppliers-details-payment-first-terms-cont'>
-                        <div className='suppliers-details-payment-first-terms-heading'>Est. Delivery Time</div>
-                        <div className='suppliers-details-payment-first-terms-text'>22 Hour</div>
-                    </div>
-                </div>
-                <div className='suppliers-details-payment-detention-cont'>
-                    <div className='suppliers-details-payment-first-terms-heading'>Payment Terms</div>
-                    <div className='suppliers-details-payment-first-terms-text'>
-                        <ul className='suppliers-details-payment-ul-section'>
-                            <li className='suppliers-details-payment-li-section'>30% advance payment 70% on delivery.</li>
-                            <li className='suppliers-details-payment-li-section'>50% advance payment 50% on delivery.</li>
-                            <li className='suppliers-details-payment-li-section'>70% advance payment 30% on delivery.</li>
-                            <li className='suppliers-details-payment-li-section'>100% advance payment.</li>
-                            <li className='suppliers-details-payment-li-section'>100% payment on delivery.</li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div className='suppliers-details-payment-remark-cont'>
-                    <div className='suppliers-details-payment-remark-head'>Remarks</div>
-                    <div className='suppliers-details-payment-remark-text'>Increase 2.5% conversion rate Increase 2.5% conversion rate Increase 2.5% conversion rate</div>
                 </div>
             </div>
-            <div className='suppliers-details-payment-right-section'>
-                <div className='suppliers-details-payment-right-section-heading'>Shipping Details</div>
-                <div className='suppliers-details-payment-right-details-row'>
-                    <div className='suppliers-details-right-details-row-one'>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Consignor Name</div>
-                            <div className='suppliers-details-right-pickdata-text'>Surya Kumar sharma</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Phone No.</div>
-                            <div className='suppliers-details-right-pickdata-text'>+971 563658956</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata-address'>
-                            <div className='suppliers-details-right-pickdata-head'>Address</div>
-                            <div className='suppliers-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                        </div>
-                    </div>
-                    <hr className='suppliers-details-right-pickupdata-hr' />
-                    <div className='suppliers-details-right-details-row-one'>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Consignor Name</div>
-                            <div className='suppliers-details-right-pickdata-text'>Ashok kumar chauhan</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Phone No.</div>
-                            <div className='suppliers-details-right-pickdata-text'>+971 562145214</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata-address'>
-                            <div className='suppliers-details-right-pickdata-head'>Address</div>
-                            <div className='suppliers-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                        </div>
-                    </div>
-                    {/* <hr className='suppliers-details-right-pickupdata-hr' /> */}
-                    {/* <div className='suppliers-details-payment-right-section-heading'>Drop Details</div>
-                    <div className='suppliers-details-right-details-row-one'>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Consignee Name</div>
-                            <div className='suppliers-details-right-pickdata-text'>Mustfa Zaved khan</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Phone No.</div>
-                            <div className='suppliers-details-right-pickdata-text'>+971 587452154</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata-address'>
-                            <div className='suppliers-details-right-pickdata-head'>Address</div>
-                            <div className='suppliers-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                        </div>
-                    </div>
-                    <hr className='suppliers-details-right-pickupdata-hr' />
-                    <div className='suppliers-details-right-details-row-one'>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Consignee Name</div>
-                            <div className='suppliers-details-right-pickdata-text'>John Hancko</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata'>
-                            <div className='suppliers-details-right-pickdata-head'>Phone No.</div>
-                            <div className='suppliers-details-right-pickdata-text'>+971 585421542</div>
-                        </div>
-                        <div className='suppliers-details-right-pickupdata-address'>
-                            <div className='suppliers-details-right-pickdata-head'>Address</div>
-                            <div className='suppliers-details-right-pickdata-text'>Financial Center Rd, Along Sheik zayed road, Dubai 22155.</div>
-                        </div>
-                    </div> */}
+
+            {/* Start the assign driver section */}
+            <div className='active-order-details-assign-driver-section'>
+                <AssignDriver productList={orderDetails?.items} />
+            </div>
+            {/* End the assign driver section */}
+            {/* start the main component heading */}
+            <div className='active-order-details-left-bottom-containers'>
+                <div className='active-order-details-left-bottom-vehichle'>
+                    <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
+                    <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
+                </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
+                </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
+                </div>
+                <div className='active-order-details-left-bottom-vehichle-no'>
+                    <div className='active-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
+                    <div className='active-order-details-left-bottom-vehichle-no-text'>12/10/2024 11:00AM to 12:00 PM</div>
                 </div>
             </div>
+            {/* end the main component heading */}
+            {/* start the main component heading */}
+            <div className='active-order-details-middle-bottom-containers'>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.no_of_packages || '5'}</div>
+                </div>
+                <div className='active-order-details-left-middle-vehichle-no'>
+                    <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
+                    <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight || '6'} Kg</div>
+                </div>
+                <div className="buyer-order-details-left-top-containers">
+                    <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+                        <div className="buyer-order-details-top-order-cont">
+                            <div className="buyer-order-details-left-top-main-heading">
+                                Width
+                            </div>
+                            <div className="buyer-order-details-left-top-main-contents">
+                                14 cm
+                            </div>
+                        </div>
+                    </Link>
+                    <div className="buyer-order-details-top-order-cont">
+                        <div className="buyer-order-details-left-top-main-heading">
+                            Height
+                        </div>
+                        <div className="buyer-order-details-left-top-main-contents">
+                            14 cm
+                        </div>
+                    </div>
+                    <div className="buyer-order-details-top-order-cont">
+                        <div className="buyer-order-details-left-top-main-heading">
+                            Length
+                        </div>
+                        <div className="buyer-order-details-left-top-main-contents">
+                            14 cm
+                        </div>
+                    </div>
+                    <div className="buyer-order-details-top-order-cont">
+                        <div className="buyer-order-details-left-top-main-heading">
+                            Total Volume
+                        </div>
+                        <div className="buyer-order-details-left-top-main-contents">
+                            426 L
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* end the main component heading */}
+            {/* Start the end section */}
+            <div className='active-order-details-payment-container'>
+                <div className='active-order-details-payment-left-section'>
+                    <div className='active-order-details-payment-terms-cont'>
+                        <div className='active-order-details-payment-first-terms-cont'>
+                            <div className='active-order-details-payment-first-terms-heading'>Payment Terms</div>
+                            <div className='active-order-details-payment-first-terms-text'>
+                                <ul className='active-order-details-payment-ul-section'>
+                                    <li className='active-order-details-payment-li-section'>39% Advance Payment</li>
+                                </ul>
+                            </div>
+                        </div>
+                        {/* )} */}
+                        <div className='active-order-details-payment-first-terms-cont'>
+                            <div className='active-order-details-payment-detention-head'>Payment Status</div>
+                            <div className='active-order-details-payment-detention-content'>
+                                <div className='active-order-details-payment-detention-date'>30% Already Paid</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='active-order-details-payment-right-section'>
+                    <>
+                        <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
+                        <div className='active-order-details-payment-right-details-row'>
+                            <div className='active-order-details-right-details-row-one'>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
+                                    <div className='active-order-details-right-pickdata-text'>Shivanshi Tripathi</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata'>
+                                    <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                                    <div className='active-order-details-right-pickdata-text'>+971 147852369</div>
+                                </div>
+                                <div className='active-order-details-right-pickupdata-address'>
+                                    <div className='active-order-details-right-pickdata-head'>Address</div>
+                                    <div className='active-order-details-right-pickdata-text'> C-12 Birlagram Nagda (M.P) Pincode: 456331
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                    <>
+                        <hr className='active-order-details-right-pickupdata-hr' />
+                        <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
+                        <div className='active-order-details-right-details-row-one'>
+                            <div className='active-order-details-right-pickupdata'>
+                                <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
+                                <div className='active-order-details-right-pickdata-text'>Sachin Saxena</div>
+                            </div>
+                            <div className='active-order-details-right-pickupdata'>
+                                <div className='active-order-details-right-pickdata-head'>Phone No.</div>
+                                <div className='active-order-details-right-pickdata-text'>+971 147852369</div>
+                            </div>
+                            <div className='active-order-details-right-pickupdata-address'>
+                                <div className='active-order-details-right-pickdata-head'>Address</div>
+                                <div className='active-order-details-right-pickdata-text'>
+                                    House No. 476 Udyog Vihar Phase 5 Sector 19 Gurugram Haryana Pincode: 122016
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                </div>
+            </div>
+            {/* End the section */}
+
+            {/* Start the assign driver section */}
+            <div className='active-order-details-codinator'>
+                <SellerActiveCodinator/>
+            </div>
+            {/* End the assign driver section */}
+            {/* {
+                orderDetails?.order_status === 'compla'
+            } */}
+            <div className='active-order-details-invoice-list-section'>
+                <SellerActiveInvoiceList />
+            </div>
         </div>
-        {/* end the section */}
-        {/* Start the button section */}
-        <div className='suppliers-details-button-section'>
-            <div className='suppliers-details-cancel-button'>Cancel</div>
-            <div className='suppliers-details-submit-button'>Submit Quotation</div>
-        </div>
-        {/* End the button section */}
-         </div>
     )
 }
 
-export default OrderDetails
+export default OrderDetails;
