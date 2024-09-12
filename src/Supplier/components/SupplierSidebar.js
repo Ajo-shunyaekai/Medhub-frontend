@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import './App.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';  Hai
-// import 'mdb-react-ui-kit/dist/css/mdb.min.css';  Hai
-// import "@fortawesome/fontawesome-free/css/all.min.css";
-
 import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
-
+import io from 'socket.io-client'; 
 import SupSidebar from '../components/SupSidebar';
 import PopupModal from '../pages/PopupModal.js';
 import SupplierDashboard from '../pages/SupplierDashboard.js';
@@ -67,7 +62,12 @@ import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
 import PendingProducts from '../pages/PendingProducts.js';
+
+
 const SupplierSidebar = () => {
+    // const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+    // console.log('socket',socket);
+    
     const location = useLocation();
     const navigate = useNavigate();
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -154,7 +154,9 @@ const SupplierSidebar = () => {
         return (<>
             <Routes>
                 <Route path="/supplier/sign-up" element={<SupplierSignUp />} />
-                <Route path="/supplier/login" element={<SupplierLogin />} />
+                <Route path="/supplier/login" element={<SupplierLogin 
+                //  socket={socket}
+                 />} />
             </Routes>
         </>)
     } else {

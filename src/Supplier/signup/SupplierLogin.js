@@ -73,6 +73,14 @@ const SupplierLogin = () => {
                         navigate("/supplier");
                         setLoading(true)
                       }, 1000);
+
+                    //   if ('Notification' in window && Notification.permission !== 'granted') {
+                    //     const permission = await Notification.requestPermission();
+                    //     if (permission === 'granted') {
+                    //       const userId = 'USER_ID'; // Replace with actual user ID
+                    //       socket.emit('register', { userId });
+                    //     }
+                    //   }
                 } else {
                     setLoading(false)
                     toast(response.message, { type: "error" });
