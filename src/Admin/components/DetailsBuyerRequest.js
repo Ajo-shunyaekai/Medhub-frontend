@@ -38,27 +38,27 @@ const DetailsBuyerRequest = () => {
         })
     }, [])
 
-    // const handleAcceptReject = (action) => {
-    //     const obj = {
-    //         admin_id: adminIdSessionStorage || adminIdLocalStorage,
-    //         buyer_id: buyerId,
-    //         action
-    //     }
+    const handleAccept = (action) => {
+        const obj = {
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id: buyerId,
+            action : 'accept'
+        }
 
-    //     postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
-    //         if (response.code === 200) {
+        postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
+            if (response.code === 200) {
 
-    //             toast(response.message, { type: 'success' })
-    //             setTimeout(() => {
-    //                 navigate('/admin/buyer-request')
-    //             }, 1000)
-    //             // setSupplierDetails(response.result)
-    //         } else {
-    //             console.log('error in accept-reject-supplier api', response);
-    //             toast(response.message, { type: 'error' })
-    //         }
-    //     })
-    // }
+                toast(response.message, { type: 'success' })
+                setTimeout(() => {
+                    navigate('/admin/buyer-request')
+                }, 1000)
+                // setSupplierDetails(response.result)
+            } else {
+                console.log('error in accept-reject-supplier api', response);
+                toast(response.message, { type: 'error' })
+            }
+        })
+    }
     const handleRejectClick = () => {
         setIsModalOpen(true);
     };
@@ -217,7 +217,7 @@ const DetailsBuyerRequest = () => {
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div className='buyer-details-button-accept'>
+                            <div className='buyer-details-button-accept' onClick={handleAccept}>
                                 Accept
                             </div>
                             <div className='buyer-details-button-reject' onClick={handleRejectClick}>
