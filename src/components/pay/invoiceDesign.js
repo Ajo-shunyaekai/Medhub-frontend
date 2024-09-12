@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InvoiceCardDesign from './InvoiceCardDesign';
-import InvoiceDesign from '../../style/invoiceDesign.css'
+import '../../style/invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
 import { postRequestWithToken } from '../../api/Requests';
 import { useNavigate, useParams } from 'react-router-dom';

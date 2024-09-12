@@ -41,17 +41,8 @@ const ProductRequestDetails = () => {
     };
 
     useEffect(() => {
-        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        // navigate("/supplier/login");
-        // return;
-        // }
-
         const obj = {
             medicine_id: medId,
-            // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
 
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
