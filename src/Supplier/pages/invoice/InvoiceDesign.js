@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InvoiceDesignss from '../../style/invoiceDesign.css'
+import '../../style/invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment/moment';
@@ -187,9 +187,9 @@ function InvoiceDesign() {
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                <tbody style={{ width: '100vw', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                     <tr>
-                                        <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
+                                        <td style={{ verticalAlign: 'top', width: '100vw', paddingRight: '20px', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
                                             <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
                                                 {

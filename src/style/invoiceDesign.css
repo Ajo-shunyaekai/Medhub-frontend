@@ -8,6 +8,9 @@
   display: flex;
   gap: 20px;
 }
+#invoice-content{
+  margin-bottom: 10rem;
+}
 @media (max-width: 768px) {
   .invoice-card-section-design {
     display: flex;

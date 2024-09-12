@@ -69,7 +69,7 @@
   }
   
   .buyer-order-details-invoice-list-section{
-    margin-top: 10px;
+    margin-top: -50px;
     margin-bottom: 10rem;
     width: 100%;
     background-color: white;
@@ -253,6 +253,7 @@
   }
   .buyer-order-details-codinator-section-cont {
     margin-top: -60px;
+    margin-bottom: 60px;
     width: 100%;
     background-color: white;
     padding: 12px 12px;

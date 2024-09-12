@@ -144,6 +144,9 @@
     align-items: center;
     width: 22vw;
   }
+  .active-order-details-invoice-list-section{
+    margin-top: -66px;
+  }
   .inquiry-details-left-top-main-heading-button {
     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
