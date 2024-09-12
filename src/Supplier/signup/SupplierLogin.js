@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-const SupplierLogin = () => {
+const SupplierLogin = ({socket}) => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail]               = useState('');
     const [password, setPassword]         = useState('');
@@ -77,10 +77,25 @@ const SupplierLogin = () => {
                     //   if ('Notification' in window && Notification.permission !== 'granted') {
                     //     const permission = await Notification.requestPermission();
                     //     if (permission === 'granted') {
-                    //       const userId = 'USER_ID'; // Replace with actual user ID
-                    //       socket.emit('register', { userId });
+                    //       const userId = response.result.supplier_id; 
+                    //       socket.emit('register',  userId );
                     //     }
-                    //   }
+                    //   } 
+
+                    if ('Notification' in window) {
+                        if (Notification.permission === 'granted') {
+                            // If permission is already granted, register the user directly
+                            const userId = response.result.supplier_id;
+                            socket.emit('register', userId);
+                        } else if (Notification.permission !== 'denied') {
+                            // Request permission if not already denied
+                            const permission = await Notification.requestPermission();
+                            if (permission === 'granted') {
+                                // const userId = response.result.supplier_id;
+                                // socket.emit('register', userId);
+                            }
+                        }
+                    }
                 } else {
                     setLoading(false)
                     toast(response.message, { type: "error" });
@@ -89,7 +104,7 @@ const SupplierLogin = () => {
             })
         }
     };
-console.log(loading);
+
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         if (errors.email) {

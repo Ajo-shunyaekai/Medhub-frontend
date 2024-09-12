@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import io from 'socket.io-client'; 
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
 import Sidebar from './Sidebar.js';
@@ -70,6 +71,7 @@ import CancelnquiryList from './CancelnquiryList.js';
 import SupplySecondaryList from './orders/SupplySecondaryList.js';
 
 const BuyerSidebar = () => {
+    const socket = io.connect(process.env.REACT_APP_SERVER_URL);
     const location = useLocation();
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
@@ -148,7 +150,9 @@ const BuyerSidebar = () => {
         <>
             <Routes>
                 <Route path="/buyer/sign-up" element={<SignUp />} />
-                <Route path="/buyer/login" element={<Login />} />
+                <Route path="/buyer/login" element={<Login
+                   socket = {socket}
+                 />} />
             </Routes> 
         </>)
     } else {
@@ -213,7 +217,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/buy-2nd-market" element={<Buy2ndMarket />} />
                                         <Route path="/buyer/market-product-details/:medicineId" element={<MarketProductDetails />} />
                                         <Route path="/buyer/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
-                                        <Route path="/buyer/send-inquiry" element={<SendInquiry  />} />
+                                        <Route path="/buyer/send-inquiry" element={<SendInquiry socket = {socket} />} />
                                         <Route path="/buyer/search-product-details/:medicineId" element={<SearchProductDetails />} />
                                         <Route path="/buyer/subscription" element={<Subscription />} />
                                         <Route path="/buyer/subscription-membership" element={<SubscriptionMembership />} />

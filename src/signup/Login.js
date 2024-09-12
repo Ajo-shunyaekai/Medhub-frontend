@@ -12,7 +12,7 @@ import { ClipLoader } from 'react-spinners';
 import { messaging, getToken, onMessage } from '../utils/firebaseUtils';
 
 
-const Login = () => {
+const Login = ({socket}) => {
     const [fcmToken, setFcmToken] = useState(null)
 
     const [loading, setLoading] = useState(false);
@@ -100,6 +100,21 @@ const Login = () => {
                         navigate("/buyer");
                         setLoading(true)
                     }, 500);
+
+                    if ('Notification' in window) {
+                        if (Notification.permission === 'granted') {
+                            // If permission is already granted, register the user directly
+                            const userId = response.result.supplier_id;
+                            socket.emit('register', userId);
+                        } else if (Notification.permission !== 'denied') {
+                            // Request permission if not already denied
+                            const permission = await Notification.requestPermission();
+                            if (permission === 'granted') {
+                                const userId = response.result.supplier_id;
+                                socket.emit('register', userId);
+                            }
+                        }
+                    }
                     // requestNotificationPermission();
                     
                 } else {

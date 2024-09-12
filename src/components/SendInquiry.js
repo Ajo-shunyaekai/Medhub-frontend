@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
-const SendInquiry = () => {
+const SendInquiry = ({socket}) => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const buyerNameSessionStorage = sessionStorage.getItem("buyer_name");
@@ -144,6 +144,14 @@ const SendInquiry = () => {
     postRequestWithToken('buyer/send-enquiry', enquiryPayload, async (response) => {
       if (response.code === 200) {
         // toast(response.message, { type: "success" });
+        enquiryPayload.items.forEach(item => {
+          socket.emit('sendInquiry', {
+              supplierId: item.supplier_id, // The supplier to be notified
+              message: 'You have a new inquiry from a buyer!',
+              link : process.env.REACT_APP_PUBLIC_URL
+              // send other details if needed
+          });
+      });
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);

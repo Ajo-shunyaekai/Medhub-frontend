@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import io from 'socket.io-client'; 
+import logo from '../assest/signup.svg';
 import SupSidebar from '../components/SupSidebar';
 import PopupModal from '../pages/PopupModal.js';
 import SupplierDashboard from '../pages/SupplierDashboard.js';
@@ -65,17 +66,35 @@ import PendingProducts from '../pages/PendingProducts.js';
 
 
 const SupplierSidebar = () => {
-    // const socket = io.connect(process.env.REACT_APP_SERVER_URL);
-    // console.log('socket',socket);
+    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+
+    const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+    // const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
+    //     query: { supplierId: supplierIdSessionStorage || supplierIdLocalStorage },
+    // });
+    
     
     const location = useLocation();
     const navigate = useNavigate();
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+   
 
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
+
+    const showNotification = (title, options, url) => {
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, options);
+    
+            // Add an onclick event to the notification
+            notification.onclick = () => {
+                window.focus();  
+                window.location.href = url;  
+            };
+        }
+    };
+    
     
     const handleClick = (id, event) => {
         const obj = {
@@ -92,27 +111,25 @@ const SupplierSidebar = () => {
         });
     }
     
-    // useEffect(() => {
-    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-    //         navigate("/supplier/login");
-    //     }
-    // },[])
-
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage && location.pathname !== '/supplier/sign-up') {
             navigate("/supplier/login");
         }
     }, [location.pathname]); 
+
+
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
-            // navigate("/supplier/login");
             const obj = {
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 // pageNo: 1,
                 // pageSize: 5
             };
-        
+
+            const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
+            socket.emit('register', supplierId);
+            
             postRequestWithToken('supplier/get-notification-list', obj, (response) => {
                 if (response.code === 200) {
                     setNotificationList(response.result.data);
@@ -121,33 +138,24 @@ const SupplierSidebar = () => {
                     console.log('error in order details api');
                 }
             });
-        }
-    
-        
-    
-        // Ensure socket is defined and connected
-        // if (socket) {
-        //     console.log('socket',socket);
-            
-        //     socket.on('receiveNotification', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-                
-        //         toast(`New inquiry received: ${notification.message}`, { type: "success" });
-        //     });
 
-        //     socket.on('logiscticsSubmitted', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-                
-        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-        //     });
-    
-        //     return () => {
-        //         socket.off('receiveNotification');
-        //     };
-        // } else {
-        //     console.error('Socket is not initialized');
-        // }
-    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
+            socket.on('newEnquiry', (message) => {
+                console.log(`New enquiry notification: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('New Enquiry Received', {
+                    body: message,
+                    icon: logo
+                },enquiryLink);
+
+                setNotificationList(prevList => [...prevList, { message }]);
+                setCount(prevCount => prevCount + 1);
+            });
+
+            return () => {
+                socket.off('notification');
+            };
+        }
+    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh,]);
     
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -155,7 +163,7 @@ const SupplierSidebar = () => {
             <Routes>
                 <Route path="/supplier/sign-up" element={<SupplierSignUp />} />
                 <Route path="/supplier/login" element={<SupplierLogin 
-                //  socket={socket}
+                 socket={socket}
                  />} />
             </Routes>
         </>)
