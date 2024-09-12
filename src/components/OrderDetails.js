@@ -343,7 +343,8 @@ const OrderDetails = ({socket}) => {
             </div>
             {/* end the section */}
             {/* Start the assign driver section */}
-            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
+            {orderDetails?.status === "Completed" &&  (
             <div className='buyer-order-details-codinator-section-cont'>
                 <BuyerActiveCodinator productList={orderDetails?.items} />
             </div>

@@ -277,7 +277,8 @@ const ActiveOrdersDetails = () => {
             </div>
             {/* End the section */}
             {/* Start the assign driver section */}
-            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
+            {orderDetails?.status === "Completed" &&  (
                 <div className='active-order-details-codinator'>
                     <ActiveCodinator productList={orderDetails?.items} />
                 </div>

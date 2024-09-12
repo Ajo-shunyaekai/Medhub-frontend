@@ -97,7 +97,7 @@ const CompletedOrders = () => {
     ]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage     = 2;
+    const ordersPerPage     = 5;
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);

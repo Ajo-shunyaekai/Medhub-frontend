@@ -578,9 +578,24 @@ const ProformaInvoice = () => {
 
     };
 
+   
+    
     // const handleNumberInput = (event) => {
     //     const { name, value } = event.target;
-    //     const cleanedValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    
+    //     // Remove any characters that are not digits or a single decimal point
+    //     let cleanedValue = value.replace(/[^0-9.]/g, '');
+    
+    //     // Ensure only one decimal point is allowed
+    //     cleanedValue = cleanedValue.replace(/(\..*?)\..*/g, '$1');
+    
+    //     // Limit to three digits after the decimal point
+    //     if (cleanedValue.includes('.')) {
+    //         const [integerPart, decimalPart] = cleanedValue.split('.');
+    //         cleanedValue = decimalPart.length > 3 
+    //             ? `${integerPart}.${decimalPart.slice(0, 3)}` 
+    //             : cleanedValue;
+    //     }
     
     //     setFormData(prevState => ({
     //         ...prevState,
@@ -588,6 +603,8 @@ const ProformaInvoice = () => {
     //     }));
     // };
     
+
+
     const handleNumberInput = (event) => {
         const { name, value } = event.target;
     
@@ -595,23 +612,36 @@ const ProformaInvoice = () => {
         let cleanedValue = value.replace(/[^0-9.]/g, '');
     
         // Ensure only one decimal point is allowed
-        cleanedValue = cleanedValue.replace(/(\..*?)\..*/g, '$1');
-    
-        // Limit to three digits after the decimal point
-        if (cleanedValue.includes('.')) {
-            const [integerPart, decimalPart] = cleanedValue.split('.');
-            cleanedValue = decimalPart.length > 3 
-                ? `${integerPart}.${decimalPart.slice(0, 3)}` 
-                : cleanedValue;
+        if (cleanedValue.split('.').length > 2) {
+            cleanedValue = cleanedValue.replace(/\.+$/, ''); // Remove extra decimal points
         }
     
+        // Split into integer and decimal parts
+        let [integerPart, decimalPart] = cleanedValue.split('.');
+    
+        // Limit the integer part to 9 digits
+        if (integerPart.length > 9) {
+            integerPart = integerPart.slice(0, 9);
+        }
+    
+        // Limit the decimal part to 3 digits, if it exists
+        if (decimalPart && decimalPart.length > 3) {
+            decimalPart = decimalPart.slice(0, 3);
+        }
+    
+        // Recombine the integer and decimal parts
+        cleanedValue = decimalPart !== undefined ? `${integerPart}.${decimalPart}` : integerPart;
+    
+        // Update state
         setFormData(prevState => ({
             ...prevState,
             [name]: cleanedValue,
         }));
     };
     
-
+    
+    
+    
     const grandTotalAmount = orderItems.reduce((total, item) => {
         return total + (parseFloat(item?.total_amount) || 0);
     }, 0);

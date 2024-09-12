@@ -97,7 +97,7 @@ const OngoingOrders = () => {
 
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [ordersPerPage, setOrdersPerPage] = useState(2)
+    const [ordersPerPage, setOrdersPerPage] = useState(5)
     // const ordersPerPage     = 2;
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
