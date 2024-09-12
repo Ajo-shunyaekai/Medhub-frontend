@@ -2,7 +2,6 @@
 // importScripts('https://www.gstatic.com/firebasejs/10.13.1/firebase-messaging.js');
 
 
-
 // const firebaseConfig = {
 //     apiKey            : window.firebaseConfig.apiKey,
 //     authDomain        : window.firebaseConfig.authDomain,
