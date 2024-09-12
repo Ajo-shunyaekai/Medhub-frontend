@@ -1,4 +1,4 @@
-.invopice-card-section-design {
+.invoice-card-section-design {
   width: 100%;
   max-width: 800px;
   margin-left: auto;
@@ -9,7 +9,7 @@
   gap: 20px;
 }
 @media (max-width: 768px) {
-  .invopice-card-section-design {
+  .invoice-card-section-design {
     display: flex;
     flex-direction: column;
   }
