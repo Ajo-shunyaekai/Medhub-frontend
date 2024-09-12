@@ -64,15 +64,11 @@ import SellerActiveInvoiceList from './seller/SellerActiveInvoiceList.js';
 import SellerProformaInvoice from './seller/SellerProformaInvoice.js';
 import SellerInvoiceDetails from './seller/SellerInvoiceDetails.js';
 import ProformaInvoiceDetails from './seller/ProformaInvoiceDetails.js';
-<<<<<<< Updated upstream
-
-=======
 import OngoingInquiriesDetails from './buyer/OngoingInquiriesDetails.js';
 import BuyerPurchasedOrderDetails from './buyer/BuyerPurchasedOrderDetails.js';
 import BuyerInvoiceDetails from './buyer/BuyerInvoiceDetails.js';
 import BuyerProformaDetails from './buyer/BuyerProformaDetails.js';
 import BuyerProforma from './buyer/BuyerProforma.js';
->>>>>>> Stashed changes
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -172,14 +168,11 @@ const AdminSidebar = () => {
                   <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
                   <Route path="/admin/seller-invoice-details" element={<SellerInvoiceDetails/>} />
                   <Route path="/admin/proforma-invoice-details" element={<ProformaInvoiceDetails/>} />
-<<<<<<< Updated upstream
-=======
                   <Route path="/admin/ongoing-inquiries-details" element={<OngoingInquiriesDetails/>} />
                   <Route path="/admin/buyer-purchased-order-details" element={<BuyerPurchasedOrderDetails/>} />
                   <Route path="/admin/buyer-invoice-details" element={<BuyerInvoiceDetails/>}/>
                   <Route path="/admin/buyer-proforma-details" element={<BuyerProformaDetails/>}/>
                   
->>>>>>> Stashed changes
                   
                   {/* start the buyer route */}
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
