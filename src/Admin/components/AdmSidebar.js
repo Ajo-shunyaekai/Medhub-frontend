@@ -160,7 +160,7 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
     setIsDropdown(!isDropdown);
   };
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(true)}>
+    <Box sx={{ width: 200 }} role="presentation" onClick={toggleDrawer(true)}>
       <Link
         to="/admin"
         className={styles.sidebar_text}
@@ -195,7 +195,7 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
         </div>
       </Link> */}
 
-      <Box sx={{ width: 250 }} role="presentation">
+      <Box sx={{ width: 200 }} role="presentation">
         <div className={styles.mobile_order_btn}>
           <div className={styles.sidebar_text} onClick={toggleAccordion}>
             <div className={styles.icon}>
@@ -681,7 +681,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
       {/*Desktop Sidebar code start from here */}
       <div className={styles.sidebar_container}>
   {isIcon ? (
-    <div style={{ width: isOpen ? "250px" : "50px" }} className={styles.sidebar}>
+    <div style={{ width: isOpen ? "200px" : "50px" }} className={styles.sidebar}>
       <Link to="/admin" className={styles.sidebar_text} activeclassname={styles.active}>
         <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
         <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
@@ -837,7 +837,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
       </div>
 
       {/* =============== */}
-      <Link to="/admin/commission" className={styles.sidebar_text} activeclassname={styles.active}>
+      <Link to="/admin/commission" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
         <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
         <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
       </Link>

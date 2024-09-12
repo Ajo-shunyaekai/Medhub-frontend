@@ -74,7 +74,7 @@ const BuyerInquiry = () => {
         <>
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
-                    <div className={styles['complete-conatiner-head']}>Orders</div>
+                    <div className={styles['complete-conatiner-head']}>Inquiry & Purchased Orders</div>
                 </div>
                 <div className={styles[`order-wrapper`]}>
                     <div className={styles[`order-wrapper-left`]}>

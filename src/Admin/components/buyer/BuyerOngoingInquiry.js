@@ -104,7 +104,7 @@ const BuyerOngoingInquiry = () => {
                                                 </div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                                <Link to={`/admin/order-details/${order.id}`}>
+                                                <Link to={'/admin/ongoing-inquiries-details'}>
                                                     <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                     </div>

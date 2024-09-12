@@ -5,6 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import BuyerPending from './BuyerPending';
 import BuyerPaid from './BuyerPaid';
 import { postRequestWithToken } from '../../api/Requests';
+import BuyerProforma from './BuyerProforma';
 
 const SellerInvoice = () => {
     const location = useLocation();
@@ -19,6 +20,8 @@ const SellerInvoice = () => {
                 return 'paid';
             case '/admin/buyer-invoice/pending':
                 return 'pending';
+                case '/admin/buyer-invoice/proforma':
+                    return 'proforma';
             default:
                 return 'paid';
         }
@@ -35,6 +38,9 @@ const SellerInvoice = () => {
             case 'pending':
                 navigate('/admin/buyer-invoice/pending');
                 break;
+                case 'proforma':
+                    navigate('/admin/buyer-invoice/proforma');
+                    break;
             default:
                 navigate('/admin/buyer-invoice/paid');
         }
@@ -95,6 +101,15 @@ const SellerInvoice = () => {
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
                             <div>Pending Invoices</div>
                         </div>
+                        <div
+                            onClick={() => handleLinkClick('proforma')}
+                            className={`${activeLink === 'proforma' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                        >
+                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                            <div>Proforma Invoices</div>
+                        </div>
+
+                        
                     </div>
                     <div className={styles[`invoice-wrapper-right`]}>
                         {activeLink === 'paid' && 
@@ -107,6 +122,14 @@ const SellerInvoice = () => {
                         />}
                         {activeLink === 'pending' && 
                         <BuyerPending
+                            invoiceList = {invoiceList}
+                            totalItems = {totalItems}
+                            currentPage = {currentPage}
+                            listPerPage = {listPerPage}
+                            handlePageChange = {handlePageChange}
+                        />}
+                         {activeLink === 'proforma' && 
+                        <BuyerProforma
                             invoiceList = {invoiceList}
                             totalItems = {totalItems}
                             currentPage = {currentPage}
