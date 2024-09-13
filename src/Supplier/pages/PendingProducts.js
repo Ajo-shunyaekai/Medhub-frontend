@@ -116,7 +116,13 @@ const PendingProducts = () => {
                                             <div className='completed-table-text-color'>{order.total_quantity}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.status === 0 ? 'Pending' :  order.status === 1 ? 'Accepted' : order.status === 2 ? 'Rejected' : ''}</div>
+                                            <div className='completed-table-text-color'>
+                                                {/* {order.status === 0 && order.edit_status === 1 ? 'Pending' :  order.status === 1 && order.edit_status === 1 ? 'Accepted' : order.status === 2 ? 'Rejected' : ''} */}
+                                                {order.status === 0 && order.edit_status === 0 ? 'Pending' : 
+                                                    order.status === 1 && order.edit_status === 0 ? 'Pending' :
+                                                    order.status === 1 && order.edit_status === 2 ? 'Rejected' : 
+                                                    ''}
+                                                </div>
                                         </div>
                                         {/* <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/supplier/active-orders-details/${order.order_id}`}>
