@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import io from 'socket.io-client'; 
+import logo from '../assest/signup.svg';
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
 import Sidebar from './Sidebar.js';
@@ -71,10 +72,12 @@ import CancelnquiryList from './CancelnquiryList.js';
 import SupplySecondaryList from './orders/SupplySecondaryList.js';
 
 const BuyerSidebar = () => {
-    const socket = io.connect(process.env.REACT_APP_SERVER_URL);
-    const location = useLocation();
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+
+    const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+    const location = useLocation();
+    
 
     const activeKey = () => {
         const res = window.location.pathname.split("/");
@@ -85,6 +88,20 @@ const BuyerSidebar = () => {
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
+
+    const showNotification = (title, options, url) => {
+        console.log('URL', url);
+        
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, options);
+    
+            // Add an onclick event to the notification
+            notification.onclick = () => {
+                window.focus();  
+                window.location.href = url;  
+            };
+        }
+    };
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage && location.pathname !== '/buyer/sign-up') {
@@ -108,41 +125,41 @@ const BuyerSidebar = () => {
     }
 
     useEffect( () => { 
-        // const key = activeKey();
-        // console.log('key',key);
-        // if( !buyerIdSessionStorage && !buyerIdLocalStorage && key !== '/buyer/sign-up') {
-        //     navigate("/buyer/login");
-        // }
-        // const obj = {
-        //     // order_id : orderId,
-        //     buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-        // };
-        // postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-        //     if (response.code === 200) {
-        //         setNotificationList(response.result.data);
-        //         setCount(response.result.totalItems || 0)
-        //     } else {
-        //         console.log('error in order details api');
-        //     }
-        // });
+        if (buyerIdSessionStorage || buyerIdLocalStorage) {
+            const obj = {
+                suppli_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                // pageNo: 1,
+                // pageSize: 5
+            };
 
-        // Ensure socket is defined and connected
-        // if (socket) {
-        //     console.log('socket',socket);
+            const buyerId = buyerIdSessionStorage || buyerIdLocalStorage;
+            socket.emit('registerBuyer', buyerId);
             
-        //     socket.on('orderCreated', (notification) => {
-        //         console.log('Notification received:', notification); // Debugging line
-        //         // setNotificationList((prevList) => [notification, ...prevList]);
-        //         // setCount((prevCount) => prevCount + 1);
-        //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-        //     });
-    
-        //     return () => {
-        //         socket.off('receiveNotification');
-        //     };
-        // } else {
-        //     console.error('Socket is not initialized');
-        // }
+            // postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+            //     if (response.code === 200) {
+            //         setNotificationList(response.result.data);
+            //         setCount(response.result.totalItems || 0);
+            //     } else {
+            //         console.log('error in order details api');
+            //     }
+            // });
+
+            socket.on('enquiryQuotation', (message) => {
+                console.log(`Enquiry quote notification: ${message}`);
+                const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
+                showNotification('New Quote Received', {
+                    body: message,
+                    icon: logo
+                }, link);
+
+                // setNotificationList(prevList => [...prevList, { message }]);
+                // setCount(prevCount => prevCount + 1);
+            });
+
+            return () => {
+                socket.off('notification');
+            };
+        }
     },[refresh, buyerIdSessionStorage, buyerIdLocalStorage]) ;
 
     if( !buyerIdSessionStorage && !buyerIdLocalStorage) { 

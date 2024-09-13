@@ -84,6 +84,8 @@ const SupplierSidebar = () => {
     const [refresh, setRefresh] = useState(false)
 
     const showNotification = (title, options, url) => {
+        console.log('URL', url);
+        
         if (Notification.permission === 'granted') {
             const notification = new Notification(title, options);
     
@@ -145,7 +147,7 @@ const SupplierSidebar = () => {
                 showNotification('New Enquiry Received', {
                     body: message,
                     icon: logo
-                },enquiryLink);
+                }, enquiryLink);
 
                 setNotificationList(prevList => [...prevList, { message }]);
                 setCount(prevCount => prevCount + 1);
@@ -236,7 +238,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/inquiry-purchase-orders" element={<Navigate to="/supplier/inquiry-purchase-orders/ongoing" />} />
                         <Route path="/supplier/on-going-order" element={<OnGoingOrder />} />
                         <Route path="/supplier/purchased-order" element={<PurchasedOrder />} />
-                        <Route path="/supplier/inquiry-request-details/:inquiryId" element={<InquiryRequestDetails />} />
+                        <Route path="/supplier/inquiry-request-details/:inquiryId" element={<InquiryRequestDetails socket = {socket}/>} />
                         <Route path="/supplier/inquiry-product-list" element={<InquiryProductList />} />
                         <Route path="/supplier/pending-products-list" element={<PendingProducts/>} />
                         

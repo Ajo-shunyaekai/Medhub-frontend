@@ -6,7 +6,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 
-const InquiryRequestDetails = () => {
+const InquiryRequestDetails = ({socket}) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
@@ -103,6 +103,12 @@ const InquiryRequestDetails = () => {
         postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
+
+                socket.emit('submitQuotation', {
+                    buyerId: inquiryDetails?.buyer.buyer_id, 
+                    message: 'You’ve received a quote from the supplier!',
+                    link : process.env.REACT_APP_PUBLIC_URL
+                });
 
                 setTimeout(() => {
                     navigate('/supplier/inquiry-purchase-orders/ongoing')

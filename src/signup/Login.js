@@ -104,14 +104,14 @@ const Login = ({socket}) => {
                     if ('Notification' in window) {
                         if (Notification.permission === 'granted') {
                             // If permission is already granted, register the user directly
-                            const userId = response.result.supplier_id;
-                            socket.emit('register', userId);
+                            const userId = response.result.buyer_id;
+                            socket.emit('registerBuyer', userId);
                         } else if (Notification.permission !== 'denied') {
                             // Request permission if not already denied
                             const permission = await Notification.requestPermission();
                             if (permission === 'granted') {
-                                const userId = response.result.supplier_id;
-                                socket.emit('register', userId);
+                                const userId = response.result.buyer_id;
+                                socket.emit('registerBuyer', userId);
                             }
                         }
                     }
