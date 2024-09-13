@@ -121,43 +121,119 @@ const SupplierSidebar = () => {
     }, [location.pathname]); 
 
 
+    // useEffect(() => {
+    //     if (supplierIdSessionStorage || supplierIdLocalStorage) {
+    //         const obj = {
+    //             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+    //             // pageNo: 1,
+    //             // pageSize: 5
+    //         };
+
+    //         const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
+    //         socket.emit('register', supplierId);
+            
+    //         postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+    //             if (response.code === 200) {
+    //                 setNotificationList(response.result.data);
+    //                 setCount(response.result.totalItems || 0);
+    //             } else {
+    //                 console.log('error in order details api');
+    //             }
+    //         });
+
+    //         //notification for new enquiry
+    //         socket.on('newEnquiry', (message) => {
+    //             console.log(`New enquiry notification: ${message}`);
+    //             const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+    //             showNotification('New Enquiry Received', {
+    //                 body: message,
+    //                 icon: logo
+    //             }, enquiryLink);
+
+    //             setNotificationList(prevList => [...prevList, { message }]);
+    //             setCount(prevCount => prevCount + 1);
+    //         });
+
+    //         return () => {
+    //             socket.off('notification');
+    //         };
+    //     }
+    // }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh,]);
+    
+
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
-            const obj = {
-                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-                // pageNo: 1,
-                // pageSize: 5
-            };
-
             const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
+    
+            // Emit the supplier ID to register the connection
             socket.emit('register', supplierId);
-            
-            postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-                if (response.code === 200) {
-                    setNotificationList(response.result.data);
-                    setCount(response.result.totalItems || 0);
-                } else {
-                    console.log('error in order details api');
-                }
-            });
-
+    
+            const fetchNotifications = () => {
+                const obj = {
+                    supplier_id: supplierId,
+                };
+                
+                postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+                    if (response.code === 200) {
+                        setNotificationList(response.result.data);
+                        setCount(response.result.totalItems || 0);
+                    } else {
+                        console.log('error in fetching notifications');
+                    }
+                });
+            };
+    
+            // Fetch notifications when component mounts
+            fetchNotifications();
+    
+            // Listen for new enquiry notifications
             socket.on('newEnquiry', (message) => {
                 console.log(`New enquiry notification: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('New Enquiry Received', {
                     body: message,
-                    icon: logo
+                    icon: logo,
                 }, enquiryLink);
-
-                setNotificationList(prevList => [...prevList, { message }]);
-                setCount(prevCount => prevCount + 1);
+    
+                fetchNotifications();
             });
 
+
+            socket.on('POCreated', (message) => {
+                console.log(`PO created: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('PO Created', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
+
+            socket.on('POEdited', (message) => {
+                console.log(`PO edited: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('PO Edited', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
+    
+            // Optionally, listen to other notification events for real-time updates
+            socket.on('updateNotification', () => {
+                // Fetch the updated list when notifications are updated on the server
+                fetchNotifications();
+            });
+    
             return () => {
-                socket.off('notification');
+                // Cleanup socket listeners on unmount
+                socket.off('newEnquiry');
+                socket.off('updateNotification');
             };
         }
-    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh,]);
+    }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
     
 
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -221,7 +297,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails />} />
                         <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
                         <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
-                        <Route path="/supplier/proforma-invoice/:purchaseOrderId" element={<ProformaInvoice />} />
+                        <Route path="/supplier/proforma-invoice/:purchaseOrderId" element={<ProformaInvoice   socket = {socket}/>} />
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
                         <Route path="/supplier/active-codinator" element={<ActiveCodinator/>} />
                         <Route path="/supplier/active-invoice-list" element={<ActiveInvoiceList/>} />

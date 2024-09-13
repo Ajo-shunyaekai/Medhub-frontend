@@ -285,7 +285,7 @@ const phoneValidationRules = {
     '239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
 }
 
-const ProformaInvoice = () => {
+const ProformaInvoice = ({socket}) => {
     const { purchaseOrderId } = useParams();
     const navigate            = useNavigate();
 
@@ -558,6 +558,15 @@ const ProformaInvoice = () => {
                 if (response.code === 200) {
                     
                     toast(response.message, { type: 'success' })
+
+                    socket.emit('createOrder', {
+                        buyerId : inquiryDetails?.buyer_id, 
+                        inquiryId  : inquiryDetails?.enquiry_id,
+                        poId : purchaseOrderId,
+                        message    : `Order Created for ${inquiryDetails?.enquiry_id}`,
+                        link       : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                     // setTimeout(() => {
                         navigate('/supplier/order/active')
                     // }, 500)

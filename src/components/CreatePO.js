@@ -283,7 +283,7 @@ const phoneValidationRules = {
     '239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
 }
 
-const CreatePO = () => {
+const CreatePO = ({socket}) => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
 
@@ -518,10 +518,16 @@ const CreatePO = () => {
                 data: newData,
                 grandTotalAmount
             };
-            console.log(obj);
             postRequestWithToken('buyer/purchaseorder/create-po', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: 'success' })
+                    socket.emit('createPO', {
+                        supplierId : inquiryDetails?.supplier?.supplier_id, 
+                        inquiryId  : inquiryId,
+                        message    : `PO created for ${inquiryId}`,
+                        link       : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                     setTimeout(() => {
                         navigate('/buyer/inquiry-purchase-orders/purchased')
                         setLoading(true)

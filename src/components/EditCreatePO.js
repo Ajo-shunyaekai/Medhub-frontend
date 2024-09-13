@@ -281,7 +281,7 @@ const phoneValidationRules = {
     '239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
 }
 
-const EditCreatePO = () => {
+const EditCreatePO = ({socket}) => {
     const { purchaseOrderId } = useParams()
     const navigate            = useNavigate();
     const [errors, setErrors]    = useState({})
@@ -460,6 +460,13 @@ const EditCreatePO = () => {
             postRequestWithToken('buyer/purchaseorder/edit-po', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, {type: 'success'})
+                    socket.emit('editPO', {
+                        supplierId : poDetails?.supplier_id, 
+                        inquiryId  : enquiryId,
+                        message    : `PO Edited for ${enquiryId}`,
+                        link       : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                     setTimeout(() => {
                         navigate('/buyer/inquiry-purchase-orders/purchased')
                         setLoading(true)
