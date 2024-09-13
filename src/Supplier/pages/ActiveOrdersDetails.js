@@ -7,7 +7,7 @@ import OrderCustomModal from './OrderCustomModal';
 import ActiveCodinator from './ActiveCodinator';
 import ActiveInvoiceList from './ActiveInvoiceList';
 
-const ActiveOrdersDetails = () => {
+const ActiveOrdersDetails = ({socket}) => {
     const { orderId } = useParams();
     const navigate = useNavigate();
 
@@ -301,6 +301,7 @@ const ActiveOrdersDetails = () => {
                 orderId={orderId}
                 buyerId={orderDetails?.buyer_id}
                 setRefresh={setRefresh}
+                socket = {socket}
             />
         </div>
     )

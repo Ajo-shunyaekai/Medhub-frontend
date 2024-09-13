@@ -213,6 +213,20 @@ const BuyerSidebar = () => {
                 // Re-fetch notifications to get the latest data
                 fetchNotifications();
             });
+
+
+            socket.on('shipmentDetailsSubmission', (message) => {
+                console.log(`Shipment details submission notification: ${message}`);
+                
+                const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
+                showNotification('Shipment Details Submitted', {
+                    body: message,
+                    icon: logo,
+                }, link);
+    
+                // Re-fetch notifications to get the latest data
+                fetchNotifications();
+            });
     
             return () => {
                 socket.off('enquiryQuotation');
@@ -265,7 +279,7 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/ordercancel" element={<OrderCancel />} />
                                         <Route path="/buyer/line-chart" element={<LineChart />} />
                                         <Route path="/buyer/progress-bar" element={<ProgressBar />} />
-                                        <Route path="/buyer/order-details/:orderId" element={<OrderDetails />} />
+                                        <Route path="/buyer/order-details/:orderId" element={<OrderDetails socket={socket}/>} />
                                         <Route path="/buyer/pending-details/:orderId" element={<PendingDetails />} />
                                         <Route path="/buyer/medicine-details/:medicineId" element={<ProductDetails />} />
                                         <Route path="/buyer/supplier-details/products/:supplierId" element={<SupplierDetails />} />

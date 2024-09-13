@@ -304,7 +304,7 @@ const phoneValidationRules = {
     '+239': /^\d{7}$/,              // São Tomé and Príncipe: 7 digits
 }
 
-const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh }) => {
+const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, buyerId, setRefresh, socket }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         suppliername: '',
@@ -565,8 +565,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
         });
     };
     
-    
-    
 
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
@@ -642,6 +640,13 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
             postRequestWithToken('supplier/order/submit-details', obj, (response) => {
                 if (response.code === 200) {
                     toast('Details Submitted Successfully', { type: 'success' })
+                    socket.emit('shipmentDetailsSubmitted', {
+                        buyerId : buyerId, 
+                        orderId : orderId,
+                        message : `Shipment Details Submitted for ${orderId}`,
+                        link    : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                     setRefresh(true)
                     onClose()
                     setLoading(false)

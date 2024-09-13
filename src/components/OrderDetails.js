@@ -86,20 +86,24 @@ const OrderDetails = ({socket}) => {
             status: 'Awaiting Details from Supplier',
             logistics_details: [logisticsDetails],
         };
-        console.log('OBJ:', obj);
+      
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
                         toast('Logistics Details Submitted Successfully', {type:'success'})
+
+                        socket.emit('bookLogistics', {
+                            supplierId : orderDetails?.supplier_id, 
+                            orderId    : orderId,
+                            message    : `Logistics Booking Request for ${orderId}`,
+                            link       : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setOrderDetails(response.result);
                         onClose()
                         setLoading(false)
-                        // socket.emit('bookLogisctics', {
-                        //     supplierId: orderDetails?.supplier_id, 
-                        //     message: 'Logisctics Booked',
-                          
-                        //   });
+                        
                     } else {
                         setLoading(false)
                         toast(response.message, {type:'error'})

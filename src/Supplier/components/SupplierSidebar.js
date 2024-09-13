@@ -220,6 +220,17 @@ const SupplierSidebar = () => {
     
                 fetchNotifications();
             });
+
+            socket.on('logisticsRequest', (message) => {
+                console.log(`Logistics Booking Request: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('Logistics Booking Request', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
     
             // Optionally, listen to other notification events for real-time updates
             socket.on('updateNotification', () => {
@@ -286,7 +297,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/image-uploader" element={<ImageUploader />} />
                         <Route path="/supplier/success-modal" element={<SuccessModal />} />
                         <Route path="/supplier/invoice-design/:invoiceId" element={<InvoiceDesign />} />
-                        <Route path="/supplier/active-orders-details/:orderId" element={<ActiveOrdersDetails />} />
+                        <Route path="/supplier/active-orders-details/:orderId" element={<ActiveOrdersDetails socket = {socket}/>} />
                         <Route path="/supplier/active-assign-driver" element={<ActiveAssignDriver />} />
                         <Route path="/supplier/buyer-details/:buyerId" element={<BuyerDetails />} />
                         <Route path="/supplier/buyer-completed-list/:buyerId" element={<BuyerCompletedList />} />
