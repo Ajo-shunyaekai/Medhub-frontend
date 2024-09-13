@@ -119,46 +119,6 @@ const SupplierSidebar = () => {
             navigate("/supplier/login");
         }
     }, [location.pathname]); 
-
-
-    // useEffect(() => {
-    //     if (supplierIdSessionStorage || supplierIdLocalStorage) {
-    //         const obj = {
-    //             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-    //             // pageNo: 1,
-    //             // pageSize: 5
-    //         };
-
-    //         const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
-    //         socket.emit('register', supplierId);
-            
-    //         postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-    //             if (response.code === 200) {
-    //                 setNotificationList(response.result.data);
-    //                 setCount(response.result.totalItems || 0);
-    //             } else {
-    //                 console.log('error in order details api');
-    //             }
-    //         });
-
-    //         //notification for new enquiry
-    //         socket.on('newEnquiry', (message) => {
-    //             console.log(`New enquiry notification: ${message}`);
-    //             const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
-    //             showNotification('New Enquiry Received', {
-    //                 body: message,
-    //                 icon: logo
-    //             }, enquiryLink);
-
-    //             setNotificationList(prevList => [...prevList, { message }]);
-    //             setCount(prevCount => prevCount + 1);
-    //         });
-
-    //         return () => {
-    //             socket.off('notification');
-    //         };
-    //     }
-    // }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh,]);
     
 
     useEffect(() => {

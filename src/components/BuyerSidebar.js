@@ -124,41 +124,6 @@ const BuyerSidebar = () => {
         });
     }
 
-    // useEffect( () => { 
-    //     if (buyerIdSessionStorage || buyerIdLocalStorage) {
-    //         const obj = {
-    //             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-    //             // pageNo: 1,
-    //             // pageSize: 5
-    //         };
-
-    //         const buyerId = buyerIdSessionStorage || buyerIdLocalStorage;
-    //         socket.emit('registerBuyer', buyerId);
-            
-    //         postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-    //                     if (response.code === 200) {
-    //                         setNotificationList(response.result.data);
-    //                         setCount(response.result.totalItems || 0)
-    //                     } else {
-    //                         console.log('error in order details api');
-    //                     }
-    //         });
-
-    //         socket.on('enquiryQuotation', (message) => {
-    //             console.log(`Enquiry quote notification: ${message}`);
-    //             const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
-    //             showNotification('New Quote Received', {
-    //                 body: message,
-    //                 icon: logo
-    //             }, link);
-    //         });
-
-    //         return () => {
-    //             socket.off('notification');
-    //         };
-    //     }
-    // },[refresh, buyerIdSessionStorage, buyerIdLocalStorage]) ;
-
 
     useEffect(() => {
         if (buyerIdSessionStorage || buyerIdLocalStorage) {
