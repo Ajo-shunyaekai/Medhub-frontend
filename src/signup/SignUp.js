@@ -39,7 +39,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 };
 
-const SignUp = () => {
+const SignUp = ({socket}) => {
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -372,6 +372,14 @@ const SignUp = () => {
                     setShowModal(true)
                     // setButtonLoading(false)
                     setLoading(false)
+
+                    socket.emit('buyerRegistration', {
+                        adminId : process.env.REACT_APP_ADMIN_ID,
+                        message : `New Buyer Registration Request `,
+                        link    : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
+
                 } else {
                     // setButtonLoading(false)
                     setLoading(false)

@@ -239,7 +239,7 @@ const BuyerSidebar = () => {
         return (
         <>
             <Routes>
-                <Route path="/buyer/sign-up" element={<SignUp />} />
+                <Route path="/buyer/sign-up" element={<SignUp socket={socket}/>} />
                 <Route path="/buyer/login" element={<Login
                    socket = {socket}
                  />} />

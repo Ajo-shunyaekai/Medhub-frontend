@@ -38,7 +38,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 };
 
-const SupplierSignUp = () => {
+const SupplierSignUp = ({socket}) => {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
@@ -401,6 +401,13 @@ const SupplierSignUp = () => {
                     setResetUploaders(true);
                     setShowModal(true);
                     setLoading(false)
+
+                    socket.emit('supplierRegistration', {
+                        adminId : process.env.REACT_APP_ADMIN_ID,
+                        message : `New Supplier Registration Request `,
+                        link    : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                 } else {
                     setLoading(false)
                     toast(response.message, {type: 'error'})

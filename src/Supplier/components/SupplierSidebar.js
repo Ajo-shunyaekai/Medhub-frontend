@@ -250,7 +250,7 @@ const SupplierSidebar = () => {
     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         return (<>
             <Routes>
-                <Route path="/supplier/sign-up" element={<SupplierSignUp />} />
+                <Route path="/supplier/sign-up" element={<SupplierSignUp socket={socket}/>} />
                 <Route path="/supplier/login" element={<SupplierLogin 
                  socket={socket}
                  />} />
@@ -303,10 +303,10 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/buyer-completed-list/:buyerId" element={<BuyerCompletedList />} />
                         <Route path="/supplier/buyer-active-list/:buyerId" element={<BuyerActiveList />} />
                         <Route path="/supplier/buyer-pending-list/:buyerId" element={<BuyerPendingList />} />
-                        <Route path="/supplier/add-product" element={<AddProduct />} />
-                        <Route path="/supplier/edit-product/:medicineId" element={<EditAddProduct />} />
+                        <Route path="/supplier/add-product" element={<AddProduct socket = {socket}/>} />
+                        <Route path="/supplier/edit-product/:medicineId" element={<EditAddProduct socket = {socket}/>} />
                         <Route path="/supplier/secondary-product-details/:medicineId" element={<SecondaryProductDetails />} />
-                        <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct />} />
+                        <Route path="/supplier/edit-secondary-product/:medicineId" element={<EditSecondaryProduct socket = {socket}/>} />
                         <Route path="/supplier/supplier-purchase-invoice" element={<SupplierPurchaseInvoice />} />
                         <Route path="/supplier/proforma-invoice/:purchaseOrderId" element={<ProformaInvoice   socket = {socket}/>} />
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />

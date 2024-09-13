@@ -46,7 +46,7 @@ const debounce = (func, delay) => {
     };
 };
 
-const AddProduct = () => {
+const AddProduct = ({socket}) => {
 
     const navigate = useNavigate()
 
@@ -179,77 +179,6 @@ const AddProduct = () => {
             setStockedInSections(updatedSections);
         }
     };
-
-
-
-    // const handleInputChange = (index, event) => {
-    //     const { name, value } = event.target;
-    //     const newFormSections = [...formSections];
-    //     let isValid = true;
-
-    //     if (name === 'unitPrice') {
-    //         // Allow only numbers with up to 3 digits before the decimal point
-    //         if (!/^\d{0,4}(\.\d*)?$/.test(value)) {
-    //             isValid = false;
-    //             setErrors(prevErrors => ({
-    //                 ...prevErrors,
-    //                 [`${name}${index}`]: ''
-    //             }));
-    //         }
-    //     } else if (name === 'totalPrice') {
-    //         // Allow only numbers with up to 5 digits before the decimal point
-    //         if (!/^\d{0,8}(\.\d*)?$/.test(value)) {
-    //             isValid = false;
-    //             setErrors(prevErrors => ({
-    //                 ...prevErrors,
-    //                 [`${name}${index}`]: ''
-    //             }));
-    //         }
-    //     } else if (name === 'estDeliveryTime') {
-    //         // Allow only numbers with up to 2 digits
-    //         if (!/^\d{0,3}$/.test(value)) {
-    //             isValid = false;
-    //             setErrors(prevErrors => ({
-    //                 ...prevErrors,
-    //                 [`${name}${index}`]: ''
-    //             }));
-    //         }
-    //     } else if (name === 'quantityNo') {
-    //         // Allow only numbers
-    //         isValid = /^\d*$/.test(value);
-    //         if (!isValid) {
-    //             setErrors(prevErrors => ({
-    //                 ...prevErrors,
-    //                 [`${name}${index}`]: ''
-    //             }));
-    //         }
-    //     } else if (name === 'unitPricee') {
-    //         // Handle validation for unitPricee if applicable
-    //         isValid = /^\d*\.?\d*$/.test(value);
-    //     }
-
-    //     if (isValid) {
-    //         newFormSections[index][name] = value;
-    //         setErrors(prevErrors => ({
-    //             ...prevErrors,
-    //             [`${name}${index}`]: ''
-    //         }));
-
-    //         // Update formData state
-    //         const unitPrices = newFormSections.map(section => section.unitPrice);
-    //         const totalPrices = newFormSections.map(section => section.totalPrice);
-    //         const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-
-    //         setFormData({
-    //             ...formData,
-    //             unitPrice: unitPrices,
-    //             totalPrice: totalPrices,
-    //             estDeliveryTime: estDeliveryTimes
-    //         });
-    //     }
-
-    //     setFormSections(newFormSections);
-    // };
 
 
     const handleInputChange = (index, event) => {
@@ -702,8 +631,6 @@ const AddProduct = () => {
         }
     };
 
-
-
     useEffect(() => {
         setFormData({
             ...formData,
@@ -962,6 +889,12 @@ const AddProduct = () => {
                     if (response.code === 200) {
                         resetForm()
                         toast(response.message, { type: "success" });
+                        socket.emit('addMedicine', {
+                            adminId : process.env.REACT_APP_ADMIN_ID,
+                            message : `New Medicine Approval Request `,
+                            link    : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setLoading(false)
 
                         setTimeout(() => {
@@ -1028,6 +961,12 @@ const AddProduct = () => {
                     if (response.code === 200) {
                         resetForm()
                         toast(response.message, { type: "success" });
+                        socket.emit('addMedicine', {
+                            adminId : process.env.REACT_APP_ADMIN_ID,
+                            message : `New Medicine Approval Request `,
+                            link    : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setLoading(false)
                         setTimeout(() => {
                             // navigate('/supplier/product/secondarymarket')

@@ -38,7 +38,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 };
 
-const EditSecondaryProduct = () => {
+const EditSecondaryProduct = ({socket}) => {
 
     const { medicineId } = useParams()
     const navigate       = useNavigate()
@@ -755,6 +755,7 @@ const EditSecondaryProduct = () => {
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
+                        
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
@@ -817,7 +818,12 @@ const EditSecondaryProduct = () => {
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
-
+                        socket.emit('editSecondaryMedicine', {
+                            adminId : process.env.REACT_APP_ADMIN_ID,
+                            message : `New Edit Medicine Request `,
+                            link    : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);

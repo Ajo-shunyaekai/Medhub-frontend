@@ -36,7 +36,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 }
 
-const AddProduct = () => {
+const AddProduct = ({socket}) => {
 
     const { medicineId } = useParams()
     const navigate       = useNavigate()
@@ -774,6 +774,12 @@ console.log('FORMDATA',formData);
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
+                        socket.emit('editNewMedicine', {
+                            adminId : process.env.REACT_APP_ADMIN_ID,
+                            message : `New Edit Medicine Request `,
+                            link    : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);

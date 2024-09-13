@@ -8,7 +8,7 @@ import { postRequest } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = () => {
+const Login = ({socket}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -60,6 +60,21 @@ const Login = () => {
                         setTimeout(() => {
                         navigate("/admin");
                       }, 1000);
+
+                      if ('Notification' in window) {
+                        if (Notification.permission === 'granted') {
+                            // If permission is already granted, register the user directly
+                            const userId = response.result?.admin_id;
+                            socket.emit('registerAdmin', userId);
+                        } else if (Notification.permission !== 'denied') {
+                            // Request permission if not already denied
+                            const permission = await Notification.requestPermission();
+                            if (permission === 'granted') {
+                                const userId = response.result?.admin_id;
+                                socket.emit('registerAdmin', userId);
+                            }
+                        }
+                    }
                     } else {
                         toast(response.message, { type: "error" });
                        console.log('error in admin/login api',response);

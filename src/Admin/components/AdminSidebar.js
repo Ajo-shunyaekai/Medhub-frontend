@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import io from 'socket.io-client'; 
+import logo from '../assest/signup.svg';
 import AdmSidebar from '../components/AdmSidebar.js';
 import AdminDashboard from '../components/AdminDashboard';
 import LineChart from '../components/chart/LineChart';
@@ -74,9 +76,22 @@ const AdminSidebar = () => {
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
+    const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+
     const [notificationList, setNotificationList] = useState([])
     const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
+
+    const showNotification = (title, options, url) => { 
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, options);
+    
+            notification.onclick = () => {
+                window.focus();  
+                window.location.href = url;  
+            };
+        }
+    };
     
     const handleClick = (id, event) => {
         const obj = {
@@ -95,21 +110,100 @@ const AdminSidebar = () => {
     }
 
     useEffect( () => { 
-        if( !adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-        }
+        // if( !adminIdSessionStorage && !adminIdLocalStorage) {
+        //     navigate("/admin/login");
+        // }
+        if (adminIdSessionStorage || adminIdLocalStorage) {
         const obj = {
             // order_id : orderId,
             admin_id : adminIdSessionStorage || adminIdLocalStorage,
         };
-        postRequestWithToken('admin/get-notification-list', obj, (response) => {
-            if (response.code === 200) {
-                setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0)
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        const adminId = adminIdSessionStorage || adminIdLocalStorage;
+        socket.emit('registerAdmin', adminId);
+
+        const fetchNotifications = () => {
+            postRequestWithToken('admin/get-notification-list', obj, (response) => {
+                if (response.code === 200) {
+                    setNotificationList(response.result.data);
+                    setCount(response.result.totalItems || 0)
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+      };
+
+      // Initial fetch for notifications
+      fetchNotifications();
+
+      socket.on('buyerRegistered', (message) => {
+        console.log(`buyer registration: ${message}`);
+        
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification('New Buyer Registration Request', {
+            body: message,
+            icon: logo,
+        }, link);
+
+        // Re-fetch notifications to get the latest data
+        fetchNotifications();
+    });
+
+    socket.on('supplierRegistered', (message) => {
+        console.log(`supplier registration: ${message}`);
+        
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification('New Supplier Registration Requestrrr', {
+            body: message,
+            icon: logo,
+        }, link);
+
+        // Re-fetch notifications to get the latest data
+        fetchNotifications();
+    });
+
+    socket.on('medicineRequest', (message) => {
+        console.log(`medicine request: ${message}`);
+        
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification('New Medicine Approval Request', {
+            body: message,
+            icon: logo,
+        }, link);
+
+        // Re-fetch notifications to get the latest data
+        fetchNotifications();
+    });
+
+    socket.on('newMedicineEditRequest', (message) => {
+        console.log(`medicine request: ${message}`);
+        
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification('New Medicine Edit Approval Request', {
+            body: message,
+            icon: logo,
+        }, link);
+
+        // Re-fetch notifications to get the latest data
+        fetchNotifications();
+    });
+
+    socket.on('secondaryMedicineEditRequest', (message) => {
+        console.log(`medicine request: ${message}`);
+        
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification('New Medicine Edit Approval Request', {
+            body: message,
+            icon: logo,
+        }, link);
+
+        // Re-fetch notifications to get the latest data
+        fetchNotifications();
+    });
+
+    return () => {
+        socket.off('buyerRegistered');
+    };
+   }
     },[refresh, adminIdSessionStorage, adminIdLocalStorage]) ;
     
     useEffect( () => { 
@@ -122,7 +216,7 @@ const AdminSidebar = () => {
         return (<>
             <Routes>
                 <Route path="admin/sign-up" element={<AdminSignUp />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/login" element={<AdminLogin socket={socket} />} />
             </Routes> 
         </>)
     } else {
