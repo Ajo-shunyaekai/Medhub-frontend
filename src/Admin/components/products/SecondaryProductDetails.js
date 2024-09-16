@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Link, useParams } from 'react-router-dom';
 import SecondaryCountryDetails from '../SecondaryCountryDetails';
+import { postRequest } from '../../api/Requests';
 
 
 const SecondaryProductDetails = () => {
@@ -45,7 +46,29 @@ const SecondaryProductDetails = () => {
 
 
 
+    useEffect(() => {
+        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
+        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        // navigate("/supplier/login");
+        // return;
+        // }
+
+        const obj = {
+            medicine_id: medId,
+            // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
+        }
+
+        postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+            if (response.code === 200) {
+                setMedicineDetails(response.result.data)
+                setInvoiceImage(response?.result?.data?.invoice_image[0])
+            } else {
+                console.log('error in med details api');
+            }
+        })
+    }, [])
     return (
         <>
             {console.log("showModal state:", showModal)}
@@ -65,14 +88,14 @@ const SecondaryProductDetails = () => {
                     </div>
 
                     <div className="product-details-wrapper">
-                        <div className='product-details-containers'>
+                        {/* <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
                                 <div className="product-details-mfg-heading">Reason for Rejecting the Product</div>
 
                                 <div className="product-details-mfg-details">{medicineDetails?.description}</div>
                             </div>
 
-                        </div>
+                        </div> */}
                         <div className='product-details-container'>
                             <div className="product-details-section-two">
                                 <div className="product-details-sec-two-left">

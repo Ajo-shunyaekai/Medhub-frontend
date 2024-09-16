@@ -5,6 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import NewProductRequest from './NewProductRequest';
 import SecondaryProductRequest from './SecondaryProductRequest';
+
 const ProductRequests = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,10 +40,10 @@ const ProductRequests = () => {
         }
     };
 
-    const [orderList, setOrderList]     = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [productList, setProductList]     = useState([])
+    const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 5;
+    const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -53,22 +54,28 @@ const ProductRequests = () => {
             navigate("/admin/login");
             return;
         }
+    
+        // Set the correct value for medicineType based on activeLink
+        const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
+    
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : activeLink,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            medicineType: medicineType,
+            status      : 0,
+            pageNo     : currentPage, 
+            pageSize       : listPerPage,
         }
-
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+    
+        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setProductList(response.result.data);
+                setTotalProducts(response.result.totalItems);
             } else {
-               console.log('error in order list api',response);
+                console.log('error in order list api', response);
             }
-          })
-    },[activeLink, currentPage])
+        });
+    }, [activeLink, currentPage]);
+    
 
     return (
         <>
@@ -96,21 +103,21 @@ const ProductRequests = () => {
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'newproduct' &&
                          <NewProductRequest
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            productList     = {productList} 
+                            totalProducts    = {totalProducts} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            listPerPage      = {listPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                          />}
                         {activeLink === 'secondary' &&
                         <SecondaryProductRequest
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            productList         = {productList} 
+                            totalProducts       = {totalProducts} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            listPerPage      = {listPerPage}
                             handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
+                           activeLink       = {activeLink}
                         />}
                     </div>
                 </div>

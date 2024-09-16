@@ -41,13 +41,19 @@ const EditUpdateProductdetails = () => {
     };
 
     useEffect(() => {
+
+         if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        navigate("/admin/login");
+        return;
+        }
         const obj = {
             medicine_id: medId,
+            admin_id : adminIdSessionStorage || adminIdLocalStorage ,
         }
 
-        postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+        postRequestWithToken('admin/get-edit-medicine_details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response.result.data)
+                setMedicineDetails(response.result)
             } else {
                 console.log('error in med details api');
             }
@@ -65,11 +71,11 @@ const EditUpdateProductdetails = () => {
             action
         }
 
-        postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
+        postRequestWithToken('admin/accept-reject-edit-medicine', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
-                    navigate('/admin/product-requests')
+                    navigate('/admin/product-update-requests/newproduct')
                 },1000)
             } else {
                console.log('error in accept-reject-supplier api',response);

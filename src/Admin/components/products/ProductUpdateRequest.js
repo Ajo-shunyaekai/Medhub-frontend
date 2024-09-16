@@ -39,10 +39,10 @@ const ProductUpdateRequest = () => {
         }
     };
 
-    const [orderList, setOrderList]     = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [productList, setProductList]     = useState([])
+    const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 5;
+    const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -53,17 +53,19 @@ const ProductUpdateRequest = () => {
             navigate("/admin/login");
             return;
         }
+        const medicineType = activeLink === 'newproduct' ? 'new_medicine' : activeLink === 'secondary' ? 'secondary_medicine' : activeLink;
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : activeLink,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            admin_id     : adminIdSessionStorage || adminIdLocalStorage,
+            medicineType : medicineType,
+            status       : 0,
+            pageNo       : currentPage, 
+            pageSize     : listPerPage,
         }
 
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+        postRequestWithToken('admin/get-medicine-edit-request-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setProductList(response.result.data);
+                setTotalProducts(response.result.totalItems);
             } else {
                console.log('error in order list api',response);
             }
@@ -96,19 +98,19 @@ const ProductUpdateRequest = () => {
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'newproduct' &&
                          <NewProductUpdateRequest
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            productList     = {productList} 
+                            totalProducts    = {totalProducts} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            listPerPage      = {listPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                          />}
                         {activeLink === 'secondary' &&
                         <SecondaryUpdateRequest
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            productList     = {productList} 
+                            totalProducts    = {totalProducts} 
                             currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
+                            listPerPage      = {listPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}

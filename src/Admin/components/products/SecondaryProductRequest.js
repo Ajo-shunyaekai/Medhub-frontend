@@ -8,47 +8,47 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 
-const SecondaryProductRequest = () => {
+const SecondaryProductRequest = ({productList, totalProducts, currentPage, listPerPage, handlePageChange, activeLink}) => {
     const navigate = useNavigate()
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 4;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const productsPerPage = 4;
 
-     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-     const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    //  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    //  const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
-    const [productList, setProductList] = useState([])
-    const [totalItems, setTotalItems] = useState()
+    // const [productList, setProductList] = useState([])
+    // const [totalItems, setTotalItems] = useState()
 
 
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = product.slice(indexOfFirstOrder, indexOfLastOrder);
+    // // const indexOfLastOrder = currentPage * ordersPerPage;
+    // // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // // const currentOrders = product.slice(indexOfFirstOrder, indexOfLastOrder);
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
-    useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            status    : 0,
-            pageNo    : currentPage, 
-            pageSize  : productsPerPage,
-        }
+    // useEffect(() => {
+    //     if (!adminIdSessionStorage && !adminIdLocalStorage) {
+    //         navigate("/admin/login");
+    //         return;
+    //     }
+    //     const obj = {
+    //         admin_id  : adminIdSessionStorage || adminIdLocalStorage,
+    //         status    : 0,
+    //         pageNo    : currentPage, 
+    //         pageSize  : productsPerPage,
+    //     }
 
-        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
-            if (response.code === 200) {
-                setProductList(response.result.data)
-                setTotalItems(response.result.totalItems)
-            } else {
-               console.log('error in get-medicine-list api',response);
-            }
-          })
-    }, [currentPage])
+    //     postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
+    //         if (response.code === 200) {
+    //             setProductList(response.result.data)
+    //             setTotalItems(response.result.totalItems)
+    //         } else {
+    //            console.log('error in get-medicine-list api',response);
+    //         }
+    //       })
+    // }, [currentPage])
 
     return (
         <>
@@ -112,7 +112,7 @@ const SecondaryProductRequest = () => {
 
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to={'/admin/secondary-product-request-details'}>
+                                            <Link to={`/admin/secondary-product-request-details/${product.medicine_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>
@@ -122,19 +122,19 @@ const SecondaryProductRequest = () => {
                         </Table>
                         <div className='rejected-pagi-container'>
                             <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={productsPerPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
+                                    activePage={currentPage}
+                                    itemsCountPerPage={listPerPage}
+                                    totalItemsCount={totalProducts}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
                             <div className='rejected-pagi-total'>
-                                <div>Total Items: {totalItems}</div>
+                            <div>Total Items: {totalProducts}</div>
                             </div>
                         </div>
                     </div>

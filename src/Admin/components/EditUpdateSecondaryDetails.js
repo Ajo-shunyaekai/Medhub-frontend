@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { Link, useParams } from 'react-router-dom';
-import { postRequest } from '../api/Requests';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { postRequest, postRequestWithToken } from '../api/Requests';
 import SecondaryCountryDetails from './SecondaryCountryDetails';
+import { toast } from 'react-toastify';
 
 
 const EditUpdateSecondaryDetails = () => {
     const [showModal, setShowModal] = useState(false);
 
     const { medicineId } = useParams()
+    const navigate    = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
@@ -45,29 +49,50 @@ const EditUpdateSecondaryDetails = () => {
     };
 
     useEffect(() => {
-        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        // navigate("/supplier/login");
-        // return;
-        // }
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
 
         const obj = {
-            medicine_id: medId,
+            medicine_id : medicineId,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
 
-        postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+        postRequestWithToken('admin/get-edit-medicine_details', obj, async (response) => {
             if (response.code === 200) {
-                setMedicineDetails(response?.result?.data)
-                setInvoiceImage(response?.result?.data?.invoice_image[0])
+                setMedicineDetails(response?.result)
+                setInvoiceImage(response?.result?.invoice_image[0])
             } else {
                 console.log('error in med details api');
             }
         })
     }, [])
 
+    const handleAcceptReject = (action) => {
+        const obj = {
+            admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
+            medicine_id            : medicineId ,
+            supplier_id            : medicineDetails?.supplier.supplier_id,
+            supplier_email         : medicineDetails?.supplier.supplier_email,
+            supplier_name          : medicineDetails?.supplier.supplier_name,
+            supplier_contact_email : medicineDetails?.supplier.contact_person_email,
+            action
+        }
+
+        postRequestWithToken('admin/accept-reject-edit-medicine', obj, async (response) => {
+            if (response.code === 200) {
+                toast(response.message, {type: 'success'})
+                setTimeout(() => {
+                    navigate('/admin/product-update-requests/secondary')
+                },1000)
+            } else {
+               console.log('error in accept-reject-supplier api',response);
+               toast(response.message, {type: 'error'})
+            }
+        })
+    }
 
     return (
         <>
@@ -86,8 +111,8 @@ const EditUpdateSecondaryDetails = () => {
                             </div>
                             <div className="product-details-sec-one-right">
                                 {/* <button className='product-details-send-btn'>Accept</button> */}
-                                <div className='buyer-details-button-reject'>Reject</div>
-                                <div className='buyer-details-button-accept'>Accept</div>
+                                <div className='buyer-details-button-reject' onClick={() => {handleAcceptReject('reject')}}>Reject</div>
+                                <div className='buyer-details-button-accept' onClick={() => {handleAcceptReject('accept')}}>Accept</div>
                             </div>
 
                         </div>
@@ -113,7 +138,7 @@ const EditUpdateSecondaryDetails = () => {
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Unit Price :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price} AED</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price || '5'} AED</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Minimum Purchase :</div>

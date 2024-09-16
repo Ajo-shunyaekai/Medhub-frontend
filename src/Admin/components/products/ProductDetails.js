@@ -85,14 +85,14 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="product-details-wrapper">
-                        <div className='product-details-containers'>
+                        {/* <div className='product-details-containers'>
                             <div className="product-details-mfg-container">
                                 <div className="product-details-mfg-heading">Reason for Rejecting the Product</div>
 
                                 <div className="product-details-mfg-details">{medicineDetails?.description}</div>
                             </div>
 
-                        </div>
+                        </div> */}
                         <div className='product-details-container'>
                             <div className="product-details-section-two">
                                 <div className="product-details-sec-two-left">

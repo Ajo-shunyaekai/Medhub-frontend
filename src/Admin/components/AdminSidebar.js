@@ -273,7 +273,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-purchased-order-details" element={<BuyerPurchasedOrderDetails/>} />
                   <Route path="/admin/buyer-invoice-details" element={<BuyerInvoiceDetails/>}/>
                   <Route path="/admin/buyer-proforma-details" element={<BuyerProformaDetails/>}/>
-                  <Route path="/admin/edit-product-details" element={<EditUpdateProductdetails/>}/>
+                  <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails/>}/>
                   {/* Start the product navigate route */}
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
@@ -281,18 +281,18 @@ const AdminSidebar = () => {
                   <Route path="/admin/approved-product/newproduct" element={<ApprovedProduct/>} />
                   <Route path="/admin/approved-product/secondary" element={<ApprovedProduct/>} />
                   <Route path="/admin/approved-product" element={<Navigate to="/admin/approved-product/newproduct" />} />
-                  <Route path="/admin/edit-secondary-details" element={<EditUpdateSecondaryDetails/>} />
+                  <Route path="/admin/edit-secondary-details/:medicineId" element={<EditUpdateSecondaryDetails/>} />
                   <Route path="/admin/product-update-requests/newproduct" element={<ProductUpdateRequest/>} />
                   <Route path="/admin/product-update-requests/secondary" element={<ProductUpdateRequest/>} />
                   <Route path="/admin/product-update-requests" element={<Navigate to="/admin/product-update-requests/newproduct" />} />
-                  <Route path="/admin/secondary-product-request-details" element={<SecondaryProductRequestDetails/>} />
+                  <Route path="/admin/secondary-product-request-details/:medicineId" element={<SecondaryProductRequestDetails/>} />
                   <Route path="/admin/product-requests/newproduct" element={<ProductRequests/>} />
                   <Route path="/admin/product-requests/secondary" element={<ProductRequests/>} />
                   <Route path="/admin/product-requests" element={<Navigate to="/admin/product-requests/newproduct" />} />
                   {/* End the product navigate route */}
                   
                   {/* start the buyer route */}
-                  <Route path="/admin/secondary-product-details" element={<SecondaryProductDetails/>} />
+                  <Route path="/admin/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
                   
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-invoice/pending" element={<BuyerInvoice/>} />

@@ -8,42 +8,42 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 
-const ApprovedNewProducts = () => {
+const ApprovedNewProducts = ({productList, totalProducts, currentPage, listPerPage, handlePageChange, activeLink}) => {
     const navigate = useNavigate()
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    // const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    // const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 4;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const productsPerPage = 4;
 
-    const [productList, setProductList] = useState([])
-    const [totalItems, setTotalItems] = useState()
+    // const [productList, setProductList] = useState([])
+    // const [totalItems, setTotalItems] = useState()
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
-    useEffect(() => {
-       if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            status    : 1,
-            pageNo    : currentPage, 
-            pageSize  : productsPerPage,
-        }
+    // useEffect(() => {
+    //    if (!adminIdSessionStorage && !adminIdLocalStorage) {
+    //         navigate("/admin/login");
+    //         return;
+    //     }
+    //     const obj = {
+    //         admin_id  : adminIdSessionStorage || adminIdLocalStorage,
+    //         status    : 1,
+    //         pageNo    : currentPage, 
+    //         pageSize  : productsPerPage,
+    //     }
 
-        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
-            if (response.code === 200) {
-                setProductList(response.result.data)
-                setTotalItems(response.result.totalItems)
-            } else {
-               console.log('error in get-medicine-list api',response);
-            }
-          })
-    }, [currentPage])
+    //     postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
+    //         if (response.code === 200) {
+    //             setProductList(response.result.data)
+    //             setTotalItems(response.result.totalItems)
+    //         } else {
+    //            console.log('error in get-medicine-list api',response);
+    //         }
+    //       })
+    // }, [currentPage])
 
     return (
         <>
@@ -116,19 +116,19 @@ const ApprovedNewProducts = () => {
                         </Table>
                         <div className='rejected-pagi-container'>
                             <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={productsPerPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
+                               activePage={currentPage}
+                               itemsCountPerPage={listPerPage}
+                               totalItemsCount={totalProducts}
+                               pageRangeDisplayed={5}
+                               onChange={handlePageChange}
+                               itemClass="page-item"
+                               linkClass="page-link"
+                               prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                               nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                               hideFirstLastPages={true}
                             />
                             <div className='rejected-pagi-total'>
-                                <div>Total Items: {totalItems}</div>
+                               <div>Total Items: {totalProducts}</div>
                             </div>
                         </div>
                     </div>
