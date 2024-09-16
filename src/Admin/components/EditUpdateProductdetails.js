@@ -6,7 +6,7 @@ import { postRequest } from '../../api/Requests';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 
-const ProductRequestDetails = () => {
+const EditUpdateProductdetails = () => {
     const { medicineId } = useParams()
     const navigate    = useNavigate()
 
@@ -294,21 +294,10 @@ const ProductRequestDetails = () => {
                         {/* end the ecommerce card */}
                     </div>
                    
-                </div>
-
-               
+                </div>              
             </div>
-            <div className='buyer-details-button-containers'>
-                            <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Accept</button>
-                                </div>
-                                <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Reject</button>
-                                </div>
-
-                           </div>
         </>
     )
 }
 
-export default ProductRequestDetails
+export default EditUpdateProductdetails
