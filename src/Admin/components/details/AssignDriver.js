@@ -32,12 +32,14 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                 <tbody>
                 {
                     currentOrders?.map((item,i) => {
+                        console.log("ITEM",item);
+                        
                         return (
                                 <tr>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">PR123456</span>
+                                            <span className="table-g-not-names">{item.medicine_id}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td-cont' >
@@ -45,26 +47,34 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                                             <span className="table-g-section">{item?.medicine_name?.charAt(0) || item?.product_name?.charAt(0) }</span>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
-                                                <span className="table-g-not-name">Paracetamol</span>
+                                                <span className="table-g-not-name">{item?.medicine_name}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Quantity</span>
-                                            <span className="table-g-not-name">500</span>
+                                            <span className="table-g-not-name">{item?.quantity_required}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Total Amount</span>
-                                            <span className="table-g-not-name">22500 AED</span>
+                                            <span className="table-g-not-name">
+                                            {item.total_amount || item.item_price ? `${item.total_amount || item.item_price} AED` : '-'}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Est. Delivery Time</span>
-                                            <span className="table-g-not-name">{orderDetails?.supplier?.estimated_delivery_time || '15 Days'}</span>
+                                            <span className="table-g-not-name">
+                                            {item?.est_delivery_days
+                                            ? item.est_delivery_days.toLowerCase().includes('days')
+                                                ? item.est_delivery_days.replace(/days/i, 'Days') 
+                                                : `${item.est_delivery_days} Days` 
+                                            : ''}
+                                                </span>
                                         </div>
                                     </td>
                                     <td>

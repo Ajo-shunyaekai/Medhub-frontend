@@ -43,11 +43,11 @@ const SupplierRequestDetails = () => {
         setIsModalOpen(false);
     };
     
-    const handleAccept = () => {
+    const handleAcceptReject = (action) => {
         const obj = {
             admin_id    : adminIdSessionStorage || adminIdLocalStorage,
             supplier_id : supplierId,
-            action      : 'accept'
+            action      : action
         }
 
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
@@ -211,10 +211,13 @@ const SupplierRequestDetails = () => {
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div className='buyer-details-button-accept' onClick={handleAccept}>
+                            <div className='buyer-details-button-accept' onClick={() => handleAcceptReject('accept')}>
                                 Accept
                             </div>
-                            <div className='buyer-details-button-reject' onClick={handleRejectClick}>
+                            <div className='buyer-details-button-reject' 
+                            // onClick={handleRejectClick}
+                            onClick={() => handleAcceptReject('reject')}
+                            >
                                 Reject
                             </div>
                         </div>

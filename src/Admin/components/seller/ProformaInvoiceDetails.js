@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../../api/Requests';
 
 function ProformaInvoiceDetails() {
     const { orderId } = useParams()
     const navigate    = useNavigate()
 
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [orderDetails, setOrderDetails] = useState()
 
     useEffect(() => {
+
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
         const obj = {
-            supplier_id   : supplierIdSessionStorage || supplierIdLocalStorage,
+            admin_id : adminIdSessionStorage || adminIdLocalStorage,
             order_id : orderId,
         }
         
-        // postRequestWithToken('order/supplier-order-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setOrderDetails(response.result)
-        //     } else {
-        //        console.log('error in purchaseorder/get-po-details api',response);
-        //     }
-        // })
+        postRequestWithToken('admin/order-details', obj, async (response) => {
+            if (response.code === 200) {
+                setOrderDetails(response.result)
+            } else {
+               console.log('error in order-details api',response);
+            }
+        })
     },[])
 
     const orderItems = orderDetails?.items?.map(item => ({

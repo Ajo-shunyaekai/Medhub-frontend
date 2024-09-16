@@ -5,24 +5,15 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Link } from 'react-router-dom';
 
-const SellerActiveInvoiceList = () => {
+const SellerActiveInvoiceList = ({invoiceData}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
 
-    // Hardcoded data
-    const invoiceData = [
-        { invoice_no: '1254124125', order_id: '1478523698', buyer_name: 'Paramceutical Agency', total_payable_amount: '250 USD', invoice_status: 'Paid', invoice_id: '1' },
-        { invoice_no: '2254124125', order_id: '2478523698', buyer_name: 'Medical Supplies Co.', total_payable_amount: '150 USD', invoice_status: 'Unpaid', invoice_id: '2' },
-        { invoice_no: '3254124125', order_id: '3478523698', buyer_name: 'Global Pharma Ltd.', total_payable_amount: '500 USD', invoice_status: 'Paid', invoice_id: '3' },
-        { invoice_no: '4254124125', order_id: '4478523698', buyer_name: 'Health Care Ltd.', total_payable_amount: '750 USD', invoice_status: 'Unpaid', invoice_id: '4' },
-        { invoice_no: '5254124125', order_id: '5478523698', buyer_name: 'Pharma Inc.', total_payable_amount: '300 USD', invoice_status: 'Paid', invoice_id: '5' },
-        { invoice_no: '6254124125', order_id: '6478523698', buyer_name: 'Medicorp', total_payable_amount: '450 USD', invoice_status: 'Unpaid', invoice_id: '6' },
-        { invoice_no: '7254124125', order_id: '7478523698', buyer_name: 'Pharma Solutions', total_payable_amount: '600 USD', invoice_status: 'Paid', invoice_id: '7' },
-    ];
+    const data = invoiceData;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = invoiceData.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = data.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -77,7 +68,7 @@ const SellerActiveInvoiceList = () => {
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Action</span>
                                             <span className="table-g-not-name">
-                                                <Link to={`/supplier/invoice-design/${invoice.invoice_id}`}>
+                                                <Link to={`/admin/seller-invoice-details/${invoice.invoice_id}`}>
                                                     <div className='invoice-details-button-column'>
                                                         <VisibilityOutlinedIcon className='invoice-view' />
                                                     </div>
@@ -93,7 +84,7 @@ const SellerActiveInvoiceList = () => {
                         <Pagination
                             activePage={currentPage}
                             itemsCountPerPage={ordersPerPage}
-                            totalItemsCount={invoiceData.length}
+                            totalItemsCount={data.length}
                             pageRangeDisplayed={5}
                             onChange={handlePageChange}
                             itemClass="page-item"
@@ -103,7 +94,7 @@ const SellerActiveInvoiceList = () => {
                             hideFirstLastPages={true}
                         />
                         <div className='pagi-total'>
-                            <div>Total Items: {invoiceData.length}</div>
+                            <div>Total Items: {data.length}</div>
                         </div>
                     </div>
                 </div>

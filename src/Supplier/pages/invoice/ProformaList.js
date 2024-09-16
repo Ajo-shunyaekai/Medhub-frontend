@@ -13,31 +13,7 @@ import InvoiceDesign from './InvoiceDesign';
 import moment from 'moment/moment';
 
 const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange }) => {
-    const [showModal, setShowModal] = useState(false);
-
-    const invoiceListt = [
-        {
-            invoice_no: "INV-001",
-            order_id: "ORD-123",
-            customer_name: "Shivang",
-            order_amount: "250 AED",
-            order_status: "30% Done"
-        },
-        {
-            invoice_no: "INV-001",
-            order_id: "ORD-123",
-            customer_name: "Shivang",
-            order_amount: "250 AED",
-            order_status: "60% Done"
-        },
-        {
-            invoice_no: "INV-001",
-            order_id: "ORD-123",
-            customer_name: "Shivang",
-            order_amount: "250 AED",
-            order_status: "90% Done"
-        }
-    ];
+  
     // const handleDownload = (invoice) => {
     //     const element = document.createElement('div');
     //     document.body.appendChild(element);
@@ -126,7 +102,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
                                             <td>
-                                                <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
+                                                <span className="item-title">{invoice.invoice_no}</span>
                                             </td>
                                             <td className="flex">
                                                 <span className="item-title text-color">{moment(invoice.created_at).format("DD/MM/YYYY")}</span>
@@ -136,7 +112,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                             </td>
                                             <td>
                                                 <div className="mx-0">
-                                                    <span className="item-title text-color">{invoice.buyer_name || 'Pharma Private Ltd'}</span>
+                                                    <span className="item-title text-color">{invoice.buyer_name}</span>
                                                 </div>
                                             </td>
 

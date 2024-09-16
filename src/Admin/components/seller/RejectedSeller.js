@@ -55,7 +55,7 @@ const RejectedOrders = () => {
     ];
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
+    const ordersPerPage = 5;
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = rejectedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -66,7 +66,7 @@ const RejectedOrders = () => {
 
     const [sellerList, setSellerList]     = useState([])
     const [totalSellers, setTotalSellers] = useState()
-    const listPerPage = 1
+    const listPerPage = 5
 
     useEffect(() => {
         // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");

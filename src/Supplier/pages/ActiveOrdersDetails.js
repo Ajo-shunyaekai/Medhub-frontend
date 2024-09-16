@@ -91,11 +91,11 @@ const ActiveOrdersDetails = ({socket}) => {
                             <div className='active-order-details-left-bottom-containers'>
                                 <div className='buyer-order-details-left-bottom-vehichle'>
                                     <div className='active-order-details-left-bottom-vehicle-head'>Country of Origin</div>
-                                    <div className='active-order-details-left-bottom-vehicle-text'>{orderDetails?.country_of_origin || 'India'}</div>
+                                    <div className='active-order-details-left-bottom-vehicle-text'>{orderDetails?.buyer?.country_of_origin}</div>
                                 </div>
                                 <div className='active-order-details-left-bottom-vehichle-no'>
                                     <div className='active-order-details-left-bottom-vehichle-no-head'>Type</div>
-                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type || 'End User'}</div>
+                                    <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.buyer?.buyer_type}</div>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ const ActiveOrdersDetails = ({socket}) => {
                                     Width
                                 </div>
                                 <div className="buyer-order-details-left-top-main-contents">
-                                    {orderDetails?.shipment_details?.shipment_details?.breadth || '2'} cm
+                                    {orderDetails?.shipment_details?.shipment_details?.breadth} cm
                                 </div>
                             </div>
                         </Link>
@@ -157,7 +157,7 @@ const ActiveOrdersDetails = ({socket}) => {
                                 Height
                             </div>
                             <div className="buyer-order-details-left-top-main-contents">
-                                {orderDetails?.shipment_details?.shipment_details?.height || '6'} cm
+                                {orderDetails?.shipment_details?.shipment_details?.height} cm
                             </div>
                         </div>
                         <div className="buyer-order-details-top-order-cont">
@@ -165,7 +165,7 @@ const ActiveOrdersDetails = ({socket}) => {
                                 Length
                             </div>
                             <div className="buyer-order-details-left-top-main-contents">
-                                {orderDetails?.shipment_details?.shipment_details?.length || '3'} cm
+                                {orderDetails?.shipment_details?.shipment_details?.length} cm
                             </div>
                         </div>
                         <div className="buyer-order-details-top-order-cont">
@@ -173,7 +173,7 @@ const ActiveOrdersDetails = ({socket}) => {
                                 Total Volume
                             </div>
                             <div className="buyer-order-details-left-top-main-contents">
-                                {orderDetails?.shipment_details?.shipment_details?.total_volume || '36'} L
+                                {orderDetails?.shipment_details?.shipment_details?.total_volume } L
                             </div>
                         </div>
                     </div>

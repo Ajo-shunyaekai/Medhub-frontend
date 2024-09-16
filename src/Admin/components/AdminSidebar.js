@@ -163,7 +163,7 @@ const AdminSidebar = () => {
         console.log(`supplier registration: ${message}`);
         
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Supplier Registration Requestrrr', {
+        showNotification('New Supplier Registration Requester', {
             body: message,
             icon: logo,
         }, link);
@@ -267,8 +267,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/seller-purchased-order-details" element={<SellerPurchasedOrderDetails/>} />
                   <Route path="/admin/seller-active-codinator" element={<SellerActiveCodinator/>} />
                   <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
-                  <Route path="/admin/seller-invoice-details" element={<SellerInvoiceDetails/>} />
-                  <Route path="/admin/proforma-invoice-details" element={<ProformaInvoiceDetails/>} />
+                  <Route path="/admin/seller-invoice-details/:invoiceId" element={<SellerInvoiceDetails/>} />
+                  <Route path="/admin/proforma-invoice-details/:orderId" element={<ProformaInvoiceDetails/>} />
                   <Route path="/admin/ongoing-inquiries-details" element={<OngoingInquiriesDetails/>} />
                   <Route path="/admin/buyer-purchased-order-details" element={<BuyerPurchasedOrderDetails/>} />
                   <Route path="/admin/buyer-invoice-details" element={<BuyerInvoiceDetails/>}/>

@@ -42,7 +42,7 @@ const PendingInvoice = ({invoiceList, totalItems, currentPage, listPerPage, hand
                                     invoiceList.map((invoice, index) => (
                                     <div className={styles['invoice-table-row-container']} key={index}>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.invoice_n}</div>
+                                            <div className={styles['invoice-table-text-color']}>{invoice.invoice_no}</div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
                                             <div className={styles['invoice-table-text-color']}>{invoice.order_id}</div>
@@ -51,13 +51,17 @@ const PendingInvoice = ({invoiceList, totalItems, currentPage, listPerPage, hand
                                             <div className={styles['invoice-table-text-color']}>{invoice.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.total_payable_amount}</div>
+                                            <div className={styles['invoice-table-text-color']}>
+                                            {invoice.total_payable_amount ? `${invoice.total_payable_amount} AED` : ''}
+                                            </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                            <div className={styles['invoice-table-text-color']}>{invoice.status}</div>
+                                            <div className={styles['invoice-table-text-color']}>
+                                                {invoice?.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}
+                                            </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-btn']} ${styles['invoice-table-order-1']}`}>
-                                            <Link to='/admin/seller-invoice-details'>
+                                            <Link to={`/admin/seller-invoice-details/${invoice.invoice_id}`}>
                                                 <div className={`${styles['invoice-table']} ${styles['invoice-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

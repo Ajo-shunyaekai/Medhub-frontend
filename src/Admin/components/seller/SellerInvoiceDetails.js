@@ -7,6 +7,9 @@ function SellerInvoiceDetails() {
     const {invoiceId} = useParams()
     const navigate    = useNavigate();
 
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
     const [invoiceDetails, setInvoiceDetails] = useState(null);
 
     const handleDownload = () => {
@@ -22,15 +25,17 @@ function SellerInvoiceDetails() {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
 
         const obj = {
             invoice_id    : invoiceId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
         };
 
-        postRequestWithToken('invoice/invoice-details', obj, (response) => {
+        postRequestWithToken('admin/get-invoice-details', obj, (response) => {
             if (response.code === 200) {
                 setInvoiceDetails(response.result);
             } else {

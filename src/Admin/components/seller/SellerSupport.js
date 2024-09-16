@@ -10,10 +10,14 @@ const SellerSupport = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
+
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
     const [totalItems, setTotalIems]    = useState()
-    const listPerPage = 1
+    const listPerPage = 5
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -47,22 +51,20 @@ const SellerSupport = () => {
     };
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+            }
 
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7',
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : 'supplier',
             supportType : activeLink,
             pageNo    : currentPage, 
             pageSize  : listPerPage,
         }
 
-        postRequestWithToken('admin/support-list', obj, async (response) => {
+        postRequestWithToken('admin/get-support-list', obj, async (response) => {
             if (response.code === 200) {
                 setSupportList(response.result.data)
                 setTotalIems(response.result.totalItems)

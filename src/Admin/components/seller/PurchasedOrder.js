@@ -8,56 +8,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from 'moment/moment';
 
-const PurchasedOrder = () => {
-    const staticOrders = [
-        {
-            order_id: "125252",
-            created_at: "2024-10-12",
-            buyer: { buyer_name: "Mezorays Pharma" },
-            status: "in-process",
-            items: [{ quantity: 100 }, { quantity_required: 150 }]
-        },
-        {
-            order_id: "125254",
-            created_at: "2024-11-12",
-            buyer: { buyer_name: "Shree Sai Healthcare" },
-            status: "in-process",
-            items: [{ quantity: 120 }]
-        },
-        {
-            order_id: "125248",
-            created_at: "2024-08-10",
-            buyer: { buyer_name: "Om Sai International" },
-            status: "in-process",
-            items: [{ quantity: 200 }]
-        },
-        {
-            order_id: "125258",
-            created_at: "2024-11-01",
-            buyer: { buyer_name: "R S Healthcare" },
-            status: "in-process",
-            items: [{ quantity: 250 }]
-        },
-        {
-            order_id: "125259",
-            created_at: "2024-10-14",
-            buyer: { buyer_name: "Naval Enterprises" },
-            status: "in-process",
-            items: [{ quantity: 300 }]
-        },
-    ];
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2;
-    const totalOrders = staticOrders.length;
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = staticOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+const PurchasedOrder = ({poList, totalList, currentPage, listPerPage, handlePageChange, activeLink}) => {
+    
 
     return (
         <>
@@ -88,29 +40,29 @@ const PurchasedOrder = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {currentOrders.map((order, index) => {
-                                const totalQuantity = order.items.reduce((total, item) => {
+                            {poList.map((list, index) => {
+                                const totalQuantity = list.items.reduce((total, item) => {
                                     return total + (item.quantity || item.quantity_required);
                                 }, 0);
-                                const orderedDate = moment(order.created_at).format("DD/MM/YYYY");
+                                const orderedDate = moment(list.created_at).format("DD/MM/YYYY");
 
                                 return (
                                     <div className={styles['actives-table-row-container']} key={index}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
+                                            <div className={styles['actives-table-text-color']}>{list.purchaseOrder_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
+                                            <div className={styles['actives-table-text-color']}>{list.enquiry_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                             <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
+                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{list.buyer?.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                             <div className={styles['actives-table-text-color']}>
-                                                {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                {list?.po_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                                             </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
@@ -128,8 +80,8 @@ const PurchasedOrder = () => {
                         <div className={styles['actives-pagi-container']}>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                itemsCountPerPage={listPerPage}
+                                totalItemsCount={totalList}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass={styles['page-item']}
@@ -139,7 +91,7 @@ const PurchasedOrder = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className={styles['actives-pagi-total']}>
-                                <div>Total Items: {totalOrders}</div>
+                                <div>Total Items: {totalList}</div>
                             </div>
                         </div>
                     </div>

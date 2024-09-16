@@ -9,54 +9,6 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 const ActiveSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
-    const actives = [
-        {
-           id: "125252",
-            date: "12/10/2024",
-            buyer_name: "Mezorays Pharma",
-            quantity:"250 AED",
-            status:"In-process"
-        },
-        {
-            id: "125254",
-             date: "12/11/2024",
-             buyer_name: "Shree Sai Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125248",
-             date: "10/8/2024",
-             buyer_name: "Om Sai International",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125258",
-             date: "1/11/2024",
-             buyer_name: "R S Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125259",
-             date: "14/10/2024",
-             buyer_name: "Naval Enterprises",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-
-    ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
 
     return (
         <>
