@@ -264,7 +264,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails/>} />
                   <Route path="/admin/seller-inquiry-details/:inquiryId" element={<SellerInquiryDetails/>} />
                   <Route path="/admin/seller-inquiry-product-list" element={<SellerInquiryProductList/>} />
-                  <Route path="/admin/seller-purchased-order-details" element={<SellerPurchasedOrderDetails/>} />
+                  <Route path="/admin/seller-purchased-order-details/:purchaseOrderId" element={<SellerPurchasedOrderDetails/>} />
                   <Route path="/admin/seller-active-codinator" element={<SellerActiveCodinator/>} />
                   <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
                   <Route path="/admin/seller-invoice-details/:invoiceId" element={<SellerInvoiceDetails/>} />

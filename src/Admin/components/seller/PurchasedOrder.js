@@ -40,8 +40,8 @@ const PurchasedOrder = ({poList, totalList, currentPage, listPerPage, handlePage
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {poList.map((list, index) => {
-                                const totalQuantity = list.items.reduce((total, item) => {
+                            {poList?.map((list, index) => {
+                                const totalQuantity = list?.items?.reduce((total, item) => {
                                     return total + (item.quantity || item.quantity_required);
                                 }, 0);
                                 const orderedDate = moment(list.created_at).format("DD/MM/YYYY");
@@ -66,7 +66,7 @@ const PurchasedOrder = ({poList, totalList, currentPage, listPerPage, handlePage
                                             </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/seller-purchased-order-details`}>
+                                            <Link to={`/admin/seller-purchased-order-details/${list.purchaseOrder_id}`}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

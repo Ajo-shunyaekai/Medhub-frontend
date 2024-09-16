@@ -227,14 +227,7 @@ const PurchasedOrderDetails = () => {
                                                 <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
                                                 {poDetails?.additional_instructions}
                                             </p>
-                                            {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p>
-                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                            </p> */}
+                                            
                                         </div>
                                     </td>
                                 </tr>
