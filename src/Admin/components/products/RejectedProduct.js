@@ -39,10 +39,10 @@ const RejectedProduct = () => {
         }
     };
 
-    const [orderList, setOrderList]     = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [productList, setProductList]     = useState([])
+    const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
-    const ordersPerPage = 5;
+    const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -53,17 +53,19 @@ const RejectedProduct = () => {
             navigate("/admin/login");
             return;
         }
+        const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : activeLink,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            admin_id     : adminIdSessionStorage || adminIdLocalStorage,
+            medicineType : medicineType,
+            status       : 2,
+            pageNo       : currentPage, 
+            pageSize     : listPerPage,
         }
 
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setProductList(response.result.data);
+                setTotalProducts(response.result.totalItems);
             } else {
                console.log('error in order list api',response);
             }
@@ -96,21 +98,21 @@ const RejectedProduct = () => {
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'newproduct' &&
                          <RejectedNewProduct
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
-                            currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
-                            handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
+                         productList     = {productList} 
+                         totalProducts    = {totalProducts} 
+                         currentPage      = {currentPage}
+                         listPerPage      = {listPerPage}
+                         handlePageChange = {handlePageChange}
+                         activeLink       = {activeLink}
                          />}
                         {activeLink === 'secondary' &&
                         <RejectedSecondaryProducts
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
-                            currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
-                            handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
+                        productList         = {productList} 
+                        totalProducts       = {totalProducts} 
+                        currentPage      = {currentPage}
+                        listPerPage      = {listPerPage}
+                        handlePageChange = {handlePageChange}
+                       activeLink       = {activeLink}
                         />}
                     </div>
                 </div>
