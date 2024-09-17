@@ -9,54 +9,6 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 const CompletedSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
-    const actives = [
-        {
-           id: "125251",
-            date: "12/10/2024",
-            buyer_name: "Atom Pharma",
-            quantity:"250 AED",
-            status:"Delivered"
-        },
-        {
-            id: "125242",
-             date: "12/10/2024",
-             buyer_name: "Atom Pharma",
-             quantity:"250 AED",
-             status:"Delivered"
-         },
-         {
-            id: "125253",
-             date: "12/10/2024",
-             buyer_name: "Atom Pharma",
-             quantity:"250 AED",
-             status:"Delivered"
-         },
-         {
-            id: "125255",
-             date: "12/10/2024",
-             buyer_name: "Atom Pharma",
-             quantity:"250 AED",
-             status:"Delivered"
-         },
-         {
-            id: "125258",
-             date: "12/10/2024",
-             buyer_name: "Atom Pharma",
-             quantity:"250 AED",
-             status:"Delivered"
-         },
-
-    ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
 
     return (
         <>
@@ -87,39 +39,44 @@ const CompletedSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPag
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {orderList?.map((order, index) => {
+                            {orderList?.length > 0 ? (
+                                orderList.map((order, index) => {
                                     const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + (item.quantity || item.quantity_required);
-                                      }, 0);
-                                      const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                    return total + (item.quantity || item.quantity_required);
+                                    }, 0);
+                                    const orderedDate = moment(order.created_at).format("DD/MM/YYYY");
+
                                     return (
                                     <div className={styles['actives-table-row-container']} key={index}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
+                                        <div className={styles['actives-table-text-color']}>{order.order_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{orderedDate}</div>
+                                        <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
+                                        <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
+                                        <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_status ? 'Completed' : ''}</div>
+                                        <div className={styles['actives-table-text-color']}>{order.order_status ? 'Completed' : ''}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/supplier-order-details/${order.order_id}`}>
-                                                <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
-                                                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                                </div>
-                                            </Link>
+                                        <Link to={`/admin/supplier-order-details/${order.order_id}`}>
+                                            <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
+                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                            </div>
+                                        </Link>
                                         </div>
                                     </div>
-                                )
-                            }  
-                            )}
+                                    );
+                                })
+                                ) : (
+                                <div className={styles['no-data-message']}>No data available</div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>

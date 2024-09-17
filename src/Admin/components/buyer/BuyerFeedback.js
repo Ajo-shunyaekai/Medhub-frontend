@@ -8,43 +8,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const BuyerFeedback = ({supportList, handlePageChange, currentPage, totalItems,listPerPage}) => {
-    // const feedback = [
-    //     {
-    //         feedback_id: "125252",
-    //         order_id: "14785236",
-    //         feedback: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Under Review"
-    //     },
-    //     {
-    //         feedback_id: "125252",
-    //         order_id: "14785236",
-    //         feedback: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Pending"
-    //     },
-    //     {
-    //         feedback_id: "125252",
-    //         order_id: "14785236",
-    //         feedback: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"In Process"
-    //     },
-    //     {
-    //         feedback_id: "125252",
-    //         order_id: "14785236",
-    //         feedback: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Resolved"
-    //     },
-    // ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = feedback.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
-
     return (
         <>
             <div className={styles['complaint-main-container']}>
@@ -62,38 +25,39 @@ const BuyerFeedback = ({supportList, handlePageChange, currentPage, totalItems,l
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
                                         <span className={styles['complaint-header-text-color']}>Feedback</span>
                                     </div>
-                                    {/* <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Status</span>
-                                    </div> */}
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
                                         <span className={styles['complaint-header-text-color']}>Action</span>
                                     </div>
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {supportList?.map((feedback, index) => (
+                            {supportList?.length > 0 ? (
+                                supportList.map((feedback, index) => (
                                     <div className={styles['complaint-table-row-container']} key={index}>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{feedback.support_id}</div>
-                                        </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{feedback.order_id}</div>
-                                        </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                            <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>{feedback.reason}</div>
-                                        </div>
-                                        {/* <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{'pending'}</div>
-                                        </div> */}
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                            <Link to='/admin/order-details'>
-                                                <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
-                                                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                                </div>
-                                            </Link>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                        <div className={styles['complaint-table-text-color']}>{feedback.support_id || 'ID Not Provided'}</div>
+                                    </div>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                        <div className={styles['complaint-table-text-color']}>{feedback.order_id || 'Order ID Not Provided'}</div>
+                                    </div>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
+                                        <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
+                                        {feedback.reason || 'Reason Not Provided'}
                                         </div>
                                     </div>
-                                ))}
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
+                                        <Link to={`/admin/order-details/${feedback.order_id}`}>
+                                        <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
+                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                ))
+                                ) : (
+                                <div className={styles['no-data-message']}>No data available</div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className={styles['complaint-pagi-container']}>

@@ -7,12 +7,14 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
 
 const SellerTransaction = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
+    const [loading, setLoading]           = useState(true);
     const [transactionList, setTransactionList] = useState([])
     const [totalList, setTotalList]           = useState()
     const [currentPage, setCurrentPage] = useState(1);
@@ -42,12 +44,16 @@ const SellerTransaction = () => {
             } else {
                console.log('error in transaction-list api',response);
             }
+            setLoading(false);
         })
     },[currentPage])
 
 
     return (
         <>
+        { loading ? (
+                     <Loader />
+                ) : (
             <div className='rejected-main-container'>
                 <div className="rejected-main-head">Seller Transaction List</div>
                 <div className="rejected-container">
@@ -76,7 +82,9 @@ const SellerTransaction = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                {transactionList?.map((transaction, index) => (
+                                {/* {transactionList?.map((transaction, index) => ( */}
+                                {transactionList?.length > 0 ? (
+                                    transactionList.map((transaction, index) => (
                                     <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{transaction.transaction_id}</div>
@@ -105,7 +113,10 @@ const SellerTransaction = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                            <div >No Data Available</div>
+                            )}
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>
@@ -128,6 +139,7 @@ const SellerTransaction = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

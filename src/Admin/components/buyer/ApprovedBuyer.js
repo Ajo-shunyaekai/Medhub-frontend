@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
@@ -7,84 +7,31 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
 
 const ApprovedBuyer = () => {
-    const approvedOrders = [
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-    ];
+    const navigate = useNavigate();
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder  = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = approvedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const [loading, setLoading]         = useState(true);
     const [buyerList, setBuyerList]     = useState([])
     const [totalBuyers, setTotalBuyers] = useState()
+    const [currentPage, setCurrentPage] = useState(1);
     const listPerPage = 5
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7',
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : 'accepted',
             pageNo    : currentPage, 
             pageSize  : listPerPage,
@@ -97,11 +44,15 @@ const ApprovedBuyer = () => {
             } else {
                console.log('error in get-buyer-list list api',response);
             }
+            setLoading(false);
           })
     },[currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className='rejected-main-container'>
                 <div className="rejected-main-head">Approved Buyer</div>
                 <div className="rejected-container">
@@ -130,8 +81,9 @@ const ApprovedBuyer = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                {buyerList?.map((buyer, index) => (
-                                    <div className='rejected-table-row-container' key={index}>
+                                {buyerList?.length > 0 ? (
+                                    buyerList.map((buyer, index) => (
+                                        <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{buyer.buyer_id}</div>
                                         </div>
@@ -143,17 +95,29 @@ const ApprovedBuyer = () => {
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
                                             <div className='rejected-table-text-color'>{buyer.buyer_email || 'puremed@gmail.com'}</div>
-                                        </div> 
+                                        </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{buyer.account_status ? (buyer.account_status === 1 ? 'Accepted' : (buyer.account_status === 2 ? 'Rejected' : 'Pending')) : ''}</div>
+                                            <div className='rejected-table-text-color'>
+                                            {buyer.account_status ? 
+                                                (buyer.account_status === 1 ? 'Accepted' : 
+                                                (buyer.account_status === 2 ? 'Rejected' : 'Pending')) : 
+                                                ''
+                                            }
+                                            </div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
                                             <Link to={`/admin/buyer-details/${buyer.buyer_id}`}>
-                                                <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                            <div className='rejected-table rejected-table-view'>
+                                                <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                            </div>
                                             </Link>
                                         </div>
-                                    </div>
-                                ))}
+                                        </div>
+                                    ))
+                                    ) : (
+                                    <div className="no-data-message">No data available</div>
+                                    )}
+
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>
@@ -176,6 +140,7 @@ const ApprovedBuyer = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

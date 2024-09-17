@@ -32,26 +32,32 @@ const Complaint = ({supportList, handlePageChange, currentPage, totalItems,listP
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {supportList?.map((support, index) => (
+                            {supportList?.length > 0 ? (
+                                supportList.map((support, index) => (
                                     <div className={styles['complaint-table-row-container']} key={index}>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{support.support_id}</div>
-                                        </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{support.order_id}</div>
-                                        </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                            <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>{support.reason}</div>
-                                        </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                            <Link to='/admin/order-details'>
-                                                <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
-                                                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                                </div>
-                                            </Link>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                        <div className={styles['complaint-table-text-color']}>{support.support_id || 'ID Not Provided'}</div>
+                                    </div>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                        <div className={styles['complaint-table-text-color']}>{support.order_id || 'Order ID Not Provided'}</div>
+                                    </div>
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
+                                        <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
+                                        {support.reason || 'Reason Not Provided'}
                                         </div>
                                     </div>
-                                ))}
+                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
+                                        <Link to={`/admin/order-details/${support.order_id}`}>
+                                        <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
+                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                ))
+                                ) : (
+                                <div className={styles['no-data-message']}>No data available</div>
+                                )}
                             </tbody>
                         </Table>
                         <div className={styles['complaint-pagi-container']}>

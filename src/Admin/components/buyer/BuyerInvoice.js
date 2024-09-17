@@ -6,6 +6,7 @@ import BuyerPending from './BuyerPending';
 import BuyerPaid from './BuyerPaid';
 import { postRequestWithToken } from '../../api/Requests';
 import BuyerProforma from './BuyerProforma';
+import Loader from '../../../components/Loader';
 
 const SellerInvoice = () => {
     const location = useLocation();
@@ -46,6 +47,7 @@ const SellerInvoice = () => {
         }
     };
 
+    const [loading, setLoading]         = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [invoiceList, setInvoiceList] = useState()
     const [totalItems, setTotalItems]   = useState()
@@ -65,15 +67,6 @@ const SellerInvoice = () => {
             pageSize    : listPerPage,
         }
 
-        // postRequestWithToken('admin/buyer-supplier-invoices-list', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setInvoiceList(response.result.data)
-        //         setTotalItems(response.result.totalItems)
-        //     } else {
-        //        console.log('error in buyer-supplier-invoices-list api',response);
-        //     }
-        // })
-
         if (activeLink === 'paid' || activeLink === 'pending') {
             obj.filterKey = activeLink;
             postRequestWithToken('admin/get-invoice-list', obj, async (response) => {
@@ -83,6 +76,7 @@ const SellerInvoice = () => {
                 } else {
                     console.log('Error in get-invoice-list API', response);
                 }
+                setLoading(false);
             });
         } else if (activeLink === 'proforma') {
             // Call a different API for 'proforma' invoices
@@ -94,18 +88,20 @@ const SellerInvoice = () => {
                 } else {
                     console.log('Error in buyer-order-list API', response);
                 }
+                setLoading(false);
             });
         }
     },[currentPage, activeLink])
 
     const handlePageChange = (pageNumber) => {
-        console.log('herer');
-        
         setCurrentPage(pageNumber)
     }
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`invoice-container`]}>
                 <div className={styles['complete-container-invoice-section']}>
                     <div className={styles['complete-conatiner-head']}>Invoices</div>
@@ -164,6 +160,7 @@ const SellerInvoice = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

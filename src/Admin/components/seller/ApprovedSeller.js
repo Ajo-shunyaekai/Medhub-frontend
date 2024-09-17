@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
@@ -7,70 +7,33 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
+
 
 const ApprovedSeller = () => {
-    const approvedOrders = [
-        {
-            approve_id: "000001",
-            approve_name: "Atom Pharma Pvt. Ltd.",
-            approve_mobile: "9869589",
-            approve_email: "atom.pharma@gmail.com",
-            approve_status: "Approved"
-        },
-        {
-          approve_id: "000002",
-          approve_name: "Atom Pharma Pvt. Ltd.",
-          approve_mobile: "9869589",
-          approve_email: "atom.pharma@gmail.com",
-          approve_status: "Approved"
-      },
-      {
-        approve_id: "000003",
-        approve_name: "Atom Pharma Pvt. Ltd.",
-        approve_mobile: "9869589",
-        approve_email: "atom.pharma@gmail.com",
-        approve_status: "Approved"
-    },
-    {
-      approve_id: "000004",
-      approve_name: "Atom Pharma Pvt. Ltd.",
-      approve_mobile: "9869589",
-      approve_email: "atom.pharma@gmail.com",
-      approve_status: "Approved"
-  },
-  {
-    approve_id: "000005",
-    approve_name: "Atom Pharma Pvt. Ltd.",
-    approve_mobile: "9869589",
-    approve_email: "atom.pharma@gmail.com",
-    approve_status: "Approved"
-},
-    ];
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage     = 5;
-    const indexOfLastOrder  = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = approvedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const [loading, setLoading]           = useState(true);
     const [sellerList, setSellerList]     = useState([])
     const [totalSellers, setTotalSellers] = useState()
     const listPerPage = 5
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7',
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
             filterKey : 'accepted',
             pageNo    : currentPage, 
             pageSize  : listPerPage,
@@ -83,12 +46,16 @@ const ApprovedSeller = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
         })
     },[currentPage])
 
 
     return (
         <>
+        { loading ? (
+                     <Loader />
+                ) : (
             <div className='rejected-main-container'>
               <div className="rejected-main-head">Approved Seller</div>
                 <div className="rejected-container">
@@ -117,7 +84,9 @@ const ApprovedSeller = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                {sellerList?.map((supplier, index) => (
+                                {/* {sellerList?.map((supplier, index) => ( */}
+                                {sellerList?.length > 0 ? (
+                                    sellerList?.map((supplier, index) => (
                                     <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{supplier.supplier_id}</div>
@@ -140,7 +109,11 @@ const ApprovedSeller = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                // ))}
+                            ))
+                            ) : (
+                            <div >No Data Available</div>
+                            )}
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>
@@ -163,6 +136,7 @@ const ApprovedSeller = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

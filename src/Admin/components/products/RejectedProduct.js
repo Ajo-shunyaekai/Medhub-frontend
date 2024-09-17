@@ -5,6 +5,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import RejectedNewProduct from './RejectedNewProduct'
 import RejectedSecondaryProducts from './RejectedSecondaryProducts'
+import Loader from '../../../components/Loader';
+
 const RejectedProduct = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,6 +41,7 @@ const RejectedProduct = () => {
         }
     };
 
+    const [loading, setLoading]             = useState(true);
     const [productList, setProductList]     = useState([])
     const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -69,11 +72,15 @@ const RejectedProduct = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
                     <div className={styles['complete-conatiner-head']}>Rejected Products List</div>
@@ -117,6 +124,7 @@ const RejectedProduct = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

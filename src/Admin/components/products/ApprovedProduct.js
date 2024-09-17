@@ -5,6 +5,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import ApprovedNewProducts from './ApprovedNewProducts';
 import ApprovedSecondaryProducts from './ApprovedSecondaryProducts';
+import Loader from '../../../components/Loader';
+
 const ApprovedProduct = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,6 +41,7 @@ const ApprovedProduct = () => {
         }
     };
 
+    const [loading, setLoading]             = useState(true);
     const [productList, setProductList]     = useState([])
     const [totalProducts, setTotalProducts] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -55,11 +58,11 @@ const ApprovedProduct = () => {
         }
         const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            medicineType: medicineType,
-            status  : 1,
-            pageNo     : currentPage, 
-            pageSize       : listPerPage,
+            admin_id     : adminIdSessionStorage || adminIdLocalStorage,
+            medicineType : medicineType,
+            status       : 1,
+            pageNo       : currentPage, 
+            pageSize     : listPerPage,
         }
 
         postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
@@ -69,11 +72,15 @@ const ApprovedProduct = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
                     <div className={styles['complete-conatiner-head']}>Approved Products List</div>
@@ -117,6 +124,7 @@ const ApprovedProduct = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

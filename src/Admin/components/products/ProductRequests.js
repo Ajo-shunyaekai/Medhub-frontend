@@ -5,6 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import NewProductRequest from './NewProductRequest';
 import SecondaryProductRequest from './SecondaryProductRequest';
+import Loader from '../../../components/Loader';
 
 const ProductRequests = () => {
     const location = useLocation();
@@ -40,9 +41,10 @@ const ProductRequests = () => {
         }
     };
 
+    const [loading, setLoading]             = useState(true);
     const [productList, setProductList]     = useState([])
     const [totalProducts, setTotalProducts] = useState()
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [currentPage, setCurrentPage]     = useState(1); 
     const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
@@ -54,8 +56,7 @@ const ProductRequests = () => {
             navigate("/admin/login");
             return;
         }
-    
-        // Set the correct value for medicineType based on activeLink
+
         const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
     
         const obj = {
@@ -73,12 +74,16 @@ const ProductRequests = () => {
             } else {
                 console.log('error in order list api', response);
             }
+            setLoading(false);
         });
     }, [activeLink, currentPage]);
     
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
                     <div className={styles['complete-conatiner-head']}>Product Requests</div>
@@ -122,6 +127,7 @@ const ProductRequests = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

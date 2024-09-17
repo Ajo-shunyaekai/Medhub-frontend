@@ -5,6 +5,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import NewProductUpdateRequest from './NewProductUpdateRequest';
 import SecondaryUpdateRequest from './SecondaryUpdateRequest';
+import Loader from '../../../components/Loader';
+
 const ProductUpdateRequest = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,9 +41,10 @@ const ProductUpdateRequest = () => {
         }
     };
 
+    const [loading, setLoading]             = useState(true);
     const [productList, setProductList]     = useState([])
     const [totalProducts, setTotalProducts] = useState()
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [currentPage, setCurrentPage]     = useState(1); 
     const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
@@ -69,11 +72,15 @@ const ProductUpdateRequest = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
                     <div className={styles['complete-conatiner-head']}>Product Update Requests</div>
@@ -117,6 +124,7 @@ const ProductUpdateRequest = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

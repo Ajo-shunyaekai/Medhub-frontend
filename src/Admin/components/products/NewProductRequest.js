@@ -8,43 +8,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 
-const NewProductRequest = ({productList, totalProducts, currentPage, listPerPage, handlePageChange, activeLink}) => {
-    const navigate = useNavigate()
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const productsPerPage = 4;
-
-    //  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    //  const adminIdLocalStorage   = localStorage.getItem("admin_id");
-
-    // const [productList, setProductList] = useState([])
-    // const [totalItems, setTotalItems] = useState()
-
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
-
-    // useEffect(() => {
-    //     if (!adminIdSessionStorage && !adminIdLocalStorage) {
-    //         navigate("/admin/login");
-    //         return;
-    //     }
-    //     const obj = {
-    //         admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-    //         status    : 0,
-    //         pageNo    : currentPage, 
-    //         pageSize  : productsPerPage,
-    //     }
-
-    //     postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
-    //         if (response.code === 200) {
-    //             setProductList(response.result.data)
-    //             setTotalItems(response.result.totalItems)
-    //         } else {
-    //            console.log('error in get-medicine-list api',response);
-    //         }
-    //       })
-    // }, [currentPage])
+const NewProductRequest = ({productList, totalProducts, currentPage, listPerPage, handlePageChange, activeLink}) => {   
 
     return (
         <>
@@ -75,45 +39,50 @@ const NewProductRequest = ({productList, totalProducts, currentPage, listPerPage
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                            {productList?.map((product, index) => (
+                            {productList?.length > 0 ? (
+                                productList.map((product, index) => (
                                     <div className='rejected-table-row-container' key={index}>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.supplier_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.medicine_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='table-text-color'>{product.medicine_name}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{product.strength}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            {/* <div className='rejected-table-text-color'>{product.status}</div> */}
-                                            <div className='rejected-table-text-color'>
-                                                {(() => {
-                                                    switch (product.status) {
-                                                    case 0:
-                                                        return 'Pending';
-                                                    case 1:
-                                                        return 'Approved';
-                                                    case 2:
-                                                        return 'Rejected';
-                                                    default:
-                                                        return '';
-                                                    }
-                                                })()}
-                                                </div>
-
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to={`/admin/product-request-details/${product.medicine_id}`}>
-                                                <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.supplier_id || 'Supplier ID Not Provided'}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.medicine_id || 'Medicine ID Not Provided'}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-2'>
+                                        <div className='table-text-color'>{product.medicine_name || 'Medicine Name Not Provided'}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{product.strength || 'Strength Not Provided'}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>
+                                        {(() => {
+                                            switch (product.status) {
+                                            case 0:
+                                                return 'Pending';
+                                            case 1:
+                                                return 'Approved';
+                                            case 2:
+                                                return 'Rejected';
+                                            default:
+                                                return 'Unknown Status';
+                                            }
+                                        })()}
                                         </div>
                                     </div>
-                                ))}
+                                    <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
+                                        <Link to={`/admin/product-request-details/${product.medicine_id}`}>
+                                        <div className='rejected-table rejected-table-view'>
+                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                ))
+                                ) : (
+                                <div className='no-data-message'>No products available</div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>

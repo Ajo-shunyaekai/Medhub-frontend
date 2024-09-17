@@ -39,42 +39,46 @@ const ActiveSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, 
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {orderList?.map((order, index) => {
+                            {orderList?.length > 0 ? (
+                                orderList.map((order, index) => {
                                     const totalQuantity = order.items.reduce((total, item) => {
-                                        return total + (item.quantity || item.quantity_required);
-                                      }, 0);
-                                      const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                    return total + (item.quantity || item.quantity_required);
+                                    }, 0);
+                                    const orderedDate = moment(order.created_at).format("DD/MM/YYYY");
+
                                     return (
                                     <div className={styles['actives-table-row-container']} key={index}>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{order.order_id}</div>
+                                        <div className={styles['actives-table-text-color']}>{order.order_id}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{orderedDate}</div>
+                                        <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
+                                        <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{order.buyer?.buyer_name}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
+                                        <div className={styles['actives-table-text-color']}>{totalQuantity}</div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
-                                            <div className={styles['actives-table-text-color']}>
-                                                {/* {order.order_status ? 'Order Placed' : ''} */}
-                                                {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                                </div>
+                                        <div className={styles['actives-table-text-color']}>
+                                            {order?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                        </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/supplier-order-details/${order.order_id}`}>
-                                                <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
-                                                    <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                                </div>
-                                            </Link>
+                                        <Link to={`/admin/supplier-order-details/${order.order_id}`}>
+                                            <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
+                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                            </div>
+                                        </Link>
                                         </div>
                                     </div>
-                                )
-                            }  
-                            )}
+                                    );
+                                })
+                                ) : (
+                                <div className={styles['no-data-message']}>No data available</div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className={styles['actives-pagi-container']}>

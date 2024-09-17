@@ -7,15 +7,17 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
 
 const BuyerTransaction = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
+    const [loading, setLoading]                 = useState(true);
     const [transactionList, setTransactionList] = useState([])
-    const [totalList, setTotalList]           = useState()
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalList, setTotalList]             = useState()
+    const [currentPage, setCurrentPage]         = useState(1);
     const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
@@ -42,11 +44,15 @@ const BuyerTransaction = () => {
             } else {
                console.log('error in transaction-list api',response);
             }
+            setLoading(false);
         })
     },[currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className='rejected-main-container'>
                 <div className="rejected-main-head">Buyer Transaction List</div>
                 <div className="rejected-container">
@@ -75,34 +81,41 @@ const BuyerTransaction = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                 {transactionList?.map((transaction, index) => (
+                            {transactionList?.length > 0 ? (
+                                transactionList.map((transaction, index) => (
                                     <div className='rejected-table-row-container' key={index}>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.transaction_id}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.supplier_name}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='table-text-color'>
-                                            {transaction.total_amount_paid ? `${transaction.total_amount_paid} AED` : null}
-                                            </div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='rejected-table-text-color'>{transaction.mode_of_payment}</div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>
-                                              {transaction?.status?.charAt(0).toUpperCase() + transaction?.status.slice(1)  }
-                                            </div>
-                                        </div>
-                                        <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/admin/order-details'>
-                                                <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{transaction.transaction_id}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>{transaction.supplier_name}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='table-text-color'>
+                                        {transaction.total_amount_paid ? `${transaction.total_amount_paid} AED` : 'Amount Not Provided'}
                                         </div>
                                     </div>
-                                ))}
+                                    <div className='rejected-table-row-item rejected-table-order-2'>
+                                        <div className='rejected-table-text-color'>{transaction.mode_of_payment || 'Mode Not Provided'}</div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <div className='rejected-table-text-color'>
+                                        {transaction?.status ? transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1) : 'Status Unknown'}
+                                        </div>
+                                    </div>
+                                    <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
+                                        <Link to={`/admin/order-details/${transaction.transaction_id}`}>
+                                        <div className='rejected-table rejected-table-view'>
+                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                        </div>
+                                        </Link>
+                                    </div>
+                                    </div>
+                                ))
+                                ) : (
+                                <div className="no-data-message">No data available</div>
+                                )}
+
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>
@@ -125,6 +138,7 @@ const BuyerTransaction = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

@@ -6,6 +6,8 @@ import ActiveSellerOrder from './ActiveSellerOrder';
 import CompletedSellerOrder from './CompletedSellerOrder';
 import PendingSellerOrder from './PendingSellerOrder';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
+
 const SellerOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -45,6 +47,7 @@ const SellerOrder = () => {
         }
     };
 
+    const [loading, setLoading]         = useState(true);
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
@@ -62,8 +65,8 @@ const SellerOrder = () => {
         const obj = {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : activeLink,
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            pageNo    : currentPage, 
+            pageSize  : ordersPerPage,
         }
 
         postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
@@ -73,11 +76,15 @@ const SellerOrder = () => {
             } else {
                console.log('error in order list api',response);
             }
+            setLoading(false);
           })
     },[activeLink, currentPage])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`order-container`]}>
                 <div className={styles['complete-container-order-section']}>
                     <div className={styles['complete-conatiner-head']}>Orders</div>
@@ -98,13 +105,7 @@ const SellerOrder = () => {
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
                             <div>Completed Orders</div>
                         </div>
-                        {/* <div
-                            onClick={() => handleLinkClick('pending')}
-                            className={`${activeLink === 'pending' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
-                        >
-                            <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div>Pending Orders</div>
-                        </div> */}
+                        
                     </div>
                     <div className={styles[`order-wrapper-right`]}>
                         {activeLink === 'active' &&
@@ -125,18 +126,11 @@ const SellerOrder = () => {
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}
-                        {/* {activeLink === 'pending' && 
-                        <PendingSellerOrder
-                            orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
-                            currentPage      = {currentPage}
-                            ordersPerPage    = {ordersPerPage}
-                            handlePageChange = {handlePageChange}
-                            activeLink       = {activeLink}
-                        />} */}
+                        
                     </div>
                 </div>
             </div>
+             )}
         </>
     );
 }

@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = ({socket}) => {
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +45,7 @@ const Login = ({socket}) => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
+            setLoading(true)
                 const obj = {
                     email ,
                     password
@@ -51,7 +53,7 @@ const Login = ({socket}) => {
         
                 postRequest('admin/login', obj, async (response) => {
                     if (response.code === 200) {
-                        toast(response.message, { type: "success" });
+                        // toast(response.message, { type: "success" });
                         sessionStorage.setItem('admin_id', response.result?.admin_id) 
                         sessionStorage.setItem('user_name', response.result?.user_name)
                         sessionStorage.setItem('token', response.result?.token)
@@ -76,6 +78,7 @@ const Login = ({socket}) => {
                         }
                     }
                     } else {
+                        setLoading(false)
                         toast(response.message, { type: "error" });
                        console.log('error in admin/login api',response);
                     }
@@ -154,7 +157,16 @@ const Login = ({socket}) => {
                     </div>
                     <div className='login-form-main-buttons'>
                         <button type='button' className='login-form-main-cancel'>Cancel</button>
-                        <button type='submit' className='login-form-main-login'>Login</button>
+                        <button type='submit' 
+                        className='login-form-main-login'
+                        disabled={loading}
+                        >
+                            {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Login'
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

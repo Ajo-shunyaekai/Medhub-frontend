@@ -7,12 +7,14 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../api/Requests';
+import Loader from '../../components/Loader';
 
 const SellerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
+    const [loading, setLoading]                     = useState(true);
     const [sellerRequestList, setSellerRequestList] = useState([])
     const [totalRequests, setTotalRequests]         = useState()
 
@@ -42,11 +44,15 @@ const SellerRequest = () => {
             } else {
                console.log('error in get-supplier-reg-req-list api',response);
             }
+            setLoading(false);
         })
     },[currentPage])
 
     return (
         <>
+        { loading ? (
+                     <Loader />
+                ) : (
             <div className={styles['rejected-main-container']}>
                 <div className={styles['rejected-main-head']}>Seller Request</div>
                 <div className={styles['rejected-container']}>
@@ -75,7 +81,9 @@ const SellerRequest = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {sellerRequestList?.map((seller, index) => (
+                                
+                                {sellerRequestList?.length > 0 ? (
+                                    sellerRequestList.map((seller, index) => (
                                     <div className={styles['rejected-table-row-container']} key={index}>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['rejected-table-text-color']}>{seller.supplier_type}</div>
@@ -98,7 +106,11 @@ const SellerRequest = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                
+                            ))
+                        ) : (
+                        <div className={styles['no-data-message']}>No Data Available</div>
+                        )}
                             </tbody>
                         </Table>
                         <div className={styles['rejected-pagi-container']}>
@@ -121,6 +133,7 @@ const SellerRequest = () => {
                     </div>
                 </div>
             </div>
+             )}
         </>
     );
 }

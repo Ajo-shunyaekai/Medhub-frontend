@@ -5,12 +5,14 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import BuyerComplaint from './BuyerComplaint';
 import BuyerFeedback from './BuyerFeedback';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
 
 const SellerSupport = () => {
     const location = useLocation();
     const navigate = useNavigate();
-       const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-        const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
@@ -39,6 +41,7 @@ const SellerSupport = () => {
         }
     };
 
+    const [loading, setLoading]         = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
     const [totalItems, setTotalIems]    = useState()
@@ -69,11 +72,15 @@ const SellerSupport = () => {
             } else {
                console.log('error in support-list api',response);
             }
+            setLoading(false);
         })
     },[currentPage, activeLink])
 
     return (
         <>
+        {loading ? (
+                     <Loader />
+                ) : (
             <div className={styles[`invoice-container`]}>
                 <div className={styles['complete-container-invoice-section']}>
                     <div className={styles['complete-conatiner-head']}>Support</div>
@@ -115,6 +122,7 @@ const SellerSupport = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }

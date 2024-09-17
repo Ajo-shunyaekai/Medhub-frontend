@@ -9,55 +9,6 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 const ActiveBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange}) => {
-    const actives = [
-        {
-           id: "125252",
-            date: "12/10/2024",
-            supplier_name: "Mezorays Pharma",
-            quantity:"250 AED",
-            status:"In-process"
-        },
-        {
-            id: "125254",
-             date: "12/11/2024",
-             supplier_name: "Shree Sai Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125248",
-             date: "10/8/2024",
-             supplier_name: "Om Sai International",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125258",
-             date: "1/11/2024",
-             supplier_name: "R S Healthcare",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-         {
-            id: "125259",
-             date: "14/10/2024",
-             supplier_name: "Naval Enterprises",
-             quantity:"250 AED",
-             status:"In-process"
-         },
-
-    ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = actives.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
-
     return (
         <>
             <div className={styles['actives-main-container']}>
@@ -87,7 +38,8 @@ const ActiveBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, h
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {orderList?.map((order, index) => {
+                            {orderList?.length > 0 ? (
+                                orderList.map((order, index) => {
                                     const totalQuantity = order.items.reduce((total, item) => {
                                         return total + (item.quantity || item.quantity_required);
                                       }, 0);
@@ -120,9 +72,10 @@ const ActiveBuyerOrder = ({orderList, totalOrders, currentPage, ordersPerPage, h
                                             </Link>
                                         </div>
                                     </div>
-                                    )
-                                }
-                                    
+                                    );
+                                })
+                                ) : (
+                                <div className={styles['no-data-message']}>No data available</div>
                                 )}
                             </tbody>
                         </Table>

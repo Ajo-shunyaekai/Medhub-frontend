@@ -7,13 +7,14 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../api/Requests';
+import Loader from '../../components/Loader';
 
 const BuyerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     
-
+    const [loading, setLoading] = useState(true);
     const [buyerRequestList, setBuyerRequestList] = useState([])
     const [totalRequests, setTotalRequests]       = useState()
     const [currentPage, setCurrentPage]           = useState(1);
@@ -42,12 +43,16 @@ const BuyerRequest = () => {
             } else {
                console.log('error in get-buyer-reg-req-list api',response);
             }
+            setLoading(false);
         })
     },[currentPage])
     console.log('buyerLIst',buyerRequestList);
 
     return (
         <>
+         { loading ? (
+                     <Loader />
+                ) : (
             <div className={styles['rejected-main-container']}>
                 <div className={styles['rejected-main-head']}>Buyer Request</div>
                 <div className={styles['rejected-container']}>
@@ -76,8 +81,9 @@ const BuyerRequest = () => {
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {buyerRequestList?.map((buyer, index) => (
-                                    <div className={styles['rejected-table-row-container']} key={index}>
+                            {buyerRequestList?.length > 0 ? (
+                                    buyerRequestList?.map((buyer, index) => (
+                                        <div className={styles['rejected-table-row-container']} key={index}>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['rejected-table-text-color']}>{buyer.buyer_type}</div>
                                         </div>
@@ -95,11 +101,17 @@ const BuyerRequest = () => {
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-btn']} ${styles['rejected-table-order-1']}`}>
                                             <Link to={`/admin/buyer-request-details/${buyer.buyer_id}`}>
-                                                <div className={`${styles['rejected-table']} ${styles['rejected-table-view']}`}><RemoveRedEyeOutlinedIcon className={styles["table-icon"]} /></div>
+                                            <div className={`${styles['rejected-table']} ${styles['rejected-table-view']}`}>
+                                                <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                            </div>
                                             </Link>
                                         </div>
-                                    </div>
-                                ))}
+                                        </div>
+                                    ))
+                                    ) : (
+                                    <div className={styles['no-data-message']}>No Data Available</div>
+                                    )}
+
                             </tbody>
                         </Table>
                         <div className={styles['rejected-pagi-container']}>
@@ -122,6 +134,7 @@ const BuyerRequest = () => {
                     </div>
                 </div>
             </div>
+            )}
         </>
     );
 }
