@@ -1,60 +1,49 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { postRequestWithToken } from '../../api/Requests';
 
 const BuyerTransaction = () => {
-    const sellerTransaction = [
-        {
-            trans_id: "12541001",
-            supplier_name: "Mohammad Abdul Shaikh",
-            total_amount: "250 USD",
-            payment_mode: "Net Banking",
-            status: "Paid"
-        },
-        {
-            trans_id: "12541001",
-            supplier_name: "Mohammad Abdul Shaikh",
-            total_amount: "250 USD",
-            payment_mode: "Net Banking",
-            status: "Paid"
-        },
-        {
-            trans_id: "12541001",
-            supplier_name: "Mohammad Abdul Shaikh",
-            total_amount: "250 USD",
-            payment_mode: "Net Banking",
-            status: "Paid"
-        },
-        {
-            trans_id: "12541001",
-            supplier_name: "Mohammad Abdul Shaikh",
-            total_amount: "250 USD",
-            payment_mode: "Net Banking",
-            status: "Paid"
-        },
-        {
-            trans_id: "12541001",
-            supplier_name: "Mohammad Abdul Shaikh",
-            total_amount: "250 USD",
-            payment_mode: "Net Banking",
-            status: "Paid"
-        },
-    ];
+    const navigate = useNavigate()
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
+    const [transactionList, setTransactionList] = useState([])
+    const [totalList, setTotalList]           = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 4;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = sellerTransaction.slice(indexOfFirstOrder, indexOfLastOrder);
+    const listPerPage = 5;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+        const obj = {
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
+            filterKey : 'paid',
+            pageNo    : currentPage, 
+            pageSize  : listPerPage,
+        }
+
+        postRequestWithToken('admin/get-transaction-list', obj, async (response) => {
+            if (response.code === 200) {
+                setTransactionList(response.result.data)
+                setTotalList(response.result.totalItems)
+            } else {
+               console.log('error in transaction-list api',response);
+            }
+        })
+    },[currentPage])
 
     return (
         <>
@@ -86,22 +75,26 @@ const BuyerTransaction = () => {
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                                {currentOrders?.map((transaction, index) => (
+                                 {transactionList?.map((transaction, index) => (
                                     <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.trans_id}</div>
+                                            <div className='rejected-table-text-color'>{transaction.transaction_id}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{transaction.supplier_name}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='table-text-color'>{transaction.total_amount}</div>
+                                            <div className='table-text-color'>
+                                            {transaction.total_amount_paid ? `${transaction.total_amount_paid} AED` : null}
+                                            </div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='rejected-table-text-color'>{transaction.payment_mode}</div>
+                                            <div className='rejected-table-text-color'>{transaction.mode_of_payment}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
-                                            <div className='rejected-table-text-color'>{transaction.status}</div>
+                                            <div className='rejected-table-text-color'>
+                                              {transaction?.status?.charAt(0).toUpperCase() + transaction?.status.slice(1)  }
+                                            </div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
                                             <Link to='/admin/order-details'>
@@ -115,8 +108,8 @@ const BuyerTransaction = () => {
                         <div className='rejected-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={sellerTransaction.length}
+                                itemsCountPerPage={listPerPage}
+                                totalItemsCount={totalList}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -126,7 +119,7 @@ const BuyerTransaction = () => {
                                 hideFirstLastPages={true}
                             />
                             <div className='rejected-pagi-total'>
-                                <div>Total Items: {sellerTransaction.length}</div>
+                                <div>Total Items: {totalList}</div>
                             </div>
                         </div>
                     </div>

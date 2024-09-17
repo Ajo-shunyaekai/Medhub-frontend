@@ -29,14 +29,14 @@ const staticItems = [
   // Add more static data as required
 ];
 
-const InquiryOngoingList = ({ inquiryDetails }) => {
+const InquiryOngoingList = ({ items, inquiryDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 3; // Number of orders to display per page
 
   // Logic to slice orders for pagination
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = staticItems.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = items?.slice(indexOfFirstOrder, indexOfLastOrder);
 
   // Function to handle page change
   const handlePageChange = (pageNumber) => {
@@ -56,7 +56,7 @@ const InquiryOngoingList = ({ inquiryDetails }) => {
 
       <table className="table">
         <tbody>
-          {currentOrders.map((item, i) => (
+          {currentOrders?.map((item, i) => (
             <tr key={i}>
               <td className='tables-td'>
                 <div className="table-g-section-content">
@@ -89,7 +89,11 @@ const InquiryOngoingList = ({ inquiryDetails }) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
                   <span className="table-g-not-name">
-                    {item.target_price ? item.target_price : '-'}
+                  {item.target_price
+                        ? item.target_price.toLowerCase().includes('aed')
+                            ? item.target_price.replace(/days/i, 'AED')
+                            : `${item.target_price} AED` 
+                        : '-'}
                   </span>
                 </div>
               </td>
@@ -97,7 +101,11 @@ const InquiryOngoingList = ({ inquiryDetails }) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Est. Delivery Time</span>
                   <span className="table-g-not-name">
-                    {item.est_delivery_days ? item.est_delivery_days.replace(/days/i, 'Days') : '10 Days'}
+                  {item.est_delivery_days
+                        ? item.est_delivery_days.toLowerCase().includes('days')
+                            ? item.est_delivery_days.replace(/days/i, 'Days')
+                            : `${item.est_delivery_days} Days` 
+                        : ''}
                   </span>
                 </div>
               </td>
@@ -122,7 +130,7 @@ const InquiryOngoingList = ({ inquiryDetails }) => {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={ordersPerPage}
-          totalItemsCount={staticItems.length}
+          totalItemsCount={items?.length}
           pageRangeDisplayed={5}
           onChange={handlePageChange}
           itemClass="page-item"
@@ -132,7 +140,7 @@ const InquiryOngoingList = ({ inquiryDetails }) => {
           hideFirstLastPages={true}
         />
         <div className='pagi-total'>
-          Total Items: {staticItems.length}
+          Total Items: {items?.length}
         </div>
       </div>
     </div>

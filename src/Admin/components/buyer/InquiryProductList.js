@@ -4,7 +4,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from "moment-timezone";
 
-const InquiryProductList = ({ handleAccept, handleReject, inquiryDetails }) => {
+const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleReject, inquiryDetails }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
@@ -19,7 +19,7 @@ const InquiryProductList = ({ handleAccept, handleReject, inquiryDetails }) => {
         // Add more items if needed
     ];
 
-    const data = activeOrders;
+    const data = orderItems && orderItems?.length > 0 ? orderItems : quotationItems && quotationItems?.length > 0 ? quotationItems : activeOrders;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -68,46 +68,64 @@ const InquiryProductList = ({ handleAccept, handleReject, inquiryDetails }) => {
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product ID</span>
-                                        <span className="table-g-not-names">{item.productId}</span>
+                                        <span className="table-g-not-names">{item.product_id || item.medicine_id || item.productId}</span>
                                     </div>
                                 </td>
                                 <td className='tables-tds-cont'>
                                     <div className="table-second-container">
-                                        <span className="table-g-section">{item.productName.charAt(0)}</span>
+                                        <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0)}</span>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product Name</span>
-                                            <span className="table-g-not-name">{item.productName}</span>
+                                            <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Quantity Req.</span>
-                                        <span className="table-g-not-name">{item.quantity}</span>
+                                        <span className="table-g-not-name">{item.quantity || item.quantity_required || item.quantity}</span>
                                     </div>
                                 </td>
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Target Price</span>
-                                        <span className="table-g-not-name">{item.totalAmount}</span>
+                                        <span className="table-g-not-name">
+                                            {item.price || item.target_price || item.totalAmount
+                                                        ? `${item.price || item.target_price || item.totalAmount} AED`
+                                                        : '-'}
+                                        </span>
                                     </div>
                                 </td>
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Counter Price</span>
-                                        <span className="table-g-not-name">{item.totalAmount}</span>
+                                        <span className="table-g-not-name">
+                                            {item.counter_price
+                                                        ? item.counter_price.toLowerCase().includes('aed')
+                                                            ? item.counter_price.replace(/aed/i, 'AED') 
+                                                            : `${item.counter_price} AED` 
+                                                        : '-'}
+                                        </span>
                                     </div>
                                 </td>
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Est. Delivery Time</span>
-                                        <span className="table-g-not-name">{item.totalAmount}</span>
+                                        <span className="table-g-not-name">
+                                            {item.est_delivery_days
+                                                        ? item.est_delivery_days.toLowerCase().includes('days')
+                                                            ? item.est_delivery_days.replace(/days/i, 'Days') 
+                                                            : `${item.est_delivery_days} Days` 
+                                                        : ''}
+                                        </span>
                                     </div>
                                 </td>
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Status</span>
-                                        <span className="table-g-not-name">Pending</span>
+                                        <span className="table-g-not-name">
+                                          {item?.status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '-'}
+                                        </span>
                                     </div>
                                 </td>
                             </tr>

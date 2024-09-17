@@ -239,7 +239,7 @@ const OnGoingInquiriesDetails = () => {
                     Type
                   </div>
                   <div className="ongoing-details-left-top-main-contents">
-                    {inquiryDetails?.supplier?.supplier_type || "Manufacturer"}
+                    {inquiryDetails?.supplier?.supplier_type}
                   </div>
                 </div>
                 <div className="ongoing-details-top-order-cont">

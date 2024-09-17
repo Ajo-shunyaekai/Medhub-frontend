@@ -67,10 +67,10 @@ const SellerInquiryDetails = () => {
                     <div className='inquiry-details-top-inner-section'>
                         <div className='inquiry-details-left-inner-section-container'>
                             <div className='inquiry-details-left-top-containers'>
-                                <Link to={`/supplier/buyer-details/${inquiryDetails?.buyer.buyer_id}`}>
+                                <Link to={`/admin/buyer-details/${inquiryDetails?.buyer.buyer_id}`}>
                                     <div className='inquiry-details-top-inquiry-cont'>
                                         <div className='inquiry-details-left-top-main-heading'> Buyer Name</div>
-                                        <div className='inquiry-details-left-top-main-contents'>{inquiryDetails?.buyer.buyer_id}</div>
+                                        <div className='inquiry-details-left-top-main-contents'>{inquiryDetails?.buyer.buyer_name}</div>
                                     </div>
                                 </Link>
                                 <div className='inquiry-details-top-inquiry-cont'>

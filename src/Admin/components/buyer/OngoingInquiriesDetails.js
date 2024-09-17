@@ -5,62 +5,73 @@ import moment from "moment-timezone";
 import { toast } from "react-toastify";
 import InquiryOngoingList from "./InquiryOngoingList";
 import InquiryProductList from "./InquiryProductList";
+import { postRequestWithToken } from "../../api/Requests";
 
 
 const OngoingInquiriesDetails = () => {
-  const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-  const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
-  const { inquiryId } = useParams();
-  const navigate = useNavigate();
+    const { inquiryId } = useParams()
+    const navigate = useNavigate();
+    const [paymentTerms, setPaymentTerms] = useState(['']);
 
-  const [loading, setLoading] = useState(false);
-  const [inquiryDetails, setInquiryDetails] = useState();
+    const [loading, setLoading] = useState(false);
+    const [inquiryDetails, setInquiryDetails] = useState()
 
-  const email = inquiryDetails?.supplier?.contact_person_email;
-  const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || "unknown"
-    }`;
-  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-
-  const dateToDisplay = 
-  inquiryDetails?.quotation_items_created_at || 
-  inquiryDetails?.quotation_items_updated_at || 
-  inquiryDetails?.created_at || 
-  moment().toISOString();
-
-  const formattedDate = moment(dateToDisplay)
-    .tz("Asia/Kolkata")
-    .format("DD/MM/YYYY HH:mm:ss");
-
-  useEffect(() => {
-    const obj = {
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id: inquiryId,
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.removeItem("acceptedQuotationItems");
-      sessionStorage.removeItem("rejectedQuotationItems");
+    const handleAddTerm = () => {
+        setPaymentTerms([...paymentTerms, '']);
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+    const handleTermChange = (index, value) => {
+        const updatedTerms = [...paymentTerms];
+        updatedTerms[index] = value;
+        setPaymentTerms(updatedTerms);
     };
-  }, []);
 
-  const handleAccept = (item, status) => {
-    const obj = {
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      enquiry_id: inquiryId,
-      item_id: item._id,
-      new_status: status,
+    const handleRemoveTerm = (index) => {
+        const updatedTerms = paymentTerms.filter((_, i) => i !== index);
+        setPaymentTerms(updatedTerms);
     };
-  };
 
+    useEffect(() => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
+
+        const obj = {
+            admin_id   : adminIdSessionStorage || adminIdLocalStorage,
+            enquiry_id : inquiryId
+        }
+
+        postRequestWithToken('admin/get-inquiry-details', obj, async (response) => {
+            if (response.code === 200) {
+                setInquiryDetails(response?.result)
+            } else {
+                console.log('error in order list api', response);
+            }
+        })
+    }, [])
+
+    const dateToDisplay = 
+    inquiryDetails?.quotation_items_created_at || 
+    inquiryDetails?.quotation_items_updated_at || 
+    inquiryDetails?.created_at || 
+    moment().toISOString();
+  
+    const formattedDate = moment(dateToDisplay)
+      .tz("Asia/Kolkata")
+      .format("DD/MM/YYYY HH:mm:ss");
+
+    const [acceptChecked, setAcceptChecked] = useState(false)
+    const [counterChecked, setCounterChecked] = useState(false)
+    const [quotationItems, setQuotationItems] = useState([])
+
+    const email = inquiryDetails?.buyer?.contact_person_email; // This could also be derived from props or context
+    const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || 'unknown'}`; // Ensure inquiryId is included if it's available
+
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
   return (
     <div className="ongoing-details-container">
       <div className="ongoing-details-conatiner-heading">
@@ -73,7 +84,7 @@ const OngoingInquiriesDetails = () => {
             <div className="ongoing-details-left-inner-section-container">
               <div className="ongoing-details-left-top-containers">
                 <Link
-                  to={`#`}
+                  to={`/admin/supplier-details/${inquiryDetails?.supplier.supplier_id}`}
                 >
                   <div className="ongoing-details-top-order-cont">
                     <div className="ongoing-details-left-top-main-heading">
@@ -81,8 +92,7 @@ const OngoingInquiriesDetails = () => {
                       Supplier Name
                     </div>
                     <div className="ongoing-details-left-top-main-contents">
-                      {" "}
-                     Pharmaceuticals Pharmacy Private Limited
+                      {inquiryDetails?.supplier.supplier_name}
                     </div>
                   </div>
                 </Link>
@@ -91,7 +101,7 @@ const OngoingInquiriesDetails = () => {
                     Type
                   </div>
                   <div className="ongoing-details-left-top-main-contents">
-                  Manufacturer
+                  {inquiryDetails?.supplier.supplier_type}
                   </div>
                 </div>
                 <div className="ongoing-details-top-order-cont">
@@ -100,8 +110,7 @@ const OngoingInquiriesDetails = () => {
                     Date & Time
                   </div>
                   <div className="ongoing-details-left-top-main-contents">
-                       {/* {formattedDate} */}
-                       12/10/2024 05:00PM
+                       {formattedDate}
                   </div>
                 </div>
               </div>
@@ -110,9 +119,24 @@ const OngoingInquiriesDetails = () => {
         </div>
       </div>
       {/* Start the return enquiry section */}
+      {inquiryDetails?.quotation_items?.length > 0 ? (
         <div className="ongoing-details-assign-driver-section">
-          <InquiryProductList/>
+          <InquiryProductList  
+             inquiryDetails = {inquiryDetails}
+             items={inquiryDetails?.items}
+            //  quotationItems = {inquiryDetails?.quotation_items}
+             setAcceptChecked={setAcceptChecked}
+             setCounterChecked={setCounterChecked}
+             setQuotationItems={setQuotationItems}
+             quotationItems={inquiryDetails?.quotation_items}
+          />
         </div>
+         ) : (
+          ""
+        )}
+
+        {inquiryDetails?.quotation_items?.length > 0 &&
+             inquiryDetails?.payment_terms?.length > 0 ? (
         <div className="ongoing-details-payment-pending-container">
           <div className="ongoing-details-paymen-pending-right-section">
             <div className="ongoing-details-payment-first-terms-containers">
@@ -131,9 +155,15 @@ const OngoingInquiriesDetails = () => {
             </div>
           </div>
         </div>
+         ) : (
+          ""
+        )}
       {/* start the assign driver section */}
       <div className="inquiries-details-assign-driver-section">
-        <InquiryOngoingList />
+        <InquiryOngoingList 
+           items={inquiryDetails?.items}
+           inquiryDetails={inquiryDetails}
+        />
       </div>
     </div>
   );

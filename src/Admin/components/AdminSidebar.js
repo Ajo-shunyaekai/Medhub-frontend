@@ -261,7 +261,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-request-details/:supplierId" element={<SupplierRequestDetails/>} />
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
                   <Route path="/admin/inquiry-request-details" element={<InquiryRequestDetails/>} />
-                  <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails/>} />
+                  <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails />} />
                   <Route path="/admin/seller-inquiry-details/:inquiryId" element={<SellerInquiryDetails/>} />
                   <Route path="/admin/seller-inquiry-product-list" element={<SellerInquiryProductList/>} />
                   <Route path="/admin/seller-purchased-order-details/:purchaseOrderId" element={<SellerPurchasedOrderDetails/>} />
@@ -269,8 +269,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
                   <Route path="/admin/seller-invoice-details/:invoiceId" element={<SellerInvoiceDetails/>} />
                   <Route path="/admin/proforma-invoice-details/:orderId" element={<ProformaInvoiceDetails/>} />
-                  <Route path="/admin/ongoing-inquiries-details" element={<OngoingInquiriesDetails/>} />
-                  <Route path="/admin/buyer-purchased-order-details" element={<BuyerPurchasedOrderDetails/>} />
+                  <Route path="/admin/ongoing-inquiries-details/:inquiryId" element={<OngoingInquiriesDetails/>} />
+                  <Route path="/admin/buyer-purchased-order-details/:purchaseOrderId" element={<BuyerPurchasedOrderDetails/>} />
                   <Route path="/admin/buyer-invoice-details" element={<BuyerInvoiceDetails/>}/>
                   <Route path="/admin/buyer-proforma-details" element={<BuyerProformaDetails/>}/>
                   <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails/>}/>
