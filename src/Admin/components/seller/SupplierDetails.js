@@ -105,10 +105,10 @@ const SupplierDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='buyer-details-description-section'>
+                        {/* <div className='buyer-details-description-section'>
                             <div className='buyer-details-description-head'>Reason for Rejected Supplier</div>
                             <div className='buyer-details-description-content'>{supplierDetails?.description}</div>
-                        </div>
+                        </div> */}
                         <div className='buyer-details-description-section'>
                             <div className='buyer-details-description-head'>Description</div>
                             <div className='buyer-details-description-content'>{supplierDetails?.description}</div>

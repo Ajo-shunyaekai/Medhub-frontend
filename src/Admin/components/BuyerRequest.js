@@ -12,73 +12,12 @@ const BuyerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
-    const buyerRequest = [
-        {
-            type: "Distributor",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "Distributor",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "End User",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "Distributor",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "End User",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "End User",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "Distributor",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-        {
-            type: "End User",
-            name: "Atom Pharma Pvt. Ltd.",
-            origin: "India",
-            license: "JGASD778",
-            tax: "15FEGFEGE"
-        },
-    ];
+    
 
     const [buyerRequestList, setBuyerRequestList] = useState([])
-    const [totalRequests, setTotalRequests] = useState()
-
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalRequests, setTotalRequests]       = useState()
+    const [currentPage, setCurrentPage]           = useState(1);
     const listPerPage = 5;
-    const indexOfLastOrder = currentPage * listPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - listPerPage;
-    const currentOrders = buyerRequest.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);

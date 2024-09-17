@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from 'react';
 import WorldMap from "react-svg-worldmap";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../style/dashboard.css'
 import ProgressBar from './chart/ProgressBar';
 import OrangeBar from './chart/OrangeBar'
@@ -16,21 +16,22 @@ import {countryToCodeMapping, convertCountryToCode} from '../assest/countryCodes
 
 
 const AdminDashboard = () => {
-    
-    const [countryData, setCountryData]                 = useState([]);
+    const navigate = useNavigate()
+
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+
+    const [countryData, setCountryData] = useState([]);
     const [dashboardData, setDashboard] = useState()
 
     useEffect(() => {
-        // const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        // const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        // if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        // navigate("/admin/login");
-        // return;
-        // }
+       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
 
         const obj = {
-            admin_id  : 'ADM-b9c743706ae7'
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
         }
 
         postRequestWithToken('admin/dashboard-data-list', obj, async (response) => {
@@ -64,14 +65,14 @@ const AdminDashboard = () => {
                                     <Link to='/admin/buyer-request'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>No. of Buyer Request</div>
-                                            <div className='top-text'>{dashboardData?.buyerRegisReqCount.count}</div>
+                                            <div className='top-text'>{dashboardData?.buyerRegisReqCount.count || 0}</div>
                                         </div>
                                     </Link>
                                   
                                     <Link to='/admin/seller-request'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>No. of Seller Request</div>
-                                            <div className='top-text'>{dashboardData?.supplierRegisReqCount.count}</div>
+                                            <div className='top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
                                         </div>
                                     </Link>
                                       <Link to='#'>
@@ -86,7 +87,7 @@ const AdminDashboard = () => {
                                 <div className='bottom-container'>
                                     <Link to='/admin/rejected-buyer'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Rejected Buyer:<span className='bottom-text'> {dashboardData?.completedCount[0]?.count}</span></div>
+                                        <div className='bottom-head'>Rejected Buyer:<span className='bottom-text'> {dashboardData?.completedCount[0]?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <ProgressBar />
                                         </div>
@@ -94,7 +95,7 @@ const AdminDashboard = () => {
                                     </Link>
                                     <Link to='/admin/rejected-seller'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Rejected Seller:<span className='bottom-text'> {dashboardData?.pendingCount[0]?.count}</span></div>
+                                            <div className='bottom-head'>Rejected Seller:<span className='bottom-text'> {dashboardData?.pendingCount[0]?.count || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>
@@ -112,7 +113,7 @@ const AdminDashboard = () => {
                         <div className='cart-left-bottom-section'>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count}</span>
+                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Approved Buyer</div>
@@ -122,7 +123,7 @@ const AdminDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count}</span>
+                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>-2.0</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Approved Supplier</div>
@@ -180,7 +181,7 @@ const AdminDashboard = () => {
                             </div>
                             <div className='bottom-text-cont'>
                                 <div className='bottom-text-head'>Inquiries</div>
-                                <div className='bottom-text-pect'>12</div>
+                                <div className='bottom-text-pect'>{dashboardData?.inquiryCount || 0}</div>
                             </div>
                         </div>
                         <div className='bottom-arrow-cont'>
@@ -192,15 +193,15 @@ const AdminDashboard = () => {
                             <div className='bottom-cont-left-head'>Orders</div>
                             <div className='bottom-cont-left-cart'>
                                 <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>52</div>
+                                    <div className='bottom-cont-left-text'>{dashboardData?.poCount || 0}</div>
                                     <div className='bottom-cont-left-num'>Purchased Orders</div>
                                 </div>
                                 <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-texts'>+15</div>
+                                    <div className='bottom-cont-left-texts'>{dashboardData?.orderCount || 0}</div>
                                     <div className='bottom-cont-left-num'>Active Orders</div>
                                 </div>
                                 <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>45.5%</div>
+                                    <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}%</div>
                                     <div className='bottom-cont-left-num'>Completed Orders</div>
                                 </div>
                             </div>
