@@ -8,43 +8,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Complaint = ({supportList, handlePageChange, currentPage, totalItems,listPerPage}) => {
-    // const complaint = [
-    //     {
-    //         complaint_id: "125252",
-    //         order_id: "14785236",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //     },
-    //     {
-    //         complaint_id: "112522",
-    //         order_id: "1565236",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //     },
-    //     {
-    //         complaint_id: "11478256",
-    //         order_id: "1369852",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //     },
-    //     {
-    //         complaint_id: "1789654",
-    //         order_id: "1253652",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //     },
-    //     {
-    //         complaint_id: "125632",
-    //         order_id: "1475445",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //     },
-    // ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = complaint.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
 
     return (
         <>

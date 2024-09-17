@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../../api/Requests';
 
 function BuyerProformaDetails() {
     const { orderId } = useParams()
     const navigate    = useNavigate()
 
-    const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [orderDetails, setOrderDetails] = useState()
 
     useEffect(() => {
+
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
+        }
         const obj = {
-            supplier_id   : supplierIdSessionStorage || supplierIdLocalStorage,
+            admin_id : adminIdSessionStorage || adminIdLocalStorage,
             order_id : orderId,
         }
         
-        // postRequestWithToken('order/supplier-order-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setOrderDetails(response.result)
-        //     } else {
-        //        console.log('error in purchaseorder/get-po-details api',response);
-        //     }
-        // })
+        postRequestWithToken('admin/order-details', obj, async (response) => {
+            if (response.code === 200) {
+                setOrderDetails(response.result)
+            } else {
+               console.log('error in order-details api',response);
+            }
+        })
     },[])
-
     const orderItems = orderDetails?.items?.map(item => ({
         ...item,
         unit_price: parseFloat(item.unit_price),
@@ -159,14 +164,6 @@ function BuyerProformaDetails() {
                                                                     <td style={{ width: '750px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                             <tbody>
-                                                                                {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
-                                                                                </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax % :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalTaxAmount.toFixed(2)} </p>
-                                                                                </tr> */}
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{totalAmount.toFixed(2)} AED</p>
@@ -222,15 +219,6 @@ function BuyerProformaDetails() {
                                                     )
                                                 })
                                             }
-                                               
-                                                {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p> */}
                                             </div>
                                         </td>
                                     </tr>

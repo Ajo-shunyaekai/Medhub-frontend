@@ -42,7 +42,7 @@ const SellerSupport = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
     const [totalItems, setTotalIems]    = useState()
-    const listPerPage = 2
+    const listPerPage = 5
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -50,18 +50,19 @@ const SellerSupport = () => {
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
-        navigate("/admin/login");
-        return;
-        }
+            navigate("/admin/login");
+            return;
+            }
+
         const obj = {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : 'buyer',
+            filterKey : 'supplier',
             supportType : activeLink,
             pageNo    : currentPage, 
             pageSize  : listPerPage,
         }
 
-        postRequestWithToken('admin/support-list', obj, async (response) => {
+        postRequestWithToken('admin/get-support-list', obj, async (response) => {
             if (response.code === 200) {
                 setSupportList(response.result.data)
                 setTotalIems(response.result.totalItems)

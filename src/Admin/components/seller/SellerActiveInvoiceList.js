@@ -53,7 +53,11 @@ const SellerActiveInvoiceList = ({invoiceData}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Amount</span>
-                                            <span className="table-g-not-name">{invoice.total_payable_amount}</span>
+                                            <span className="table-g-not-name">
+                                                {invoice.total_payable_amount !== null && invoice.total_payable_amount !== undefined
+                                                ? `${invoice.total_payable_amount} AED`
+                                                : ''}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className='tables-td'>

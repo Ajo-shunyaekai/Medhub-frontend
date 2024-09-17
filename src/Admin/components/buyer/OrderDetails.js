@@ -107,21 +107,20 @@ const OrderDetails = ({socket}) => {
     return (
         <div className="buyer-order-details-container">
             <div className="buyer-order-details-conatiner-heading">
-                Order ID: <span>{orderDetails?.order_id || '987456321'}</span>
+                Order ID: <span>{orderDetails?.order_id}</span>
             </div>
             <div className="buyer-order-details-section">
                 <div className="buyer-order-details-left-section">
                     <div className="buyer-order-details-top-inner-section">
                         <div className="buyer-order-details-left-inner-section-container">
                             <div className="buyer-order-details-left-top-containers">
-                                <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+                                <Link to={`/admin/supplier-details/${orderDetails?.supplier_id}`}>
                                     <div className="buyer-order-details-top-order-cont">
                                         <div className="buyer-order-details-left-top-main-heading">
                                             Seller Name
                                         </div>
                                         <div className="buyer-order-details-left-top-main-contents">
-                                            {orderDetails?.supplier?.supplier_name ||
-                                                'Pharmaceuticals Pvt Ltd'}
+                                            {orderDetails?.supplier?.supplier_name}
                                         </div>
                                     </div>
                                 </Link>
@@ -175,24 +174,26 @@ const OrderDetails = ({socket}) => {
                 <AssignDriver orderItems={orderDetails?.items}  orderDetails = {orderDetails}/>
             </div>
             {/* end the assign driver section */}
-                        <div className='active-order-details-left-bottom-containers'>
-                            <div className='active-order-details-left-bottom-vehichle'>
-                                <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
-                                <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
-                            </div>
-                            <div className='active-order-details-left-bottom-vehichle-no'>
-                                <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
-                                <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
-                            </div>
-                            <div className='active-order-details-left-bottom-vehichle-no'>
-                                <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
-                                <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
-                            </div>
-                            <div className='active-order-details-left-bottom-vehichle-no'>
-                                <div className='active-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
-                                <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
-                            </div>
+            {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
+                    <div className='active-order-details-left-bottom-containers'>
+                        <div className='active-order-details-left-bottom-vehichle'>
+                            <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
+                            <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
                         </div>
+                        <div className='active-order-details-left-bottom-vehichle-no'>
+                            <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
+                            <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
+                        </div>
+                        <div className='active-order-details-left-bottom-vehichle-no'>
+                            <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
+                            <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
+                        </div>
+                        <div className='active-order-details-left-bottom-vehichle-no'>
+                            <div className='active-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
+                            <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
+                        </div>
+                    </div>
+            )}
             {/* end the main component heading */}
             {/* start the main component heading */}
             {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
@@ -283,9 +284,11 @@ const OrderDetails = ({socket}) => {
                                 <div className='active-order-details-right-pickdata-head'>Address</div>
                                 <div className='active-order-details-right-pickdata-text'>
                                     {orderDetails?.shipment_details?.supplier_details?.address},
+                                    {orderDetails?.shipment_details?.supplier_details?.country},
+                                    {orderDetails?.shipment_details?.supplier_details?.state},
                                     {orderDetails?.shipment_details?.supplier_details?.ciyt_disctrict},
                                     {orderDetails?.shipment_details?.supplier_details?.pincode}.
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div> 
@@ -307,9 +310,12 @@ const OrderDetails = ({socket}) => {
                                 <div className='active-order-details-right-pickupdata-address'>
                                     <div className='active-order-details-right-pickdata-head'>Address</div>
                                     <div className='active-order-details-right-pickdata-text'>
-                                        {orderDetails.logistics_details.drop_location.address}, 
-                                        {orderDetails.logistics_details.drop_location.ciyt_disctrict}, 
-                                        {orderDetails.logistics_details.drop_location.pincode}.</div>
+                                        {orderDetails?.logistics_details?.drop_location?.address},
+                                        {orderDetails?.logistics_details?.drop_location?.country},
+                                        {orderDetails?.logistics_details?.drop_location?.state},
+                                        {orderDetails?.logistics_details?.drop_location?.city_district},
+                                        {orderDetails?.logistics_details?.drop_location?.pincode}
+                                   </div>
                                 </div>
                             </div>
                         </>
@@ -318,18 +324,17 @@ const OrderDetails = ({socket}) => {
             </div>
             {/* end the section */}
             {/* Start the assign driver section */}
-            {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
+            {orderDetails?.status === "Completed" &&  (
             <div className='buyer-order-details-codinator-section-cont'>
                 <BuyerActiveCodinator productList={orderDetails?.items} />
             </div>
-            {/* )} */}
+             )}
 
-             {/* {
-                orderDetails?.order_status === 'completed' ?
-             } */}
-             <div className='buyer-order-details-invoice-list-section'>
-                <OrderInvoiceList />
-            </div>
+            {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
+                <div className='buyer-order-details-invoice-list-section'>
+                    <OrderInvoiceList invoiceData = {orderDetails?.invoices} />
+                </div>
+              )}
             {/* End the assign driver section */}
 
             {/* <CustomModal

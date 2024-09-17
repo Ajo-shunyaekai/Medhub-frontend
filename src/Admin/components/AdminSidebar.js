@@ -271,8 +271,8 @@ const AdminSidebar = () => {
                   <Route path="/admin/proforma-invoice-details/:orderId" element={<ProformaInvoiceDetails/>} />
                   <Route path="/admin/ongoing-inquiries-details/:inquiryId" element={<OngoingInquiriesDetails/>} />
                   <Route path="/admin/buyer-purchased-order-details/:purchaseOrderId" element={<BuyerPurchasedOrderDetails/>} />
-                  <Route path="/admin/buyer-invoice-details" element={<BuyerInvoiceDetails/>}/>
-                  <Route path="/admin/buyer-proforma-details" element={<BuyerProformaDetails/>}/>
+                  <Route path="/admin/buyer-invoice-details/:invoiceId" element={<BuyerInvoiceDetails/>}/>
+                  <Route path="/admin/buyer-proforma-details/:orderId" element={<BuyerProformaDetails/>}/>
                   <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails/>}/>
                   {/* Start the product navigate route */}
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
@@ -296,10 +296,12 @@ const AdminSidebar = () => {
                   
                   <Route path="/admin/buyer-invoice/paid" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-invoice/pending" element={<BuyerInvoice/>} />
+                  <Route path="/admin/buyer-invoice/proforma" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-invoice" element={<Navigate to="/admin/buyer-invoice/paid" />} />
                   <Route path="/admin/buyer-invoice" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-pending" element={<BuyerPending/>} />
                   <Route path="/admin/buyer-paid" element={<BuyerPaid/>} />
+                  {/* <Route path="/admin/seller-invoice/proforma" element={<SellerInvoice/>} /> */}
                   <Route path="/admin/buyer-support/complaint" element={<BuyerSupport/>} />
                   <Route path="/admin/buyer-support/feedback" element={<BuyerSupport/>} />
                   <Route path="/admin/buyer-support" element={<Navigate to="/admin/buyer-support/complaint" />} />

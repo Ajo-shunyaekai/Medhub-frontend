@@ -65,14 +65,37 @@ const SellerInvoice = () => {
             pageSize    : listPerPage,
         }
 
-        postRequestWithToken('admin/buyer-supplier-invoices-list', obj, async (response) => {
-            if (response.code === 200) {
-                setInvoiceList(response.result.data)
-                setTotalItems(response.result.totalItems)
-            } else {
-               console.log('error in buyer-supplier-invoices-list api',response);
-            }
-        })
+        // postRequestWithToken('admin/buyer-supplier-invoices-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setInvoiceList(response.result.data)
+        //         setTotalItems(response.result.totalItems)
+        //     } else {
+        //        console.log('error in buyer-supplier-invoices-list api',response);
+        //     }
+        // })
+
+        if (activeLink === 'paid' || activeLink === 'pending') {
+            obj.filterKey = activeLink;
+            postRequestWithToken('admin/get-invoice-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalItems(response.result.totalItems);
+                } else {
+                    console.log('Error in get-invoice-list API', response);
+                }
+            });
+        } else if (activeLink === 'proforma') {
+            // Call a different API for 'proforma' invoices
+            obj.filterKey = 'active'
+            postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceList(response.result.data);
+                    setTotalItems(response.result.totalItems);
+                } else {
+                    console.log('Error in buyer-order-list API', response);
+                }
+            });
+        }
     },[currentPage, activeLink])
 
     const handlePageChange = (pageNumber) => {

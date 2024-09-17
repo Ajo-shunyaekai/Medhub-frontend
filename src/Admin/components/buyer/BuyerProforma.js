@@ -6,9 +6,10 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import moment from 'moment/moment';
+
 
 const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, handlePageChange }) => {
-
 
     return (
         <>
@@ -38,20 +39,24 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
                                     </div>
                                 </div>
                             </thead>
+                            {
+                        invoiceList && invoiceList.length > 0 ? (
+                            invoiceList?.map((invoice, i) => {
+                                return (
                             <tbody className={styles.bordered}>
                                 <div className={styles['invoice-table-row-container']}>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                        <div className={styles['invoice-table-text-color']}>14785236</div>
+                                        <div className={styles['invoice-table-text-color']}>{invoice.invoice_no}</div>
                                     </div>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                        <div className={styles['invoice-table-text-color']}>14/10/2024</div>
+                                        <div className={styles['invoice-table-text-color']}>{moment(invoice.created_at).format("DD/MM/YYYY")}</div>
                                     </div>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
-                                        <div className={styles['invoice-table-text-color']}>ORD123456</div>
+                                        <div className={styles['invoice-table-text-color']}>{invoice.order_id}</div>
                                     </div>
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
                                         <div className={styles['invoice-table-text-color']}>
-                                            Pharmaceuticals
+                                        {invoice.supplier_name}
                                         </div>
                                     </div>
                                     {/* <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
@@ -60,7 +65,7 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
                                                 </div>
                                             </div> */}
                                     <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-btn']} ${styles['invoice-table-order-1']}`}>
-                                        <Link to='/admin/buyer-proforma-details'>
+                                        <Link to={`/admin/buyer-proforma-details/${invoice.order_id}`}>
                                             <div className={`${styles['invoice-table']} ${styles['invoice-table-view']}`}>
                                                 <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                             </div>
@@ -68,6 +73,15 @@ const BuyerProforma = ({ invoiceList, totalItems, currentPage, listPerPage, hand
                                     </div>
                                 </div>
                             </tbody>
+                              )
+                            })
+                        ) : (
+                            <>
+                               
+                                <p>No Proforma Invoices</p>
+                            </>
+                        )
+                    }
                         </Table>
                         <div className={styles['invoice-pagi-container']}>
                             <Pagination

@@ -60,7 +60,7 @@ const BuyerPaid = ({invoiceList, totalItems, currentPage, listPerPage, handlePag
                                            </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-btn']} ${styles['invoice-table-order-1']}`}>
-                                            <Link to='/admin/buyer-invoice-details'>
+                                            <Link to={`/admin/buyer-invoice-details/${invoice.invoice_id}`}>
                                                 <div className={`${styles['invoice-table']} ${styles['invoice-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

@@ -8,48 +8,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const BuyerComplaint = ({supportList, handlePageChange, currentPage, totalItems,listPerPage}) => {
-    // const complaint = [
-    //     {
-    //         complaint_id: "125252",
-    //         order_id: "14785236",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Under Review"
-    //     },
-    //     {
-    //         complaint_id: "112522",
-    //         order_id: "1565236",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Pending"
-    //     },
-    //     {
-    //         complaint_id: "11478256",
-    //         order_id: "1369852",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"In Process"
-    //     },
-    //     {
-    //         complaint_id: "1789654",
-    //         order_id: "1253652",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Resolved"
-    //     },
-    //     {
-    //         complaint_id: "125632",
-    //         order_id: "1475445",
-    //         complaint: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    //         status:"Pending"
-    //     },
-    // ];
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 4;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = complaint.slice(indexOfFirstOrder, indexOfLastOrder);
-
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
 
     return (
         <>
@@ -68,29 +26,25 @@ const BuyerComplaint = ({supportList, handlePageChange, currentPage, totalItems,
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
                                         <span className={styles['complaint-header-text-color']}>Complaint</span>
                                     </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <span className={styles['complaint-header-text-color']}>Status</span>
-                                    </div>
+                                   
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
                                         <span className={styles['complaint-header-text-color']}>Action</span>
                                     </div>
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                                {supportList?.map((complaint, index) => (
+                                {supportList?.map((support, index) => (
                                     <div className={styles['complaint-table-row-container']} key={index}>
                                         <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{complaint.support_id}</div>
+                                            <div className={styles['complaint-table-text-color']}>{support.support_id}</div>
                                         </div>
                                         <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{complaint.order_id}</div>
+                                            <div className={styles['complaint-table-text-color']}>{support.order_id}</div>
                                         </div>
                                         <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                            <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>{complaint.reason}</div>
+                                            <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>{support.reason}</div>
                                         </div>
-                                        <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                            <div className={styles['complaint-table-text-color']}>{'pending'}</div>
-                                        </div>
+                                       
                                         <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
                                             <Link to='/admin/order-details'>
                                                 <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>

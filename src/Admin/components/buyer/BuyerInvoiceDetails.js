@@ -3,9 +3,14 @@ import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment/moment';
 import { postRequestWithToken } from '../../api/Requests';
+
+
 function BuyerInvoiceDetails() {
     const {invoiceId} = useParams()
     const navigate    = useNavigate();
+
+    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+    const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
     const [invoiceDetails, setInvoiceDetails] = useState(null);
 
@@ -22,15 +27,17 @@ function BuyerInvoiceDetails() {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+            navigate("/admin/login");
+            return;
+        }
 
         const obj = {
             invoice_id    : invoiceId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
+            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
         };
 
-        postRequestWithToken('invoice/invoice-details', obj, (response) => {
+        postRequestWithToken('admin/get-invoice-details', obj, (response) => {
             if (response.code === 200) {
                 setInvoiceDetails(response.result);
             } else {
@@ -97,7 +104,7 @@ function BuyerInvoiceDetails() {
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '150px' }}>Product Name</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', width: '40px' }}>Qty</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Price</td>
-                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Unit Tax %</td>
+                                                                    <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '100px' }}>Tax %</td>
                                                                     <td style={{ padding: '8px 0', fontWeight: 500, borderBottom: '1px dotted rgb(153, 160, 172)', textAlign: 'end', width: '120px' }}>Total</td>
                                                                 </tr>
                                                             </thead>
@@ -149,18 +156,7 @@ function BuyerInvoiceDetails() {
                                                                     <td style={{ width: '550px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                             <tbody>
-                                                                                {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 AED</p>
-                                                                                </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>5%</p>
-                                                                                </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 AED</p>
-                                                                                </tr> */}
+                                                                              
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{invoiceDetails?.total_payable_amount} AED</p>
@@ -196,14 +192,7 @@ function BuyerInvoiceDetails() {
                                                     })
                                                 }
                                                
-                                                {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p> */}
+                                                
                                             </div>
                                         </td>
                                     </tr>
