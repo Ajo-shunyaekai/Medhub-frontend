@@ -48,7 +48,7 @@ const ApprovedSeller = () => {
     ];
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage     = 4;
+    const ordersPerPage     = 5;
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders     = approvedOrders.slice(indexOfFirstOrder, indexOfLastOrder);

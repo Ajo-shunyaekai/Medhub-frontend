@@ -177,24 +177,6 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
         </div>
       </Link>
 
-      {/* <Link
-        to="/buy"
-        className={styles.sidebar_text}
-        activeclassname={styles.active}
-      >
-        <div className={styles.icon}>
-          <LocalMallOutlinedIcon
-            style={{ color: "#14bae4", fontSize: "20px" }}
-          />
-        </div>
-        <div
-          style={{ display: isOpen ? "block" : "none" }}
-          className={styles.sidebar_text}
-        >
-          Buy
-        </div>
-      </Link> */}
-
       <Box sx={{ width: 200 }} role="presentation">
         <div className={styles.mobile_order_btn}>
           <div className={styles.sidebar_text} onClick={toggleAccordion}>
@@ -249,45 +231,6 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
               </Link>
             </div>
           )}
-
-          {/* <Link
-            to="/my-supplier"
-            className={styles.sidebar_text}
-            activeclassname={styles.active}
-          >
-            <div className={styles.icon}>
-              {" "}
-              <LocalShippingOutlinedIcon
-                style={{ color: "#f4c414", fontSize: "20px" }}
-              />
-            </div>
-            <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className={styles.sidebar_text}
-            >
-              {" "}
-              My Supplier
-            </div>
-          </Link> */}
-          {/* <Link
-            to="/invoice"
-            className={styles.sidebar_text}
-            activeclassname={styles.active}
-          >
-            <div className={styles.icon}>
-              {" "}
-              <DescriptionOutlinedIcon
-                style={{ color: "#F54394", fontSize: "20px" }}
-              />
-            </div>
-            <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className={styles.sidebar_text}
-            >
-              {" "}
-              Invoice
-            </div>
-          </Link> */}
  <div className={styles.dropdown} style={{ marginTop: '8px' }}>
           <div className={styles.dropdownToggle} onClick={toggleSellerDropdown}>
       <LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} />
@@ -432,41 +375,25 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
 
 const handleNavigation = (notificationId,event, eventId,linkId) => {
     switch (event) {
-      // case 'enquiry':
-      //   setIsNotificationOpen(false)
-      //   // navigate('/buyer/inquiry-purchase-orders/ongoing');
-      //   navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
-      //   updateStatusApi(notificationId)
-      //   handleClick(notificationId, event)
-      //   break;
-      // case 'order':
-      //   setIsNotificationOpen(false)
-      //   navigate(`/buyer/order-details/${eventId}`);
-      //   handleClick(notificationId, event)
-      //   break;
-      // case 'purchaseorder':
-      //       setIsNotificationOpen(false)
-      //       navigate(`/buyer/purchased-order-details/${linkId}`);
-      //       handleClick(notificationId, event)
-      //       break;
+      
       case 'addnewmedicinerequest':
         setIsNotificationOpen(false)
-        navigate(`/admin/product-requests`);
+        navigate(`/admin/product-requests/newproduct`);
         handleClick(notificationId, event)
         break;    
     case 'addsecondarymedicinerequest':
         setIsNotificationOpen(false)
-        navigate(`/admin/product-requests`);
+        navigate(`/admin/product-requests/secondary`);
         handleClick(notificationId, event)
         break;        
       case 'editnewmedicinerequest':
           setIsNotificationOpen(false)
-          navigate(`/admin/product-update-request`);
+          navigate(`/admin/product-update-requests/newproduct`);
           handleClick(notificationId, event)
           break;    
       case 'editsecondarymedicinerequest':
           setIsNotificationOpen(false)
-          navigate(`/admin/product-update-request`);
+          navigate(`/admin/product-update-requests/secondary`);
           handleClick(notificationId, event)
           break;   
       case 'buyerregistration':
@@ -534,52 +461,9 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
                   {/* Notificatio content goes here */}
                   <div className={styles.noti_wrapper}>
                     <div className={styles.noti_top_wrapper}>
-                      {/* <div className={styles.noti_profile_wrapper}>
-                        <div className={styles.noti_profile}>A</div>
-                        <div className={styles.noti_profile_text}>
-                          {notificationText.length > 50
-                            ? `${notificationText.slice(0, 50)}...`
-                            : notificationText}
-                        </div>
-                      </div>
+                     
 
-                      <div className={styles.noti_profile_wrapper}>
-                        <div className={styles.noti_profile}>B</div>
-                        <div className={styles.noti_profile_text}>
-                          {notificationText.length > 50
-                            ? `${notificationText.slice(0, 50)}...`
-                            : notificationText}
-                        </div>
-                      </div>
-
-                      <div className={styles.noti_profile_wrapper}>
-                        <div className={styles.noti_profile}>C</div>
-                        <div className={styles.noti_profile_text}>
-                          {notificationText.length > 50
-                            ? `${notificationText.slice(0, 50)}...`
-                            : notificationText}
-                        </div>
-                      </div>
-
-                      <div className={styles.noti_profile_wrapper}>
-                        <div className={styles.noti_profile}>D</div>
-                        <div className={styles.noti_profile_text}>
-                          {notificationText.length > 50
-                            ? `${notificationText.slice(0, 50)}...`
-                            : notificationText}
-                        </div>
-                      </div>
-
-                      <div className={styles.noti_profile_wrapper}>
-                        <div className={styles.noti_profile}>E</div>
-                        <div className={styles.noti_profile_text}>
-                          {notificationText.length > 50
-                            ? `${notificationText.slice(0, 50)}...`
-                            : notificationText}
-                        </div>
-                      </div>*/}
-
-{
+                                              {
                                                 notificationList?.slice(0, 5).map((data,i) => {
                                                     let additionalInfo = '';
                                             

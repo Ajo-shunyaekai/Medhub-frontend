@@ -17,11 +17,8 @@ const NotificationList = () => {
     const [count, setCount] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
+    const ordersPerPage = 5;
 
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const notificationOrders = notificationList.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -32,8 +29,9 @@ const NotificationList = () => {
             navigate("/admin/login");
         }
         const obj = {
-            // order_id : orderId,
             admin_id : adminIdSessionStorage || adminIdLocalStorage,
+            pageNo   : currentPage,
+            pageSize : ordersPerPage
         };
 
         postRequestWithToken('admin/get-notification-details-list', obj, (response) => {
@@ -48,17 +46,23 @@ const NotificationList = () => {
 
     const handleNavigation = (notificationId, event, eventId,linkId) => {
         switch (event) {
-            case 'enquiry':
-                navigate(`/admin/inquiry-request-details/${eventId}`);
-                break;
-            case 'order':
-                navigate(`/admin/active-orders-details/${eventId}`);
-                break;
-            case 'purchaseorder':
-                navigate(`/admin/purchased-order-details/${linkId}`);
-                break;  
-            case 'addmedicine':
+            case 'addnewmedicinerequest':
                 navigate(`/admin/product-request-details/${eventId}`);
+                break;
+            case 'addsecondarymedicinerequest':
+                navigate(`/admin/secondary-product-request-details/${eventId}`);
+                break;
+            case 'editnewmedicinerequest':
+                navigate(`/admin/edit-product-details/${linkId}`);
+                break;  
+            case 'editsecondarymedicinerequest':
+                navigate(`/admin/edit-secondary-details/${eventId}`);
+                break;   
+            case 'buyerregistration':
+                navigate(`/admin/buyer-request-details/${eventId}`);
+                break;   
+            case 'supplierregistration':
+                navigate(`/admin/supplier-request-details/${eventId}`);
                 break;        
             default:
                 navigate('/admin/');
@@ -91,7 +95,7 @@ const NotificationList = () => {
                                     </th>
                                 </tr>
                             </thead>
-                            {notificationOrders?.map((notification, index) => {
+                            {notificationList?.map((notification, index) => {
                                 let additionalInfo = '';
 
                                 if (notification.event === 'order' || notification.event === 'purchaseorder') {
@@ -150,6 +154,5 @@ const NotificationList = () => {
         </div>
     );
 };
-
 
 export default NotificationList

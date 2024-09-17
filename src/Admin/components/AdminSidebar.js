@@ -316,7 +316,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-inquiry/inquiry" element={<BuyerInquiry/>} />
                    <Route path="/admin/buyer-purchased/purchased" element={<BuyerInquiry/>} />
                     <Route path="/admin/buyer-inquiry" element={<Navigate to="/admin/buyer-inquiry/inquiry" />} />
-                  BuyerInquiry
+      
                   {/* end the buyer route */}
 
                    {/* Start the order route */}
