@@ -99,6 +99,8 @@ const SellerInvoice = () => {
     },[currentPage, activeLink])
 
     const handlePageChange = (pageNumber) => {
+        console.log('herer');
+        
         setCurrentPage(pageNumber)
     }
 
