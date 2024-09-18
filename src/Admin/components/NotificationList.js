@@ -53,7 +53,7 @@ const NotificationList = () => {
                 navigate(`/admin/secondary-product-request-details/${eventId}`);
                 break;
             case 'editnewmedicinerequest':
-                navigate(`/admin/edit-product-details/${linkId}`);
+                navigate(`/admin/edit-product-details/${eventId}`);
                 break;  
             case 'editsecondarymedicinerequest':
                 navigate(`/admin/edit-secondary-details/${eventId}`);
@@ -82,7 +82,7 @@ const NotificationList = () => {
                             <thead className='notification-container-thead'>
                                 <tr className='notification-container-tr'>
                                     <th className="notification-container-th">
-                                        <div className="notification-container-head">User Name</div>
+                                        <div className="notification-container-head">From</div>
                                     </th>
                                     <th className="notification-container-th">
                                         <div className="notification-container-head">Date</div>

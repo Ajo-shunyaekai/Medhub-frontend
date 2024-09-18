@@ -105,7 +105,10 @@ const NotificationList = () => {
 
                                     <tr className="notification-section-tr" >
                                         <td className='notification-section-td'>
-                                            <div className="notification-section-heading">{notification.supplier?.supplier_name}</div>
+                                            <div className="notification-section-heading">
+                                                {/* {notification.supplier?.supplier_name} */}
+                                                {notification.from === 'admin' ? 'Admin' : notification.supplier?.supplier_name}
+                                            </div>
                                         </td>
                                         <td className='notification-section-td'>
                                             <div className="notification-section-heading">{moment(notification.createdAt).format("DD/MM/YYYY")}</div>
