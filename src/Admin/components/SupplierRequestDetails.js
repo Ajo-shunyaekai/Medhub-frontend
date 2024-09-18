@@ -161,7 +161,7 @@ const SupplierRequestDetails = () => {
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>VAT Registration No :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_registration_no}</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.vat_reg_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Origin :</div>

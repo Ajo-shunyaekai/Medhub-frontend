@@ -6,6 +6,7 @@ import '../../style/custommodal.css'
 import { postRequestWithToken, postRequestWithTokenAndFile } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { InputMask } from '@react-input/mask';
+import { useNavigate } from 'react-router-dom';
 
 const injectStyles = () => {
     const style = document.createElement('style');
@@ -19,7 +20,7 @@ const injectStyles = () => {
 };
 
 function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplierId }) {
-    console.log(invoiceId, orderId);
+    const navigate = useNavigate()
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [chequeImage, setChequeImage] = useState(null);
 
@@ -196,6 +197,9 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
             postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: 'success' });
+                    setTimeout(() => {
+                        navigate('/buyer/invoice/paid')
+                    })
                     handleClose();
                 } else {
                     toast(response.message, { type: 'error' });

@@ -47,59 +47,6 @@ const Invoice = () => {
     }, [activeIndex, currentPage]);
     
 
-    // const fetchInvoices = (index) => {
-    //     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-    //     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
-    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //         navigate("/buyer/login");
-    //         return;
-    //     }
-
-    //     const filterKey = index === 0 ? 'pending' : index === 1 ? 'completed' : 'active';
-    //     const obj = {
-    //         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-    //         filterKey: filterKey,
-    //         page_no: currentPage, 
-    //         limit: invoicesPerPage,
-    //     };
-    //     // postRequestWithToken('buyer/order/buyer-invoice-list', obj, (response) => {
-    //     //     if (response.code === 200) {
-    //     //         setInvoiceList(response.result.data);
-    //     //         // setTotalInvoices(response.result.totalItems);
-    //     //     } else {
-    //     //         toast(response.message, {type:'error'})
-    //     //         console.log('Error in invoice list API:', response);
-    //     //     }
-    //     //     setLoading(false);
-    //     // });
-
-    //     if (index === 2 && activeIndex === 2) {
-    //         postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
-    //             if (response.code === 200) {
-    //                 setInvoiceList(response.result.data);
-    //                 setTotalInvoices(response.result.totalItems)
-    //             } else {
-    //                 toast(response.message, {type:'error'});
-    //                 console.log('error in proforma invoice list api', response);
-    //             }
-    //             setLoading(false);
-    //         });
-    //     } else {
-    //         postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
-    //             if (response.code === 200) {
-    //                 setInvoiceList(response.result.data);
-    //                 setTotalInvoices(response.result.totalItems)
-    //             } else {
-    //                 toast(response.message, {type:'error'});
-    //                 console.log('error in invoice list api', response);
-    //             }
-    //             setLoading(false);
-    //         });
-    //     }
-    // };
-
-
     const fetchInvoices = (index) => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage = localStorage.getItem("buyer_id");

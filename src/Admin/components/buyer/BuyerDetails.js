@@ -148,11 +148,11 @@ const BuyerDetails = () => {
                             <div className='buyer-details-inner-left-section'>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>COM147852369</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>VAT14785236</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.vat_reg_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>

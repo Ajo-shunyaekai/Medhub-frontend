@@ -28,30 +28,6 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
     };
     const handleCloseModal = () => setShowModal(false);
 
-    //invoice download
-    // const handleDownload = (invoice) => {
-    //     const element = document.createElement('div');
-    //     document.body.appendChild(element);
-
-    //     // Render the InvoiceTemplate with the given invoice data
-    //     ReactDOM.render(<InvoiceTemplate invoice={invoice} />, element);
-
-    //     // Set options for html2pdf
-    //     const options = {
-    //         margin: 0.5,
-    //         filename: `invoice_${invoice.invoice_number}.pdf`,
-    //         image: { type: 'jpeg', quality: 1.00 },
-    //         html2canvas: { scale: 2 },
-    //         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    //     };
-
-    //     // Generate PDF
-    //     html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
-    //         // Clean up the temporary container
-    //         ReactDOM.unmountComponentAtNode(element);
-    //         document.body.removeChild(element);
-    //     });
-    // };
 
     const iframeRef = useRef(null);
 

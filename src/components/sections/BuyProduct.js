@@ -51,6 +51,7 @@ const BuyProduct = ({active}) => {
     };
 
     const handleCategoryFilter = (category) => {
+        setCurrentPage(1);
         setFilterCategory(category)
     }
 
