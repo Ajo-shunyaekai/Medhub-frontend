@@ -273,7 +273,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-purchased-order-details/:purchaseOrderId" element={<BuyerPurchasedOrderDetails/>} />
                   <Route path="/admin/buyer-invoice-details/:invoiceId" element={<BuyerInvoiceDetails/>}/>
                   <Route path="/admin/buyer-proforma-details/:orderId" element={<BuyerProformaDetails/>}/>
-                  <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails/>}/>
+                  <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails socket = {socket} />}/>
                   {/* Start the product navigate route */}
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
@@ -281,11 +281,11 @@ const AdminSidebar = () => {
                   <Route path="/admin/approved-product/newproduct" element={<ApprovedProduct/>} />
                   <Route path="/admin/approved-product/secondary" element={<ApprovedProduct/>} />
                   <Route path="/admin/approved-product" element={<Navigate to="/admin/approved-product/newproduct" />} />
-                  <Route path="/admin/edit-secondary-details/:medicineId" element={<EditUpdateSecondaryDetails/>} />
+                  <Route path="/admin/edit-secondary-details/:medicineId" element={<EditUpdateSecondaryDetails socket = {socket}/>} />
                   <Route path="/admin/product-update-requests/newproduct" element={<ProductUpdateRequest/>} />
                   <Route path="/admin/product-update-requests/secondary" element={<ProductUpdateRequest/>} />
                   <Route path="/admin/product-update-requests" element={<Navigate to="/admin/product-update-requests/newproduct" />} />
-                  <Route path="/admin/secondary-product-request-details/:medicineId" element={<SecondaryProductRequestDetails/>} />
+                  <Route path="/admin/secondary-product-request-details/:medicineId" element={<SecondaryProductRequestDetails socket = {socket}/>} />
                   <Route path="/admin/product-requests/newproduct" element={<ProductRequests/>} />
                   <Route path="/admin/product-requests/secondary" element={<ProductRequests/>} />
                   <Route path="/admin/product-requests" element={<Navigate to="/admin/product-requests/newproduct" />} />
@@ -337,7 +337,7 @@ const AdminSidebar = () => {
                     <Route path="/admin/order-details/:orderId" element={<OrderDetails/>} />
                     <Route path="/admin/supplier-order-details/:orderId" element={<SupplierOrderDetails/>} />
 
-                    <Route path="/admin/product-request-details/:medicineId" element={<ProductRequestDetails/>} />
+                    <Route path="/admin/product-request-details/:medicineId" element={<ProductRequestDetails socket = {socket}/>} />
                     <Route path="/admin/product-details/:medicineId" element={<ProductDetails/>} />
 
                     <Route path="/admin/notification-list" element={<NotificationList />} />

@@ -8,7 +8,7 @@ import SecondaryCountryDetails from './SecondaryCountryDetails';
 import { toast } from 'react-toastify';
 
 
-const SecondaryProductRequestDetails = () => {
+const SecondaryProductRequestDetails = ({socket}) => {
     const [showModal, setShowModal] = useState(false);
 
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -49,14 +49,6 @@ const SecondaryProductRequestDetails = () => {
     };
 
     useEffect(() => {
-        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        // navigate("/supplier/login");
-        // return;
-        // }
-
         const obj = {
             medicine_id: medId,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
@@ -86,6 +78,18 @@ const SecondaryProductRequestDetails = () => {
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
+
+                let message 
+                if(action === 'accept') {
+                    message = 'Your listing has been approved!'
+                } else if(action === 'reject') {
+                    message = 'Your listing has been disapproved!'
+                }
+                socket.emit('updateMedicineAddRequest', {
+                    supplierId : medicineDetails?.supplier.supplier_id,
+                    message    : message,
+                    link       : process.env.REACT_APP_PUBLIC_URL
+                });
                 setTimeout(() => {
                     navigate('/admin/product-requests/secondary')
                 },1000)

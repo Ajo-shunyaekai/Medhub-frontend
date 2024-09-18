@@ -191,6 +191,28 @@ const SupplierSidebar = () => {
     
                 fetchNotifications();
             });
+
+            socket.on('addMedicineRequestUpdated', (message) => {
+                console.log(`Update on add medicine request: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('Update on Add Medicine Request', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
+
+            socket.on('editMedicineRequestUpdated', (message) => {
+                console.log(`Update on edit medicine request: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('Update on Edit Medicine Request', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
     
             // Optionally, listen to other notification events for real-time updates
             socket.on('updateNotification', () => {

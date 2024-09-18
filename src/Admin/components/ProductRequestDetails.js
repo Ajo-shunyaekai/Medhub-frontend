@@ -6,7 +6,7 @@ import { postRequest } from '../../api/Requests';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 
-const ProductRequestDetails = () => {
+const ProductRequestDetails = ({socket}) => {
     const { medicineId } = useParams()
     const navigate    = useNavigate()
 
@@ -68,6 +68,18 @@ const ProductRequestDetails = () => {
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
+
+                let message 
+                if(action === 'accept') {
+                    message = 'Your listing has been approved!'
+                } else if(action === 'reject') {
+                    message = 'Your listing has been disapproved!'
+                }
+                socket.emit('updateMedicineAddRequest', {
+                    supplierId : medicineDetails?.supplier.supplier_id,
+                    message    : message,
+                    link       : process.env.REACT_APP_PUBLIC_URL
+                });
                 setTimeout(() => {
                     navigate('/admin/product-requests')
                 },1000)
