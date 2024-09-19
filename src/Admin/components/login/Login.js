@@ -42,7 +42,8 @@ const Login = ({socket}) => {
         setEmail('')
         setPassword('')
         setErrors({})
-      }
+    }
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         
