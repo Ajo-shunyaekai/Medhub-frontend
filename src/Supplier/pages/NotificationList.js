@@ -60,6 +60,9 @@ const NotificationList = () => {
             case 'purchaseorder':
                 navigate(`/supplier/purchased-order-details/${linkId}`);
                 break;  
+            case 'invoice':
+                navigate(`/supplier/invoice/paid`);
+                break;
 
             case 'addnewmedicinerequest':
                 navigate(`/supplier/product-details/${eventId}`);

@@ -192,6 +192,19 @@ const BuyerSidebar = () => {
                 // Re-fetch notifications to get the latest data
                 fetchNotifications();
             });
+
+            socket.on('invoiceCreated', (message) => {
+                console.log(`Order generated notification: ${message}`);
+                
+                const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
+                showNotification('Order Created', {
+                    body: message,
+                    icon: logo,
+                }, link);
+    
+                // Re-fetch notifications to get the latest data
+                fetchNotifications();
+            });
     
             return () => {
                 socket.off('enquiryQuotation');
@@ -231,9 +244,9 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/buy/market" element={<Buy />} />
                                         <Route path="/buyer/buy" element={<Navigate to="/buyer/buy/seller" />} />
                                         <Route path="/buyer/my-supplier" element={<MySupplier />} />
-                                        <Route path="/buyer/invoice/pending" element={<Invoice />} />
-                                        <Route path="/buyer/invoice/paid" element={<Invoice />} />
-                                        <Route path="/buyer/invoice/proforma" element={<Invoice />} />
+                                        <Route path="/buyer/invoice/pending" element={<Invoice socket = {socket}/>} />
+                                        <Route path="/buyer/invoice/paid" element={<Invoice socket = {socket}/>} />
+                                        <Route path="/buyer/invoice/proforma" element={<Invoice socket = {socket}/>} />
                                         <Route path="/buyer/invoice" element={<Navigate to="/buyer/invoice/pending" />} />
                                         <Route path="/buyer/support" element={<Support />} />
                                         <Route path="/buyer/proforma-invoice" element={<ProformaInvoice/>} />

@@ -19,7 +19,7 @@ const injectStyles = () => {
     document.head.appendChild(style);
 };
 
-function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplierId }) {
+function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplierId, socket }) {
     const navigate = useNavigate()
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [chequeImage, setChequeImage] = useState(null);
@@ -197,6 +197,14 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
             postRequestWithTokenAndFile('buyer/invoice/update-payment-status', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: 'success' });
+                    socket.emit('invoicePaymentDone', {
+                        supplierId: supplierId, 
+                        orderId : orderId,
+                        invoiceId : invoiceId,
+                        message: `Payment completed for Invoice ${invoiceId} on Order ${orderId}.`,
+                        link : process.env.REACT_APP_PUBLIC_URL
+
+                    });
                     setTimeout(() => {
                         navigate('/buyer/invoice/paid')
                     })

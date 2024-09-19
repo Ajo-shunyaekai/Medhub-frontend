@@ -38,8 +38,7 @@ const SupSidebar = ({ children, dragWindow,
         setIsDropOpen(!isDropOpen);
         setIsIconOpen(!isIconOpen);
     };
-    // const [notificationList, setNotificationList] = useState([])
-    // const [count, setCount] = useState()
+    
     const [refresh, setRefresh] = useState(false)
 
     // notification code here
@@ -67,43 +66,6 @@ const SupSidebar = ({ children, dragWindow,
             document.removeEventListener('fullscreenchange', handleFullScreenChange);
         };
     }, []);
-
-    // const handleClick = (id, event) => {
-    //     const obj = {
-    //         notification_id: id,
-    //         event,
-    //         status: 1
-    //     }
-    //     postRequestWithToken('supplier/update-notification-status', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setRefresh(true)
-    //         } else {
-    //             console.log('error in order details api');
-    //         }
-    //     });
-    // }
-
-    // useEffect(() => {
-    //     // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-    //     //     navigate("/supplier/login");
-    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-    //         navigate("/supplier/login");
-    //     }
-    //     const obj = {
-    //         supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-    //         // pageNo: 1,
-    //         // pageSize: 5
-    //     };
-
-    //     postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setNotificationList(response.result.data);
-    //             setCount(response.result.totalItems || 0);
-    //         } else {
-    //             console.log('error in order details api');
-    //         }
-    //     });
-    // }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
 
     const toggleFullScreen = () => {
         if (!isFullScreen) {
@@ -287,6 +249,11 @@ const SupSidebar = ({ children, dragWindow,
             case 'purchaseorder':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/purchased-order-details/${linkId}`);
+                handleClick(notificationId, event)
+                break;
+            case 'invoice':
+                setIsNotificationOpen(false)
+                navigate(`/supplier/invoice/paid`);
                 handleClick(notificationId, event)
                 break;
 

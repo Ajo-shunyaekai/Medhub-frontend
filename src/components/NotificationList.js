@@ -62,6 +62,9 @@ const NotificationList = () => {
             case 'purchaseorder':
                 navigate(`/buyer/purchased-order-details/${linkId}`);
                 break; 
+            case 'invoice':
+                navigate(`/buyer/invoice/pending`);
+                break; 
             default:
                 navigate('/buyer/');
                 break;

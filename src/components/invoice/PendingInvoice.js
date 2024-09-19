@@ -12,7 +12,7 @@ import html2pdf from 'html2pdf.js';
 import InvoiceTemplate from '../pay/invoiceDesign';
 
 
-const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange }) => {
+const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange, socket }) => {
 
     const navigate = useNavigate()
 
@@ -138,12 +138,13 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                     </div>
 
                                                     <PayModal 
-                                                       showModal={showModal} 
-                                                       handleClose={handleCloseModal}  
-                                                       invoiceId = {selectedInvoiceId}
-                                                       orderId = {selectedOrderId}
-                                                       buyerId = {invoice.buyer_id}
-                                                       supplierId = {invoice.supplier_id}
+                                                       showModal   = {showModal} 
+                                                       handleClose = {handleCloseModal}  
+                                                       invoiceId   = {selectedInvoiceId}
+                                                       orderId     = {selectedOrderId}
+                                                       buyerId     = {invoice.buyer_id}
+                                                       supplierId  = {invoice.supplier_id}
+                                                       socket      = {socket}
                                                     />
                                                     <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                                         <div className='invoice-details-button-column'>

@@ -9,7 +9,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-const CreateInvoice = () => {
+const CreateInvoice = ({socket}) => {
     const { orderId } = useParams()
     const navigate = useNavigate();
 
@@ -271,14 +271,21 @@ const CreateInvoice = () => {
 
         if (validateForm()) {
             setLoading(true)
-            console.log('FORM', formData);
             postRequestWithToken('supplier/invoice/create-invoice', formData, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, { type: 'success' })
+                    socket.emit('createInvoice', {
+                        buyerId  : formData?.buyerId, 
+                        orderId  : orderId,
+                        // poId : purchaseOrderId,
+                        message  : `Invoice Created for ${orderId}`,
+                        link     : process.env.REACT_APP_PUBLIC_URL
+                        // send other details if needed
+                    });
                     setTimeout(() => {
                         navigate('/supplier/invoice/pending')
                         setLoading(false)
-                    }, 1000)
+                    }, 500)
 
                 } else {
                     setLoading(false)

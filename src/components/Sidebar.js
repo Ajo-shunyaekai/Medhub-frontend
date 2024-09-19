@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import sidebar from '../style/sidebar.css';
 import styles from '../style/sidebar.module.css'; // Import the CSS file
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
@@ -31,65 +30,9 @@ const Sidebar = ({ children, dragWindow,
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
     
-
-    // const [notificationList, setNotificationList] = useState([])
-    // const [count, setCount] = useState()
     const [refresh, setRefresh] = useState(false)
     // notification code here
     const [notificationText, setIsNotificationText] = useState('Lorem ipsum dolor sit amet consectetur adipisicing elit  ');
-
-
-    // useEffect( () => { 
-    //     // const key = acti
-    //     if( !buyerIdSessionStorage && !buyerIdLocalStorage ) {
-    //         navigate("/buyer/login");
-    //     }
-    //     const obj = {
-    //         // order_id : orderId,
-    //         buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-    //     };
-    //     postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setNotificationList(response.result.data);
-    //             setCount(response.result.totalItems || 0)
-    //         } else {
-    //             console.log('error in order details api');
-    //         }
-    //     });
-
-    //     // Ensure socket is defined and connected
-    //     // if (socket) {
-    //     //     console.log('socket',socket);
-            
-    //     //     socket.on('orderCreated', (notification) => {
-    //     //         console.log('Notification received:', notification); // Debugging line
-    //     //         // setNotificationList((prevList) => [notification, ...prevList]);
-    //     //         // setCount((prevCount) => prevCount + 1);
-    //     //         toast(`Logistics details submitted ${notification.message}`, { type: "success" });
-    //     //     });
-    
-    //     //     return () => {
-    //     //         socket.off('receiveNotification');
-    //     //     };
-    //     // } else {
-    //     //     console.error('Socket is not initialized');
-    //     // }
-    // },[refresh, buyerIdSessionStorage, buyerIdLocalStorage]) ;
-
-    // const handleClick = (id, event) => {
-    //     const obj = {
-    //         notification_id : id,
-    //         event ,
-    //         status : 1
-    //     }
-    //     postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-    //         if (response.code === 200) {
-    //             setRefresh(true)
-    //         } else {
-    //             console.log('error in order details api');
-    //         }
-    //     });
-    // }
 
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -224,12 +167,6 @@ const Sidebar = ({ children, dragWindow,
                                 <img src={order_list} alt="order icon" style={{ padding: '6px 6px 0px 10px' }} />
                                 Pending Orders
                             </Link>
-
-                            {/* <Link to="/deleted-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '170px' }}>
-                                <img src={order_list} alt="order icon" style={{ padding: '6px 6px 0px 10px' }
-                                } />
-                                Deleted Order
-                            </Link> */}
                         </div>
                     )
                     }
@@ -304,6 +241,11 @@ const Sidebar = ({ children, dragWindow,
           case 'purchaseorder':
                 setIsNotificationOpen(false)
                 navigate(`/buyer/purchased-order-details/${linkId}`);
+                handleClick(notificationId, event)
+                break;
+            case 'invoice':
+                setIsNotificationOpen(false)
+                navigate(`/buyer/invoice/pending`);
                 handleClick(notificationId, event)
                 break;
           default:
@@ -500,11 +442,6 @@ const Sidebar = ({ children, dragWindow,
                                         <img src={order_list} alt="order icon" style={{ paddingRight: '15px', }} />
                                         Pending Orders
                                     </Link>
-
-                                    {/* <Link to="/deleted-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '160px' }}>
-                                        <img src={order_list} alt="order icon" style={{ paddingRight: '15px', }} />
-                                        Deleted Order
-                                    </Link> */}
                                 </div>
                             )}
 
@@ -532,9 +469,6 @@ const Sidebar = ({ children, dragWindow,
                 <main style={{ marginTop: isSearchVisible ? '30px' : '0' }}>
                     {children}
                 </main>
-                {/* <main style={{ marginTop: isSearchVisible ? '30px' : '0', }}>
-                    {children}
-                </main> */}
             </ div >
 
             {/* Mobile Sidebar code start from here */}

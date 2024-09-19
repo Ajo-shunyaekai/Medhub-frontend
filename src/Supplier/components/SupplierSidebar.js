@@ -192,6 +192,17 @@ const SupplierSidebar = () => {
                 fetchNotifications();
             });
 
+            socket.on('invoicePaymentStatusUpdated', (message) => {
+                console.log(`invoicePaymentStatusUpdated Request: ${message}`);
+                const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
+                showNotification('Invoice Payment Done', {
+                    body: message,
+                    icon: logo,
+                }, enquiryLink);
+    
+                fetchNotifications();
+            });
+
             socket.on('addMedicineRequestUpdated', (message) => {
                 console.log(`Update on add medicine request: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
@@ -272,7 +283,7 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/pending-invoice" element={<PendingInvoice />} />
                         <Route path="/supplier/complete-invoice" element={<CompleteInvoice />} />
                         <Route path="/supplier/ongoing-invoice" element={<OngoingInvoice />} />
-                        <Route path="/supplier/create-invoice/:orderId" element={<CreateInvoice />} />
+                        <Route path="/supplier/create-invoice/:orderId" element={<CreateInvoice socket = {socket} />} />
                         <Route path="/supplier/order-requests" element={<OrderRequests />} />
                         <Route path="/supplier/ongoing-orders" element={<DashboardOngoing />} />
                         <Route path="/supplier/completed-orders" element={<CompletedOrders />} />

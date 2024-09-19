@@ -9,7 +9,7 @@ import { postRequestWithToken } from '../api/Requests';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
 
-const Invoice = () => {
+const Invoice = ({socket}) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -158,6 +158,7 @@ const Invoice = () => {
                                 totalInvoices={totalInvoices} 
                                 invoicesPerPage={invoicesPerPage} 
                                 handlePageChange={handlePageChange} 
+                                socket = {socket}
                             />}
                             {activeIndex === 1 && 
                             <PaidInvoice 
