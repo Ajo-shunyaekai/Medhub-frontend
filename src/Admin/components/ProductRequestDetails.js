@@ -13,6 +13,9 @@ const ProductRequestDetails = ({socket}) => {
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
 
+    const [loading, setLoading]             = useState(false);
+    const [rejectLoading, setRejectLoading] = useState(false)
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -64,10 +67,16 @@ const ProductRequestDetails = ({socket}) => {
             supplier_contact_email : medicineDetails?.supplier.contact_person_email,
             action
         }
-
+        if(action === 'accept') {
+            setLoading(true)
+        } else if(action === 'reject') {
+            setRejectLoading(true)
+        }
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
+                setLoading(false);
+                setRejectLoading(false);
 
                 let message 
                 if(action === 'accept') {
@@ -82,8 +91,10 @@ const ProductRequestDetails = ({socket}) => {
                 });
                 setTimeout(() => {
                     navigate('/admin/product-requests')
-                },1000)
+                },500)
             } else {
+                setLoading(false);
+                setRejectLoading(false);
                console.log('error in accept-reject-supplier api',response);
                toast(response.message, {type: 'error'})
             }
@@ -108,8 +119,28 @@ const ProductRequestDetails = ({socket}) => {
                             {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}> */}
                                 <div className="product-details-sec-one-right">
                                     {/* <button className='product-details-send-btn'>Accept</button> */}
-                                    <div className='buyer-details-button-reject' onClick={() => {handleAcceptReject('reject')}}>Reject</div>
-                                    <div className='buyer-details-button-accept' onClick={() => {handleAcceptReject('accept')}}>Accept</div>
+                                    <div 
+                                    className='buyer-details-button-reject' 
+                                    onClick={() => {handleAcceptReject('reject')}}
+                                    disabled={rejectLoading}
+                                    >
+                                        {rejectLoading ? (
+                                        <div className='loading-spinner'></div> 
+                                    ) : (
+                                        'Reject'
+                                    )}
+                                    </div>
+                                    <div 
+                                    className='buyer-details-button-accept' 
+                                    onClick={() => {handleAcceptReject('accept')}}
+                                    disabled={loading}
+                                    >
+                                        {loading ? (
+                                        <div className='loading-spinner'></div> 
+                                    ) : (
+                                        'Accept'
+                                    )}
+                                    </div>
                                 </div>
                                
                             {/* </Link> */}

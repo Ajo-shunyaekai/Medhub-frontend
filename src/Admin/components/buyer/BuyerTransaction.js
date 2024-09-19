@@ -104,7 +104,7 @@ const BuyerTransaction = () => {
                                         </div>
                                     </div>
                                     <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                        <Link to={`/admin/order-details/${transaction.transaction_id}`}>
+                                        <Link to={`/admin/order-details`}>
                                         <div className='rejected-table rejected-table-view'>
                                             <RemoveRedEyeOutlinedIcon className="table-icon" />
                                         </div>

@@ -290,7 +290,7 @@ const ProductDetails = () => {
 
 
             </div>
-            <div className='buyer-details-button-containers'>
+            {/* <div className='buyer-details-button-containers'>
                 <div className="product-details-sec-one-right">
                     <button className='product-details-send-btn'>Accept</button>
                 </div>
@@ -298,7 +298,7 @@ const ProductDetails = () => {
                     <button className='product-details-send-btn'>Reject</button>
                 </div>
 
-            </div>
+            </div> */}
         </>
     )
 }

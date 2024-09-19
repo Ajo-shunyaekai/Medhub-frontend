@@ -18,6 +18,9 @@ const DetailsBuyerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
+
+    const [loading, setLoading]           = useState(false);
+    const [rejectLoading, setRejectLoading] = useState(false)
     const [buyerDetails, setBuyerDetails] = useState()
 
     useEffect(() => {
@@ -38,22 +41,33 @@ const DetailsBuyerRequest = () => {
         })
     }, [])
 
-    const handleAccept = (action) => {
+    const handleAcceptReject = (action) => {
+
         const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            buyer_id: buyerId,
-            action : 'accept'
+            admin_id : adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id : buyerId,
+            action   : action
         }
+        if(action === 'accept') {
+            setLoading(true)
+        } else if(action === 'reject') {
+            setRejectLoading(true)
+        }
+        
 
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
             if (response.code === 200) {
 
                 toast(response.message, { type: 'success' })
+                setLoading(false);
+                setRejectLoading(false);
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
-                }, 1000)
+                }, 500)
                 // setSupplierDetails(response.result)
             } else {
+                setLoading(false);
+                setRejectLoading(false);
                 console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
@@ -217,11 +231,29 @@ const DetailsBuyerRequest = () => {
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div className='buyer-details-button-accept' onClick={handleAccept}>
-                                Accept
+                            <div 
+                              className='buyer-details-button-accept'
+                              onClick={() => handleAcceptReject('accept')}
+                              disabled={loading}
+                              >
+                                
+                                {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Accept'
+                            )}
                             </div>
-                            <div className='buyer-details-button-reject' onClick={handleRejectClick}>
-                                Reject
+                            <div 
+                            className='buyer-details-button-reject'
+                            //  onClick={handleRejectClick}
+                            onClick={() => handleAcceptReject('reject')}
+                            disabled={rejectLoading}
+                             >
+                                 {rejectLoading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Reject'
+                            )}
                             </div>
                         </div>
 
