@@ -86,12 +86,11 @@ const BuyerSidebar = () => {
     const navigate = useNavigate();
     
     const [notificationList, setNotificationList] = useState([])
-    const [count, setCount] = useState()
-    const [refresh, setRefresh] = useState(false)
+    const [count, setCount]                       = useState()
+    const [refresh, setRefresh]                   = useState(false)
+    const [invoiceCount, setInvoiceCount]         = useState()
 
     const showNotification = (title, options, url) => {
-        console.log('URL', url);
-        
         if (Notification.permission === 'granted') {
             const notification = new Notification(title, options);
     
@@ -135,6 +134,16 @@ const BuyerSidebar = () => {
             
             // Emit buyerId to socket
             socket.emit('registerBuyer', buyerId);
+
+            postRequestWithToken('buyer/get-invoice-count', obj, (response) => {
+                if (response.code === 200) {
+                    // Update notification list and count
+                    setInvoiceCount(response.result);
+                    
+                } else {
+                    console.log('error in fetching notification list');
+                }
+            });
     
             // Fetch notification list on component mount
             const fetchNotifications = () => {
@@ -232,7 +241,7 @@ const BuyerSidebar = () => {
                         <Route
                             path="*"
                             element={
-                                <Sidebar notificationList={notificationList} count={count} handleClick={handleClick}>
+                                <Sidebar invoiceCount = {invoiceCount} notificationList={notificationList} count={count} handleClick={handleClick}>
                                     <Routes>
                                         <Route path="/buyer" element={<Dashboard />} />
                                         <Route path="/buyer/order/active" element={<Order />} />

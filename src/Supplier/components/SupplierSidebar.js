@@ -78,14 +78,12 @@ const SupplierSidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
    
-
+    const [invoiceCount, setInvoiceCount]         = useState()
     const [notificationList, setNotificationList] = useState([])
-    const [count, setCount] = useState()
-    const [refresh, setRefresh] = useState(false)
+    const [count, setCount]                       = useState()
+    const [refresh, setRefresh]                   = useState(false)
 
     const showNotification = (title, options, url) => {
-        console.log('URL', url);
-        
         if (Notification.permission === 'granted') {
             const notification = new Notification(title, options);
     
@@ -125,8 +123,21 @@ const SupplierSidebar = () => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
             const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
     
+            const obj = {supplier_id : supplierIdSessionStorage || supplierIdLocalStorage}
+            postRequestWithToken('supplier/get-invoice-count', obj, (response) => {
+                if (response.code === 200) {
+                    // Update notification list and count
+                    setInvoiceCount(response.result);
+                    
+                } else {
+                    console.log('error in fetching notification list');
+                }
+            });
+    
             // Emit the supplier ID to register the connection
             socket.emit('register', supplierId);
+
+
     
             const fetchNotifications = () => {
                 const obj = {
@@ -252,7 +263,7 @@ const SupplierSidebar = () => {
     } else {
         return (<>
             <div>
-                <SupSidebar notificationList={notificationList} count={count} handleClick = {handleClick}>
+                <SupSidebar invoiceCount = {invoiceCount} notificationList={notificationList} count={count} handleClick = {handleClick}>
                     <Routes>
                         <Route path="/supplier" element={<SupplierDashboard />} />
                         <Route path="/supplier/order/active" element={<Order />} />

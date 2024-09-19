@@ -26,7 +26,7 @@ import { postRequestWithToken } from '../api/Requests';
 
 
 const SupSidebar = ({ children, dragWindow,
-    notificationList, count, handleClick 
+    invoiceCount, notificationList, count, handleClick 
 }) => {
     const navigate = useNavigate()
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -398,9 +398,9 @@ const SupSidebar = ({ children, dragWindow,
                                             </div>
 
                                             <div className={styles.invoice_container}>
-                                                <Link to='#' className={styles.invoice_container}>
+                                                <Link to='supplier/invoice/pending' className={styles.invoice_container}>
                                                     <div className={styles.profile_text}>Invoice</div>
-                                                    <div className={styles.total_invoice}>5</div>
+                                                    <div className={styles.total_invoice}>{invoiceCount || 0}</div>
                                                 </Link>
                                             </div>
                                         </div>
