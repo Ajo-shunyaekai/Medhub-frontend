@@ -38,6 +38,11 @@ const Login = ({socket}) => {
         return newErrors;
     };
 
+    const handleCancel = () => {
+        setEmail('')
+        setPassword('')
+        setErrors({})
+      }
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -156,7 +161,7 @@ const Login = ({socket}) => {
                         <span className='login-form-main-password'>Forgot Password?</span>
                     </div>
                     <div className='login-form-main-buttons'>
-                        <button type='button' className='login-form-main-cancel'>Cancel</button>
+                        <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
                         <button type='submit' 
                         className='login-form-main-login'
                         disabled={loading}

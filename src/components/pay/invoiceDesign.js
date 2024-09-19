@@ -171,6 +171,10 @@ function InvoiceTemplate({ invoice }) {
                                                                     <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
                                                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Bank Name :</p>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.bank_name}</p>
+                                                                        </tr>
+                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500' }}>{invoiceDetails?.account_number}</p>
                                                                         </tr>
