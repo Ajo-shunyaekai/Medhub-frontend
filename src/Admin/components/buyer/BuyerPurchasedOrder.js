@@ -59,11 +59,11 @@ const BuyerPurchasedOrder = ({poList, totalList, currentPage, listPerPage, handl
                                             <div className={styles['actives-table-text-color']}>{orderedDate}</div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-2']}`}>
-                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{list.supplier?.supplier_name || 'Supplier Not Provided'}</div>
+                                            <div className={`${styles['actives-table-text-color']} ${styles['truncated-text']}`}>{list.supplier?.supplier_name || ''}</div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-order-1']}`}>
                                             <div className={styles['actives-table-text-color']}>
-                                                {list?.po_status ? list.po_status.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Status Not Provided'}
+                                                {list?.po_status ? list.po_status.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ''}
                                             </div>
                                             </div>
                                             <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>

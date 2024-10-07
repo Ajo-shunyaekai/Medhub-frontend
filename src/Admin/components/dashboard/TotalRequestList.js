@@ -7,46 +7,15 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
-const TotalRequestList = () => {
+import Loader from '../../../components/Loader';
 
+const TotalRequestList = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
-    const requestSection = [
-        { registration_type:"Supplier",
-            type: "Distributor",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            status: "Pending"
-        },
-        { registration_type:"Buyer",
-            type: "End User",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            status: "Pending"
-        },
-        { registration_type:"Supplier",
-            type: "Manufacturer",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            status: "Pending"
-        },
-        { registration_type:"Buyer",
-            type: "Distributor",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            status: "Pending"
-        },
-    ]
-
-
     const [loading, setLoading]             = useState(true);
-    const [requestList, setRequestList]   = useState([])
+    const [requestList, setRequestList]     = useState([])
     const [totalRequests, setTotalRequests] = useState()
     const [currentPage, setCurrentPage]     = useState(1);
     const listPerPage = 5;
@@ -84,6 +53,9 @@ const TotalRequestList = () => {
 
     return (
         <>
+        { loading ? (
+                     <Loader />
+            ) : (
             <div className='completed-order-main-container'>
                 <div className="completed-order-main-head">Total Request List</div>
                 <div className="completed-order-container">
@@ -175,9 +147,7 @@ const TotalRequestList = () => {
                     </div>
                 </div >
             </div>
-
-
-
+          )}
         </>
     )
 }

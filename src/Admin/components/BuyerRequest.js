@@ -46,7 +46,6 @@ const BuyerRequest = () => {
             setLoading(false);
         })
     },[currentPage])
-    console.log('buyerLIst',buyerRequestList);
 
     return (
         <>

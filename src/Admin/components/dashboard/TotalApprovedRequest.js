@@ -7,38 +7,10 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
+import Loader from '../../../components/Loader';
+
 const TotalApprovedRequest = () => {
 
-    const requestSection = [
-        { registration_type:"Supplier",
-            type: "Distributor",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            tax_no: "Tax5678"
-        },
-        { registration_type:"Buyer",
-            type: "End User",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            tax_no: "Tax5678"
-        },
-        { registration_type:"Supplier",
-            type: "Manufacturer",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            tax_no: "Tax5678"
-        },
-        { registration_type:"Buyer",
-            type: "Distributor",
-            name: "Shunya Ekai",
-            origin: "Dubai",
-            license_no: "LKJK98797",
-            tax_no: "Tax5678"
-        },
-    ]
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
@@ -83,6 +55,9 @@ const TotalApprovedRequest = () => {
 
     return (
         <>
+         { loading ? (
+                     <Loader />
+            ) : (
             <div className='completed-order-main-container'>
                 <div className="completed-order-main-head">Total Approved Request List</div>
                 <div className="completed-order-container">
@@ -174,9 +149,7 @@ const TotalApprovedRequest = () => {
                     </div>
                 </div >
             </div>
-
-
-
+           )}
         </>
     )
 }

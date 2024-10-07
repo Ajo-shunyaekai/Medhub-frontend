@@ -228,7 +228,7 @@ const AdminDashboard = () => {
                             <div className='bottom-cont-right-sec-head'>This week</div>
                             <div className='bottom-cont-right-sec-completion'>
                                 <div className='bottom-cont-right-sections-head'>Invoices</div>
-                                <div className='bottom-cont-right-sect-progress'> <PinkBar /> <span className='bottom-cont-right-cont-pinkbar'>65%</span> </div>
+                                <div className='bottom-cont-right-sect-progress'> <PinkBar /> <span className='bottom-cont-right-cont-pinkbar'>{dashboardData?.invoiceCount || 0}</span> </div>
                             </div>
                         </div>
                     </div>
