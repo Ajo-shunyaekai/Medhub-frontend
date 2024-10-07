@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WorldMap from "react-svg-worldmap";
 import { Link, useNavigate } from 'react-router-dom';
 import '../style/dashboard.css'
@@ -12,26 +12,28 @@ import PinkBar from './chart/PinkBar'
 import Trending from '../assest/dashboard/trendingup.svg'
 import Arrow from '../assest/dashboard/arrow.svg'
 import { postRequestWithToken } from '../api/Requests';
-import {countryToCodeMapping, convertCountryToCode} from '../assest/countryCodes/countryCode'
+import { countryToCodeMapping, convertCountryToCode } from '../assest/countryCodes/countryCode'
+import TotalRequestList from './dashboard/TotalRequestList';
+
 
 
 const AdminDashboard = () => {
     const navigate = useNavigate()
 
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
 
     const [countryData, setCountryData] = useState([]);
     const [dashboardData, setDashboard] = useState()
 
     useEffect(() => {
-       if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
         }
 
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
         }
 
         postRequestWithToken('admin/dashboard-data-list', obj, async (response) => {
@@ -40,10 +42,10 @@ const AdminDashboard = () => {
                 const convertedData = convertCountryToCode(response?.result?.buyerCountryData);
                 setCountryData(convertedData);
             } else {
-               console.log('error in orders-summary-details api',response);
+                console.log('error in orders-summary-details api', response);
             }
         })
-    },[])
+    }, [])
 
     console.log(countryData);
 
@@ -52,7 +54,7 @@ const AdminDashboard = () => {
         <>
             <div className='dashboard-section'>
                 <div className='dashboard-heading'>Dashboard</div>
-                
+
                 <div className='analystic-button' >
                     <div className='buttons'>Analytics</div>
                 </div>
@@ -68,30 +70,30 @@ const AdminDashboard = () => {
                                             <div className='top-text'>{dashboardData?.buyerRegisReqCount.count || 0}</div>
                                         </div>
                                     </Link>
-                                  
+
                                     <Link to='/admin/seller-request'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>No. of Seller Request</div>
                                             <div className='top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
                                         </div>
                                     </Link>
-                                      <Link to='#'>
+                                    <Link to='/admin/total-request-list'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Total Request</div>
                                             <div className='top-text'>
-                                            {(Number(dashboardData?.buyerRegisReqCount.count) || 0) + (Number(dashboardData?.supplierRegisReqCount.count) || 0)}
+                                                {(Number(dashboardData?.buyerRegisReqCount.count) || 0) + (Number(dashboardData?.supplierRegisReqCount.count) || 0)}
                                             </div>
                                         </div>
                                     </Link>
                                 </div>
                                 <div className='bottom-container'>
                                     <Link to='/admin/rejected-buyer'>
-                                    <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Rejected Buyer:<span className='bottom-text'> {dashboardData?.completedCount[0]?.count || 0}</span></div>
-                                        <div className='bottom-graph'>
-                                            <ProgressBar />
+                                        <div className='bottom-cart-cont'>
+                                            <div className='bottom-head'>Rejected Buyer:<span className='bottom-text'> {dashboardData?.completedCount[0]?.count || 0}</span></div>
+                                            <div className='bottom-graph'>
+                                                <ProgressBar />
+                                            </div>
                                         </div>
-                                    </div>
                                     </Link>
                                     <Link to='/admin/rejected-seller'>
                                         <div className='bottom-cart-cont'>
@@ -112,36 +114,44 @@ const AdminDashboard = () => {
                         </div>
                         <div className='cart-left-bottom-section'>
                             <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
-                                    {/* <span className='left-bottom-plus'>+3.5</span> */}
-                                </div>
-                                <div className='left-bottom-head'>Approved Buyer</div>
-                                <div className='line-chart-graph'>
-                                    <ConversionChart />
-                                </div>
+                                <Link to='/admin/approved-buyer'>
+                                    <div className='left-bottom-cart-top'>
+                                        <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
+                                        {/* <span className='left-bottom-plus'>+3.5</span> */}
+                                    </div>
+
+                                    <div className='left-bottom-head'>Approved Buyer</div>
+                                    <div className='line-chart-graph'>
+                                        <ConversionChart />
+                                    </div>
+                                </Link>
                             </div>
                             <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
-                                    {/* <span className='left-bottom-plus'>-2.0</span> */}
-                                </div>
-                                <div className='left-bottom-head'>Approved Supplier</div>
-                                <div className='line-chart-graph'>
-                                    <SearchEngineChart />
-                                </div>
+                                <Link to='/admin/approved-seller'>
+                                    <div className='left-bottom-cart-top'>
+                                        <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
+                                        {/* <span className='left-bottom-plus'>-2.0</span> */}
+                                    </div>
+
+                                    <div className='left-bottom-head'>Approved Supplier</div>
+                                    <div className='line-chart-graph'>
+                                        <SearchEngineChart />
+                                    </div>
+                                </Link>
                             </div>
                             <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>
-                                    {(Number(dashboardData?.supplierAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}
-                                    </span>
-                                    {/* <span className='left-bottom-plus'>+4.5</span> */}
-                                </div>
-                                <div className='left-bottom-head'>Total Approved Request</div>
-                                <div className='line-chart-graph'>
-                                    <DirectlyChart />
-                                </div>
+                                <Link to='/admin/total-approved-request'>
+                                    <div className='left-bottom-cart-top'>
+                                        <span className='left-bottom-pert'>
+                                            {(Number(dashboardData?.supplierAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}
+                                        </span>
+                                        {/* <span className='left-bottom-plus'>+4.5</span> */}
+                                    </div>
+                                    <div className='left-bottom-head'>Total Approved Request</div>
+                                    <div className='line-chart-graph'>
+                                        <DirectlyChart />
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -175,35 +185,43 @@ const AdminDashboard = () => {
                 {/* start the bottom container */}
                 <div className='main-bottom-cart-container'>
                     <div className='bottom-section-left-cont'>
-                        <div className='bottom-first-sections'>
-                            <div className='bottom-img-cont'>
-                                <img src={Trending} alt='img' />
+                        <Link to='/admin/inquiries-section/request'>
+                            <div className='bottom-first-sections'>
+                                <div className='bottom-img-cont'>
+                                    <img src={Trending} alt='img' />
+                                </div>
+                                <div className='bottom-text-cont'>
+                                    <div className='bottom-text-head'>Total Inquiries</div>
+                                    <div className='bottom-text-pect'>{dashboardData?.inquiryCount || 0}</div>
+                                </div>
                             </div>
-                            <div className='bottom-text-cont'>
-                                <div className='bottom-text-head'>Inquiries</div>
-                                <div className='bottom-text-pect'>{dashboardData?.inquiryCount || 0}</div>
+                            <div className='bottom-arrow-cont'>
+                                <img src={Arrow} alt='img' />
                             </div>
-                        </div>
-                        <div className='bottom-arrow-cont'>
-                            <img src={Arrow} alt='img'/>
-                        </div>
+                        </Link>
                     </div>
                     <div className='bottom-section-right-cont'>
                         <div className='bottom-cont-left-sec'>
                             <div className='bottom-cont-left-head'>Orders</div>
                             <div className='bottom-cont-left-cart'>
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>{dashboardData?.poCount || 0}</div>
-                                    <div className='bottom-cont-left-num'>Purchased Orders</div>
-                                </div>
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-texts'>{dashboardData?.orderCount || 0}</div>
-                                    <div className='bottom-cont-left-num'>Active Orders</div>
-                                </div>
-                                <div className='bottom-cont-left-one'>
-                                    <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}%</div>
-                                    <div className='bottom-cont-left-num'>Completed Orders</div>
-                                </div>
+                                <Link to='/admin/total-PO'>
+                                    <div className='bottom-cont-left-one'>
+                                        <div className='bottom-cont-left-text'>{dashboardData?.poCount || 0}</div>
+                                        <div className='bottom-cont-left-num'>Total PO</div>
+                                    </div>
+                                </Link>
+                                <Link to='/admin/total-active-orders'>
+                                    <div className='bottom-cont-left-one'>
+                                        <div className='bottom-cont-left-texts'>{dashboardData?.orderCount || 0}</div>
+                                        <div className='bottom-cont-left-num'>Total Active Orders</div>
+                                    </div>
+                                </Link>
+                                <Link to='/admin/total-completed-order'>
+                                    <div className='bottom-cont-left-one'>
+                                        <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}%</div>
+                                        <div className='bottom-cont-left-num'>Total Completed Orders</div>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                         <div className='bottom-cont-right-sec'>

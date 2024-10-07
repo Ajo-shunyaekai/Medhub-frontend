@@ -98,39 +98,39 @@
   }
   
   .pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  
+
   .page-link {
-    display: inline-block;
-    color: #007bff;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    transition: color 0.15s;
+    display: inline-block !important;
+    color: #007bff !important;
+    background-color: #fff !important;
+    border: 1px solid #dee2e6 !important;
+    transition: color 0.15s !important;
   }
   
   .page-link:hover {
-    color: #0056b3;
-    text-decoration: none;
-    background-color: #e9ecef;
+    color: #0056b3 !important;
+    text-decoration: none !important;
+    background-color: #e9ecef !important;
   }
   
   .page-item.active .page-link {
-    z-index: 3;
-    color: #fff;
-    background-color: #007bff;
+    z-index: 3 !important;
+    color: #fff !important;
+    background-color: #007bff !important;
   }
   
   .page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: transparent;
+    color: #6c757d !important;
+    pointer-events: none !important;
+    cursor: auto !important;
+    background-color: transparent !important;
     border-color: rgba(160, 175, 185, 0.15) !important;
-  }
+}
   
   /* Add media quries from here  */
   

@@ -3,21 +3,14 @@ import UploadIcon from '../assest/uplaod.svg';
 import styles from '../style/pdfadd.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
-    // PDF popup modal
+const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedPdf, setSelectedPdf] = useState(null);
-  
-    const toggleModal = () => {
-        setShowModal(!showModal);
-    };
-
-    const [pdfFiles, setPdfFiles] = useState([]);
+    const [pdfFile, setPdfFile] = useState(null); // Single PDF file
     const [errorMessage, setErrorMessage] = useState('');
     const fileInputRef = useRef(null);
-    const maxFiles = 5;
 
-    useEffect(() => {
+  useEffect(() => {
         if (!invoiceImage || invoiceImage.length === 0) {
             setErrorMessage('Please Upload at Least One Purchase Invoice.');
         } else {
@@ -26,46 +19,36 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
     }, [invoiceImage]);
 
     const handlePdfUpload = (event) => {
-        const files = event.target.files;
-        const newPdfFiles = [];
-        let count = pdfFiles.length;
+        const file = event.target.files[0];
 
-        for (let i = 0; i < files.length && count < maxFiles; i++) {
-            const file = files[i];
-
-            if (file) {
-                const isValidType = file.type === 'application/pdf';
-                const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB limit
-
-                if (!isValidType) {
-                    setErrorMessage('Invalid file type. Only PDF is allowed.');
-                    return;
-                }
-
-                if (!isValidSize) {
-                    setErrorMessage('File size exceeds the limit of 5MB.');
-                    return;
-                }
-
-                setErrorMessage(''); // Clear any previous error message
-                newPdfFiles.push(file);
-                count++;
-            }
+        if (pdfFile) {
+            setErrorMessage('Only one PDF can be uploaded at a time.');
+            return;
         }
-        setInvoiceImage([...pdfFiles, ...newPdfFiles]); 
 
-        if (count <= maxFiles) {
-            setPdfFiles([...pdfFiles, ...newPdfFiles]);
-        } else {
-            setErrorMessage(`You can upload a maximum of ${maxFiles} files.`);
+        if (file) {
+            const isValidType = file.type === 'application/pdf';
+            const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB limit
+
+            if (!isValidType) {
+                setErrorMessage('Invalid file type. Only PDF is allowed.');
+                return;
+            }
+
+            if (!isValidSize) {
+                setErrorMessage('File size exceeds the limit of 5MB.');
+                return;
+            }
+
+            setErrorMessage('');
+            setPdfFile(file);
+            setInvoiceImage([file]);
         }
     };
 
-    const handlePdfRemove = (index) => {
-        const updatedPdfFiles = [...pdfFiles];
-        updatedPdfFiles.splice(index, 1);
-        setPdfFiles(updatedPdfFiles);
-        setInvoiceImage(updatedPdfFiles)
+    const handlePdfRemove = () => {
+        setPdfFile(null);
+        setInvoiceImage([]);
     };
 
     const handlePdfClick = () => {
@@ -81,52 +64,58 @@ const AddPdfUpload = ({invoiceImage, setInvoiceImage}) => {
         reader.readAsDataURL(pdf);
     };
 
-
-    return (  
-       <>
-        <div className={styles['pdf-image-uploader']}>
-            <div className={styles['pdf-upload-area']} onClick={handlePdfClick}>
-                <img src={UploadIcon} alt="Upload" className={styles['pdf-upload-icon']} />
-                <p className={styles['pdf-upload-text']}>Click here to Upload</p>
-                <input
-                    type="file"
-                    accept="application/pdf"
-                    onChange={handlePdfUpload}
-                    style={{ display: 'none' }}
-                    ref={fileInputRef}
-                    multiple
-                />
-            </div>
-            <div className={styles['pdf-image-previews']}>
-                {pdfFiles.map((pdf, index) => (
-                    <div className={styles['pdf-image-preview']} key={index} onClick={() => handlePdfClick2(pdf)}>
-                        <div className={styles['pdf-file-name']}>{pdf.name}</div>
-                        <CloseIcon className={styles['pdf-close-icon']} onClick={(e) => { e.stopPropagation(); handlePdfRemove(index); }} />
-                    </div>
-                ))}
-            </div>
-
-            {/* PDF viewer in popup modal */}
-            {showModal && (
-                <div className={styles.modal} onClick={toggleModal}>
-                    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                        <div className={styles.modalBody}>
-                            <embed src={selectedPdf} type="application/pdf" width="100%" height="500px" />
-                            <button onClick={toggleModal} className={styles.modalCloseBtn}>
-                                <CloseIcon />
-                            </button>
-                        </div>             
-                    </div>
+    return (
+        <>
+            <div className={styles['pdf-image-uploader']}>
+                <div className={styles['pdf-upload-area']} onClick={handlePdfClick}>
+                    <img src={UploadIcon} alt="Upload" className={styles['pdf-upload-icon']} />
+                    <p className={styles['pdf-upload-text']}>Click here to Upload</p>
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={handlePdfUpload}
+                        style={{ display: 'none' }}
+                        ref={fileInputRef}
+                    />
                 </div>
-            )}
+                {pdfFile && (
+                    <div className={styles['pdf-image-previews']}>
+                        <div className={styles['pdf-image-preview']} onClick={() => handlePdfClick2(pdfFile)}>
+                            <div className={styles['pdf-file-name']}>
+                                <span>{pdfFile.name}</span>
+                            </div>
+                            <CloseIcon
+                                className={styles['pdf-close-icon']}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePdfRemove();
+                                }}
+                            />
+                        </div>
+                    </div>
+                )}
 
-            {errorMessage && (
-                <div className={styles['pdf-error-message']} style={{color: 'red', fontSize:'12px'}}>
-                    <span>{errorMessage}</span>
-                </div>
-            )}
-        </div>
-       </>
+                {/* PDF viewer in popup modal */}
+                {/* {showModal && (
+                    <div className={styles.modal} onClick={toggleModal}>
+                        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                            <div className={styles.modalBody}>
+                                <embed src={selectedPdf} type="application/pdf" width="100%" height="500px" />
+                                <button onClick={toggleModal} className={styles.modalCloseBtn}>
+                                    <CloseIcon />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )} */}
+
+                {errorMessage && (
+                    <div className={styles['pdf-error-message']} style={{ color: 'red', fontSize: '12px',paddingTop:"10px" }}>
+                        <span>{errorMessage}</span>
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 

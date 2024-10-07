@@ -9,71 +9,11 @@ import MedicineOne from '../assest/paracetamol.png';
 
 const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, handlePageChange}) => {
 
-    const productsPerPage = 8;
-    const products = [
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-        {
-            name: 'Liv-Peptidase 5',
-            description: 'Serratiopeptidase, Livealth Biopharma',
-            origin: 'Dubai UAE',
-            stock: 450,
-            dossierType: 'EU CTU',
-            dossierStatus: 'Ready to file',
-            gmp: 'GU EMP'
-        },
-
-    ];
-
     return (
         <>
             <div className={styles['new-product-support-main-section']}>
                 <div className={styles['support-container']}>
-                    <Link to='/supplier/add-product' style={{ marginTop: '-20px' }}>
+                    <Link to='/supplier/add-product' style={{ marginTop: '-24px' }}>
                         <div className={styles['support-container-text-add']}>Add a Product</div>
                         <div className={styles['support-add-card']}>
                             <div className={styles['support-add-icon-container']}>
@@ -132,49 +72,9 @@ const SecondaryMarket = ({productList, currentPage, totalItems, itemsPerPage, ha
                             })
                         ) : (
                             <>
-                             {/* {products.map((product, index) => (
-                                <div className='buy-product-card-section' key={index}>
-                                    <div className='buy-product-card-first-section-right'>
-                                        <div className='buy-product-card-first-medicine-image'>
-                                            <img src={MedicineOne} alt="Medicine" />
-                                        </div>
-                                        <div className='buy-product-card-first-button-container'>
-                                            <Link to='/supplier/secondary-product-details'>
-                                                <div className='buy-product-card-first-send-button'>
-                                                    View Details
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className='buy-product-card-first-section'>
-                                        <div className='buy-product-card-first-left'>
-                                            <div className='buy-product-card-first-copmany-name'>{product.name}</div>
-                                            <div className='buy-product-card-first-copmany-description'>{product.description}</div>
-                                        </div>
-                                        <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>Country of Origin</div>
-                                            <div className='buy-product-card-second-text'>{product.origin}</div>
-                                        </div>
-                                        <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>Stocked in</div>
-                                            <div className='buy-product-card-second-text'>{product.stock}</div>
-                                        </div>
-                                        <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>Dossier Type</div>
-                                            <div className='buy-product-card-second-text'>{product.dossierType}</div>
-                                        </div>
-                                        <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>Dossier Status</div>
-                                            <div className='buy-product-card-second-text'>{product.dossierStatus}</div>
-                                        </div>
-                                        <div className='buy-product-card-second-section'>
-                                            <div className='buy-product-card-second-head'>GMP Approvals</div>
-                                            <div className='buy-product-card-second-text'>{product.gmp}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))} */}
-                            <p>No Products Available</p>
+                           <div className={styles['support-add-card']}>
+                           <span className={styles['support-span']}>No Products Available</span>
+                            </div>
                             </>
                             
                         )

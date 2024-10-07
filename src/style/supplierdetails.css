@@ -5,7 +5,6 @@
   background-attachment: fixed;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  max-width: 1480px;
   display: flex;
   flex-direction: column;
   row-gap: 20px;

@@ -16,54 +16,6 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
     setSelectedongoing(ongoing);
     setModal(true);
   };
-
-  const activeongoings = [
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Divya Pharma Distributors",
-     status:"Request"
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Crystal Medicines Group",
-     status:"Request"
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Fourtrek Healthcare",
-     status:"Request"
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Ganga Pharma Distributors",
-      status:"Request"
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Numera Lifesciences",
-     status:"Request"
-
-    },
-    {
-      inquiry_id: "123456",
-      date: "12-07-2024",
-      buyer_name: "Tradeco Pharmaceuticals",
-      status:"Request"
-
-    },
-  ];
-
-
-
   return (
     <>
         <div className="ongoing-container"> 
@@ -110,13 +62,10 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
     </tbody>
   ))
 ) : (
-  <tbody>
-    <tr>
-      <td colSpan="5" className="no-data-message">
-        No Inquiry Requests
-      </td>
-    </tr>
-  </tbody>
+    <div className='pending-products-no-orders'>
+   No Inquiry Requests
+    </div>
+
 )}
 
               </table>

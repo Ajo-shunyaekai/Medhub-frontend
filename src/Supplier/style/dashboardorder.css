@@ -14,7 +14,13 @@
   font-weight: 600;
   margin-top: 10px;
 }
-
+.pending-products-no-orders{
+  background-color: #ffffff;
+  padding: 14px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
 .completed-order-container-right-2 {
   width: 100%;
   max-width: 100%;

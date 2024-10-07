@@ -518,12 +518,19 @@ const AddProduct = ({socket}) => {
                 isValid = false;
             }
         } else if (name === 'minPurchaseUnit') {
-            // Allow only up to 3 digits
-            if (value.trim() && !/^\d{1,3}$/.test(value)) {
+            // Allow only up to 6 digits
+            if (value.trim() && !/^\d{1,6}$/.test(value)) {
                 newErrors[name] = '';
                 isValid = false;
             }
-        } else if (name === 'unitTax') {
+        }else if (name === 'shelfLife') {
+            // Allow only up to 3 digits
+            if (value.trim() && !/^\d{1,4}$/.test(value)) {
+                newErrors[name] = '';
+                isValid = false;
+            }
+        } 
+         else if (name === 'unitTax') {
             // Only check for invalid format if the value is not empty
 
             const regex = /^\d{0,2}(\.\d{0,3})?$/;

@@ -132,7 +132,11 @@ const PendingProducts = () => {
                                     </div>
                                 ) 
                             })
-                        ) : 'No Pending Product Requests'
+                        ) : (
+                            <div className='pending-products-no-orders'>
+                            No Pending Product Requests
+                            </div>
+                        )
                     }
                             </tbody>
                         </Table>

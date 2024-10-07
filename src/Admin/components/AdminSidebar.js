@@ -81,7 +81,14 @@ import EditUpdateSecondaryDetails from './EditUpdateSecondaryDetails.js';
 import RejectedNewProduct from './products/RejectedNewProduct.js';
 import RejectedSecondaryProducts from './products/RejectedSecondaryProducts.js';
 import SecondaryProductDetails from './products/SecondaryProductDetails.js';
-
+import TotalRequestList from './dashboard/TotalRequestList'
+import TotalApprovedRequest from './dashboard/TotalApprovedRequest.js';
+import InquiriesDashList from './dashboard/InquiriesDashList.js';
+import TotalOngoingInquiries from './dashboard/TotalOngoingInquiries.js';
+import TotalInquiriesRequest from './dashboard/TotalInquiriesRequest.js';
+import TotalPO from './dashboard/TotalPO.js';
+import TotalActiveOrders from './dashboard/TotalActiveOrders.js';
+import TotalCompletedOrder from './dashboard/TotalCompletedOrder.js';
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -288,9 +295,22 @@ const AdminSidebar = () => {
                   <Route path="/admin/secondary-product-request-details/:medicineId" element={<SecondaryProductRequestDetails socket = {socket}/>} />
                   <Route path="/admin/product-requests/newproduct" element={<ProductRequests/>} />
                   <Route path="/admin/product-requests/secondary" element={<ProductRequests/>} />
+                  <Route path="/admin/total-request-list" element={<TotalRequestList/>} />
+                  <Route path="/admin/total-approved-request" element={<TotalApprovedRequest/>} />
+                  <Route path="/admin/total-PO" element={<TotalPO/>} />
+                  <Route path="/admin/total-active-orders" element={<TotalActiveOrders/>} />
+                  <Route path="/admin/total-completed-order" element={<TotalCompletedOrder/>} />
                   <Route path="/admin/product-requests" element={<Navigate to="/admin/product-requests/newproduct" />} />
                   {/* End the product navigate route */}
+                  {/* Start the Inquiries section */}            
                   
+                  <Route path="/admin/total-inquiries-request" element={<TotalInquiriesRequest/>} />
+                  <Route path="/admin/total-ongoing-inquiries" element={<TotalOngoingInquiries/>} />
+                  <Route path="/admin/inquiries-section" element={<InquiriesDashList/>} />
+                  <Route path="/admin/inquiries-section/request" element={<InquiriesDashList/>} />
+                  <Route path="/admin/inquiries-section/ongoing" element={<InquiriesDashList/>} />
+                  <Route path="/admin/inquiries-section" element={<Navigate to="/admin/inquiries-section/request" />} />
+                  {/* End the Inquiries Section */}
                   {/* start the buyer route */}
                   <Route path="/admin/secondary-product-details/:medicineId" element={<SecondaryProductDetails/>} />
                   

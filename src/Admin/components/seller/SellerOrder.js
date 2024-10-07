@@ -120,13 +120,12 @@ const SellerOrder = () => {
                         {activeLink === 'completed' &&
                         <CompletedSellerOrder
                             orderList        = {orderList} 
-                            totalOrders      = {totalOrders} 
+                            totalOrders      = {totalOrders}  
                             currentPage      = {currentPage}
                             ordersPerPage    = {ordersPerPage}
                             handlePageChange = {handlePageChange}
                             activeLink       = {activeLink}
                         />}
-                        
                     </div>
                 </div>
             </div>

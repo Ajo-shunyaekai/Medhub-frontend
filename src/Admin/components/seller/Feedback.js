@@ -67,8 +67,8 @@ const Feedback = ({supportList, handlePageChange, currentPage, totalItems,listPe
                                 totalItemsCount={totalItems}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
-                                itemClass={styles['page-item']}
-                                linkClass={styles['page-link']}
+                               itemClass="page-item"
+                                    linkClass="page-link"
                                 prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
                                 nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
                                 hideFirstLastPages={true}

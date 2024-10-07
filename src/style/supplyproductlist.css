@@ -72,7 +72,7 @@
 }
 
 .supply-product-left-image-cont {
-    width: 150px;
+    width: 110px;
     height: 100px;
     display: flex;
     justify-content: center;
@@ -80,8 +80,8 @@
 }
 
 .supply-product-left-image-cont img {
-    width: 140px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 
 .supply-product-right-container {
@@ -104,7 +104,14 @@
 
 .supply-product-right-container-main-text {
     font-size: 12px;
+    width: 200px;
     color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 .supply-product-right-first-section {

@@ -37,36 +37,6 @@ const Invoice = () => {
         setActiveIndex(getActiveLinkFromPath(location.pathname));
     }, [location.pathname]);
 
-    // useEffect(() => {
-    //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    //     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-
-    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-    //     navigate("/supplier/login");
-    //     return;
-    //     }
-    //     console.log(activeIndex);
-    //     const filterKey = activeIndex === 0 ? 'pending' : activeIndex === 1 ? 'completed' : 'active';
-
-    //     const obj = {
-    //         supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-    //         filterKey   : filterKey,
-    //         page_no     : currentPage,
-    //         limit       : invoicesPerPage,
-    //     };
-
-    //     postRequestWithToken('supplier/order/supplier-invoice-list', obj, async (response) => {
-    //         if (response.code === 200) {
-    //             setInvoiceList(response.result.data);
-    //             setTotalInvoices(response.result.totalItems)
-    //             // setTotalOrders(response.result.totalItems)
-    //         } else {
-    //             toast(response.message, {type:'error'})
-    //             console.log('error in invoice list api', response);
-    //         }
-    //         setLoading(false);
-    //     });
-    // }, [activeIndex, currentPage]);
 
 
     useEffect(() => {

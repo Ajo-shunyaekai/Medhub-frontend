@@ -166,7 +166,6 @@
   align-items: start;
   flex-direction: column;
   gap: 1rem;
-  flex: 1 1 25%;
 }
 
 .product-details-two {
@@ -209,10 +208,7 @@
 }
 
 .responsive-image {
-  width: 100%;
-  max-width: 90%;
-  width: 100%;
-  max-width: 90%;
+  width: 200px !important;
   display: flex;
   height: 140px;
   border-radius: 5px;

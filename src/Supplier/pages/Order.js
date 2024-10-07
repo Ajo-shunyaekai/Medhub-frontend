@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import order from '../style/order.css';
+import '../style/order.css';
 import order_list from '../assest/dashboard/order_list.svg'
 import OrderCancel from './OrderCancel';
 import OrderDetails from './OrderDetails';

@@ -74,6 +74,12 @@
   .buy-product-card-first-copmany-description {
     font-size: 12px;
     color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
   }
   .buy-product-card-second-head {
     width: 116px;

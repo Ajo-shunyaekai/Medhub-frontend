@@ -104,11 +104,26 @@
   }
   .pdf-file-name{
     width: 380px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
     padding: 12px;
     border-radius: 4px;
     font-size: 12px;
     background-color: #ffffff;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  }
+  .pdf-file-name span{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    width: 280px;
   }
   /* =================================== */
   /* App.css */

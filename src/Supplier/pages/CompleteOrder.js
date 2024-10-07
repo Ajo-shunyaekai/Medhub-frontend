@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import order from '../style/order.css';
-import activeorder from '../style/activeOrder.css'
+import '../style/order.css';
+import '../style/activeOrder.css'
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -162,45 +162,9 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                         })
                                     ) : (
                                         <>
-                                            {/* {allotedOrders.map((order, i) => {
-                                                const orderedDate = moment(order.date.date).format("DD/MM/YYYY")
-                                                return (
-                                                    <tbody className='order-container-tbody'>
-                                                    <tr className="order-section-tr" key={order.order_id}>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_id}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{orderedDate}</div>
-                                                        </td>
-                                                        <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order.source_destination.source}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.number_of_TRWB}</div>
-                                                        </td>
-                                                        <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.status}</div>
-                                                        </td>
-                                                        <td className='order-section-button-cont'>
-                                                            <div className='order-section-button'>
-                                                                <Link to='/supplier/active-orders-details/879824'>
-                                                                    <div className='order-section-view'>
-                                                                        <RemoveRedEyeOutlinedIcon className='order-section-eye' />
-                                                                    </div>
-                                                                </Link>
-                                                                
-                                                                    <div className='order-section-delete' onClick={() => showModal('879824')}>
-                                                                        <HighlightOffIcon className='order-section-off' />
-                                                                    </div>
-                                                                
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                )
-                                            })} */}
-                                            <p>No Completed Orders</p>
+                                           <div className='pending-products-no-orders'>
+                                           No Completed Orders
+                                            </div>
                                         </>
                                     )
                                 }

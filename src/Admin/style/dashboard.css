@@ -223,7 +223,7 @@ body {
   column-gap: 40px;
   align-items: center;
 }
-.bottom-section-left-cont {
+.bottom-section-left-cont a{
   background-color: white;
   padding: 20px 16px;
   width: 20vw;
@@ -247,6 +247,7 @@ body {
   row-gap: 8px;
 }
 .bottom-text-head {
+  color: #99a0ac !important;
   font-size: 0.825rem;
 }
 .bottom-text-pect {
@@ -282,6 +283,7 @@ body {
   font-size: 12px;
 }
 .bottom-cont-left-num {
+  color: #99a0ac;
   font-size: 12px;
 }
 .bottom-cont-left-texts {
@@ -289,9 +291,11 @@ body {
   color: #f54394;
 }
 .bottom-cont-right-sections-head {
+  color: #99a0ac;
   font-size: 0.825rem;
 }
 .bottom-cont-left-text {
+color: #5e676f;
   font-size: 18px;
 }
 .bottom-cont-right-sec-head {
@@ -551,7 +555,7 @@ input[type="checkbox"]:focus + span::before {
   .cart-left-bottom-container {
     width: 16.8vw;
   }
-  .bottom-section-left-cont {
+  .bottom-section-left-cont a{
     width: 24vw;
   }
   .bottom-section-right-cont {
@@ -664,7 +668,7 @@ input[type="checkbox"]:focus + span::before {
   .right-country-section {
     justify-content: space-around;
   }
-  .bottom-section-left-cont {
+  .bottom-section-left-cont a {
     width: 100%;
   }
   .cart-right-main-container {

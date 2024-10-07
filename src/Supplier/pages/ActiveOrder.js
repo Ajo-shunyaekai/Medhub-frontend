@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import order from '../style/order.css';
-import activeorder from '../style/activeOrder.css'
+import '../style/order.css';
+import '../style/activeOrder.css'
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -11,10 +11,10 @@ import OrderCancel from './OrderCancel';
 import moment from 'moment/moment';
 
 
-const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange,  activeLink }) => {
+const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
 
-    const [show, setShow]                       = useState(false);
-    const [modal, setModal]                     = useState(false)
+    const [show, setShow] = useState(false);
+    const [modal, setModal] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     const showModal = (orderId) => {
@@ -85,10 +85,10 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
             "status": "Order Placed"
         },
     ]);
-    
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = allotedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = allotedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     return (
         <>
@@ -108,14 +108,14 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                         <th className="order-container-th-action"><div className="order-container-head">Action</div></th>
                                     </tr>
                                 </thead>
-                                
+
                                 {
                                     orderList && orderList.length > 0 ? (
                                         orderList?.map((order, i) => {
                                             const totalQuantity = order?.items?.reduce((total, item) => {
                                                 return total + (item?.quantity || item?.quantity_required);
-                                              }, 0);
-                                              const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                            }, 0);
+                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
                                                 <tbody className='order-container-tbody' key={order.order_id}>
                                                     <tr className="order-section-tr" >
@@ -135,21 +135,21 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                                             <div className="order-section-heading">
                                                                 {/* {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1) } */}
                                                                 {order?.status}
-                                                                </div>
+                                                            </div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>
-                                                               
+
                                                                 <Link to={`/supplier/active-orders-details/${order.order_id}`}>
                                                                     <div className='order-section-view'>
                                                                         <RemoveRedEyeOutlinedIcon className='order-section-eye' />
                                                                     </div>
                                                                 </Link>
-                                                                
-                                                                    <div className='order-section-delete' onClick={() => showModal(order.order_id)}>
-                                                                        <HighlightOffIcon className='order-section-off' />
-                                                                    </div>
-                                                                
+
+                                                                <div className='order-section-delete' onClick={() => showModal(order.order_id)}>
+                                                                    <HighlightOffIcon className='order-section-off' />
+                                                                </div>
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -158,52 +158,17 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                                         })
                                     ) : (
                                         <>
-                                        {/* {allotedOrders.map((order, i) => {
-                                            const orderedDate = moment(order.date.date).format("DD/MM/YYYY")
-                                            return (
-                                                <tbody className='order-container-tbody'>
-                                                <tr className="order-section-tr" key={order.order_id}>
-                                                    <td className='order-section-td'>
-                                                        <div className="order-section-heading">{order.order_id}</div>
-                                                    </td>
-                                                    <td className='order-section-td'>
-                                                        <div className="order-section-heading">{orderedDate}</div>
-                                                    </td>
-                                                    <td className='order-section-tds'>
-                                                        <div className="order-section-heading">{order.source_destination.source}</div>
-                                                    </td>
-                                                    <td className='order-section-td'>
-                                                        <div className="order-section-heading">{order.number_of_TRWB}</div>
-                                                    </td>
-                                                    <td className='order-section-td'>
-                                                        <div className="order-section-heading">{order.status}</div>
-                                                    </td>
-                                                    <td className='order-section-button-cont'>
-                                                        <div className='order-section-button'>
-                                                            <Link to='/supplier/active-orders-details/879824'>
-                                                                <div className='order-section-view'>
-                                                                    <RemoveRedEyeOutlinedIcon className='order-section-eye' />
-                                                                </div>
-                                                            </Link>
-                                                            
-                                                                <div className='order-section-delete' onClick={() => showModal('786755')}>
-                                                                    <HighlightOffIcon className='order-section-off' />
-                                                                </div>
-                                                            
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            )
-                                        })} */}
-                                        <p>No Active Order</p>
-                                    </>
+                                            <div className='pending-products-no-orders'>
+                                                No Active Orders
+                                            </div>
+
+                                        </>
                                     )
                                 }
 
                             </table>
                         </div>
-                        {modal && <OrderCancel setModal={setModal} orderId = {selectedOrderId}  activeLink = { activeLink} />}
+                        {modal && <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={activeLink} />}
                         <div className='pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -219,8 +184,8 @@ const ActiveOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handle
                             />
                             <div className='pagi-total'>
                                 <div className='pagi-total'>
-                                {/* Total Items: {totalOrders} */}
-                                Total Items: {totalOrders}
+                                    {/* Total Items: {totalOrders} */}
+                                    Total Items: {totalOrders}
                                 </div>
                             </div>
                         </div>
