@@ -6,7 +6,10 @@ import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-const TotalOngoingInquiries = () => {
+import moment from 'moment/moment';
+
+const TotalOngoingInquiries = ({list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink}) => {
+
     const requestSection = [
         { inquiry_id:"147852",
             date: "04/10/2024",
@@ -36,14 +39,14 @@ const TotalOngoingInquiries = () => {
     ]
 
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = requestSection.slice(indexOfFirstOrder, indexOfLastOrder);
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const ordersPerPage = 5;
+    // const indexOfLastOrder = currentPage * ordersPerPage;
+    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // const currentOrders = requestSection.slice(indexOfFirstOrder, indexOfLastOrder);
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
     return (
         <>
             <div className='completed-order-main-container'>
@@ -72,23 +75,25 @@ const TotalOngoingInquiries = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                                {currentOrders?.map((ongoing, index) => (
+                                {list?.map((ongoing, index) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{ongoing.inquiry_id}</div>
+                                            <div className='completed-table-text-color'>{ongoing.enquiry_id}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{ongoing.date}</div>
+                                            <div className='completed-table-text-color'>{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{ongoing.supplier_name}</div>
+                                            <div className='table-text-color'>{ongoing.supplier?.supplier_name}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{ongoing.status}</div>
+                                            <div className='completed-table-text-color'>
+                                            {ongoing?.po_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to='/admin/order-details'>
+                                            <Link to={`/admin/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>
@@ -100,7 +105,7 @@ const TotalOngoingInquiries = () => {
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={requestSection.length}
+                                totalItemsCount={totalList}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -111,7 +116,7 @@ const TotalOngoingInquiries = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {requestSection.length}
+                                    Total Items: {totalList}
                                 </div>
                             </div>
                         </div>
