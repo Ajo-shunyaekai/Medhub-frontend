@@ -150,9 +150,9 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                                                     </div>
                                                                 </Link>
                                                                 
-                                                                    <div className='order-section-delete'>
+                                                                    {/* <div className='order-section-delete'>
                                                                         <HighlightOffIcon className='order-section-off' onClick={() => showModal(order.order_id)}/>
-                                                                    </div>
+                                                                    </div> */}
                                                                 
                                                             </div>
                                                         </td>

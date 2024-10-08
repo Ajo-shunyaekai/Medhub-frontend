@@ -146,9 +146,9 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                                                     </div>
                                                                 </Link>
 
-                                                                <div className='order-section-delete' onClick={() => showModal(order.order_id)}>
+                                                                {/* <div className='order-section-delete' onClick={() => showModal(order.order_id)}>
                                                                     <HighlightOffIcon className='order-section-off' />
-                                                                </div>
+                                                                </div> */}
 
                                                             </div>
                                                         </td>
