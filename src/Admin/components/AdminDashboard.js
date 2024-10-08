@@ -47,9 +47,6 @@ const AdminDashboard = () => {
         })
     }, [])
 
-    console.log(countryData);
-
-
     return (
         <>
             <div className='dashboard-section'>
