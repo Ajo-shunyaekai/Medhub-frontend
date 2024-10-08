@@ -167,7 +167,7 @@ const CompletedOrders = () => {
                                 {
                                     orderList?.map((order,i) => {
                                         const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + item.quantity;
+                                            return total + (item.quantity || item.quantity_required);
                                           }, 0);
                                           const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                         return (
@@ -196,9 +196,9 @@ const CompletedOrders = () => {
                                                             <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                             </div>
                                                     </Link>
-                                                    <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)} >
+                                                    {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)} >
                                                         <HighlightOffIcon className="table-icon" />
-                                                    </div>
+                                                    </div> */}
 
                                                 </div>
                                             </div>

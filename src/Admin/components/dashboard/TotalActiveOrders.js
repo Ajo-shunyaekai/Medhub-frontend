@@ -15,6 +15,9 @@ const TotalActiveOrders = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -34,10 +37,11 @@ const TotalActiveOrders = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : 'active',
-            pageNo    : currentPage, 
-            pageSize  : ordersPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            filterKey   : 'active',
+            filterValue : filterValue,
+            pageNo      : currentPage, 
+            pageSize    : ordersPerPage,
         }
 
         postRequestWithToken('admin/buyer-order-list', obj, async (response) => {

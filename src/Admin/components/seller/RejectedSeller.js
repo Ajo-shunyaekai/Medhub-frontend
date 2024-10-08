@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../style/dashboardorders.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
@@ -11,6 +11,11 @@ import Loader from '../../../components/Loader';
 
 const RejectedOrders = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -32,10 +37,11 @@ const RejectedOrders = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            filterKey : 'rejected',
-            pageNo    : currentPage, 
-            pageSize  : listPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
+            filterKey   : 'rejected',
+            filterValue : filterValue,
+            pageNo      : currentPage, 
+            pageSize    : listPerPage,
         }
 
         postRequestWithToken('admin/get-supplier-list', obj, async (response) => {

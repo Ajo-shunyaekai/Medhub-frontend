@@ -11,9 +11,12 @@ import moment from 'moment/moment';
 import Loader from '../../../components/Loader';
 
 const TotalCompletedOrder = () => {
-    const location = useLocation();
     const navigate = useNavigate();
+    const location = useLocation();
 
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+    
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -33,11 +36,11 @@ const TotalCompletedOrder = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : 'completed',
-            // filterValue : 'month',
-            pageNo    : currentPage, 
-            pageSize  : ordersPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            filterKey   : 'completed',
+            filterValue : filterValue,
+            pageNo      : currentPage, 
+            pageSize    : ordersPerPage,
         }
 
         postRequestWithToken('admin/buyer-order-list', obj, async (response) => {

@@ -198,9 +198,9 @@ const OngoingOrders = () => {
                                                     <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                 </div>
                                             </Link>
-                                            <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
+                                            {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
                                                 <HighlightOffIcon className="table-icon" />
-                                            </div>
+                                            </div> */}
 
                                         </div>
                                     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../style/request.module.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
@@ -11,10 +11,15 @@ import Loader from '../../components/Loader';
 
 const BuyerRequest = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading]                   = useState(true);
     const [buyerRequestList, setBuyerRequestList] = useState([])
     const [totalRequests, setTotalRequests]       = useState()
     const [currentPage, setCurrentPage]           = useState(1);
@@ -30,10 +35,11 @@ const BuyerRequest = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            filterKey : 'pending',
-            pageNo    : currentPage, 
-            pageSize  : listPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
+            filterKey   : 'pending',
+            filterValue : filterValue,
+            pageNo      : currentPage, 
+            pageSize    : listPerPage,
         }
 
         postRequestWithToken('admin/get-buyer-reg-req-list', obj, async (response) => {
