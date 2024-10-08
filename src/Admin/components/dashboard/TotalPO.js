@@ -14,6 +14,9 @@ const TotalPO = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -34,9 +37,10 @@ const TotalPO = () => {
         }
 
         const obj = {
-            admin_id : adminIdSessionStorage || adminIdLocalStorage,
-            pageNo   : currentPage,
-            pageSize : listPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            pageNo      : currentPage,
+            pageSize    : listPerPage,
+            filterValue : filterValue,
         };
 
             obj.status = 'active';  
@@ -54,6 +58,7 @@ const TotalPO = () => {
     useEffect(() => {
         fetchData();
     }, [currentPage]); 
+    
     return (
         <>
          { loading ? (

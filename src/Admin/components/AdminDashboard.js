@@ -207,7 +207,10 @@ const AdminDashboard = () => {
                 {/* start the bottom container */}
                 <div className='main-bottom-cart-container'>
                     <div className='bottom-section-left-cont'>
-                        <Link to='/admin/inquiries-section/request'>
+                        <Link 
+                        //   to='/admin/inquiries-section/request'
+                         to={`/admin/inquiries-section/request?filterValue=${filterValue}`}
+                        >
                             <div className='bottom-first-sections'>
                                 <div className='bottom-img-cont'>
                                     <img src={Trending} alt='img' />
@@ -226,7 +229,10 @@ const AdminDashboard = () => {
                         <div className='bottom-cont-left-sec'>
                             <div className='bottom-cont-left-head'>Orders</div>
                             <div className='bottom-cont-left-cart'>
-                                <Link to='/admin/total-PO'>
+                                <Link 
+                                // to='/admin/total-PO'
+                                to={`/admin/total-PO?filterValue=${filterValue}`}
+                                >
                                     <div className='bottom-cont-left-one'>
                                         <div className='bottom-cont-left-text'>{dashboardData?.poCount || 0}</div>
                                         <div className='bottom-cont-left-num'>Total PO</div>
@@ -246,7 +252,7 @@ const AdminDashboard = () => {
                                 to={`/admin/total-completed-order?filterValue=${filterValue}`}
                                 >
                                     <div className='bottom-cont-left-one'>
-                                        <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}%</div>
+                                        <div className='bottom-cont-left-text'>{dashboardData?.completedOrderPercentage || 0}</div>
                                         <div className='bottom-cont-left-num'>Total Completed Orders</div>
                                     </div>
                                 </Link>

@@ -12,6 +12,9 @@ const InquiriesDashList = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const queryParams = new URLSearchParams(location.search);
+    const filterValue = queryParams.get('filterValue');
+
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
 
@@ -34,13 +37,13 @@ const InquiriesDashList = () => {
         setActiveLink(link);
         switch (link) {
             case 'request':
-                navigate('/admin/inquiries-section/request');
+                navigate(`/admin/inquiries-section/request?filterValue=${filterValue}`);
                 break;
             case 'ongoing':
-                navigate('/admin/inquiries-section/ongoing');
+                navigate(`/admin/inquiries-section/ongoing?filterValue=${filterValue}`);
                 break;
             default:
-                navigate('/admin/inquiries-section/request');
+                navigate(`/admin/inquiries-section/request?filterValue=${filterValue}`);
         }
     };
 
@@ -76,10 +79,11 @@ const InquiriesDashList = () => {
         }
 
         const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            filterKey: activeLink,
-            pageNo: currentPage,
-            pageSize: ordersPerPage,
+            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
+            filterKey   : activeLink,
+            filterValue : filterValue,
+            pageNo      : currentPage,
+            pageSize    : ordersPerPage,
         };
 
         if (activeLink === 'request') {
