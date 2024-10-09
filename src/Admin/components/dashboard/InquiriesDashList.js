@@ -57,19 +57,6 @@ const InquiriesDashList = () => {
         setCurrentPage(pageNumber);
     };
 
-    // useEffect(() => {
-    //     // if (!adminIdSessionStorage && !adminIdLocalStorage) {
-    //     //     navigate("/admin/login");
-    //     //     return;
-    //     // }
-    //     const obj = {
-    //         admin_id: adminIdSessionStorage || adminIdLocalStorage,
-    //         filterKey: activeLink,
-    //         pageNo: currentPage,
-    //         pageSize: ordersPerPage,
-    //     }
-    // }, [activeLink, currentPage])
-
 
      // Fetch the inquiry or PO list based on activeLink and currentPage
      const fetchData = () => {

@@ -9,43 +9,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 const TotalInquiriesRequest = ({list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink}) => {
-    const requestSection = [
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            buyer_name: "Pharmaceuticals",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            buyer_name: "Sheetal Pharmacy",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            buyer_name: "Pharma Pharmacy",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            buyer_name: "Pharmaceuticals",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            buyer_name: "Sheetal Pharmaceuticals",
-            status: "Pending",
-        },
-    ]
 
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 5;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = requestSection.slice(indexOfFirstOrder, indexOfLastOrder);
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
     return (
         <>
            <div className='completed-order-main-container'>
@@ -73,30 +37,36 @@ const TotalInquiriesRequest = ({list, totalList, currentPage, ordersPerPage, han
                             </thead>
 
                             <tbody className='bordered'>
-                                {list?.map((ongoing, index) => (
-                                    <div className='completed-table-row-container'>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{ongoing.enquiry_id}</div>
-                                        </div>
+                                {list?.length > 0 ? (
+                                    list.map((ongoing, index) => (
+                                        <div className='completed-table-row-container'>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{ongoing.enquiry_id}</div>
+                                            </div>
 
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{ongoing.buyer?.buyer_name}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>
-                                            {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{moment(ongoing?.created_at).format("DD/MM/YYYY")}</div>
+                                            </div>
+                                            <div className='completed-table-row-item  completed-table-order-2'>
+                                                <div className='table-text-color'>{ongoing.buyer?.buyer_name}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>
+                                                {ongoing?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                </div>
+                                            </div>
+                                            <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                <Link to={`/admin/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>
+                                                    <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                                </Link>
                                             </div>
                                         </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/admin/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>
-                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
+                                        ))
+                                        ) : (
+                                        <div className='no-data-message'>
+                                            No data available
                                         </div>
-                                    </div>
-                                ))}
+                                    )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>

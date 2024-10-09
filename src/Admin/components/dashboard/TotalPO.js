@@ -94,7 +94,8 @@ const TotalPO = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                                {list?.map((po, index) => (
+                            {list?.length > 0 ? (
+                                list.map((po, index) => (
                                     <div className='completed-table-row-container'>
                                         {/* <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{po.registration_type}</div>
@@ -120,7 +121,12 @@ const TotalPO = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <div className='no-data-message'>
+                                    No data available
+                                </div>
+                            )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>

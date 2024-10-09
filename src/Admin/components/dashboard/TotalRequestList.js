@@ -92,40 +92,49 @@ const TotalRequestList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                                {requestList?.map((request, index) => (
-                                    <div className='completed-table-row-container'>
-                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.registration_type}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.buyer_type || request.supplier_type}</div>
-                                        </div>
 
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.buyer_name || request.supplier_name}</div>
+                                {requestList?.length > 0 ? (
+                                    requestList.map((request, index) => (
+                                        <div className='completed-table-row-container' key={index}>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{request.registration_type}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{request.buyer_type || request.supplier_type}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{request.buyer_name || request.supplier_name}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-2'>
+                                                <div className='table-text-color'>{request.country_of_origin}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{request.license_no}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{request.status || 'Pending'}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
+                                                <Link 
+                                                    to={
+                                                        request.registration_type === 'Buyer' 
+                                                        ? `/admin/buyer-request-details/${request.buyer_id}` 
+                                                        : `/admin/supplier-request-details/${request.supplier_id}`
+                                                    }
+                                                >
+                                                    <div className='completed-order-table completed-order-table-view'>
+                                                        <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                    </div>
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{request.country_of_origin}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.license_no}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.status || 'Pending'}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                        <Link 
-                                            to={
-                                                request.registration_type === 'Buyer' 
-                                                ? `/admin/buyer-request-details/${request.buyer_id}` 
-                                                : `/admin/supplier-request-details/${request.supplier_id}`
-                                            }
-                                        >
-                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
-                                        </div>
+                                    ))
+                                ) : (
+                                    <div className='no-data-message'>
+                                        No data available
                                     </div>
-                                ))}
+                                )}
+
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>

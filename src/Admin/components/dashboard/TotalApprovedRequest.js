@@ -97,7 +97,8 @@ const TotalApprovedRequest = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                                {requestList?.map((request, index) => (
+                            {requestList?.length > 0 ? (
+                                    requestList.map((request, index) => (
                                     <div className='completed-table-row-container'>
                                          <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{request.registration_type}</div>
@@ -130,7 +131,12 @@ const TotalApprovedRequest = () => {
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                 ))
+                                ) : (
+                                    <div className='no-data-message'>
+                                        No data available
+                                    </div>
+                                )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>

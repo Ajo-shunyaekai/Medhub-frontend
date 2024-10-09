@@ -10,43 +10,6 @@ import moment from 'moment/moment';
 
 const TotalOngoingInquiries = ({list, totalList, currentPage, ordersPerPage, handlePageChange, activeLink}) => {
 
-    const requestSection = [
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            supplier_name: "Shunya Ekai",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            supplier_name: "Shunya Ekai",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            supplier_name: "Shunya Ekai",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            supplier_name: "Shunya Ekai",
-            status: "Pending",
-        },
-        { inquiry_id:"147852",
-            date: "04/10/2024",
-            supplier_name: "Shunya Ekai",
-            status: "Pending",
-        },
-    ]
-
-
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const ordersPerPage = 5;
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = requestSection.slice(indexOfFirstOrder, indexOfLastOrder);
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    // };
     return (
         <>
             <div className='completed-order-main-container'>
@@ -75,7 +38,8 @@ const TotalOngoingInquiries = ({list, totalList, currentPage, ordersPerPage, han
                             </thead>
 
                             <tbody className='bordered'>
-                                {list?.map((ongoing, index) => (
+                            {list?.length > 0 ? (
+                                    list.map((ongoing, index) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{ongoing.enquiry_id}</div>
@@ -98,7 +62,12 @@ const TotalOngoingInquiries = ({list, totalList, currentPage, ordersPerPage, han
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                            <div className='no-data-message'>
+                                No data available
+                            </div>
+                        )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>
