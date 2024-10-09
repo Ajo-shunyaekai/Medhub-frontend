@@ -106,8 +106,24 @@ const SupplierLogin = ({socket}) => {
     };
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (errors.email) {
+        // setEmail(e.target.value);
+        // if (errors.email) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         email: '',
+        //     }));
+        // }
+        if (e.target.value.length <= 50) {
+            setEmail(e.target.value);
+    
+            // Clear errors if email was previously invalid
+            if (errors.email) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    email: '',
+                }));
+            }
+        } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 email: '',
@@ -116,12 +132,22 @@ const SupplierLogin = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (errors.password) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: '',
-            }));
+        // setPassword(e.target.value);
+        // if (errors.password) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         password: '',
+        //     }));
+        // }
+
+        if (e.target.value.length <= 25) {
+            setPassword(e.target.value);
+            if (errors.password) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    password: '',
+                }));
+            }
         }
     };
 

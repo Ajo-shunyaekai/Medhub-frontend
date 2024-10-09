@@ -9,11 +9,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = ({socket}) => {
-    const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [loading, setLoading]           = useState(false);
+    const [email, setEmail]               = useState('');
+    const [password, setPassword]         = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors]             = useState({});
     const navigate = useNavigate();
 
     const validateForm = () => {
@@ -93,8 +93,25 @@ const Login = ({socket}) => {
     };
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (errors.email) {
+        // setEmail(e.target.value);
+        // if (errors.email) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         email: '',
+        //     }));
+        // }
+
+        if (e.target.value.length <= 50) {
+            setEmail(e.target.value);
+    
+            // Clear errors if email was previously invalid
+            if (errors.email) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    email: '',
+                }));
+            }
+        } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 email: '',
@@ -103,12 +120,22 @@ const Login = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (errors.password) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: '',
-            }));
+        // setPassword(e.target.value);
+        // if (errors.password) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         password: '',
+        //     }));
+        // }
+
+        if (e.target.value.length <= 25) {
+            setPassword(e.target.value);
+            if (errors.password) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    password: '',
+                }));
+            }
         }
     };
 

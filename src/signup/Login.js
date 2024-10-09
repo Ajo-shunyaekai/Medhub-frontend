@@ -23,29 +23,6 @@ const Login = ({socket}) => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-
-    // const requestNotificationPermission = async () => {
-    //     try {
-    //         const permission = await Notification.requestPermission();
-    //         if (permission === 'granted') {
-    //             const token = await getToken(messaging, {
-    //                 vapidKey: process.env.REACT_APP_VAPID_KEY // You need to provide this key
-    //             });
-    //             if (token) {
-    //                 console.log('FCM Token:', token);
-    //                 // Optionally, send the token to your server
-    //                 // await postRequest('/save-fcm-token', { token });
-    //             } else {
-    //                 console.log('No registration token available.');
-    //             }
-    //         } else {
-    //             console.error('Notification permission denied.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error getting FCM token:', error);
-    //     }
-    // };
-
     const validateForm = () => {
         const newErrors = {};
 
@@ -129,8 +106,24 @@ const Login = ({socket}) => {
     };
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (errors.email) {
+        // setEmail(e.target.value);
+        // if (errors.email) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         email: '',
+        //     }));
+        // }
+        if (e.target.value.length <= 50) {
+            setEmail(e.target.value);
+    
+            // Clear errors if email was previously invalid
+            if (errors.email) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    email: '',
+                }));
+            }
+        } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 email: '',
@@ -139,14 +132,27 @@ const Login = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (errors.password) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                password: '',
-            }));
-        }
+            // setPassword(e.target.value);
+            // if (errors.password) {
+            //     setErrors((prevErrors) => ({
+            //         ...prevErrors,
+            //         password: '',
+            //     }));
+            // }
+            if (e.target.value.length <= 25) {
+                setPassword(e.target.value);
+                if (errors.password) {
+                    setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        password: '',
+                    }));
+                }
+            }
     };
+
+
+   
+    
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

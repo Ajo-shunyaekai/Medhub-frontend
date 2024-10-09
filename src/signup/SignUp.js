@@ -137,43 +137,6 @@ const SignUp = ({socket}) => {
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
         }));
     };
-    
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target;
-    //     const alphanumericRegex = /^[a-zA-Z0-9\s]*$/;
-    //     const yearlyPurchaseValueRegex = /^\d+(?: \d+)?$/;
-    //     if (name === 'registrationNo' || name === 'vatRegistrationNo' || name === 'companyLicenseNo' | name === 'companyTaxNo') {
-    //         // Limit input to 16 characters for registrationNo and vatRegistrationNo
-    //         if (value.length > 16) {
-    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
-    //             return;
-    //         }
-    //     }
-    //     // Restrict special characters for certain fields
-    //     if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
-    //         if (!alphanumericRegex.test(value)) {
-    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
-    //             return;
-    //         }
-    //     }
-
-    //     if (name === 'yearlyPurchaseValue') {
-    //         if (!yearlyPurchaseValueRegex.test(value)) {
-    //             setErrors(prevState => ({ ...prevState, yearlyPurchaseValue: '' }));
-    //             return;
-    //         }
-    //     }
-    //     if (name === 'description' && value.length > 1000) {
-    //         setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-    //     } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
-    //         setErrors(prevState => ({ ...prevState, designation: '' }));
-    //     } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
-    //         setErrors(prevState => ({ ...prevState, delivertime: '' }));
-    //     } else {
-    //         setFormData(prevState => ({ ...prevState, [name]: value }));
-    //         setErrors(prevState => ({ ...prevState, [name]: '' }));
-    //     }
-    // };
 
 
     const handleChange = (event) => {
@@ -184,6 +147,26 @@ const SignUp = ({socket}) => {
     
         // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
+
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+            // setErrors((prevState) => ({
+            //     ...prevState,
+            //     [name]: `${
+            //         name === 'companyName' 
+            //         ? 'Company Name' 
+            //         : name === 'companyEmail' 
+            //         ? 'Company Email' 
+            //         : 'Email'
+            //     } cannot exceed 50 characters`,
+            // }));
+
+            setErrors((prevState) => ({
+                ...prevState,
+                [name]: ``,
+            }));
+            return;
+        }
+    
     
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
             if (value.length > 16) {

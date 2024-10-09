@@ -118,18 +118,7 @@ const SupplierSignUp = ({socket}) => {
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
 
-    // const handleImageUpload = (hasImage, file, imageType) => {
-    //     setFormData({
-    //         ...formData,
-    //         [`${imageType}Image`]: hasImage ? file : null,
-    //     });
-
-    //     setErrors(prevState => ({
-    //         ...prevState,
-    //         [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
-    //     }));
-
-    // };
+   
 
 
     const handleImageUpload = (hasImage, file, imageType) => {
@@ -155,13 +144,24 @@ const SupplierSignUp = ({socket}) => {
 
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
 
-        // if (name === 'registrationNo' || name === 'vatRegistrationNo') {
-        //     // Limit input to 16 characters for registrationNo and vatRegistrationNo
-        //     if (value.length > 16) {
-        //         setErrors(prevState => ({ ...prevState, [name]: '' }));
-        //         return;
-        //     }
-        // }
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+            // setErrors((prevState) => ({
+            //     ...prevState,
+            //     [name]: `${
+            //         name === 'companyName' 
+            //         ? 'Company Name' 
+            //         : name === 'companyEmail' 
+            //         ? 'Company Email' 
+            //         : 'Email'
+            //     } cannot exceed 50 characters`,
+            // }));
+
+            setErrors((prevState) => ({
+                ...prevState,
+                [name]: ``,
+            }));
+            return;
+        }
 
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
             if (value.length > 16) {
