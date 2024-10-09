@@ -11,26 +11,26 @@ import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
 
 const ProductDetails = () => {
-  const navigate = useNavigate();
+  const navigate       = useNavigate();
   const { medicineId } = useParams();
 
-  const [loading, setLoading] = useState(false);
-  const [buttonLoading, setButtonLoading] = useState(false);
-  const [details, setDetails] = useState();
-  const [medId, setMedId] = useState(medicineId);
-  const [supplierId, setSupplierId] = useState();
-  const [medicineName, setMedicineName] = useState();
-  const [newMedicineName, setNewMedicineName] = useState();
+  const [loading, setLoading]                           = useState(false);
+  const [buttonLoading, setButtonLoading]               = useState(false);
+  const [details, setDetails]                           = useState();
+  const [medId, setMedId]                               = useState(medicineId);
+  const [supplierId, setSupplierId]                     = useState();
+  const [medicineName, setMedicineName]                 = useState();
+  const [newMedicineName, setNewMedicineName]           = useState();
   const [similarMedicinesList, setSimilarMedicinesList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState();
-  const itemsPerPage = 2;
+  const [currentPage, setCurrentPage]                   = useState(1);
+  const [totalItems, setTotalItems]                     = useState();
+  const itemsPerPage = 4;
 
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedDetails, setSelectedDetails] = useState({});
+  const [selectedOption, setSelectedOption]     = useState(null);
+  const [selectedDetails, setSelectedDetails]   = useState({});
   const [quantityRequired, setQuantityRequired] = useState('');
-  const [targetPrice, setTargetPrice] = useState('');
-  const [errors, setErrors] = useState({});
+  const [targetPrice, setTargetPrice]           = useState('');
+  const [errors, setErrors]                     = useState({});
 
   const hasInventoryInfo = details && details.inventory_info && details.inventory_info.length > 0;
 
@@ -65,8 +65,8 @@ const ProductDetails = () => {
     }
 
     const obj = {
-      medicine_id: medId,
-      buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
+      medicine_id : medId,
+      buyer_id    : buyerIdSessionStorage || buyerIdLocalStorage
     };
 
     postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
@@ -82,12 +82,12 @@ const ProductDetails = () => {
 
   useEffect(() => {
     const obj = {
-      medicine_id: medicineId,
-      supplier_id: supplierId,
-      medicine_type: 'new',
-      status: 1,
-      pageNo: currentPage,
-      pageSize: itemsPerPage
+      medicine_id   : medicineId,
+      supplier_id   : supplierId,
+      medicine_type : 'new',
+      status        : 1,
+      pageNo        : currentPage,
+      pageSize      : itemsPerPage
     };
     postRequestWithToken('buyer/medicine/other-medicine-list', obj, async (response) => {
       if (response.code === 200) {
@@ -127,14 +127,14 @@ const ProductDetails = () => {
     if (validateInputs()) {
       setLoading(true)
       const obj = {
-        medicine_id: medId,
-        supplier_id: supplierId,
-        buyer_id: sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-        quantity_required: quantityRequired,
-        target_price: targetPrice,
-        quantity: selectedDetails.quantity,
-        unit_price: selectedDetails.unit_price,
-        est_delivery_time: selectedDetails.est_delivery_days
+        medicine_id       : medId,
+        supplier_id       : supplierId,
+        buyer_id          : sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
+        quantity_required : quantityRequired,
+        target_price      : targetPrice,
+        quantity          : selectedDetails.quantity,
+        unit_price        : selectedDetails.unit_price,
+        est_delivery_time : selectedDetails.est_delivery_days
       };
 
       postRequestWithToken('buyer/add-to-list', obj, async (response) => {

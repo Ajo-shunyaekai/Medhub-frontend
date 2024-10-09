@@ -7,20 +7,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 
 
 const ProductDetailsCard = ({similarMedicines, onMedicineClick, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
-    const products = [
-        { id: 1, name: 'Amlodipine', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 2, name: 'Atorvastatin', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 3, name: 'Metformin', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 4, name: 'Omeprazole', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 5, name: 'Albuterol', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 6, name: 'Cephalexin', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 7, name: 'Gabapentin', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 8, name: 'Levothyroxine', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 9, name: 'Losartan', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-        { id: 10, name: 'Esomeprazole', substance: 'flunarizine', origin: 'Dubai UAE', stock: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmp: 'GU EMP' },
-    ];
-
-    const totalProducts = Math.ceil(totalItems / itemsPerPage);
+   
     return (
         <>      
            <div className='buyer-product-details-card-section-heading'>Other products</div>
