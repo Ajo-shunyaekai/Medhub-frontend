@@ -117,9 +117,16 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                             })
                         ) : (
                             <>
-                              <div className='pending-products-no-orders'>
-                              No Paid Invoices
-                                </div>
+                                <tbody>
+                                    <tr>
+                                        <td colSpan="6">
+                                            <div className='pending-products-no-orders'>
+                                                No Paid Invoices
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
                             </>
                         )
                     }

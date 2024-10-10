@@ -63,8 +63,10 @@ import { postRequestWithToken } from '../api/Requests.js';
 import { toast } from 'react-toastify';
 import NotificationList from '../pages/NotificationList.js';
 import PendingProducts from '../pages/PendingProducts.js';
-
-
+import InquiryRequestList from '../pages/dashboardOrders/InquiryRequestList.js';
+import PurchasedOrdersList from '../pages/dashboardOrders/PurchasedOrdersList.js';
+import PendingInvoicesList from '../pages/dashboardOrders/PendingInvoicesList.js';
+import CompletedInvoicesList from '../pages/dashboardOrders/CompletedInvoicesList.js';
 const SupplierSidebar = () => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
@@ -316,12 +318,10 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/order-modal" element={<OrderCustomModal/>} />
                         <Route path="/supplier/active-codinator" element={<ActiveCodinator/>} />
                         <Route path="/supplier/active-invoice-list" element={<ActiveInvoiceList/>} />
-                        <Route path="/supplier/notification-list" element={<NotificationList/>} />
-                        
+                        <Route path="/supplier/notification-list" element={<NotificationList/>} />                 
                         <Route path="/supplier/create-PO" element={<CreatePO />} />
                         <Route path="/supplier/create-PO-image-upload" element={<CreatePOImageUpload />} />
-                        <Route path="/supplier/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />
-                        
+                        <Route path="/supplier/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />               
                         <Route path="/supplier/proforma-invoice-details/:orderId" element={<ProformaDetailsPage/>} />
                         {/* start the inquiry orders */}
                         <Route path="/supplier/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
@@ -332,8 +332,14 @@ const SupplierSidebar = () => {
                         <Route path="/supplier/inquiry-request-details/:inquiryId" element={<InquiryRequestDetails socket = {socket}/>} />
                         <Route path="/supplier/inquiry-product-list" element={<InquiryProductList />} />
                         <Route path="/supplier/pending-products-list" element={<PendingProducts/>} />
-                        
                         {/* End the inquiry orders */}
+                        {/* Start the dashboard page route */}
+
+                        <Route path="/supplier/inquiry-request-list" element={<InquiryRequestList/>} />
+                        <Route path="/supplier/purchased-orders-list" element={<PurchasedOrdersList />} />
+                        <Route path="/supplier/pending-invoices-list" element={<PendingInvoicesList/>} />
+                        <Route path="/supplier/completed-invoices-list" element={<CompletedInvoicesList/>} />
+                        {/* End the dashboard page route */}
                     </Routes>
                 </SupSidebar>
             </div>

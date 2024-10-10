@@ -127,7 +127,15 @@ const OrderRequest = () => {
                                     </div>
                                  ) 
                                 })
-                            ) : 'no orders'
+                            ) :  (
+                                <>
+                                <div className='pending-products-no-orders'>
+                                    No Order Request
+                                </div>
+
+                            </>
+                                
+                        )
                         } 
                             </tbody>
                         </Table>

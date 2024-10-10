@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import '../../style/pendingInvoice.css';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -9,11 +8,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import html2pdf from 'html2pdf.js';
 import InvoiceDesign from './InvoiceDesign';
-// import InvoiceTemplate from '../pay/invoiceDesign';
 
 const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage, handlePageChange }) => {
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const invoicesPerPage = 10;
 
     const [showModal, setShowModal] = useState(false);
 
@@ -118,9 +114,16 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             })
                         ) : (
                             <>
-                                <div className='pending-products-no-orders'>
-                                    No Pending Invoices
-                                </div>
+                                <tbody>
+                                    <tr>
+                                        <td colSpan="6">
+                                            <div className='pending-products-no-orders'>
+                                                No Pending Invoices
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
                             </>
                         )
                     }

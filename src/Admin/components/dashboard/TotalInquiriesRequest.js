@@ -66,7 +66,20 @@ const TotalInquiriesRequest = ({list, totalList, currentPage, ordersPerPage, han
                                         <div className='no-data-message'>
                                             No data available
                                         </div>
+<<<<<<< Updated upstream
                                     )}
+=======
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <div className='completed-table-text-color'>{ongoing.status}</div>
+                                        </div>
+                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                            <Link to='/admin/seller-inquiry-details/INQ-77258ebc'>
+                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
+>>>>>>> Stashed changes
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>

@@ -131,7 +131,15 @@ const DashboardOngoing = () => {
                                     </div>
                                  ) 
                                 })
-                            ) : 'no orders'
+                            ) :  (
+                                <>
+                                <div className='pending-products-no-orders'>
+                                    No Active Orders
+                                </div>
+
+                            </>
+                                
+                        )
                         }
                             </tbody>
                         </Table>

@@ -110,11 +110,18 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                 )
                             })
                         ) : (
-                            <div>
-                                <div className='proforma-list-invoice'>
-                                    No Proforma Invoices
-                                </div>
-                                </div>
+                            <>
+                                <tbody>
+                                    <tr>
+                                        <td colSpan="6">
+                                            <div className='pending-products-no-orders'>
+                                                No Proforma Invoices
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </>
                         )
                     }
                 </table>

@@ -92,13 +92,13 @@ const Dashboard = () => {
                         <div className='cart-left-top-section'>
                             <div className='cart-top-right-section'>
                                 <div className='top-container'>
-                                <Link to='/buyer/inquiry-purchase-orders/ongoing'>
+                                <Link to='/buyer/ongoing-inquiries-list'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Ongoing Inquiries</div>
                                             <div className='top-text'>{orderSummary?.enquiryCount || 0}</div>
                                         </div>
                                     </Link>
-                                    <Link to='/buyer/inquiry-purchase-orders/purchased'>
+                                    <Link to='/buyer/purchased-orders-list'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Purchased Orders</div>
                                             <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
@@ -119,17 +119,17 @@ const Dashboard = () => {
                                     
                                 </div>
                                 <div className='bottom-container'>
-                                <Link to='/buyer/invoice'>
+                                <Link to='/buyer/complete-invoices-list'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'>Payment Due:<span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
+                                        <div className='bottom-head'>Complete Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <ProgressBar />
                                         </div>
                                     </div>
                                 </Link>
-                                <Link to='/buyer/invoice/pending'>
+                                <Link to='/buyer/pending-invoices-list'>
                                     <div className='bottom-cart-cont'>
-                                        <div className='bottom-head'> Invoice Due:<span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
+                                        <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
                                         <div className='bottom-graph'>
                                             <OrangeBar />
                                         </div>

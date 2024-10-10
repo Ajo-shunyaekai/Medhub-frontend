@@ -16,6 +16,7 @@
 }
 .pending-products-no-orders{
   background-color: #ffffff;
+  color: #5e676f !important;
   padding: 14px 10px;
   border-radius: 4px;
   font-size: 14px;

@@ -65,6 +65,7 @@
   font-size: 13px;
 }
 .invoice-details-button-column-download {
+  cursor: pointer;
   background-color: #f4c414;
   border-radius: 4px;
   color: #ffffff;

@@ -11,7 +11,6 @@ import Order from './Order.js';
 import MySupplier from './MySupplier.js';
 import Invoice from './Invoice.js';
 import Support from './Support.js';
-// import PopupModal from './orders/PopupModal.js';
 import ActiveOrder from './orders/ActiveOrder.js';
 import CompleteOrder from './orders/CompleteOrder.js';
 import DeletedOrder from './orders/DeletedOrder.js';
@@ -70,6 +69,10 @@ import { toast } from 'react-toastify';
 import NotificationList from './NotificationList.js'
 import CancelnquiryList from './CancelnquiryList.js';
 import SupplySecondaryList from './orders/SupplySecondaryList.js';
+import OngoingInquiriesList from './dashboard/OngoingInquiriesList.js';
+import PurchasedOrdersList from './dashboard/PurchasedOrdersList.js';
+import CompleteInvoicesList from './dashboard/CompleteInvoicesList.js';
+import PendingInvoicesList from './dashboard/PendingInvoicesList.js';
 
 const BuyerSidebar = () => {
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
@@ -315,8 +318,12 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/purchased-order" element={<PurchasedOrder />} />
                                         <Route path="/buyer/notification-list" element={<NotificationList />} />
                                         <Route path="/buyer/cancel-inquiry-list/:inquiryId" element={<CancelnquiryList/>} />
-                                        
                                         <Route path="/buyer/successful-inquiry-modal" element={<SuccessfulInquiryModal />} />
+                                        <Route path="/buyer/ongoing-inquiries-list" element={<OngoingInquiriesList/>} />
+                                        <Route path="/buyer/purchased-orders-list" element={<PurchasedOrdersList/>} />
+                                        <Route path="/buyer/pending-invoices-list" element={<PendingInvoicesList/>} />
+                                        <Route path="/buyer/complete-invoices-list" element={<CompleteInvoicesList/>} />
+                                        
                                     </Routes>
                                 </Sidebar>
                             }

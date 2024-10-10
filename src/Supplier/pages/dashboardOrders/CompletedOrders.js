@@ -127,7 +127,15 @@ const CompletedOrders = () => {
                                     </div>
                                 ) 
                             })
-                        ) : 'no orders'
+                        ) :  (
+                            <>
+                            <div className='pending-products-no-orders'>
+                                No Completed Orders
+                            </div>
+
+                        </>
+                            
+                    )
                     }
                             </tbody>
                         </Table>

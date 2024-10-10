@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import WorldMap from "react-svg-worldmap";
 import { Link, useNavigate } from 'react-router-dom';
-// import dashboards from '../style/dashboard.css'
-// import trending from "../assest/dashboard/trendingup.svg"
-// import Arrow from "../assest/dashboard/arrow.svg"
-// import Form from 'react-bootstrap/Form';
-// import ThreeDot from '../assest/dashboard/three-dot.svg'
-// import LineChart from '../pages/chart/LineChart'
+import '../style/dashboard.css'
 import ProgressBar from '../pages/chart/ProgressBar';
 import OrangeBar from '../pages/chart/OrangeBar'
-// import PinkBar from '../pages/chart/PinkBar'
 import CircularBar from '../pages/chart/CircularBar';
-// import WeeklyBar from '../pages/chart/WeeklyBar';
-// import MonthlyBar from '../pages/chart/MonthlyBar';
 import ConversionChart from '../pages/chart/ConversionChart';
 import SearchEngineChart from '../pages/chart/SearchEngineChart'
 import DirectlyChart from '../pages/chart/DirectlyChart'
@@ -91,13 +83,13 @@ const SupplierDashboard = () => {
                         <div className='cart-left-top-section'>
                             <div className='cart-top-right-section'>
                                 <div className='top-container'>
-                                    <Link to='/supplier/inquiry-purchase-orders/ongoing'>
+                                    <Link to='/supplier/inquiry-request-list'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Inquiry Request</div>
                                             <div className='top-text'>{orderSummary?.enquiryCount || 0}</div>
                                         </div>
                                     </Link>
-                                    <Link to='/supplier/inquiry-purchase-orders/purchased'>
+                                    <Link to='/supplier/purchased-orders-list'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Purchased Orders</div>
                                             <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
@@ -117,17 +109,17 @@ const SupplierDashboard = () => {
                                     </Link>
                                 </div>
                                 <div className='bottom-container'>
-                                    <Link to='/supplier/invoice/pending'>
+                                    <Link to='/supplier/pending-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices:<span className='bottom-text'>{orderSummary?.orderDetails?.pendingInvoicesCount?.count || 0}</span></div>
+                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.pendingInvoicesCount?.count || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <ProgressBar />
                                             </div>
                                         </div>
                                     </Link>
-                                    <Link to='/supplier/invoice/paid'>
+                                    <Link to='/supplier/completed-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'> Completed Invoices:<span className='bottom-text'>{orderSummary?.orderDetails?.completedInvoicesCount?.count || 0}</span></div>
+                                            <div className='bottom-head'> Completed Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.completedInvoicesCount?.count || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>
