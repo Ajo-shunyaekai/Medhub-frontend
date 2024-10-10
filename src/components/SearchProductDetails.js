@@ -9,35 +9,39 @@ import { postRequestWithToken } from '../api/Requests';
 
 const SearchsearchDetails = () => {
     const { medicineId } = useParams()
-    const navigate = useNavigate();
+    const navigate       = useNavigate();
 
-    const [details, setDetails] = useState()
-    const [medId, setMedId] = useState(medicineId)
-    const [supplierId, setSupplierId] = useState()
-    const [medicineName, setMedicineName] = useState()
+    const [details, setDetails]                           = useState()
+    const [medId, setMedId]                               = useState(medicineId)
+    const [supplierId, setSupplierId]                     = useState()
+    const [medicineName, setMedicineName]                 = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
-    const [countryAvailableIn, setCountryAvailableIn] = useState([])
+    const [countryAvailableIn, setCountryAvailableIn]     = useState([])
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalitems] = useState()
+    const [totalItems, setTotalitems]   = useState()
     const itemsPerPage = 2;
 
     //filter state variables
-    const [priceRange, setPriceRange] = useState([])
-    const [deliveryTime, setDeliveryTime] = useState([])
-    const [stockedIn, setStockedIn] = useState([])
+    const [priceRange, setPriceRange]       = useState([])
+    const [deliveryTime, setDeliveryTime]   = useState([])
+    const [stockedIn, setStockedIn]         = useState([])
     const [totalQuantity, setTotalQuantity] = useState([])
-    const [reset, setReset] = useState()
+    const [reset, setReset]                 = useState()
     //searchkey
     const [inputValue, setInputValue] = useState('')
-    const [searchKey, setSearchKey] = useState(null)
+    const [searchKey, setSearchKey]   = useState(null)
 
     const handleInputChange = (e) => {
-        setInputValue(e.target.value)
+        const input = e.target.value;
+        // if(input.length <= 10) {
+            setInputValue(e.target.value)
 
         if (e.target.value === '') {
             setSearchKey('');
         }
+        // }
+        
     }
 
     const handleProductSearch = () => {
@@ -86,17 +90,17 @@ const SearchsearchDetails = () => {
 
     useEffect(() => {
         const obj = {
-            medicine_id: medicineId,
-            medicine_type: 'new',
-            medicine_name: medicineName,
-            status: 1,
-            searchKey: searchKey,
-            price_range: priceRange,
-            delivery_time: deliveryTime,
-            in_stock: stockedIn,
-            quantity_range: totalQuantity,
-            pageNo: currentPage,
-            pageSize: itemsPerPage
+            medicine_id    : medicineId,
+            medicine_type  : 'new',
+            medicine_name  : medicineName,
+            status         : 1,
+            searchKey      : searchKey,
+            price_range    : priceRange,
+            delivery_time  : deliveryTime,
+            in_stock       : stockedIn,
+            quantity_range : totalQuantity,
+            pageNo         : currentPage,
+            pageSize       : itemsPerPage
             // supplier_id   : supplierId
         }
         postRequestWithToken('buyer/medicine/similar-medicine-list', obj, async (response) => {
@@ -217,23 +221,15 @@ const SearchsearchDetails = () => {
                                     Search
                                 </div>
                             </div>
-                            {/* <div className='search-filter-section'>
-                                <SearchFilterSection
-                                    handlePriceRange={setPriceRange}
-                                    handleDeliveryTime={setDeliveryTime}
-                                    handleStockedIn={setStockedIn}
-                                    handleQuantity={setTotalQuantity}
-                                    handleReset={handleReset}
-                                />
-                            </div> */}
+                            
                             <div className='search-filter-section'>
                                 <SearchFilterSection
-                                    countryAvailable={countryAvailableIn}
-                                    handlePriceRange={setPriceRange}
-                                    handleDeliveryTime={setDeliveryTime}
-                                    handleStockedIn={setStockedIn}
-                                    handleQuantity={setTotalQuantity}
-                                    handleReset={handleReset}
+                                    countryAvailable   = {countryAvailableIn}
+                                    handlePriceRange   = {setPriceRange}
+                                    handleDeliveryTime = {setDeliveryTime}
+                                    handleStockedIn    = {setStockedIn}
+                                    handleQuantity     = {setTotalQuantity}
+                                    handleReset        = {handleReset}
                                 />
                             </div>
                             {/* End the filter section */}
@@ -242,11 +238,11 @@ const SearchsearchDetails = () => {
                                 <div className='search-details-card-containers-heading'>Suppliers List</div>
                                 <div className='search-details-card-container'>
                                     <SearchDetailsCard
-                                        similarMedicines={similarMedicinesList}
-                                        totalItems={totalItems}
-                                        currentPage={currentPage}
-                                        itemsPerPage={itemsPerPage}
-                                        handlePageChange={handlePageChange}
+                                        similarMedicines = {similarMedicinesList}
+                                        totalItems       = {totalItems}
+                                        currentPage      = {currentPage}
+                                        itemsPerPage     = {itemsPerPage}
+                                        handlePageChange = {handlePageChange}
                                     />
                                 </div>
                             </div>

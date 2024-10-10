@@ -10,7 +10,7 @@ const SearchFilterSection = ({countryAvailable, handlePriceRange, handleDelivery
         stockedIn: {},
         totalQuantity: {},
     });
-    // console.log('checkedItems',checkedItems);
+    
     const [anyCheckboxChecked, setAnyCheckboxChecked] = useState(false);
 
     const dropdownRef = useRef(null);
@@ -34,10 +34,6 @@ const SearchFilterSection = ({countryAvailable, handlePriceRange, handleDelivery
 
             setAnyCheckboxChecked(anyChecked);
 
-            // return {
-            //     ...prevCheckedItems,
-            //     [category]: updatedCategory,
-            // };
             const updatedCheckedItems = {
                 ...prevCheckedItems,
                 [category]: updatedCategory,
@@ -127,7 +123,7 @@ const SearchFilterSection = ({countryAvailable, handlePriceRange, handleDelivery
                 </li>
                 <li className='search-seller-filter-drop'>
                     <div className='search-filter-heading' onClick={() => toggleDropdown('stockedIn')}>
-                        Country Available In {openDropdown === 'stockedIn' ? <FaAngleUp /> : <FaAngleDown />}
+                        Stocked In {openDropdown === 'stockedIn' ? <FaAngleUp /> : <FaAngleDown />}
                     </div>
                     {openDropdown === 'stockedIn' && (
                         <ul className='search-seller-inner-dropdown'>
@@ -136,12 +132,7 @@ const SearchFilterSection = ({countryAvailable, handlePriceRange, handleDelivery
                                     <Checkbox category="stockedIn" item={country} label={country} />
                                 </li>
                             ))}
-                            {/* <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="India" label="India" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="United Arab Emirates" label="United Arab Emirates" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Australia" label="Australia" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Nepal" label="Nepal" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="Pakistan" label="Pakistan" /></li>
-                            <li className='search-seller-li-cont'><Checkbox category="stockedIn" item="SouthKorea" label="South Korea" /></li> */}
+                            
                         </ul>
                     )}
                 </li>

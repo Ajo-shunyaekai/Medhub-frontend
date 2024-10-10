@@ -7,19 +7,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerPage, handlePageChange }) => {
-    const search = [
-        { id: 1, name: 'Cipla', supplierName: 'Hoventa Pharma', availablein: 'UAE, India, USA', quantity: 450, price: '25 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '10 Days' },
-        { id: 2, name: 'Sun Pharma', supplierName: 'Kabir Lifesciences', availablein: 'UAE, UK, USA', quantity: 1050, price: '22 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '8 Days' },
-        { id: 3, name: 'RAM Pharma', supplierName: 'Alpha Drugs', availablein: 'UK, India, USA', quantity: 850, price: '24 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '12 Days' },
-        { id: 4, name: 'Akshar Pharma', supplierName: 'Arlak Biotech', availablein: 'UAE, India, USA', quantity: 450, price: '20 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '15 Days' },
-        { id: 5, name: 'Alpic Biotech Limited', supplierName: 'Saillon Pharma', availablein: 'Nepal, UAE', quantity: 250, price: '14 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '18 Days' },
-        { id: 6, name: 'Glenmark Pharmaceuticals', supplierName: 'Abiba Pharmacia', availablein: 'Dubai UAE', quantity: 1450, price: '18 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '6 Days' },
-        { id: 7, name: 'R.S. Healthcare', supplierName: 'Farmson', availablein: 'Dubai UAE', quantity: 1050, price: '16 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '11 Days' },
-        { id: 8, name: 'APPLE PHARMACEUTICALS', supplierName: 'Sanify Healthcare', availablein: 'Nepal, UK, UAE', quantity: 1550, price: '17 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '9 Days' },
-        { id: 9, name: 'BIOBRICK PHARMA', supplierName: 'Sencare Life Sciences', availablein: 'UAE, India, Nepal', quantity: 2550, price: '21 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '7 Days' },
-        { id: 10, name: 'Soigner Pharma', supplierName: 'Praveen Pharma', availablein: 'UAE, USA, Nepal', quantity: 500, price: '19 USD', dossierType: 'EU CTU', dossierStatus: 'Ready to file', deliverytime: '6 Days' },
-    ];
-
 
     return (
         <>
