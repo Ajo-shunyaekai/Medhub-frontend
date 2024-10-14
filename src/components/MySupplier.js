@@ -1,4 +1,4 @@
-import React,  { useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import '../style/mysupplier.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { postRequestWithToken } from '../api/Requests'
@@ -14,8 +14,8 @@ const MySuplier = () => {
     const [loading, setLoading] = useState(true);
     const [mySuppliers, setMySuppliers] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems]   = useState()
-    const itemsPerPage = 4; 
+    const [totalItems, setTotalItems] = useState()
+    const itemsPerPage = 4;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -23,38 +23,38 @@ const MySuplier = () => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
-            const obj = {
-                buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-                pageNo   : currentPage,
-                pageSize : itemsPerPage
+        const obj = {
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            pageNo: currentPage,
+            pageSize: itemsPerPage
+        }
+        postRequestWithToken('buyer/my-supplier-list', obj, async (response) => {
+            if (response.code === 200) {
+                setMySuppliers(response.result.data)
+                setTotalItems(response.result.totalItems)
+            } else {
+                toast(response.message, { type: 'error' })
+                console.log('error in  buyer/supplier-list api');
             }
-            postRequestWithToken('buyer/my-supplier-list', obj, async (response) => {
-                if (response.code === 200) {
-                    setMySuppliers(response.result.data)
-                    setTotalItems(response.result.totalItems)
-                } else {
-                    toast(response.message, {type:'error'})
-                   console.log('error in  buyer/supplier-list api');
-                }
-                setLoading(false);
-            })
-    },[currentPage])
+            setLoading(false);
+        })
+    }, [currentPage])
 
     return (
         <>
-        {loading ? (
-                     <Loader />
-                ) : (
-            <div className='mysupplier-main-container'>
-                <div className='mysupplier-main-head'>My Supplier</div>
-                <div className='mysupplier-main-section'>
-                {mySuppliers.length > 0 ? (
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className='mysupplier-main-container'>
+                    <div className='mysupplier-main-head'>My Supplier</div>
+                    <div className='mysupplier-main-section'>
+                        {mySuppliers.length > 0 ? (
                             mySuppliers.map((supplier, i) => {
                                 return (
                                     <div className='mysupplier-card-section' key={i}>
@@ -64,7 +64,7 @@ const MySuplier = () => {
                                                 <div className='mysupplier-description'>License No: {supplier?.supplier_details?.license_no || 'LIC-097342'}</div>
                                             </div>
                                             <div className='mysupplier-image-section'>
-                                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplier?.supplier_details?.supplier_image[0]}`} alt='Supplier'/>
+                                                <img src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplier?.supplier_details?.supplier_image[0]}`} alt='Supplier' />
                                             </div>
                                         </div>
                                         <div className='mysupplier-card-first-section'>
@@ -88,34 +88,34 @@ const MySuplier = () => {
                                 );
                             })
                         ) : (
-                            <div className='no-suppliers-found'>
+                            <div className='my-supplier-error'>
                                 No suppliers found
                             </div>
                         )}
 
-                </div>
+                    </div>
 
-                <div className='mysupplier-pagination-section-main'>
-                    <div className='pagi-container'>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={itemsPerPage}
-                            totalItemsCount={totalItems}
-                            pageRangeDisplayed={5}
-                            onChange={handlePageChange}
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                            hideFirstLastPages={true}
-                        />
-                        <div className='pagi-total'>
-                            Total Items: {totalItems}
+                    <div className='mysupplier-pagination-section-main'>
+                        <div className='pagi-container'>
+                            <Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={itemsPerPage}
+                                totalItemsCount={totalItems}
+                                pageRangeDisplayed={5}
+                                onChange={handlePageChange}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                hideFirstLastPages={true}
+                            />
+                            <div className='pagi-total'>
+                                Total Items: {totalItems}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div >
-        )}
+                </div >
+            )}
         </>
     )
 }

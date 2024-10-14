@@ -128,11 +128,7 @@ const TotalActiveOrders = () => {
                                             </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-<<<<<<< Updated upstream
                                             <Link to={`/admin/order-details/${order.order_id}`}>
-=======
-                                            <Link to='/admin/supplier-order-details/ORD-68c0344a'>
->>>>>>> Stashed changes
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

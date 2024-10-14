@@ -120,7 +120,6 @@ const TotalApprovedRequest = () => {
                                             <div className='completed-table-text-color'>{request.tax_no}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-<<<<<<< Updated upstream
                                             <Link 
                                               to={
                                                 request.registration_type === 'Buyer' 
@@ -128,9 +127,6 @@ const TotalApprovedRequest = () => {
                                                 : `/admin/supplier-details/${request.supplier_id}`
                                             }
                                             >
-=======
-                                            <Link to='/admin/buyer-details/BYR-e8b33105'>
->>>>>>> Stashed changes
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

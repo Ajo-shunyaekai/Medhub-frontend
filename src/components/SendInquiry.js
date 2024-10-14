@@ -90,7 +90,7 @@ const SendInquiry = ({socket}) => {
         const initialCheckedState = {};
         response?.result?.data.forEach(supplier => {
           supplier.item_details.forEach(item => {
-            initialCheckedState[item._id] = true; // Set all checkboxes to true initially
+            initialCheckedState[item._id] = true;
           });
         });
         setCheckedState(initialCheckedState);

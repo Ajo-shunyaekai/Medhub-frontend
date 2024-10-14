@@ -57,11 +57,7 @@ const TotalOngoingInquiries = ({list, totalList, currentPage, ordersPerPage, han
                                             </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-<<<<<<< Updated upstream
                                             <Link to={`/admin/ongoing-inquiries-details/${ongoing?.enquiry_id}`}>
-=======
-                                            <Link to='/admin/ongoing-inquiries-details/INQ-77258ebc'>
->>>>>>> Stashed changes
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

@@ -11,6 +11,16 @@
   -ms-overflow-style: none;
   margin: auto;
 }
+.my-supplier-error{
+  width: 100%;
+  text-align: left !important;
+  color: #5e676f !important;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    justify-content: left !important;
+    align-items: start !important;
+}
 .mysupplier-main-container::-webkit-scrollbar {
   display: none;
 }

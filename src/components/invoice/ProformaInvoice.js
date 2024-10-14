@@ -20,38 +20,12 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
 
-    //invoice download
-    // const handleDownload = (invoice) => {
-    //     const element = document.createElement('div');
-    //     document.body.appendChild(element);
-
-    //     // Render the InvoiceTemplate with the given invoice data
-    //     ReactDOM.render(<InvoiceTemplate invoice={invoice} />, element);
-
-    //     // Set options for html2pdf
-    //     const options = {
-    //         margin: 0.5,
-    //         filename: `invoice_${invoice.invoice_number}.pdf`,
-    //         image: { type: 'jpeg', quality: 1.00 },
-    //         html2canvas: { scale: 2 },
-    //         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    //     };
-
-    //     // Generate PDF
-    //     html2pdf().from(document.getElementById('invoice-content')).set(options).save().then(() => {
-    //         // Clean up the temporary container
-    //         ReactDOM.unmountComponentAtNode(element);
-    //         document.body.removeChild(element);
-    //     });
-    // };
-
-
     const iframeRef = useRef(null);
 
     const handleDownload = (orderId) => {
         const invoiceUrl = `/buyer/Proforma-Invoice-Details/${orderId}`;
         if (iframeRef.current) {
-            
+
             iframeRef.current.src = invoiceUrl;
         }
     };
@@ -106,23 +80,22 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                 <div className='table-responsive mh-2 50'>
                     <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                         {
-                            invoiceList && invoiceList.length > 0 ? (
-                                <thead>
-                                    <tr>
-                                        <th className="text-muted invoice-th">Invoice No.</th>
-                                        <th className="text-muted invoice-th">PO Date</th>
-                                        <th className="text-muted invoice-th">Order ID</th>
-                                        <th className="text-muted invoice-th">Customer Name</th>
-                                        <th className="text-muted invoice-th">Action</th>
-                                    </tr>
-                                </thead>
-                            ) : ''
+                            <thead>
+                                <tr>
+                                    <th className="text-muted invoice-th">Invoice No.</th>
+                                    <th className="text-muted invoice-th">PO Date</th>
+                                    <th className="text-muted invoice-th">Order ID</th>
+                                    <th className="text-muted invoice-th">Customer Name</th>
+                                    <th className="text-muted invoice-th">Action</th>
+                                </tr>
+                            </thead>
                         }
 
-                        <tbody className='pending-invoies-tbody-section'>
-                            {invoiceList && invoiceList.length > 0 ? (
-                                invoiceList.map((invoice, i) => (
-                                    <tr data-id="9" className='table-row v-middle'>
+
+                        {invoiceList && invoiceList.length > 0 ? (
+                            invoiceList.map((invoice, i) => (
+                                <tbody data-id="9" className='pending-invoies-tbody-section'>
+                                    <tr className='table-row v-middle'>
                                         <td>
                                             <span className="item-title">{invoice.invoice_number || invoice.invoice_no}</span>
                                         </td>
@@ -151,13 +124,21 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                             </div>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
+                                </tbody>
+                            ))
+                        ) : (
+                            <tbody>
                                 <tr>
-                                    <td colSpan="7" className="text-center">No Proforma Invoices Available</td>
+                                    <td colSpan="8">
+                                        <div className='pending-products-no-orders'>
+                                            No Proforma Invoices Available
+                                        </div>
+                                    </td>
                                 </tr>
-                            )}
-                        </tbody>
+                            </tbody>
+                        )
+                        }
+
 
                     </table>
                 </div>

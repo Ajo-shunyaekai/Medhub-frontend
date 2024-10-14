@@ -93,7 +93,6 @@ const TotalRequestList = () => {
 
                             <tbody className='bordered'>
 
-<<<<<<< Updated upstream
                                 {requestList?.length > 0 ? (
                                     requestList.map((request, index) => (
                                         <div className='completed-table-row-container' key={index}>
@@ -128,24 +127,6 @@ const TotalRequestList = () => {
                                                     </div>
                                                 </Link>
                                             </div>
-=======
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.name}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{request.origin}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.license_no}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{request.status}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to='/admin/buyer-request-details/BYR-8f419572'>
-                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
->>>>>>> Stashed changes
                                         </div>
                                     ))
                                 ) : (
@@ -178,10 +159,7 @@ const TotalRequestList = () => {
                     </div>
                 </div >
             </div>
-<<<<<<< Updated upstream
           )}
-=======
->>>>>>> Stashed changes
         </>
     )
 }

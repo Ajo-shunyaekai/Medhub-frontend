@@ -11,9 +11,9 @@ import OrderCancel from './OrderCancel';
 import moment from 'moment/moment';
 
 
-const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink}) => {
+const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
 
-    const [modal, setModal]                     = useState(false)
+    const [modal, setModal] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState()
 
     const showModal = (orderId) => {
@@ -33,8 +33,7 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                         <div className='order-inner-container-section'>
                             <table className="table-container">
                                 {
-                                    orderList && orderList.length > 0 ? (
-                                        <thead className='order-container-thead'>
+                                    <thead className='order-container-thead'>
                                         <tr className='order-container-tr'>
                                             <th className="order-container-th"><div className="order-container-head"> Order ID</div></th>
                                             <th className="order-container-th"> <div className="order-container-head"> Date</div></th>
@@ -44,17 +43,16 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                             <th className="order-container-th"><div className="order-container-head">Action</div></th>
                                         </tr>
                                     </thead>
-                                    ) : ''
                                 }
-                               
+
                                 {
                                     orderList && orderList.length > 0 ? (
-                                    orderList?.map((order,i) => {
-                                        const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + (item?.quantity || item?.quantity_required);
-                                          }, 0);
-                                          const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                        return (
+                                        orderList?.map((order, i) => {
+                                            const totalQuantity = order.items.reduce((total, item) => {
+                                                return total + (item?.quantity || item?.quantity_required);
+                                            }, 0);
+                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                            return (
                                                 <tbody className='order-container-tbody'>
                                                     <tr className="order-section-tr">
                                                         <td className='order-section-td'>
@@ -89,15 +87,22 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                                 </tbody>
                                             )
                                         })
-                                    ) : 'No Completed Orders'
+                                    ) :
+                                        (
+                                            <>
+                                                <div className='pending-products-no-orders'>
+                                                    No Completed Orders
+                                                </div>
+                                            </>
+                                        )
                                 }
-                                          
+
 
                             </table>
                         </div>
                         {/* End the table section code */}
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId}  activeLink = { activeLink}/> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={activeLink} /> : ''
                         }
                         {
                             orderList && orderList.length > 0 ? (
@@ -116,13 +121,13 @@ const CompleteOrder = ({orderList, totalOrders, currentPage, ordersPerPage, hand
                                     />
                                     <div className='pagi-total'>
                                         <div className='pagi-total'>
-                                        Total Items: {totalOrders}
+                                            Total Items: {totalOrders}
                                         </div>
                                     </div>
                                 </div>
                             ) : ''
                         }
-                        
+
                     </div>
                 </div >
             </div >

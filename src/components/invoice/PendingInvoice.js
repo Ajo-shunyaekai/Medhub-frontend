@@ -87,7 +87,6 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
             <div className='table-responsive mh-2 50'>
                 <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                     {
-                        invoiceList && invoiceList.length > 0 ? (
                             <thead>
                                 <tr>
                                     <th className="text-muted invoice-th">Invoice No.</th>
@@ -98,15 +97,15 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                     <th className="text-muted invoice-th">Action</th>
                                 </tr>
                             </thead>
-                        ) : ''
                     }
 
-                    <tbody className='pending-invoies-tbody-section'>
+                   
                         {
                             invoiceList && invoiceList.length > 0 ? (
                                 invoiceList?.map((invoice, i) => {
                                     return (
-                                        <tr data-id="9" className='table-row v-middle'>
+                                        <tbody className='pending-invoies-tbody-section' data-id="9">
+                                        <tr  className='table-row v-middle'>
                                             <td>
                                                 <span className="item-title">{invoice.invoice_no}</span>
                                             </td>
@@ -159,17 +158,21 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                 </div>
                                             </td>
                                         </tr>
+                                        </tbody>
                                     )
                                 })
-                            ) :
+                            ) :(
+                                <tbody>
                                 <tr>
-                                    <td colSpan="7" className="text-center">No Completed Invoices Available</td>
+                                    <td colSpan="8">
+                                        <div className='pending-products-no-orders'>
+                                            No Pending Invoices Available
+                                        </div>
+                                    </td>
                                 </tr>
+                            </tbody>
+                            )
                         }
-
-                    </tbody>
-
-
                 </table>
             </div>
             <div className='pending-invoice-pagination-conatiner-section'>

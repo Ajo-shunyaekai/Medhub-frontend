@@ -25,36 +25,36 @@ const OngoingInquiriesList = () => {
         {
             "inquiry_id": "3654646",
             "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
+            "supplier_name": "Pharmaceuticals",
             "status": "Pending"
         },
-           
+
         {
             "inquiry_id": "3654444",
             "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
+            "supplier_name": "Pharmaceuticals",
             "status": "Pending"
         },
         {
             "inquiry_id": "365433",
             "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
+            "supplier_name": "Pharmaceuticals",
             "status": "Pending"
         },
         {
             "inquiry_id": "3654333",
             "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
+            "supplier_name": "Pharmaceuticals",
             "status": "Pending"
-        },        
+        },
     ]);
 
 
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -63,20 +63,20 @@ const OngoingInquiriesList = () => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         const obj = {
-            buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : 'active',
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            filterKey: 'active',
+            page_no: currentPage,
+            limit: ordersPerPage,
         }
-    },[currentPage])
+    }, [currentPage])
 
     return (
         <>
@@ -106,7 +106,8 @@ const OngoingInquiriesList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {currentOrders?.map((order, index) => (
+
+                                {currentOrders?.map((order, index) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{order.inquiry_id}</div>
@@ -117,7 +118,7 @@ const OngoingInquiriesList = () => {
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
                                             <div className='table-text-color'>{order.supplier_name}</div>
-                                        </div>  
+                                        </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{order.status}</div>
                                         </div>
@@ -132,12 +133,12 @@ const OngoingInquiriesList = () => {
                                             </div>
                                         </div>
                                     </div>
-                                       ))}
+                                ))}
                             </tbody>
                         </Table>
 
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
                         }
                         <div className='completed-pagi-container'>
                             <Pagination

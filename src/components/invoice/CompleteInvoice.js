@@ -48,7 +48,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
     const handleDownload = (invoiceId) => {
         const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
         if (iframeRef.current) {
-            
+
             iframeRef.current.src = invoiceUrl;
         }
     };
@@ -108,25 +108,24 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                 <div className='table-responsive mh-2 50'>
                     <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                         {
-                            invoiceList && invoiceList.length > 0 ? (
-                                <thead>
-                                    <tr>
-                                        <th className="text-muted invoice-th">Invoice No.</th>
-                                        <th className="text-muted invoice-th">Order ID</th>
-                                        <th className="text-muted invoice-th">Customer Name</th>
-                                        <th className="text-muted invoice-th">Amount</th>
-                                        <th className="text-muted invoice-th">Payment Type</th>
-                                        <th className="text-muted invoice-th">Status</th>
-                                        <th className="text-muted invoice-th">Action</th>
-                                    </tr>
-                                </thead>
-                            ) : ''
+                            <thead>
+                                <tr>
+                                    <th className="text-muted invoice-th">Invoice No.</th>
+                                    <th className="text-muted invoice-th">Order ID</th>
+                                    <th className="text-muted invoice-th">Customer Name</th>
+                                    <th className="text-muted invoice-th">Amount</th>
+                                    <th className="text-muted invoice-th">Payment Type</th>
+                                    <th className="text-muted invoice-th">Status</th>
+                                    <th className="text-muted invoice-th">Action</th>
+                                </tr>
+                            </thead>
                         }
 
-                        <tbody className='pending-invoies-tbody-section'>
-                            {invoiceList && invoiceList.length > 0 ? (
-                                invoiceList.map((invoice, i) => (
-                                    <tr key={i} data-id="9" className='table-row v-middle'>
+
+                        {invoiceList && invoiceList.length > 0 ? (
+                            invoiceList.map((invoice, i) => (
+                                <tbody className='pending-invoies-tbody-section' key={i} data-id="9">
+                                    <tr className='table-row v-middle'>
                                         <td>
                                             <span className="item-title">{invoice.invoice_no}</span>
                                         </td>
@@ -162,13 +161,20 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                             </div>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
+                                </tbody>
+                            ))
+                        ) : (
+                            <tbody>
                                 <tr>
-                                    <td colSpan="7" className="text-center">No Completed Invoices Available</td>
+                                    <td colSpan="8">
+                                        <div className='pending-products-no-orders'>
+                                            No Completed Invoices Available
+                                        </div>
+                                    </td>
                                 </tr>
-                            )}
-                        </tbody>
+                            </tbody>
+                        )}
+
 
                     </table>
                 </div>

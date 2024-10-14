@@ -4,6 +4,7 @@
 }
 
 .order-container-right-section {
+  margin-top: 23px;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -29,97 +29,29 @@ const CompletedOrders = () => {
         setModal(!modal)
     }
 
-    const [orderList, setOrderList]     = useState([])
+    const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
 
-    // Alloted Order JSOn file
-    const [activeOrders, setActiveOrders] = useState([
-        {
-            "order_id": "3654646",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "destination": "Pharmaceuticals Pvt. Ltd"
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000002",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "destination": "Pharmaceuticals Pvt. Ltd"
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000003",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "destination": "Pharmaceuticals Pvt. Ltd"
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-        {
-            "order_id": "000004",
-            "date": {
-                "date": "12/12/2019",
-            },
-            "source_destination": {
-                "destination": "Pharmaceuticals Pvt. Ltd"
-            },
-            "number_of_TRWB": 4,
-            "commodity": {
-                "name": "Steel",
-                "quantity": "(20 Ton)"
-            },
-            "status": "Order Placed"
-        },
-    ]);
-
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage     = 5;
-    const indexOfLastOrder  = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const ordersPerPage = 5;
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    const totalPages = Math.ceil(activeOrders.length / ordersPerPage);
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
-        
+
         const obj = {
-            buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : 'completed',
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            filterKey: 'completed',
+            page_no: currentPage,
+            limit: ordersPerPage,
         }
 
         postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
@@ -127,10 +59,10 @@ const CompletedOrders = () => {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             } else {
-               console.log('error in order list api',response);
+                console.log('error in order list api', response);
             }
-          })
-    },[currentPage])
+        })
+    }, [currentPage])
 
     return (
         <>
@@ -165,53 +97,63 @@ const CompletedOrders = () => {
 
                             <tbody className='bordered'>
                                 {
-                                    orderList?.map((order,i) => {
-                                        const totalQuantity = order.items.reduce((total, item) => {
-                                            return total + (item.quantity || item.quantity_required);
-                                          }, 0);
-                                          const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                        return (
-                                            <div className='completed-table-row-container'>
-                                                <div className='completed-table-row-item completed-table-order-1'>
-                                                    <div className='completed-table-text-color'>{order.order_id}</div>
-                                                </div>
+                                    orderList && orderList?.length > 0 ? (
+                                        orderList?.map((order, i) => {
+                                            const totalQuantity = order.items.reduce((total, item) => {
+                                                return total + (item.quantity || item.quantity_required);
+                                            }, 0);
+                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                            return (
+                                                <div className='completed-table-row-container'>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{order.order_id}</div>
+                                                    </div>
 
-                                                <div className='completed-table-row-item completed-table-order-1'>
-                                                    <div className='completed-table-text-color'>{orderedDate}</div>
-                                                    <div className='completed-table-text-color-2'>{order?.date?.time}</div>
-                                                </div>
-                                                <div className='completed-table-row-item  completed-table-order-2'>
-                                                    <div className='table-text-color'>{order.supplier.supplier_name}</div>
-                                                    <div className='table-text-color-2'>{order?.source_destination?.destination}</div>
-                                                </div>
-                                                <div className='completed-table-row-item completed-table-order-1'>
-                                                    <div className='completed-table-text-color ms-4'>{totalQuantity}</div>
-                                                </div>
-                                                <div className='completed-table-row-item completed-table-order-1'>
-                                                    <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1) }</div>
-                                                </div>
-                                                <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                                    <Link to={`/buyer/order-details/${order.order_id}`}>
-                                                        <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
-                                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{orderedDate}</div>
+                                                        <div className='completed-table-text-color-2'>{order?.date?.time}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item  completed-table-order-2'>
+                                                        <div className='table-text-color'>{order.supplier.supplier_name}</div>
+                                                        <div className='table-text-color-2'>{order?.source_destination?.destination}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color ms-4'>{totalQuantity}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1)}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                        <Link to={`/buyer/order-details/${order.order_id}`}>
+                                                            <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
+                                                                <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                             </div>
-                                                    </Link>
-                                                    {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)} >
+                                                        </Link>
+                                                        {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)} >
                                                         <HighlightOffIcon className="table-icon" />
                                                     </div> */}
 
+                                                    </div>
                                                 </div>
+                                            )
+                                        })
+                                    ) : (
+                                        <>
+                                            <div className='pending-products-no-orders'>
+                                                No Completed Orders
                                             </div>
-                                        )
-                                    })
+
+                                        </>
+
+                                    )
                                 }
-                                   
-                                
+
+
                             </tbody>
                         </Table>
 
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'completed'} /> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'completed'} /> : ''
                         }
                         <div className='completed-pagi-container'>
                             <Pagination
