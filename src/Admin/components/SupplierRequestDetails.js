@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../style/detailsrequest.css';
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
+import { FaFilePdf } from 'react-icons/fa';
 import SupplierCustomModal from './SupplierCustomModal';
 
 const SupplierRequestDetails = () => {
@@ -14,10 +17,24 @@ const SupplierRequestDetails = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
-
-    const [loading, setLoading]             = useState(false);
+    const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)
+    // Start the modal and pdf url
+    const [open, setOpen] = useState(false);
+    const [pdfUrl, setPdfUrl] = useState(null);
+    const openModal = (url) => {
+        console.log('PDF URL:', url);
+        setPdfUrl(url);
+        setOpen(true);
+    };
 
+    const closeModal = () => {
+        setOpen(false);
+        setPdfUrl(null);
+    };
+    const extractFileName = (url) => {
+        return url.split('/').pop();
+    };
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
@@ -42,20 +59,20 @@ const SupplierRequestDetails = () => {
         setIsModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-    
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // };
+
     const handleAcceptReject = (action) => {
         const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
-            supplier_id : supplierId,
-            action      : action
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            supplier_id: supplierId,
+            action: action
         }
 
-        if(action === 'accept') {
+        if (action === 'accept') {
             setLoading(true)
-        } else if(action === 'reject') {
+        } else if (action === 'reject') {
             setRejectLoading(true)
         }
 
@@ -188,62 +205,132 @@ const SupplierRequestDetails = () => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
+
+                                {/* Trade License */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
-                                            alt='License'
-                                        />
+                                        {supplierDetails?.license_image[0]?.endsWith('.pdf') ? (
+                                            <div className='buyer-details-pdf-section'>
+                                                <FaFilePdf
+                                                    size={50}
+                                                    color="red"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`)}
+                                                />
+                                                <div
+                                                    className='pdf-url'
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`)}
+                                                >
+                                                    {extractFileName(supplierDetails?.license_image[0])}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
+                                                alt='License'
+                                            />
+                                        )}
                                     </div>
                                 </div>
+
+                                {/* Tax Certificate */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
-                                            alt='Tax'
-                                        />
+                                        {supplierDetails?.tax_image[0]?.endsWith('.pdf') ? (
+                                            <div className='buyer-details-pdf-section'>
+                                                <FaFilePdf
+                                                    size={50}
+                                                    color="red"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`)}
+                                                />
+                                                <div
+                                                    className='pdf-url'
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`)}
+                                                >
+                                                    {extractFileName(supplierDetails?.tax_image[0])}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
+                                                alt='Tax'
+                                            />
+                                        )}
                                     </div>
                                 </div>
+
+                                {/* Certificate */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
-                                            alt='Certificate'
-                                        />
+                                        {supplierDetails?.certificate_image[0]?.endsWith('.pdf') ? (
+                                            <div className='buyer-details-pdf-section'>
+                                                <FaFilePdf
+                                                    size={50}
+                                                    color="red"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`)}
+                                                />
+                                                <div
+                                                    className='pdf-url'
+                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`)}
+                                                >
+                                                    {extractFileName(supplierDetails?.certificate_image[0])}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
+                                                alt='Certificate'
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Modal for PDF viewing */}
+                        <Modal open={open} onClose={closeModal} center>
+                            {pdfUrl ? (
+                                <iframe
+                                    src={pdfUrl}
+                                    style={{ width: '100%', height: '600px', border: 'none' }}
+                                    title="PDF Viewer"
+                                />
+                            ) : (
+                                <p>Unable to load the PDF. Check the URL or try again later.</p>
+                            )}
+                        </Modal>
                     </div>
 
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div 
-                            className='buyer-details-button-accept' 
-                            onClick={() => handleAcceptReject('accept')}
-                            disabled={loading}
+                            <div
+                                className='buyer-details-button-accept'
+                                onClick={() => handleAcceptReject('accept')}
+                                disabled={loading}
                             >
-                                 {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Accept'
-                            )}
+                                {loading ? (
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Accept'
+                                )}
                             </div>
-                            <div className='buyer-details-button-reject' 
-                            // onClick={handleRejectClick}
-                            onClick={() => handleAcceptReject('reject')}
-                            disabled={rejectLoading}
+                            <div className='buyer-details-button-reject'
+                                // onClick={handleRejectClick}
+                                onClick={() => handleAcceptReject('reject')}
+                                disabled={rejectLoading}
                             >
-                               {rejectLoading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Reject'
-                            )}
-                            
+                                {rejectLoading ? (
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Reject'
+                                )}
+
                             </div>
                         </div>
 

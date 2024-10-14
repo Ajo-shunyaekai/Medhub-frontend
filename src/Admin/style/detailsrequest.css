@@ -11,6 +11,17 @@
 .buyer-details-container::-webkit-scrollbar {
     display: none;
 }
+.pdf-url{
+    cursor: pointer !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+    color: #5e676f !important;
+}
+.buyer-details-pdf-section{
+    display: flex;
+    gap: 14px;
+    flex-direction: column;
+}
 .buyer-details-container-heading{
     font-size: 20px;
     font-weight: 500;
