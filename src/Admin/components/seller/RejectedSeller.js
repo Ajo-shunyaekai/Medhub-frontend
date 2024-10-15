@@ -116,7 +116,11 @@ const RejectedOrders = () => {
                                 // ))}
                             ))
                         ) : (
-                        <div >No Data Available</div>
+                            <>
+                                <div className='pending-products-no-orders'>
+                                    No Data Available
+                                </div>
+                            </>
                         )}
                             </tbody>
                         </Table>

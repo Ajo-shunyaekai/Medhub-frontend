@@ -16,10 +16,10 @@ const DetailsBuyerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
-    // Start the modal and pdf url
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const openModal = (url) => {
+        console.log("Opening URL:", url);
         window.open(url, '_blank');
     };
 
@@ -270,6 +270,18 @@ const DetailsBuyerRequest = () => {
                                 </div>
                             </div>
                         </div>
+                        {/* Modal for PDF viewing */}
+                        <Modal open={open} onClose={closeModal} center>
+                            {pdfUrl ? (
+                                <iframe
+                                    src={pdfUrl}
+                                    style={{ width: '500px', height: '500px', border: 'none' }}
+                                    title="PDF Viewer"
+                                />
+                            ) : (
+                                <p>Unable to load the PDF. Check the URL or try again later.</p>
+                            )}
+                        </Modal>
                     </div>
 
                     <div className='buyer-details-container'>
