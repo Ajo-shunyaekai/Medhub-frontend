@@ -46,38 +46,6 @@ import { postRequestWithToken } from './api/Requests.js';
             } else if( activekey().indexOf('admin') > 0 ){ 
                 import('./AdminApp.css');
             }
-
-            // if ('serviceWorker' in navigator ) {
-            //     navigator.serviceWorker
-            //     .register(`firebase-messaging-sw.js`)
-            //       .then((registration) => {
-            //         console.log('Service Worker registered with scope:', registration.scope);
-            //       })
-            //       .catch((err) => {
-            //         console.log('Service Worker registration failed:', err);
-            //       });
-            //   }
-
-            // if ('serviceWorker' in navigator) {
-            //     navigator.serviceWorker.register('firebase-messaging-sw.js')
-            //       .then(function(swRegistration) {
-            //         console.log('Service Worker is registered:', swRegistration);
-            //         return swRegistration.pushManager.getSubscription();
-            //       })
-            //       .then(function(subscription) {
-            //         if (!subscription) {
-            //           // User is not yet subscribed
-            //           console.log('No push subscription, registering...');
-            //         } else {
-            //           console.log('Push subscription exists:', subscription);
-            //         }
-            //       })
-            //       .catch(function(error) {
-            //         console.error('Service Worker registration or push subscription failed:', error);
-            //       });
-            //   } else {
-            //     console.error('Service workers are not supported by this browser.');
-            //   }
               
         }, []);
 
