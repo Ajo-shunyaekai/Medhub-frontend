@@ -548,7 +548,6 @@ const SignUp = ({socket}) => {
                             <PhoneInput
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
-                                disableDialCodePrefill='true'
                                 name="companyPhone"
                                 value={companyPhone}
                                 onChange={(value) => {
@@ -603,7 +602,6 @@ const SignUp = ({socket}) => {
                             <PhoneInput
                                 className='signup-form-section-phone-input'
                                 defaultCountry="ae"
-                                disableDialCodePrefill='true'
                                 name="mobile"
                                 value={mobile}
                                 onChange={(value) => {

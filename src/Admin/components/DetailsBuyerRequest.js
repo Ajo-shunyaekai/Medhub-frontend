@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../style/detailsrequest.css'
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import CompanyLogo from '../assest/companylogo.png'
-import TradeLicense from '../assest/certificate.jpg'
-import TaxCertificate from '../assest/tax-certificate.jpg'
-import Certificate from '../assest/Medical_certificate.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 import BuyerCustomModal from './BuyerCustomModal';
-
+import { FaFilePdf } from 'react-icons/fa';
 
 const DetailsBuyerRequest = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +16,63 @@ const DetailsBuyerRequest = () => {
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
+    // Start the modal and pdf url
+    const [open, setOpen] = useState(false);
+    const [pdfUrl, setPdfUrl] = useState(null);
+    const openModal = (url) => {
+        window.open(url, '_blank');
+    };
 
-    const [loading, setLoading]           = useState(false);
+    const closeModal = () => {
+        setOpen(false);
+        setPdfUrl(null);
+    };
+    const extractFileName = (url) => {
+        return url.split('/').pop();
+    };
+
+    // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+    const renderFiles = (files, type) => {
+        return files?.map((file, index) => {
+            if (file.endsWith('.pdf')) {
+                // Render a PDF icon with a clickable link
+                return (
+                    <div key={index} className='buyer-details-pdf-section'>
+                        <FaFilePdf
+                            size={50}
+                            color="red"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}
+                        />
+                        <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}>
+                            {extractFileName(file)}
+                        </div>
+                    </div>
+                );
+            } else {
+                // Render an image
+                return (
+                    <img
+                        key={index}
+                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`}
+                        alt={type}
+                        className='buyer-details-document-image'
+                    />
+                );
+            }
+        });
+    };
+
+
+
+
+    // End the modal and pdf url
+
+
+
+
+
+    const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)
     const [buyerDetails, setBuyerDetails] = useState()
 
@@ -44,16 +97,16 @@ const DetailsBuyerRequest = () => {
     const handleAcceptReject = (action) => {
 
         const obj = {
-            admin_id : adminIdSessionStorage || adminIdLocalStorage,
-            buyer_id : buyerId,
-            action   : action
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id: buyerId,
+            action: action
         }
-        if(action === 'accept') {
+        if (action === 'accept') {
             setLoading(true)
-        } else if(action === 'reject') {
+        } else if (action === 'reject') {
             setRejectLoading(true)
         }
-        
+
 
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
             if (response.code === 200) {
@@ -77,9 +130,9 @@ const DetailsBuyerRequest = () => {
         setIsModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // };
     return (
         <>
             <div className='buyer-details-container'>
@@ -200,28 +253,19 @@ const DetailsBuyerRequest = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            // src={TradeLicense} 
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/license_images/${buyerDetails?.license_image[0]}`}
-                                            alt='License' />
+                                        {renderFiles(buyerDetails?.license_image, 'license_image')}
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            //    src={TaxCertificate} 
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/tax_images/${buyerDetails?.tax_image[0]}`}
-                                            alt='Tax' />
+                                        {renderFiles(buyerDetails?.tax_image, 'tax_image')}
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img
-                                            //   src={Certificate} 
-                                            src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/certificate_images/${buyerDetails?.certificate_image[0]}`}
-                                            alt='Certificate' />
+                                        {renderFiles(buyerDetails?.certificate_image, 'certificate_image')}
                                     </div>
                                 </div>
                             </div>
@@ -231,29 +275,29 @@ const DetailsBuyerRequest = () => {
                     <div className='buyer-details-container'>
                         {/* Rest of your JSX content */}
                         <div className='buyer-details-button-containers'>
-                            <div 
-                              className='buyer-details-button-accept'
-                              onClick={() => handleAcceptReject('accept')}
-                              disabled={loading}
-                              >
-                                
+                            <div
+                                className='buyer-details-button-accept'
+                                onClick={() => handleAcceptReject('accept')}
+                                disabled={loading}
+                            >
+
                                 {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Accept'
-                            )}
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Accept'
+                                )}
                             </div>
-                            <div 
-                            className='buyer-details-button-reject'
-                            //  onClick={handleRejectClick}
-                            onClick={() => handleAcceptReject('reject')}
-                            disabled={rejectLoading}
-                             >
-                                 {rejectLoading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Reject'
-                            )}
+                            <div
+                                className='buyer-details-button-reject'
+                                //  onClick={handleRejectClick}
+                                onClick={() => handleAcceptReject('reject')}
+                                disabled={rejectLoading}
+                            >
+                                {rejectLoading ? (
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Reject'
+                                )}
                             </div>
                         </div>
 

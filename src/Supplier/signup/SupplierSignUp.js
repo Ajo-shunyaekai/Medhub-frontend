@@ -625,7 +625,7 @@ const SupplierSignUp = ({socket}) => {
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Country of Operation</label>
                             {countries.length > 0 && (
-                                < ReactMultiSelectCheckboxes
+                                < MultiSelectDropdown
                                     className='signup-forms-sections-select custom-multi-select'
                                     options={countries}
                                     value={formData.operationCountries}

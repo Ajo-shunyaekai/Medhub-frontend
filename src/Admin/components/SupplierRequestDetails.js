@@ -23,9 +23,7 @@ const SupplierRequestDetails = () => {
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const openModal = (url) => {
-        console.log('PDF URL:', url);
-        setPdfUrl(url);
-        setOpen(true);
+        window.open(url, '_blank');
     };
 
     const closeModal = () => {
@@ -35,6 +33,43 @@ const SupplierRequestDetails = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
+
+// Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+const renderFiles = (files, type) => {
+    return files?.map((file, index) => {
+        if (file.endsWith('.pdf')) {
+            // Render a PDF icon with a clickable link
+            return (
+                <div key={index} className='buyer-details-pdf-section'>
+                    <FaFilePdf
+                        size={50}
+                        color="red"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+                    />
+                    <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+                        {extractFileName(file)}
+                    </div>
+                </div>
+            );
+        } else {
+            // Render an image
+            return (
+                <img
+                    key={index}
+                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+                    alt={type}
+                    className='buyer-details-document-image'
+                />
+            );
+        }
+    });
+};
+
+
+
+
+    // End the modal and pdf url
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
@@ -210,27 +245,7 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {supplierDetails?.license_image[0]?.endsWith('.pdf') ? (
-                                            <div className='buyer-details-pdf-section'>
-                                                <FaFilePdf
-                                                    size={50}
-                                                    color="red"
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`)}
-                                                />
-                                                <div
-                                                    className='pdf-url'
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`)}
-                                                >
-                                                    {extractFileName(supplierDetails?.license_image[0])}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <img
-                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
-                                                alt='License'
-                                            />
-                                        )}
+                                    {renderFiles(supplierDetails?.license_image, 'license_image')}
                                     </div>
                                 </div>
 
@@ -238,27 +253,7 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {supplierDetails?.tax_image[0]?.endsWith('.pdf') ? (
-                                            <div className='buyer-details-pdf-section'>
-                                                <FaFilePdf
-                                                    size={50}
-                                                    color="red"
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`)}
-                                                />
-                                                <div
-                                                    className='pdf-url'
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`)}
-                                                >
-                                                    {extractFileName(supplierDetails?.tax_image[0])}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <img
-                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
-                                                alt='Tax'
-                                            />
-                                        )}
+                                    {renderFiles(supplierDetails?.tax_image, 'tax_image')}
                                     </div>
                                 </div>
 
@@ -266,27 +261,7 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {supplierDetails?.certificate_image[0]?.endsWith('.pdf') ? (
-                                            <div className='buyer-details-pdf-section'>
-                                                <FaFilePdf
-                                                    size={50}
-                                                    color="red"
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`)}
-                                                />
-                                                <div
-                                                    className='pdf-url'
-                                                    onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`)}
-                                                >
-                                                    {extractFileName(supplierDetails?.certificate_image[0])}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <img
-                                                src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
-                                                alt='Certificate'
-                                            />
-                                        )}
+                                    {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +272,7 @@ const SupplierRequestDetails = () => {
                             {pdfUrl ? (
                                 <iframe
                                     src={pdfUrl}
-                                    style={{ width: '100%', height: '600px', border: 'none' }}
+                                    style={{ width: '500px', height: '500px', border: 'none' }}
                                     title="PDF Viewer"
                                 />
                             ) : (

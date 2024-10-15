@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../../style/detailsrequest.css'
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
-import CompanyLogo from '../../assest/companylogo.png'
-import TradeLicense from '../../assest/certificate.jpg'
-import TaxCertificate from '../../assest/tax-certificate.jpg'
-import Certificate from '../../assest/Medical_certificate.jpg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
+import { FaFilePdf } from 'react-icons/fa';
 
 
 const SupplierDetails = () => {
@@ -17,7 +16,57 @@ const SupplierDetails = () => {
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage   = localStorage.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
+   // Start the modal and pdf url
+   const [open, setOpen] = useState(false);
+   const [pdfUrl, setPdfUrl] = useState(null);
+   const openModal = (url) => {
+       window.open(url, '_blank');
+   };
 
+   const closeModal = () => {
+       setOpen(false);
+       setPdfUrl(null);
+   };
+   const extractFileName = (url) => {
+       return url.split('/').pop();
+   };
+
+// Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+const renderFiles = (files, type) => {
+   return files?.map((file, index) => {
+       if (file.endsWith('.pdf')) {
+           // Render a PDF icon with a clickable link
+           return (
+               <div key={index} className='buyer-details-pdf-section'>
+                   <FaFilePdf
+                       size={50}
+                       color="red"
+                       style={{ cursor: 'pointer' }}
+                       onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+                   />
+                   <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+                       {extractFileName(file)}
+                   </div>
+               </div>
+           );
+       } else {
+           // Render an image
+           return (
+               <img
+                   key={index}
+                   src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+                   alt={type}
+                   className='buyer-details-document-image'
+               />
+           );
+       }
+   });
+};
+
+
+
+
+   // End the modal and pdf url
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
@@ -167,35 +216,45 @@ const SupplierDetails = () => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
+
+                                {/* Trade License */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={TradeLicense} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/license_image/${supplierDetails?.license_image[0]}`}
-                                        alt='License' />
+                                    {renderFiles(supplierDetails?.license_image, 'license_image')}
                                     </div>
                                 </div>
+
+                                {/* Tax Certificate */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={TaxCertificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/tax_image/${supplierDetails?.tax_image[0]}`}
-                                        alt='Tax' />
+                                    {renderFiles(supplierDetails?.tax_image, 'tax_image')}
                                     </div>
                                 </div>
+
+                                {/* Certificate */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        <img 
-                                        // src={Certificate} 
-                                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/certificate_image/${supplierDetails?.certificate_image[0]}`}
-                                        alt='Certificate' />
+                                    {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Modal for PDF viewing */}
+                        <Modal open={open} onClose={closeModal} center>
+                            {pdfUrl ? (
+                                <iframe
+                                    src={pdfUrl}
+                                    style={{ width: '500px', height: '500px', border: 'none' }}
+                                    title="PDF Viewer"
+                                />
+                            ) : (
+                                <p>Unable to load the PDF. Check the URL or try again later.</p>
+                            )}
+                        </Modal>
                     </div>
 
                     <div className='buyer-details-button-containers'>
