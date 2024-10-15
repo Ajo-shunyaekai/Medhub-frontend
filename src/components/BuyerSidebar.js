@@ -179,42 +179,30 @@ const BuyerSidebar = () => {
             });
 
             socket.on('orderCreated', (message) => {
-                console.log(`Order Created notification: ${message}`);
-                
                 const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
                 showNotification('Order Created', {
                     body: message,
                     icon: logo,
                 }, link);
-    
-                // Re-fetch notifications to get the latest data
                 fetchNotifications();
             });
 
 
             socket.on('shipmentDetailsSubmission', (message) => {
-                console.log(`Shipment details submission notification: ${message}`);
-                
                 const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
                 showNotification('Shipment Details Submitted', {
                     body: message,
                     icon: logo,
                 }, link);
-    
-                // Re-fetch notifications to get the latest data
                 fetchNotifications();
             });
 
             socket.on('invoiceCreated', (message) => {
-                console.log(`Order generated notification: ${message}`);
-                
                 const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
                 showNotification('Order Created', {
                     body: message,
                     icon: logo,
                 }, link);
-    
-                // Re-fetch notifications to get the latest data
                 fetchNotifications();
             });
     

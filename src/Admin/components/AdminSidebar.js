@@ -89,6 +89,7 @@ import TotalInquiriesRequest from './dashboard/TotalInquiriesRequest.js';
 import TotalPO from './dashboard/TotalPO.js';
 import TotalActiveOrders from './dashboard/TotalActiveOrders.js';
 import TotalCompletedOrder from './dashboard/TotalCompletedOrder.js';
+
 const AdminSidebar = () => {
     const navigate = useNavigate();
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
@@ -97,8 +98,8 @@ const AdminSidebar = () => {
     const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
     const [notificationList, setNotificationList] = useState([])
-    const [count, setCount] = useState()
-    const [refresh, setRefresh] = useState(false)
+    const [count, setCount]                       = useState()
+    const [refresh, setRefresh]                   = useState(false)
 
     const showNotification = (title, options, url) => { 
         if (Notification.permission === 'granted') {
@@ -128,12 +129,9 @@ const AdminSidebar = () => {
     }
 
     useEffect( () => { 
-        // if( !adminIdSessionStorage && !adminIdLocalStorage) {
-        //     navigate("/admin/login");
-        // }
+        
         if (adminIdSessionStorage || adminIdLocalStorage) {
         const obj = {
-            // order_id : orderId,
             admin_id : adminIdSessionStorage || adminIdLocalStorage,
         };
         const adminId = adminIdSessionStorage || adminIdLocalStorage;
@@ -154,8 +152,6 @@ const AdminSidebar = () => {
       fetchNotifications();
 
       socket.on('buyerRegistered', (message) => {
-        console.log(`buyer registration: ${message}`);
-        
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Buyer Registration Request', {
             body: message,
@@ -167,8 +163,6 @@ const AdminSidebar = () => {
     });
 
     socket.on('supplierRegistered', (message) => {
-        console.log(`supplier registration: ${message}`);
-        
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Supplier Registration Requester', {
             body: message,
@@ -180,15 +174,11 @@ const AdminSidebar = () => {
     });
 
     socket.on('medicineRequest', (message) => {
-        console.log(`medicine request: ${message}`);
-        
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Medicine Approval Request', {
             body: message,
             icon: logo,
         }, link);
-
-        // Re-fetch notifications to get the latest data
         fetchNotifications();
     });
 
@@ -200,21 +190,15 @@ const AdminSidebar = () => {
             body: message,
             icon: logo,
         }, link);
-
-        // Re-fetch notifications to get the latest data
         fetchNotifications();
     });
 
     socket.on('secondaryMedicineEditRequest', (message) => {
-        console.log(`medicine request: ${message}`);
-        
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Medicine Edit Approval Request', {
             body: message,
             icon: logo,
         }, link);
-
-        // Re-fetch notifications to get the latest data
         fetchNotifications();
     });
 

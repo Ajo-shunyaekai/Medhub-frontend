@@ -97,7 +97,6 @@ const SupplierSidebar = () => {
         }
     };
     
-    
     const handleClick = (id, event) => {
         const obj = {
             notification_id : id,
@@ -113,14 +112,12 @@ const SupplierSidebar = () => {
         });
     }
     
-
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage && location.pathname !== '/supplier/sign-up') {
             navigate("/supplier/login");
         }
     }, [location.pathname]); 
     
-
     useEffect(() => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
             const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
@@ -135,12 +132,9 @@ const SupplierSidebar = () => {
                     console.log('error in fetching notification list');
                 }
             });
-    
             // Emit the supplier ID to register the connection
             socket.emit('register', supplierId);
 
-
-    
             const fetchNotifications = () => {
                 const obj = {
                     supplier_id: supplierId,
@@ -159,9 +153,7 @@ const SupplierSidebar = () => {
             // Fetch notifications when component mounts
             fetchNotifications();
     
-            // Listen for new enquiry notifications
             socket.on('newEnquiry', (message) => {
-                console.log(`New enquiry notification: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('New Enquiry Received', {
                     body: message,
@@ -171,9 +163,7 @@ const SupplierSidebar = () => {
                 fetchNotifications();
             });
 
-
             socket.on('POCreated', (message) => {
-                console.log(`PO created: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('PO Created', {
                     body: message,
@@ -184,7 +174,6 @@ const SupplierSidebar = () => {
             });
 
             socket.on('POEdited', (message) => {
-                console.log(`PO edited: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('PO Edited', {
                     body: message,
@@ -195,7 +184,6 @@ const SupplierSidebar = () => {
             });
 
             socket.on('logisticsRequest', (message) => {
-                console.log(`Logistics Booking Request: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('Logistics Booking Request', {
                     body: message,
@@ -204,9 +192,8 @@ const SupplierSidebar = () => {
     
                 fetchNotifications();
             });
-
+            
             socket.on('invoicePaymentStatusUpdated', (message) => {
-                console.log(`invoicePaymentStatusUpdated Request: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('Invoice Payment Done', {
                     body: message,
@@ -217,7 +204,6 @@ const SupplierSidebar = () => {
             });
 
             socket.on('addMedicineRequestUpdated', (message) => {
-                console.log(`Update on add medicine request: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('Update on Add Medicine Request', {
                     body: message,
@@ -228,7 +214,6 @@ const SupplierSidebar = () => {
             });
 
             socket.on('editMedicineRequestUpdated', (message) => {
-                console.log(`Update on edit medicine request: ${message}`);
                 const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
                 showNotification('Update on Edit Medicine Request', {
                     body: message,
