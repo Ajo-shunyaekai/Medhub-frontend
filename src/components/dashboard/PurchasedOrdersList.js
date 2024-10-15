@@ -8,6 +8,8 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import OrderCancel from '../../components/orders/OrderCancel'
+import { postRequestWithToken } from '../../api/Requests';
+import { toast } from 'react-toastify';
 const PurchasedOrdersList = () => {
     const navigate = useNavigate()
     const [show, setShow] = useState(false);
@@ -62,14 +64,18 @@ const PurchasedOrdersList = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
-    const indexOfLastOrder  = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const [poList, setPOList] = useState([])
+    const [totalPoList, setTotalPoList] = useState()
+
+    // const indexOfLastOrder  = currentPage * ordersPerPage;
+    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // const currentOrders     = poList.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    const totalPages = Math.ceil(activeOrders.length / ordersPerPage);
+    const totalPages = Math.ceil(poList.length / ordersPerPage);
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -83,9 +89,20 @@ const PurchasedOrdersList = () => {
         const obj = {
             buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
             filterKey : 'active',
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            pageNo   : currentPage, 
+            pageSize     : ordersPerPage,
         }
+
+        postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
+            if (response.code === 200) {
+                setPOList(response.result.data)
+                setTotalPoList(response.result.totalItems)
+            } else {
+                toast(response.message, {type:'error'})
+                console.log('error in purchased order list api', response);
+            }
+            // setLoading(false);
+        });
     },[currentPage])
 
     return (
@@ -119,35 +136,43 @@ const PurchasedOrdersList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {currentOrders?.map((order, index) => (
-                                    <div className='completed-table-row-container'>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.po_id}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.inquiry_id}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.date}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.supplier_name}</div>
-                                        </div>  
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.total_amount}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/buyer/purchased-order-details/PO-91e36940`}>
-                                                <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
-                                                    <RemoveRedEyeOutlinedIcon className="table-icon" />
-                                                </div>
-                                            </Link>
-                                            <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
-                                                <HighlightOffIcon className="table-icon" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                       ))}
+                            {poList?.map((order, index) => {
+  // Calculate totalAmount by summing up the total_amount from each item in order.order_items
+  const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+
+  return (
+    <div key={order.purchaseOrder_id} className='completed-table-row-container'>
+      <div className='completed-table-row-item completed-table-order-1'>
+        <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
+      </div>
+      <div className='completed-table-row-item completed-table-order-1'>
+        <div className='completed-table-text-color'>{order.enquiry_id}</div>
+      </div>
+      <div className='completed-table-row-item completed-table-order-1'>
+        <div className='completed-table-text-color'>{order.po_date}</div>
+      </div>
+      <div className='completed-table-row-item completed-table-order-2'>
+        <div className='table-text-color'>{order.supplier_name}</div>
+      </div>  
+      <div className='completed-table-row-item completed-table-order-1'>
+        {/* Display totalAmount, fall back to order.total_amount if available */}
+        <div className='completed-table-text-color'>{order.total_amount || totalAmount} AED</div>
+      </div>
+      <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
+        <Link to={`/buyer/purchased-order-details/${order.purchaseOrder_id}`}>
+          <div className='completed-order-table completed-order-table-view' onClick={showModal}>
+            <RemoveRedEyeOutlinedIcon className="table-icon" />
+          </div>
+        </Link>
+        {/* Uncomment if you want to add the cancel button back */}
+        {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
+          <HighlightOffIcon className="table-icon" />
+        </div> */}
+      </div>
+    </div>
+  );
+})}
+
                             </tbody>
                         </Table>
 
@@ -158,7 +183,7 @@ const PurchasedOrdersList = () => {
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={totalPoList}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -169,7 +194,7 @@ const PurchasedOrdersList = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalPoList}
                                 </div>
                             </div>
                         </div>

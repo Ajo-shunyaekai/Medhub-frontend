@@ -8,6 +8,10 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import OrderCancel from '../../components/orders/OrderCancel'
+import { postRequestWithToken } from '../../api/Requests';
+import { toast } from 'react-toastify';
+import moment from 'moment-timezone';
+
 const OngoingInquiriesList = () => {
     const navigate = useNavigate()
     const [show, setShow] = useState(false);
@@ -52,14 +56,18 @@ const OngoingInquiriesList = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const [inquiryList, setInquiryList] = useState([])
+    const [totalInquiries, setTotalInquiries] = useState()
+
+    // const indexOfLastOrder = currentPage * ordersPerPage;
+    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    // const currentOrders = inquiryList.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    const totalPages = Math.ceil(activeOrders.length / ordersPerPage);
+    const totalPages = Math.ceil(inquiryList.length / ordersPerPage);
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -72,11 +80,26 @@ const OngoingInquiriesList = () => {
 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey: 'active',
-            page_no: currentPage,
-            limit: ordersPerPage,
+            filterKey : 'pending',
+            pageNo: currentPage,
+            pageSize: ordersPerPage,
         }
+
+        postRequestWithToken('buyer/enquiry/enquiry-list', obj, async (response) => {
+            if (response.code === 200) {
+                setInquiryList(response.result.data)
+                setTotalInquiries(response.result.totalItems)
+            } else {
+                toast(response.message, {type:'error'})
+               console.log('error in order list api',response);
+            }
+            // setLoading(false);
+        })
     }, [currentPage])
+
+    const handleNavigate = (id) => {
+        navigate(`/buyer/cancel-inquiry-list/${id}`)
+      }
 
     return (
         <>
@@ -107,30 +130,41 @@ const OngoingInquiriesList = () => {
 
                             <tbody className='bordered'>
 
-                                {currentOrders?.map((order, index) => (
+                                {inquiryList?.map((order, index) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.inquiry_id}</div>
+                                            <div className='completed-table-text-color'>{order?.enquiry_id}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.date}</div>
+                                            <div className='completed-table-text-color'>{moment(order?.created_at).format("DD/MM/YYYY")}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.supplier_name}</div>
+                                            <div className='table-text-color'>{order.supplier.supplier_name}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.status}</div>
+                                            <div className='completed-table-text-color'>
+                                                {/* {order.status} */}
+                                                {order?.enquiry_status === 'Quotation submitted'
+                            ? 'Quotation Received'
+                            : order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                          }
+                                         </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/buyer/order-details/${order.order_id}`}>
+                                            <Link to={`/buyer/ongoing-inquiries-details/${order.enquiry_id}`}>
                                                 <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
                                                     <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                 </div>
                                             </Link>
-                                            <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
+                                            {order?.enquiry_status === 'pending' && (
+                                            <div className='completed-order-table completed-order-table-cancel' 
+                                            // onClick={() => showModal(order.order_id)}
+                                            onClick={() => handleNavigate(order?.enquiry_id)}
+                                            >
                                                 <HighlightOffIcon className="table-icon" />
                                             </div>
+                                             )}
                                         </div>
                                     </div>
                                 ))}
@@ -144,7 +178,7 @@ const OngoingInquiriesList = () => {
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={totalInquiries}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -155,7 +189,7 @@ const OngoingInquiriesList = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalInquiries}
                                 </div>
                             </div>
                         </div>

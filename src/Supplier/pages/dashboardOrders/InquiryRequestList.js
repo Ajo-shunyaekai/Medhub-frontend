@@ -9,6 +9,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Table } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const InquiryRequestList = () => {
     const navigate = useNavigate()
@@ -26,7 +27,13 @@ const InquiryRequestList = () => {
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1);
+
+
     const ordersPerPage     = 5;
+
+    const [inquiryList, setInquiryList]       = useState([])
+    const [totalInquiries, setTotalInquiries] = useState()
+
     const indexOfLastOrder  = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
 
@@ -46,15 +53,16 @@ const InquiryRequestList = () => {
         const obj = {
             supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
             filterKey : 'completed',
-            page_no   : currentPage, 
-            limit     : ordersPerPage,
+            pageNo   : currentPage, 
+            pageSize     : ordersPerPage,
         }
 
-        postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
+        postRequestWithToken('supplier/enquiry/enquiry-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setInquiryList(response.result.data)
+                setTotalInquiries(response.result.totalItems)
             } else {
+                toast(response.message, {type:'error'})
                console.log('error in order list api',response);
             }
           })
@@ -88,52 +96,36 @@ const InquiryRequestList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {
-                                    orderList && orderList?.length > 0 ? (
-                                        orderList.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item.quantity || item.quantity_required);
-                                              }, 0);
-                                              const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                            return (
+                            {inquiryList?.map((order, index) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_id}</div>
+                                            <div className='completed-table-text-color'>{order.enquiry_id}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{orderedDate}</div>
+                                            <div className='completed-table-text-color'>{moment(order?.created_at).format("DD/MM/YYYY")}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
                                             <div className='table-text-color'>{order.buyer.buyer_name}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1) }</div>
+                                            <div className='completed-table-text-color'>
+                                            {order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                                </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/supplier/inquiry-request-details/INQ-77258ebc`}>
+                                            <Link to={`/supplier/inquiry-request-details/${order.enquiry_id}`}>
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>
                                     </div>
-                                ) 
-                            })
-                        ) :  (
-                            <>
-                            <div className='pending-products-no-orders'>
-                                No Inquiry Requests
-                            </div>
-
-                        </>
-                            
-                    )
-                    }
+                                ))}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
+                                itemsCountPerPage={totalInquiries}
                                 totalItemsCount={totalOrders}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
@@ -145,7 +137,7 @@ const InquiryRequestList = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalInquiries}
                                 </div>
                             </div>
                         </div>

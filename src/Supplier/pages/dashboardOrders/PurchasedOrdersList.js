@@ -9,6 +9,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Table } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const PurchasedOrdersList = () => {
     const navigate = useNavigate()
@@ -22,7 +23,8 @@ const PurchasedOrdersList = () => {
         setSelectedOrderId(orderId)
         setModal(!modal)
     }
-
+ const [poList, setPOList]           = useState([])
+    const [totalPoList, setTotalPoList] = useState()
     const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,19 +47,21 @@ const PurchasedOrdersList = () => {
 
         const obj = {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey: 'completed',
-            page_no: currentPage,
-            limit: ordersPerPage,
+            filterKey: 'active',
+            pageNo: currentPage,
+            pageSize: ordersPerPage,
         }
 
-        postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
+        postRequestWithToken('supplier/purchaseorder/get-po-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setPOList(response.result.data)
+                setTotalPoList(response.result.totalItems)
             } else {
-                console.log('error in order list api', response);
+                toast(response.message, {type:'error'})
+                console.log('error in purchased order list api', response);
             }
-        })
+            // setLoading(false);
+        });
     }, [currentPage])
     return (
         <>
@@ -91,54 +95,53 @@ const PurchasedOrdersList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                                {
-                                    orderList && orderList?.length > 0 ? (
-                                        orderList.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item.quantity || item.quantity_required);
-                                            }, 0);
-                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
-                                            return (
+                            {poList?.length > 0 ? (
+                poList.map((order, i) => {
+                  const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+                  return (
                                                 <div className='completed-table-row-container'>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order.order_id}</div>
+                                                        <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order.order_id}</div>
+                                                        <div className='completed-table-text-color'>{order.enquiry_id}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{orderedDate}</div>
+                                                        <div className='completed-table-text-color'>{order.po_date}</div>
                                                     </div>
                                                     <div className='completed-table-row-item  completed-table-order-2'>
-                                                        <div className='table-text-color'>{order.buyer.buyer_name}</div>
+                                                        <div className='table-text-color'>{order.buyer_name}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order?.order_status?.charAt(0).toUpperCase() + order?.order_status?.slice(1)}</div>
+                                                        <div className='completed-table-text-color'>
+                                                            {order?.po_status?.charAt(0).toUpperCase() + order?.po_status?.slice(1)}
+                                                            </div>
                                                     </div>
                                                     <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                                        <Link to={`/supplier/proforma-invoice/`}>
+                                                        <Link to={`/supplier/proforma-invoice/${order.purchaseOrder_id}`}>
                                                             <div className='ongoing-section-button-section-cont'>
                                                                 <span className='ongoing-section-orders-button'>Make Order</span>
                                                             </div>
                                                         </Link>
-                                                        <Link to={`/supplier/inquiry-request-details/INQ-77258ebc`}>
+                                                        <Link to={`/supplier/purchased-order-details/${order.purchaseOrder_id}`}>
                                                             <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                                         </Link>
                                                     </div>
                                                 </div>
-                                            )
+                                           );
                                         })
-                                    ) : <div className='pending-products-no-orders'>
-                                    No Purchased Orders
-                                </div>
-                                }
+                                      ) : (
+                                        <div className='pending-products-no-orders'>
+                                         No Purchase Orders Available
+                                         </div>
+                                      )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={totalPoList}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -149,7 +152,7 @@ const PurchasedOrdersList = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalPoList}
                                 </div>
                             </div>
                         </div>
