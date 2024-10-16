@@ -46,10 +46,10 @@ const PurchasedOrdersList = () => {
         }
 
         const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey: 'active',
-            pageNo: currentPage,
-            pageSize: ordersPerPage,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            status      : 'active',
+            pageNo      : currentPage,
+            pageSize    : ordersPerPage,
         }
 
         postRequestWithToken('supplier/purchaseorder/get-po-list', obj, async (response) => {
@@ -96,9 +96,9 @@ const PurchasedOrdersList = () => {
 
                             <tbody className='bordered'>
                             {poList?.length > 0 ? (
-                poList.map((order, i) => {
-                  const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
-                  return (
+                                poList.map((order, i) => {
+                                const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+                                return (
                                                 <div className='completed-table-row-container'>
                                                     <div className='completed-table-row-item completed-table-order-1'>
                                                         <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
