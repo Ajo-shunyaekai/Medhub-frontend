@@ -125,8 +125,8 @@ const InquiryRequestList = () => {
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
-                                itemsCountPerPage={totalInquiries}
-                                totalItemsCount={totalOrders}
+                                itemsCountPerPage={ordersPerPage}
+                                totalItemsCount={totalInquiries}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
