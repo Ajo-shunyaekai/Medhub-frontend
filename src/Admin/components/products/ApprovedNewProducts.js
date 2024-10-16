@@ -80,9 +80,11 @@ const ApprovedNewProducts = ({productList, totalProducts, currentPage, listPerPa
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>
-                                    <p>No data available</p>
-                                </div>
+                                    <>
+                                    <div className='pending-products-no-orders'>
+                                        No Data Available
+                                    </div>
+                                </>
                                 )}
 
                             </tbody>

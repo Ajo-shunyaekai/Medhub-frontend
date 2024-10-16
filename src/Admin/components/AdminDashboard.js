@@ -14,6 +14,7 @@ import Arrow from '../assest/dashboard/arrow.svg'
 import { postRequestWithToken } from '../api/Requests';
 import { countryToCodeMapping, convertCountryToCode } from '../assest/countryCodes/countryCode'
 import TotalRequestList from './dashboard/TotalRequestList';
+import DateRange from './DateRange'
 
 
 const AdminDashboard = () => {
@@ -55,6 +56,7 @@ const AdminDashboard = () => {
 
                 <div className='analystic-button' >
                     <div className='buttons'>Analytics</div>
+                    <div><DateRange/></div>
                 </div>
                 {/* start the card container */}
                 <div className='cart-main-container'>

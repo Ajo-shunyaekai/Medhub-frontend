@@ -46,7 +46,7 @@ const BuyerFeedback = ({supportList, handlePageChange, currentPage, totalItems,l
                                         </div>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                        <Link to={`/admin/order-details`}>
+                                        <Link to={`/admin/buyer-feedback-details`}>
                                         <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
                                             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                         </div>

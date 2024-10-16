@@ -89,6 +89,13 @@ import TotalInquiriesRequest from './dashboard/TotalInquiriesRequest.js';
 import TotalPO from './dashboard/TotalPO.js';
 import TotalActiveOrders from './dashboard/TotalActiveOrders.js';
 import TotalCompletedOrder from './dashboard/TotalCompletedOrder.js';
+import SellerTransactionDetails from './seller/SellerTransactionDetails.js';
+import SellerFeedbackDetails from './seller/SellerFeedbackDetails.js';
+import SellerComplaintDetails from './seller/SellerComplaintDetails.js';
+import BuyerFeedbackDetails from './buyer/BuyerFeedbackDetails.js';
+import BuyerComplaintDetails from './buyer/BuyerComplaintDetails.js';
+import BuyerTransactionDetails from './buyer/BuyerTransactionDetails.js';
+import DateRange from './DateRange.js';
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -266,6 +273,15 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-proforma-details/:orderId" element={<BuyerProformaDetails/>}/>
                   <Route path="/admin/edit-product-details/:medicineId" element={<EditUpdateProductdetails socket = {socket} />}/>
                   {/* Start the product navigate route */}
+                  
+                  <Route path="/admin/date-range" element={<DateRange/>} />
+                  <Route path="/admin/buyer-feedback-details" element={<BuyerFeedbackDetails/>} />
+                  <Route path="/admin/buyer-complaint-details" element={<BuyerComplaintDetails/>} />
+                  <Route path="/admin/buyer-transaction-details" element={<BuyerTransactionDetails/>} />
+                  
+                  <Route path="/admin/seller-transaction-details" element={<SellerTransactionDetails/>} />
+                  <Route path="/admin/seller-feedback-details" element={<SellerFeedbackDetails/>} />
+                  <Route path="/admin/seller-complaint-details" element={<SellerComplaintDetails/>} />
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product" element={<Navigate to="/admin/rejected-product/newproduct" />} />

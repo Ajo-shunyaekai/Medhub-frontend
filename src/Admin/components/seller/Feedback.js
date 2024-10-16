@@ -7,7 +7,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const Feedback = ({supportList, handlePageChange, currentPage, totalItems,listPerPage}) => {
+const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, listPerPage }) => {
     return (
         <>
             <div className={styles['complaint-main-container']}>
@@ -31,31 +31,31 @@ const Feedback = ({supportList, handlePageChange, currentPage, totalItems,listPe
                                 </div>
                             </thead>
                             <tbody className={styles.bordered}>
-                            {supportList?.length > 0 ? (
-                                supportList.map((feedback, index) => (
-                                    <div className={styles['complaint-table-row-container']} key={index}>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <div className={styles['complaint-table-text-color']}>{feedback.support_id || 'ID Not Provided'}</div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                        <div className={styles['complaint-table-text-color']}>{feedback.order_id || 'Order ID Not Provided'}</div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
-                                        <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
-                                        {feedback.reason || 'Reason Not Provided'}
+                                {supportList?.length > 0 ? (
+                                    supportList.map((feedback, index) => (
+                                        <div className={styles['complaint-table-row-container']} key={index}>
+                                            <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                                <div className={styles['complaint-table-text-color']}>{feedback.support_id || 'ID Not Provided'}</div>
+                                            </div>
+                                            <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
+                                                <div className={styles['complaint-table-text-color']}>{feedback.order_id || 'Order ID Not Provided'}</div>
+                                            </div>
+                                            <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
+                                                <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
+                                                    {feedback.reason || 'Reason Not Provided'}
+                                                </div>
+                                            </div>
+                                            <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
+                                                <Link to={`/admin/seller-feedback-details`}>
+                                                    <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
+                                                        <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
+                                                    </div>
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                        <Link to={`/admin/order-details`}>
-                                        <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
-                                            <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
-                                        </div>
-                                        </Link>
-                                    </div>
-                                    </div>
-                                ))
+                                    ))
                                 ) : (
-                                <div className={styles['no-data-message']}>No data available</div>
+                                    <div className={styles['no-data-message']}>No data available</div>
                                 )}
 
                             </tbody>
@@ -67,8 +67,8 @@ const Feedback = ({supportList, handlePageChange, currentPage, totalItems,listPe
                                 totalItemsCount={totalItems}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
-                               itemClass="page-item"
-                                    linkClass="page-link"
+                                itemClass="page-item"
+                                linkClass="page-link"
                                 prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
                                 nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
                                 hideFirstLastPages={true}

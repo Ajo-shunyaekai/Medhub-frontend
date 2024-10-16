@@ -232,19 +232,19 @@ const BuyerDetails = () => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.license_image, 'license_image')}
+                                        {renderFiles(buyerDetails?.license_image, 'license_images')}
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.tax_image, 'tax_image')}
+                                        {renderFiles(buyerDetails?.tax_image, 'tax_images')}
                                     </div>
                                 </div>
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                        {renderFiles(buyerDetails?.certificate_image, 'certificate_image')}
+                                        {renderFiles(buyerDetails?.certificate_image, 'certificate_images')}
                                     </div>
                                 </div>
                             </div>

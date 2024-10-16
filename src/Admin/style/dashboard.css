@@ -30,6 +30,9 @@ body {
 .analystic-button {
   width: 100%;
   margin-top: -14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .buttons {
   background-color: #f5f5f6;
@@ -832,4 +835,26 @@ input[type="checkbox"]:focus + span::before {
     width: 100px !important;
     height: 100px !important;
   }
+}
+.admin-date-container{
+  display: flex;
+  column-gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.admin-date-picker{
+  outline: none !important;
+  border: none;
+  background-color: #fff;
+  padding: 10px 14px;
+  font-size: 0.829rem;
+  border-radius: 4px;
+  width: 140px;
+}
+.react-datepicker-popper {
+    position: absolute !important;
+    left: 40px !important;
+    top: 0px !important;
+    transform: translate(-32px, 51px) !important;
 }

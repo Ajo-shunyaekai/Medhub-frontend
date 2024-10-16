@@ -80,7 +80,11 @@ const NewProductRequest = ({productList, totalProducts, currentPage, listPerPage
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>No products available</div>
+                                    <>
+                                    <div className='pending-products-no-orders'>
+                                        No Products Available
+                                    </div>
+                                </>
                                 )}
 
                             </tbody>
