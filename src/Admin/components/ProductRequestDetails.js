@@ -6,18 +6,18 @@ import { postRequest } from '../../api/Requests';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 
-const ProductRequestDetails = ({socket}) => {
+const ProductRequestDetails = ({ socket }) => {
     const { medicineId } = useParams()
-    const navigate    = useNavigate()
+    const navigate = useNavigate()
 
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
 
-    const [loading, setLoading]             = useState(false);
+    const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)
 
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
 
     const hasInventoryInfo = medicineDetails && medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0;
 
@@ -59,44 +59,44 @@ const ProductRequestDetails = ({socket}) => {
 
     const handleAcceptReject = (action) => {
         const obj = {
-            admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
-            medicine_id            : medicineId ,
-            supplier_id            : medicineDetails?.supplier.supplier_id,
-            supplier_email         : medicineDetails?.supplier.supplier_email,
-            supplier_name          : medicineDetails?.supplier.supplier_name,
-            supplier_contact_email : medicineDetails?.supplier.contact_person_email,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            medicine_id: medicineId,
+            supplier_id: medicineDetails?.supplier.supplier_id,
+            supplier_email: medicineDetails?.supplier.supplier_email,
+            supplier_name: medicineDetails?.supplier.supplier_name,
+            supplier_contact_email: medicineDetails?.supplier.contact_person_email,
             action
         }
-        if(action === 'accept') {
+        if (action === 'accept') {
             setLoading(true)
-        } else if(action === 'reject') {
+        } else if (action === 'reject') {
             setRejectLoading(true)
         }
         postRequestWithToken('admin/accept-reject-add-medicine', obj, async (response) => {
             if (response.code === 200) {
-                toast(response.message, {type: 'success'})
+                toast(response.message, { type: 'success' })
                 setLoading(false);
                 setRejectLoading(false);
 
-                let message 
-                if(action === 'accept') {
+                let message
+                if (action === 'accept') {
                     message = 'Your listing has been approved!'
-                } else if(action === 'reject') {
+                } else if (action === 'reject') {
                     message = 'Your listing has been disapproved!'
                 }
                 socket.emit('updateMedicineAddRequest', {
-                    supplierId : medicineDetails?.supplier.supplier_id,
-                    message    : message,
-                    link       : process.env.REACT_APP_PUBLIC_URL
+                    supplierId: medicineDetails?.supplier.supplier_id,
+                    message: message,
+                    link: process.env.REACT_APP_PUBLIC_URL
                 });
                 setTimeout(() => {
                     navigate('/admin/product-requests')
-                },500)
+                }, 500)
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-               console.log('error in accept-reject-supplier api',response);
-               toast(response.message, {type: 'error'})
+                console.log('error in accept-reject-supplier api', response);
+                toast(response.message, { type: 'error' })
             }
         })
     }
@@ -117,37 +117,37 @@ const ProductRequestDetails = ({socket}) => {
                                 </p>
                             </div>
                             {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}> */}
-                                <div className="product-details-sec-one-right">
-                                    {/* <button className='product-details-send-btn'>Accept</button> */}
-                                    <div 
-                                    className='buyer-details-button-reject' 
-                                    onClick={() => {handleAcceptReject('reject')}}
+                            <div className="product-details-sec-one-right">
+                                {/* <button className='product-details-send-btn'>Accept</button> */}
+                                <div
+                                    className='buyer-details-button-reject'
+                                    onClick={() => { handleAcceptReject('reject') }}
                                     disabled={rejectLoading}
-                                    >
-                                        {rejectLoading ? (
-                                        <div className='loading-spinner'></div> 
+                                >
+                                    {rejectLoading ? (
+                                        <div className='loading-spinner'></div>
                                     ) : (
                                         'Reject'
                                     )}
-                                    </div>
-                                    <div 
-                                    className='buyer-details-button-accept' 
-                                    onClick={() => {handleAcceptReject('accept')}}
+                                </div>
+                                <div
+                                    className='buyer-details-button-accept'
+                                    onClick={() => { handleAcceptReject('accept') }}
                                     disabled={loading}
-                                    >
-                                        {loading ? (
-                                        <div className='loading-spinner'></div> 
+                                >
+                                    {loading ? (
+                                        <div className='loading-spinner'></div>
                                     ) : (
                                         'Accept'
                                     )}
-                                    </div>
                                 </div>
-                               
+                            </div>
+
                             {/* </Link> */}
-                            
+
                         </div>
                     </div>
-                   
+
 
                     <div className="product-details-wrapper">
                         <div className='product-details-container'>
@@ -204,16 +204,16 @@ const ProductRequestDetails = ({socket}) => {
                                     <div className='product-stockedin-head-country'>Quantity</div>
                                 </div>
                                 <>
-                                {
-                                    medicineDetails?.stockedIn_details?.map((item, index) => (
-                                        <div className='product-stockedin-head-section' key={index}>
-                                            <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
-                                            <div className='product-stockedin-head-qty-name'>
-                                              {item.stocked_quantity} {item.stocked_in_type}
+                                    {
+                                        medicineDetails?.stockedIn_details?.map((item, index) => (
+                                            <div className='product-stockedin-head-section' key={index}>
+                                                <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
+                                                <div className='product-stockedin-head-qty-name'>
+                                                    {item.stocked_quantity} {item.stocked_in_type}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))
-                                }
+                                        ))
+                                    }
                                 </>
                             </div>
                         </div>
@@ -242,41 +242,41 @@ const ProductRequestDetails = ({socket}) => {
                                 medicineDetails?.inventory_info?.map((info, k) => {
                                     return (
                                         <div className="product-range-details">
-                                            <div className="product-range-text"> <input className="product-range-input" type=" text" 
-                                            value={info?.quantity} 
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text"
+                                                value={info?.quantity}
                                             /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" 
-                                            // value={info?.unit_price}
-                                            value={
-                                                info?.unit_price
-                                                  ? info.unit_price.toLowerCase().includes('aed')
-                                                    ? info.unit_price.replace(/aed/i, 'AED')
-                                                    : `${info.unit_price} AED`
-                                                  : ''
-                                              }
-                                             /> 
+                                            <div className="product-range-text"><input className="product-range-input" type="text"
+                                                // value={info?.unit_price}
+                                                value={
+                                                    info?.unit_price
+                                                        ? info.unit_price.toLowerCase().includes('aed')
+                                                            ? info.unit_price.replace(/aed/i, 'AED')
+                                                            : `${info.unit_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
-                                            <div className="product-range-text"><input className="product-range-input" 
-                                            type="text" 
-                                            // value={info?.total_price} 
-                                            value={
-                                                info?.total_price
-                                                  ? info.total_price.toLowerCase().includes('aed')
-                                                    ? info.total_price.replace(/aed/i, 'AED')
-                                                    : `${info.total_price} AED`
-                                                  : ''
-                                              }
-                                            /> 
+                                            <div className="product-range-text"><input className="product-range-input"
+                                                type="text"
+                                                // value={info?.total_price} 
+                                                value={
+                                                    info?.total_price
+                                                        ? info.total_price.toLowerCase().includes('aed')
+                                                            ? info.total_price.replace(/aed/i, 'AED')
+                                                            : `${info.total_price} AED`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
                                             <div className="product-range-text"> <input className="product-range-input" type="text"
-                                            // value={info?.est_delivery_days} 
-                                            value={
-                                                info?.est_delivery_days
-                                                  ? info.est_delivery_days.toLowerCase().includes('days')
-                                                    ? info.est_delivery_days.replace(/days/i, 'Days')
-                                                    : `${info.est_delivery_days} Days`
-                                                  : ''
-                                              }
+                                                // value={info?.est_delivery_days} 
+                                                value={
+                                                    info?.est_delivery_days
+                                                        ? info.est_delivery_days.toLowerCase().includes('days')
+                                                            ? info.est_delivery_days.replace(/days/i, 'Days')
+                                                            : `${info.est_delivery_days} Days`
+                                                        : ''
+                                                }
                                             />
                                             </div>
                                         </div>
@@ -332,24 +332,24 @@ const ProductRequestDetails = ({socket}) => {
                                 <div className="product-details-mfg-details">{medicineDetails?.manufacturer_description}</div>
                             </div>
 
-                            
+
                         </div>
                         {/* end the ecommerce card */}
                     </div>
-                   
+
                 </div>
 
-               
-            </div>
-            <div className='buyer-details-button-containers'>
-                            <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Accept</button>
-                                </div>
-                                <div className="product-details-sec-one-right">
-                                    <button className='product-details-send-btn'>Reject</button>
-                                </div>
 
-                           </div>
+            </div>
+            {/* <div className='buyer-details-button-containers'>
+                <div className="product-details-sec-one-right">
+                    <button className='product-details-send-btn'>Accept</button>
+                </div>
+                <div className="product-details-sec-one-right">
+                    <button className='product-details-send-btn'>Reject</button>
+                </div>
+
+            </div> */}
         </>
     )
 }
