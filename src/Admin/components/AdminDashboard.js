@@ -56,7 +56,7 @@ const AdminDashboard = () => {
 
                 <div className='analystic-button' >
                     <div className='buttons'>Analytics</div>
-                    <div><DateRange/></div>
+                    {/* <div><DateRange/></div> */}
                 </div>
                 {/* start the card container */}
                 <div className='cart-main-container'>

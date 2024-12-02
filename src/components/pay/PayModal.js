@@ -131,34 +131,80 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
         return transactionIdPattern.test(value);
     };
 
+    // const handleChange = (fieldName, value) => {
+    //     let isValid = false;
+
+    //     switch (fieldName) {
+    //         case 'modeOfPayment':
+    //             isValid = value !== '';
+    //             if (isValid) setModeOfPayment(value);
+    //             break;
+    //         case 'amount':
+    //             isValid = validateAmount(value);
+    //             if (isValid) setAmount(value);
+    //             break;
+    //         case 'transactionId':
+    //             isValid = validateTransactionId(value);
+    //             if (isValid) setTransactionId(value);
+    //             break;
+    //             case 'date':
+    //                 // Ensure that the value is a valid date format before setting it
+    //                 // isValid = validateDate(value);
+    //                 // if (isValid)
+    //                      setDate(value);
+    //                 break;
+    //         default:
+    //             break;
+    //     }
+
+    //     setErrors(prevErrors => ({ ...prevErrors, [fieldName]: isValid ? '' : '' }));
+    // };
+
+
     const handleChange = (fieldName, value) => {
         let isValid = false;
-
+    
         switch (fieldName) {
             case 'modeOfPayment':
                 isValid = value !== '';
                 if (isValid) setModeOfPayment(value);
                 break;
             case 'amount':
-                isValid = validateAmount(value);
-                if (isValid) setAmount(value);
+                // Allow up to 8 digits before the decimal and 3 after, and prevent more than that
+                if (value === '' || validateAmount(value)) {
+                    isValid = true; // Allow empty value or valid amount
+                    setAmount(value);
+                } else {
+                    // Prevent entering more than the allowed limit
+                    isValid = false; // Don't update state if invalid input
+                }
                 break;
             case 'transactionId':
-                isValid = validateTransactionId(value);
-                if (isValid) setTransactionId(value);
+                // Allow up to 20 characters and prevent more than that
+                if (value.length <= 20 && /^[a-zA-Z0-9]*$/.test(value)) {
+                    isValid = true; // Allow input up to 20 characters and valid alphanumeric input
+                    setTransactionId(value);
+                } else if (value.length <= 20) {
+                    setTransactionId(value); // Allow input up to 20 characters, even if invalid
+                    isValid = true; // Don't show error if within character limit
+                } else {
+                    isValid = false; // Don't update state if input is too long
+                }
                 break;
-                case 'date':
-                    // Ensure that the value is a valid date format before setting it
-                    // isValid = validateDate(value);
-                    // if (isValid)
-                         setDate(value);
-                    break;
+            case 'date':
+                setDate(value); // Date field can be set directly
+                break;
             default:
                 break;
         }
-
-        setErrors(prevErrors => ({ ...prevErrors, [fieldName]: isValid ? '' : '' }));
+    
+        // Set errors only if invalid or empty
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [fieldName]: value === '' && !isValid ? `${fieldName} is required` : '' // Only show error if empty
+        }));
     };
+    
 
     const handleImageUploadStatus = (status, image) => {
         setIsImageUploaded(status);
@@ -236,10 +282,8 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
                             defaultValue="Select" 
                             value={modeOfPayment}
                             onChange={e => handleChange('modeOfPayment', e.target.value)}
-                            // onBlur={() => handleBlur('modeOfPayment', modeOfPayment)}
                             >
                             <option value="">Select</option>
-                            {/* <option value="Cash">Cash</option> */}
                             <option value="Cheque">Cheque</option>
                             <option value="Online">Net Banking</option>
                         </select>
@@ -254,7 +298,6 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
                             placeholder='Enter the Amount' 
                             value={amount}
                             onChange={e => handleChange('amount', e.target.value)}
-                            // onBlur={() => handleBlur('amount', amount)}
                             autoComplete='off' />
                              {errors.amount && <span className="error">{errors.amount}</span>}
                     </div>
@@ -265,25 +308,12 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
                             name='amount' 
                             value={transactionId}
                             onChange={e => handleChange('transactionId', e.target.value)}
-                            // onBlur={() => handleBlur('transactionId', transactionId)}
                             placeholder='Enter the Transaction ID' 
                             autoComplete='off' />
                              {errors.transactionId && <span className="error">{errors.transactionId}</span>}
                     </div>
                     <div className='modal-payment-form-invoice-cont'>
                         <label className='modal-class-head-invoice-cont'>Date</label>
-                        {/* <input 
-                            className='modal-class-input-invoice-cont' 
-                            type='text' 
-                            // type='date' 
-                            name='amount' 
-                            value={date}
-                            onChange={e => handleChange('date', e.target.value)}
-                            onBlur={handleBlur}
-                            placeholder='DD/MM/YY' 
-                            autoComplete='off'
-                             /> */}
-
                         <InputMask
                             className='modal-class-input-invoice-cont' 
                             type='text' 
