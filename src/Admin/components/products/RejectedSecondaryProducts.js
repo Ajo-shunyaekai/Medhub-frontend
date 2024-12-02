@@ -80,9 +80,9 @@ const RejectedSecondaryProducts = ({productList, totalProducts, currentPage, lis
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>
-                                    <p>No data available</p>
-                                </div>
+                                    <div className='pending-products-no-orders'>
+                                    No data available
+                               </div>
                                 )}
 
                             </tbody>

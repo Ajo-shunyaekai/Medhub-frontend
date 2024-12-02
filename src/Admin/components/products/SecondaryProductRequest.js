@@ -79,7 +79,8 @@ const SecondaryProductRequest = ({productList, totalProducts, currentPage, listP
                                 </div>
                             </thead>
                             <tbody className='bordered'>
-                            {productList?.map((product, index) => (
+                            {productList?.length > 0 ? (
+                            productList?.map((product, index) => (
                                     <div className='rejected-table-row-container' key={index}>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{product.supplier_id}</div>
@@ -117,7 +118,14 @@ const SecondaryProductRequest = ({productList, totalProducts, currentPage, listP
                                             </Link>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                                ) : (
+                                    <>
+                                    <div className='pending-products-no-orders'>
+                                        No Secondary Products Available
+                                    </div>
+                                </>
+                                )}
                             </tbody>
                         </Table>
                         <div className='rejected-pagi-container'>

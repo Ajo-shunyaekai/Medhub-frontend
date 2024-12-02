@@ -80,8 +80,8 @@ const NewProductUpdateRequest = ({productList, totalProducts, currentPage, listP
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>
-                                    No Product Update Requests
+                                    <div className='pending-products-no-orders'>
+                                     No Product Update Requests
                                 </div>
                                 )}
 

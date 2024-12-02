@@ -80,9 +80,9 @@ const RejectedNewProduct = ({productList, totalProducts, currentPage, listPerPag
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>
-                                    <p>No data available</p>
-                                </div>
+                                    <div className='pending-products-no-orders'>
+                                    No data available
+                               </div>
                                 )}
 
                             </tbody>

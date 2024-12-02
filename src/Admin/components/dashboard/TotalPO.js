@@ -123,9 +123,7 @@ const TotalPO = () => {
                                     </div>
                                 ))
                             ) : (
-                                <div className='no-data-message'>
-                                    No data available
-                                </div>
+                                <div class="pending-products-no-orders">No data available</div>
                             )}
                             </tbody>
                         </Table>

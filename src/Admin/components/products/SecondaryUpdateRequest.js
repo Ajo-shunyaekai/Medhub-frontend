@@ -80,9 +80,9 @@ const SecondaryUpdateRequest = ({productList, totalProducts, currentPage, listPe
                                     </div>
                                 ))
                                 ) : (
-                                <div className='no-data-message'>
+                                    <div className='pending-products-no-orders'>
                                     No Product Update Requests
-                                </div>
+                               </div>
                                 )}
 
                             </tbody>

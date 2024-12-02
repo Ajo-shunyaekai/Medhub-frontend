@@ -81,9 +81,9 @@ const ApprovedNewProducts = ({productList, totalProducts, currentPage, listPerPa
                                 ))
                                 ) : (
                                     <>
-                                    <div className='pending-products-no-orders'>
-                                        No Data Available
-                                    </div>
+                                     <div className='pending-products-no-orders'>
+                                    No data available
+                               </div>
                                 </>
                                 )}
 
