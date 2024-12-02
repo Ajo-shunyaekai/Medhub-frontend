@@ -24,17 +24,17 @@ const InquiryRequestList = () => {
         setModal(!modal)
     }
 
-    const [orderList, setOrderList]     = useState([])
+    const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1);
 
 
-    const ordersPerPage     = 5;
+    const ordersPerPage = 5;
 
-    const [inquiryList, setInquiryList]       = useState([])
+    const [inquiryList, setInquiryList] = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
 
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
 
     const handlePageChange = (pageNumber) => {
@@ -43,18 +43,18 @@ const InquiryRequestList = () => {
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
-        
+
         const obj = {
-            supplier_id  : supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey : 'completed',
-            pageNo   : currentPage, 
-            pageSize     : ordersPerPage,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            filterKey: 'completed',
+            pageNo: currentPage,
+            pageSize: ordersPerPage,
         }
 
         postRequestWithToken('supplier/enquiry/enquiry-list', obj, async (response) => {
@@ -62,11 +62,11 @@ const InquiryRequestList = () => {
                 setInquiryList(response.result.data)
                 setTotalInquiries(response.result.totalItems)
             } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
+                toast(response.message, { type: 'error' })
+                console.log('error in order list api', response);
             }
-          })
-    },[currentPage])
+        })
+    }, [currentPage])
     return (
         <>
             <div className='completed-order-main-container'>
@@ -96,31 +96,41 @@ const InquiryRequestList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {inquiryList?.map((order, index) => (
-                                    <div className='completed-table-row-container'>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.enquiry_id}</div>
-                                        </div>
+                                {inquiryList?.length > 0 ? (
+                                    inquiryList.map((order, index) => (
+                                        <div className='completed-table-row-container' key={index}>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{order.enquiry_id}</div>
+                                            </div>
 
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{moment(order?.created_at).format("DD/MM/YYYY")}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.buyer.buyer_name}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>
-                                            {order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>{moment(order?.created_at).format("DD/MM/YYYY")}</div>
+                                            </div>
+                                            <div className='completed-table-row-item  completed-table-order-2'>
+                                                <div className='table-text-color'>{order.buyer.buyer_name}</div>
+                                            </div>
+                                            <div className='completed-table-row-item completed-table-order-1'>
+                                                <div className='completed-table-text-color'>
+                                                    {order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                                                 </div>
+                                            </div>
+                                            <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                <Link to={`/supplier/inquiry-request-details/${order.enquiry_id}`}>
+                                                    <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/supplier/inquiry-request-details/${order.enquiry_id}`}>
-                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    <>
+                            <div className='pending-products-no-orders'>
+                                No Inquiry Request
+                            </div>
+
+                        </>
+                                )}
                             </tbody>
+
                         </Table>
                         <div className='completed-pagi-container'>
                             <Pagination
@@ -142,7 +152,7 @@ const InquiryRequestList = () => {
                             </div>
                         </div>
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'completed'} /> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'completed'} /> : ''
                         }
                     </div>
                 </div>

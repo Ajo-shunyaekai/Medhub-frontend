@@ -1,7 +1,7 @@
 .supply-product-list-main-sections {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 20px;
     row-gap: 30px;
 }
 
@@ -9,6 +9,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+.list-section{
+    width: 100%;
 }
 
 .supply-product-list-main-head {
@@ -157,6 +160,15 @@
 .active {
     border: none !important;
     color: #5e676f !important;
+}
+.no-data-container{
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+}
+.no-data-message{
+    font-size: 14px;
 }
 
 /* start the media query */

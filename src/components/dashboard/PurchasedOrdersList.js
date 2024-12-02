@@ -20,57 +20,12 @@ const PurchasedOrdersList = () => {
         setSelectedOrderId(orderId)
         setModal(!modal)
     }
-    const [totalOrders, setTotalOrders] = useState()
-
-    // Alloted Order JSOn file
-    const [activeOrders, setActiveOrders] = useState([
-        {
-            "po_id": "147852",
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
-            "total_amount": "544 AED"
-        },
-        {
-            "po_id": "147852",
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
-            "total_amount": "544 AED"
-        },
-        {
-            "po_id": "147852",
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
-            "total_amount": "544 AED"
-        },
-        {
-            "po_id": "147852",
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
-            "total_amount": "544 AED"
-        },
-        {
-            "po_id": "147852",
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name":"Pharmaceuticals",
-            "total_amount": "544 AED"
-        },
-    ]);
-
 
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
 
     const [poList, setPOList] = useState([])
     const [totalPoList, setTotalPoList] = useState()
-
-    // const indexOfLastOrder  = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders     = poList.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -79,18 +34,18 @@ const PurchasedOrdersList = () => {
 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         const obj = {
-            buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : 'active',
-            pageNo   : currentPage, 
-            pageSize     : ordersPerPage,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+            filterKey: 'active',
+            pageNo: currentPage,
+            pageSize: ordersPerPage,
         }
 
         postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
@@ -98,12 +53,12 @@ const PurchasedOrdersList = () => {
                 setPOList(response.result.data)
                 setTotalPoList(response.result.totalItems)
             } else {
-                toast(response.message, {type:'error'})
+                toast(response.message, { type: 'error' })
                 console.log('error in purchased order list api', response);
             }
             // setLoading(false);
         });
-    },[currentPage])
+    }, [currentPage])
 
     return (
         <>
@@ -136,48 +91,53 @@ const PurchasedOrdersList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {poList?.map((order, index) => {
-  // Calculate totalAmount by summing up the total_amount from each item in order.order_items
-  const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+                                {poList && poList.length > 0 ? (
+                                    poList.map((order, index) => {
+                                        // Calculate totalAmount by summing up the total_amount from each item in order.order_items
+                                        const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
 
-  return (
-    <div key={order.purchaseOrder_id} className='completed-table-row-container'>
-      <div className='completed-table-row-item completed-table-order-1'>
-        <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
-      </div>
-      <div className='completed-table-row-item completed-table-order-1'>
-        <div className='completed-table-text-color'>{order.enquiry_id}</div>
-      </div>
-      <div className='completed-table-row-item completed-table-order-1'>
-        <div className='completed-table-text-color'>{order.po_date}</div>
-      </div>
-      <div className='completed-table-row-item completed-table-order-2'>
-        <div className='table-text-color'>{order.supplier_name}</div>
-      </div>  
-      <div className='completed-table-row-item completed-table-order-1'>
-        {/* Display totalAmount, fall back to order.total_amount if available */}
-        <div className='completed-table-text-color'>{order.total_amount || totalAmount} AED</div>
-      </div>
-      <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
-        <Link to={`/buyer/purchased-order-details/${order.purchaseOrder_id}`}>
-          <div className='completed-order-table completed-order-table-view' onClick={showModal}>
-            <RemoveRedEyeOutlinedIcon className="table-icon" />
-          </div>
-        </Link>
-        {/* Uncomment if you want to add the cancel button back */}
-        {/* <div className='completed-order-table completed-order-table-cancel' onClick={() => showModal(order.order_id)}>
-          <HighlightOffIcon className="table-icon" />
-        </div> */}
-      </div>
-    </div>
-  );
-})}
+                                        return (
+                                            <div key={order.purchaseOrder_id} className='completed-table-row-container'>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.enquiry_id}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.po_date}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-2'>
+                                                    <div className='table-text-color'>{order.supplier_name}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    {/* Display totalAmount, fall back to order.total_amount if available */}
+                                                    <div className='completed-table-text-color'>{order.total_amount || totalAmount} AED</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
+                                                    <Link to={`/buyer/purchased-order-details/${order.purchaseOrder_id}`}>
+                                                        <div className='completed-order-table completed-order-table-view' onClick={showModal}>
+                                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <>
+                                    <div className='pending-products-no-orders'>
+                                        No Purchase Orders
+                                    </div>
 
+                                </>
+                                )}
                             </tbody>
+
                         </Table>
 
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
                         }
                         <div className='completed-pagi-container'>
                             <Pagination

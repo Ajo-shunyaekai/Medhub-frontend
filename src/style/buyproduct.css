@@ -172,6 +172,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+  cursor: pointer;
 }
 
 .byproduct-seller-img-one {

@@ -5,8 +5,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Link } from 'react-router-dom';
 
-const SupplySecondaryList = ({productsData, totalProducts, currentPage,  productsPerPage, handleProductPageChange}) => {
-  
+const SupplySecondaryList = ({ productsData, totalProducts, currentPage, productsPerPage, handleProductPageChange }) => {
+
   const [currenttPage, setCurrenttPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth >= 1590 ? 4 : 3); // Adjust items per page based on screen width
 
@@ -44,56 +44,60 @@ const SupplySecondaryList = ({productsData, totalProducts, currentPage,  product
   return (
     <div className='supply-product-list-main-sections'>
       <div className='supplier-product-card-main-section'>
-       
-      {
+
+        {productsData?.length > 0 ? (
           productsData?.map((product, i) => {
             const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
-            const linkTo = product.medicine_type === 'new' 
-            ? `/buyer/medicine-details/${product.medicine_id}` 
-            : `/buyer/market-product-details/${product.medicine_id}`;
+            const linkTo = product.medicine_type === 'new'
+              ? `/buyer/medicine-details/${product.medicine_id}`
+              : `/buyer/market-product-details/${product.medicine_id}`;
             return (
               <div key={product.id} className='supply-product-list-container'>
-              <div className='supply-product-left-container'>
-                <div className='supply-product-left-image-cont'>
-                  <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`} alt='Product' />
-                </div>
-                <Link to = {linkTo}>
-                  <div className='supply-product-left-button-cont'>
-                    <span className='supply-product-left-button-details'>View Details</span>
+                <div className='supply-product-left-container'>
+                  <div className='supply-product-left-image-cont'>
+                    <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`} alt='Product' />
                   </div>
-                </Link>
-               
+                  <Link to={linkTo}>
+                    <div className='supply-product-left-button-cont'>
+                      <span className='supply-product-left-button-details'>View Details</span>
+                    </div>
+                  </Link>
+
+                </div>
+                <div className='supply-product-right-container'>
+                  <div className='supply-product-right-first-heading-section'>
+                    <div className='supply-product-right-container-main-heading'>{product.medicine_name}</div>
+                    <div className='supply-product-right-container-main-text'>{product.composition}</div>
+                  </div>
+                  <div className='supply-product-right-first-section'>
+                    <div className='supply-product-right-container-head'>Country of Origin</div>
+                    <div className='supply-product-right-container-text'>{product.country_of_origin}</div>
+                  </div>
+                  <div className='supply-product-right-first-section'>
+                    <div className='supply-product-right-container-head'>Stocked in</div>
+                    <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
+                  </div>
+                  <div className='supply-product-right-first-section'>
+                    <div className='supply-product-right-container-head'>Dossier Type</div>
+                    <div className='supply-product-right-container-text'>{product.dossier_type}</div>
+                  </div>
+                  <div className='supply-product-right-first-section'>
+                    <div className='supply-product-right-container-head'>Dossier Status</div>
+                    <div className='supply-product-right-container-text'>{product.dossier_status}</div>
+                  </div>
+                  <div className='supply-product-right-first-section'>
+                    <div className='supply-product-right-container-head'>GMP Approvals</div>
+                    <div className='supply-product-right-container-text'>{product.gmp_approvals}</div>
+                  </div>
+                </div>
               </div>
-              <div className='supply-product-right-container'>
-                <div className='supply-product-right-first-heading-section'>
-                  <div className='supply-product-right-container-main-heading'>{product.medicine_name}</div>
-                  <div className='supply-product-right-container-main-text'>{product.composition}</div>
-                </div>
-                <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Country of Origin</div>
-                  <div className='supply-product-right-container-text'>{product.country_of_origin}</div>
-                </div>
-                <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Stocked in</div>
-                  <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
-                </div>
-                <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Dossier Type</div>
-                  <div className='supply-product-right-container-text'>{product.dossier_type}</div>
-                </div>
-                <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>Dossier Status</div>
-                  <div className='supply-product-right-container-text'>{product.dossier_status}</div>
-                </div>
-                <div className='supply-product-right-first-section'>
-                  <div className='supply-product-right-container-head'>GMP Approvals</div>
-                  <div className='supply-product-right-container-text'>{product.gmp_approvals}</div>
-                </div>
-              </div>
-            </div>
             )
           })
-        } 
+        ) : (
+          <div className='no-data-container'>
+            <div className='no-data-message'>No data available</div>
+          </div>
+        )}
       </div>
       <div className='pagi-container'>
         <Pagination
