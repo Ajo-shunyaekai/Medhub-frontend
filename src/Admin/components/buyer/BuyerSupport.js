@@ -59,7 +59,7 @@ const SellerSupport = () => {
 
         const obj = {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey : 'supplier',
+            filterKey : 'buyer',
             supportType : activeLink,
             pageNo    : currentPage, 
             pageSize  : listPerPage,

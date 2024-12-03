@@ -275,13 +275,13 @@ const AdminSidebar = () => {
                   {/* Start the product navigate route */}
                   
                   <Route path="/admin/date-range" element={<DateRange/>} />
-                  <Route path="/admin/buyer-feedback-details" element={<BuyerFeedbackDetails/>} />
-                  <Route path="/admin/buyer-complaint-details" element={<BuyerComplaintDetails/>} />
+                  <Route path="/admin/buyer-feedback-details/:supportId" element={<BuyerFeedbackDetails/>} />
+                  <Route path="/admin/buyer-complaint-details/:supportId" element={<BuyerComplaintDetails/>} />
                   <Route path="/admin/buyer-transaction-details" element={<BuyerTransactionDetails/>} />
                   
                   <Route path="/admin/seller-transaction-details" element={<SellerTransactionDetails/>} />
-                  <Route path="/admin/seller-feedback-details" element={<SellerFeedbackDetails/>} />
-                  <Route path="/admin/seller-complaint-details" element={<SellerComplaintDetails/>} />
+                  <Route path="/admin/seller-feedback-details/:supportId" element={<SellerFeedbackDetails/>} />
+                  <Route path="/admin/seller-complaint-details/:supportId" element={<SellerComplaintDetails/>} />
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product" element={<Navigate to="/admin/rejected-product/newproduct" />} />

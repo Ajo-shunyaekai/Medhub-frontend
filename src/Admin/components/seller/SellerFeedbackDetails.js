@@ -10,8 +10,10 @@ import Image3 from '../../assest/certificate.jpg'
 import Image4 from '../../assest/tax-certificate.jpg'
 import Image5 from '../../assest/certificate.jpg'
 import Image6 from '../../assest/tax-certificate.jpg'
+import moment from 'moment-timezone';
+
 const SellerFeedbackDetails = () => {
-    const { supplierId } = useParams()
+    const { supportId } = useParams()
     const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
@@ -19,13 +21,25 @@ const SellerFeedbackDetails = () => {
     const staticImages = [Image1, Image2,Image3,Image4,Image5,Image6];
 
 
-    const renderStaticImages = () => {
+    const renderImages = () => {
+        if (supplierDetails?.support_image?.length > 0) {
+            // Render dynamic images
+            return supplierDetails.support_image.map((image, index) => (
+                <img
+                    key={index}
+                    src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/order/feedback_images/${image}`}
+                    alt={`Support Image ${index + 1}`}
+                    className="seller-details-document-image"
+                />
+            ));
+        }
+        // Fallback to render static images if no dynamic images are available
         return staticImages.map((image, index) => (
             <img
                 key={index}
                 src={image}
                 alt={`Static Image ${index + 1}`}
-                className='seller-details-document-image'
+                className="seller-details-document-image"
             />
         ));
     };
@@ -47,9 +61,9 @@ const SellerFeedbackDetails = () => {
         }
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            supplier_id: supplierId,
+            support_id: supportId,
         }
-        postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
+        postRequestWithToken('admin/get-support-details', obj, async (response) => {
             if (response.code === 200) {
                 setSupplierDetails(response.result)
             } else {
@@ -61,7 +75,7 @@ const SellerFeedbackDetails = () => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            supplier_id: supplierId,
+            supplier_id: supportId,
             action
         }
 
@@ -91,21 +105,23 @@ const SellerFeedbackDetails = () => {
                                     <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Supplier ID :</div>
-                                            <div className='seller-details-company-type-sec-text'>1234567</div>
+                                            <div className='seller-details-company-type-sec-text'>{supplierDetails?.user_id}</div>
                                         </div>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Supplier Name :</div>
-                                            <div className='seller-details-company-type-sec-text'>Parmaceuticals Pvt. Ltd.</div>
+                                            <div className='seller-details-company-type-sec-text'>{supplierDetails?.supplier?.supplier_name}</div>
                                         </div>
                                     </div>
                                     <div className='seller-details-uppar-right-container-section'>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Order ID :</div>
-                                            <div className='seller-details-company-type-sec-text'>ORD123456</div>
+                                            <div className='seller-details-company-type-sec-text'>{supplierDetails?.order_id}</div>
                                         </div>
                                         <div className='seller-details-company-type-section'>
                                             <div className='seller-details-company-type-sec-head'>Date:</div>
-                                            <div className='seller-details-company-type-sec-text'>12/12/2025</div>
+                                            <div className='seller-details-company-type-sec-text'>
+                                            {moment(supplierDetails?.createdAt).tz('Asia/Kolkata').format('DD-MM-YYYY')}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -113,9 +129,7 @@ const SellerFeedbackDetails = () => {
                         </div>
                         <div className='seller-details-description-section'>
                             <div className='seller-details-description-head'>Feedback Description</div>
-                            <div className='seller-details-description-content'>The Gurgaon real estate market and business climate are intertwined. The presence of big businesses and industries fuels demand for office space, housing, and retail space. It has caused a boom in Gurgaon’s real estate sector, with continually rising housing prices.
-
-                                In Gurgaon, the corporate environment and the real estate market coexist in a symbiotic connection. The availability of high-quality real estate supports businesses, and the demand for real estate promotes the industry. You will find numerous types of pharma companies in Gurgaon.</div>
+                            <div className='seller-details-description-content'>{supplierDetails?.reason}</div>
                         </div>
                     </div>
                     <div className='seller-details-card-section'>
@@ -124,7 +138,8 @@ const SellerFeedbackDetails = () => {
                                 <div className='seller-details-card-container'>
                                     <div className='seller-details-company-logo-heading'>Images</div>
                                     <div className='seller-details-company-img-container'>
-                                        {renderStaticImages()}
+                                        {/* {renderStaticImages()} */}
+                                        {renderImages()}
                                     </div>
                                 </div>
                             </div>
