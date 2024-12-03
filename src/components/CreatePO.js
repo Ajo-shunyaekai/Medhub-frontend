@@ -298,11 +298,19 @@ const CreatePO = ({socket}) => {
         // Extract the country code and the mobile number
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
+                console.log('code', code);
                 countryCode = code.replace('+', ''); 
                 mobileNumber = value.substring(code.length); 
                 break;
             }
         }
+        console.log('countryCode', countryCode);
+        console.log(' mobileNumber', mobileNumber);
+
+        // if (countryCode === '971' && mobileNumber.length > 9) {
+        //     mobileNumber = mobileNumber.substring(0, 9);
+        // }
+        
         // Validate the phone number based on the country code
         if (countryCode && mobileNumber) {
             isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
@@ -331,6 +339,10 @@ const CreatePO = ({socket}) => {
         }
     };
 
+
+   
+    
+    
     
 
     return (

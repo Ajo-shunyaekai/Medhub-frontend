@@ -147,6 +147,7 @@ export const countryCodes = [
     '+397',  // Andorra
     '+398',  // Monaco
     '+399',  // Kosovo
+    '+971',  // UAE
     '+1869', // Saint Kitts and Nevis
     '+1876', // Jamaica
     '+1954', // Venezuela
@@ -161,7 +162,7 @@ export const phoneValidationRules = {
     '81': /^\d{10}$/,                // Japan: 10 digits
     '82': /^\d{10}$/,                // South Korea: 10 digits
     '61': /^(\d{9}|\d{10})$/,        // Australia: 9 or 10 digits
-    '971': /^\d{7,9}$/,             // UAE: 7 to 9 digits
+    '971': /^\d{7,9}$/,             // UAE: 7 to 9 digits /^[5-9][0-9]{8}$/
     '55': /^\d{10,11}$/,             // Brazil: 10 or 11 digits
     '27': /^\d{10}$/,                // South Africa: 10 digits
     '52': /^\d{10}$/,                // Mexico: 10 digits

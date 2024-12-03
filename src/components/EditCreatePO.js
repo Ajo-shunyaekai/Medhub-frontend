@@ -155,6 +155,7 @@ const countryCodes = [
     '+397',  // Andorra
     '+398',  // Monaco
     '+399',  // Kosovo
+    '+971',  //UAE
     '+1869', // Saint Kitts and Nevis
     '+1876', // Jamaica
     '+1954', // Venezuela
