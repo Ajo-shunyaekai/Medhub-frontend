@@ -129,10 +129,6 @@
     width: 530px;
     column-gap: 30px;
   }
-
-  .buy-product-card-first-medicine-image {
-    width: 160px;
-  }
   }
   @media screen and (max-width: 1340px) {
     .buy-product-card-section {
