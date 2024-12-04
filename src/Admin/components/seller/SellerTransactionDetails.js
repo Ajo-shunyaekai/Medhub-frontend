@@ -3,74 +3,22 @@ import '../../style/transacetiondetails.css'
 import 'react-responsive-modal/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../api/Requests';
-import { toast } from 'react-toastify';
-import { FaFilePdf } from 'react-icons/fa';
-import Image1 from '../../assest/tax-certificate.jpg'
+
 const SellerTransactionDetails = () => {
-  const { invoiceId } = useParams()
-  const navigate = useNavigate()
-  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-  const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const { invoiceId }                               = useParams()
+  const navigate                                    = useNavigate()
+  const adminIdSessionStorage                       = sessionStorage.getItem("admin_id");
+  const adminIdLocalStorage                         = localStorage.getItem("admin_id");
   const [transactionDetails, setTransactionDetails] = useState()
-  // Start the modal and pdf url
-  const [open, setOpen] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const openModal = (url) => {
-    window.open(url, '_blank');
-  };
 
-  const closeModal = () => {
-    setOpen(false);
-    setPdfUrl(null);
-  };
-  const extractFileName = (url) => {
-    return url.split('/').pop();
-  };
-
-  // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-  const renderFiles = (files, type) => {
-    return files?.map((file, index) => {
-      if (file.endsWith('.pdf')) {
-        // Render a PDF icon with a clickable link
-        return (
-          <div key={index} className='transaction-details-pdf-section'>
-            <FaFilePdf
-              size={50}
-              color="red"
-              style={{ cursor: 'pointer' }}
-              onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
-            />
-            <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
-              {extractFileName(file)}
-            </div>
-          </div>
-        );
-      } else {
-        // Render an image
-        return (
-          <img
-            key={index}
-            src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-            alt={type}
-            className='transaction-details-document-image'
-          />
-        );
-      }
-    });
-  };
-
-
-
-
-  // End the modal and pdf url
   useEffect(() => {
     if (!adminIdSessionStorage && !adminIdLocalStorage) {
       navigate("/admin/login");
       return;
     }
     const obj = {
-      admin_id: adminIdSessionStorage || adminIdLocalStorage,
-      invoice_id: invoiceId,
+      admin_id   : adminIdSessionStorage || adminIdLocalStorage,
+      invoice_id : invoiceId,
     }
     postRequestWithToken('admin/get-transaction-details', obj, async (response) => {
       if (response.code === 200) {
