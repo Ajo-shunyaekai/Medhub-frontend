@@ -108,7 +108,7 @@ const SellerTransaction = () => {
                                             </div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to='/admin/seller-transaction-details'>
+                                            <Link to={`/admin/seller-transaction-details/${transaction.invoice_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>
