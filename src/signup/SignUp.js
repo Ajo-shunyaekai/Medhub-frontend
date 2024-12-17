@@ -12,6 +12,7 @@ import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
+import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -202,23 +203,60 @@ const SignUp = ({socket}) => {
     };
 
 
+    // const handlePhoneChange = (name, value) => {
+
+    //     setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //     if (value.trim() !== '') {
+    //         const phoneRegex = /^[0-9]{10,15}$/;
+    //         if (phoneRegex.test(value)) {
+    //             const countryCode = value.slice(0, value.indexOf('-'));
+    //             const nationalNumber = value.slice(value.indexOf('-') + 1);
+    //             const formattedNumber = `+${countryCode} ${nationalNumber}`;
+    //             setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+    //         } else {
+    //             // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
+    //         }
+    //     } else {
+
+    //     }
+    // };
+
+
     const handlePhoneChange = (name, value) => {
-
+        // Clear previous errors
         setErrors(prevState => ({ ...prevState, [name]: '' }));
-        if (value.trim() !== '') {
-            const phoneRegex = /^[0-9]{10,15}$/;
-            if (phoneRegex.test(value)) {
-                const countryCode = value.slice(0, value.indexOf('-'));
-                const nationalNumber = value.slice(value.indexOf('-') + 1);
-                const formattedNumber = `+${countryCode} ${nationalNumber}`;
-                setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
-            } else {
-                // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
-            }
-        } else {
-
+      
+        try {
+          // Parse the phone number
+          const phoneNumber = parsePhoneNumber(value);
+      
+          // Validate the phone number
+          if (phoneNumber && isValidPhoneNumber(value)) {
+            // Format the phone number in E.164 format (international standard)
+           
+            console.log(phoneNumber.countryCallingCode);
+            const countryCode = phoneNumber.countryCallingCode
+            const nationalNumber = phoneNumber.nationalNumber
+            // const formattedNumber = phoneNumber.format('E.164');
+            const formattedNumber = `+${countryCode} ${nationalNumber}`
+            console.log(formattedNumber);
+            // Update form data with the formatted number
+            setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+          } else {
+            // Set error if phone number is invalid
+            setErrors(prevState => ({ 
+              ...prevState, 
+              [name]: 'Invalid phone number' 
+            }));
+          }
+        } catch (error) {
+          // Handle parsing errors
+          setErrors(prevState => ({ 
+            ...prevState, 
+            [name]: '' 
+          }));
         }
-    };
+      };
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -238,16 +276,43 @@ const SignUp = ({socket}) => {
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
         if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
-        if (!companyPhone || companyPhone.length <= 12) {
-            formErrors.companyPhone = 'Company Phone No. is Required';
-        }
+        // if (!companyPhone || companyPhone.length <= 12) {
+        //     formErrors.companyPhone = 'Company Phone No. is Required';
+        // }
+
+        try {
+            // Validate Company Phone
+            if (!companyPhone) {
+              formErrors.companyPhone = 'Company Phone No. is Required';
+            } else {
+              const companyPhoneNumber = parsePhoneNumber(companyPhone);
+              if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
+                formErrors.companyPhone = 'Invalid Company Phone Number';
+              }
+            }
+        
+            // Validate Mobile Number
+            if (!mobile) {
+              formErrors.mobile = 'Mobile No. is Required';
+            } else {
+              const mobileNumber = parsePhoneNumber(mobile);
+              if (!mobileNumber || !isValidPhoneNumber(mobile)) {
+                formErrors.mobile = 'Invalid Mobile Number';
+              }
+            }
+          } catch (error) {
+            // Catch any parsing errors
+            formErrors.companyPhone = 'Invalid Phone Number Format';
+            formErrors.mobile = 'Invalid Phone Number Format';
+          }
+
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
         if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
-        if (!mobile || mobile.length <= 12) {
-            formErrors.mobile = 'Mobile No. is Required';
-        }
+        // if (!mobile || mobile.length <= 12) {
+        //     formErrors.mobile = 'Mobile No. is Required';
+        // }
         if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
@@ -294,7 +359,8 @@ const SignUp = ({socket}) => {
             formDataToSend.append('description', formData.description);
             formDataToSend.append('buyer_address', formData.companyAddress);
             formDataToSend.append('buyer_email', formData.companyEmail);
-            formDataToSend.append('buyer_mobile', companyPhone);
+            // formDataToSend.append('buyer_mobile', companyPhone);
+            formDataToSend.append('buyer_mobile', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
             formDataToSend.append('country_of_origin', formData.originCountry);
             formDataToSend.append('contact_person_name', formData.contactPersonName);
@@ -302,7 +368,8 @@ const SignUp = ({socket}) => {
             formDataToSend.append('approx_yearly_purchase_value', formData.yearlyPurchaseValue);
             formDataToSend.append('license_expiry_date', formData.companyLicenseExpiry);
             formDataToSend.append('designation', formData.designation);
-            formDataToSend.append('contact_person_mobile', mobile);
+            // formDataToSend.append('contact_person_mobile', mobile);
+            formDataToSend.append('contact_person_mobile', formData.mobile);
             formDataToSend.append('contact_person_email', formData.email);
             formDataToSend.append('registration_no', formData.registrationNo);
             formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
@@ -547,15 +614,21 @@ const SignUp = ({socket}) => {
                             <label className='signup-form-section-label'>Company Phone No.</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'
-                                defaultCountry="ae"
+                                defaultCountry="gb"
                                 name="companyPhone"
                                 value={companyPhone}
-                                onChange={(value) => {
-                                    const formattedValue = formatPhoneNumber(value);
+                                // onChange={(value) => {
+                                //     const formattedValue = formatPhoneNumber(value);
 
-                                    setCompanyPhone(formattedValue);
+                                //     setCompanyPhone(formattedValue);
+                                //     handlePhoneChange('companyPhone', value);
+                                // }}
+
+                                onChange={(value) => {
                                     handlePhoneChange('companyPhone', value);
-                                }}
+                                    // Update local state for the input
+                                    setCompanyPhone(value);
+                                  }}
                             />
                             {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                         </div>
@@ -601,14 +674,20 @@ const SignUp = ({socket}) => {
                             <label className='signup-form-section-label'>Mobile No.</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'
-                                defaultCountry="ae"
+                                defaultCountry="gb"
                                 name="mobile"
                                 value={mobile}
+                                // onChange={(value) => {
+                                //     const formattedValue = formatPhoneNumber(value);
+                                //     setMobile(formattedValue);
+                                //     handlePhoneChange('mobile', value);
+                                // }}
+
                                 onChange={(value) => {
-                                    const formattedValue = formatPhoneNumber(value);
-                                    setMobile(formattedValue);
                                     handlePhoneChange('mobile', value);
-                                }}
+                                    // Update local state for the input
+                                    setMobile(value);
+                                  }}
 
                             />
                             {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}

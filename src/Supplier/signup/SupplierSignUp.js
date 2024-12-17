@@ -12,6 +12,7 @@ import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
+import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -189,22 +190,59 @@ const SupplierSignUp = ({socket}) => {
     };
     
 
-    const handlePhoneChange = (name, value) => {
-        setErrors(prevState => ({ ...prevState, [name]: '' }));
-        if (value.trim() !== '') {
-            // const phoneRegex = /^[0-9]{10,15}$/;
-            const phoneRegex = /^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/;
-            if (phoneRegex.test(value)) {
-                const countryCode = value.slice(0, value.indexOf('-'));
-                const nationalNumber = value.slice(value.indexOf('-') + 1);
-                const formattedNumber = `+${countryCode} ${nationalNumber}`;
+    // const handlePhoneChange = (name, value) => {
+    //     setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //     if (value.trim() !== '') {
+    //         // const phoneRegex = /^[0-9]{10,15}$/;
+    //         const phoneRegex = /^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/;
+    //         if (phoneRegex.test(value)) {
+    //             const countryCode = value.slice(0, value.indexOf('-'));
+    //             const nationalNumber = value.slice(value.indexOf('-') + 1);
+    //             const formattedNumber = `+${countryCode} ${nationalNumber}`;
 
-                setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
-            } else {
-                // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
-            }
+    //             setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+    //         } else {
+    //             // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
+    //         }
+    //     }
+    // };
+
+
+    const handlePhoneChange = (name, value) => {
+        // Clear previous errors
+        setErrors(prevState => ({ ...prevState, [name]: '' }));
+      
+        try {
+          // Parse the phone number
+          const phoneNumber = parsePhoneNumber(value);
+      
+          // Validate the phone number
+          if (phoneNumber && isValidPhoneNumber(value)) {
+            // Format the phone number in E.164 format (international standard)
+           
+            console.log(phoneNumber.countryCallingCode);
+            const countryCode = phoneNumber.countryCallingCode
+            const nationalNumber = phoneNumber.nationalNumber
+            // const formattedNumber = phoneNumber.format('E.164');
+            const formattedNumber = `+${countryCode} ${nationalNumber}`
+            console.log(formattedNumber);
+            // Update form data with the formatted number
+            setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+          } else {
+            // Set error if phone number is invalid
+            setErrors(prevState => ({ 
+              ...prevState, 
+              [name]: 'Invalid phone number' 
+            }));
+          }
+        } catch (error) {
+          // Handle parsing errors
+          setErrors(prevState => ({ 
+            ...prevState, 
+            [name]: '' 
+          }));
         }
-    };
+      };
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -224,17 +262,44 @@ const SupplierSignUp = ({socket}) => {
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
         if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
-        if (!companyPhone || companyPhone.length <= 6) {
-            formErrors.companyPhone = 'Company Phone No. is Required';
-        }
+        // if (!companyPhone || companyPhone.length <= 6) {
+        //     formErrors.companyPhone = 'Company Phone No. is Required';
+        // }
+        
+        // Phone number validations using libphonenumber-js
+  try {
+    // Validate Company Phone
+    if (!companyPhone) {
+      formErrors.companyPhone = 'Company Phone No. is Required';
+    } else {
+      const companyPhoneNumber = parsePhoneNumber(companyPhone);
+      if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
+        formErrors.companyPhone = 'Invalid Company Phone Number';
+      }
+    }
+
+    // Validate Mobile Number
+    if (!mobile) {
+      formErrors.mobile = 'Mobile No. is Required';
+    } else {
+      const mobileNumber = parsePhoneNumber(mobile);
+      if (!mobileNumber || !isValidPhoneNumber(mobile)) {
+        formErrors.mobile = 'Invalid Mobile Number';
+      }
+    }
+  } catch (error) {
+    // Catch any parsing errors
+    formErrors.companyPhone = 'Invalid Phone Number Format';
+    formErrors.mobile = 'Invalid Phone Number Format';
+  }
         // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
         if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
-        if (!mobile || mobile.length <= 6) {
-            formErrors.mobile = 'Mobile No. is Required';
-        }
+        // if (!mobile || mobile.length <= 6) {
+        //     formErrors.mobile = 'Mobile No. is Required';
+        // }
         if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
@@ -335,7 +400,8 @@ const SupplierSignUp = ({socket}) => {
             formDataToSend.append('description', formData.description);
             formDataToSend.append('supplier_address', formData.companyAddress);
             formDataToSend.append('supplier_email', formData.companyEmail);
-            formDataToSend.append('supplier_mobile_no', companyPhone);
+            // formDataToSend.append('supplier_mobile_no', companyPhone);
+            formDataToSend.append('supplier_mobile_no', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
             formDataToSend.append('license_expiry_date', formData.companyLicenseExpiry);
             formDataToSend.append('country_of_origin', formData.originCountry);
@@ -344,22 +410,17 @@ const SupplierSignUp = ({socket}) => {
             formDataToSend.append('payment_terms', formData.paymentterms);
             formDataToSend.append('tags', formData.tags);
             formDataToSend.append('estimated_delivery_time', formData.delivertime);
-            formDataToSend.append('contact_person_mobile', mobile);
+            // formDataToSend.append('contact_person_mobile', mobile);
+            formDataToSend.append('contact_person_mobile', formData.mobile);
             formDataToSend.append('contact_person_email', formData.email);
             formDataToSend.append('registration_no', formData.registrationNo);
             formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
-            // formDataToSend.append('country_of_operation', countryLabels);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
-            // Array?.from(formData.logoImage).forEach(file => formDataToSend.append('supplier_image', file));
-            // Array?.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
-            // Array?.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
-            // Array?.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
-
             (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));
-        (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));
-        (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(file => formDataToSend.append('tax_image', file));
-        (Array.isArray(formData.certificateImage) ? formData.certificateImage : []).forEach(file => formDataToSend.append('certificate_image', file));
+            (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));
+            (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(file => formDataToSend.append('tax_image', file));
+            (Array.isArray(formData.certificateImage) ? formData.certificateImage : []).forEach(file => formDataToSend.append('certificate_image', file));
 
             postRequestWithFile('supplier/register', formDataToSend, async (response) => {
                 if (response.code === 200) {
@@ -547,14 +608,20 @@ const SupplierSignUp = ({socket}) => {
                             <label className='signup-form-section-label'>Company Phone No.</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'
-                                defaultCountry="ae"
+                                defaultCountry="gb"
                                 name="companyPhone"
                                 value={companyPhone}
+                                // onChange={(value) => {
+                                //     const formattedValue = formatCompanyPhoneNumber(value);
+                                //     setCompanyPhone(formattedValue);
+                                //     handlePhoneChange('companyPhone', value);
+                                // }}
+
                                 onChange={(value) => {
-                                    const formattedValue = formatCompanyPhoneNumber(value);
-                                    setCompanyPhone(formattedValue);
                                     handlePhoneChange('companyPhone', value);
-                                }}
+                                    // Update local state for the input
+                                    setCompanyPhone(value);
+                                  }}
                             />
                             {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                         </div>
@@ -599,14 +666,19 @@ const SupplierSignUp = ({socket}) => {
                             <label className='signup-form-section-label'>Mobile No.</label>
                             <PhoneInput
                                 className='signup-form-section-phone-input'
-                                defaultCountry="ae"
+                                defaultCountry="gb"
                                 name="mobile"
                                 value={mobile}
+                                // onChange={(value) => {
+                                //     const formattedValue = formatPhoneNumber(value);
+                                //     setMobile(formattedValue);
+                                //     handlePhoneChange('mobile', value);
+                                // }}
                                 onChange={(value) => {
-                                    const formattedValue = formatPhoneNumber(value);
-                                    setMobile(formattedValue);
                                     handlePhoneChange('mobile', value);
-                                }}
+                                    // Update local state for the input
+                                    setMobile(value);
+                                  }}
 
                             />
                             {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
