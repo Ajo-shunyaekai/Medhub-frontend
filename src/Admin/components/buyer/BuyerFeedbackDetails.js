@@ -4,12 +4,6 @@ import 'react-responsive-modal/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
-import Image1 from '../../assest/certificate.jpg'
-import Image2 from '../../assest/tax-certificate.jpg'
-import Image3 from '../../assest/certificate.jpg'
-import Image4 from '../../assest/tax-certificate.jpg'
-import Image5 from '../../assest/certificate.jpg'
-import Image6 from '../../assest/tax-certificate.jpg'
 import moment from 'moment-timezone';
 
 const BuyerFeedbackDetails = () => {
@@ -18,7 +12,6 @@ const BuyerFeedbackDetails = () => {
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [supplierDetails, setSupplierDetails] = useState()
-    const staticImages = [Image1, Image2,Image3,Image4,Image5,Image6];
 
 
     const renderImages = () => {
@@ -33,15 +26,6 @@ const BuyerFeedbackDetails = () => {
                 />
             ));
         }
-        // Fallback to render static images if no dynamic images are available
-        return staticImages.map((image, index) => (
-            <img
-                key={index}
-                src={image}
-                alt={`Static Image ${index + 1}`}
-                className="seller-details-document-image"
-            />
-        ));
     };
 
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../style/detailsrequest.css';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -34,37 +35,37 @@ const SupplierRequestDetails = () => {
         return url.split('/').pop();
     };
 
-// Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-const renderFiles = (files, type) => {
-    return files?.map((file, index) => {
-        if (file.endsWith('.pdf')) {
-            // Render a PDF icon with a clickable link
-            return (
-                <div key={index} className='buyer-details-pdf-section'>
-                    <FaFilePdf
-                        size={50}
-                        color="red"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
-                    />
-                    <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
-                        {extractFileName(file)}
+    // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+    const renderFiles = (files, type) => {
+        return files?.map((file, index) => {
+            if (file.endsWith('.pdf')) {
+                // Render a PDF icon with a clickable link
+                return (
+                    <div key={index} className='buyer-details-pdf-section'>
+                        <FaFilePdf
+                            size={50}
+                            color="red"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+                        />
+                        <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+                            {extractFileName(file)}
+                        </div>
                     </div>
-                </div>
-            );
-        } else {
-            // Render an image
-            return (
-                <img
-                    key={index}
-                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-                    alt={type}
-                    className='buyer-details-document-image'
-                />
-            );
-        }
-    });
-};
+                );
+            } else {
+                // Render an image
+                return (
+                    <img
+                        key={index}
+                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+                        alt={type}
+                        className='buyer-details-document-image'
+                    />
+                );
+            }
+        });
+    };
 
 
 
@@ -159,12 +160,32 @@ const renderFiles = (files, type) => {
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
-                                                    <PhoneInTalkOutlinedIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{supplierDetails?.supplier_country_code} {supplierDetails?.supplier_mobile}</span>
+                                                    <PhoneInTalkOutlinedIcon
+                                                        data-tooltip-id={supplierDetails?.supplier_country_code && supplierDetails?.supplier_mobile ? "my-tooltip-1" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {supplierDetails?.supplier_country_code && supplierDetails?.supplier_mobile && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-1"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={`${supplierDetails.supplier_country_code} ${supplierDetails.supplier_mobile}`}
+                                                        />
+                                                    )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
-                                                    <MailOutlineIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{supplierDetails?.supplier_email}</span>
+                                                    <MailOutlineIcon
+                                                        data-tooltip-id={supplierDetails?.supplier_email ? "my-tooltip-2" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {supplierDetails?.supplier_email && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-2"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={supplierDetails.supplier_email}
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -245,7 +266,7 @@ const renderFiles = (files, type) => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
-                                    {renderFiles(supplierDetails?.license_image, 'license_image')}
+                                        {renderFiles(supplierDetails?.license_image, 'license_image')}
                                     </div>
                                 </div>
 
@@ -253,7 +274,7 @@ const renderFiles = (files, type) => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Tax Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                    {renderFiles(supplierDetails?.tax_image, 'tax_image')}
+                                        {renderFiles(supplierDetails?.tax_image, 'tax_image')}
                                     </div>
                                 </div>
 
@@ -261,7 +282,7 @@ const renderFiles = (files, type) => {
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Certificate</div>
                                     <div className='buyer-details-company-img-container'>
-                                    {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
+                                        {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
                                     </div>
                                 </div>
                             </div>

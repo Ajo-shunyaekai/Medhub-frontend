@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../style/request.module.css';
 import { Modal } from 'react-responsive-modal';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
@@ -10,10 +11,10 @@ import { toast } from 'react-toastify';
 import { FaFilePdf } from 'react-icons/fa';
 
 const BuyerDetails = () => {
-    const {buyerId} = useParams()
-    const navigate  = useNavigate()
+    const { buyerId } = useParams()
+    const navigate = useNavigate()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [buyerDetails, setBuyerDetails] = useState()
 
 
@@ -76,36 +77,36 @@ const BuyerDetails = () => {
             return;
         }
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            buyer_id  : buyerId,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id: buyerId,
         }
         postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
             if (response.code === 200) {
                 setBuyerDetails(response.result)
             } else {
-               console.log('error in get-buyer-details api',response);
+                console.log('error in get-buyer-details api', response);
             }
         })
-    },[])
+    }, [])
 
     const handleAcceptReject = (action) => {
         const obj = {
-            admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
-            buyer_id  : buyerId,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            buyer_id: buyerId,
             action
         }
 
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
             if (response.code === 200) {
-                
-                toast(response.message, {type: 'success'})
+
+                toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
-                },1000)
+                }, 1000)
                 // setSupplierDetails(response.result)
             } else {
-               console.log('error in accept-reject-supplier api',response);
-               toast(response.message, {type: 'error'})
+                console.log('error in accept-reject-supplier api', response);
+                toast(response.message, { type: 'error' })
             }
         })
     }
@@ -134,13 +135,34 @@ const BuyerDetails = () => {
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
                                                 <div className='buyer-details-left-inner-mobile-button'>
-                                                    <PhoneInTalkOutlinedIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{buyerDetails?.buyer_country_code} {buyerDetails?.buyer_mobile}</span>
+                                                    <PhoneInTalkOutlinedIcon
+                                                        data-tooltip-id={buyerDetails?.buyer_country_code && buyerDetails?.buyer_mobile ? "my-tooltip-1" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {buyerDetails?.buyer_country_code && buyerDetails?.buyer_mobile && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-1"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={`${buyerDetails.buyer_country_code} ${buyerDetails.buyer_mobile}`}
+                                                        />
+                                                    )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
-                                                    <MailOutlineIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{buyerDetails?.buyer_email}</span>
+                                                    <MailOutlineIcon
+                                                        data-tooltip-id={buyerDetails?.buyer_email ? "my-tooltip-2" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {buyerDetails?.buyer_email && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-2"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={buyerDetails.buyer_email}
+                                                        />
+                                                    )}
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
