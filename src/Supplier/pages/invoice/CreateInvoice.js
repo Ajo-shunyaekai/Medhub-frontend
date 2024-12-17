@@ -305,43 +305,74 @@ const CreateInvoice = ({socket}) => {
         resetForm()
     }
 
-    const handlePhoneChange = (value) => {
-        if (value) {
-            // Parse the phone number
+    // const handlePhoneChange = (value) => {
+    //     if (value) {
+    //         // Parse the phone number
+    //         const phoneNumber = parsePhoneNumberFromString(value);
+
+    //         if (phoneNumber) {
+    //             // Extract country code and national number
+    //             const countryCode = phoneNumber.countryCallingCode;
+    //             const mobile = phoneNumber.nationalNumber;
+
+    //             // Format the phone number as +{code}-{mobile}
+    //             const formattedMobile = `+${countryCode}-${mobile}`;
+
+    //             // Update the state with formatted mobile number
+    //             console.log('Formatted Mobile:', formattedMobile);
+    //             setFormData(prevFormData => ({
+    //                 ...prevFormData,
+    //                 supplierCountryCode: countryCode,
+    //                 supplierMobile: formattedMobile,
+    //             }));
+    //         } else {
+    //             console.log('Invalid phone number');
+    //             setFormData(prevFormData => ({
+    //                 ...prevFormData,
+    //                 supplierCountryCode: '',
+    //                 supplierMobile: '',
+    //             }));
+    //         }
+    //     } else {
+    //         // Handle case when the value is empty
+    //         setFormData(prevFormData => ({
+    //             ...prevFormData,
+    //             supplierCountryCode: '',
+    //             supplierMobile: '',
+    //         }));
+    //     }
+    // };
+
+
+    const handlePhoneChange = (value, type) => {
+        try {
             const phoneNumber = parsePhoneNumberFromString(value);
-
-            if (phoneNumber) {
-                // Extract country code and national number
-                const countryCode = phoneNumber.countryCallingCode;
-                const mobile = phoneNumber.nationalNumber;
-
-                // Format the phone number as +{code}-{mobile}
-                const formattedMobile = `+${countryCode}-${mobile}`;
-
-                // Update the state with formatted mobile number
-                console.log('Formatted Mobile:', formattedMobile);
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                    supplierCountryCode: countryCode,
-                    supplierMobile: formattedMobile,
+            
+            if (phoneNumber && phoneNumber.isValid()) {
+                const formattedPhoneNumber = phoneNumber.formatInternational();
+                
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: formattedPhoneNumber,
                 }));
             } else {
-                console.log('Invalid phone number');
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                    supplierCountryCode: '',
-                    supplierMobile: '',
+                console.error('Invalid phone number');
+                setFormData(prevState => ({
+                    ...prevState,
+                    [type]: '', // Clear the field if invalid
                 }));
             }
-        } else {
-            // Handle case when the value is empty
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                supplierCountryCode: '',
-                supplierMobile: '',
+        } catch (error) {
+            console.log('catch');
+            console.error('Error parsing phone number:', error);
+            setFormData(prevState => ({
+                ...prevState,
+                [type]: '', // Clear the field if an error occurs
             }));
+
         }
     };
+
     const totalPayableAmount = formData?.orderItems?.reduce((total, item) => total + item.total_amount, 0);
     return (
         <>
@@ -397,10 +428,11 @@ const CreateInvoice = ({socket}) => {
                                 <label className={styles['create-invoice-div-label']}>Mobile No.</label>
                                 <PhoneInput
                                     className='signup-form-section-phone-input'
-                                    defaultCountry="ae"
+                                    defaultCountry="uk"
                                     name='phoneinput'
                                     value={formData.supplierMobile}
-                                    onChange={handlePhoneChange}
+                                    // onChange={handlePhoneChange}
+                                    onChange={(value) => handlePhoneChange(value, 'supplierMobile')}
                                 />
                                 {errors.supplierMobile && <p style={{ color: 'red' }}>{errors.supplierMobile}</p>}
                             </div>
