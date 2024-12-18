@@ -47,7 +47,9 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
             data    : requestData,
             headers : {
                 // "access_token" : sessionStorage.getItem('buyer_token') || localStorage.getItem('buyer_token'),
-                "Content-Type" : "multipart/form-data"
+                "Content-Type" : "multipart/form-data",                
+                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             }
         });
         // return response.data;
@@ -70,7 +72,9 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
                 "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
                 "buyer_id"     : sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
                 // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVGh1IE1heSAwMiAyMDI0IDExOjM2OjE2IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImJ1eWVySWQiOiJCVVktcDQ4MHhxdXNjeiIsImlhdCI6MTcxNDYyOTk3Nn0.NADTShvxaTLQBizjnmA9-NC1v-jFcFcLqrx5yOwAP8g',
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
+                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             } 
         });
         
@@ -95,7 +99,9 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             headers : {
                 "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
                 "buyer_id"     :  sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-                "Content-Type" : "multipart/form-data"
+                "Content-Type" : "multipart/form-data",                
+                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             }
         });
         return callback(response.data);

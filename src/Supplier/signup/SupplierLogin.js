@@ -5,7 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../style/login.css';
 import logo from '../assest/signup.svg';
 import { Link } from 'react-router-dom';
-import { postRequest } from '../api/Requests';
+import { postRequest } from '../../api/index';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,7 +42,7 @@ const SupplierLogin = ({socket}) => {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
@@ -51,36 +51,74 @@ const SupplierLogin = ({socket}) => {
             setLoading(true)
             let obj = {
                 email,
-                password
+                password,
+                user_type: "Supplier"
             }
 
-            postRequest('supplier/login', obj, async(response) => {
-                if(response.code === 200) {
-                    // toast(response.message, { type: "success" });
-                    sessionStorage.setItem('supplier_id',response.result.supplier_id)
-                    sessionStorage.setItem('supplier_name',response.result.supplier_name)
-                    sessionStorage.setItem('supplier_email',response.result.supplier_email)
-                    sessionStorage.setItem('supplier_country_code',response.result.supplier_country_code)
-                    sessionStorage.setItem('supplier_mobile',response.result.supplier_mobile)
-                    sessionStorage.setItem('contact_person_country_code',response.result.contact_person_country_code)
-                    sessionStorage.setItem('contact_person_mobile',response.result.contact_person_mobile_no)
-                    sessionStorage.setItem('contact_person_name',response.result.contact_person_name)
-                    sessionStorage.setItem('supplier_image',response.result.supplier_image)
-                    sessionStorage.setItem('license_image',response.result.license_image)
-                    sessionStorage.setItem('tax_image',response.result.tax_image)
-                    sessionStorage.setItem('token',response.result.token)
+            // postRequest('supplier/login', obj, async(response) => {
+            //     if(response.code === 200) {
+            //         // toast(response.message, { type: "success" });
+            //         sessionStorage.setItem('supplier_id',response.result.supplier_id)
+            //         sessionStorage.setItem('supplier_name',response.result.supplier_name)
+            //         sessionStorage.setItem('supplier_email',response.result.supplier_email)
+            //         sessionStorage.setItem('supplier_country_code',response.result.supplier_country_code)
+            //         sessionStorage.setItem('supplier_mobile',response.result.supplier_mobile)
+            //         sessionStorage.setItem('contact_person_country_code',response.result.contact_person_country_code)
+            //         sessionStorage.setItem('contact_person_mobile',response.result.contact_person_mobile_no)
+            //         sessionStorage.setItem('contact_person_name',response.result.contact_person_name)
+            //         sessionStorage.setItem('supplier_image',response.result.supplier_image)
+            //         sessionStorage.setItem('license_image',response.result.license_image)
+            //         sessionStorage.setItem('tax_image',response.result.tax_image)
+            //         sessionStorage.setItem('token',response.result.token)                    
+            //         sessionStorage.setItem('_id', response?.result?._id)
+            //         setTimeout(() => {
+            //             navigate("/supplier");
+            //             setLoading(true)
+            //           }, 1000);
+
+            //         //   if ('Notification' in window && Notification.permission !== 'granted') {
+            //         //     const permission = await Notification.requestPermission();
+            //         //     if (permission === 'granted') {
+            //         //       const userId = response.result.supplier_id; 
+            //         //       socket.emit('register',  userId );
+            //         //     }
+            //         //   } 
+
+            //         if ('Notification' in window) {
+            //             if (Notification.permission === 'granted') {
+            //                 // If permission is already granted, register the user directly
+            //                 const userId = response.result.supplier_id;
+            //                 socket.emit('register', userId);
+            //             } else if (Notification.permission !== 'denied') {
+            //                 // Request permission if not already denied
+            //                 const permission = await Notification.requestPermission();
+            //                 if (permission === 'granted') {
+            //                     // const userId = response.result.supplier_id;
+            //                     // socket.emit('register', userId);
+            //                 }
+            //             }
+            //         }
+            //     } else {
+            //         setLoading(false)
+            //         toast(response.message, { type: "error" });
+            //         console.log('error while login')
+            //     }
+            // })
+            try {
+                const response = await postRequest(`auth/login`, obj)
+                if(response.code !== 200){
+                    toast(response.message, { type: "error" });
+                }else{
+                    console.log("response ", response)
+                    const {result} = await response;
+                    for (let x in result) {
+                        sessionStorage.setItem(`${x}`, result[x])
+                        console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
+                    }
                     setTimeout(() => {
                         navigate("/supplier");
                         setLoading(true)
-                      }, 1000);
-
-                    //   if ('Notification' in window && Notification.permission !== 'granted') {
-                    //     const permission = await Notification.requestPermission();
-                    //     if (permission === 'granted') {
-                    //       const userId = response.result.supplier_id; 
-                    //       socket.emit('register',  userId );
-                    //     }
-                    //   } 
+                        }, 1000);
 
                     if ('Notification' in window) {
                         if (Notification.permission === 'granted') {
@@ -96,12 +134,17 @@ const SupplierLogin = ({socket}) => {
                             }
                         }
                     }
-                } else {
-                    setLoading(false)
-                    toast(response.message, { type: "error" });
-                    console.log('error while login')
+
                 }
-            })
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+                toast(error.message, { type: "error" });
+                console.log('error while login')
+            } finally{
+                setLoading(false)
+
+            }
         }
     };
 
