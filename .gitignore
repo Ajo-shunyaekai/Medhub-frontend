@@ -1,3 +1,44 @@
-node_modules
+# Node.js dependencies
+node_modules/
 
+# Build output
+build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+jspm_packages/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor files
+.vscode/
+.idea/
+
+# Environment files
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Optional npm cache directory
+.npm/
+
+# Optional yarn cache directory
+.yarn/
+
+# Parcel-bundler cache
+.cache/
+
+# Next.js build output
+.next/
+
+# CRA specific
+*.tgz
