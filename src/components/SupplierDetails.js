@@ -72,7 +72,8 @@ const SupplierDetails = () => {
 
 
   //supplier-details
-  useEffect(async () => {
+  useEffect(()=>{
+    const getSupplierDeatils = async () => {
 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
@@ -100,7 +101,10 @@ const SupplierDetails = () => {
       return;
     }
     setSupplier(response?.result);
-  }, []);
+  }
+
+  getSupplierDeatils()
+}, []);
 
   console.log(activeButton, activeTab);
   //supplier-product-list

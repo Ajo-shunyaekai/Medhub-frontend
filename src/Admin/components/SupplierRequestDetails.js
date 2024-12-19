@@ -72,7 +72,8 @@ const SupplierRequestDetails = () => {
 
 
     // End the modal and pdf url
-    useEffect(async() => {
+    useEffect(()=>{
+        const getSupplierdetails = async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -96,7 +97,8 @@ const SupplierRequestDetails = () => {
             return;
         }
         setSupplierDetails(response?.result);
-    }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
+        getSupplierdetails()
+    }}, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
 
     const handleRejectClick = () => {
         setIsModalOpen(true);

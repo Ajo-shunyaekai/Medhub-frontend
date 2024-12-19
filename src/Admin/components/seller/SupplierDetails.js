@@ -69,7 +69,8 @@ const renderFiles = (files, type) => {
 
 
    // End the modal and pdf url
-    useEffect(async() => {
+    useEffect(()=>{
+        const getSupplierDeatils = async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -91,7 +92,8 @@ const renderFiles = (files, type) => {
             return;
         }
         setSupplierDetails(response?.result);
-    },[])
+        getSupplierDeatils()
+    }},[])
 
     const handleAcceptReject = (action) => {
         const obj = {
