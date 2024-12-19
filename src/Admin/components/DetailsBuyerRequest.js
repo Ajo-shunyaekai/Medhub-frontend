@@ -78,7 +78,8 @@ const DetailsBuyerRequest = () => {
     const [rejectLoading, setRejectLoading] = useState(false)
     const [buyerDetails, setBuyerDetails] = useState()
 
-    useEffect(async () => {
+    useEffect(()=>{
+        const getBuyerDetails = async () => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -100,7 +101,8 @@ const DetailsBuyerRequest = () => {
             return;
         }
         setBuyerDetails(response?.result);
-    }, [])
+        getBuyerDetails()
+    }}, [])
 
     const handleAcceptReject = (action) => {
 

@@ -72,7 +72,8 @@ const BuyerDetails = () => {
     // End the modal and pdf url
 
 
-    useEffect(async() => {
+    useEffect(()=>{
+        const getBuyerDetails = async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -95,6 +96,8 @@ const BuyerDetails = () => {
             return;
         }
         setBuyerDetails(response?.result);
+        getBuyerDetails()
+    }
     },[])
 
     const handleAcceptReject = (action) => {
