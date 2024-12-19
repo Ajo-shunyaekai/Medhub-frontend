@@ -15,6 +15,30 @@ export const postRequest = async (URL, requestData, callback) => {
     }
 }
 
+export const getRequest = async (URL, requestData, callback) => {
+    try {
+        const response = await axios.get(URL, {
+            params: requestData, // Attach any query params if needed
+            headers: {
+                Authorization: process.env.REACT_APP_Authorization || '',
+                'Content-Type': 'application/json',
+                access_token: sessionStorage.getItem('token') || localStorage.getItem('token'), // Include tokens if required
+            },
+            withCredentials: true, // Ensure credentials are sent
+        });
+
+        console.log('GET Request URL:', URL);
+        console.log('Response:', response.data);
+
+        return callback(response.data);
+
+    } catch (err) {
+        console.error('Error in GET Request:', err);
+        return callback({ code: 500, message: 'Connection failed, please start node server' });
+    }
+};
+
+
 export const postRequestWithFile = async (URL, requestData, callback) => {
     try {
         const response = await axios({

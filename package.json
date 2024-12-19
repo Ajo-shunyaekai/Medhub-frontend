@@ -63,6 +63,7 @@
     "react-svg-circular-progressbar": "^1.0.1",
     "react-svg-worldmap": "^2.0.0-alpha.16",
     "react-toastify": "^10.0.5",
+    "react-tooltip": "^5.28.0",
     "socket.io-client": "^4.7.5",
     "web-vitals": "^2.1.4"
   },

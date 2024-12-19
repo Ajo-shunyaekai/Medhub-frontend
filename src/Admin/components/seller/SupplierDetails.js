@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../style/detailsrequest.css'
 import { Modal } from 'react-responsive-modal';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
@@ -137,13 +138,33 @@ const renderFiles = (files, type) => {
                                                 <div className='buyer-details-left-inner-sec-text'>Supplier ID: {supplierDetails?.supplier_id}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
-                                                <div className='buyer-details-left-inner-mobile-button'>
-                                                    <PhoneInTalkOutlinedIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{supplierDetails?.supplier_country_code} {supplierDetails?.supplier_mobile}</span>
+                                            <div className='buyer-details-left-inner-mobile-button'>
+                                                    <PhoneInTalkOutlinedIcon
+                                                        data-tooltip-id={supplierDetails?.supplier_country_code && supplierDetails?.supplier_mobile ? "my-tooltip-1" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {supplierDetails?.supplier_country_code && supplierDetails?.supplier_mobile && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-1"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={`${supplierDetails.supplier_country_code} ${supplierDetails.supplier_mobile}`}
+                                                        />
+                                                    )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
-                                                    <MailOutlineIcon className='buyer-details-left-inner-icon' />
-                                                    <span className='tooltip buyer-tooltip'>{supplierDetails?.supplier_email}</span>
+                                                    <MailOutlineIcon
+                                                        data-tooltip-id={supplierDetails?.supplier_email ? "my-tooltip-2" : null}
+                                                        className='buyer-details-left-inner-icon'
+                                                    />
+                                                    {supplierDetails?.supplier_email && (
+                                                        <ReactTooltip
+                                                            id="my-tooltip-2"
+                                                            place="bottom"
+                                                            effect="solid"
+                                                            content={supplierDetails.supplier_email}
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
