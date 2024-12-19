@@ -925,7 +925,6 @@ const AddProduct = ({socket}) => {
                         });
                         setLoading(false)
                         setTimeout(() => {
-                            // navigate('/supplier/product/secondarymarket')
                             navigate('/supplier/pending-products-list')
                         }, 1000);
 
