@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { FaFilePdf } from 'react-icons/fa';
+import { apiRequests } from '../../../api/index';
 
 const BuyerDetails = () => {
     const {buyerId} = useParams()
@@ -70,7 +71,7 @@ const BuyerDetails = () => {
     // End the modal and pdf url
 
 
-    useEffect(() => {
+    useEffect(async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -79,13 +80,19 @@ const BuyerDetails = () => {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
             buyer_id  : buyerId,
         }
-        postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-            if (response.code === 200) {
-                setBuyerDetails(response.result)
-            } else {
-               console.log('error in get-buyer-details api',response);
-            }
-        })
+        // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setBuyerDetails(response.result)
+        //     } else {
+        //        console.log('error in get-buyer-details api',response);
+        //     }
+        // })
+        const response = await apiRequests.postRequest(`buyer/get-buyer-details/${buyerId}`, obj);
+        if (response?.code !== 200) {
+            console.log('error in get-buyer-details api', response);
+            return;
+        }
+        setBuyerDetails(response?.result);
     },[])
 
     const handleAcceptReject = (action) => {

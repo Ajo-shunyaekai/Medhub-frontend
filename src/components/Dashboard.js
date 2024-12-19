@@ -49,7 +49,7 @@ const Dashboard = () => {
         postRequestWithToken('buyer/orders-seller-country', obj, async (response) => {
             if (response.code === 200) {
                 setSellerCountry(response?.result)
-                const convertedData = convertCountryToCode(response?.result);
+                const convertedData = await convertCountryToCode(response?.result||[]);
                 setCountryData(convertedData);
             } else {
                console.log('error in orders-seller-country api',response);
@@ -72,7 +72,7 @@ const Dashboard = () => {
 
         postRequestWithToken('buyer/orders-summary-details', obj, async (response) => {
             if (response.code === 200) {
-                setOrderSummary(response?.result)
+                setOrderSummary(response?.result || [])
             } else {
                console.log('error in orders-summary-details api',response);
             }
@@ -107,13 +107,13 @@ const Dashboard = () => {
                                 <Link to='/buyer/ongoing-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/completed-orders'>
                                         <div className='top-content-section'>
                                             <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 0}</div>
+                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount?.[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     
@@ -140,7 +140,7 @@ const Dashboard = () => {
                             <div className='cart-top-left-section'>
                                 <div className='left-head'>Total Purchase</div>
                                 <div className='circular-process'>
-                                    <CircularBar totalPurchase = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase}/>
+                                    <CircularBar totalPurchase = {orderSummary?.orderDetails?.totalPurchaseAmount?.[0]?.total_purchase || 0}/>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ const Dashboard = () => {
                         
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{orderSummary?.enquiryCount[0]?.count || 0}</span>
+                                    <span className='left-bottom-pert'>{orderSummary?.enquiryCount?.[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>+3.5</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Lorem</div>
@@ -159,7 +159,7 @@ const Dashboard = () => {
                             
                             <div className='cart-left-bottom-container'>
                                 <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{orderSummary?.purchaseOrderCount[0]?.count || 0}</span>
+                                    <span className='left-bottom-pert'>{orderSummary?.purchaseOrderCount?.[0]?.count || 0}</span>
                                     {/* <span className='left-bottom-plus'>-2.0</span> */}
                                 </div>
                                 <div className='left-bottom-head'>Lorem</div>
@@ -192,12 +192,12 @@ const Dashboard = () => {
                         <div className='right-head'>Your Seller Countries</div>
                         <div className='right-country-section'>
                             <div className='country-sect'>
-                                <span className='country-names'>{countryData[0]?.country}</span>
-                                <span className='country-price'>{countryData[0]?.value} AED</span>
+                                <span className='country-names'>{countryData?.[0]?.country}</span>
+                                <span className='country-price'>{countryData?.[0]?.value} AED</span>
                             </div>
                             <div className='country-sect'>
-                                <span className='country-name'>{countryData[1]?.country}</span>
-                                <span className='country-price'>{countryData[1]?.value} AED</span>
+                                <span className='country-name'>{countryData?.[1]?.country}</span>
+                                <span className='country-price'>{countryData?.[1]?.value} AED</span>
                             </div>
                             {/* <div className='country-sect'>
                                 <span className='country-name'>India</span>

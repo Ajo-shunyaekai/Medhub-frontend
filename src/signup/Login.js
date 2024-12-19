@@ -5,7 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../style/login.css';
 import logo from '../assest/signup.svg';
 import { Link } from 'react-router-dom';
-import { postRequest } from '../api/index';
+import { apiRequests } from '../api/index';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
@@ -104,38 +104,38 @@ const Login = ({socket}) => {
                 
             // })
             try {
-                const response = await postRequest(`auth/login`, obj)
+                const response = await apiRequests?.postRequest(`auth/login`, obj)
                 if(response.code !== 200){
                     toast(response.message, { type: "error" });
-                }else{
-                    const {result} = await response;
-                    for (let x in result) {
-                        sessionStorage.setItem(`${x}`, result[x])
-                        console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
-                    }
-                    setTimeout(() => {
-                        navigate("/buyer");
-                        setLoading(true)
-                    }, 500);
+                    return
+                }
+                const {result} = await response;
+                for (let x in result) {
+                    sessionStorage.setItem(`${x}`, result[x])
+                    console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
+                }
+                setTimeout(() => {
+                    navigate("/buyer");
+                    setLoading(true)
+                }, 500);
 
-                    if ('Notification' in window) {
-                        if (Notification.permission === 'granted') {
-                            // If permission is already granted, register the user directly
+                if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                        // If permission is already granted, register the user directly
+                        const userId = response.result.buyer_id;
+                        socket.emit('registerBuyer', userId);
+                    } else if (Notification.permission !== 'denied') {
+                        // Request permission if not already denied
+                        const permission = await Notification.requestPermission();
+                        if (permission === 'granted') {
                             const userId = response.result.buyer_id;
                             socket.emit('registerBuyer', userId);
-                        } else if (Notification.permission !== 'denied') {
-                            // Request permission if not already denied
-                            const permission = await Notification.requestPermission();
-                            if (permission === 'granted') {
-                                const userId = response.result.buyer_id;
-                                socket.emit('registerBuyer', userId);
-                            }
                         }
-                    } else {
-                    setLoading(false)
-                    toast(response.message, { type: "error" });
-                    console.log('error while login')
                     }
+                } else {
+                setLoading(false)
+                toast(response.message, { type: "error" });
+                console.log('error while login')
                 }
             } catch (error) {
                 console.log(error)

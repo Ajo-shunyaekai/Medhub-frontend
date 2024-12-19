@@ -9,6 +9,7 @@ import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 import BuyerCustomModal from './BuyerCustomModal';
 import { FaFilePdf } from 'react-icons/fa';
+import {apiRequests} from '../../api/index'
 
 const DetailsBuyerRequest = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,7 +77,7 @@ const DetailsBuyerRequest = () => {
     const [rejectLoading, setRejectLoading] = useState(false)
     const [buyerDetails, setBuyerDetails] = useState()
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -85,13 +86,19 @@ const DetailsBuyerRequest = () => {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             buyer_id: buyerId,
         }
-        postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-            if (response.code === 200) {
-                setBuyerDetails(response.result)
-            } else {
-                console.log('error in get-buyer-details api', response);
-            }
-        })
+        // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setBuyerDetails(response.result)
+        //     } else {
+        //         console.log('error in get-buyer-details api', response);
+        //     }
+        // })
+        const response = await apiRequests.postRequest(`buyer/get-buyer-details/${buyerId}`, obj);
+        if (response?.code !== 200) {
+            console.log('error in get-buyer-details api', response);
+            return;
+        }
+        setBuyerDetails(response?.result);
     }, [])
 
     const handleAcceptReject = (action) => {

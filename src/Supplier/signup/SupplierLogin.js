@@ -5,7 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../style/login.css';
 import logo from '../assest/signup.svg';
 import { Link } from 'react-router-dom';
-import { postRequest } from '../../api/index';
+import { apiRequests } from '../../api/index';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -105,7 +105,7 @@ const SupplierLogin = ({socket}) => {
             //     }
             // })
             try {
-                const response = await postRequest(`auth/login`, obj)
+                const response = await apiRequests?.postRequest(`auth/login`, obj)
                 if(response.code !== 200){
                     toast(response.message, { type: "error" });
                 }else{
