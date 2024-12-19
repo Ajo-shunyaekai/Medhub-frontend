@@ -13,7 +13,7 @@ import BuyerSidebar from './components/BuyerSidebar.js';
 import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
 import { postRequestWithToken } from './api/Requests.js';
-import { getRequest } from './api/index.js';
+import { apiRequests } from './api/index.js';
 
 // const socket = io('http://localhost:3333', {
 //     transports: ['websocket'],
@@ -37,15 +37,15 @@ import { getRequest } from './api/index.js';
     
     function App() {
         
-        const getLoggedInUserDetails = async (id) => {
-            const response = await getRequest(`/auth/${id}`)
-            // console.log(`RESPONSE : ${response}`); // NEED TO STORE RESPONSE IN REDUX
+        // const getLoggedInUserDetails = async (id) => {
+        //     const response = await apiRequests?.getRequest(`/auth/${id}`)
+        //     // console.log(`RESPONSE : ${response}`); // NEED TO STORE RESPONSE IN REDUX
             
-        }
+        // }
 
-        useEffect(()=>{
-            getLoggedInUserDetails(sessionStorage.getItem("_id"))
-        },[])
+        // useEffect(()=>{
+        //     getLoggedInUserDetails(sessionStorage.getItem("_id"))
+        // },[])
 
         useEffect(() => {
             const route = activekey();

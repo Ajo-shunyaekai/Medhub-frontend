@@ -4,7 +4,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../../style/login.css';
 import logo from '../../assest/signup.svg';
-import { postRequest } from '../../../api/index';
+import { apiRequests } from '../../../api/index';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -92,7 +92,7 @@ const Login = ({socket}) => {
                 //     }
                 // })
                 try {
-                    const response = await postRequest(`auth/login`, obj)
+                    const response = await apiRequests?.postRequest(`auth/login`, obj)
                     console.log("response ", response)
                     if(response.code !== 200){
                         toast(response.message, { type: "error" });

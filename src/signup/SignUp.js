@@ -8,11 +8,13 @@ import logo from '../assest/signup.svg'
 import SuccessModal from './SuccessModal';
 import ImageUploaders from './ImageUploader';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
-import { postRequestWithFile } from '../api/Requests';
+// import { postRequestWithFile } from '../api/Requests';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+import { apiRequests } from '../api/index';
+
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -52,7 +54,7 @@ const SignUp = ({socket}) => {
     const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
 
-    const [formData, setFormData] = useState({
+    const defaultFormData = {
         companyType: '',
         companyName: '',
         companyAddress: '',
@@ -79,8 +81,11 @@ const SignUp = ({socket}) => {
         certificateImage: null,
         certificateImageType: 'certificate',
         registrationNo : '',
-        vatRegistrationNo : ''
-    });
+        vatRegistrationNo : '',
+        user_type: 'Buyer'
+    }
+
+    const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
 
     const handleMultiSelectChange = (selected) => {
@@ -339,10 +344,21 @@ const SignUp = ({socket}) => {
         if (resetUploaders) {
             setResetUploaders(false);
         }
-    }, [resetUploaders]);
+    }, [resetUploaders]);    
+
+    const handleCancel = () => {
+        setFormData(defaultFormData)
+        setErrors({});
+        setIsChecked(false);
+        setCompanyPhone('');
+        setMobile('');
+        setSelectedCompanyType(null)
+        setSelectedOptions([])
+        setResetUploaders(true);
+    }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if (validateForm() && isChecked) {
             setLoading(true)
             // setButtonLoading(true)
@@ -376,68 +392,77 @@ const SignUp = ({socket}) => {
             // formDataToSend.append('country_of_operation', countryLabels);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
+            formDataToSend.append('user_type', formData.user_type || 'Buyer');
             Array.from(formData.logoImage).forEach(file => formDataToSend.append('buyer_image', file));
             Array.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
             Array.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
             Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
 
-            postRequestWithFile('buyer/register', formDataToSend, async (response) => {
-                if (response.code === 200) {
-                    setFormData({
-                        companyType: '',
-                        companyName: '',
-                        companyAddress: '',
-                        companyEmail: '',
-                        companyPhone: '',
-                        contactPersonName: '',
-                        designation: '',
-                        email: '',
-                        mobile: '',
-                        originCountry: '',
-                        operationCountries: [],
-                        interestedIn: '',
-                        companyLicenseNo: '',
-                        companyTaxNo: '',
-                        yearlyPurchaseValue: '',
-                        companyLicenseExpiry: '',
-                        description: '',
-                        taxImage: null,
-                        taxImageType: 'tax',
-                        logoImage: null,
-                        logoImageType: 'logo',
-                        licenseImage: null,
-                        licenseImageType: 'license',
-                        certificateImage: null,
-                        certificateImageType: 'certificate',
-                        registrationNo : '',
-                        vatRegistrationNo : ''
-                    })
-                    setErrors({});
-                    setIsChecked(false);
-                    setCompanyPhone('');
-                    setMobile('');
-                    setSelectedCompanyType(null)
-                    setSelectedOptions([])
-                    setResetUploaders(true);
-                    setShowModal(true)
-                    // setButtonLoading(false)
-                    setLoading(false)
+            console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
+            // postRequestWithFile('auth/register', formDataToSend, async (response) => {
+                // if (response.code === 200) {
+                //     setFormData(defaultFormData)
+                //     setErrors({});
+                //     setIsChecked(false);
+                //     setCompanyPhone('');
+                //     setMobile('');
+                //     setSelectedCompanyType(null)
+                //     setSelectedOptions([])
+                //     setResetUploaders(true);
+                //     setShowModal(true)
+                //     // setButtonLoading(false)
+                //     setLoading(false)
 
-                    socket.emit('buyerRegistration', {
-                        adminId : process.env.REACT_APP_ADMIN_ID,
-                        message : `New Buyer Registration Request `,
-                        link    : process.env.REACT_APP_PUBLIC_URL
-                        // send other details if needed
-                    });
+                //     socket.emit('buyerRegistration', {
+                //         adminId : process.env.REACT_APP_ADMIN_ID,
+                //         message : `New Buyer Registration Request `,
+                //         link    : process.env.REACT_APP_PUBLIC_URL
+                //         // send other details if needed
+                //     });
 
-                } else {
+                // } else {
+                //     // setButtonLoading(false)
+                //     setLoading(false)
+                //     toast(response.message, {type: 'error'})
+                //     console.log('error in buyer/register api');
+                // }
+                // // setButtonLoading(false)
+            // })
+
+            console.log(`formDataToSend ${formDataToSend}`)
+            try {
+                const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
+                if(response?.code !== 200){
                     // setButtonLoading(false)
                     setLoading(false)
                     toast(response.message, {type: 'error'})
                     console.log('error in buyer/register api');
+                    return
                 }
+                handleCancel()
+                setShowModal(true)
                 // setButtonLoading(false)
-            })
+                setLoading(false)
+
+                socket.emit('buyerRegistration', {
+                    adminId : process.env.REACT_APP_ADMIN_ID,
+                    message : `New Buyer Registration Request `,
+                    link    : process.env.REACT_APP_PUBLIC_URL
+                    // send other details if needed
+                });
+
+
+            } catch (error) {
+                // setButtonLoading(false)
+                setLoading(false)
+                toast(error.message, {type: 'error'})
+                console.log('error in buyer/register api');
+                
+            }finally{
+    
+                setLoading(false)
+
+            }
         } else {
             setLoading(false)
             toast('Some Fields are Missing', {type: 'error'})
@@ -491,45 +516,6 @@ const SignUp = ({socket}) => {
         }
         return placeholderButtonLabel;
     };
-
-    const handleCancel = () => {
-        setFormData({
-            companyType: '',
-            companyName: '',
-            companyAddress: '',
-            companyEmail: '',
-            companyPhone: '',
-            contactPersonName: '',
-            designation: '',
-            email: '',
-            mobile: '',
-            originCountry: '',
-            operationCountries: [],
-            interestedIn: '',
-            companyLicenseNo: '',
-            companyTaxNo: '',
-            yearlyPurchaseValue: '',
-            companyLicenseExpiry: '',
-            description: '',
-            taxImage: null,
-            taxImageType: 'tax',
-            logoImage: null,
-            logoImageType: 'logo',
-            licenseImage: null,
-            licenseImageType: 'license',
-            certificateImage: null,
-            certificateImageType: 'certificate',
-            registrationNo: '',
-            vatRegistrationNo: ''
-        })
-        setErrors({});
-        setIsChecked(false);
-        setCompanyPhone('');
-        setMobile('');
-        setSelectedCompanyType(null)
-        setSelectedOptions([])
-        setResetUploaders(true);
-    }
 
     return (
         <>

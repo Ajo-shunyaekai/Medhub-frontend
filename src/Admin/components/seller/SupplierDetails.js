@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import { FaFilePdf } from 'react-icons/fa';
+import { apiRequests } from '../../../api/index';
 
 
 const SupplierDetails = () => {
@@ -68,7 +69,7 @@ const renderFiles = (files, type) => {
 
 
    // End the modal and pdf url
-    useEffect(() => {
+    useEffect(async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -77,13 +78,19 @@ const renderFiles = (files, type) => {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
             supplier_id  : supplierId,
         }
-        postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
-            if (response.code === 200) {
-                setSupplierDetails(response.result)
-            } else {
-               console.log('error in get-supplier-details api',response);
-            }
-        })
+        // postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setSupplierDetails(response.result)
+        //     } else {
+        //        console.log('error in get-supplier-details api',response);
+        //     }
+        // })
+        const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
+        if (response?.code !== 200) {
+            console.log('error in get-supplier-details api', response);
+            return;
+        }
+        setSupplierDetails(response?.result);
     },[])
 
     const handleAcceptReject = (action) => {

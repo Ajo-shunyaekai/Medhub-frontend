@@ -9,7 +9,7 @@ import SuccessModal from './SuccessModal';
 import ImageUploader from './ImageUploader';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import { postRequestWithFile } from '../api/Requests';
+import { apiRequests } from '../../api/index';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
@@ -53,7 +53,7 @@ const SupplierSignUp = ({socket}) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
 
-    const [formData, setFormData] = useState({
+    const defaultFormData = {
         companyType: '',
         companyName: '',
         companyAddress: '',
@@ -82,8 +82,11 @@ const SupplierSignUp = ({socket}) => {
         certificateImageType: 'certificate',
         terms: '',
         registrationNo: '',
-        vatRegistrationNo: ''
-    });
+        vatRegistrationNo: '',
+        user_type: 'Supplier'
+    }
+
+    const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
 
     const handleMultiSelectChange = (selected) => {
@@ -385,6 +388,16 @@ const SupplierSignUp = ({socket}) => {
         return placeholderButtonLabel;
     };
 
+    const handleCancel = () => {
+        setFormData(defaultFormData);
+        setErrors({});
+        setIsChecked(false);
+        setCompanyPhone('');
+        setMobile('');
+        setSelectedCompanyType(null)
+        setResetUploaders(true);
+    }
+
     const handleSubmit = async() => {
         const isFormValid = await validateForm();
     console.log('Is Form Valid:', isFormValid);
@@ -417,64 +430,61 @@ const SupplierSignUp = ({socket}) => {
             formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
+
+            formDataToSend.append('user_type', formData.user_type);
+            // Array?.from(formData.logoImage).forEach(file => formDataToSend.append('supplier_image', file));
+            // Array?.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
+            // Array?.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
+            // Array?.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
+
             (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));
             (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));
             (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(file => formDataToSend.append('tax_image', file));
             (Array.isArray(formData.certificateImage) ? formData.certificateImage : []).forEach(file => formDataToSend.append('certificate_image', file));
 
-            postRequestWithFile('supplier/register', formDataToSend, async (response) => {
-                if (response.code === 200) {
-                    setFormData({
-                        companyType: '',
-                        companyName: '',
-                        companyAddress: '',
-                        companyEmail: '',
-                        companyPhone: '',
-                        contactPersonName: '',
-                        designation: '',
-                        email: '',
-                        mobile: '',
-                        paymentterms: '',
-                        delivertime: '',
-                        tags: '',
-                        originCountry: '',
-                        operationCountries: [],
-                        companyLicenseNo: '',
-                        companyLicenseExpiry: '',
-                        companyTaxNo: '',
-                        description: '',
-                        taxImage: null,
-                        taxImageType: 'tax',
-                        logoImage: null,
-                        logoImageType: 'logo',
-                        licenseImage: null,
-                        licenseImageType: 'license',
-                        certificateImage: null,
-                        certificateImageType: 'certificate',
-                        registrationNo : '',
-                        vatRegistrationNo : ''
-                    });
-                    setErrors({});
-                    setIsChecked(false);
-                    setCompanyPhone('');
-                    setMobile('');
-                    setSelectedCompanyType(null)
-                    setResetUploaders(true);
-                    setShowModal(true);
-                    setLoading(false)
+            // postRequestWithFile('supplier/register', formDataToSend, async (response) => {
+            //     if (response.code === 200) {
+            //         habdleCancel()
+            //         setShowModal(true);
+            //         setLoading(false)
 
-                    socket.emit('supplierRegistration', {
-                        adminId : process.env.REACT_APP_ADMIN_ID,
-                        message : `New Supplier Registration Request `,
-                        link    : process.env.REACT_APP_PUBLIC_URL
-                        // send other details if needed
-                    });
-                } else {
+            //         socket.emit('supplierRegistration', {
+            //             adminId : process.env.REACT_APP_ADMIN_ID,
+            //             message : `New Supplier Registration Request `,
+            //             link    : process.env.REACT_APP_PUBLIC_URL
+            //             // send other details if needed
+            //         });
+            //     } else {
+            //         setLoading(false)
+            //         toast(response.message, {type: 'error'})
+            //         console.log('error in supplier/register api');
+            //     }
+            // })
+            try {
+                const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
+                if(response?.code !== 200) {
                     setLoading(false)
                     toast(response.message, {type: 'error'})
                     console.log('error in supplier/register api');
+                    return;
                 }
-            })
+                handleCancel()
+                setShowModal(true);
+                setLoading(false)
+
+                socket.emit('supplierRegistration', {
+                    adminId : process.env.REACT_APP_ADMIN_ID,
+                    message : `New Supplier Registration Request `,
+                    link    : process.env.REACT_APP_PUBLIC_URL
+                    // send other details if needed
+                });
+            } catch (error) {
+                // setButtonLoading(false)
+                setLoading(false)
+                toast(error.message, {type: 'error'})
+                console.log('error in buyer/register api');
+                
+            }
         } else {
             setLoading(false)
             toast('Some Fields are Missing', {type: 'error'})
@@ -485,45 +495,6 @@ const SupplierSignUp = ({socket}) => {
         event.preventDefault();
         handleSubmit();
     };
-
-    const handleCancel = () => {
-        setFormData({
-            companyType: '',
-            companyName: '',
-            companyAddress: '',
-            companyEmail: '',
-            companyPhone: '',
-            contactPersonName: '',
-            designation: '',
-            email: '',
-            mobile: '',
-            paymentterms: '',
-            delivertime: '',
-            tags: '',
-            originCountry: '',
-            operationCountries: [],
-            companyLicenseNo: '',
-            companyLicenseExpiry: '',
-            companyTaxNo: '',
-            description: '',
-            taxImage: null,
-            taxImageType: 'tax',
-            logoImage: null,
-            logoImageType: 'logo',
-            licenseImage: null,
-            licenseImageType: 'license',
-            certificateImage: null,
-            certificateImageType: 'certificate',
-            registrationNo: '',
-            vatRegistrationNo: ''
-        });
-        setErrors({});
-        setIsChecked(false);
-        setCompanyPhone('');
-        setMobile('');
-        setSelectedCompanyType(null)
-        setResetUploaders(true);
-    }
 
     return (
         <>

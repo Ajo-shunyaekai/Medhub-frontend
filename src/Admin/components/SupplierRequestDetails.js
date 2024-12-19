@@ -10,6 +10,7 @@ import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 import { FaFilePdf } from 'react-icons/fa';
 import SupplierCustomModal from './SupplierCustomModal';
+import { apiRequests } from '../../api/index';
 
 const SupplierRequestDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,7 +72,7 @@ const SupplierRequestDetails = () => {
 
 
     // End the modal and pdf url
-    useEffect(() => {
+    useEffect(async() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -82,13 +83,19 @@ const SupplierRequestDetails = () => {
             supplier_id: supplierId,
         };
 
-        postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
-            if (response.code === 200) {
-                setSupplierDetails(response.result);
-            } else {
-                console.log('error in get-supplier-details api', response);
-            }
-        });
+        // postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setSupplierDetails(response.result);
+        //     } else {
+        //         console.log('error in get-supplier-details api', response);
+        //     }
+        // });
+        const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
+        if (response?.code !== 200) {
+            console.log('error in get-supplier-details api', response);
+            return;
+        }
+        setSupplierDetails(response?.result);
     }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
 
     const handleRejectClick = () => {
