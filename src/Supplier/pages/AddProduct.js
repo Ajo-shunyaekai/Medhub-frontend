@@ -464,89 +464,148 @@ const AddProduct = ({socket}) => {
         return placeholderButtonLabel;
     };
 
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+    //     let newErrors = { ...errors };  // Start with existing errors
+    //     let isValid = true;
+
+    //     // Clear the error message for the field being updated
+    //     newErrors[name] = '';
+
+    //     if (name === 'description') {
+    //         if (value.length > 1000) {
+    //             newErrors.description = 'Description cannot exceed 1000 characters';
+    //             isValid = false;
+    //         }
+    //     } else if (name === 'productName' || name === 'dossierStatus') {
+    //         // Only check for invalid characters if the value is not empty
+    //         if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         }
+    //     } else if (name === 'totalQuantity') {
+    //         // Allow only up to 5 digits
+    //         if (value.trim() && !/^\d{1,8}$/.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         }
+    //     } else if (name === 'minPurchaseUnit') {
+    //         // Allow only up to 6 digits
+    //         if (value.trim() && !/^\d{1,6}$/.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         }
+    //     }else if (name === 'shelfLife') {
+    //         // Allow only up to 3 digits
+    //         if (value.trim() && !/^\d{1,4}$/.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         }
+    //     } 
+    //      else if (name === 'unitTax') {
+    //         // Only check for invalid format if the value is not empty
+
+    //         const regex = /^\d{0,2}(\.\d{0,3})?$/;
+
+    //         if (value.trim() && !regex.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         } else {
+    //             newErrors[name] = ''; // Clear error if input is valid
+    //         }
+    //     } else if (name === 'shippingTime') {
+
+    //         const regex = /^\d{1,3}(-\d{1,2})?$/;
+
+    //         // Partial match is allowed but full input should be validated
+    //         if (value.trim() && !regex.test(value)) {
+    //             newErrors[name] = '';
+    //             isValid = false;
+    //         } else {
+    //             // Show error only when the input is fully invalid
+    //             if (value.trim() && !regex.test(value) && !/^\d{1,2}$/.test(value)) {
+    //                 newErrors[name] = '';
+    //                 isValid = false;
+    //             } else {
+    //                 newErrors[name] = ''; // Clear error if input is valid
+    //             }
+    //         }
+    //     }
+        
+    //     // Update the form data if valid
+    //     if (isValid) {
+    //         setFormData(prevState => ({ ...prevState, [name]: value }));
+    //     }
+    //     setErrors(newErrors);
+    // };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        let newErrors = { ...errors };  // Start with existing errors
+        let newErrors = { ...errors }; // Copy existing errors
         let isValid = true;
-
-        // Clear the error message for the field being updated
+    
+        // Utility functions for validation
+        const validateLength = (maxLength, errorMessage) => {
+            if (value.length > maxLength) {
+                newErrors[name] = errorMessage;
+                isValid = false;
+            }
+        };
+    
+        const validateRegex = (regex, errorMessage) => {
+            if (value.trim() && !regex.test(value)) {
+                newErrors[name] = errorMessage;
+                isValid = false;
+            }
+        };
+    
+        // Clear error for the current field by default
         newErrors[name] = '';
-
-        if (name === 'description') {
-            if (value.length > 1000) {
-                newErrors.description = 'Description cannot exceed 1000 characters';
-                isValid = false;
-            }
-        } else if (name === 'productName' || name === 'dossierStatus') {
-            // Only check for invalid characters if the value is not empty
-            if (value.trim() && !/^[a-zA-Z\s]*$/.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            }
-        } else if (name === 'totalQuantity') {
-            // Allow only up to 5 digits
-            if (value.trim() && !/^\d{1,8}$/.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            }
-        } else if (name === 'minPurchaseUnit') {
-            // Allow only up to 6 digits
-            if (value.trim() && !/^\d{1,6}$/.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            }
-        }else if (name === 'shelfLife') {
-            // Allow only up to 3 digits
-            if (value.trim() && !/^\d{1,4}$/.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            }
-        } 
-         else if (name === 'unitTax') {
-            // Only check for invalid format if the value is not empty
-
-            const regex = /^\d{0,2}(\.\d{0,3})?$/;
-
-            if (value.trim() && !regex.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            } else {
-                newErrors[name] = ''; // Clear error if input is valid
-            }
-        } else if (name === 'shippingTime') {
-
-            const regex = /^\d{1,3}(-\d{1,2})?$/;
-
-            // Partial match is allowed but full input should be validated
-            if (value.trim() && !regex.test(value)) {
-                newErrors[name] = '';
-                isValid = false;
-            } else {
-                // Show error only when the input is fully invalid
-                if (value.trim() && !regex.test(value) && !/^\d{1,2}$/.test(value)) {
-                    newErrors[name] = '';
-                    isValid = false;
-                } else {
-                    newErrors[name] = ''; // Clear error if input is valid
-                }
-            }
+    
+        // Validation logic for specific fields
+        switch (name) {
+            case 'description':
+                validateLength(1000, '');
+                break;
+    
+            case 'productName':
+            case 'dossierStatus':
+                validateRegex(/^[a-zA-Z\s]*$/, ``);
+                break;
+    
+            case 'totalQuantity':
+                validateRegex(/^\d{1,8}$/, '');
+                break;
+    
+            case 'minPurchaseUnit':
+                validateRegex(/^\d{1,6}$/, '');
+                break;
+    
+            case 'shelfLife':
+                validateRegex(/^\d{1,4}$/, '');
+                break;
+    
+            case 'unitTax':
+                validateRegex(/^\d{0,2}(\.\d{0,3})?$/, '');
+                break;
+    
+            case 'shippingTime':
+                validateRegex(/^\d{1,3}(-\d{1,2})?$/, '');
+                break;
+    
+            default:
+                break;
         }
-        // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
-        //     // Validate only if the value is not empty
-        //     if (value.trim() === '') {
-        //         newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
-        //         isValid = false;
-        //     }
-        // }
-
+    
         // Update the form data if valid
         if (isValid) {
-            setFormData(prevState => ({ ...prevState, [name]: value }));
+            setFormData((prevState) => ({ ...prevState, [name]: value }));
         }
+    
+        // Update errors state
         setErrors(newErrors);
     };
-
-
+    
     const handleBlur = (e) => {
         const { name, value } = e.target;
         let newErrors = { ...errors };
@@ -641,67 +700,88 @@ const AddProduct = ({socket}) => {
         }
     }, [productType])
 
+
     const validateForm = () => {
         let formErrors = {};
-
-        if (!formData.productName) formErrors.productName = 'Product Name is Required';
+    
+        // Required fields and their error messages
+        const requiredFields = {
+            productName               : 'Product Name is Required',
+            composition               : 'Composition is Required',
+            strength                  : 'Strength is Required',
+            unitTax                   : 'Unit Tax is Required',
+            shelfLife                 : 'Shelf Life is Required',
+            dossierStatus             : 'Dossier Status is Required',
+            dossierType               : 'Dossier Type is Required',
+            totalQuantity             : 'Total Quantity is Required',
+            gmpApprovals              : 'GMP Approvals is Required',
+            shippingTime              : 'Shipping Time is Required',
+            availableFor              : 'Available for is Required',
+            tags                      : 'Tags are Required',
+            description               : 'Description is Required',
+            manufacturerName          : 'Manufacturer Name is Required',
+            manufacturerOriginCountry : 'Manufacturer Country of Origin is Required',
+            manufacturerDescription   : 'About Manufacturer is Required',
+        };
+    
+        // Validate general required fields
+        Object.keys(requiredFields).forEach((key) => {
+            if (!formData[key]) {
+                formErrors[key] = requiredFields[key];
+            }
+        });
+    
+        // Specific validations
         if (!productType) formErrors.productType = 'Product Type is Required';
-        if (!formData.composition) formErrors.composition = 'Composition is Required';
-        if (!formData.strength) formErrors.strength = 'Strength is Required';
-        if (!formData.unitTax) formErrors.unitTax = 'Unit Tax is Required';
         if (!formType) formErrors.typeOfForm = 'Type of Form is Required';
-        if (!formData.shelfLife) formErrors.shelfLife = 'Shelf Life is Required';
-        if (!formData.dossierStatus) formErrors.dossierStatus = 'Dossier Status is Required';
-        if (!formData.dossierType) formErrors.dossierType = 'Dossier Type is Required';
-        // if (productType && productType.label === 'New Product') {
-        if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
-        // }
-
-        if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
-        if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
-        if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
-        if (!formData.tags) formErrors.tags = 'Tags are Required';
-        if (!formData.description) formErrors.description = 'Description is Required';
-        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
-        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
+        if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required';
         if (registeredCountries.length === 0) formErrors.registeredIn = 'Registered in is Required';
         if (stockedIn.length === 0) formErrors.stockedIn = 'Stocked in is Required';
         if (!productCategory) formErrors.productCategory = 'Product Category is Required';
-
-        if (!formData.manufacturerName) formErrors.manufacturerName = 'Manufacturer Name is Required';
-        if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
-        if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
-
-        formSections.forEach((section, index) => {
-            if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
-            if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
-            if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
-            if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
-        });
-
         if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
-
-
-        stockedInSections.forEach((section, index) => {
-            if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
-            if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
-            if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
+    
+        const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+        formSections.forEach((section, index) => {
+            ['quantity', 'unitPrice', 'totalPrice', 'estDeliveryTime'].forEach((field) => {
+                if (!section[field]) {
+                    formErrors[`${field}${index}`] = `${capitalizeFirstLetter(field.replace(/([A-Z])/g, ' $1'))} is Required`;
+                }
+            });
         });
 
-
-
-        if (productType && productType.label === 'Secondary Market') {
-            if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
-            if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
-            if (!formData.minPurchaseUnit) formErrors.minPurchaseUnit = 'Min. Purchase Unit is Required';
-            if (!formData.condition) formErrors.condition = 'Condition is Required';
-            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) formErrors.invoiceImage = 'Invoice Image is Required';
+        // Stocked In sections validations
+        stockedInSections.forEach((section, index) => {
+            ['stockedInCountry', 'stockedInQuantity', 'stockedInType'].forEach((field) => {
+                if (!section[field]) {
+                    formErrors[`${field}${index}`] = `${field.replace(/([A-Z])/g, ' $1')} is Required`;
+                }
+            });
+        });
+    
+        // Additional validation for Secondary Market
+        if (productType?.label === 'Secondary Market') {
+            const secondaryMarketFields = {
+                countryAvailableIn: 'Country Available in is Required',
+                purchasedOn: 'Purchased on is Required',
+                minPurchaseUnit: 'Min. Purchase Unit is Required',
+                condition: 'Condition is Required',
+            };
+    
+            Object.keys(secondaryMarketFields).forEach((key) => {
+                if (!formData[key]) {
+                    formErrors[key] = secondaryMarketFields[key];
+                }
+            });
+    
+            if (invoiceImages?.length === 0 || formData.invoice_image === undefined) {
+                formErrors.invoiceImage = 'Invoice Image is Required';
+            }
         }
-
+    
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
-    }
-
+    };
+    
     const [formSections, setFormSections] = useState([
         {
             strength: '',
@@ -782,167 +862,102 @@ const AddProduct = ({socket}) => {
         ])
     };
 
-
     const handleSubmit = (e) => {
-
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+        const supplierId = sessionStorage.getItem("supplier_id") || localStorage.getItem("supplier_id");
+    
+        if (!supplierId) {
             navigate("/supplier/login");
             return;
         }
-        e.preventDefault()
-
-        if (validateForm()) {
-            setLoading(true)
-            const newFormData = new FormData()
-            const secondaryFormData = new FormData()
-
-            const registered = formData.registeredIn?.map(country => {
-                return country ? country.label : '';
-            }) || [];
-
-            const quantities = formData.quantity?.map(qty => {
-                return qty ? qty?.label : ''
-            })
-
-            const stocked = formData.stockedIn?.map(country => {
-                return country ? country.label : '';
-            }) || []
-
-            const simplifiedStockedInSections = stockedInSections.map(section => ({
+    
+        e.preventDefault();
+    
+        if (!validateForm()) {
+            toast('Some Fields are Missing', { type: "error" });
+            console.log('Validation error:', formData);
+            return;
+        }
+    
+        setLoading(true);
+    
+        const baseFormData = new FormData();
+        const registered = formData.registeredIn?.map(country => country?.label || '') || [];
+        const quantities = formData.quantity?.map(qty => qty?.label || '') || [];
+        const stocked = formData.stockedIn?.map(country => country?.label || '') || [];
+        const stockedInDetails = JSON.stringify(
+            stockedInSections.map(section => ({
                 stocked_in_country: section.stockedInCountry?.label || '',
                 stocked_quantity: section.stockedInQuantity || '',
-                stocked_in_type: section.stockedInType || ''
-            }));
-            if (productType && productType.label === 'New Product') {
-
-                newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-                newFormData.append('medicine_name', formData.productName);
-                newFormData.append('product_type', 'new');
-                newFormData.append('composition', formData.composition);
-                newFormData.append('unit_tax', formData.unitTax);
-                newFormData.append('strength', formData.strength);
-                newFormData.append('type_of_form', formData.typeOfForm?.label);
-                newFormData.append('shelf_life', formData.shelfLife);
-                newFormData.append('dossier_type', formData.dossierType);
-                newFormData.append('dossier_status', formData.dossierStatus);
-                newFormData.append('product_category', formData.productCategory?.label);
-                newFormData.append('total_quantity', formData.totalQuantity);
-                newFormData.append('gmp_approvals', formData.gmpApprovals);
-                newFormData.append('shipping_time', formData.shippingTime);
-                newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                registered.forEach(item => newFormData.append('registered_in[]', item));
-                stocked.forEach(item => newFormData.append('stocked_in[]', item));
-                newFormData.append('available_for', formData.availableFor);
-                newFormData.append('tags', formData.tags);
-                newFormData.append('description', formData.description);
-                quantities.forEach(item => newFormData.append('quantity[]', item));
-                formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
-                formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
-                formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
-                Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
-                newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
-                newFormData.append('manufacturer_name', formData?.manufacturerName)
-                newFormData.append('manufacturer_description', formData?.manufacturerDescription)
-                newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
-
-                postRequestWithTokenAndFile('/medicine/add-medicine', newFormData, async (response) => {
-                    if (response.code === 200) {
-                        resetForm()
-                        toast(response.message, { type: "success" });
-                        socket.emit('addMedicine', {
-                            adminId : process.env.REACT_APP_ADMIN_ID,
-                            message : `New Medicine Approval Request `,
-                            link    : process.env.REACT_APP_PUBLIC_URL
-                            // send other details if needed
-                        });
-                        setLoading(false)
-
-                        setTimeout(() => {
-                            // navigate('/supplier/product/newproduct')
-                            navigate('/supplier/pending-products-list')
-                        }, 1000);
-
-                    } else {
-                        setLoading(false)
-                        toast(response.message, { type: "error" });
-                        console.log('error in new  /medicine/add-medicine');
-                    }
-                    setLoading(false)
-                })
-
-            } else if (productType && productType.label === 'Secondary Market') {
-                const countryLabels = formData.countryAvailableIn?.map(country => {
-                    return country ? country.label : '';
-                }) || [];
-
-                secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-                secondaryFormData.append('medicine_name', formData.productName);
-                secondaryFormData.append('product_type', 'secondary market');
-                secondaryFormData.append('purchased_on', formData.purchasedOn);
-                countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
-                secondaryFormData.append('strength', formData.strength);
-                secondaryFormData.append('unit_tax', formData.unitTax);
-                secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
-                secondaryFormData.append('total_quantity', formData.totalQuantity);
-                secondaryFormData.append('composition', formData.composition);
-                secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
-                secondaryFormData.append('shelf_life', formData.shelfLife);
-                secondaryFormData.append('dossier_type', formData.dossierType);
-                secondaryFormData.append('dossier_status', formData.dossierStatus);
-                secondaryFormData.append('product_category', formData.productCategory?.label);
-                secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
-                secondaryFormData.append('shipping_time', formData.shippingTime);
-                secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                registered.forEach(item => secondaryFormData.append('registered_in[]', item));
-                stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
-                secondaryFormData.append('available_for', formData.availableFor);
-                secondaryFormData.append('tags', formData.tags);
-                secondaryFormData.append('description', formData.description);
-                quantities.forEach(item => secondaryFormData.append('quantity[]', item));
-                formData.unitPrice.forEach(price => secondaryFormData.append('unit_price[]', price));
-                formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
-                formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
-                secondaryFormData.append('condition', formData.condition);
-                Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
-                Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
-                secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
-                secondaryFormData.append('manufacturer_name', formData?.manufacturerName)
-                secondaryFormData.append('manufacturer_description', formData?.manufacturerDescription)
-                secondaryFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
-
-                postRequestWithTokenAndFile('/medicine/add-medicine', secondaryFormData, async (response) => {
-                    if (response.code === 200) {
-                        resetForm()
-                        toast(response.message, { type: "success" });
-                        socket.emit('addMedicine', {
-                            adminId : process.env.REACT_APP_ADMIN_ID,
-                            message : `New Medicine Approval Request `,
-                            link    : process.env.REACT_APP_PUBLIC_URL
-                            // send other details if needed
-                        });
-                        setLoading(false)
-                        setTimeout(() => {
-                            navigate('/supplier/pending-products-list')
-                        }, 1000);
-
-                    } else {
-                        setLoading(false)
-                        toast(response.message, { type: "error" });
-                        console.log('error in secondary  /medicine/add-medicine');
-                    }
-                    setLoading(false)
-                    // setButtonLoading(false)
-                })
-            }
+                stocked_in_type: section.stockedInType || '',
+            }))
+        );
+    
+        // Populate common form data
+        baseFormData.append('supplier_id', supplierId);
+        baseFormData.append('medicine_name', formData.productName);
+        baseFormData.append('composition', formData.composition);
+        baseFormData.append('strength', formData.strength);
+        baseFormData.append('unit_tax', formData.unitTax);
+        baseFormData.append('type_of_form', formData.typeOfForm?.label);
+        baseFormData.append('shelf_life', formData.shelfLife);
+        baseFormData.append('dossier_type', formData.dossierType);
+        baseFormData.append('dossier_status', formData.dossierStatus);
+        baseFormData.append('product_category', formData.productCategory?.label);
+        baseFormData.append('total_quantity', formData.totalQuantity);
+        baseFormData.append('gmp_approvals', formData.gmpApprovals);
+        baseFormData.append('shipping_time', formData.shippingTime);
+        baseFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
+        baseFormData.append('available_for', formData.availableFor);
+        baseFormData.append('tags', formData.tags);
+        baseFormData.append('description', formData.description);
+        baseFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label);
+        baseFormData.append('manufacturer_name', formData.manufacturerName);
+        baseFormData.append('manufacturer_description', formData.manufacturerDescription);
+        baseFormData.append('stocked_in_details', stockedInDetails);
+    
+        registered.forEach(item => baseFormData.append('registered_in[]', item));
+        stocked.forEach(item => baseFormData.append('stocked_in[]', item));
+        quantities.forEach(item => baseFormData.append('quantity[]', item));
+        formData.unitPrice?.forEach(price => baseFormData.append('unit_price[]', price));
+        formData.totalPrice?.forEach(price => baseFormData.append('total_price[]', price));
+        formData.estDeliveryTime?.forEach(time => baseFormData.append('est_delivery_days[]', time));
+        Array.from(formData.product_image || []).forEach(file => baseFormData.append('product_image', file));
+    
+        const isNewProduct = productType?.label === 'New Product';
+        const endpoint = '/medicine/add-medicine';
+    
+        if (isNewProduct) {
+            baseFormData.append('product_type', 'new');
         } else {
-            setLoading(false)
-            toast('Some Fields are Missing', { type: "error" });
-            console.log('errorrrrr', formData);
+            baseFormData.append('product_type', 'secondary market');
+            baseFormData.append('purchased_on', formData.purchasedOn);
+            baseFormData.append('condition', formData.condition);
+            baseFormData.append('min_purchase_unit', formData.minPurchaseUnit);
+            const countryAvailableIn = formData.countryAvailableIn?.map(country => country?.label || '') || [];
+            countryAvailableIn.forEach(item => baseFormData.append('country_available_in[]', item));
+            Array.from(formData.invoice_image || []).forEach(file => baseFormData.append('invoice_image', file));
         }
-    }
+    
+        postRequestWithTokenAndFile(endpoint, baseFormData, async (response) => {
+            setLoading(false);
+            if (response.code === 200) {
+                resetForm();
+                toast(response.message, { type: "success" });
+                socket.emit('addMedicine', {
+                    adminId: process.env.REACT_APP_ADMIN_ID,
+                    message: `New Medicine Approval Request`,
+                    link: process.env.REACT_APP_PUBLIC_URL,
+                });
+                setTimeout(() => {
+                    navigate('/supplier/pending-products-list');
+                }, 1000);
+            } else {
+                toast(response.message, { type: "error" });
+                console.log('Error in adding medicine:', response);
+            }
+        });
+    };
+    
 
 
     const handleCancel = () => {
