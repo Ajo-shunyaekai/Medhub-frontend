@@ -893,6 +893,7 @@ const AddProduct = ({socket}) => {
         );
     
         // Populate common form data
+        baseFormData.append('user_type', 'Supplier');
         baseFormData.append('supplier_id', supplierId);
         baseFormData.append('medicine_name', formData.productName);
         baseFormData.append('composition', formData.composition);
