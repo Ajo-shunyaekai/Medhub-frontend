@@ -101,8 +101,9 @@ const DetailsBuyerRequest = () => {
             return;
         }
         setBuyerDetails(response?.result);
+        }
         getBuyerDetails()
-    }}, [])
+    }, [])
 
     const handleAcceptReject = (action) => {
 

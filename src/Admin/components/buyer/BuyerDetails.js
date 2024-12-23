@@ -96,8 +96,8 @@ const BuyerDetails = () => {
             return;
         }
         setBuyerDetails(response?.result);
-        getBuyerDetails()
     }
+    getBuyerDetails()
     },[])
 
     const handleAcceptReject = (action) => {

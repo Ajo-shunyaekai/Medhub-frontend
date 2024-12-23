@@ -8,6 +8,7 @@ import ProformaInvoice from './invoice/ProformaInvoice';
 import { postRequestWithToken } from '../api/Requests';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../api';
 
 const Invoice = ({socket}) => {
     const location = useLocation();
@@ -78,16 +79,35 @@ const Invoice = ({socket}) => {
                 setLoading(false);
             });
         } else {
-            postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
-                if (response.code === 200) {
+            const fetchInvoiceList = async () => {
+                try {
+                    const response = await apiRequests.postRequest('order/get-invoice-list-all-users', obj)
+                    if(response?.code!==200){
+                        toast(response.message, {type:'error'});
+                        console.log('error in invoice list api', response);
+                        return
+                    }
+                    
                     setInvoiceList(response.result.data);
                     setTotalInvoices(response.result.totalItems);
-                } else {
-                    toast(response.message, { type: 'error' });
-                    console.log('Error in invoice list API:', response);
+                } catch (error) {
+                    console.log('Error in get-invoice-list API', error);
+                    
+                } finally {
+                    setLoading(false);
                 }
+            }
+            fetchInvoiceList()
+            // postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceList(response.result.data);
+            //         setTotalInvoices(response.result.totalItems);
+            //     } else {
+            //         toast(response.message, { type: 'error' });
+            //         console.log('Error in invoice list API:', response);
+            //     }
                 setLoading(false);
-            });
+            // });
         }
     };
     

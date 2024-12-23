@@ -7,8 +7,11 @@ import logo from '../../assest/signup.svg';
 import { apiRequests } from '../../../api/index';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../redux/reducers/userDataSlice';
 
 const Login = ({socket}) => {
+    const dispatch = useDispatch()
     const [loading, setLoading]           = useState(false);
     const [email, setEmail]               = useState('');
     const [password, setPassword]         = useState('');
@@ -92,40 +95,48 @@ const Login = ({socket}) => {
                 //     }
                 // })
                 try {
-                    const response = await apiRequests?.postRequest(`auth/login`, obj)
-                    console.log("response ", response)
-                    if(response.code !== 200){
-                        toast(response.message, { type: "error" });
-                    }else{
+                    // const response = await apiRequests?.postRequest(`auth/login`, obj)
+                    // console.log("response ", response)
+                    // if(response.code !== 200){
+                    //     toast(response.message, { type: "error" });
+                    // }else{
 
-                        const {result} = await response;
-                        for (let x in result) {
-                            sessionStorage.setItem(`${x}`, result[x])
-                            console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
-                        }
+                    //     const {result} = await response;
+                    //     for (let x in result) {
+                    //         sessionStorage.setItem(`${x}`, result[x])
+                    //         console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
+                    //     }
     
+                    //     setTimeout(() => {
+                    //         navigate("/admin");
+                    //     }, 1000);
+    
+                    //     if ('Notification' in window) {
+                    //         if (Notification.permission === 'granted') {
+                    //             // If permission is already granted, register the user directly
+                    //             const userId = response.result?.admin_id;
+                    //             socket.emit('registerAdmin', userId);
+                    //         } else if (Notification.permission !== 'denied') {
+                    //             // Request permission if not already denied
+                    //             const permission = await Notification.requestPermission();
+                    //             if (permission === 'granted') {
+                    //                 const userId = response.result?.admin_id;
+                    //                 socket.emit('registerAdmin', userId);
+                    //             }
+                    //         }
+                    //     } else {
+                    //         setLoading(false)
+                    //         toast(response.message, { type: "error" });
+                    //         console.log('error in admin/login api',response);
+                    //     }
+                    // }
+                    const action = await dispatch(loginUser(obj))
+                    
+                    // Check if login was successful
+                    if (loginUser.fulfilled.match(action)) {
                         setTimeout(() => {
-                            navigate("/admin");
-                        }, 1000);
-    
-                        if ('Notification' in window) {
-                            if (Notification.permission === 'granted') {
-                                // If permission is already granted, register the user directly
-                                const userId = response.result?.admin_id;
-                                socket.emit('registerAdmin', userId);
-                            } else if (Notification.permission !== 'denied') {
-                                // Request permission if not already denied
-                                const permission = await Notification.requestPermission();
-                                if (permission === 'granted') {
-                                    const userId = response.result?.admin_id;
-                                    socket.emit('registerAdmin', userId);
-                                }
-                            }
-                        } else {
-                            setLoading(false)
-                            toast(response.message, { type: "error" });
-                            console.log('error in admin/login api',response);
-                        }
+                            navigate("/admin"); // Navigate to '/buyer' upon successful login
+                        }, 500);
                     }
                 } catch (error) {
                     console.log(error)

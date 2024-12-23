@@ -92,8 +92,9 @@ const renderFiles = (files, type) => {
             return;
         }
         setSupplierDetails(response?.result);
+    }
         getSupplierDeatils()
-    }},[])
+    },[])
 
     const handleAcceptReject = (action) => {
         const obj = {
