@@ -7,6 +7,7 @@ import CompletedBuyerOrder from './CompletedBuyerOrder';
 import PendingBuyerOrder from './PendingBuyerOrder';
 import { postRequestWithToken } from '../../api/Requests';
 import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 const BuyerOrder = () => {
     const location = useLocation();
@@ -56,8 +57,7 @@ const BuyerOrder = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    useEffect(() => {
+    const fetchData = async ()=>{
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -68,16 +68,31 @@ const BuyerOrder = () => {
             pageNo    : currentPage, 
             pageSize  : ordersPerPage,
         }
-
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+    
+        // postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setOrderList(response.result.data)
+        //         setTotalOrders(response.result.totalItems)
+        //     } else {
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        // })
+        try {
+            const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
             if (response.code === 200) {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
-            } else {
-               console.log('error in order list api',response);
             }
+        } catch (error) {
+            console.log('error in order list api',error);
+        } finally{
             setLoading(false);
-        })
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     return (

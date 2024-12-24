@@ -11,6 +11,7 @@ import Sidebar from '../components/Sidebar';
 import { postRequestWithToken } from '../api/Requests';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../api'
 
 
 const Order = () => {
@@ -56,7 +57,7 @@ const Order = () => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
@@ -70,16 +71,33 @@ const Order = () => {
             page_no   : currentPage, 
             limit     : ordersPerPage,
         }
-        postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
+        // postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setOrderList(response.result.data)
+        //         setTotalOrders(response.result.totalItems)
+        //     } else {
+        //         toast(response.message, {type:'error'})
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        // })
+        try {
+            const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
             if (response.code === 200) {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
-            } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
             }
+        } catch (error) {
+            toast(error.message, {type:'error'})
+            console.log('error in order list api',error);
+        } finally{
             setLoading(false);
-          })
+        }
+    }
+
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     return (
