@@ -135,85 +135,143 @@ const AdminSidebar = () => {
         });
     }
 
-    useEffect( () => { 
+//     useEffect( () => { 
         
-        if (adminIdSessionStorage || adminIdLocalStorage) {
-        const obj = {
-            admin_id : adminIdSessionStorage || adminIdLocalStorage,
-        };
+//         if (adminIdSessionStorage || adminIdLocalStorage) {
+//         const obj = {
+//             admin_id : adminIdSessionStorage || adminIdLocalStorage,
+//         };
+//         const adminId = adminIdSessionStorage || adminIdLocalStorage;
+//         socket.emit('registerAdmin', adminId);
+
+//         const fetchNotifications = () => {
+//             postRequestWithToken('admin/get-notification-list', obj, (response) => {
+//                 if (response.code === 200) {
+//                     setNotificationList(response.result.data);
+//                     setCount(response.result.totalItems || 0)
+//                 } else {
+//                     console.log('error in order details api');
+//                 }
+//             });
+//       };
+
+//       // Initial fetch for notifications
+//       fetchNotifications();
+
+//       socket.on('buyerRegistered', (message) => {
+//         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+//         showNotification('New Buyer Registration Request', {
+//             body: message,
+//             icon: logo,
+//         }, link);
+
+//         // Re-fetch notifications to get the latest data
+//         fetchNotifications();
+//     });
+
+//     socket.on('supplierRegistered', (message) => {
+//         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+//         showNotification('New Supplier Registration Requester', {
+//             body: message,
+//             icon: logo,
+//         }, link);
+
+//         // Re-fetch notifications to get the latest data
+//         fetchNotifications();
+//     });
+
+//     socket.on('medicineRequest', (message) => {
+//         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+//         showNotification('New Medicine Approval Request', {
+//             body: message,
+//             icon: logo,
+//         }, link);
+//         fetchNotifications();
+//     });
+
+//     socket.on('newMedicineEditRequest', (message) => {
+//         console.log(`medicine request: ${message}`);
+        
+//         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+//         showNotification('New Medicine Edit Approval Request', {
+//             body: message,
+//             icon: logo,
+//         }, link);
+//         fetchNotifications();
+//     });
+
+//     socket.on('secondaryMedicineEditRequest', (message) => {
+//         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+//         showNotification('New Medicine Edit Approval Request', {
+//             body: message,
+//             icon: logo,
+//         }, link);
+//         fetchNotifications();
+//     });
+
+//     return () => {
+//         socket.off('buyerRegistered');
+//     };
+//    }
+//     },[refresh, adminIdSessionStorage, adminIdLocalStorage]) ;
+
+    useEffect(() => {
+    if (adminIdSessionStorage || adminIdLocalStorage) {
         const adminId = adminIdSessionStorage || adminIdLocalStorage;
+        const obj = { admin_id: adminId };
+
+        // Register the admin on the socket
         socket.emit('registerAdmin', adminId);
 
+        // Function to fetch notifications
         const fetchNotifications = () => {
             postRequestWithToken('admin/get-notification-list', obj, (response) => {
                 if (response.code === 200) {
                     setNotificationList(response.result.data);
-                    setCount(response.result.totalItems || 0)
+                    setCount(response.result.totalItems || 0);
                 } else {
-                    console.log('error in order details api');
+                    console.error('Error in fetching notification list API');
                 }
             });
-      };
+        };
 
-      // Initial fetch for notifications
-      fetchNotifications();
+        // Function to handle new notifications and refresh data
+        const handleNewNotification = (title, message, link) => {
+            showNotification(title, { body: message, icon: logo }, link);
+            fetchNotifications();
+        };
 
-      socket.on('buyerRegistered', (message) => {
-        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Buyer Registration Request', {
-            body: message,
-            icon: logo,
-        }, link);
-
-        // Re-fetch notifications to get the latest data
+        // Initial fetch for notifications
         fetchNotifications();
-    });
 
-    socket.on('supplierRegistered', (message) => {
-        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Supplier Registration Requester', {
-            body: message,
-            icon: logo,
-        }, link);
+        // Event listeners for socket notifications
+        const notificationHandlers = {
+            buyerRegistered: (message) =>
+                handleNewNotification('New Buyer Registration Request', message, `${process.env.REACT_APP_ADMIN_URL}/notification-list`),
+            supplierRegistered: (message) =>
+                handleNewNotification('New Supplier Registration Request', message, `${process.env.REACT_APP_ADMIN_URL}/notification-list`),
+            medicineRequest: (message) =>
+                handleNewNotification('New Medicine Approval Request', message, `${process.env.REACT_APP_ADMIN_URL}/notification-list`),
+            newMedicineEditRequest: (message) =>
+                handleNewNotification('New Medicine Edit Approval Request', message, `${process.env.REACT_APP_ADMIN_URL}/notification-list`),
+            secondaryMedicineEditRequest: (message) =>
+                handleNewNotification('New Medicine Edit Approval Request', message, `${process.env.REACT_APP_ADMIN_URL}/notification-list`),
+        };
 
-        // Re-fetch notifications to get the latest data
-        fetchNotifications();
-    });
+        // Attach event listeners
+        Object.entries(notificationHandlers).forEach(([event, handler]) => {
+            socket.on(event, handler);
+        });
 
-    socket.on('medicineRequest', (message) => {
-        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Medicine Approval Request', {
-            body: message,
-            icon: logo,
-        }, link);
-        fetchNotifications();
-    });
+        // Cleanup function
+        return () => {
+            Object.keys(notificationHandlers).forEach((event) => {
+                socket.off(event);
+            });
+        };
+    }
+    }, [refresh, adminIdSessionStorage, adminIdLocalStorage]);
 
-    socket.on('newMedicineEditRequest', (message) => {
-        console.log(`medicine request: ${message}`);
-        
-        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Medicine Edit Approval Request', {
-            body: message,
-            icon: logo,
-        }, link);
-        fetchNotifications();
-    });
-
-    socket.on('secondaryMedicineEditRequest', (message) => {
-        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-        showNotification('New Medicine Edit Approval Request', {
-            body: message,
-            icon: logo,
-        }, link);
-        fetchNotifications();
-    });
-
-    return () => {
-        socket.off('buyerRegistered');
-    };
-   }
-    },[refresh, adminIdSessionStorage, adminIdLocalStorage]) ;
     
     useEffect( () => { 
         if( !adminIdSessionStorage && !adminIdLocalStorage) {

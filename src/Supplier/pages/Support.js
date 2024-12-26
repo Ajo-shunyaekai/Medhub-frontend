@@ -41,92 +41,178 @@ const Support = () => {
     const [compImages, setCompImages] = useState([]);
     const [compImageError, setCompImageError] = useState('');
 
-    const validate = () => {
+    // const validate = () => {
+    //     const errors = {};
+    //     if (!orderId) {
+    //         setOrderIdError('Order ID is required');
+    //         errors.orderId = true;
+    //     } else {
+    //         setOrderIdError('');
+    //     }
+    //     if (!feedback) {
+    //         setFeedbackError('Feedback is required');
+    //         errors.feedback = true;
+    //     } else {
+    //         setFeedbackError('');
+    //     }
+    //     if (feedbackImages.length === 0) {
+    //         setImageError('Please upload at least one image');
+    //         errors.image = true;
+    //     } else {
+    //         setImageError('');
+    //     }
+    //     return errors;
+    // };
+
+    // const compValidate = () => {
+    //     const errors = {};
+    //     if (!compOrderId) {
+    //         setCompOrderIdError('Order ID is required');
+    //         errors.compOrderId = true;
+    //     } else {
+    //         setCompOrderIdError('');
+    //     }
+    //     if (!compFeedback) {
+    //         setCompFeedbackError('Feedback is required');
+    //         errors.compFeedback = true;
+    //     } else {
+    //         setCompFeedbackError('');
+    //     }
+    //     if (compImages.length === 0) {
+    //         setCompImageError('Please upload at least one image');
+    //         errors.compImage = true;
+    //     } else {
+    //         setCompImageError('');
+    //     }
+    //     return errors;
+    // };
+
+    const validate = (type) => {
         const errors = {};
-        if (!orderId) {
-            setOrderIdError('Order ID is required');
-            errors.orderId = true;
-        } else {
-            setOrderIdError('');
+    
+        if (type === 'feedback') {
+            if (!orderId) {
+                setOrderIdError('Order ID is Required');
+                errors.orderId = true;
+            } else {
+                setOrderIdError('');
+            }
+            if (!feedback) {
+                setFeedbackError('Feedback is Required');
+                errors.feedback = true;
+            } else {
+                setFeedbackError('');
+            }
+            if (feedbackImages.length === 0) {
+                setImageError('Please upload at least one image');
+                errors.image = true;
+            } else {
+                setImageError('');
+            }
+        } else if (type === 'complaint') {
+            if (!compOrderId) {
+                setCompOrderIdError('Order ID is Required');
+                errors.compOrderId = true;
+            } else {
+                setCompOrderIdError('');
+            }
+            if (!compFeedback) {
+                setCompFeedbackError('Feedback is Required');
+                errors.compFeedback = true;
+            } else {
+                setCompFeedbackError('');
+            }
+            if (compImages.length === 0) {
+                setCompImageError('Please upload at least one image');
+                errors.compImage = true;
+            } else {
+                setCompImageError('');
+            }
         }
-        if (!feedback) {
-            setFeedbackError('Feedback is required');
-            errors.feedback = true;
-        } else {
-            setFeedbackError('');
-        }
-        if (feedbackImages.length === 0) {
-            setImageError('Please upload at least one image');
-            errors.image = true;
-        } else {
-            setImageError('');
-        }
+    
         return errors;
     };
 
-    const compValidate = () => {
-        const errors = {};
-        if (!compOrderId) {
-            setCompOrderIdError('Order ID is required');
-            errors.compOrderId = true;
-        } else {
-            setCompOrderIdError('');
-        }
-        if (!compFeedback) {
-            setCompFeedbackError('Feedback is required');
-            errors.compFeedback = true;
-        } else {
-            setCompFeedbackError('');
-        }
-        if (compImages.length === 0) {
-            setCompImageError('Please upload at least one image');
-            errors.compImage = true;
-        } else {
-            setCompImageError('');
-        }
-        return errors;
-    };
+    // const handleSubmit = (event) => {
 
-    const handleSubmit = (event) => {
+    //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    //     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+    //     navigate("/supplier/login");
+    //     return;
+    //     }
 
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
-        }
+    //     event.preventDefault();
+    //     const errors = validate();
+    //     if (Object.keys(errors).length === 0) {
+    //         console.log({ orderId, feedback, feedbackImages });
+    //         // const feedback_images = Array.from(feedbackImages).map(file => file);
 
-        event.preventDefault();
-        const errors = validate();
-        if (Object.keys(errors).length === 0) {
-            console.log({ orderId, feedback, feedbackImages });
-            // const feedback_images = Array.from(feedbackImages).map(file => file);
+    //         const formData = new FormData();
 
-            const formData = new FormData();
+    //         formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+    //         formData.append('order_id', orderId);
+    //         formData.append('feedback', feedback);
+    //         formData.append('support_type', 'feedback');
+    //         formData.append('user_type', 'supplier');
+    //         Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
 
-            formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-            formData.append('order_id', orderId);
-            formData.append('feedback', feedback);
-            formData.append('support_type', 'feedback');
-            formData.append('user_type', 'supplier');
-            Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
-
-            postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
-                if(response.code === 200) {
-                    toast(response.message, { type: "success" });
-                    setOrderId('')
-                    setFeedback('')
-                    setFeedbackImages([])
-                } else {
-                    toast(response.message, { type: "error" });
-                }
-            })
+    //         postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
+    //             if(response.code === 200) {
+    //                 toast(response.message, { type: "success" });
+    //                 setOrderId('')
+    //                 setFeedback('')
+    //                 setFeedbackImages([])
+    //             } else {
+    //                 toast(response.message, { type: "error" });
+    //             }
+    //         })
             
-        }
-    };
+    //     }
+    // };
 
-    const complaintSubmit = (event) => {
+    // const complaintSubmit = (event) => {
+    //     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    //     const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+
+    //     if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+    //     navigate("/supplier/login");
+    //     return;
+    //     }
+
+
+    //     event.preventDefault();
+    //     const errors = compValidate();
+    //     if (Object.keys(errors).length === 0) {
+    //         console.log({ compOrderId, compFeedback, compImages });
+    //         const complaint_images = Array.from(compImages).map(file => file);
+
+    //         const formData = new FormData();
+
+    //         formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+    //         formData.append('order_id', compOrderId);
+    //         formData.append('complaint', compFeedback);
+    //         formData.append('support_type', 'complaint');
+    //         formData.append('user_type', 'supplier');
+    //         Array.from(compImages).forEach(file => formData.append('complaint_image', file))
+
+    //         postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
+    //             if(response.code === 200) {
+    //                 toast(response.message, { type: "success" });
+    //                 setCompOrderId('')
+    //                 setCompFeedback('')
+    //                 setCompImages([])
+    //             } else {
+    //                 toast(response.message, { type: "error" });
+    //             }
+    //         })
+    //     }
+    // };
+
+    const handleSupportSubmit = (event, type) => {
+        event.preventDefault();
+    
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
@@ -134,33 +220,46 @@ const Support = () => {
         navigate("/supplier/login");
         return;
         }
-
-
-        event.preventDefault();
-        const errors = compValidate();
+    
+        const errors = validate(type);
         if (Object.keys(errors).length === 0) {
-            console.log({ compOrderId, compFeedback, compImages });
-            const complaint_images = Array.from(compImages).map(file => file);
-
             const formData = new FormData();
-
             formData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-            formData.append('order_id', compOrderId);
-            formData.append('complaint', compFeedback);
-            formData.append('support_type', 'complaint');
+            
+            if (type === 'feedback') {
+                formData.append('order_id', orderId);
+                formData.append('feedback', feedback);
+                formData.append('support_type', 'feedback');
+                Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file));
+            } else if (type === 'complaint') {
+                formData.append('order_id', compOrderId);
+                formData.append('complaint', compFeedback);
+                formData.append('support_type', 'complaint');
+                Array.from(compImages).forEach(file => formData.append('complaint_image', file));
+            }
+    
             formData.append('user_type', 'supplier');
-            Array.from(compImages).forEach(file => formData.append('complaint_image', file))
-
-            postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
-                if(response.code === 200) {
+    
+            const apiEndpoint = type === 'feedback' 
+                ? 'order/submit-order-feedback' 
+                : 'order/submit-order-complaint';
+    
+            postRequestWithTokenAndFile(apiEndpoint, formData, async (response) => {
+                if (response.code === 200) {
                     toast(response.message, { type: "success" });
-                    setCompOrderId('')
-                    setCompFeedback('')
-                    setCompImages([])
+                    if (type === 'feedback') {
+                        setOrderId('');
+                        setFeedback('');
+                        setFeedbackImages([]);
+                    } else if (type === 'complaint') {
+                        setCompOrderId('');
+                        setCompFeedback('');
+                        setCompImages([]);
+                    }
                 } else {
                     toast(response.message, { type: "error" });
                 }
-            })
+            });
         }
     };
 
@@ -194,7 +293,10 @@ const Support = () => {
                             feedbackVisible && (
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Feedback Form</div>
-                                    <form className={styles['form-main-form-section']} onSubmit={handleSubmit}>
+                                    <form className={styles['form-main-form-section']} 
+                                    //   onSubmit={handleSubmit}
+                                    onSubmit={(event) => handleSupportSubmit(event, 'feedback')}
+                                      >
                                         <div className={styles['form-container']}>
                                             <div className={styles['form-support-main-section']}>
                                                 <div className={styles['form-cont-input-sec']}>
@@ -246,7 +348,10 @@ const Support = () => {
                             complaintVisible && (
                                 <div className={styles['form-main-container']}>
                                     <div className={styles['form-heading']}>Complaint Form</div>
-                                    <form className={styles['form-main-form-section']} onSubmit={complaintSubmit}>
+                                    <form className={styles['form-main-form-section']} 
+                                    //   onSubmit={complaintSubmit}
+                                    onSubmit={(event) => handleSupportSubmit(event, 'complaint')}
+                                      >
                                         <div className={styles['form-container']}>
                                             <div className={styles['form-support-main-section']}>
                                                 <div className={styles['form-cont-input-sec']}>

@@ -99,7 +99,7 @@ const SupplierRequestDetails = () => {
         setSupplierDetails(response?.result);
         }
         getSupplierdetails()
-    }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate]);
+    }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate,]);
 
     const handleRejectClick = () => {
         setIsModalOpen(true);
