@@ -6,6 +6,7 @@ import { postRequestWithToken } from '../api/Requests';
 import OrderCustomModal from './OrderCustomModal';
 import ActiveCodinator from './ActiveCodinator';
 import ActiveInvoiceList from './ActiveInvoiceList';
+import { apiRequests } from '../../api';
 
 const ActiveOrdersDetails = ({socket}) => {
     const { orderId } = useParams();
@@ -15,20 +16,20 @@ const ActiveOrdersDetails = ({socket}) => {
     const [showModal, setShowModal] = useState(false);
     const [refresh, setRefresh] = useState(false)
 
-    useEffect(() => {
+    const fetchData = async () => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-
+    
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
             return;
         }
-
+    
         const obj = {
             order_id: orderId,
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
         };
-
+    
         postRequestWithToken('buyer/order/supplier-order-details', obj, (response) => {
             if (response.code === 200) {
                 setOrderDetails(response.result);
@@ -36,6 +37,18 @@ const ActiveOrdersDetails = ({socket}) => {
                 console.log('error in order details api');
             }
         });
+        try {
+            const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
+            if (response.code === 200) {
+                setOrderDetails(response.result);
+            }
+        } catch (error) {
+            console.log('error in order details api');
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     }, [orderId, navigate, refresh]);
 
     const openModal = () => {

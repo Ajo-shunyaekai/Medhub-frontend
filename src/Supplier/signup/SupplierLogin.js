@@ -8,9 +8,12 @@ import { Link } from 'react-router-dom';
 import { apiRequests } from '../../api/index';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { loginUser } from '../../redux/reducers/userDataSlice';
+import { useDispatch } from 'react-redux';
 
 
 const SupplierLogin = ({socket}) => {
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const [email, setEmail]               = useState('');
     const [password, setPassword]         = useState('');
@@ -105,36 +108,44 @@ const SupplierLogin = ({socket}) => {
             //     }
             // })
             try {
-                const response = await apiRequests?.postRequest(`auth/login`, obj)
-                if(response.code !== 200){
-                    toast(response.message, { type: "error" });
-                }else{
-                    console.log("response ", response)
-                    const {result} = await response;
-                    for (let x in result) {
-                        sessionStorage.setItem(`${x}`, result[x])
-                        console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
-                    }
+                // const response = await apiRequests?.postRequest(`auth/login`, obj)
+                // if(response.code !== 200){
+                //     toast(response.message, { type: "error" });
+                // }else{
+                //     console.log("response ", response)
+                //     const {result} = await response;
+                //     for (let x in result) {
+                //         sessionStorage.setItem(`${x}`, result[x])
+                //         console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
+                //     }
+                //     setTimeout(() => {
+                //         navigate("/supplier");
+                //         setLoading(true)
+                //         }, 1000);
+
+                //     if ('Notification' in window) {
+                //         if (Notification.permission === 'granted') {
+                //             // If permission is already granted, register the user directly
+                //             const userId = response.result.supplier_id;
+                //             socket.emit('register', userId);
+                //         } else if (Notification.permission !== 'denied') {
+                //             // Request permission if not already denied
+                //             const permission = await Notification.requestPermission();
+                //             if (permission === 'granted') {
+                //                 // const userId = response.result.supplier_id;
+                //                 // socket.emit('register', userId);
+                //             }
+                //         }
+                //     }
+
+                // }
+                const action = await dispatch(loginUser(obj))
+                
+                // Check if login was successful
+                if (loginUser.fulfilled.match(action)) {
                     setTimeout(() => {
-                        navigate("/supplier");
-                        setLoading(true)
-                        }, 1000);
-
-                    if ('Notification' in window) {
-                        if (Notification.permission === 'granted') {
-                            // If permission is already granted, register the user directly
-                            const userId = response.result.supplier_id;
-                            socket.emit('register', userId);
-                        } else if (Notification.permission !== 'denied') {
-                            // Request permission if not already denied
-                            const permission = await Notification.requestPermission();
-                            if (permission === 'granted') {
-                                // const userId = response.result.supplier_id;
-                                // socket.emit('register', userId);
-                            }
-                        }
-                    }
-
+                        navigate("/supplier"); // Navigate to '/buyer' upon successful login
+                    }, 500);
                 }
             } catch (error) {
                 console.log(error)

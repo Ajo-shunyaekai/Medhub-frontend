@@ -7,6 +7,7 @@ import PurchasedOrder from './PurchasedOrder';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
 import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 
 const SellerInquiry = () => {
@@ -51,7 +52,7 @@ const SellerInquiry = () => {
     };
 
     // Fetch the inquiry or PO list based on activeLink and currentPage
-    const fetchData = () => {
+    const fetchData = async () => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -65,15 +66,27 @@ const SellerInquiry = () => {
         };
 
         if (activeLink === 'inquiry') {
-            postRequestWithToken('admin/get-inquiry-list', obj, (response) => {
+            // postRequestWithToken('admin/get-inquiry-list', obj, (response) => {
+            //     if (response.code === 200) {
+            //         setList(response.result.data);
+            //         setTotalList(response.result.totalItems);
+            //     } else {
+            //         console.log('Error fetching inquiry list', response);
+            //     }
+            //     setLoading(false);
+            // });
+            
+            try {
+                const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
                 if (response.code === 200) {
                     setList(response.result.data);
                     setTotalList(response.result.totalItems);
-                } else {
-                    console.log('Error fetching inquiry list', response);
                 }
+            } catch (error) {
+                console.log('Error fetching inquiry list', error);
+            } finally{
                 setLoading(false);
-            });
+            }
         } else if (activeLink === 'purchased') {
             obj.status = 'active';  
             postRequestWithToken('admin/get-po-list', obj, (response) => {

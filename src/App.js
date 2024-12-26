@@ -14,6 +14,8 @@ import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
 import { postRequestWithToken } from './api/Requests.js';
 import { apiRequests } from './api/index.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from './redux/reducers/userDataSlice.js';
 
 // const socket = io('http://localhost:3333', {
 //     transports: ['websocket'],
@@ -36,16 +38,15 @@ import { apiRequests } from './api/index.js';
     
     
     function App() {
-        
-        // const getLoggedInUserDetails = async (id) => {
-        //     const response = await apiRequests?.getRequest(`/auth/${id}`)
-        //     // console.log(`RESPONSE : ${response}`); // NEED TO STORE RESPONSE IN REDUX
-            
-        // }
 
-        // useEffect(()=>{
-        //     getLoggedInUserDetails(sessionStorage.getItem("_id"))
-        // },[])
+        const _id = sessionStorage?.getItem('_id') || localStorage?.getItem('_id');
+        const dispatch = useDispatch();
+        const {user} = useSelector(state=>state?.userReducer)
+        // console.log(`loggedIn user's profile details : ${user?._id}`)
+
+        useEffect(()=>{
+            _id && dispatch(fetchUserData(_id))
+        },[_id])
 
         useEffect(() => {
             const route = activekey();

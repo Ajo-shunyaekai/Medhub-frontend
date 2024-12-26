@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { apiRequests } from '../api/index';
+import { registerUser } from '../redux/reducers/userDataSlice';
+import { useDispatch } from 'react-redux';
 
 
 const MultiSelectOption = ({ children, ...props }) => (
@@ -43,6 +45,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SignUp = ({socket}) => {
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -431,18 +434,18 @@ const SignUp = ({socket}) => {
 
             console.log(`formDataToSend ${formDataToSend}`)
             try {
-                const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
-                if(response?.code !== 200){
-                    // setButtonLoading(false)
-                    setLoading(false)
-                    toast(response.message, {type: 'error'})
-                    console.log('error in buyer/register api');
-                    return
-                }
-                handleCancel()
-                setShowModal(true)
-                // setButtonLoading(false)
-                setLoading(false)
+                // const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
+                // if(response?.code !== 200){
+                //     // setButtonLoading(false)
+                //     setLoading(false)
+                //     toast(response.message, {type: 'error'})
+                //     console.log('error in buyer/register api');
+                //     return
+                // }
+                // handleCancel()
+                // setShowModal(true)
+                // // setButtonLoading(false)
+                // setLoading(false)
 
                 socket.emit('buyerRegistration', {
                     adminId : process.env.REACT_APP_ADMIN_ID,
@@ -450,8 +453,15 @@ const SignUp = ({socket}) => {
                     link    : process.env.REACT_APP_PUBLIC_URL
                     // send other details if needed
                 });
-
-
+                const action = await dispatch(registerUser(formDataToSend))
+                // Check if login was successful
+                if (registerUser.fulfilled.match(action)) {
+                    setTimeout(() => {
+                        handleCancel()
+                        setShowModal(true);
+                        setLoading(false)
+                    }, 500);
+                }
             } catch (error) {
                 // setButtonLoading(false)
                 setLoading(false)

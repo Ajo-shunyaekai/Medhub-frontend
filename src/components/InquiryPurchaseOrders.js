@@ -7,6 +7,7 @@ import PurchasedOrder from './inquiry/PurchasedOrder'
 import { postRequestWithToken } from '../api/Requests';
 import Loader from './Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../api';
 
 
 const InquiryPurchaseOrder = () => {
@@ -53,8 +54,7 @@ const InquiryPurchaseOrder = () => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    const fetchData = async ()=>{const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
@@ -67,16 +67,28 @@ const InquiryPurchaseOrder = () => {
             pageNo   : currentPage, 
             pageSize : inquiryPerPage,
         }
-        postRequestWithToken('buyer/enquiry/enquiry-list', obj, async (response) => {
+        // postRequestWithToken('buyer/enquiry/enquiry-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setInquiryList(response.result.data)
+        //         setTotalInquiries(response.result.totalItems)
+        //     } else {
+        //         toast(response.message, {type:'error'})
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        // })
+                    
+        try {
+            const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
             if (response.code === 200) {
                 setInquiryList(response.result.data)
                 setTotalInquiries(response.result.totalItems)
-            } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
             }
+        } catch (error) {
+            console.log('Error fetching inquiry list', error);
+        } finally{
             setLoading(false);
-        })
+        }
         if (activeLink === 'purchased') {
             obj.status = 'active'
             postRequestWithToken('buyer/purchaseorder/get-po-list', obj, async (response) => {
@@ -90,6 +102,11 @@ const InquiryPurchaseOrder = () => {
                 setLoading(false);
             });
         } 
+
+    }
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     return (
