@@ -110,48 +110,48 @@ const Login = ({socket}) => {
                 
             // })
             try {
-                // const response = await apiRequests?.postRequest(`auth/login`, obj)
-                // if(response.code !== 200){
-                //     toast(response.message, { type: "error" });
-                //     return
-                // }
-                // const {result} = await response;
-                // for (let x in result) {
-                //     sessionStorage.setItem(`${x}`, result[x])
-                //     console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
-                // }
-                // setTimeout(() => {
-                //     navigate("/buyer");
-                //     setLoading(true)
-                // }, 500);
-
-                // if ('Notification' in window) {
-                //     if (Notification.permission === 'granted') {
-                //         // If permission is already granted, register the user directly
-                //         const userId = response.result.buyer_id;
-                //         socket.emit('registerBuyer', userId);
-                //     } else if (Notification.permission !== 'denied') {
-                //         // Request permission if not already denied
-                //         const permission = await Notification.requestPermission();
-                //         if (permission === 'granted') {
-                //             const userId = response.result.buyer_id;
-                //             socket.emit('registerBuyer', userId);
-                //         }
-                //     }
-                // } else {
-                // setLoading(false)
-                // toast(response.message, { type: "error" });
-                // console.log('error while login')
-                // }
-                const action = await dispatch(loginUser(obj))
-                
-                // Check if login was successful
-                if (loginUser.fulfilled.match(action)) {
-                    setTimeout(() => {
-                        console.log(`User ID: ${user?._id}`);
-                        navigate("/buyer"); // Navigate to '/buyer' upon successful login
-                    }, 500);
+                const response = await apiRequests?.postRequest(`auth/login`, obj)
+                if(response.code !== 200){
+                    toast(response.message, { type: "error" });
+                    return
                 }
+                const {result} = await response;
+                for (let x in result) {
+                    sessionStorage.setItem(`${x}`, result[x])
+                    console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
+                }
+                setTimeout(() => {
+                    navigate("/buyer");
+                    setLoading(true)
+                }, 500);
+
+                if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                        // If permission is already granted, register the user directly
+                        const userId = response.result.buyer_id;
+                        socket.emit('registerBuyer', userId);
+                    } else if (Notification.permission !== 'denied') {
+                        // Request permission if not already denied
+                        const permission = await Notification.requestPermission();
+                        if (permission === 'granted') {
+                            const userId = response.result.buyer_id;
+                            socket.emit('registerBuyer', userId);
+                        }
+                    }
+                } else {
+                setLoading(false)
+                toast(response.message, { type: "error" });
+                console.log('error while login')
+                }
+                // const action = await dispatch(loginUser(obj))
+                
+                // // Check if login was successful
+                // if (loginUser.fulfilled.match(action)) {
+                //     setTimeout(() => {
+                //         console.log(`User ID: ${user?._id}`);
+                //         navigate("/buyer"); // Navigate to '/buyer' upon successful login
+                //     }, 500);
+                // }
             } catch (error) {
                 console.log(error)
                 setLoading(false)

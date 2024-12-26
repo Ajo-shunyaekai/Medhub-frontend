@@ -63,6 +63,7 @@ const SellerInquiry = () => {
             filterKey: activeLink,
             pageNo: currentPage,
             pageSize: listPerPage,
+            user_type: 'Supplier'
         };
 
         if (activeLink === 'inquiry') {
