@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../../style/login.css';
-import logo from '../../assest/signup.svg';
+import logo from '../../assest/logo.svg';
 import { apiRequests } from '../../../api/index';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

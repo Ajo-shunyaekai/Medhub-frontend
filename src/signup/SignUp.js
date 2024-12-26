@@ -4,7 +4,7 @@ import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import '../style/signup.css'
-import logo from '../assest/signup.svg'
+import logo from '../assest/logo.svg';
 import SuccessModal from './SuccessModal';
 import ImageUploaders from './ImageUploader';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../style/sidebar.module.css'; // Import the CSS file
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Link, useNavigate } from 'react-router-dom';
-import order_list from '../assest/dashboard/order_list.svg'
+import order_list from '../assest/logo.svg'
 import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';

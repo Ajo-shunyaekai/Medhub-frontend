@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../style/sidebar.module.css"; 
 import { Link, useNavigate } from "react-router-dom";
 import order_list from "../assest/dashboard/order_list.svg";
-import DeliverLogo from "../assest/navbar-img/DeliverLogo.svg";
+import DeliverLogo from "../assest/logo.svg";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CropFreeOutlinedIcon from "@mui/icons-material/CropFreeOutlined";

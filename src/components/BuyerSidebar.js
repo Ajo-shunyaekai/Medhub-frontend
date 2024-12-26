@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import io from 'socket.io-client'; 
-import logo from '../assest/signup.svg';
+import logo from '../assest/logo.svg';
 import SignUp from '../signup/SignUp.js';
 import Login from '../signup/Login.js';
 import Sidebar from './Sidebar.js';
