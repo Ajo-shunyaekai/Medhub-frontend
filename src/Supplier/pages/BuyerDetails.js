@@ -5,6 +5,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../api/Requests';
+import { apiRequests } from '../../api';
 
 const BuyerDetails = () => {
     const {buyerId} = useParams()
@@ -17,26 +18,35 @@ const BuyerDetails = () => {
     const ordersPerPage                               = 5;
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const fetchData = async () => {
+            const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+            const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
-        }
-
-        const obj = {
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            buyer_id    : buyerId,
-
-        }
-        postRequestWithToken('supplier/buyer-details', obj, async (response) => {
-            if (response.code === 200) {
-                setBuyer(response.result)
-            } else {
-               console.log('error in supplier-details api');
+            if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            navigate("/supplier/login");
+            return;
             }
-          })
+
+            const obj = {
+                supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+                buyer_id    : buyerId,
+
+            }
+            postRequestWithToken('supplier/buyer-details', obj, async (response) => {
+                if (response.code === 200) {
+                    setBuyer(response.result)
+                } else {
+                console.log('error in supplier-details api');
+                }
+            })
+            const response = await apiRequests.postRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
+            if (response?.code !== 200) {
+                console.log('error in get-buyer-details api', response);
+                return;
+            }
+            setBuyer(response?.result);
+        }
+        fetchData()
     },[])
 
     useEffect(() => {

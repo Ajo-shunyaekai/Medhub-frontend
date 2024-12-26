@@ -90,7 +90,7 @@ const BuyerDetails = () => {
         //        console.log('error in get-buyer-details api',response);
         //     }
         // })
-        const response = await apiRequests.postRequest(`buyer/get-buyer-details/${buyerId}`, obj);
+        const response = await apiRequests.postRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
         if (response?.code !== 200) {
             console.log('error in get-buyer-details api', response);
             return;

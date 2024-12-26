@@ -86,7 +86,7 @@ const renderFiles = (files, type) => {
         //        console.log('error in get-supplier-details api',response);
         //     }
         // })
-        const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
+        const response = await apiRequests.postRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
         if (response?.code !== 200) {
             console.log('error in get-supplier-details api', response);
             return;
