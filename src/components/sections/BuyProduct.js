@@ -14,6 +14,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Loader from '../Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../api';
 
 const BuyProduct = ({active}) => {
     const navigate = useNavigate()
@@ -56,7 +57,8 @@ const BuyProduct = ({active}) => {
     }
 
     useEffect(() => {
-
+        
+    const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
@@ -86,7 +88,21 @@ const BuyProduct = ({active}) => {
                 }
                 setLoading(false);
               })
+              try {
+                  const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
+                  if(response?.code !== 200){
+                  return
+                  }
+                  setMedicineList(response.result.data)
+                  setTotalitems(response.result.totalItems)
+              } catch (error) {
+                  console.log('error in medicine list api',error);
+              } finally{
+                  setLoading(false);
+              }
         }
+        }
+        fetchData()
     },[searchKey, currentPage, filterCategory])
 
     return (
