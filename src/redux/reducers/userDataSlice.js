@@ -15,7 +15,7 @@ export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.getRequest(`/auth/${id}`);
+      const response = await apiRequests?.postRequest(`/auth/${id}`);
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
@@ -37,7 +37,7 @@ export const loginUser = createAsyncThunk(
       const { result } = await response;
       for (let x in result) {
         sessionStorage.setItem(`${x}`, result[x]);
-        console.log(`RESPONSE OF LOGIN USER : ${x} ${result[x]}`);
+        // console.log(`RESPONSE OF LOGIN USER : ${x} ${result[x]}`);
       }
 
       if ("Notification" in window) {
@@ -139,7 +139,6 @@ export const userDataSlice = createSlice({
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action?.payload;
-        console.log(`action payload of fetching user's data: ${action}`);
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.status = "failed";
@@ -162,7 +161,6 @@ export const userDataSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // state.user = action.payload;
         state.showSuccessSignup = true;
       })
       .addCase(registerUser.rejected, (state, action) => {

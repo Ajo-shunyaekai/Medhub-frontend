@@ -6,6 +6,7 @@ import { postRequestWithToken } from '../../api/Requests';
 import ApprovedNewProducts from './ApprovedNewProducts';
 import ApprovedSecondaryProducts from './ApprovedSecondaryProducts';
 import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 const ApprovedProduct = () => {
     const location = useLocation();
@@ -52,7 +53,8 @@ const ApprovedProduct = () => {
     };
 
     useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        const fetchData = async () => {
+            if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
         }
@@ -74,6 +76,20 @@ const ApprovedProduct = () => {
             }
             setLoading(false);
           })
+          try {
+              const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
+              if(response?.code !== 200){
+                return
+              }
+              setProductList(response.result.data);
+              setTotalProducts(response.result.totalItems);
+          } catch (error) {
+              console.log('error in order list api',error);
+          } finally{
+            setLoading(false);
+          }
+        }
+        fetchData()
     },[activeLink, currentPage])
 
     return (
