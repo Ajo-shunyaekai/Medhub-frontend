@@ -7,17 +7,11 @@ const user_type_from_url = window?.location?.href
   ?.toLowerCase();
 
 export const user_type =
-  sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id")
+  sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id") || user_type_from_url === "buyer" || window?.location?.pathname == '/buyer' || window?.location?.pathname?.includes('/buyer/')
     ? "Buyer"
-    : sessionStorage.getItem("supplier_id") ||
-      localStorage.getItem("supplier_id")
+    : sessionStorage.getItem("supplier_id") || localStorage.getItem("supplier_id") ||  user_type_from_url === "supplier"  || window?.location?.pathname?.includes('/supplier/')
     ? "Supplier"
-    : sessionStorage.getItem("admin_id") || localStorage.getItem("admin_id")
+    : sessionStorage.getItem("admin_id") || localStorage.getItem("admin_id") ||  user_type_from_url === "admin"  || window?.location?.pathname?.includes('/admin/')
     ? "Admin"
-    : sessionStorage.getItem("seller_id") || localStorage.getItem("seller_id")
-    ? "Seller"
-    : user_type_from_url === "buyer"
-    ? "Buyer"
-    : user_type_from_url === "admin"
-    ? "Admin"
-    : user_type_from_url === "supplier" && "Supplier";
+    : sessionStorage.getItem("seller_id") || localStorage.getItem("seller_id") ||  user_type_from_url === "seller"  || window?.location?.pathname?.includes('/seller/')
+    && "Seller";

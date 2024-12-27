@@ -10,6 +10,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
 import Loader from '../Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../api'
 
 const BuySeller = ({active}) => {
     const navigate = useNavigate()
@@ -58,34 +59,53 @@ const BuySeller = ({active}) => {
     };
 
     useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
-        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
-        }
-
-        if(active === 'seller') {
-            const obj = {
-                buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-                searchKey : searchKey,
-                filterCountry,
-                pageNo : currentPage,
-                pageSize : itemsPerPage
-            }
-
-            postRequestWithToken('buyer/supplier-list', obj, async (response) => {
-                if (response.code === 200) {
-                    setSupplierList(response.result.suppliers)
-                    setTotalItems(response.result.totalItems)
-                } else {
-                    toast(response.message, {type:'error'})
-                   console.log('error in supplier list api',response);
+        const fetchData = async ()=>{
+            try {
+                const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+                const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        
+                if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+                navigate("/buyer/login");
+                return;
                 }
+        
+                if(active === 'seller') {
+                    const obj = {
+                        buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
+                        searchKey : searchKey,
+                        filterCountry,
+                        pageNo : currentPage,
+                        pageSize : itemsPerPage
+                    }
+        
+                    // postRequestWithToken('buyer/supplier-list', obj, async (response) => {
+                    //     if (response.code === 200) {
+                    //         setSupplierList(response.result.suppliers)
+                    //         setTotalItems(response.result.totalItems)
+                    //     } else {
+                    //         toast(response.message, {type:'error'})
+                    //     console.log('error in supplier list api',response);
+                    //     }
+                    //     setLoading(false);
+                    // })
+                    const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
+                    if (response?.code !== 200) {
+                        toast(response.message, {type:'error'})
+                        console.log('error in supplier list api',response);
+                        return;
+                    }
+
+                    setSupplierList(response.result.data)
+                    setTotalItems(response.result.totalItems)
+                    
+                }
+            } catch (error) {
+                console.log(`Error : ${error}`)
+            } finally{
                 setLoading(false);
-              })
             }
+        }
+        fetchData()
     },[searchKey, filterCountry, currentPage])
 
     useEffect(() => {
