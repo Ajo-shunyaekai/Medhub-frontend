@@ -77,14 +77,22 @@ const ApprovedProduct = () => {
             setLoading(false);
           })
           try {
-              const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
-              if(response?.code !== 200){
-                return
-              }
-              setProductList(response.result.data);
-              setTotalProducts(response.result.totalItems);
+            //   const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
+            //   if(response?.code !== 200){
+            //     return
+            //   }
+            //   setProductList(response.result.data);
+            //   setTotalProducts(response.result.totalItems);
+            postRequestWithToken('medicine/get-all-medicines-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setProductList(response.result.data);
+                    setTotalProducts(response.result.totalItems);
+                } else {
+                    console.log('error in medicine list api',response);
+                }
+            })
           } catch (error) {
-              console.log('error in order list api',error);
+            console.log('error in order list api',error);
           } finally{
             setLoading(false);
           }

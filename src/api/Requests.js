@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { user_type } from '../constants';
 axios.defaults.baseURL                       = process.env.REACT_APP_API_URL;
 axios.defaults.headers.post['Content-Type']  = 'application/json';
 axios.defaults.headers.post['authorization'] = process.env.REACT_APP_Authorization;
@@ -22,7 +23,7 @@ export const getRequest = async (URL, requestData, callback) => {
             headers: {
                 Authorization: process.env.REACT_APP_Authorization || '',
                 'Content-Type': 'application/json',
-                access_token: sessionStorage.getItem('token') || localStorage.getItem('token'), // Include tokens if required
+                access_token: sessionStorage.getItem('token') , // Include tokens if required
             },
             withCredentials: true, // Ensure credentials are sent
         });
@@ -46,10 +47,12 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
             url     : URL,
             data    : requestData,
             headers : {
-                // "access_token" : sessionStorage.getItem('buyer_token') || localStorage.getItem('buyer_token'),
+                "access_token" : sessionStorage.getItem('token') ,
+                "buyer_id"     : sessionStorage.getItem('buyer_id') ,
+                "supplier_id"  : sessionStorage.getItem("supplier_id"),
+                "admin_id"     : sessionStorage.getItem("admin_id"),
                 "Content-Type" : "multipart/form-data",                
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
-                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
+                "user_type"    : user_type,
             }
         });
         // return response.data;
@@ -69,12 +72,12 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                "buyer_id"     : sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
-                // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVGh1IE1heSAwMiAyMDI0IDExOjM2OjE2IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImJ1eWVySWQiOiJCVVktcDQ4MHhxdXNjeiIsImlhdCI6MTcxNDYyOTk3Nn0.NADTShvxaTLQBizjnmA9-NC1v-jFcFcLqrx5yOwAP8g',
+                "access_token" : sessionStorage.getItem('token') ,
+                "buyer_id"     : sessionStorage.getItem('buyer_id') ,
+                "supplier_id"  : sessionStorage.getItem("supplier_id"),
+                "admin_id"     : sessionStorage.getItem("admin_id"),
                 "Content-Type" : "application/json",
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
-                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
+                "user_type"    : user_type,
             } 
         });
         
@@ -97,11 +100,12 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             url     : URL,
             data    : requestData,
             headers : {
-                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                "buyer_id"     :  sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
+                "access_token" : sessionStorage.getItem('token') ,
+                "buyer_id"     : sessionStorage.getItem('buyer_id') ,
+                "supplier_id"  : sessionStorage.getItem("supplier_id"),
+                "admin_id"     : sessionStorage.getItem("admin_id"),
                 "Content-Type" : "multipart/form-data",                
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
-                (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
+                "user_type"    : user_type,
             }
         });
         return callback(response.data);

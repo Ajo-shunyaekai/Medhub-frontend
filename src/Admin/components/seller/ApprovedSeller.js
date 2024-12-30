@@ -57,13 +57,21 @@ const ApprovedSeller = () => {
                 //     }
                 //     setLoading(false);
                 // })
-                const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
-                if (response?.code !== 200) {
-                    console.log('error in supplier list api',response);
-                    return;
-                }
-                setSellerList(response.result.data)
-                setTotalSellers(response.result.totalItems)
+                // const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
+                // if (response?.code !== 200) {
+                //     console.log('error in supplier list api',response);
+                //     return;
+                // }
+                // setSellerList(response.result.data)
+                // setTotalSellers(response.result.totalItems)
+                postRequestWithToken('supplier/get-all-suppliers-list', obj, async (response) => {
+                    if (response.code === 200) {
+                        setSellerList(response.result.data)
+                        setTotalSellers(response.result.totalItems)
+                    } else {
+                       console.log('error in order list api',response);
+                    }
+                })
             } catch (error) {
                 console.log(error)
             } finally{
