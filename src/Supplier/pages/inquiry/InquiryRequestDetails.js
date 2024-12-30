@@ -58,6 +58,13 @@ const InquiryRequestDetails = ({socket}) => {
                 return;
             }
             setInquiryDetails(response?.result);
+            postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setInquiryDetails(response?.result)
+                } else {
+                    console.log('error in order list api', response);
+                }
+            })            
         }
         fetchData()
     }, [])
