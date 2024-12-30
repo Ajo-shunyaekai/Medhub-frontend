@@ -14,7 +14,7 @@ export const postRequest = async (URL, requestData, callback) => {
         return callback({code : 500, message : 'Connection faild, please start node server'});
     }
 }
- 
+
 export const postRequestWithFile = async (URL, requestData, callback) => {
     try {
         const response = await axios({
