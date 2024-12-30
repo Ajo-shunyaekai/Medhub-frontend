@@ -88,15 +88,24 @@ const BuySeller = ({active}) => {
                     //     }
                     //     setLoading(false);
                     // })
-                    const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
-                    if (response?.code !== 200) {
-                        toast(response.message, {type:'error'})
-                        console.log('error in supplier list api',response);
-                        return;
-                    }
+                    // const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
+                    // if (response?.code !== 200) {
+                    //     toast(response.message, {type:'error'})
+                    //     console.log('error in supplier list api',response);
+                    //     return;
+                    // }
 
-                    setSupplierList(response.result.data)
-                    setTotalItems(response.result.totalItems)
+                    // setSupplierList(response.result.data)
+                    // setTotalItems(response.result.totalItems)
+                    postRequestWithToken('supplier/get-all-suppliers-list', obj, async (response) => {
+                        if (response.code == 200) {
+                            setSupplierList(response.result.data)
+                            setTotalItems(response.result.totalItems)
+                        } else {
+                            toast(response.message, {type:'error'})
+                        console.log('error in supplier list api',response);
+                        }
+                    })
                     
                 }
             } catch (error) {
