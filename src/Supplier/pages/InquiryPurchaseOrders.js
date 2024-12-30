@@ -82,11 +82,17 @@ const InquiryPurchaseOrder = () => {
         // })
                             
         try {
-            const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
-            if (response.code === 200) {
-                setInquiryList(response.result.data)
-                setTotalInquiries(response.result.totalItems)
-            }
+            // const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
+            // if (response.code === 200) {
+            //     setInquiryList(response.result.data)
+            //     setTotalInquiries(response.result.totalItems)
+            // }
+            postRequestWithToken('enquiry/get-enquiry-list-all-users', obj, async (response) => {
+                if (response.code == 200) {
+                    setInquiryList(response.result.data)
+                    setTotalInquiries(response.result.totalItems)
+                }
+            })     
         } catch (error) {
             console.log('Error fetching inquiry list', error);
         } finally{

@@ -73,15 +73,23 @@ const Invoice = () => {
         } else {
             const fetchInvoiceList = async () => {
                 try {
-                    const response = await apiRequests.postRequest('order/get-invoice-list-all-users', obj)
-                    if(response?.code!==200){
-                        toast(response.message, {type:'error'});
-                        console.log('error in invoice list api', response);
-                        return
-                    }
+                    // const response = await apiRequests.postRequest('order/get-invoice-list-all-users', obj)
+                    // if(response?.code!==200){
+                    //     toast(response.message, {type:'error'});
+                    //     console.log('error in invoice list api', response);
+                    //     return
+                    // }
                     
-                    setInvoiceList(response.result.data);
-                    setTotalInvoices(response.result.totalItems)
+                    // setInvoiceList(response.result.data);
+                    // setTotalInvoices(response.result.totalItems)
+                    postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
+                        if (response.code == 200) {
+                            setInvoiceList(response.result.data);
+                            setTotalInvoices(response.result.totalItems)
+                        } else {
+                            console.log('error in invoice list api', response);
+                        }
+                    })
                 } catch (error) {
                     console.log('Error in get-invoice-list API', error);
                     

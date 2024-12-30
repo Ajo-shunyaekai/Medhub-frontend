@@ -78,11 +78,17 @@ const SellerInquiry = () => {
             // });
             
             try {
-                const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
-                if (response.code === 200) {
-                    setList(response.result.data);
-                    setTotalList(response.result.totalItems);
-                }
+                // const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
+                // if (response.code === 200) {
+                //     setList(response.result.data);
+                //     setTotalList(response.result.totalItems);
+                // }
+                postRequestWithToken('enquiry/get-enquiry-list-all-users', obj, async (response) => {
+                    if (response.code == 200) {
+                        setList(response.result.data);
+                        setTotalList(response.result.totalItems);
+                    }
+                })
             } catch (error) {
                 console.log('Error fetching inquiry list', error);
             } finally{

@@ -80,11 +80,17 @@ const SellerOrder = () => {
         //     setLoading(false);
         //   })
         try {
-            const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
-            if (response.code === 200) {
-                setOrderList(response.result.data)
+            // const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
+            // if (response.code === 200) {
+            //     setOrderList(response.result.data)
+            //     setTotalOrders(response.result.totalItems)
+            // }
+            postRequestWithToken('order/get-order-list-all-users', obj, async (response) => {
+                if (response.code == 200) {
+                    setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
-            }
+                }
+            })
         } catch (error) {
             console.log('error in order list api',error);
         } finally{
