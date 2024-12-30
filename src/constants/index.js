@@ -5,7 +5,7 @@ export const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 const user_type_from_url = window?.location?.href
   ?.split("/")?.[3]
   ?.toLowerCase();
-  console.log('user_type_from_url',user_type_from_url);
+  
   
 
 export const user_type =

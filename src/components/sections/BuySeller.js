@@ -88,6 +88,8 @@ const BuySeller = ({active}) => {
                     //     }
                     //     setLoading(false);
                     // })
+
+                   
                     // const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
                     // if (response?.code !== 200) {
                     //     toast(response.message, {type:'error'})
