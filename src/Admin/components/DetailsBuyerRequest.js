@@ -88,19 +88,30 @@ const DetailsBuyerRequest = () => {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             buyer_id: buyerId,
         }
-        postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-            if (response.code === 200) {
-                setBuyerDetails(response.result)
-            } else {
-                console.log('error in get-buyer-details api', response);
-            }
-        })
-        const response = await apiRequests.postRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
-        if (response?.code !== 200) {
-            console.log('error in get-buyer-details api', response);
-            return;
+        // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setBuyerDetails(response.result)
+        //     } else {
+        //         console.log('error in get-buyer-details api', response);
+        //     }
+        // })
+        // const response = await apiRequests.postRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
+        // if (response?.code !== 200) {
+        //     console.log('error in get-buyer-details api', response);
+        //     return;
+        // }
+        // setBuyerDetails(response?.result);
+        try {
+            postRequestWithToken(`buyer/get-specific-buyer-details/${buyerId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setBuyerDetails(response.result)
+                } else {
+                    console.log('error in get-buyer-details api', response);
+                }
+            })
+        } catch (error) {
+            console.log('error in get-buyer-details api', error);
         }
-        setBuyerDetails(response?.result);
         }
         getBuyerDetails()
     }, [])
