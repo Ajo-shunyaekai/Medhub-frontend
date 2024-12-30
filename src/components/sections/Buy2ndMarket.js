@@ -89,12 +89,21 @@ const Buy2ndMarket = ({active}) => {
                     setLoading(false);
                 })
                 try {
-                      const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
-                      if(response?.code !== 200){
-                      return
-                      }
-                      setMedicineList(response.result.data)
-                        setTotalitems(response.result.totalItems)
+                    //   const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
+                    //   if(response?.code !== 200){
+                    //   return
+                    //   }
+                    //   setMedicineList(response.result.data)
+                    //     setTotalitems(response.result.totalItems)
+                    postRequestWithToken('medicine/get-all-medicines-list', obj, async (response) => {
+                        if (response.code === 200) {
+                            setMedicineList(response.result.data)
+                            setTotalitems(response.result.totalItems)
+                        } else {
+                            toast(response.message, {type:'error'})
+                            console.log('error in medicine list api',response);
+                        }
+                    })
                 } catch (error) {
                       console.log('error in medicine list api',error);
                 } finally{
