@@ -99,9 +99,9 @@ const SearchsearchDetails = () => {
                 // setSupplierId(response.result?.supplier_id)
                 postRequestWithToken('medicine/get-specific-medicine-details', obj, async (response) => {
                     if (response.code === 200) {
-                        setDetails(response?.result?.data)
+                        setDetails(response?.result)
                         setCountryAvailableIn(response?.result?.countryAvailable)
-                        setMedicineName(response.result?.data?.medicine_name)
+                        setMedicineName(response.result?.medicine_name)
                         setSupplierId(response.result?.supplier_id)
                     } else {
                         console.log('error in med details api');
