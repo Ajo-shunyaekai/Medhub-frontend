@@ -114,13 +114,13 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
   const [isDropdown, setIsDropdown] = useState(false);
 
   const toggle = () => {
-    setIsOpen(!isOpen);
+    // setIsOpen(!isOpen);
 
-    if (window.innerWidth <= 992) {
-      setIsIcon(!isIcon);
-    } else {
-      setIsIcon(true);
-    }
+    // if (window.innerWidth <= 992) {
+    //   setIsIcon(!isIcon);
+    // } else {
+    //   setIsIcon(true);
+    // }
   };
   // Effect to close sidebar when screen size is 1050px or less
   useEffect(() => {
@@ -564,7 +564,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
       {/*Desktop Sidebar code start from here */}
       <div className={styles.sidebar_container}>
-  {isIcon ? (
+  {isIcon ? 
     <div style={{ width: isOpen ? "200px" : "50px" }} className={styles.sidebar}>
       <Link to="/admin" className={styles.sidebar_text} activeclassname={styles.active}>
         <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
@@ -731,7 +731,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
 
     </div>
-  ) : ''}
+   : ''}
   <main style={{ marginTop: isSearchVisible ? '30px' : '0' }}>
     {children}
   </main>
