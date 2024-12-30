@@ -108,16 +108,16 @@ const SearchMarketProductDetails = () => {
                 buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
             }
 
-            // postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setDetails(response?.result?.data)
-            //         setMedicineName(response?.result?.data?.medicine_name)
-            //         setCountryAvailableIn(response?.result?.countryAvailable)
-            //         setSupplierId(response.result?.supplier_id)
-            //     } else {
-            //         console.log('error in med details api');
-            //     }
-            // })
+            postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
+                if (response.code === 200) {
+                    setDetails(response?.result)
+                    setMedicineName(response?.result?.medicine_name)
+                    setCountryAvailableIn(response?.result?.countryAvailable)
+                    setSupplierId(response.result?.supplier_id)
+                } else {
+                    console.log('error in med details api');
+                }
+            })
             try {
                 // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
                 // if(response?.code !== 200){
@@ -129,8 +129,9 @@ const SearchMarketProductDetails = () => {
                 // setSupplierId(response.result?.supplier_id)
                 postRequestWithToken('medicine/get-specific-medicine-details', obj, async (response) => {
                     if (response.code === 200) {
-                        setDetails(response?.result?.data)
-                        setMedicineName(response?.result?.data?.medicine_name)
+                        console.log(response)
+                        setDetails(response?.result)
+                        setMedicineName(response?.result?.medicine_name)
                         setCountryAvailableIn(response?.result?.countryAvailable)
                         setSupplierId(response.result?.supplier_id)
                     } else {
