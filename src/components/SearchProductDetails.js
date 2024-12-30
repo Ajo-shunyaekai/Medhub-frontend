@@ -97,7 +97,7 @@ const SearchsearchDetails = () => {
                 // setCountryAvailableIn(response?.result?.countryAvailable)
                 // setMedicineName(response.result?.data?.medicine_name)
                 // setSupplierId(response.result?.supplier_id)
-                postRequestWithToken('bmedicine/get-specific-medicine-details', obj, async (response) => {
+                postRequestWithToken('medicine/get-specific-medicine-details', obj, async (response) => {
                     if (response.code === 200) {
                         setDetails(response?.result?.data)
                         setCountryAvailableIn(response?.result?.countryAvailable)
