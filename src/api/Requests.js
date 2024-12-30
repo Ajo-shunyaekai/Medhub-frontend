@@ -3,13 +3,13 @@ axios.defaults.baseURL                       = process.env.REACT_APP_API_URL;
 axios.defaults.headers.post['Content-Type']  = 'application/json';
 axios.defaults.headers.post['authorization'] = process.env.REACT_APP_Authorization;
 // axios.defaults.withCredentials               = true
-
+ 
 export const postRequest = async (URL, requestData, callback) => {
     try {
         const response  = await axios.post(URL, requestData);
         // return response.data;
         return callback(response.data);
-
+ 
     } catch (err) {
         return callback({code : 500, message : 'Connection faild, please start node server'});
     }
@@ -33,13 +33,13 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
         });
         // return response.data;
         return callback(response.data);
-
+ 
     } catch (err) {
         return callback({code : 500, message : 'Connection faild, please start node server'});
         // throw err;
     }
 }
-
+ 
 export const postRequestWithToken = async (URL, requestData, callback) => {
     try {
         const response = await axios({
@@ -60,16 +60,16 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
         
         if(response.status == 401){ 
             sessionStorage.clear();
-
+ 
         } else {  // if(response.status == 200)
             return callback(response.data);
-
+ 
         } 
     } catch (err) {
         return callback({code : 500, message : 'Connection failed, please start node server '});
     }
 }
-
+ 
 export const postRequestWithTokenAndFile = async (URL, requestData, callback) => {
     try {
         const response = await axios({
@@ -87,13 +87,13 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             }
         });
         return callback(response.data);
-
+ 
     } catch (err) {
         return callback({code : 500, message : 'Connection faild, please start node server '});
-
+ 
     }
 }
-
+ 
 export const checkAuth = async () => {
 }
-
+ 

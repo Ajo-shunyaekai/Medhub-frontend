@@ -5,6 +5,8 @@ export const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 const user_type_from_url = window?.location?.href
   ?.split("/")?.[3]
   ?.toLowerCase();
+  
+  
 
 export const user_type =
   sessionStorage.getItem("buyer_id") || user_type_from_url === "buyer" || window?.location?.pathname == '/buyer' || window?.location?.pathname?.includes('/buyer/')
