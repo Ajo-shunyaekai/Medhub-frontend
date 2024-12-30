@@ -30,7 +30,7 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await postRequest(`auth/login`, values);
+      const response = await apiRequests?.postRequest(`auth/login`, values);
       if (response.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
