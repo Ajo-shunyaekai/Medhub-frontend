@@ -27,18 +27,25 @@ const OrderDetails = () => {
             order_id  : orderId,
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
         };
-        postRequestWithToken('admin/order-details', obj, (response) => {
-            if (response.code === 200) {
-                setOrderDetails(response.result);
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        // postRequestWithToken('admin/order-details', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setOrderDetails(response.result);
+        //     } else {
+        //         console.log('error in order details api');
+        //     }
+        // });
         try {
-            const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
-            if (response.code === 200) {
-                setOrderDetails(response.result);
-            }
+            // const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
+            // if (response.code === 200) {
+            //     setOrderDetails(response.result);
+            // }
+            postRequestWithToken('order/get-specific-order-details', obj, (response) => {
+                if (response.code === 200) {
+                    setOrderDetails(response.result);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
         } catch (error) {
             console.log('error in order details api');
         }

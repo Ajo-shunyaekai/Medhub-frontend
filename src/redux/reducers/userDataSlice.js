@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { socket, user_type } from "../../constants";
+import { postRequestWithToken } from "../../api/Requests";
 
 const initialState = {
   user: null,
@@ -15,7 +16,7 @@ export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.postRequest(`/auth/${id}`);
+      const response = await postRequestWithToken(`/auth/${id}`);
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error

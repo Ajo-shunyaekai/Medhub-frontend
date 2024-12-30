@@ -86,12 +86,23 @@ const renderFiles = (files, type) => {
         //        console.log('error in get-supplier-details api',response);
         //     }
         // })
-        const response = await apiRequests.postRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
-        if (response?.code !== 200) {
-            console.log('error in get-supplier-details api', response);
-            return;
+        // const response = await apiRequests.postRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
+        // if (response?.code !== 200) {
+        //     console.log('error in get-supplier-details api', response);
+        //     return;
+        // }
+        // setSupplierDetails(response?.result);
+        try {
+            postRequestWithToken(`supplier/get-specific-supplier-details/${supplierId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setSupplierDetails(response?.result);
+                } else {
+                    console.log('error in get-buyer-details api', response);
+                }
+            })
+        } catch (error) {
+            console.log('error in get-supplier-details api', error);
         }
-        setSupplierDetails(response?.result);
     }
         getSupplierDeatils()
     },[])

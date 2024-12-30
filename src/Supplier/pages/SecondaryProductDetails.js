@@ -62,21 +62,29 @@ const SecondaryProductDetails = () => {
                 // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
 
-            postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-                if (response.code === 200) {
-                    setMedicineDetails(response?.result?.data)
-                    setInvoiceImage(response?.result?.data?.invoice_image[0])
-                } else {
-                    console.log('error in med details api');
-                }
-            })
+            // postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setMedicineDetails(response?.result?.data)
+            //         setInvoiceImage(response?.result?.data?.invoice_image[0])
+            //     } else {
+            //         console.log('error in med details api');
+            //     }
+            // })
             try {
-                const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
-                if(response?.code !== 200){
-                return
-                }
-                setMedicineDetails(response?.result?.data)
-                setInvoiceImage(response?.result?.data?.invoice_image[0])
+                // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
+                // if(response?.code !== 200){
+                // return
+                // }
+                // setMedicineDetails(response?.result?.data)
+                // setInvoiceImage(response?.result?.data?.invoice_image[0])
+                postRequest('medicine/get-specific-medicine-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setMedicineDetails(response?.result?.data)
+                        setInvoiceImage(response?.result?.data?.invoice_image[0])
+                    } else {
+                        console.log('error in med details api');
+                    }
+                })
             } catch (error) {
                 console.log('error in medicine list api',error);
             }

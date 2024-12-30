@@ -95,12 +95,23 @@ const SupplierDetails = () => {
     //         console.log('error in supplier-details api');
     //     }
     // })
-    const response = await apiRequests.postRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
-    if (response?.code !== 200) {
-      console.log(`error in supplier-details api`);
-      return;
+    // const response = await apiRequests.postRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
+    // if (response?.code !== 200) {
+    //   console.log(`error in supplier-details api`);
+    //   return;
+    // }
+    // setSupplier(response?.result);
+    try {
+        postRequestWithToken(`supplier/get-specific-supplier-details/${supplierId}`, obj, async (response) => {
+            if (response.code === 200) {
+              setSupplier(response?.result);
+            } else {
+                console.log('error in get-buyer-details api', response);
+            }
+        })
+    } catch (error) {
+        console.log('error in get-supplier-details api', error);
     }
-    setSupplier(response?.result);
   }
 
   getSupplierDeatils()
