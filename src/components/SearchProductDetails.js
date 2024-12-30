@@ -78,25 +78,35 @@ const SearchsearchDetails = () => {
                 buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
             }
 
-            postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
-                if (response.code === 200) {
-                    setDetails(response?.result?.data)
-                    setCountryAvailableIn(response?.result?.countryAvailable)
-                    setMedicineName(response.result?.data?.medicine_name)
-                    setSupplierId(response.result?.supplier_id)
-                } else {
-                    console.log('error in med details api');
-                }
-            })
+            // postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setDetails(response?.result?.data)
+            //         setCountryAvailableIn(response?.result?.countryAvailable)
+            //         setMedicineName(response.result?.data?.medicine_name)
+            //         setSupplierId(response.result?.supplier_id)
+            //     } else {
+            //         console.log('error in med details api');
+            //     }
+            // })
             try {
-                const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
-                if(response?.code !== 200){
-                return
-                }
-                setDetails(response?.result?.data)
-                setCountryAvailableIn(response?.result?.countryAvailable)
-                setMedicineName(response.result?.data?.medicine_name)
-                setSupplierId(response.result?.supplier_id)
+                // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
+                // if(response?.code !== 200){
+                //     return
+                // }
+                // setDetails(response?.result?.data)
+                // setCountryAvailableIn(response?.result?.countryAvailable)
+                // setMedicineName(response.result?.data?.medicine_name)
+                // setSupplierId(response.result?.supplier_id)
+                postRequestWithToken('bmedicine/get-specific-medicine-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setDetails(response?.result?.data)
+                        setCountryAvailableIn(response?.result?.countryAvailable)
+                        setMedicineName(response.result?.data?.medicine_name)
+                        setSupplierId(response.result?.supplier_id)
+                    } else {
+                        console.log('error in med details api');
+                    }
+                })
             } catch (error) {
                 console.log('error in medicine list api',error);
             }
