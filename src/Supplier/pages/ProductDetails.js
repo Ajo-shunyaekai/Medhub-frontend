@@ -89,13 +89,24 @@ const ProductDetails = () => {
                                     {medicineDetails?.composition}
                                 </p>
                             </div>
-                            {/* {medicineDetails?.edit_status === 1 && ( */}
+                            
+                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
+                                <div className="product-details-sec-one-right">
+                                <button className='product-details-send-btn'>Edit</button>
+                                </div>
+                            </Link> */}
+                            {medicineDetails?.edit_status === 1 ? (
                             <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
                                 <div className="product-details-sec-one-right">
                                 <button className='product-details-send-btn'>Edit</button>
                                 </div>
                             </Link>
-                             {/* )}  */}
+                            ) : (
+                                <div className="product-details-sec-one-right">
+                                <button className='product-details-send-btn'>Edit Request Pending</button>
+                                </div>
+                            )}
+                             
                         </div>
                     </div>
 
