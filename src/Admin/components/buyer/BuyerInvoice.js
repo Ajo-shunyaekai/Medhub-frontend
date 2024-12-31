@@ -6,7 +6,8 @@ import BuyerPending from './BuyerPending';
 import BuyerPaid from './BuyerPaid';
 import { postRequestWithToken } from '../../api/Requests';
 import BuyerProforma from './BuyerProforma';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api';
 
 const SellerInvoice = () => {

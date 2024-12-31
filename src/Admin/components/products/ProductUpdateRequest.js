@@ -5,7 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import NewProductUpdateRequest from './NewProductUpdateRequest';
 import SecondaryUpdateRequest from './SecondaryUpdateRequest';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
 
 const ProductUpdateRequest = () => {
     const location = useLocation();

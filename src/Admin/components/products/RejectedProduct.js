@@ -5,7 +5,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import RejectedNewProduct from './RejectedNewProduct'
 import RejectedSecondaryProducts from './RejectedSecondaryProducts'
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api'
 
 const RejectedProduct = () => {

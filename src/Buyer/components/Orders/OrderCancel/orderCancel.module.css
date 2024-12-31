@@ -1,0 +1,82 @@
+ .order-cancel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #5e676f;
+  cursor: pointer;
+}
+
+.order-cancel-content {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #5e676f;
+}
+
+.order-textarea-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 10px 14px;
+}
+
+.order-textarea-heading span {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  color: #5e676f;
+  margin-bottom: 10px;
+}
+
+textarea.order-textarea {
+  width: 322px;
+  border: 1px solid #99a0ac;
+  border-radius: 4px;
+  outline: none !important;
+  padding: 6px 8px 4px 10px;
+  font-size: 14px;
+  color: #5e676f;
+}
+
+.order-btn-container {
+  width: 100%;
+  position: absolute;
+  bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 12px;
+  cursor: pointer;
+}
+
+.order-close-btn {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff;
+  border: 1px solid #5e676f;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.order-submit-btn {
+  border: none !important;
+  outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+} 
+

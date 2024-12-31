@@ -6,7 +6,8 @@ import ActiveSellerOrder from './ActiveSellerOrder';
 import CompletedSellerOrder from './CompletedSellerOrder';
 import PendingSellerOrder from './PendingSellerOrder';
 import { postRequestWithToken } from '../../api/Requests';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api';
 
 const SellerOrder = () => {

@@ -1,0 +1,155 @@
+
+/* Modal class css */
+.modal-handle-close-invoice-cont {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff !important;
+  border: 1px solid #5e676f !important; 
+  color: #5e676f !important;
+  padding: 6px 22px !important; 
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  box-shadow: unset !important;
+  text-transform: capitalize !important;
+}
+.modal.show .modal-dialog {
+  width: 600px !important;
+}
+.modal.show .modal-dialog::-webkit-scrollbar{
+  display: none !important;
+}
+.modal-handle-close-invoice-cont:hover {
+  color: #5e676f !important;
+  background-color: #ffffff !important;
+  border-color: #5e676f!important;
+}
+.modal-handle-save-invoice-cont {
+  border: none !important;
+  outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce) !important;
+  color: white !important;
+  padding: 6px 22px !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  text-transform: capitalize !important;
+}
+.modal-handle-save-invoice-cont:hover {
+  border-color: unset !important;
+  background: linear-gradient(to left, #00dcff, #0075ce) !important;
+  color: #ffffff !important;
+}
+.btn:focus-visible {
+  color: #ffffff !important;
+  background: linear-gradient(to left, #00dcff, #0075ce) !important;
+  border-color: unset !important;
+  outline: 0;
+  box-shadow: unset !important;
+}
+.modal-footer {
+  column-gap: 10px !important;
+  border-top: unset !important;
+  justify-content: center !important;
+}
+.modal-title {
+  font-size: 16px !important;
+}
+.modal-header {
+  border-bottom: unset !important;
+}
+.modal-payment-form-invoice-cont {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+.modal-payment-section-invoice-cont {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.modal-class-head-invoice-cont {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modal-pay-dropdown-invoice-cont {
+  outline: none !important;
+  border-radius: 4px !important;
+    border: none !important;
+    background-color: #ffffff !important;
+    padding: 12px !important;
+    font-size: 14px !important;
+    border-radius: 4px !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%235e676f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"%3e%3cpolyline points="6 9 12 15 18 9"/%3e%3c/svg%3e')
+    no-repeat right 8px center !important;
+  background-color: #fff !important;
+}
+.modal-class-input-invoice-cont {
+  width: 100% !important;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.react-datepicker-popper {
+  transform: translate(31px, 98px) !important;
+  top: -10px;
+}
+@-moz-document url-prefix() {
+  .modal-pay-dropdown-invoice-cont {
+    padding: 12px !important;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .modal-pay-dropdown-invoice-cont {
+    padding: 12px  !important;
+    border-radius: 4px !important;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+.modal-body {
+  padding: 0px 16px !important;
+}
+.modal.show .modal-dialog {
+  height: 500px !important;
+  overflow: scroll !important;
+}
+.modal-payment-form-invoice-cont {
+  row-gap: 0px;
+}
+.modal-payment-section-invoice-cont {
+  row-gap: 14px;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .modal-pay-dropdown-invoice-cont {
+    padding: 8px  !important;
+    border-radius: 0px !important;
+  }
+}
+.modal-footer {
+  margin-top: 12px !important;
+}
+.modal-class-input-invoice-cont {
+  padding:8px !important;
+  font-size: 13px !important;
+}
+.modal-pay-dropdown-invoice-cont {
+  font-size: 13px !important;
+}
+}

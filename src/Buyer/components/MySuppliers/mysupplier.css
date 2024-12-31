@@ -1,0 +1,135 @@
+.mysupplier-main-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+.my-supplier-error{
+  width: 100%;
+  text-align: left !important;
+  color: #5e676f !important;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    justify-content: left !important;
+    align-items: start !important;
+}
+.mysupplier-main-container::-webkit-scrollbar {
+  display: none;
+}
+.mysupplier-main-head {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.mysupplier-main-section {
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  border-radius: 4px;
+  padding: 40px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.mysupplier-card-section {
+  width: 34vw;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  row-gap: 14px;
+  border-radius: 4px;
+  padding: 28px 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.mysupplier-pagination-section-main{
+  margin-bottom: 8rem;
+}
+.mysupplier-card-content-section {
+  display: flex;
+  flex-direction: column;
+}
+.mysupplier-card-first-uppar-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.mysupplier-card-first-section {
+  display: flex;
+}
+
+.mysupplier-name-head {
+  font-size: 20px;
+  font-weight: 500;
+}
+.mysupplier-description {
+  font-size: 14px;
+}
+.mysupplier-card-heading {
+  font-size: 14px;
+  font-weight: 500;
+  width: 200px;
+}
+  .mysupplier-card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-size: 14px;
+    width: 300px;
+}
+.mysupplier-card-button {
+  display: flex;
+  justify-content: start;
+  margin-top: 10px;
+}
+.mysupplier-card-button-details {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mysupplier-image-section{
+  width: 80px;
+  height: 60px;
+
+}
+.mysupplier-image-section img {
+  width: 60px;
+  height: 50px;
+}
+
+@media (max-width: 1480px) {
+  .mysupplier-main-container {
+    max-width: 100%;
+  }
+  .mysupplier-main-section {
+    padding: 40px 10px;
+  }
+  .mysupplier-card-section {
+    width: 38vw;
+    padding: 22px 30px;
+  }
+  .mysupplier-card-heading {
+    width: 160px;
+  }
+  .mysupplier-main-section {
+    gap: 14px;
+  }
+}

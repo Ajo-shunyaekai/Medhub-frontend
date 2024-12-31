@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import '../../style/productDetails.css';
+import '../../Buyer/style/productDetails.css';
 import CountryDetails from './CountryDetails';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { postRequest } from '../../api/Requests';
+import { postRequest } from '../../Buyer/api/Requests';
 import { postRequestWithToken } from '../api/Requests';
 import { toast } from 'react-toastify';
 

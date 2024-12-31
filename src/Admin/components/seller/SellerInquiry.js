@@ -6,7 +6,8 @@ import InquiryRequest from './InquiryRequest';
 import PurchasedOrder from './PurchasedOrder';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api';
 
 

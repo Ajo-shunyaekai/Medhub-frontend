@@ -1,13 +1,12 @@
-
 import React, { useEffect, useState } from 'react';
-// import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import io from 'socket.io-client'
+import BuyerSidebar from './Buyer/BuyerRoutes/Router';
+// import SupplierSidebar from './Supplier/components/SupplierSidebar.js';
+// import AdminSidebar from './Admin/components/AdminSidebar.js';
 
 import BuyerSidebar from './components/BuyerSidebar.js';
 import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
@@ -48,48 +47,34 @@ import { fetchUserData } from './redux/reducers/userDataSlice.js';
             _id && dispatch(fetchUserData(_id))
         },[_id])
 
-        useEffect(() => {
-            const route = activekey();
-            if( activekey().indexOf('buyer') > 0 ){
-              import('./App.css');
-            } else if( activekey().indexOf('supplier') > 0 ){ 
-                import('./SupplierApp.css');
-            } else if( activekey().indexOf('admin') > 0 ){ 
-                import('./AdminApp.css');
-            }
-              
-        }, []);
-
-        if( activekey().indexOf('buyer') > 0 ){
-            return ( <>
-                <div className='App'>
-                    <Router>
-                    <ToastContainer />
-                        <BuyerSidebar />
-                    </Router>
-                </div>
-                </> );
-        } else if( activekey().indexOf('supplier') > 0 ){ 
-            return (
-                <div className='App-Container'>
-                    <Router>
-                    <ToastContainer />
-                        <SupplierSidebar />
-                    </Router>
-                </div>
-            );
-        } else if( activekey().indexOf('admin') > 0 ) {
-            return (
-                <div className='Admin-Container'>
-                    <Router>
-                    <ToastContainer />
-                        <AdminSidebar />
-                    </Router>
-                </div>
-            )
+    useEffect(() => {
+        const route = activekey();
+        if (route.includes('buyer')) {
+            import('./App.css').then(() => setCssFile('App.css'));
+        } else if (route.includes('supplier')) {
+            import('./SupplierApp.css').then(() => setCssFile('SupplierApp.css'));
+        } else if (route.includes('admin')) {
+            import('./AdminApp.css').then(() => setCssFile('AdminApp.css'));
         }
-    }
+    }, []);
 
-    export default App;
+    const renderSidebar = () => {
+        if (activekey().includes('buyer')) {
+            return <BuyerSidebar />;
+        } else if (activekey().includes('supplier')) {
+            // return <SupplierSidebar />;
+        } else if (activekey().includes('admin')) {
+            // return <AdminSidebar />;
+        }
+        return null;
+    };
 
-    
+    return (
+            <div className="App">
+                <ToastContainer />
+                {renderSidebar()}
+            </div>
+    );
+}
+
+export default App;

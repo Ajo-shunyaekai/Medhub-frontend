@@ -6,7 +6,8 @@ import PendingInvoice from './PendingInvoice'
 import PaidInvoice from './PaidInvoice' 
 import { postRequestWithToken } from '../../api/Requests';
 import SellerProformaInvoice from './SellerProformaInvoice';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api';
 
 
