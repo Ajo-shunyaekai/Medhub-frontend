@@ -8,7 +8,7 @@ import BuyerSidebar from './Buyer/BuyerRoutes/Router';
 // import SupplierSidebar from './Supplier/components/SupplierSidebar.js';
 // import AdminSidebar from './Admin/components/AdminSidebar.js';
 
-import BuyerSidebar from './components/BuyerSidebar.js';
+// import BuyerSidebar from './components/BuyerSidebar.js';
 import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
 import AdminSidebar from './Admin/components/AdminSidebar.js';
 import { postRequestWithToken } from './api/Requests.js';
