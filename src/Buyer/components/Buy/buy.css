@@ -1,0 +1,554 @@
+body {
+  background-color: #f9f9fa !important;
+  color: #5e676f;
+}
+
+ul {
+  list-style: none !important;
+  text-decoration: none !important;
+  padding-left: 0rem !important;
+}
+
+.buy-main-container {
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+}
+
+.buy-main-container::-webkit-scrollbar {
+  display: none;
+}
+
+.buy-main-heading {
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+.buy-button-section {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.buy-button-one {
+  background-color: #f5f5f6;
+  color: #99a0ac;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.buy-button-two {
+  background-color: #ffffff;
+  color: #99a0ac;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.buy-button-two:hover {
+  background-color: #e1e1e4;
+  border-color: #dadade;
+}
+
+.buy-button-one:hover {
+  background-color: #e1e1e4;
+  border-color: #dadade;
+}
+
+.buy-seller-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  row-gap: 30px;
+}
+
+.buy-seller-main-heading {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.buy-seller-pharma-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  column-gap: 20px;
+  row-gap: 20px;
+  margin: 20px 0px;
+}
+
+.buy-seller-name-images {
+  width: 16px;
+}
+
+.buy-seller-card {
+  background-color: #ffffff;
+  width: 15vw;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.buy-seller-img-one {
+  background-color: #d6f3f7;
+  width: 80px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.buy-seller-img-two {
+  background-color: #ffded7;
+  width: 80px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.buy-seller-img-three {
+  background-color: #feead6;
+  width: 60px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.buy-seller-img-four {
+  background-color: #f7f7d6;
+  width: 60px;
+  height: 60px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.buy-seller-img-five {
+  background-color: #d6f7df;
+  width: 70px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.buy-seller-card-head {
+  font-size: 20px;
+  font-weight: 500;
+  padding-top: 4px;
+}
+
+.buy-seller-card-content {
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.buy-seller-search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+}
+
+.buy-seller-search-input {
+  width: 28vw;
+  padding: 12px 14px;
+  border: 1px solid #5e676f;
+  border-radius: 4px;
+  outline: none !important;
+}
+
+.buy-seller-search {
+  cursor: pointer;
+  position: absolute;
+  background-color: #5e676f;
+  right: 28%;
+  left: 62%;
+  width: 120px;
+  padding: 13px 20px;
+  font-weight: 500;
+  color: #fff;
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.buy-seller-search-icon {
+  width: 20px;
+}
+
+.buy-seller-filter-container {
+  margin-top: 30px;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: #ffffff;
+  padding: 12px;
+}
+
+.buy-seller-filter-ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  column-gap: 60px;
+  margin-bottom: 0px !important;
+  cursor: pointer;
+}
+
+/* copmany card style section */
+.buy-seller-company-card-section {
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  margin-top: 30px;
+  border-radius: 4px;
+  padding: 50px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.buy-seller-company-cards {
+  width: 34vw;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  row-gap: 14px;
+  border-radius: 4px;
+  padding: 28px 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.buy-seller-company-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: start;
+}
+
+.buy-seller-copmany-contents {
+  display: flex;
+  flex-direction: column;
+}
+
+.buy-seller-copmany-name {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.buy-seller-company-name-text {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.buy-seller-copmany-img img {
+  width: 50px;
+  height: 50px;
+}
+
+.buy-seller-company-content-section {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  column-gap: 50px;
+}
+
+.buy-seller-company-country-name {
+  width: 120px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.buy-seller-company-counrty-flag {
+  font-size: 13px;
+}
+
+.buy-seller-company-description {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  column-gap: 96px;
+}
+
+.buy-seller-company-description-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.buy-seller-company-short-description {
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  height: 50px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.buy-seller-company-card-button {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* start the filter section */
+.buy-seller-filter-drop {
+  position: relative;
+  top: 0%;
+}
+
+.buy-seller-inner-dropdown {
+  position: absolute;
+  top: 120%;
+  color: #5e676f;
+  font-size: 14px;
+  background-color: #ffffff;
+  width: 180px;
+  padding: 14px;
+  padding-left: 14px !important;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.buy-button-one.active,
+.buy-button-two.active {
+  background-color: #e1e1e4;
+  border-color: #dadade;
+}
+
+.buy-seller-pagination-container {
+  margin-bottom: 8rem;
+}
+
+@media screen and (max-width: 1600px) {
+  .buy-main-container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .buy-seller-copmany-name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+  }
+
+  .buy-seller-company-country-name {
+    font-size: 13px;
+  }
+
+  .buy-seller-company-description-text {
+    font-size: 13px;
+  }
+
+  .buy-seller-company-content-section {
+    column-gap: 44px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .buy-seller-pharma-card {
+    flex-wrap: wrap;
+  }
+
+  .buy-seller-card {
+    width: 24vw;
+    padding: 20px 30px;
+  }
+
+  .buy-seller-company-cards {
+    width: 35vw;
+  }
+
+  .buy-seller-company-card-section {
+    padding: 30px 30px;
+    gap: 16px;
+  }
+
+  .buy-seller-company-content-section {
+    column-gap: 30px;
+  }
+
+  .buy-seller-company-description {
+    column-gap: 76px;
+  }
+
+  .buy-seller-company-cards {
+    padding: 28px 24px;
+  }
+}
+
+@media screen and (max-width: 1095px) {
+  .buy-seller-company-cards {
+    width: 35vw;
+  }
+
+  .buy-seller-company-card-section {
+    padding: 30px 12px;
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .buy-seller-company-cards {
+    width: 44vw;
+  }
+
+  .buy-seller-card {
+    width: 30vw;
+  }
+
+  .buy-seller-search-input {
+    width: 48vw;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .buy-seller-company-card-section {
+    flex-direction: column;
+  }
+
+  .buy-seller-company-cards {
+    width: 100%;
+  }
+
+  .buy-seller-card {
+    width: 44vw;
+  }
+
+  .buy-seller-filter-ul {
+    column-gap: 18px;
+  }
+
+  .buy-seller-search-input {
+    width: 50vw;
+  }
+
+  .buy-seller-filter-drop {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .buy-seller-img-one {
+    width: 70px;
+    padding: 14px;
+  }
+
+  .buy-seller-card {
+    padding: 20px 16px;
+    row-gap: 8px;
+  }
+
+  .buy-seller-card-head {
+    font-size: 18px;
+  }
+
+  .buy-seller-img-two {
+    width: 70px;
+    padding: 14px;
+  }
+
+  .buy-seller-main-heading {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+
+  .buy-seller-search-input {
+    width: 68vw;
+    font-size: 14px;
+  }
+
+  .buy-seller-search {
+    font-size: 14px;
+  }
+
+  .buy-seller-filter-drop {
+    font-size: 12px;
+  }
+
+  .buy-seller-filter-ul {
+    column-gap: 14px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .buy-seller-card {
+    width: 250px;
+  }
+
+  .buy-seller-copmany-name {
+    font-size: 20px;
+  }
+
+  .buy-seller-company-card-section {
+    padding: 28px 12px;
+  }
+
+  .buy-seller-company-name-text {
+    font-size: 12px;
+  }
+
+  .buy-seller-copmany-img img {
+    width: 50px;
+  }
+
+  .buy-seller-company-country-name {
+    font-size: 14px;
+  }
+
+  .buy-seller-company-description-text {
+    font-size: 14px;
+  }
+
+  .buy-seller-company-content-section {
+    column-gap: 20px;
+    flex-direction: column;
+  }
+
+  .buy-seller-company-description {
+    flex-direction: column;
+  }
+
+  .buy-seller-search {
+    left: 58%;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .buy-seller-main-heading {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .buy-seller-search-input {
+    width: 80vw;
+  }
+}

@@ -1,0 +1,52 @@
+.membership-main-section{
+    -ms-overflow-style: none;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: auto;
+    width: 100%;
+    max-width: 90%;
+    overflow: scroll;
+    row-gap: 24px;
+    scrollbar-width: none;
+}
+.membership-main-head{
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+.membership-container-head{
+    font-size: 16px;
+    font-weight: 500;
+}
+.membership-main-container{
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+.membership-main-plan-section{
+    align-items: start;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    row-gap: 14px;
+    width: 100%;
+}
+.membership-base-plan-section{
+    display: flex;
+    flex-direction: column;
+}
+.membership-plan-heading{
+    font-size: 16px;
+    font-weight: 500;
+}
+.membership-basic-heading{
+    font-size: 14px;
+    color: #99a0ac;
+}
+.membership-month-heading{
+    font-size: 14px;
+}

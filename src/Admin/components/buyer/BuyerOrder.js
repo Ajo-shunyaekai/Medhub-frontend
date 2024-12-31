@@ -6,7 +6,7 @@ import ActiveBuyerOrder from './ActiveBuyerOrder';
 import CompletedBuyerOrder from './CompletedBuyerOrder';
 import PendingBuyerOrder from './PendingBuyerOrder';
 import { postRequestWithToken } from '../../api/Requests';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
 
 const BuyerOrder = () => {
     const location = useLocation();

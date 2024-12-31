@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import styles from './countryDetails.module.css';
-import styles from '../../style/countryDetails.module.css';
+import styles from '../../Buyer/style/countryDetails.module.css';
 
 const SecondaryCountryDetails = ({countryData}) => {
     const [countries, setCountries] = useState([]);

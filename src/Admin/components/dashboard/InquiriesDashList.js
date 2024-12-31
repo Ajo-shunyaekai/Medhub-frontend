@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../../style/order.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import Loader from '../../../components/Loader';
+import Loader from '../../../Buyer/components/Loader';
 import TotalOngoingInquiries from './TotalOngoingInquiries';
 import TotalInquiriesRequest from './TotalInquiriesRequest';
 import { postRequestWithToken } from '../../api/Requests';
