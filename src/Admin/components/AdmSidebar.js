@@ -100,6 +100,7 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsProfileOpen(false); // Close profile dropdown if open
+    handleClick() //for notification status update
   };
 
   // Profile Dropdown Code
@@ -379,32 +380,32 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
       case 'addnewmedicinerequest':
         setIsNotificationOpen(false)
         navigate(`/admin/product-requests/newproduct`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;    
     case 'addsecondarymedicinerequest':
         setIsNotificationOpen(false)
         navigate(`/admin/product-requests/secondary`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;        
       case 'editnewmedicinerequest':
           setIsNotificationOpen(false)
           navigate(`/admin/product-update-requests/newproduct`);
-          handleClick(notificationId, event)
+          // handleClick(notificationId, event)
           break;    
       case 'editsecondarymedicinerequest':
           setIsNotificationOpen(false)
           navigate(`/admin/product-update-requests/secondary`);
-          handleClick(notificationId, event)
+          // handleClick(notificationId, event)
           break;   
       case 'buyerregistration':
         setIsNotificationOpen(false)
         navigate(`/admin/buyer-request`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;  
       case 'supplierregistration':
         setIsNotificationOpen(false)
         navigate(`/admin/seller-request`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;    
       default:
         navigate('/admin/'); // Default to home or another page if event_type doesn't match
@@ -466,19 +467,8 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
                                               {
                                                 notificationList?.slice(0, 5).map((data,i) => {
                                                     let additionalInfo = '';
-                                            
-                                                    // if (data.event_type === 'Order created') {
-                                                    //     additionalInfo = `for ${data.connected_id}`;
-                                                    // } else if (data.event_type === 'Shipment details submitted') {
-                                                    //     additionalInfo = `for: ${data.event_id}`;
-                                                    // } else if (data.event_type === 'Enquiry quotation') {
-                                                    //     additionalInfo = `from: ${data.supplier.supplier_name}`;
-                                                    // }
-
                                                     let displayMessage = data.message;
-                                                        // if (data.message === 'Enquiry quotation submitted') {
-                                                        //     displayMessage = `Enquiry quotation received `;
-                                                        // }
+                                                       
                                                     return (
                                                         <div className={styles.noti_profile_wrapper}
                                                          onClick={() => handleNavigation(data.notification_id,data.event, data.event_id, data.link_id)}>
@@ -501,7 +491,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
                     <div className={styles.noti_bottom_wrapper}>
                       <div className={styles.noti_see_all_num}>
-                        {count} Notifications
+                        {notificationList?.length} Notifications
                       </div>
 
                       {/* <Link to="#"> */}

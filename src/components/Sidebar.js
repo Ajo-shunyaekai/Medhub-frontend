@@ -73,6 +73,7 @@ const Sidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -231,22 +232,22 @@ const Sidebar = ({ children, dragWindow,
             // navigate('/buyer/inquiry-purchase-orders/ongoing');
             navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
             updateStatusApi(notificationId)
-            handleClick(notificationId, event)
+            // handleClick(notificationId, event)
             break;
           case 'order':
             setIsNotificationOpen(false)
             navigate(`/buyer/order-details/${eventId}`);
-            handleClick(notificationId, event)
+            // handleClick(notificationId, event)
             break;
           case 'purchaseorder':
                 setIsNotificationOpen(false)
                 navigate(`/buyer/purchased-order-details/${linkId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'invoice':
                 setIsNotificationOpen(false)
                 navigate(`/buyer/invoice/pending`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
           default:
             navigate('/buyer/'); // Default to home or another page if event_type doesn't match
@@ -340,7 +341,8 @@ const Sidebar = ({ children, dragWindow,
 
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {/* {count}  */}
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/buyer/notification-list'> */}

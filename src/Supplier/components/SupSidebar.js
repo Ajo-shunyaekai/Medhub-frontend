@@ -83,6 +83,7 @@ const SupSidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -239,63 +240,63 @@ const SupSidebar = ({ children, dragWindow,
                 setIsNotificationOpen(false)
                 navigate(`/supplier/inquiry-request-details/${eventId}`);
                 updateStatusApi(notificationId)
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'order':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/active-orders-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'purchaseorder':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/purchased-order-details/${linkId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'invoice':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/invoice/paid`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
 
             case 'addnewmedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;       
             case 'addsecondarymedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break; 
             case 'addnewmedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'addsecondarymedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;    
 
             case 'editnewmedicinerequest':
                 setIsNotificationOpen(false)
-                navigate(`/supplier/pending-products-list`);
+                // navigate(`/supplier/pending-products-list`);
                 break;    
             case 'editsecondarymedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/pending-products-list`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;   
             case 'editnewmedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;  
             case 'editsecondarymedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;    
             default:
                 navigate('/supplier/');
@@ -370,7 +371,8 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {/* {count}  */}
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/supplier/notification-list'> */}

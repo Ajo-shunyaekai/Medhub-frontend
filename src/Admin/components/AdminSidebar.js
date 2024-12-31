@@ -118,13 +118,31 @@ const AdminSidebar = () => {
             };
         }
     };
+
+    // Fetch notification list function
+const fetchNotifications = () => {
+    const obj = {
+        admin_id: adminIdSessionStorage || adminIdLocalStorage,
+    };
+
+    postRequestWithToken('admin/get-notification-list', obj, (response) => {
+        if (response.code === 200) {
+            // Update notification list and count
+            setNotificationList(response.result.data);
+            setCount(response.result.totalItems || 0);
+        } else {
+            console.log('error in fetching notification list');
+        }
+    });
+};
     
     const handleClick = (id, event) => {
         const obj = {
             admin_id : adminIdSessionStorage || adminIdLocalStorage,
             notification_id : id,
             event ,
-            status : 1
+            status : 1,
+            user_type: 'admin'
         }
         postRequestWithToken('admin/update-notification-status', obj, (response) => {
             if (response.code === 200) {
@@ -224,16 +242,17 @@ const AdminSidebar = () => {
         socket.emit('registerAdmin', adminId);
 
         // Function to fetch notifications
-        const fetchNotifications = () => {
-            postRequestWithToken('admin/get-notification-list', obj, (response) => {
-                if (response.code === 200) {
-                    setNotificationList(response.result.data);
-                    setCount(response.result.totalItems || 0);
-                } else {
-                    console.error('Error in fetching notification list API');
-                }
-            });
-        };
+        // const fetchNotifications = () => {
+        //     postRequestWithToken('admin/get-notification-list', obj, (response) => {
+        //         if (response.code === 200) {
+        //             setNotificationList(response.result.data);
+        //             setCount(response.result.totalItems || 0);
+        //         } else {
+        //             console.error('Error in fetching notification list API');
+        //         }
+        //     });
+        // };
+        fetchNotifications();
 
         // Function to handle new notifications and refresh data
         const handleNewNotification = (title, message, link) => {
