@@ -11,6 +11,8 @@ import DeletedOrders from './DeletedOrder';
 import { postRequestWithToken } from '../api/Requests';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../api';
+// import { apiRequests } from '../api'
 
 
 const Order = () => {
@@ -71,8 +73,7 @@ const Order = () => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+    const fetchData = async ()=> {const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -86,16 +87,38 @@ const Order = () => {
             limit        : ordersPerPage,
         }
 
-        postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
-            if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
-            } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
-            }
+        // postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setOrderList(response.result.data)
+        //         setTotalOrders(response.result.totalItems)
+        //     } else {
+        //         toast(response.message, {type:'error'})
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        //   })
+        try {
+            // const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
+            // if (response.code === 200) {
+            //     setOrderList(response.result.data)
+            //     setTotalOrders(response.result.totalItems)
+            // }
+            postRequestWithToken('order/get-order-list-all-users', obj, async (response) => {
+                if (response.code == 200) {
+                    setOrderList(response.result.data)
+                    setTotalOrders(response.result.totalItems)
+                }
+            })
+        } catch (error) {
+            toast(error.message, {type:'error'})
+            console.log('error in order list api',error);
+        } finally{
             setLoading(false);
-          })
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     

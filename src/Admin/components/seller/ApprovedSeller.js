@@ -8,6 +8,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 
 const ApprovedSeller = () => {
@@ -33,27 +35,51 @@ const ApprovedSeller = () => {
     const listPerPage = 5
 
     useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
-            filterKey   : 'accepted',
-            filterValue : filterValue,
-            pageNo      : currentPage, 
-            pageSize    : listPerPage,
-        }
-
-        postRequestWithToken('admin/get-supplier-list', obj, async (response) => {
-            if (response.code === 200) {
-                setSellerList(response.result.data)
-                setTotalSellers(response.result.totalItems)
-            } else {
-               console.log('error in order list api',response);
+        const fetchData = async () => {
+            try {
+                if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                    navigate("/admin/login");
+                    return;
+                }
+                const obj = {
+                    admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
+                    filterKey   : 'accepted',
+                    filterValue : filterValue,
+                    pageNo      : currentPage, 
+                    pageSize    : listPerPage,
+                }
+        
+                // postRequestWithToken('admin/get-supplier-list', obj, async (response) => {
+                //     if (response.code === 200) {
+                //         setSellerList(response.result.data)
+                //         setTotalSellers(response.result.totalItems)
+                //     } else {
+                //        console.log('error in order list api',response);
+                //     }
+                //     setLoading(false);
+                // })
+                // const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
+                // if (response?.code !== 200) {
+                //     console.log('error in supplier list api',response);
+                //     return;
+                // }
+                // setSellerList(response.result.data)
+                // setTotalSellers(response.result.totalItems)
+                postRequestWithToken('supplier/get-all-suppliers-list', obj, async (response) => {
+                    if (response.code === 200) {
+                        setSellerList(response.result.data)
+                        setTotalSellers(response.result.totalItems)
+                    } else {
+                       console.log('error in order list api',response);
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            } finally{
+                setLoading(false);
             }
-            setLoading(false);
-        })
+        }
+        fetchData()
     },[currentPage])
 
 

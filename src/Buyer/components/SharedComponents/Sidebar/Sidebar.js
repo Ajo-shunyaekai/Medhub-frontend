@@ -4,6 +4,8 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
 import order_list from '../../../assest/images/dashboard/order_list.svg'
 import DeliverLogo from '../../../assest/images/navibluelogo.svg';
+// import order_list from '../assest/dashboard/order_list.svg'
+// import DeliverLogo from '../assest/logo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
@@ -68,6 +70,7 @@ const Sidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -224,23 +227,24 @@ const Sidebar = ({ children, dragWindow,
           case "enquiry":
             setIsNotificationOpen(false);
             navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
-            handleClick(notificationId, event);
+            updateStatusApi(notificationId)
+            // handleClick(notificationId, event)
             break;
           case "order":
             setIsNotificationOpen(false);
             navigate(`/buyer/order-details/${eventId}`);
-            handleClick(notificationId, event);
+            // handleClick(notificationId, event)
             break;
-          case "purchaseorder":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/purchased-order-details/${linkId}`);
-            handleClick(notificationId, event);
-            break;
-          case "invoice":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/invoice/pending`);
-            handleClick(notificationId, event);
-            break;
+          case 'purchaseorder':
+                setIsNotificationOpen(false)
+                navigate(`/buyer/purchased-order-details/${linkId}`);
+                // handleClick(notificationId, event)
+                break;
+            case 'invoice':
+                setIsNotificationOpen(false)
+                navigate(`/buyer/invoice/pending`);
+                // handleClick(notificationId, event)
+                break;
           default:
             navigate("/buyer/");
             break;
@@ -315,7 +319,8 @@ const Sidebar = ({ children, dragWindow,
 
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {/* {count}  */}
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/buyer/notification-list'> */}

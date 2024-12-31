@@ -8,6 +8,7 @@ import PendingOrders from './PendingOrders/DeletedOrder';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../api'
 
 
 const Order = () => {
@@ -24,9 +25,9 @@ const Order = () => {
     const getActiveLinkFromPath = (path) => {
         
         switch (path) {
-            case '/buyer/order/Active-Order':
+            case '/buyer/order/active':
                 return 'active';
-            case '/buyer/order/Completed-Orders':
+            case '/buyer/order/completed':
                 return 'completed';
             default:
                 return 'active';
@@ -39,13 +40,13 @@ const Order = () => {
         setCurrentPage(1)
         switch (link) {
             case 'active':
-                navigate('Active-Order');
+                navigate('/buyer/order/active');
                 break;
             case 'completed':
-                navigate('Completed-Orders');
+                navigate('/buyer/order/completed');
                 break;
             default:
-                navigate('Active-Order');
+                navigate('/buyer/order/active');
         }
     };
 
@@ -53,7 +54,7 @@ const Order = () => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
+    const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
 
@@ -67,16 +68,39 @@ const Order = () => {
             page_no   : currentPage, 
             limit     : ordersPerPage,
         }
-        postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
-            if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
-            } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
-            }
+        // postRequestWithToken('buyer/order/buyer-order-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setOrderList(response.result.data)
+        //         setTotalOrders(response.result.totalItems)
+        //     } else {
+        //         toast(response.message, {type:'error'})
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        // })
+        try {
+            // const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
+            // if (response.code === 200) {
+            //     setOrderList(response.result.data)
+            //     setTotalOrders(response.result.totalItems)
+            // }
+            postRequestWithToken('order/get-order-list-all-users', obj, async (response) => {
+                if (response.code == 200) {
+                    setOrderList(response.result.data)
+                    setTotalOrders(response.result.totalItems)
+                }
+            })
+        } catch (error) {
+            toast(error.message, {type:'error'})
+            console.log('error in order list api',error);
+        } finally{
             setLoading(false);
-          })
+        }
+    }
+
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     return (

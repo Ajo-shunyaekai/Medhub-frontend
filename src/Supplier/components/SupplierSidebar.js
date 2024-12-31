@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import io from 'socket.io-client'; 
-import logo from '../assest/signup.svg';
+import logo from '../assest/logo.svg';
 import SupSidebar from '../components/SupSidebar';
 import PopupModal from '../pages/PopupModal.js';
 import SupplierDashboard from '../pages/SupplierDashboard.js';
@@ -96,16 +96,35 @@ const SupplierSidebar = () => {
             };
         }
     };
+
+        // Fetch notification list function
+const fetchNotifications = () => {
+    const obj = {
+        supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
+    };
+
+    postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+        if (response.code === 200) {
+            // Update notification list and count
+            setNotificationList(response.result.data);
+            setCount(response.result.totalItems || 0);
+        } else {
+            console.log('error in fetching notification list');
+        }
+    });
+};
     
     const handleClick = (id, event) => {
         const obj = {
             notification_id : id,
             event ,
-            status : 1
+            status : 1,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            user_type: 'supplier'
         }
         postRequestWithToken('supplier/update-notification-status', obj, (response) => {
             if (response.code === 200) {
-                setRefresh(true)
+                fetchNotifications()
             } else {
                 console.log('error in order details api');
             }
@@ -135,20 +154,20 @@ const SupplierSidebar = () => {
             // Emit the supplier ID to register the connection
             socket.emit('register', supplierId);
 
-            const fetchNotifications = () => {
-                const obj = {
-                    supplier_id: supplierId,
-                };
+            // const fetchNotifications = () => {
+            //     const obj = {
+            //         supplier_id: supplierId,
+            //     };
                 
-                postRequestWithToken('supplier/get-notification-list', obj, (response) => {
-                    if (response.code === 200) {
-                        setNotificationList(response.result.data);
-                        setCount(response.result.totalItems || 0);
-                    } else {
-                        console.log('error in fetching notifications');
-                    }
-                });
-            };
+            //     postRequestWithToken('supplier/get-notification-list', obj, (response) => {
+            //         if (response.code === 200) {
+            //             setNotificationList(response.result.data);
+            //             setCount(response.result.totalItems || 0);
+            //         } else {
+            //             console.log('error in fetching notifications');
+            //         }
+            //     });
+            // };
     
             // Fetch notifications when component mounts
             fetchNotifications();

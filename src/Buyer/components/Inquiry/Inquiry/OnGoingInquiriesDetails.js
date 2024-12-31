@@ -6,6 +6,7 @@ import { postRequestWithToken } from "../../../../api/Requests";
 import moment from "moment-timezone";
 import ProductList from "./ProductList";
 import { toast } from "react-toastify";
+import { apiRequests } from "../api";
 
 const OnGoingInquiriesDetails = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -43,29 +44,77 @@ const OnGoingInquiriesDetails = () => {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       enquiry_id: inquiryId,
     };
-    postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
-      if (response.code === 200) {
-        setInquiryDetails(response?.result);
-        const acceptedItems = [];
-        const rejectedItems = [];
+    const fetchData = async () => {
+      // postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
+      //   if (response.code === 200) {
+      //     setInquiryDetails(response?.result);
+      //     const acceptedItems = [];
+      //     const rejectedItems = [];
 
-        response?.result?.quotation_items?.forEach((item) => {
-          if (item.status === "accepted") {
-            acceptedItems.push(item);
-          } else if (item.status === "rejected") {
-            rejectedItems.push(item);
-          }
-        });
-        setAcceptedItems(acceptedItems);
-        setRejectedItems(rejectedItems);
+      //     response?.result?.quotation_items?.forEach((item) => {
+      //       if (item.status === "accepted") {
+      //         acceptedItems.push(item);
+      //       } else if (item.status === "rejected") {
+      //         rejectedItems.push(item);
+      //       }
+      //     });
+      //     setAcceptedItems(acceptedItems);
+      //     setRejectedItems(rejectedItems);
 
-        sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-        sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
-      } else {
-        console.log("error in order list api", response);
+      //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      //   } else {
+      //     console.log("error in order list api", response);
+      //   }
+      // }
+      // );
+                 
+      // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+      // if (response?.code !== 200) {
+      //     console.log('error in order list api', response);
+      //     return;
+      // }
+      // setInquiryDetails(response?.result);
+      // const acceptedItems = [];
+      // const rejectedItems = [];
+
+      // response?.result?.quotation_items?.forEach((item) => {
+      //   if (item.status === "accepted") {
+      //     acceptedItems.push(item);
+      //   } else if (item.status === "rejected") {
+      //     rejectedItems.push(item);
+      //   }
+      // });
+      // setAcceptedItems(acceptedItems);
+      // setRejectedItems(rejectedItems);
+
+      // sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      // sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+        if (response.code === 200) {
+          setInquiryDetails(response?.result);
+          const acceptedItems = [];
+          const rejectedItems = [];
+
+          response?.result?.quotation_items?.forEach((item) => {
+            if (item.status === "accepted") {
+              acceptedItems.push(item);
+            } else if (item.status === "rejected") {
+              rejectedItems.push(item);
+            }
+          });
+          setAcceptedItems(acceptedItems);
+          setRejectedItems(rejectedItems);
+
+          sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+          sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+        } else {
+          console.log("error in order list api", response);
+        }
       }
+      );
     }
-    );
+    fetchData()
   }, []);
 
   useEffect(() => {
@@ -95,7 +144,49 @@ const OnGoingInquiriesDetails = () => {
     postRequestWithToken("buyer/enquiry/accept-reject-quotation", obj, async (response) => {
       if (response.code === 200) {
         toast(response.message, { type: "success" });
-        postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
+        const fetchData = async () => {
+          // postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
+          // if (response.code === 200) {
+          //   setInquiryDetails(response?.result);
+          //   setAcceptedItems((prevItems) => {
+          //     const updatedItems = [...prevItems, item];
+          //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+          //     return updatedItems;
+          //   });
+          //   setRejectedItems((prevItems) => {
+          //     const updatedItems = prevItems.filter(
+          //       (rejItem) => rejItem._id !== item._id
+          //     );
+          //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+          //     );
+          //     return updatedItems;
+          //   });
+          // } else {
+          //   console.log("error in order list api", response);
+          // }
+          // }
+          // );
+                 
+          // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+          // if (response?.code !== 200) {
+          //     console.log('error in order list api', response);
+          //     return;
+          // }
+          // setInquiryDetails(response?.result);
+          // setAcceptedItems((prevItems) => {
+          //   const updatedItems = [...prevItems, item];
+          //   sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+          //   return updatedItems;
+          // });
+          // setRejectedItems((prevItems) => {
+          //   const updatedItems = prevItems.filter(
+          //     (rejItem) => rejItem._id !== item._id
+          //   );
+          //   sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+          //   );
+          //   return updatedItems;
+          // });
+          postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
           if (response.code === 200) {
             setInquiryDetails(response?.result);
             setAcceptedItems((prevItems) => {
@@ -114,8 +205,11 @@ const OnGoingInquiriesDetails = () => {
           } else {
             console.log("error in order list api", response);
           }
+          }
+          );
         }
-        );
+
+        fetchData()
       } else {
         toast(response.message, { type: "error" });
         console.log("error in accept-reject-quotation api", response);
@@ -142,8 +236,62 @@ const OnGoingInquiriesDetails = () => {
       async (response) => {
         if (response.code === 200) {
           toast(response.message, { type: "success" });
-          postRequestWithToken(
-            "buyer/enquiry/enquiry-details",
+          const fetchData = async ()=>{
+            // postRequestWithToken(
+            // "buyer/enquiry/enquiry-details",
+            // obj,
+            // async (response) => {
+            //   if (response.code === 200) {
+            //     setInquiryDetails(response?.result);
+            //     setRejectedItems((prevItems) => {
+            //       const updatedItems = [...prevItems, item];
+            //       sessionStorage.setItem(
+            //         "rejectedQuotationItems",
+            //         JSON.stringify(updatedItems)
+            //       );
+            //       return updatedItems;
+            //     });
+            //     setAcceptedItems((prevItems) => {
+            //       const updatedItems = prevItems.filter(
+            //         (accItem) => accItem._id !== item._id
+            //       );
+            //       sessionStorage.setItem(
+            //         "acceptedQuotationItems",
+            //         JSON.stringify(updatedItems)
+            //       );
+            //       return updatedItems;
+            //     });
+            //   } else {
+            //     console.log("error in order list api", response);
+            //   }
+            // }
+            // );           
+            // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            // if (response?.code !== 200) {
+              //     console.log('error in order list api', response);
+              //     return;
+              // }
+              // setInquiryDetails(response?.result);
+              // setRejectedItems((prevItems) => {
+                //   const updatedItems = [...prevItems, item];
+                //   sessionStorage.setItem(
+                  //     "rejectedQuotationItems",
+                  //     JSON.stringify(updatedItems)
+                  //   );
+                  //   return updatedItems;
+                  // });
+                  // setAcceptedItems((prevItems) => {
+                    //   const updatedItems = prevItems.filter(
+                      //     (accItem) => accItem._id !== item._id
+                      //   );
+                      //   sessionStorage.setItem(
+                        //     "acceptedQuotationItems",
+                        //     JSON.stringify(updatedItems)
+                        //   );
+                        //   return updatedItems;
+                        // });
+            postRequestWithToken(
+            `enquiry/get-specific-enquiry-details/${inquiryId}`,
             obj,
             async (response) => {
               if (response.code === 200) {
@@ -170,7 +318,9 @@ const OnGoingInquiriesDetails = () => {
                 console.log("error in order list api", response);
               }
             }
-          );
+            );           
+          }
+          fetchData()
         } else {
           toast(response.message, { type: "error" });
           console.log("error in accept-reject-quotation api", response);

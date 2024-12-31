@@ -8,6 +8,7 @@ import ProformaInvoice from './Proforma/ProformaInvoice';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../api';
 
 const Invoice = ({socket}) => {
     const location = useLocation();
@@ -23,11 +24,11 @@ const Invoice = ({socket}) => {
     useEffect(() => {
         const getActiveLinkFromPath = (path) => {
             switch (path) {
-                case '/buyer/invoice/Pending-Invoice':
+                case '/buyer/invoice/pending':
                     return 0;
-                case '/buyer/invoice/Paid-Invoice':
+                case '/buyer/invoice/paid':
                     return 1;
-                case '/buyer/invoice/Proforma-Invoice':
+                case '/buyer/invoice/proforma':
                     return 2;
                 default:
                     return 0;
@@ -78,16 +79,41 @@ const Invoice = ({socket}) => {
                 setLoading(false);
             });
         } else {
-            postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
-                if (response.code === 200) {
-                    setInvoiceList(response.result.data);
-                    setTotalInvoices(response.result.totalItems);
-                } else {
-                    toast(response.message, { type: 'error' });
-                    console.log('Error in invoice list API:', response);
+            const fetchInvoiceList = async () => {
+                try {
+                    // const response = await apiRequests.postRequest('order/get-invoice-list-all-users', obj)
+                    // if(response?.code!==200){
+                    //     toast(response.message, {type:'error'});
+                    //     console.log('error in invoice list api', response);
+                    //     return
+                    // }
+                    
+                    // setInvoiceList(response.result.data);
+                    // setTotalInvoices(response.result.totalItems);
+                    postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
+                        if (response.code == 200) {
+                            setInvoiceList(response.result.data);
+                            setTotalInvoices(response.result.totalItems);
+                        }
+                    })
+                } catch (error) {
+                    console.log('Error in get-invoice-list API', error);
+                    
+                } finally {
+                    setLoading(false);
                 }
+            }
+            fetchInvoiceList()
+            // postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceList(response.result.data);
+            //         setTotalInvoices(response.result.totalItems);
+            //     } else {
+            //         toast(response.message, { type: 'error' });
+            //         console.log('Error in invoice list API:', response);
+            //     }
                 setLoading(false);
-            });
+            // });
         }
     };
     
@@ -96,19 +122,19 @@ const Invoice = ({socket}) => {
         switch (link) {
             case 'pending':
                 setActiveIndex(0);
-                navigate('Pending-Invoice');
+                navigate('/buyer/invoice/pending');
                 break;
             case 'paid':
                 setActiveIndex(1);
-                navigate('Paid-Invoice');
+                navigate('/buyer/invoice/paid');
                 break;
             case 'active':
                 setActiveIndex(2);
-                navigate('Proforma-Invoice');
+                navigate('/buyer/invoice/proforma');
                 break;
             default:
                 setActiveIndex(0);
-                navigate('Pending-Invoice');
+                navigate('/buyer/invoice/pending');
         }
     };
 

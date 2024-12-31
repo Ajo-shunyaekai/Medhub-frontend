@@ -6,6 +6,8 @@ import { postRequestWithToken } from '../../api/Requests';
 import RejectedNewProduct from './RejectedNewProduct'
 import RejectedSecondaryProducts from './RejectedSecondaryProducts'
 import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api'
 
 const RejectedProduct = () => {
     const location = useLocation();
@@ -52,28 +54,51 @@ const RejectedProduct = () => {
     };
 
     useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
-        const obj = {
-            admin_id     : adminIdSessionStorage || adminIdLocalStorage,
-            medicineType : medicineType,
-            status       : 2,
-            pageNo       : currentPage, 
-            pageSize     : listPerPage,
-        }
-
-        postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
-            if (response.code === 200) {
-                setProductList(response.result.data);
-                setTotalProducts(response.result.totalItems);
-            } else {
-               console.log('error in order list api',response);
+        const fetchData = async ()=> {
+            if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                navigate("/admin/login");
+                return;
             }
-            setLoading(false);
-          })
+            const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
+            const obj = {
+                admin_id     : adminIdSessionStorage || adminIdLocalStorage,
+                medicineType : medicineType,
+                status       : 2,
+                pageNo       : currentPage, 
+                pageSize     : listPerPage,
+            }
+
+            postRequestWithToken('admin/get-medicine-list', obj, async (response) => {
+                if (response.code === 200) {
+                    setProductList(response.result.data);
+                    setTotalProducts(response.result.totalItems);
+                } else {
+                console.log('error in order list api',response);
+                }
+                setLoading(false);
+            })
+            try {
+                // const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
+                // if(response?.code !== 200){
+                // return
+                // }
+                // setProductList(response.result.data);
+                // setTotalProducts(response.result.totalItems);
+                postRequestWithToken('medicine/get-all-medicines-list', obj, async (response) => {
+                    if (response.code === 200) {
+                        setProductList(response.result.data);
+                        setTotalProducts(response.result.totalItems);
+                    } else {
+                        console.log('error in medicine list api',response);
+                    }
+                })
+            } catch (error) {
+                console.log('error in order list api',error);
+            } finally{
+                setLoading(false);
+            }
+        }
+        fetchData()
     },[activeLink, currentPage])
 
     return (

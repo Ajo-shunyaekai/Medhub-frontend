@@ -4,7 +4,7 @@ import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import '../style/signup.css';
-import logo from '../assest/signup.svg'
+import logo from '../assest/logo.svg'
 import SuccessModal from './SuccessModal';
 import ImageUploader from './ImageUploader';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
@@ -13,6 +13,8 @@ import { apiRequests } from '../../api/index';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../redux/reducers/userDataSlice';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -40,6 +42,9 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SupplierSignUp = ({socket}) => {
+    const dispatch = useDispatch()
+    const {showSuccessSignup} = useSelector(state=>state?.userReducer)
+    console.log(`showSuccessSignup ${showSuccessSignup}`)
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
@@ -461,29 +466,47 @@ const SupplierSignUp = ({socket}) => {
             //     }
             // })
             try {
-                const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
-                if(response?.code !== 200) {
-                    setLoading(false)
-                    toast(response.message, {type: 'error'})
-                    console.log('error in supplier/register api');
-                    return;
-                }
-                handleCancel()
-                setShowModal(true);
-                setLoading(false)
+                // const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
+                // if(response?.code !== 200) {
+                //     setLoading(false)
+                //     toast(response.message, {type: 'error'})
+                //     console.log('error in supplier/register api');
+                //     return;
+                // }
+                // handleCancel()
+                // setShowModal(true);
+                // setLoading(false)
 
-                socket.emit('supplierRegistration', {
-                    adminId : process.env.REACT_APP_ADMIN_ID,
-                    message : `New Supplier Registration Request `,
-                    link    : process.env.REACT_APP_PUBLIC_URL
-                    // send other details if needed
-                });
+                // socket.emit('supplierRegistration', {
+                //     adminId : process.env.REACT_APP_ADMIN_ID,
+                //     message : `New Supplier Registration Request `,
+                //     link    : process.env.REACT_APP_PUBLIC_URL
+                //     // send other details if needed
+                // });
+                // await dispatch(registerUser(formDataToSend))
+                // setLoading(false)
+                // if(showSuccessSignup){
+                //     handleCancel()
+                //     setShowModal(true);
+                // }
+                const action = await dispatch(registerUser(formDataToSend))
+                // Check if login was successful
+                if (registerUser.fulfilled.match(action)) {
+                    setTimeout(() => {
+                        handleCancel()
+                        setShowModal(true);
+                    }, 500);
+                }
+                
             } catch (error) {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, {type: 'error'})
                 console.log('error in buyer/register api');
                 
+            } finally {
+                setLoading(false)
+
             }
         } else {
             setLoading(false)

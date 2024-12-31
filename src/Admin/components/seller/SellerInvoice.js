@@ -7,6 +7,8 @@ import PaidInvoice from './PaidInvoice'
 import { postRequestWithToken } from '../../api/Requests';
 import SellerProformaInvoice from './SellerProformaInvoice';
 import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 
 const SellerInvoice = () => {
@@ -64,19 +66,45 @@ const SellerInvoice = () => {
             admin_id    : adminIdSessionStorage || adminIdLocalStorage,
             pageNo      : currentPage, 
             pageSize    : listPerPage,
+            page_no      : currentPage, 
+            page_size    : listPerPage,
         };
 
         if (activeLink === 'paid' || activeLink === 'pending') {
             obj.filterKey = activeLink;
-            postRequestWithToken('admin/get-invoice-list', obj, async (response) => {
-                if (response.code === 200) {
-                    setInvoiceList(response.result.data);
-                    setTotalItems(response.result.totalItems);
-                } else {
-                    console.log('Error in get-invoice-list API', response);
+            const fetchInvoiceList = async () => {
+                try {
+                    // const response = await apiRequests.postRequest('order/get-invoice-list-all-users', obj)
+                    // if(response?.code!==200){
+                    //     console.log('error in invoice list api', response);
+                    //     return
+                    // }
+                    
+                    // setInvoiceList(response.result.data);
+                    // setTotalItems(response.result.totalItems);
+                    postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
+                        if (response.code == 200) {
+                            setInvoiceList(response.result.data);
+                            setTotalItems(response.result.totalItems);
+                        }
+                    })
+                } catch (error) {
+                    console.log('Error in get-invoice-list API', error);
+                    
+                } finally {
+                    setLoading(false);
                 }
+            }
+            fetchInvoiceList()
+            // postRequestWithToken('admin/get-invoice-list', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceList(response.result.data);
+            //         setTotalItems(response.result.totalItems);
+            //     } else {
+            //         console.log('Error in get-invoice-list API', response);
+            //     }
                 setLoading(false);
-            });
+            // });
         } else if (activeLink === 'proforma') {
             // Call a different API for 'proforma' invoices
             obj.filterKey = 'active'

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
 import { phoneValidationRules, countryCodes } from '../../../../utils/phoneNumberValidation';
+import { apiRequests } from '../api';
 
 
 const CreatePO = ({socket}) => {
@@ -105,46 +106,113 @@ const CreatePO = ({socket}) => {
     }, [inquiryId]);
     
     useEffect(() => {
-        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
-        }
-        const obj = {
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            enquiry_id: inquiryId,
-        };
-        postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
-            if (response.code === 200) {
-                setInquiryDetails(response?.result);
-                const data = response.result
-                const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
-                const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
-
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                    poId: data.purchaseOrder_id,
-              
-                    description : data.additional_instructions,
-                    supplierId: data?.supplier?.supplier_id,
-                    supplierName: data?.supplier?.supplier_name,
-                    supplierEmail: data?.supplier?.supplier_email,
-                    supplierAddress: data?.supplier?.supplier_address,
-                    supplierMobile: formattedSupplierMobile,
-                    supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
-                    supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
-                    supplierRegNo: data?.supplier?.registration_no,
-                    buyerId: data?.buyer?.buyer_id,
-                    buyerName: data?.buyer?.buyer_name,
-                    buyerEmail: data?.buyer?.buyer_email,
-                    buyerAddress : data?.buyer?.buyer_address,
-                    buyerMobile: formattedBuyerMobile,
-                    buyerRegNo: data?.buyer?.registration_no,
-                    orderItems: data?.items,
-                }));
-            } else {
-                console.log('error in order list api', response);
+        const fetchData = async ()=> {
+            if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+                navigate("/buyer/login");
+                return;
             }
-        });
+            const obj = {
+                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                enquiry_id: inquiryId,
+            };
+            // postRequestWithToken('buyer/enquiry/enquiry-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInquiryDetails(response?.result);
+            //         const data = response.result
+            //         const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
+            //         const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
+
+            //         setFormData(prevFormData => ({
+            //             ...prevFormData,
+            //             poId: data.purchaseOrder_id,
+                
+            //             description : data.additional_instructions,
+            //             supplierId: data?.supplier?.supplier_id,
+            //             supplierName: data?.supplier?.supplier_name,
+            //             supplierEmail: data?.supplier?.supplier_email,
+            //             supplierAddress: data?.supplier?.supplier_address,
+            //             supplierMobile: formattedSupplierMobile,
+            //             supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+            //             supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+            //             supplierRegNo: data?.supplier?.registration_no,
+            //             buyerId: data?.buyer?.buyer_id,
+            //             buyerName: data?.buyer?.buyer_name,
+            //             buyerEmail: data?.buyer?.buyer_email,
+            //             buyerAddress : data?.buyer?.buyer_address,
+            //             buyerMobile: formattedBuyerMobile,
+            //             buyerRegNo: data?.buyer?.registration_no,
+            //             orderItems: data?.items,
+            //         }));
+            //     } else {
+            //         console.log('error in order list api', response);
+            //     }
+            // });
+                      
+            // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            // if (response?.code !== 200) {
+            //     console.log('error in get-enquiry-details api', response);
+            //     return;
+            // }
+            // setInquiryDetails(response?.result);
+            // const data = response.result
+            // const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
+            // const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
+
+            // setFormData(prevFormData => ({
+            //     ...prevFormData,
+            //     poId: data.purchaseOrder_id,
+        
+            //     description : data.additional_instructions,
+            //     supplierId: data?.supplier?.supplier_id,
+            //     supplierName: data?.supplier?.supplier_name,
+            //     supplierEmail: data?.supplier?.supplier_email,
+            //     supplierAddress: data?.supplier?.supplier_address,
+            //     supplierMobile: formattedSupplierMobile,
+            //     supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+            //     supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+            //     supplierRegNo: data?.supplier?.registration_no,
+            //     buyerId: data?.buyer?.buyer_id,
+            //     buyerName: data?.buyer?.buyer_name,
+            //     buyerEmail: data?.buyer?.buyer_email,
+            //     buyerAddress : data?.buyer?.buyer_address,
+            //     buyerMobile: formattedBuyerMobile,
+            //     buyerRegNo: data?.buyer?.registration_no,
+            //     orderItems: data?.items,
+            // }));
+            postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setInquiryDetails(response?.result);
+                    const data = response.result
+                    const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
+                    const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
+
+                    setFormData(prevFormData => ({
+                        ...prevFormData,
+                        poId: data.purchaseOrder_id,
+                
+                        description : data.additional_instructions,
+                        supplierId: data?.supplier?.supplier_id,
+                        supplierName: data?.supplier?.supplier_name,
+                        supplierEmail: data?.supplier?.supplier_email,
+                        supplierAddress: data?.supplier?.supplier_address,
+                        supplierMobile: formattedSupplierMobile,
+                        supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+                        supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+                        supplierRegNo: data?.supplier?.registration_no,
+                        buyerId: data?.buyer?.buyer_id,
+                        buyerName: data?.buyer?.buyer_name,
+                        buyerEmail: data?.buyer?.buyer_email,
+                        buyerAddress : data?.buyer?.buyer_address,
+                        buyerMobile: formattedBuyerMobile,
+                        buyerRegNo: data?.buyer?.registration_no,
+                        orderItems: data?.items,
+                    }));
+                } else {
+                    console.log('error in order list api', response);
+                }
+            });
+        }
+        fetchData()
     }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, inquiryId]);
 
     const handleChange = (event) => {
@@ -253,7 +321,7 @@ const CreatePO = ({socket}) => {
                         // send other details if needed
                     });
                     setTimeout(() => {
-                        navigate('/buyer/inquiry/Purchased-Order')
+                        navigate('/buyer/inquiry-purchase-orders/purchased')
                         setLoading(true)
                     }, 1000)
                 } else {

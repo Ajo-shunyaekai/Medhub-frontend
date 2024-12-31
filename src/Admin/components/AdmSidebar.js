@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../style/sidebar.module.css"; 
 import { Link, useNavigate } from "react-router-dom";
 import order_list from "../assest/dashboard/order_list.svg";
-import DeliverLogo from "../assest/navbar-img/DeliverLogo.svg";
+import DeliverLogo from "../assest/logo.svg";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CropFreeOutlinedIcon from "@mui/icons-material/CropFreeOutlined";
@@ -100,6 +100,7 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsProfileOpen(false); // Close profile dropdown if open
+    handleClick() //for notification status update
   };
 
   // Profile Dropdown Code
@@ -114,13 +115,13 @@ const AdmSidebar = ({ children, dragWindow,notificationList, count, handleClick 
   const [isDropdown, setIsDropdown] = useState(false);
 
   const toggle = () => {
-    setIsOpen(!isOpen);
+    // setIsOpen(!isOpen);
 
-    if (window.innerWidth <= 992) {
-      setIsIcon(!isIcon);
-    } else {
-      setIsIcon(true);
-    }
+    // if (window.innerWidth <= 992) {
+    //   setIsIcon(!isIcon);
+    // } else {
+    //   setIsIcon(true);
+    // }
   };
   // Effect to close sidebar when screen size is 1050px or less
   useEffect(() => {
@@ -379,32 +380,32 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
       case 'addnewmedicinerequest':
         setIsNotificationOpen(false)
         navigate(`/admin/product-requests/newproduct`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;    
     case 'addsecondarymedicinerequest':
         setIsNotificationOpen(false)
         navigate(`/admin/product-requests/secondary`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;        
       case 'editnewmedicinerequest':
           setIsNotificationOpen(false)
           navigate(`/admin/product-update-requests/newproduct`);
-          handleClick(notificationId, event)
+          // handleClick(notificationId, event)
           break;    
       case 'editsecondarymedicinerequest':
           setIsNotificationOpen(false)
           navigate(`/admin/product-update-requests/secondary`);
-          handleClick(notificationId, event)
+          // handleClick(notificationId, event)
           break;   
       case 'buyerregistration':
         setIsNotificationOpen(false)
         navigate(`/admin/buyer-request`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;  
       case 'supplierregistration':
         setIsNotificationOpen(false)
         navigate(`/admin/seller-request`);
-        handleClick(notificationId, event)
+        // handleClick(notificationId, event)
         break;    
       default:
         navigate('/admin/'); // Default to home or another page if event_type doesn't match
@@ -466,19 +467,8 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
                                               {
                                                 notificationList?.slice(0, 5).map((data,i) => {
                                                     let additionalInfo = '';
-                                            
-                                                    // if (data.event_type === 'Order created') {
-                                                    //     additionalInfo = `for ${data.connected_id}`;
-                                                    // } else if (data.event_type === 'Shipment details submitted') {
-                                                    //     additionalInfo = `for: ${data.event_id}`;
-                                                    // } else if (data.event_type === 'Enquiry quotation') {
-                                                    //     additionalInfo = `from: ${data.supplier.supplier_name}`;
-                                                    // }
-
                                                     let displayMessage = data.message;
-                                                        // if (data.message === 'Enquiry quotation submitted') {
-                                                        //     displayMessage = `Enquiry quotation received `;
-                                                        // }
+                                                       
                                                     return (
                                                         <div className={styles.noti_profile_wrapper}
                                                          onClick={() => handleNavigation(data.notification_id,data.event, data.event_id, data.link_id)}>
@@ -501,7 +491,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
                     <div className={styles.noti_bottom_wrapper}>
                       <div className={styles.noti_see_all_num}>
-                        {count} Notifications
+                        {notificationList?.length} Notifications
                       </div>
 
                       {/* <Link to="#"> */}
@@ -564,7 +554,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
       {/*Desktop Sidebar code start from here */}
       <div className={styles.sidebar_container}>
-  {isIcon ? (
+  {isIcon ? 
     <div style={{ width: isOpen ? "200px" : "50px" }} className={styles.sidebar}>
       <Link to="/admin" className={styles.sidebar_text} activeclassname={styles.active}>
         <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
@@ -731,7 +721,7 @@ const handleNavigation = (notificationId,event, eventId,linkId) => {
 
 
     </div>
-  ) : ''}
+   : ''}
   <main style={{ marginTop: isSearchVisible ? '30px' : '0' }}>
     {children}
   </main>

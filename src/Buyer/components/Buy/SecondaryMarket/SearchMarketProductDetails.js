@@ -8,6 +8,8 @@ import html2canvas from 'html2canvas';
 import Invoice from '../../../assest/images/invoice.pdf'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
+// import { postRequestWithToken } from '../api/Requests';
+import { apiRequests } from '../api';
 
 const SearchMarketProductDetails = () => {
     const [showModal, setShowModal] = useState(false);
@@ -93,29 +95,54 @@ const SearchMarketProductDetails = () => {
     }
 
     useEffect(() => {
-        const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
+        const fetchData = async () => {
+            const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+            const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
-        if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
-        }
-
-        const obj = {
-            medicine_id: medId,
-            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
-        }
-
-        postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
-            if (response.code === 200) {
-                setDetails(response?.result?.data)
-                setMedicineName(response?.result?.data?.medicine_name)
-                setCountryAvailableIn(response?.result?.countryAvailable)
-                setSupplierId(response.result?.supplier_id)
-            } else {
-                console.log('error in med details api');
+            if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+                navigate("/buyer/login");
+                return;
             }
-        })
+
+            const obj = {
+                medicine_id: medId,
+                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
+            }
+
+            // postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setDetails(response?.result)
+            //         setMedicineName(response?.result?.medicine_name)
+            //         setCountryAvailableIn(response?.result?.countryAvailable)
+            //         setSupplierId(response.result?.supplier_id)
+            //     } else {
+            //         console.log('error in med details api');
+            //     }
+            // })
+            try {
+                // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
+                // if(response?.code !== 200){
+                //     return
+                // }
+                // setDetails(response?.result?.data)
+                // setMedicineName(response?.result?.data?.medicine_name)
+                // setCountryAvailableIn(response?.result?.countryAvailable)
+                // setSupplierId(response.result?.supplier_id)
+                postRequestWithToken('medicine/get-specific-medicine-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setDetails(response?.result)
+                        setMedicineName(response?.result?.medicine_name)
+                        setCountryAvailableIn(response?.result?.countryAvailable)
+                        setSupplierId(response.result?.supplier_id)
+                    } else {
+                        console.log('error in med details api');
+                    }
+                })
+            } catch (error) {
+                console.log('error in medicine list api',error);
+            }
+        }
+        fetchData()
     }, [medId])
 
     useEffect(() => {

@@ -5,6 +5,7 @@ import html2pdf from 'html2pdf.js';
 import { postRequestWithToken } from '../../../api/Requests';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
+import { apiRequests } from '../../api';
 
 
 function InvoiceTemplate({ invoice }) {
@@ -13,15 +14,31 @@ function InvoiceTemplate({ invoice }) {
     const [invoiceDetails, setInvoiceDetails] = useState(null);
 
     useEffect(() => {
-        const obj = { invoice_id: invoiceId }
+        const fetchData = async () => {
+            const obj = { invoice_id: invoiceId }
 
-        postRequestWithToken('invoice/invoice-details', obj, async (response) => {
-            if (response.code === 200) {
-                setInvoiceDetails(response.result);
-            } else {
-                console.log('error in order details api');
-            }
-        })
+            // postRequestWithToken('invoice/invoice-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceDetails(response.result);
+            //     } else {
+            //         console.log('error in order details api');
+            //     }
+            // })            
+            // const response = await apiRequests.postRequest(`invoice/get-specific-invoice-details/${invoiceId}`, obj);
+            // if (response?.code !== 200) {
+            //     console.log('error in order details api', response);
+            //     return;
+            // }
+            // setInvoiceDetails(response?.result);
+            postRequestWithToken(`invoice/get-specific-invoice-details/${invoiceId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setInvoiceDetails(response.result);
+                } else {
+                    console.log('error in order details api');
+                }
+            })            
+        }
+        fetchData()
     }, [])
 
     // const orderedDate = moment(orderDetails?.created_at).format("DD/MM/YYYY")

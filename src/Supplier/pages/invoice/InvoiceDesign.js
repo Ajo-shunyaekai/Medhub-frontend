@@ -4,6 +4,7 @@ import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams} from 'react-router-dom';
 import moment from 'moment/moment';
 import { postRequestWithToken } from '../../api/Requests';
+import { apiRequests } from '../../../api';
 
 function InvoiceDesign() {
     const {invoiceId} = useParams()
@@ -24,26 +25,42 @@ function InvoiceDesign() {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        const fetchData = async () => {
+            const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+            const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-            return;
-        }
-
-        const obj = {
-            invoice_id    : invoiceId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
-        };
-
-        postRequestWithToken('invoice/invoice-details', obj, (response) => {
-            if (response.code === 200) {
-                setInvoiceDetails(response.result);
-            } else {
-                console.log('error in order details api');
+            if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+                navigate("/supplier/login");
+                return;
             }
-        });
+
+            const obj = {
+                invoice_id    : invoiceId,
+                supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
+            };
+
+            // postRequestWithToken('invoice/invoice-details', obj, (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceDetails(response.result);
+            //     } else {
+            //         console.log('error in order details api');
+            //     }
+            // });
+            // const response = await apiRequests.postRequest(`invoice/get-specific-invoice-details/${invoiceId}`, obj);
+            // if (response?.code !== 200) {
+            //     console.log('error in order details api', response);
+            //     return;
+            // }
+            // setInvoiceDetails(response?.result);
+            postRequestWithToken(`invoice/get-specific-invoice-details/${invoiceId}`, obj, (response) => {
+                if (response.code === 200) {
+                    setInvoiceDetails(response.result);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+        }
+        fetchData()
     }, [invoiceId, navigate]);
 
     return (

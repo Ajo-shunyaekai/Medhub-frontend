@@ -8,21 +8,44 @@ import BuyerSidebar from './Buyer/BuyerRoutes/Router';
 // import SupplierSidebar from './Supplier/components/SupplierSidebar.js';
 // import AdminSidebar from './Admin/components/AdminSidebar.js';
 
-const activekey = () => {
-    let res = window.location.pathname;
-    const baseUrl = ''; 
-    const baseUrlParts = baseUrl.split("/");
-    const resParts = res.split("/");
-    res = resParts.length > 0 ? resParts[baseUrlParts.length] : "/";
-    res = res ? "/" + res : "/";
-    if (res === '/') {
-        res = '/buyer';
-    }
-    return res;
-};
+import BuyerSidebar from './components/BuyerSidebar.js';
+import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
+import AdminSidebar from './Admin/components/AdminSidebar.js';
+import { postRequestWithToken } from './api/Requests.js';
+import { apiRequests } from './api/index.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserData } from './redux/reducers/userDataSlice.js';
 
-function App() {
-    const [cssFile, setCssFile] = useState('');
+// const socket = io('http://localhost:3333', {
+//     transports: ['websocket'],
+//     withCredentials: true
+//   }); 
+
+    const activekey = () => {
+        var res          = window.location.pathname;
+        var baseUrl      = ''; 
+        baseUrl          = baseUrl.split("/");
+        res              = res.split("/");
+        res              = res.length > 0 ? res[baseUrl.length] : "/";
+        res              = res ? "/" + res : "/";
+
+        if (res === '/') {
+            res = '/buyer';
+        }
+        return res
+    }
+    
+    
+    function App() {
+
+        const _id = sessionStorage?.getItem('_id') || localStorage?.getItem('_id');
+        const dispatch = useDispatch();
+        const {user} = useSelector(state=>state?.userReducer)
+        // console.log(`loggedIn user's profile details : ${user?._id}`)
+
+        useEffect(()=>{
+            _id && dispatch(fetchUserData(_id))
+        },[_id])
 
     useEffect(() => {
         const route = activekey();

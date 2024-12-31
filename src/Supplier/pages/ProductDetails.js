@@ -3,6 +3,7 @@ import '../style/productDetails.css';
 import CountryDetails from '../pages/CountryDetails';
 import { Link, useParams } from 'react-router-dom';
 import { postRequest } from '../api/Requests';
+import { apiRequests } from '../../api';
 
 
 const ProductDetails = () => {
@@ -37,26 +38,45 @@ const ProductDetails = () => {
     };
 
     useEffect(() => {
-        // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const fetchData = async () => {
+            // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+            // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
 
-        // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        // navigate("/supplier/login");
-        // return;
-        // }
+            // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+            // navigate("/supplier/login");
+            // return;
+            // }
 
-        const obj = {
-            medicine_id: medId,
-            // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
-        }
-
-        postRequest('buyer/medicine/medicine-details', obj, async (response) => {
-            if (response.code === 200) {
-                setMedicineDetails(response.result.data)
-            } else {
-                console.log('error in med details api');
+            const obj = {
+                medicine_id: medId,
+                // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
-        })
+
+            // postRequest('buyer/medicine/medicine-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setMedicineDetails(response.result.data)
+            //     } else {
+            //         console.log('error in med details api');
+            //     }
+            // })
+            try {
+                // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
+                // if(response?.code !== 200){
+                //     return
+                // }
+                // setMedicineDetails(response.result.data)
+                postRequest('medicine/get-specific-medicine-details', obj, async (response) => {
+                    if (response.code === 200) {
+                        setMedicineDetails(response.result)
+                    } else {
+                        console.log('error in med details api');
+                    }
+                })
+            } catch (error) {
+                console.log('error in medicine list api',error);
+            }
+        }
+        fetchData()
     }, [])
 
     return (
@@ -76,13 +96,24 @@ const ProductDetails = () => {
                                     {medicineDetails?.composition}
                                 </p>
                             </div>
-                            {/* {medicineDetails?.edit_status === 1 && ( */}
+                            
+                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
+                                <div className="product-details-sec-one-right">
+                                <button className='product-details-send-btn'>Edit</button>
+                                </div>
+                            </Link> */}
+                            {medicineDetails?.edit_status === 1 ? (
                             <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
                                 <div className="product-details-sec-one-right">
                                 <button className='product-details-send-btn'>Edit</button>
                                 </div>
                             </Link>
-                             {/* )}  */}
+                            ) : (
+                                <div className="product-details-sec-one-right">
+                                <button className='product-details-send-btn'>Edit Request Pending</button>
+                                </div>
+                            )}
+                             
                         </div>
                     </div>
 

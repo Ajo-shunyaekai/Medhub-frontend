@@ -7,6 +7,8 @@ import CompletedSellerOrder from './CompletedSellerOrder';
 import PendingSellerOrder from './PendingSellerOrder';
 import { postRequestWithToken } from '../../api/Requests';
 import Loader from '../../../Buyer/components/Loader';
+// import Loader from '../../../components/Loader';
+import { apiRequests } from '../../../api';
 
 const SellerOrder = () => {
     const location = useLocation();
@@ -57,7 +59,7 @@ const SellerOrder = () => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
+    const fetchData = async ()=>{
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -68,16 +70,37 @@ const SellerOrder = () => {
             pageNo    : currentPage, 
             pageSize  : ordersPerPage,
         }
-
-        postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
-            if (response.code === 200) {
-                setOrderList(response.result.data)
+    
+        // postRequestWithToken('admin/buyer-order-list', obj, async (response) => {
+        //     if (response.code === 200) {
+        //         setOrderList(response.result.data)
+        //         setTotalOrders(response.result.totalItems)
+        //     } else {
+        //        console.log('error in order list api',response);
+        //     }
+        //     setLoading(false);
+        //   })
+        try {
+            // const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
+            // if (response.code === 200) {
+            //     setOrderList(response.result.data)
+            //     setTotalOrders(response.result.totalItems)
+            // }
+            postRequestWithToken('order/get-order-list-all-users', obj, async (response) => {
+                if (response.code == 200) {
+                    setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
-            } else {
-               console.log('error in order list api',response);
-            }
+                }
+            })
+        } catch (error) {
+            console.log('error in order list api',error);
+        } finally{
             setLoading(false);
-          })
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     },[activeLink, currentPage])
 
     return (

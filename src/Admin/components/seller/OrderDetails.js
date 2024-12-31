@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import SellerActiveCodinator from './SellerActiveCodinator';
 import SellerActiveInvoiceList from './SellerActiveInvoiceList';
 import { postRequestWithToken } from '../../api/Requests';
+import { apiRequests } from '../../../api';
 
 const OrderDetails = () => {
     const { orderId } = useParams();
@@ -17,7 +18,7 @@ const OrderDetails = () => {
     const [showModal, setShowModal] = useState(false);
     const [refresh, setRefresh] = useState(false)
 
-    useEffect(() => {
+    const fetchData = async () => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -26,13 +27,32 @@ const OrderDetails = () => {
             order_id  : orderId,
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
         };
-        postRequestWithToken('admin/order-details', obj, (response) => {
-            if (response.code === 200) {
-                setOrderDetails(response.result);
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        // postRequestWithToken('admin/order-details', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setOrderDetails(response.result);
+        //     } else {
+        //         console.log('error in order details api');
+        //     }
+        // });
+        try {
+            // const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
+            // if (response.code === 200) {
+            //     setOrderDetails(response.result);
+            // }
+            postRequestWithToken('order/get-specific-order-details', obj, (response) => {
+                if (response.code === 200) {
+                    setOrderDetails(response.result);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+        } catch (error) {
+            console.log('error in order details api');
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     }, [navigate, orderId]);
 
 

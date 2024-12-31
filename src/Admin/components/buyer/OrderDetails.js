@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
 import BuyerActiveCodinator from '../BuyerActiveCodinator';
 import OrderInvoiceList from '../OrderInvoiceList';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../../api';
 
 const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
@@ -20,7 +21,7 @@ const OrderDetails = ({socket}) => {
     const [orderDetails, setOrderDetails] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
+    const fetchData = async () => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate("/admin/login");
             return;
@@ -29,13 +30,32 @@ const OrderDetails = ({socket}) => {
             order_id  : orderId,
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
         };
-        postRequestWithToken('admin/order-details', obj, (response) => {
-            if (response.code === 200) {
-                setOrderDetails(response.result);
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        // postRequestWithToken('admin/order-details', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setOrderDetails(response.result);
+        //     } else {
+        //         console.log('error in order details api');
+        //     }
+        // });
+        try {
+            // const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
+            // if (response.code === 200) {
+            //     setOrderDetails(response.result);
+            // }
+            postRequestWithToken('order/get-specific-order-details', obj, (response) => {
+                if (response.code === 200) {
+                    setOrderDetails(response.result);
+                } else {
+                    console.log('error in order details api');
+                }
+            });
+        } catch (error) {
+            console.log('error in order details api');
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
     }, [navigate, orderId]);
 
     const handleButtonClick = (value) => {

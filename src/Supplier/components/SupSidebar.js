@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import styles from '../style/sidebar.module.css'; // Import the CSS file
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Link, useNavigate } from 'react-router-dom';
-import order_list from '../assest/dashboard/order_list.svg'
-import DeliverLogo from '../assest/navbar-img/DeliverLogo.svg';
+import order_list from '../assest/logo.svg'
+import DeliverLogo from '../assest/logo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -83,6 +83,7 @@ const SupSidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -239,63 +240,63 @@ const SupSidebar = ({ children, dragWindow,
                 setIsNotificationOpen(false)
                 navigate(`/supplier/inquiry-request-details/${eventId}`);
                 updateStatusApi(notificationId)
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'order':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/active-orders-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'purchaseorder':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/purchased-order-details/${linkId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'invoice':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/invoice/paid`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
 
             case 'addnewmedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;       
             case 'addsecondarymedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break; 
             case 'addnewmedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;
             case 'addsecondarymedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;    
 
             case 'editnewmedicinerequest':
                 setIsNotificationOpen(false)
-                navigate(`/supplier/pending-products-list`);
+                // navigate(`/supplier/pending-products-list`);
                 break;    
             case 'editsecondarymedicinerequest':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/pending-products-list`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;   
             case 'editnewmedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;  
             case 'editsecondarymedicine':
                 setIsNotificationOpen(false)
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
+                // handleClick(notificationId, event)
                 break;    
             default:
                 navigate('/supplier/');
@@ -370,7 +371,8 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {/* {count}  */}
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/supplier/notification-list'> */}
@@ -429,9 +431,7 @@ const SupSidebar = ({ children, dragWindow,
             {/*Desktop Sidebar code start from here */}
             < div div className={styles.sidebar_container} >
                 {
-                    isIcon ? <div style={{ width: isOpen ? "200px" : "50px" }
-                    }
-                        className={styles.sidebar} >
+                    isIcon ? <div style={{ width: isOpen ? "200px" : "50px" } } className={styles.sidebar} >
                         <Link to="/supplier/" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
@@ -441,7 +441,16 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
                                 <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4' }} /></div>
                                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
-                                {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+                                
+                                {/* {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />} */}
+                                 {isOpen && (
+                                    isIconOpen ? (
+                                        <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} />
+                                    ) : (
+                                        <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />
+                                    )
+                                )}
+
                             </div>
                             {isOpen && isDropOpen && (
                                 <div className={styles.dropdownContent}>

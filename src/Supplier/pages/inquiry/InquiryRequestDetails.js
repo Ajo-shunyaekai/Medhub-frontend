@@ -5,6 +5,7 @@ import InquiryProductList from './InquiryProductList';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { postRequestWithToken } from '../../api/Requests';
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../../api';
 
 const InquiryRequestDetails = ({socket}) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -33,23 +34,39 @@ const InquiryRequestDetails = ({socket}) => {
     };
 
     useEffect(() => {
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-            return;
-        }
-
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            enquiry_id: inquiryId
-        }
-
-        postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
-            if (response.code === 200) {
-                setInquiryDetails(response?.result)
-            } else {
-                console.log('error in order list api', response);
+        const fetchData = async ()=>{
+            if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+                navigate("/supplier/login");
+                return;
             }
-        })
+
+            const obj = {
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                enquiry_id: inquiryId
+            }
+
+            // postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInquiryDetails(response?.result)
+            //     } else {
+            //         console.log('error in order list api', response);
+            //     }
+            // })            
+            const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            if (response?.code !== 200) {
+                console.log('error in order list api', response);
+                return;
+            }
+            setInquiryDetails(response?.result);
+            postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+                if (response.code === 200) {
+                    setInquiryDetails(response?.result)
+                } else {
+                    console.log('error in order list api', response);
+                }
+            })            
+        }
+        fetchData()
     }, [])
 
     const [acceptChecked, setAcceptChecked] = useState(false)
