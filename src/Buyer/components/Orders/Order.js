@@ -8,7 +8,7 @@ import PendingOrders from './PendingOrders/DeletedOrder';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api'
+// import { apiRequests } from '../api'
 
 
 const Order = () => {
@@ -25,9 +25,9 @@ const Order = () => {
     const getActiveLinkFromPath = (path) => {
         
         switch (path) {
-            case '/buyer/order/active':
+            case '/buyer/order/active-orders':
                 return 'active';
-            case '/buyer/order/completed':
+            case '/buyer/order/completed-orders':
                 return 'completed';
             default:
                 return 'active';
@@ -40,13 +40,13 @@ const Order = () => {
         setCurrentPage(1)
         switch (link) {
             case 'active':
-                navigate('/buyer/order/active');
+                navigate('/buyer/order/active-orders');
                 break;
             case 'completed':
-                navigate('/buyer/order/completed');
+                navigate('/buyer/order/completed-orders');
                 break;
             default:
-                navigate('/buyer/order/active');
+                navigate('/buyer/order/active-orders');
         }
     };
 

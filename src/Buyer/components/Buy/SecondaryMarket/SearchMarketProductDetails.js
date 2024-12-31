@@ -9,7 +9,7 @@ import Invoice from '../../../assest/images/invoice.pdf'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 // import { postRequestWithToken } from '../api/Requests';
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 
 const SearchMarketProductDetails = () => {
     const [showModal, setShowModal] = useState(false);

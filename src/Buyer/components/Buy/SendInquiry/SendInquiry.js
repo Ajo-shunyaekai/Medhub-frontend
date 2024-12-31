@@ -52,11 +52,11 @@ const SendInquiry = ({socket}) => {
 
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
       if (response.code === 200) {
+        sessionStorage.setItem('list_count', response.result.listCount)
         toast(response.message, { type: "success" });
         setCheckedState({});
         setCurrentPage(1);
         setRefreshTrigger(prev => !prev);
-        sessionStorage.setItem('list_count', response.result.listCount)
       } else {
         toast(response.message, { type: "error" });
         console.log('error in order list api', response);

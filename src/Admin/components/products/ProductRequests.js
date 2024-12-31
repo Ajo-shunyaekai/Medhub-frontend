@@ -5,7 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../api/Requests';
 import NewProductRequest from './NewProductRequest';
 import SecondaryProductRequest from './SecondaryProductRequest';
-import Loader from '../../../Buyer/components/Loader';
+import Loader from '../../../Buyer/components/SharedComponents/Loader/Loader';
 // import Loader from '../../../components/Loader';
 import { apiRequests } from '../../../api';
 

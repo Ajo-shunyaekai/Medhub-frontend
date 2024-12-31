@@ -10,7 +10,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../../api'
+// import { apiRequests } from '../../api'
 
 const BuySeller = ({active}) => {
     const navigate = useNavigate()

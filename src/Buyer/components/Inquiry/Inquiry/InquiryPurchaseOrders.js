@@ -7,7 +7,7 @@ import PurchasedOrder from '../PurchasedOrder/PurchasedOrder'
 import { postRequestWithToken } from '../../../../api/Requests';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify'
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 
 
 const InquiryPurchaseOrder = () => {
@@ -25,9 +25,9 @@ const InquiryPurchaseOrder = () => {
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/buyer/inquiry-purchase-orders/ongoing':
+            case 'buyer/inquiry':
                 return 'ongoing';
-            case '/buyer/inquiry-purchase-orders/purchased':
+            case '/buyer/inquiry/purchased-order':
                 return 'purchased';
             default:
                 return 'ongoing';
@@ -40,13 +40,13 @@ const InquiryPurchaseOrder = () => {
         setCurrentPage(1)
         switch (link) {
             case 'ongoing':
-                navigate('/buyer/inquiry-purchase-orders/ongoing');
+                navigate('/buyer/inquiry');
                 break;
             case 'purchased':
-                navigate('/buyer/inquiry-purchase-orders/purchased');
+                navigate('/buyer/inquiry/purchased-order');
                 break;
             default:
-                navigate('/buyer/inquiry-purchase-orders/ongoing');
+                navigate('/buyer/inquiry');
         }
     };
 

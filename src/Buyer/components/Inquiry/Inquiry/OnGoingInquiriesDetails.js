@@ -6,7 +6,7 @@ import { postRequestWithToken } from "../../../../api/Requests";
 import moment from "moment-timezone";
 import ProductList from "./ProductList";
 import { toast } from "react-toastify";
-import { apiRequests } from "../api";
+// import { apiRequests } from "../api";
 
 const OnGoingInquiriesDetails = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");

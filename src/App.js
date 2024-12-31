@@ -5,12 +5,12 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BuyerSidebar from './Buyer/BuyerRoutes/Router';
-// import SupplierSidebar from './Supplier/components/SupplierSidebar.js';
-// import AdminSidebar from './Admin/components/AdminSidebar.js';
-
-import BuyerSidebar from './components/BuyerSidebar.js';
-import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
+import SupplierSidebar from './Supplier/components/SupplierSidebar.js';
 import AdminSidebar from './Admin/components/AdminSidebar.js';
+
+// import BuyerSidebar from './components/BuyerSidebar.js';
+// import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
+// import AdminSidebar from './Admin/components/AdminSidebar.js';
 import { postRequestWithToken } from './api/Requests.js';
 import { apiRequests } from './api/index.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,6 +37,7 @@ import { fetchUserData } from './redux/reducers/userDataSlice.js';
     
     
     function App() {
+        const [cssFile, setCssFile] = useState()
 
         const _id = sessionStorage?.getItem('_id') || localStorage?.getItem('_id');
         const dispatch = useDispatch();
@@ -62,9 +63,9 @@ import { fetchUserData } from './redux/reducers/userDataSlice.js';
         if (activekey().includes('buyer')) {
             return <BuyerSidebar />;
         } else if (activekey().includes('supplier')) {
-            // return <SupplierSidebar />;
+            return <SupplierSidebar />;
         } else if (activekey().includes('admin')) {
-            // return <AdminSidebar />;
+            return <AdminSidebar />;
         }
         return null;
     };

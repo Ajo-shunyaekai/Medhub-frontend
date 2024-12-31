@@ -5,7 +5,7 @@ import html2pdf from 'html2pdf.js';
 import { postRequestWithToken } from '../../../api/Requests';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
-import { apiRequests } from '../../api';
+// import { apiRequests } from '../../api';
 
 
 function InvoiceTemplate({ invoice }) {

@@ -8,7 +8,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment/moment';
-import Loader from '../../../Buyer/components/Loader';
+import Loader from '../../../Buyer/components/SharedComponents/Loader/Loader';
 
 const TotalPO = () => {
     const location = useLocation();

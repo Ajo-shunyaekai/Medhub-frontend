@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../style/productDetails.css';
 import para from '../assest/para.webp';
-import Invoice from '../../Buyer/assest/invoice.pdf'
+// import Invoice from '../../Buyer/assest/invoice.pdf'
 import CountryDetails from '../pages/CountryDetails';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';

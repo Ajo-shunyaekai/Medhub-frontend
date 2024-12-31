@@ -14,7 +14,7 @@ import Pagination from 'react-js-pagination';
 import { postRequestWithToken } from '../../../../api/Requests';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../../api'
+// import { apiRequests } from '../../api'
 
 const Buy2ndMarket = ({active}) => {
     const navigate = useNavigate()

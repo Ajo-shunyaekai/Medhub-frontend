@@ -141,7 +141,7 @@ const Login = ({socket}) => {
                 } else {
                 setLoading(false)
                 toast(response.message, { type: "error" });
-                console.log('error while login')
+                console.log('error while login',response.message)
                 }
                 // const action = await dispatch(loginUser(obj))
                 

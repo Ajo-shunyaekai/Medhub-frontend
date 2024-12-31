@@ -5,7 +5,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import BuyerComplaint from './BuyerComplaint';
 import BuyerFeedback from './BuyerFeedback';
 import { postRequestWithToken } from '../../api/Requests';
-import Loader from '../../../Buyer/components/Loader';
+import Loader from '../../../Buyer/components/SharedComponents/Loader/Loader';
 
 const SellerSupport = () => {
     const location = useLocation();

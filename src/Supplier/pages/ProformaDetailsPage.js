@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../Buyer/style/invoiceDesign.css'
+import '../../Buyer/components/Invoice/pay/invoiceDesign.css'
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';

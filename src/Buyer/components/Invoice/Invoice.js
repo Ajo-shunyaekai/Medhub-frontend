@@ -8,7 +8,7 @@ import ProformaInvoice from './Proforma/ProformaInvoice';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 
 const Invoice = ({socket}) => {
     const location = useLocation();
@@ -24,11 +24,11 @@ const Invoice = ({socket}) => {
     useEffect(() => {
         const getActiveLinkFromPath = (path) => {
             switch (path) {
-                case '/buyer/invoice/pending':
+                case '/buyer/invoice/pending-invoice':
                     return 0;
-                case '/buyer/invoice/paid':
+                case '/buyer/invoice/paid-invoice':
                     return 1;
-                case '/buyer/invoice/proforma':
+                case '/buyer/invoice/proforma-invoice':
                     return 2;
                 default:
                     return 0;
@@ -122,19 +122,19 @@ const Invoice = ({socket}) => {
         switch (link) {
             case 'pending':
                 setActiveIndex(0);
-                navigate('/buyer/invoice/pending');
+                navigate('/buyer/invoice/pending-invoice');
                 break;
             case 'paid':
                 setActiveIndex(1);
-                navigate('/buyer/invoice/paid');
+                navigate('/buyer/invoice/paid-invoice');
                 break;
             case 'active':
                 setActiveIndex(2);
-                navigate('/buyer/invoice/proforma');
+                navigate('/buyer/invoice/proforma-invoice');
                 break;
             default:
                 setActiveIndex(0);
-                navigate('/buyer/invoice/pending');
+                navigate('/buyer/invoice/pending-invoice');
         }
     };
 

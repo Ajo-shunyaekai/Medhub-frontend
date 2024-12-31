@@ -4,7 +4,7 @@ import CancelProductList from './CancelProductList';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 
 const CancelInquiryList = () => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");

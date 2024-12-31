@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../style/dashboardorder.css'
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import { postRequestWithToken } from '../../Buyer/api/Requests';
+import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment/moment';
 import OrderCancel from './OrderCancel';
 import Pagination from 'react-js-pagination';

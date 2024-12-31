@@ -6,7 +6,7 @@ import SearchFilterSection from '../SearchFilterSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 // import { postRequestWithToken } from '../api/Requests';
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 // import Search from '../assest/Buy/search-icon.svg';
 
 

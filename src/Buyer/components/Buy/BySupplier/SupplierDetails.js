@@ -87,19 +87,19 @@ const SupplierDetails = () => {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
 
       }
-      // postRequestWithToken('buyer/supplier-details', obj, async (response) => {
-      //     if (response.code === 200) {
-      //         setSupplier(response.result)
-      //     } else {
-      //         console.log('error in supplier-details api');
-      //     }
-      // })
-      const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
-      if (response?.code !== 200) {
-        console.log(`error in supplier-details api`);
-        return;
-      }
-      setSupplier(response?.result);
+      postRequestWithToken('buyer/supplier-details', obj, async (response) => {
+          if (response.code === 200) {
+              setSupplier(response.result)
+          } else {
+              console.log('error in supplier-details api');
+          }
+      })
+      // const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
+      // if (response?.code !== 200) {
+      //   console.log(`error in supplier-details api`);
+      //   return;
+      // }
+      // setSupplier(response?.result);
     }
 
     getSupplierDeatils()

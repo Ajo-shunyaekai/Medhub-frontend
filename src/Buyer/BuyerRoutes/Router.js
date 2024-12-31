@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import { createBrowserRouter, RouterProvider, useNavigate, useLocation } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useNavigate, useLocation, Navigate } from "react-router-dom";
 import { postRequestWithToken } from '../../api/Requests';
 import Sidebar from "../components/SharedComponents/Sidebar/Sidebar"
 import io from 'socket.io-client';
@@ -50,16 +50,20 @@ import NotificationList from "../components/SharedComponents/Notification/Notifi
 import SupplyProductList from "../components/Buy/BySupplier/SupplyProductList";
 import SupplyOrderList from "../components/Buy/BySupplier/SupplyOrderList";
 import SupplySecondaryList from "../components/Buy/BySupplier/SupplySecondaryList";
+import SupplierCompleted from "../components/supplier/SuplierCompleted"
+import SupplierActive from "../components/supplier/SupplierActive"
+import SupplierPending from "../components/supplier/SupplierPending"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
+    const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
     const [invoiceCount, setInvoiceCount] = useState(0);
-
+    const [refresh, setRefresh] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-
     const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
 
     const showNotification = (title, options, url) => {
@@ -72,13 +76,14 @@ export function NotificationProvider({ children }) {
         }
     };
 
+
     const fetchNotifications = () => {
         const obj = { buyer_id: buyerId };
         postRequestWithToken("buyer/get-notification-list", obj, (response) => {
             if (response.code === 200) {
                 setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0); 
-                console.log(response.result.data)
+                setCount(response.result.totalItems);
+                console.log(response.result.data);
             } else {
                 console.error("Error fetching notification list");
             }
@@ -92,6 +97,25 @@ export function NotificationProvider({ children }) {
                 setInvoiceCount(response.result || 0);
             } else {
                 console.error("Error fetching invoice count");
+            }
+        });
+    };
+
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id: id,
+            event,
+            status: 1,
+            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            user_type: 'buyer'
+        };
+        postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                // setRefresh(true);
+                // console.log("Notification status updated");
+                fetchNotifications(); // Refresh notifications after updating
+            } else {
+                console.error('Error updating notification status');
             }
         });
     };
@@ -130,19 +154,28 @@ export function NotificationProvider({ children }) {
                 });
             };
         }
-    }, [buyerId]);
+    }, [buyerId, refresh]);
 
     return (
-        <Sidebar invoiceCount = {invoiceCount} notificationList= {notificationList} count={count}>
-            </Sidebar>
+        <Sidebar 
+            invoiceCount={invoiceCount} 
+            notificationList={notificationList} 
+            count={count} 
+            handleClick={handleClick}>
+            {children}
+        </Sidebar>
     );
 }
 
 // Routes
 const router = createBrowserRouter([
     {
+        path: "/",
+        element: <Navigate to="/buyer" replace />,
+    },
+    {
         path: "/buyer/login",
-        element: <Login />,
+        element: <Login socket={socket}/>,
     },
     {
         path: "/buyer/sign-up",
@@ -249,11 +282,11 @@ const router = createBrowserRouter([
                 element: <Inquiry />,
                 children: [
                     {
-                        path: "OnGoing-Order",
+                        path: "inquiry",
                         element: <OnGoingOrder />
                     },
                     {
-                        path: "Purchased-Order",
+                        path: "purchased-order",
                         element: <PurchasedOrder />
                     },
 
@@ -285,11 +318,11 @@ const router = createBrowserRouter([
                 element: <Order />,
                 children: [
                     {
-                        path: "Active-Order",
+                        path: "active-orders",
                         element: <ActiveOrder />
                     },
                     {
-                        path: "Completed-Orders",
+                        path: "completed-orders",
                         element: <CompletedOrders />
                     },
 
@@ -316,15 +349,15 @@ const router = createBrowserRouter([
                 element: <Invoice />,
                 children: [
                     {
-                        path: "Pending-Invoice",
+                        path: "pending-invoice",
                         element: <PendingInvoice />
                     },
                     {
-                        path: "Paid-Invoice",
+                        path: "paid-invoice",
                         element: <PaidInvoice />
                     },
                     {
-                        path: "Proforma-Invoice",
+                        path: "proforma-invoice",
                         element: <ProformaInvoice />
                     },
 
@@ -347,6 +380,18 @@ const router = createBrowserRouter([
             {
                 path: "notification-list",
                 element: < NotificationList />
+            },
+            {
+                path: "supplier-completed/:supplierId",
+                element: < SupplierCompleted />
+            },
+            {
+                path: "supplier-active/:supplierId",
+                element: < SupplierActive />
+            },
+            {
+                path: "supplier-pending/:supplierId",
+                element: < SupplierPending />
             },
         ],
     },

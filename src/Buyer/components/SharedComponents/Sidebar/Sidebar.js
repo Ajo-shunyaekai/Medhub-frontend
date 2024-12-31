@@ -242,7 +242,7 @@ const Sidebar = ({ children, dragWindow,
                 break;
             case 'invoice':
                 setIsNotificationOpen(false)
-                navigate(`/buyer/invoice/pending`);
+                navigate(`/buyer/invoice/Pending-Invoice`);
                 // handleClick(notificationId, event)
                 break;
           default:

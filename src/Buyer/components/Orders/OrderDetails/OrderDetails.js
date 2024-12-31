@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 import BuyerActiveCodinator from './BuyerActiveCodinator';
 import OrderInvoiceList from './OrderInvoiceList';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api';
+// import { apiRequests } from '../api';
 
 const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
