@@ -60,7 +60,7 @@ const SellerInvoice = () => {
             return;
         }
  
-        const filterKey = activeLink === 'paid' ? 'completed' : 'pending';
+        const filterKey = activeLink === 'paid' ? 'paid' : 'pending';
         const obj = {
             admin_id    : adminIdSessionStorage || adminIdLocalStorage,
             filterKey   : filterKey,

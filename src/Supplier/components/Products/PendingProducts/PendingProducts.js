@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-<<<<<<< HEAD:src/Supplier/components/Products/PendingProducts/PendingProducts.js
 import '../../../assest/style/dashboardorder.css'
 import { postRequestWithToken } from '../../../../api/Requests';
-=======
-import '../style/dashboardorder.css'
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import { postRequestWithToken } from '../../api/Requests';
->>>>>>> master:src/Supplier/pages/PendingProducts.js
 import moment from 'moment/moment';
 import OrderCancel from '../../Orders/OrderCancel';
 import Pagination from 'react-js-pagination';
@@ -28,8 +22,8 @@ const PendingProducts = () => {
         setModal(!modal)
     }
 
-    const [orderList, setOrderList]     = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [productList, setProductList]     = useState([])
+    const [totalProducts, setTotalProducts] = useState()
 
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage     = 5;
@@ -59,8 +53,8 @@ const PendingProducts = () => {
 
         postRequestWithToken('supplier/medicine-request-list', obj, async (response) => {
             if (response.code === 200) {
-                setOrderList(response.result.data)
-                setTotalOrders(response.result.totalItems)
+                setProductList(response.result.data)
+                setTotalProducts(response.result.totalItems)
             } else {
                console.log('error in order list api',response);
             }
@@ -99,33 +93,34 @@ const PendingProducts = () => {
 
                             <tbody className='bordered'>
                             {
-                                    orderList && orderList?.length > 0 ? (
-                                        orderList.map((order, i) => {
+                                    productList && productList?.length > 0 ? (
+                                        productList.map((item, i) => {
                                             // const totalQuantity = order.items.reduce((total, item) => {
                                             //     return total + item.quantity;
                                             //   }, 0);
-                                              const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                              const requestDate = moment(item.created_at).format("DD/MM/YYYY")
                                             return (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.medicine_id}</div>
+                                            <div className='completed-table-text-color'>{item.medicine_id}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{orderedDate}</div>
+                                            <div className='completed-table-text-color'>{requestDate}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.medicine_name}</div>
+                                            <div className='table-text-color'>{item.medicine_name}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.total_quantity}</div>
+                                            <div className='completed-table-text-color'>{item.total_quantity}</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>
                                                 {/* {order.status === 0 && order.edit_status === 1 ? 'Pending' :  order.status === 1 && order.edit_status === 1 ? 'Accepted' : order.status === 2 ? 'Rejected' : ''} */}
-                                                {order.status === 0 && order.edit_status === 0 ? 'Pending' : 
-                                                    order.status === 1 && order.edit_status === 0 ? 'Pending' :
-                                                    order.status === 1 && order.edit_status === 2 ? 'Rejected' : 
+                                                {item.status === 0 && item.edit_status === 0 ? 'Pending' : 
+                                                    item.status === 1 && item.edit_status === 0 ? 'Pending' :
+                                                    item.status === 1 && item.edit_status === 2 ? 'Rejected' : 
+                                                    item.status === 2 && item.edit_status === 2 ? 'Rejected' : 
                                                     ''}
                                                 </div>
                                         </div>
@@ -149,7 +144,7 @@ const PendingProducts = () => {
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={totalProducts}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -160,7 +155,7 @@ const PendingProducts = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalProducts}
                                 </div>
                             </div>
                         </div>

@@ -10,7 +10,7 @@ import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Table } from 'react-bootstrap';
-import Loader from '../../../Buyer/components/SharedComponents/Loader/Loader'
+import Loader from '../../SharedComponents/Loader/Loader'
 import { toast } from 'react-toastify';
 
 

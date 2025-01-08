@@ -25,7 +25,7 @@ const Order = () => {
     const getActiveLinkFromPath = (path) => {
         
         switch (path) {
-            case '/buyer/order/Active-Order':
+            case '/buyer/order/active-orders':
                 return 'active';
             case '/buyer/order/Completed-Orders':
                 return 'completed';
@@ -40,13 +40,13 @@ const Order = () => {
         setCurrentPage(1)
         switch (link) {
             case 'active':
-                navigate('Active-Order');
+                navigate('active-orders');
                 break;
             case 'completed':
                 navigate('Completed-Orders');
                 break;
             default:
-                navigate('Active-Order');
+                navigate('active-orders');
         }
     };
  

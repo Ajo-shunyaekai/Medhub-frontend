@@ -164,7 +164,7 @@ export const NotificationProvider = ({ children }) => {
 const router = createBrowserRouter([
     {
         path: "/supplier/login",
-        element: <Login />,
+        element: <Login  socket={socket}/>,
     },
     {
         path: "/supplier/sign-up",

@@ -4,20 +4,10 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import BuyerSidebar from './Buyer/BuyerRoutes/Router';
-// import AdminSidebar from './Admin/AdminRoutes/Router';
+import BuyerSidebar from './Buyer/BuyerRoutes/Router';
+import AdminSidebar from './Admin/AdminRoutes/Router';
 import SupplierSidebar from './Supplier/SupplierRoutes/Router';
-// import BuyerSidebar from './components/BuyerSidebar.js';
-import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
-import AdminSidebar from './Admin/components/AdminSidebar.js';
 
-// import BuyerSidebar from './components/BuyerSidebar.js';
-// import SupplierSidebar from './Supplier/components/SupplierSidebar.js'
-// import AdminSidebar from './Admin/components/AdminSidebar.js';
-import { postRequestWithToken } from './api/Requests.js';
-import { apiRequests } from './api/index.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserData } from './redux/reducers/userDataSlice.js';
 const activekey = () => {
     var res          = window.location.pathname;
     var baseUrl      = ''; 

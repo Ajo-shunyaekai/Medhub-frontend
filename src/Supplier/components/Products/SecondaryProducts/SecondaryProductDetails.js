@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD:src/Supplier/components/Products/SecondaryProducts/SecondaryProductDetails.js
 import '../productDetails.css';
 import CountryDetails from '../../SharedComponents/CountryDetails/CountryDetails';
-=======
-import '../style/productDetails.css';
-import para from '../assest/para.webp';
-// import Invoice from '../../Buyer/assest/invoice.pdf'
-import CountryDetails from '../pages/CountryDetails';
->>>>>>> master:src/Supplier/pages/SecondaryProductDetails.js
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Link, useParams } from 'react-router-dom';

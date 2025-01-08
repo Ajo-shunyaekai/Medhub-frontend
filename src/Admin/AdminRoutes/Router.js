@@ -219,7 +219,7 @@ export function NotificationProvider({ children }) {
 const router = createBrowserRouter([
     {
         path: "/admin/login",
-        element: <Login />,
+        element: <Login  socket={socket}/>,
     },
     {
         path: "/admin/",
