@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+<<<<<<< HEAD:src/Supplier/components/Products/PendingProducts/PendingProducts.js
 import '../../../assest/style/dashboardorder.css'
 import { postRequestWithToken } from '../../../../api/Requests';
+=======
+import '../style/dashboardorder.css'
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import { postRequestWithToken } from '../../api/Requests';
+>>>>>>> master:src/Supplier/pages/PendingProducts.js
 import moment from 'moment/moment';
 import OrderCancel from '../../Orders/OrderCancel';
 import Pagination from 'react-js-pagination';

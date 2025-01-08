@@ -8,6 +8,10 @@ import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import OrderCancel from '../../Orders/OrderCancel/OrderCancel'
+import Loader from '../../SharedComponents/Loader/Loader'
+import { postRequestWithToken } from '../../../../api/Requests';
+import { toast } from 'react-toastify';
+
 const PendingInvoicesList = () => {
     const navigate = useNavigate()
     const [show, setShow] = useState(false);
@@ -64,7 +68,9 @@ const PendingInvoicesList = () => {
         },
     ]);
 
-
+    const [loading, setLoading] = useState(true);
+    const [invoiceList, setInvoiceList] = useState([]);
+    const [totalInvoices, setTotalInvoices] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
     const indexOfLastOrder  = currentPage * ordersPerPage;
@@ -85,16 +91,31 @@ const PendingInvoicesList = () => {
         return;
         }
 
+        setLoading(true); 
         const obj = {
             buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : 'active',
+            filterKey : 'pending',
             page_no   : currentPage, 
             limit     : ordersPerPage,
         }
+
+        postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
+            if (response.code === 200) {
+                setInvoiceList(response.result.data);
+                setTotalInvoices(response.result.totalItems);
+            } else {
+                // toast(response.message, { type: 'error' });
+                console.log('Error in proforma invoice list API:', response);
+            }
+            setLoading(false);
+        });
     },[currentPage])
 
     return (
         <>
+         {loading ? (
+                        <Loader />
+                    ) : (
             <div className='completed-order-main-container'>
                 <div className="completed-order-main-head">Pending Invoices</div>
                 <div className="completed-order-container">
@@ -124,26 +145,27 @@ const PendingInvoicesList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {currentOrders?.map((order, index) => (
+                            {invoiceList && invoiceList.length > 0 ? (
+                            invoiceList.map((invoice, i) => (
                                     <div className='completed-table-row-container'>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.invoice_no}</div>
+                                            <div className='completed-table-text-color'>{invoice.invoice_no}</div>
                                         </div>
 
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_id}</div>
+                                            <div className='completed-table-text-color'>{invoice.order_id}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.customer_name}</div>
+                                            <div className='table-text-color'>{invoice.supplier_name}</div>
                                         </div>  
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.amount}</div>
+                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} AED</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.status}</div>
+                                            <div className='completed-table-text-color'>{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/buyer/invoice-design/INV-9d6f2b22`}>
+                                            <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                                 <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
                                                     <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                 </div>
@@ -153,7 +175,14 @@ const PendingInvoicesList = () => {
                                                 </div>
                                         </div>
                                     </div>
-                                       ))}
+                                       ))
+                                    ) : (
+                                      
+                                        <div className='pending-products-no-orders'>
+                                            No Pending Invoices Available
+                                        </div>
+                                       
+                                    )}
                             </tbody>
                         </Table>
 
@@ -164,7 +193,7 @@ const PendingInvoicesList = () => {
                             <Pagination
                                 activePage={currentPage}
                                 itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
+                                totalItemsCount={totalInvoices || invoiceList.length}
                                 pageRangeDisplayed={5}
                                 onChange={handlePageChange}
                                 itemClass="page-item"
@@ -175,16 +204,14 @@ const PendingInvoicesList = () => {
                             />
                             <div className='completed-pagi-total'>
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    Total Items: {totalInvoices || invoiceList.length}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div >
             </div>
-
-
-
+           )}
         </>
     )
 }

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD:src/Supplier/components/Invoices/ProformaInvoices/ProformaDetailsPage.js
 import '../invoiceDesign.css'
+=======
+import '../../Buyer/components/Invoice/pay/invoiceDesign.css'
+>>>>>>> master:src/Supplier/pages/ProformaDetailsPage.js
 import html2pdf from 'html2pdf.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';

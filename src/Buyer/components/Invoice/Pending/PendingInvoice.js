@@ -142,7 +142,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                        orderId     = {selectedOrderId}
                                                        buyerId     = {invoice.buyer_id}
                                                        supplierId  = {invoice.supplier_id}
-                                                       socket      = {socket}
+                                                    //    socket      = {socket}
                                                     />
                                                     <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                                         <div className='invoice-details-button-column'>

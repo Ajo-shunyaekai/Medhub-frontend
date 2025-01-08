@@ -241,6 +241,16 @@ const Sidebar = ({ children, dragWindow,
             navigate(`/buyer/invoice/Pending-Invoice`);
             handleClick(notificationId, event);
             break;
+          case 'purchaseorder':
+                setIsNotificationOpen(false)
+                navigate(`/buyer/purchased-order-details/${linkId}`);
+                // handleClick(notificationId, event)
+                break;
+            case 'invoice':
+                setIsNotificationOpen(false)
+                navigate(`/buyer/invoice/Pending-Invoice`);
+                // handleClick(notificationId, event)
+                break;
           default:
             navigate("/buyer/");
             break;
