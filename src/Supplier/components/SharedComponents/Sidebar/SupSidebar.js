@@ -81,6 +81,7 @@ const SupSidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -232,74 +233,32 @@ const SupSidebar = ({ children, dragWindow,
     }
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
-        switch (event) {
-            case 'enquiry':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/inquiry-request-details/${eventId}`);
-                updateStatusApi(notificationId)
-                handleClick(notificationId, event)
-                break;
-            case 'order':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/active-orders-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;
-            case 'purchaseorder':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/purchased-order-details/${linkId}`);
-                handleClick(notificationId, event)
-                break;
-            case 'invoice':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/invoice/paid`);
-                handleClick(notificationId, event)
-                break;
-
-            case 'addnewmedicinerequest':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;       
-            case 'addsecondarymedicinerequest':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break; 
-            case 'addnewmedicine':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;
-            case 'addsecondarymedicine':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;    
-
-            case 'editnewmedicinerequest':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/pending-products-list`);
-                break;    
-            case 'editsecondarymedicinerequest':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/pending-products-list`);
-                handleClick(notificationId, event)
-                break;   
-            case 'editnewmedicine':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;  
-            case 'editsecondarymedicine':
-                setIsNotificationOpen(false)
-                navigate(`/supplier/secondary-product-details/${eventId}`);
-                handleClick(notificationId, event)
-                break;    
-            default:
-                navigate('/supplier/');
-                break;
+        const eventRoutes = {
+          enquiry: `/supplier/inquiry-request-details/${eventId}`,
+          order: `/supplier/active-orders-details/${eventId}`,
+          purchaseorder: `/supplier/purchased-order-details/${linkId}`,
+          invoice: `/supplier/invoice/paid`,
+          addnewmedicinerequest: `/supplier/product-details/${eventId}`,
+          addsecondarymedicinerequest: `/supplier/secondary-product-details/${eventId}`,
+          addnewmedicine: `/supplier/product-details/${eventId}`,
+          addsecondarymedicine: `/supplier/secondary-product-details/${eventId}`,
+          editnewmedicinerequest: `/supplier/pending-products-list`,
+          editsecondarymedicinerequest: `/supplier/pending-products-list`,
+          editnewmedicine: `/supplier/product-details/${eventId}`,
+          editsecondarymedicine: `/supplier/secondary-product-details/${eventId}`,
+        };
+      
+        const route = eventRoutes[event] || '/supplier/';
+        
+        setIsNotificationOpen(false);
+        navigate(route);
+      
+        if (event === 'enquiry') {
+          updateStatusApi(notificationId);
         }
-    };
+        // handleClick(notificationId, event);
+      };
+      
 
     const handleNotificationNavigate = () => {
         setIsNotificationOpen(false)
@@ -368,7 +327,7 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/supplier/notification-list'> */}

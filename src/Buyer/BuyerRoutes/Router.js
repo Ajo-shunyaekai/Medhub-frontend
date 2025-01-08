@@ -83,7 +83,6 @@ export function NotificationProvider({ children }) {
             if (response.code === 200) {
                 setNotificationList(response.result.data);
                 setCount(response.result.totalItems);
-                console.log(response.result.data);
             } else {
                 console.error("Error fetching notification list");
             }

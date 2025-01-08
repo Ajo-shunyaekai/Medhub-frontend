@@ -111,12 +111,25 @@ export function NotificationProvider({ children }) {
         }
     };
 
+    const fetchNotifications = () => {
+        const obj = { admin_id: adminIdSessionStorage || adminIdLocalStorage };
+        postRequestWithToken('admin/get-notification-list', obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems);
+            } else {
+                console.log('Error in fetching notifications');
+            }
+        });
+    };
+
     const handleClick = (id, event) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             notification_id: id,
             event,
             status: 1,
+            user_type: 'admin'
         };
         postRequestWithToken('admin/update-notification-status', obj, (response) => {
             if (response.code === 200) {
@@ -129,21 +142,11 @@ export function NotificationProvider({ children }) {
 
     useEffect(() => {
         if (adminIdSessionStorage || adminIdLocalStorage) {
-            const obj = { admin_id: adminIdSessionStorage || adminIdLocalStorage };
+            
             const adminId = adminIdSessionStorage || adminIdLocalStorage;
             socket.emit('registerAdmin', adminId);
 
-            const fetchNotifications = () => {
-                postRequestWithToken('admin/get-notification-list', obj, (response) => {
-                    if (response.code === 200) {
-                        setNotificationList(response.result.data);
-                        setCount(response.result.data.length);
-                        console.log(response.result.data)
-                    } else {
-                        console.log('Error in fetching notifications');
-                    }
-                });
-            };
+            
 
             fetchNotifications();
 

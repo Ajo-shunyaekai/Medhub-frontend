@@ -27,8 +27,6 @@ const Sidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate();
-    console.log(notificationList)
-
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
     const toggleSearchBar = () => {
@@ -68,6 +66,7 @@ const Sidebar = ({ children, dragWindow,
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
+        handleClick() //for notification status update
     };
 
     // Profile Dropdown Code
@@ -220,42 +219,21 @@ const Sidebar = ({ children, dragWindow,
     }
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
-        switch (event) {
-          case "enquiry":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/ongoing-inquiries-details/${eventId}`);
-            handleClick(notificationId, event);
-            break;
-          case "order":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/order-details/${eventId}`);
-            handleClick(notificationId, event);
-            break;
-          case "purchaseorder":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/purchased-order-details/${linkId}`);
-            handleClick(notificationId, event);
-            break;
-          case "invoice":
-            setIsNotificationOpen(false);
-            navigate(`/buyer/invoice/Pending-Invoice`);
-            handleClick(notificationId, event);
-            break;
-          case 'purchaseorder':
-                setIsNotificationOpen(false)
-                navigate(`/buyer/purchased-order-details/${linkId}`);
-                // handleClick(notificationId, event)
-                break;
-            case 'invoice':
-                setIsNotificationOpen(false)
-                navigate(`/buyer/invoice/Pending-Invoice`);
-                // handleClick(notificationId, event)
-                break;
-          default:
-            navigate("/buyer/");
-            break;
-        }
+        const eventRoutes = {
+          enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
+          order: `/buyer/order-details/${eventId}`,
+          purchaseorder: `/buyer/purchased-order-details/${linkId}`,
+          invoice: `/buyer/invoice/Pending-Invoice`,
+        };
+      
+        const route = eventRoutes[event] || "/buyer/";
+        setIsNotificationOpen(false);
+        navigate(route);
+      
+        // Uncomment this line if needed
+        // handleClick(notificationId, event);
       };
+      
       
 
     const handleNotificationNavigate = () => {
@@ -325,7 +303,7 @@ const Sidebar = ({ children, dragWindow,
 
                                         <div className={styles.noti_bottom_wrapper}>
                                             <div className={styles.noti_see_all_num}>
-                                                {count} Notifications
+                                                {notificationList?.length} Notifications
                                             </div>
 
                                             {/* <Link to='/buyer/notification-list'> */}

@@ -94,6 +94,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
     setIsProfileOpen(false); 
+    handleClick() //for notification status update
   };
 
   // Profile Dropdown Code
@@ -352,55 +353,23 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
     };
   }, []); // Empty dependency array to run this effect only once on mount
 
-  const updateStatusApi = (id) => {
-    // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-    //             if (response.code === 200) {
-    //                 // setNotificationList(response.result.data);
-    //                 // setCount(response.result.totalItems || 0)
-    //             } else {
-    //                 console.log('error in order details api');
-    //             }
-    //         });
-  }
 
   const handleNavigation = (notificationId, event, eventId, linkId) => {
-    switch (event) {
-
-      case 'addnewmedicinerequest':
-        setIsNotificationOpen(false)
-        navigate(`/admin/product-requests/newproduct`);
-        handleClick(notificationId, event)
-        break;
-      case 'addsecondarymedicinerequest':
-        setIsNotificationOpen(false)
-        navigate(`/admin/product-requests/secondary`);
-        handleClick(notificationId, event)
-        break;
-      case 'editnewmedicinerequest':
-        setIsNotificationOpen(false)
-        navigate(`/admin/product-update-requests/newproduct`);
-        handleClick(notificationId, event)
-        break;
-      case 'editsecondarymedicinerequest':
-        setIsNotificationOpen(false)
-        navigate(`/admin/product-update-requests/secondary`);
-        handleClick(notificationId, event)
-        break;
-      case 'buyerregistration':
-        setIsNotificationOpen(false)
-        navigate(`/admin/buyer-request`);
-        handleClick(notificationId, event)
-        break;
-      case 'supplierregistration':
-        setIsNotificationOpen(false)
-        navigate(`/admin/seller-request`);
-        handleClick(notificationId, event)
-        break;
-      default:
-        navigate('/admin/');
-        break;
-    }
+    const eventRoutes = {
+      addnewmedicinerequest: '/admin/product-requests/newproduct',
+      addsecondarymedicinerequest: '/admin/product-requests/secondary',
+      editnewmedicinerequest: '/admin/product-update-requests/newproduct',
+      editsecondarymedicinerequest: '/admin/product-update-requests/secondary',
+      buyerregistration: '/admin/buyer-request',
+      supplierregistration: '/admin/seller-request',
+    };
+  
+    const route = eventRoutes[event] || '/admin/';
+    setIsNotificationOpen(false);
+    navigate(route);
+    // handleClick(notificationId, event); // Uncomment this if needed
   };
+  
 
   const handleNotificationNavigate = () => {
     setIsNotificationOpen(false)
@@ -467,7 +436,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                     </div>
                     <div className={styles.noti_bottom_wrapper}>
                       <div className={styles.noti_see_all_num}>
-                        {count} Notifications
+                        {notificationList?.length} Notifications
                       </div>
                       <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
                     </div>

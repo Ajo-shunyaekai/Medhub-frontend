@@ -69,11 +69,36 @@ export const NotificationProvider = ({ children }) => {
         }
     };
 
+    const fetchNotifications = () => {
+        const obj = { supplier_id: supplierIdSessionStorage ||  supplierIdLocalStorage};
+        postRequestWithToken("supplier/get-notification-list", obj, (response) => {
+            if (response.code === 200) {
+                setNotificationList(response.result.data);
+                setCount(response.result.totalItems);
+            } else {
+                console.log("Error in fetching notifications");
+            }
+        });
+    };
+
+    const fetchInvoiceCount = () => {
+        const obj = { supplier_id: supplierIdSessionStorage ||  supplierIdLocalStorage };
+        postRequestWithToken("supplier/get-invoice-count", obj, (response) => {
+            if (response.code === 200) {
+                setInvoiceCount(response.result);
+            } else {
+                console.log("Error in fetching invoice count");
+            }
+        });
+    };
+
     const handleClick = (id, event) => {
         const obj = {
             notification_id: id,
             event,
             status: 1,
+            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
+            user_type: 'supplier'
         };
         postRequestWithToken("supplier/update-notification-status", obj, (response) => {
             if (response.code === 200) {
@@ -94,29 +119,6 @@ export const NotificationProvider = ({ children }) => {
         if (supplierIdSessionStorage || supplierIdLocalStorage) {
             const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
 
-            const fetchInvoiceCount = () => {
-                const obj = { supplier_id: supplierId };
-                postRequestWithToken("supplier/get-invoice-count", obj, (response) => {
-                    if (response.code === 200) {
-                        setInvoiceCount(response.result);
-                    } else {
-                        console.log("Error in fetching invoice count");
-                    }
-                });
-            };
-
-            const fetchNotifications = () => {
-                const obj = { supplier_id: supplierId };
-                postRequestWithToken("supplier/get-notification-list", obj, (response) => {
-                    if (response.code === 200) {
-                        setNotificationList(response.result.data);
-                        setCount(response.result.data.length);
-                        console.log(response.result.data)
-                    } else {
-                        console.log("Error in fetching notifications");
-                    }
-                });
-            };
 
             fetchInvoiceCount();
             fetchNotifications();
