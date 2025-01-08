@@ -1,0 +1,255 @@
+.create-invoice-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 100%;
+  max-width: 97%;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  height: 100vh;
+  margin: auto;
+}
+.create-invoice-form-main-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+}
+.create-invoice-inner-form-container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.create-po-main-form-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+}
+.create-invoice-div-textarea{
+  width: 100%;
+}
+.create-invoice-div-textarea{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+.create-invoice-container::-webkit-scrollbar {
+  display: none;
+}
+.create-invoice-upload-purchase{
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+.create-invoice-form-heading {
+  font-size: 18px;
+  font-weight: 500;
+}
+.create-invoice-heading {
+  font-size: 20px;
+  font-weight: 500;
+  width: 100%;
+  max-width: 99%;
+  margin: 0px auto;
+}
+.create-invoice-section {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.craete-invoice-form {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.create-invoice-div-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 23.8%;
+  row-gap: 6px;
+}
+.create-invoice-div-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+.create-invoice-div-input {
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.craete-invoices-button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  column-gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 120px;
+}
+.create-invoices-cancel {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff;
+  border: 1px solid #5e676f;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.create-invoices-submit {
+  border: none;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+   /* for button loader */
+   .create-invoices-submit[disabled] {
+    cursor: not-allowed;
+    background-color: #ccc; /* Change to your desired disabled color */
+  }
+  
+  .loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #000; /* Spinner color */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+  }
+  /* for button loader */
+
+.create-invoice-add-item-cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  /* padding-right: 45px; */
+}
+.create-invoice-add-tem-button {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 16px;
+  margin-right: 18px;
+}
+.craete-add-cross-icon{
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  top: 38px;
+ 
+}
+.create-invoice-close-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  color: linear-gradient(270deg, #00dcff, #0075ce);
+}
+.form-item-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 1580px) {
+.create-invoice-div-container {
+  width: 23.6%
+}
+.create-invoice-add-item-button {
+  margin-right: 10px;
+}
+}
+@media screen and (max-width: 1500px) {
+  .create-invoice-section {
+    padding: 30px 20px 30px 20px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .create-invoice-div-container {
+    width: 31.4%;
+  }
+  .create-invoice-container {
+    max-width: 100%;
+  }
+  .create-invoice-section {
+    padding: 30px 20px 30px 20px;
+  }
+
+  .create-invoice-close-btn {
+    position: relative;
+    bottom: 40px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .create-invoice-div-container {
+    width: 48.2%;
+  }
+  .create-invoice-div-input {
+    padding: 10px 12px !important;
+  }
+  .create-invoice-heading {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .create-invoice-container {
+    padding: 18px;
+    row-gap: 16px;
+  }
+  .craete-invoice-form {
+    gap: 15px;
+  }
+}
+@media screen and (max-width: 560px) {
+  .create-invoice-div-container {
+    width: 100%;
+  }
+
+  .create-invoice-close-btn {
+    position: relative;
+    bottom: 120px;
+    left: 10px;
+  }
+}

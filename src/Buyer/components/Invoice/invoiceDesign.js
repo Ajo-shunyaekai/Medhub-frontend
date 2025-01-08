@@ -5,18 +5,18 @@ import html2pdf from 'html2pdf.js';
 import { postRequestWithToken } from '../../../api/Requests';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment';
-import { apiRequests } from '../../api';
+import { apiRequests } from '../../../api';
 
 
 function InvoiceTemplate({ invoice }) {
     const { invoiceId } = useParams()
     const navigate = useNavigate();
     const [invoiceDetails, setInvoiceDetails] = useState(null);
-
+ 
     useEffect(() => {
         const fetchData = async () => {
             const obj = { invoice_id: invoiceId }
-
+ 
             // postRequestWithToken('invoice/invoice-details', obj, async (response) => {
             //     if (response.code === 200) {
             //         setInvoiceDetails(response.result);
@@ -24,25 +24,25 @@ function InvoiceTemplate({ invoice }) {
             //         console.log('error in order details api');
             //     }
             // })            
-            // const response = await apiRequests.postRequest(`invoice/get-specific-invoice-details/${invoiceId}`, obj);
-            // if (response?.code !== 200) {
-            //     console.log('error in order details api', response);
-            //     return;
-            // }
-            // setInvoiceDetails(response?.result);
-            postRequestWithToken(`invoice/get-specific-invoice-details/${invoiceId}`, obj, async (response) => {
-                if (response.code === 200) {
-                    setInvoiceDetails(response.result);
-                } else {
-                    console.log('error in order details api');
-                }
-            })            
+            const response = await apiRequests.getRequest(`invoice/get-specific-invoice-details/${invoiceId}`, obj);
+            if (response?.code !== 200) {
+                console.log('error in order details api', response);
+                return;
+            }
+            setInvoiceDetails(response?.result);
+            // postRequestWithToken(`invoice/get-specific-invoice-details/${invoiceId}`, obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceDetails(response.result);
+            //     } else {
+            //         console.log('error in order details api');
+            //     }
+            // })            
         }
         fetchData()
     }, [])
-
+ 
     // const orderedDate = moment(orderDetails?.created_at).format("DD/MM/YYYY")
-
+ 
     const handleDownload = () => {
         const element = document.getElementById('invoice-content');
         const options = {
@@ -52,11 +52,11 @@ function InvoiceTemplate({ invoice }) {
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
-
+ 
         html2pdf().from(element).set(options).save()
-
+ 
     };
-
+ 
     let subtotal = 0;
     let vatAmount = 0
 

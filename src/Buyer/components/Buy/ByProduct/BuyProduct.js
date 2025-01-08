@@ -14,7 +14,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../../api';
+import { apiRequests } from '../../../../api';
 
 const BuyProduct = ({active}) => {
     const navigate = useNavigate()
@@ -27,46 +27,46 @@ const BuyProduct = ({active}) => {
     const [currentPage, setCurrentPage]   = useState(1);
     const [totalItems, setTotalitems]     = useState()
     const itemsPerPage = 6;
-
+ 
     const handleInputChange = (e) => {
         setInputValue(e.target.value)
-
+ 
         if (e.target.value === '') {
             setSearchKey('');
         }
     }
-
+ 
     const handleProductSearch = () => {
         setSearchKey(inputValue)
         setCurrentPage(1)
     }   
-
+ 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleProductSearch();
         }
     };
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const handleCategoryFilter = (category) => {
         setCurrentPage(1);
         setFilterCategory(category)
     }
-
+ 
     useEffect(() => {
         
     const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
+ 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         navigate("/buyer/login");
         return;
         }
-
+ 
         const obj = {
             buyer_id        : buyerIdSessionStorage|| buyerIdLocalStorage,
             medicine_type   : 'new',
@@ -76,7 +76,7 @@ const BuyProduct = ({active}) => {
             pageNo          : currentPage, 
             pageSize        : itemsPerPage
          }
-
+ 
         if(active === 'product') {
             postRequestWithToken('buyer/medicine/medicine-list', obj, async (response) => {
                 if (response.code === 200) {
@@ -89,21 +89,21 @@ const BuyProduct = ({active}) => {
                 setLoading(false);
             })
             try {
-                //   const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
-                //   if(response?.code !== 200){
-                //   return
-                //   }
-                //   setMedicineList(response.result.data)
-                //   setTotalitems(response.result.totalItems)
-                postRequestWithToken('medicine/get-all-medicines-list', obj, async (response) => {
-                    if (response.code === 200) {
-                        setMedicineList(response.result.data)
-                        setTotalitems(response.result.totalItems)
-                    } else {
-                        toast(response.message, {type:'error'})
-                        console.log('error in medicine list api',response);
-                    }
-                })
+                  const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'new'}&medicine_status=${'accepted'}&searchKey=${searchKey}`)
+                  if(response?.code !== 200){
+                  return
+                  }
+                  setMedicineList(response.result.data)
+                  setTotalitems(response.result.totalItems)
+                // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'new'}&medicine_status=${'accepted'}&searchKey=${searchKey}`, obj, async (response) => {
+                //     if (response.code === 200) {
+                //         setMedicineList(response.result.data)
+                //         setTotalitems(response.result.totalItems)
+                //     } else {
+                //         toast(response.message, {type:'error'})
+                //         console.log('error in medicine list api',response);
+                //     }
+                // })
               } catch (error) {
                   console.log('error in medicine list api',error);
               } finally{
@@ -113,7 +113,6 @@ const BuyProduct = ({active}) => {
         }
         fetchData()
     },[searchKey, currentPage, filterCategory])
-
     return (
         <>
         {loading ? (
@@ -240,7 +239,7 @@ const BuyProduct = ({active}) => {
                     </div>
                     );
                 })
-                ) : 'no data found'
+                ) : 'No data found'
             }
             </div>
 

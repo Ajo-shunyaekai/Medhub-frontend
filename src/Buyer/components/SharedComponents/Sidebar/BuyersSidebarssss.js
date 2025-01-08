@@ -103,24 +103,6 @@ const BuyerSidebar = () => {
         }
     };
 
-    // Fetch notification list function
-const fetchNotifications = () => {
-    const obj = {
-        buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-    };
-
-    postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-        if (response.code === 200) {
-            // Update notification list and count
-            setNotificationList(response.result.data);
-            setCount(response.result.totalItems || 0);
-        } else {
-            console.log('error in fetching notification list');
-        }
-    });
-};
-
-
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage && location.pathname !== '/buyer/sign-up') {
             navigate("/buyer/login");
@@ -131,14 +113,11 @@ const fetchNotifications = () => {
         const obj = {
             notification_id : id,
             event ,
-            status : 1,
-            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
-            user_type: 'buyer'
+            status : 1
         }
         postRequestWithToken('buyer/update-notification-status', obj, (response) => {
             if (response.code === 200) {
-                // setRefresh(true)
-                fetchNotifications()
+                setRefresh(true)
             } else {
                 console.log('error in order details api');
             }
@@ -168,17 +147,17 @@ const fetchNotifications = () => {
             });
     
             // Fetch notification list on component mount
-            // const fetchNotifications = () => {
-            //     postRequestWithToken('buyer/get-notification-list', obj, (response) => {
-            //         if (response.code === 200) {
-            //             // Update notification list and count
-            //             setNotificationList(response.result.data);
-            //             setCount(response.result.totalItems || 0);
-            //         } else {
-            //             console.log('error in fetching notification list');
-            //         }
-            //     });
-            // };
+            const fetchNotifications = () => {
+                postRequestWithToken('buyer/get-notification-list', obj, (response) => {
+                    if (response.code === 200) {
+                        // Update notification list and count
+                        setNotificationList(response.result.data);
+                        setCount(response.result.totalItems || 0);
+                    } else {
+                        console.log('error in fetching notification list');
+                    }
+                });
+            };
     
             // Initial fetch for notifications
             fetchNotifications();
@@ -251,7 +230,7 @@ const fetchNotifications = () => {
                         <Route
                             path="*"
                             element={
-                                <Sidebar invoiceCount = {invoiceCount} notificationList={notificationList} count={count} handleClick={handleClick}>
+                                <Sidebar invoiceCount = {invoiceCount} notificationList= {notificationList} count={count} handleClick={handleClick}>
                                     <Routes>
                                         <Route path="/buyer" element={<Dashboard />} />
                                         <Route path="/buyer/order/active" element={<Order />} />

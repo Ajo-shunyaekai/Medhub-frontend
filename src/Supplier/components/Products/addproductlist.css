@@ -1,0 +1,195 @@
+.buy-product-main-container {
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .buy-product-main-section-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .buy-product-card-section {
+    width: 450px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+    row-gap: 6px;
+    border-radius: 4px;
+    padding: 24px 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  }
+  .buy-product-card-first-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 8px;
+    width: 100%;
+  }
+  .buy-product-card-first-section-right {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .buy-product-card-second-section {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 16px;
+  }
+  .buy-product-card-first-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .buy-product-card-first-send-button {
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .buy-product-card-first-left {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+  }
+  .buy-product-card-first-copmany-name {
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #5e676f;
+  }
+  .buy-product-card-first-copmany-description {
+    font-size: 12px;
+    color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  .buy-product-card-second-head {
+    width: 116px;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 500 !important;
+  }
+  .buy-product-card-second-text {
+    width: 130px;
+    font-size: 13px;
+    color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  .buy-product-card-first-medicine-image {
+    width: 150px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+}
+  .buy-product-card-first-medicine-image img {
+    width: 100%;
+    height: auto;
+  }
+  .buy-product-card-right-section-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+  }
+
+  @media screen and (max-width: 1645px) {
+    .buy-product-card-section {
+    width: 420px;
+    column-gap: 10px;
+  }
+
+  .buy-product-card-first-medicine-image {
+    width: 130px;
+  }
+  }
+  @media screen and (max-width: 1555px) {
+    .buy-product-card-section {
+    width: 530px;
+    column-gap: 30px;
+  }
+  }
+  @media screen and (max-width: 1340px) {
+    .buy-product-card-section {
+      width: 39vw;
+      column-gap: 30px;
+    }
+    }
+  @media screen and (max-width: 1265px) {
+    .buy-product-card-section {
+      width: 450px;
+      column-gap: 20px;
+    }
+  }
+  @media screen and (max-width: 1170px) {
+    .buy-product-card-section {
+      width: 380px;
+      column-gap: 6px;
+    }
+    .buy-product-card-first-medicine-image {
+      width: 150px;
+  }
+  .buy-product-card-second-head {
+    width: 106px;
+    font-size: 13px;
+  }
+  .buy-product-card-first-section {
+    row-gap: 4px;
+  }
+  .buy-product-card-first-send-button {
+    padding: 5px 13px;
+    font-size: 13px;
+}
+}
+  @media screen and (max-width: 630px) {
+    .buy-product-card-second-head {
+      width: 150px;
+    }
+    .buy-product-card-section {
+      column-gap: 18px;
+      width: 100%;
+    }
+    .buy-product-main-container {
+      padding: 20px 12px;
+    }
+  }
+  @media screen and (max-width: 530px) {
+    .buy-product-card-first-copmany-name {
+      font-size: 22px;
+    }
+    .buy-product-card-second-head {
+      width: 120px;
+      font-size: 14px;
+    }
+    .buy-product-card-first-medicine-image {
+      width: 180px;
+    }
+    .buy-product-card-first-send-button {
+      font-size: 12px;
+    }
+    .buy-product-card-section {
+      column-gap: 10px;
+    }
+  }
+  

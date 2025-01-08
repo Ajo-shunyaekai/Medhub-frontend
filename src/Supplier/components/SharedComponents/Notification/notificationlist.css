@@ -1,0 +1,184 @@
+.notification-container-right {
+    width: 100%;
+    max-width: 86%;
+  }
+  .notification-main-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    height: 100vh;
+    overflow: scroll;
+    margin-bottom: 60px;
+}
+.notification-main-container::-webkit-scrollbar{
+  display: none;
+}
+  .notification-name-2{
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  
+  .notification-container-right-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    margin-bottom: 18rem;
+  }
+  .table-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+  }
+  .notification-container-th {
+    width: 14vw;
+  }
+  .notification-container-head {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px;
+  }
+  .notification-container-ths {
+    width: 40vw;
+  }
+  .notification-container-heads {
+    width: 40vw;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px;
+  }
+  .notification-container-tbody {
+    width: 100%;
+    background-color: white;
+    box-shadow: inset 0px 0px 0px 1px #fff;
+  }
+  .notification-section-heading {
+    font-size: 13px;
+    color: #99a0ac;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  
+  .notification-section-td {
+    padding: 18px 10px;
+    width: 14vw;
+  }
+  .notification-section-tds {
+    width: 40vw;
+    padding: 14px 8px;
+  }
+  .notification-section-button {
+    display: flex;
+    column-gap: 10px;
+    padding: 12px 6px;
+  }
+  .notification-section-view {
+    background-color: #31c971;
+    border-radius: 4px;
+    color: #ffffff;
+    width: 34px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .notification-section-delete {
+    background-color: #f4c414;
+    border-radius: 4px;
+    color: #ffffff;
+    width: 34px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .notification-section-eye {
+    width: 18px !important;
+  }
+  .notification-section-off {
+    width: 18px !important;
+  }
+  @media screen and (max-width: 1360px) {
+    .notification-section-td {
+      width: 9vw;
+    }
+    .notification-container-th {
+      width: 9vw;
+    }
+  }
+  @media screen and (max-width: 1080px) {
+    .notification-section-tds {
+      width: 22vw;
+    }
+    .notification-container-heads {
+      width: 16vw;
+    }
+  }
+  @media screen and (max-width: 992px) {
+    .notification-container-ths {
+      width: 28vw;
+    }
+    .notification-container-heads {
+      width: 28vw;
+    }
+    .notification-section-td {
+      width: 14vw;
+    }
+    .notification-container-th {
+      width: 14vw;
+    }
+    .notification-section-tds {
+      width: 28vw;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .notification-section-button {
+      flex-direction: column;
+      padding: 6px 16px;
+      row-gap: 8px;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .notification-section-td {
+      width: 28vw;
+    }
+    .notification-container-th {
+      width: 28vw;
+    }
+    .notification-container-heads {
+      width: 54vw;
+    }
+    .notification-section-tds {
+      width: 54vw;
+    }
+    .notification-inner-container-section {
+      width: 600px;
+      overflow: scroll;
+    }
+    .table-container {
+      width: 1100px !important;
+      overflow: scroll;
+    }
+  }
+  @media screen and (max-width: 380px) {
+    .notification-container-th {
+      width: 32vw;
+    }
+    .notification-section-td {
+      width: 32vw;
+    }
+    .notification-container-heads {
+      width: 70vw;
+    }
+    .notification-section-tds {
+      width: 70vw;
+    }
+  }
+  

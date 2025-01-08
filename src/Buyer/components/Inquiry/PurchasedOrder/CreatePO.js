@@ -5,13 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
 import { phoneValidationRules, countryCodes } from '../../../../utils/phoneNumberValidation';
-import { apiRequests } from '../api';
+import { apiRequests } from '../../../../api';
 
 
 const CreatePO = ({socket}) => {
     const { inquiryId } = useParams();
     const navigate = useNavigate();
-
+ 
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
@@ -48,11 +48,11 @@ const CreatePO = ({socket}) => {
         supplierRegNo: '',
         orderItems: [],
     })
-
+ 
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
     let grandTotalAmount = 0;
-
+ 
     useEffect(() => {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
@@ -88,7 +88,7 @@ const CreatePO = ({socket}) => {
                 console.error('Error parsing stored items:', error);
             }
         }
-
+ 
         if (rejectedItems) {
             try {
                 const parsedItems = JSON.parse(rejectedItems);
@@ -121,7 +121,7 @@ const CreatePO = ({socket}) => {
             //         const data = response.result
             //         const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
             //         const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
-
+ 
             //         setFormData(prevFormData => ({
             //             ...prevFormData,
             //             poId: data.purchaseOrder_id,
@@ -148,78 +148,78 @@ const CreatePO = ({socket}) => {
             //     }
             // });
                       
-            // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
-            // if (response?.code !== 200) {
-            //     console.log('error in get-enquiry-details api', response);
-            //     return;
-            // }
-            // setInquiryDetails(response?.result);
-            // const data = response.result
-            // const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
-            // const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
-
-            // setFormData(prevFormData => ({
-            //     ...prevFormData,
-            //     poId: data.purchaseOrder_id,
+            const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            if (response?.code !== 200) {
+                console.log('error in get-enquiry-details api', response);
+                return;
+            }
+            setInquiryDetails(response?.result);
+            const data = response.result
+            const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
+            const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
+ 
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                poId: data.purchaseOrder_id,
         
-            //     description : data.additional_instructions,
-            //     supplierId: data?.supplier?.supplier_id,
-            //     supplierName: data?.supplier?.supplier_name,
-            //     supplierEmail: data?.supplier?.supplier_email,
-            //     supplierAddress: data?.supplier?.supplier_address,
-            //     supplierMobile: formattedSupplierMobile,
-            //     supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
-            //     supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
-            //     supplierRegNo: data?.supplier?.registration_no,
-            //     buyerId: data?.buyer?.buyer_id,
-            //     buyerName: data?.buyer?.buyer_name,
-            //     buyerEmail: data?.buyer?.buyer_email,
-            //     buyerAddress : data?.buyer?.buyer_address,
-            //     buyerMobile: formattedBuyerMobile,
-            //     buyerRegNo: data?.buyer?.registration_no,
-            //     orderItems: data?.items,
-            // }));
-            postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-                if (response.code === 200) {
-                    setInquiryDetails(response?.result);
-                    const data = response.result
-                    const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
-                    const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
-
-                    setFormData(prevFormData => ({
-                        ...prevFormData,
-                        poId: data.purchaseOrder_id,
+                description : data.additional_instructions,
+                supplierId: data?.supplier?.supplier_id,
+                supplierName: data?.supplier?.supplier_name,
+                supplierEmail: data?.supplier?.supplier_email,
+                supplierAddress: data?.supplier?.supplier_address,
+                supplierMobile: formattedSupplierMobile,
+                supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+                supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+                supplierRegNo: data?.supplier?.registration_no,
+                buyerId: data?.buyer?.buyer_id,
+                buyerName: data?.buyer?.buyer_name,
+                buyerEmail: data?.buyer?.buyer_email,
+                buyerAddress : data?.buyer?.buyer_address,
+                buyerMobile: formattedBuyerMobile,
+                buyerRegNo: data?.buyer?.registration_no,
+                orderItems: data?.items,
+            }));
+            // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInquiryDetails(response?.result);
+            //         const data = response.result
+            //         const formattedSupplierMobile = `${data?.supplier?.supplier_country_code || ''}-${data?.supplier?.supplier_mobile || ''}`;
+            //         const formattedBuyerMobile = `${data?.buyer?.buyer_country_code || ''}-${data?.buyer?.buyer_mobile || ''}`;
+ 
+            //         setFormData(prevFormData => ({
+            //             ...prevFormData,
+            //             poId: data.purchaseOrder_id,
                 
-                        description : data.additional_instructions,
-                        supplierId: data?.supplier?.supplier_id,
-                        supplierName: data?.supplier?.supplier_name,
-                        supplierEmail: data?.supplier?.supplier_email,
-                        supplierAddress: data?.supplier?.supplier_address,
-                        supplierMobile: formattedSupplierMobile,
-                        supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
-                        supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
-                        supplierRegNo: data?.supplier?.registration_no,
-                        buyerId: data?.buyer?.buyer_id,
-                        buyerName: data?.buyer?.buyer_name,
-                        buyerEmail: data?.buyer?.buyer_email,
-                        buyerAddress : data?.buyer?.buyer_address,
-                        buyerMobile: formattedBuyerMobile,
-                        buyerRegNo: data?.buyer?.registration_no,
-                        orderItems: data?.items,
-                    }));
-                } else {
-                    console.log('error in order list api', response);
-                }
-            });
+            //             description : data.additional_instructions,
+            //             supplierId: data?.supplier?.supplier_id,
+            //             supplierName: data?.supplier?.supplier_name,
+            //             supplierEmail: data?.supplier?.supplier_email,
+            //             supplierAddress: data?.supplier?.supplier_address,
+            //             supplierMobile: formattedSupplierMobile,
+            //             supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
+            //             supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
+            //             supplierRegNo: data?.supplier?.registration_no,
+            //             buyerId: data?.buyer?.buyer_id,
+            //             buyerName: data?.buyer?.buyer_name,
+            //             buyerEmail: data?.buyer?.buyer_email,
+            //             buyerAddress : data?.buyer?.buyer_address,
+            //             buyerMobile: formattedBuyerMobile,
+            //             buyerRegNo: data?.buyer?.registration_no,
+            //             orderItems: data?.items,
+            //         }));
+            //     } else {
+            //         console.log('error in order list api', response);
+            //     }
+            // });
         }
         fetchData()
     }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, inquiryId]);
-
+ 
     const handleChange = (event) => {
         const { name, value } = event.target;
         let newErrors = {};
         let isValid = true;
-
+ 
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -262,7 +262,7 @@ const CreatePO = ({socket}) => {
         }
         setErrors(prevState => ({ ...prevState, ...newErrors }));
     };
-
+ 
     const validateForm = () => {
         let formErrors = {};
         if(!formData.buyerName) formErrors.buyerName = 'Buyer Name is Required'
@@ -273,15 +273,15 @@ const CreatePO = ({socket}) => {
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
     }
-
+ 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+ 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate("/buyer/login");
             return;
         }
-
+ 
         if(validateForm()) {
             setLoading(true)
             const updatedOrderItems = orderItems.map((item) => {
@@ -338,13 +338,13 @@ const CreatePO = ({socket}) => {
         }
        
     };
-
+ 
     const formatPhoneNumber = (phoneNumber, countryCode) => {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
         return `+${countryCode}-${cleanedNumber}`;
     };
     
-
+ 
     const validatePhoneNumber = (phoneNumber, countryCode) => {
     
         const validationRule = phoneValidationRules[countryCode];
@@ -354,12 +354,12 @@ const CreatePO = ({socket}) => {
             return false; 
         }
     };
-
+ 
     const handlePhoneChange = (value, type) => {
         let countryCode = '';
         let mobileNumber = value;
         let isValidNumber = false;
-
+ 
         // Extract the country code and the mobile number
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
@@ -371,7 +371,7 @@ const CreatePO = ({socket}) => {
         }
         console.log('countryCode', countryCode);
         console.log(' mobileNumber', mobileNumber);
-
+ 
         // if (countryCode === '971' && mobileNumber.length > 9) {
         //     mobileNumber = mobileNumber.substring(0, 9);
         // }
@@ -403,13 +403,6 @@ const CreatePO = ({socket}) => {
             console.error('Invalid phone number format or unknown country code');
         }
     };
-
-
-   
-    
-    
-    
-
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Purchase Order</div>

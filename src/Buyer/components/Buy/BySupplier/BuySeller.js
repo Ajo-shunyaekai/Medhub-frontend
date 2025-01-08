@@ -10,11 +10,11 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../../api'
+import { apiRequests } from '../../../../api';
 
 const BuySeller = ({active}) => {
     const navigate = useNavigate()
-
+ 
     const [loading, setLoading] = useState(true);
     const [openDropdown, setOpenDropdown]   = useState(null);
     const [supplierList, setSupplierList]   = useState([])
@@ -22,42 +22,42 @@ const BuySeller = ({active}) => {
     const [searchKey, setSearchKey]         = useState('')
     const [countryOrigin, setCountryOrigin] = useState()
     const [filterCountry, setFilterCountry] = useState('')
-
+ 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems]   = useState()
     const itemsPerPage = 4
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const handleInputChange = (e) => {
         setInputValue(e.target.value)
-
+ 
         if (e.target.value === '') {
             setSearchKey('');
         }
     }
-
+ 
     const handleProductSearch = () => {
         setSearchKey(inputValue)
         setCurrentPage(1)
     }   
-
+ 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleProductSearch();
         }
     };
-
+ 
     const handleCountry = (country) => {
         setFilterCountry(country)
     }
-
+ 
     const toggleDropdown = (dropdown) => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
     };
-
+ 
     useEffect(() => {
         const fetchData = async ()=>{
             try {
@@ -88,26 +88,26 @@ const BuySeller = ({active}) => {
                     //     }
                     //     setLoading(false);
                     // })
-
+ 
                    
-                    // const response = await apiRequests.postRequest(`supplier/get-all-suppliers-list`, obj);
-                    // if (response?.code !== 200) {
-                    //     toast(response.message, {type:'error'})
-                    //     console.log('error in supplier list api',response);
-                    //     return;
-                    // }
-
-                    // setSupplierList(response.result.data)
-                    // setTotalItems(response.result.totalItems)
-                    postRequestWithToken('supplier/get-all-suppliers-list', obj, async (response) => {
-                        if (response.code == 200) {
-                            setSupplierList(response.result.data)
-                            setTotalItems(response.result.totalItems)
-                        } else {
-                            toast(response.message, {type:'error'})
+                    const response = await apiRequests.getRequest(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}`, obj);
+                    if (response?.code !== 200) {
+                        toast(response.message, {type:'error'})
                         console.log('error in supplier list api',response);
-                        }
-                    })
+                        return;
+                    }
+ 
+                    setSupplierList(response.result.data)
+                    setTotalItems(response.result.totalItems)
+                    // postRequestWithToken(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}`, obj, async (response) => {
+                    //     if (response.code == 200) {
+                    //         setSupplierList(response.result.data)
+                    //         setTotalItems(response.result.totalItems)
+                    //     } else {
+                    //         toast(response.message, {type:'error'})
+                    //     console.log('error in supplier list api',response);
+                    //     }
+                    // })
                     
                 }
             } catch (error) {
@@ -118,16 +118,16 @@ const BuySeller = ({active}) => {
         }
         fetchData()
     },[searchKey, filterCountry, currentPage])
-
+ 
     useEffect(() => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
+ 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         navigate("/buyer/login");
         return;
         }
-
+ 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             

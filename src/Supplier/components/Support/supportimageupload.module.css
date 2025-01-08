@@ -1,0 +1,216 @@
+/* react upload document */
+.upload-area {
+  width: 100%;
+  height: 100px;
+  cursor: pointer;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  cursor: pointer;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.image-uploader {
+  position: relative;
+  width: 300px;
+  text-align: center;
+}
+
+.upload-area {
+  cursor: pointer;
+}
+
+.upload-text {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #888;
+}
+
+.image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.uploaded-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.close-icon {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 2px;
+  right: 2px;
+  padding: 3px;
+  cursor: pointer;
+  color: #5e676f;
+  background: white;
+  border-radius: 50%;
+}
+.error-message {
+  color:#ff0000;
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: start;
+}
+
+.image-name {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.image-uploader {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100px;
+}
+
+.uploaded-image {
+  transition: transform 0.3s ease;
+  width: 150px;
+  height: auto;
+}
+
+.remove-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 10px;
+  height: 10px;
+
+}
+
+.upload-icon {
+  width: 36px;
+  height: 30px;
+}
+
+.upload-text {
+  font-size: 14px;
+}
+.uploaded-image {
+  max-width: 100%;
+  cursor: pointer;
+}
+
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.image-previews{
+  width: 94%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  top: -22rem;
+  right: -36vw;
+}
+
+.image-preview{
+  position: relative;
+  width: 9.6vw;
+  height: 100px;
+}
+
+
+.image-preview img{
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+
+.modalBody{
+  width: 400px !important;
+  height: auto;
+position: relative;
+top: 1rem;
+}
+
+.modalBody img{
+  width: 100%;
+}
+
+.modalCloseBtn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+}
+.modal-close-icons{
+  width: 14px;
+  height: 14px;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+
+/* =================================== */
+
+@media screen and (max-width: 1400px) {
+  .upload-area {
+    width: 100%;
+}  
+
+.image-previews {
+  right: -38vw;
+  width: 400px;
+}
+}
+
+@media screen and (max-width: 1164px) {
+  .image-previews {
+    right: -38vw;
+    width: 300px;
+}
+}
+@media screen and (max-width: 992px) {  
+  .image-preview{
+    width: 220px;
+  }
+
+  .image-previews {
+    right: -0vw;
+    width: 100%;
+    top: 1rem;
+}
+
+.image-uploader {
+  height: auto;
+}
+
+}
+
+@media screen and (max-width: 580px) {  
+  .image-preview{
+    width: 45%;
+  }
+}

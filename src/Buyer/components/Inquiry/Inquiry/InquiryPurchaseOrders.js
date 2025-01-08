@@ -6,54 +6,54 @@ import OnGoingOrder from './OnGoingOrder';
 import PurchasedOrder from '../PurchasedOrder/PurchasedOrder'
 import { postRequestWithToken } from '../../../../api/Requests';
 import Loader from '../../SharedComponents/Loader/Loader';
-import { toast } from 'react-toastify'
-import { apiRequests } from '../api';
+import { toast } from 'react-toastify';
+import { apiRequests } from '../../../../api';
 
 
 const InquiryPurchaseOrder = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
+ 
     const [loading, setLoading] = useState(true);
     const [inquiryList, setInquiryList] = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
     const inquiryPerPage = 5;
-
+ 
     const [poList, setPOList] = useState([])
     const [totalPoList, setTotalPoList] = useState()
-
+ 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/buyer/inquiry-purchase-orders/ongoing':
+            case '/buyer/inquiry/OnGoing-Order':
                 return 'ongoing';
-            case '/buyer/inquiry-purchase-orders/purchased':
+            case '/buyer/inquiry/Purchased-Order':
                 return 'purchased';
             default:
                 return 'ongoing';
         }
     };
-
+ 
     const activeLink = getActiveLinkFromPath(location.pathname);
-
+ 
     const handleLinkClick = (link) => {
         setCurrentPage(1)
         switch (link) {
             case 'ongoing':
-                navigate('/buyer/inquiry-purchase-orders/ongoing');
+                navigate('/buyer/inquiry/OnGoing-Order');
                 break;
             case 'purchased':
-                navigate('/buyer/inquiry-purchase-orders/purchased');
+                navigate('/buyer/inquiry/Purchased-Order');
                 break;
             default:
-                navigate('/buyer/inquiry-purchase-orders/ongoing');
+                navigate('/buyer/inquiry/OnGoing-Order');
         }
     };
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const fetchData = async ()=>{const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -80,20 +80,20 @@ const InquiryPurchaseOrder = () => {
         // })
                     
         try {
-            // const response = await  apiRequests.postRequest('enquiry/get-enquiry-list-all-users', obj)
-            // if (response.code === 200) {
-            //     setInquiryList(response.result.data)
-            //     setTotalInquiries(response.result.totalItems)
-            // }
-            postRequestWithToken('enquiry/get-enquiry-list-all-users', obj, async (response) => {
-                if (response.code == 200) {
-                    setInquiryList(response.result.data)
-                    setTotalInquiries(response.result.totalItems)
-                } else {
-                    toast(response.message, {type:'error'})
-                    console.log('error in order list api',response);
-                }
-            })           
+            const response = await apiRequests.getRequest(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${inquiryPerPage}&status=${status}`)
+            if (response.code === 200) {
+                setInquiryList(response.result.data)
+                setTotalInquiries(response.result.totalItems)
+            }
+            // postRequestWithToken(`enquiry/get-all-enquiry-list?pageNo=${currentPage}&pageSize=${inquiryPerPage}&status=${status}`, obj, async (response) => {
+            //     if (response.code == 200) {
+            //         setInquiryList(response.result.data)
+            //         setTotalInquiries(response.result.totalItems)
+            //     } else {
+            //         toast(response.message, {type:'error'})
+            //         console.log('error in order list api',response);
+            //     }
+            // })           
         } catch (error) {
             console.log('Error fetching inquiry list', error);
         } finally{
@@ -112,9 +112,9 @@ const InquiryPurchaseOrder = () => {
                 setLoading(false);
             });
         } 
-
+ 
     }
-
+ 
     useEffect(() => {
         fetchData()
     },[activeLink, currentPage])

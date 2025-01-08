@@ -10,12 +10,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
 import { messaging, getToken, onMessage } from '../../../../utils/firebaseUtils';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../../../redux/reducers/userDataSlice';
 
 
 const Login = ({socket}) => {
-    const dispatch = useDispatch()
     const [fcmToken, setFcmToken] = useState(null)
 
     const [loading, setLoading] = useState(false);
@@ -25,9 +22,6 @@ const Login = ({socket}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-    const {user} = useSelector(state=>state?.userReducer)
-
-    console.log(`user : ${user?._id}`)
 
     const validateForm = () => {
         const newErrors = {};
@@ -143,15 +137,6 @@ const Login = ({socket}) => {
                 toast(response.message, { type: "error" });
                 console.log('error while login')
                 }
-                // const action = await dispatch(loginUser(obj))
-                
-                // // Check if login was successful
-                // if (loginUser.fulfilled.match(action)) {
-                //     setTimeout(() => {
-                //         console.log(`User ID: ${user?._id}`);
-                //         navigate("/buyer"); // Navigate to '/buyer' upon successful login
-                //     }, 500);
-                // }
             } catch (error) {
                 console.log(error)
                 setLoading(false)

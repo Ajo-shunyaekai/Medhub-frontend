@@ -17,37 +17,37 @@ const SupplierDetails = () => {
 
   const getActiveButtonFromPath = (path) => {
     if (path.includes('/products')) {
-        return 'products';
+      return 'products';
     } else if (path.includes('/secondary')) {
-        return 'secondary';
+      return 'secondary';
     } else if (path.includes('/orders')) {
-        return 'orders';
+      return 'orders';
     } else {
-        return 'products';
+      return 'products';
     }
-};
+  };
 
   const activeButton = getActiveButtonFromPath(location.pathname);
 
   const handleButtonClick = (button) => {
     switch (button) {
-        case 'products':
-            navigate(`/buyer/supplier-details/${supplierId}/products`);
-            setActiveTab('products');
-            break;
-        case 'secondary':
-            navigate(`/buyer/supplier-details/${supplierId}/secondary`);
-            setActiveTab('secondary');
-            break;
-        case 'orders':
-            navigate(`/buyer/supplier-details/${supplierId}/orders`);
-            setActiveTab('orders');
-            break;
-        default:
-            navigate(`/buyer/supplier-details/${supplierId}/products`);
-            setActiveTab('products');
+      case 'products':
+        navigate(`/buyer/supplier-details/${supplierId}/products`);
+        setActiveTab('products');
+        break;
+      case 'secondary':
+        navigate(`/buyer/supplier-details/${supplierId}/secondary`);
+        setActiveTab('secondary');
+        break;
+      case 'orders':
+        navigate(`/buyer/supplier-details/${supplierId}/orders`);
+        setActiveTab('orders');
+        break;
+      default:
+        navigate(`/buyer/supplier-details/${supplierId}/products`);
+        setActiveTab('products');
     }
-};
+  };
 
   const [activeTab, setActiveTab] = useState('');
   const [supplier, setSupplier] = useState()
@@ -94,16 +94,27 @@ const SupplierDetails = () => {
       //         console.log('error in supplier-details api');
       //     }
       // })
-      const response = await apiRequests.postRequest(`supplier/get-supplier-details/${supplierId}`, obj);
-      if (response?.code !== 200) {
-        console.log(`error in supplier-details api`);
-        return;
+      try {
+        const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
+        if (response?.code !== 200) {
+          console.log(`error in supplier-details api`);
+          return;
+        }
+        setSupplier(response?.result);
+        // postRequestWithToken(`supplier/get-specific-supplier-details/${supplierId}`, obj, async (response) => {
+        //     if (response.code === 200) {
+        //       setSupplier(response?.result);
+        //     } else {
+        //         console.log('error in get-buyer-details api', response);
+        //     }
+        // })
+      } catch (error) {
+        console.log('error in get-supplier-details api', error);
       }
-      setSupplier(response?.result);
     }
 
     getSupplierDeatils()
-  }, [supplierId]);
+  }, []);
 
   console.log(activeButton, activeTab);
   //supplier-product-list
@@ -124,7 +135,7 @@ const SupplierDetails = () => {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       pageSize: productsPerPage,
       pageNo: currentPage,
-      medicine_type: medicineType  // Add this line to filter by medicine_type
+      medicine_type: medicineType  
     }
 
     postRequestWithToken('buyer/supplier-product-list', obj, async (response) => {
@@ -158,8 +169,6 @@ const SupplierDetails = () => {
     // }
 
   }, [currentPage, activeTab, currentOrderPage]);  // Include activeTab in the dependency array to refetch when the tab changes
-
-
   return (
     <>
       <div className='buyer-supplier-details-container'>

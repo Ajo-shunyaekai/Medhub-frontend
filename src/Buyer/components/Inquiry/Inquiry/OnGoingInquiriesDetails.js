@@ -6,35 +6,35 @@ import { postRequestWithToken } from "../../../../api/Requests";
 import moment from "moment-timezone";
 import ProductList from "./ProductList";
 import { toast } from "react-toastify";
-import { apiRequests } from "../api";
+import { apiRequests } from "../../../../api";
 
 const OnGoingInquiriesDetails = () => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
+ 
   const { inquiryId } = useParams();
   const navigate = useNavigate();
-
+ 
   const [loading, setLoading] = useState(false);
   const [inquiryDetails, setInquiryDetails] = useState();
   const [acceptedItems, setAcceptedItems] = useState([]);
   const [rejectedItems, setRejectedItems] = useState([]);
-
+ 
   const email = inquiryDetails?.supplier?.contact_person_email;
   const subject = `Inquiry about Inquiry ${inquiryDetails?.enquiry_id || "unknown"
     }`;
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-
+ 
   const dateToDisplay = 
   inquiryDetails?.quotation_items_created_at || 
   inquiryDetails?.quotation_items_updated_at || 
   inquiryDetails?.created_at || 
   moment().toISOString();
-
+ 
   const formattedDate = moment(dateToDisplay)
     .tz("Asia/Kolkata")
     .format("DD/MM/YYYY HH:mm:ss");
-
+ 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -50,7 +50,7 @@ const OnGoingInquiriesDetails = () => {
       //     setInquiryDetails(response?.result);
       //     const acceptedItems = [];
       //     const rejectedItems = [];
-
+ 
       //     response?.result?.quotation_items?.forEach((item) => {
       //       if (item.status === "accepted") {
       //         acceptedItems.push(item);
@@ -60,7 +60,7 @@ const OnGoingInquiriesDetails = () => {
       //     });
       //     setAcceptedItems(acceptedItems);
       //     setRejectedItems(rejectedItems);
-
+ 
       //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
       //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       //   } else {
@@ -69,67 +69,67 @@ const OnGoingInquiriesDetails = () => {
       // }
       // );
                  
-      // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
-      // if (response?.code !== 200) {
-      //     console.log('error in order list api', response);
-      //     return;
-      // }
-      // setInquiryDetails(response?.result);
-      // const acceptedItems = [];
-      // const rejectedItems = [];
-
-      // response?.result?.quotation_items?.forEach((item) => {
-      //   if (item.status === "accepted") {
-      //     acceptedItems.push(item);
-      //   } else if (item.status === "rejected") {
-      //     rejectedItems.push(item);
-      //   }
-      // });
-      // setAcceptedItems(acceptedItems);
-      // setRejectedItems(rejectedItems);
-
-      // sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-      // sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
-      postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-        if (response.code === 200) {
-          setInquiryDetails(response?.result);
-          const acceptedItems = [];
-          const rejectedItems = [];
-
-          response?.result?.quotation_items?.forEach((item) => {
-            if (item.status === "accepted") {
-              acceptedItems.push(item);
-            } else if (item.status === "rejected") {
-              rejectedItems.push(item);
-            }
-          });
-          setAcceptedItems(acceptedItems);
-          setRejectedItems(rejectedItems);
-
-          sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
-          sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
-        } else {
-          console.log("error in order list api", response);
-        }
+      const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+      if (response?.code !== 200) {
+          console.log('error in order list api', response);
+          return;
       }
-      );
+      setInquiryDetails(response?.result);
+      const acceptedItems = [];
+      const rejectedItems = [];
+ 
+      response?.result?.quotation_items?.forEach((item) => {
+        if (item.status === "accepted") {
+          acceptedItems.push(item);
+        } else if (item.status === "rejected") {
+          rejectedItems.push(item);
+        }
+      });
+      setAcceptedItems(acceptedItems);
+      setRejectedItems(rejectedItems);
+ 
+      sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+      //   if (response.code === 200) {
+      //     setInquiryDetails(response?.result);
+      //     const acceptedItems = [];
+      //     const rejectedItems = [];
+ 
+      //     response?.result?.quotation_items?.forEach((item) => {
+      //       if (item.status === "accepted") {
+      //         acceptedItems.push(item);
+      //       } else if (item.status === "rejected") {
+      //         rejectedItems.push(item);
+      //       }
+      //     });
+      //     setAcceptedItems(acceptedItems);
+      //     setRejectedItems(rejectedItems);
+ 
+      //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
+      //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
+      //   } else {
+      //     console.log("error in order list api", response);
+      //   }
+      // }
+      // );
     }
     fetchData()
   }, []);
-
+ 
   useEffect(() => {
     const handleBeforeUnload = () => {
       sessionStorage.removeItem("acceptedQuotationItems");
       sessionStorage.removeItem("rejectedQuotationItems");
     };
-
+ 
     window.addEventListener("beforeunload", handleBeforeUnload);
-
+ 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-
+ 
   const handleAccept = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -167,48 +167,48 @@ const OnGoingInquiriesDetails = () => {
           // }
           // );
                  
-          // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
-          // if (response?.code !== 200) {
-          //     console.log('error in order list api', response);
-          //     return;
+          const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+          if (response?.code !== 200) {
+              console.log('error in order list api', response);
+              return;
+          }
+          setInquiryDetails(response?.result);
+          setAcceptedItems((prevItems) => {
+            const updatedItems = [...prevItems, item];
+            sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+            return updatedItems;
+          });
+          setRejectedItems((prevItems) => {
+            const updatedItems = prevItems.filter(
+              (rejItem) => rejItem._id !== item._id
+            );
+            sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+            );
+            return updatedItems;
+          });
+          // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+          // if (response.code === 200) {
+          //   setInquiryDetails(response?.result);
+          //   setAcceptedItems((prevItems) => {
+          //     const updatedItems = [...prevItems, item];
+          //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
+          //     return updatedItems;
+          //   });
+          //   setRejectedItems((prevItems) => {
+          //     const updatedItems = prevItems.filter(
+          //       (rejItem) => rejItem._id !== item._id
+          //     );
+          //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
+          //     );
+          //     return updatedItems;
+          //   });
+          // } else {
+          //   console.log("error in order list api", response);
           // }
-          // setInquiryDetails(response?.result);
-          // setAcceptedItems((prevItems) => {
-          //   const updatedItems = [...prevItems, item];
-          //   sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
-          //   return updatedItems;
-          // });
-          // setRejectedItems((prevItems) => {
-          //   const updatedItems = prevItems.filter(
-          //     (rejItem) => rejItem._id !== item._id
-          //   );
-          //   sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
-          //   );
-          //   return updatedItems;
-          // });
-          postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-          if (response.code === 200) {
-            setInquiryDetails(response?.result);
-            setAcceptedItems((prevItems) => {
-              const updatedItems = [...prevItems, item];
-              sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(updatedItems));
-              return updatedItems;
-            });
-            setRejectedItems((prevItems) => {
-              const updatedItems = prevItems.filter(
-                (rejItem) => rejItem._id !== item._id
-              );
-              sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(updatedItems)
-              );
-              return updatedItems;
-            });
-          } else {
-            console.log("error in order list api", response);
-          }
-          }
-          );
+          // }
+          // );
         }
-
+ 
         fetchData()
       } else {
         toast(response.message, { type: "error" });
@@ -217,7 +217,7 @@ const OnGoingInquiriesDetails = () => {
     }
     );
   };
-
+ 
   const handleReject = (item, status) => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -266,59 +266,59 @@ const OnGoingInquiriesDetails = () => {
             //   }
             // }
             // );           
-            // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
-            // if (response?.code !== 200) {
-              //     console.log('error in order list api', response);
-              //     return;
-              // }
-              // setInquiryDetails(response?.result);
-              // setRejectedItems((prevItems) => {
-                //   const updatedItems = [...prevItems, item];
-                //   sessionStorage.setItem(
-                  //     "rejectedQuotationItems",
-                  //     JSON.stringify(updatedItems)
-                  //   );
-                  //   return updatedItems;
-                  // });
-                  // setAcceptedItems((prevItems) => {
-                    //   const updatedItems = prevItems.filter(
-                      //     (accItem) => accItem._id !== item._id
-                      //   );
-                      //   sessionStorage.setItem(
-                        //     "acceptedQuotationItems",
-                        //     JSON.stringify(updatedItems)
-                        //   );
-                        //   return updatedItems;
-                        // });
-            postRequestWithToken(
-            `enquiry/get-specific-enquiry-details/${inquiryId}`,
-            obj,
-            async (response) => {
-              if (response.code === 200) {
-                setInquiryDetails(response?.result);
-                setRejectedItems((prevItems) => {
+            const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            if (response?.code !== 200) {
+                  console.log('error in order list api', response);
+                  return;
+              }
+              setInquiryDetails(response?.result);
+              setRejectedItems((prevItems) => {
                   const updatedItems = [...prevItems, item];
                   sessionStorage.setItem(
-                    "rejectedQuotationItems",
-                    JSON.stringify(updatedItems)
-                  );
-                  return updatedItems;
-                });
-                setAcceptedItems((prevItems) => {
-                  const updatedItems = prevItems.filter(
-                    (accItem) => accItem._id !== item._id
-                  );
-                  sessionStorage.setItem(
-                    "acceptedQuotationItems",
-                    JSON.stringify(updatedItems)
-                  );
-                  return updatedItems;
-                });
-              } else {
-                console.log("error in order list api", response);
-              }
-            }
-            );           
+                      "rejectedQuotationItems",
+                      JSON.stringify(updatedItems)
+                    );
+                    return updatedItems;
+                  });
+                  setAcceptedItems((prevItems) => {
+                      const updatedItems = prevItems.filter(
+                          (accItem) => accItem._id !== item._id
+                        );
+                        sessionStorage.setItem(
+                            "acceptedQuotationItems",
+                            JSON.stringify(updatedItems)
+                          );
+                          return updatedItems;
+                        });
+            // postRequestWithToken(
+            // `enquiry/get-specific-enquiry-details/${inquiryId}`,
+            // obj,
+            // async (response) => {
+            //   if (response.code === 200) {
+            //     setInquiryDetails(response?.result);
+            //     setRejectedItems((prevItems) => {
+            //       const updatedItems = [...prevItems, item];
+            //       sessionStorage.setItem(
+            //         "rejectedQuotationItems",
+            //         JSON.stringify(updatedItems)
+            //       );
+            //       return updatedItems;
+            //     });
+            //     setAcceptedItems((prevItems) => {
+            //       const updatedItems = prevItems.filter(
+            //         (accItem) => accItem._id !== item._id
+            //       );
+            //       sessionStorage.setItem(
+            //         "acceptedQuotationItems",
+            //         JSON.stringify(updatedItems)
+            //       );
+            //       return updatedItems;
+            //     });
+            //   } else {
+            //     console.log("error in order list api", response);
+            //   }
+            // }
+            // );           
           }
           fetchData()
         } else {
@@ -328,13 +328,13 @@ const OnGoingInquiriesDetails = () => {
       }
     );
   };
-
+ 
   const hasPendingItems = inquiryDetails?.items?.some(item => item.status === 'pending');
-
+ 
   const handleCancel = () => {
     navigate(`/buyer/cancel-inquiry-list/${inquiryId}`)
   }
-
+ 
   // const handleCreatePOClick = () => {
   //   if (acceptedItems.length > 0) {
   //     navigate(`/buyer/Create-PO/${inquiryId}`);
@@ -342,7 +342,7 @@ const OnGoingInquiriesDetails = () => {
   //     toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
   //   }
   // };
-
+ 
   const handleCreatePOClick = () => {
     const totalProcessedItems = acceptedItems.length + rejectedItems.length;
     const totalQuotationItems = inquiryDetails?.quotation_items?.length || 0;
@@ -357,7 +357,6 @@ const OnGoingInquiriesDetails = () => {
       toast('Please Accept or Reject All Quotation Items Before Creating Purchase Order.', { type: 'error' });
     }
   };
-  
 
   return (
     <div className="ongoing-details-container">
