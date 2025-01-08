@@ -3,20 +3,19 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { socket, user_type } from "../../constants";
-import { postRequestWithToken } from "../../api/Requests";
-
+ 
 const initialState = {
   user: null,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   showSuccessSignup: false,
   error: null,
 };
-
+ 
 export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await postRequestWithToken(`/auth/${id}`);
+      const response = await apiRequests?.getRequest(`/auth/${id}`);
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
@@ -25,7 +24,7 @@ export const fetchUserData = createAsyncThunk(
     }
   }
 );
-
+ 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (values, { rejectWithValue }) => {
@@ -40,7 +39,7 @@ export const loginUser = createAsyncThunk(
         sessionStorage.setItem(`${x}`, result[x]);
         // console.log(`RESPONSE OF LOGIN USER : ${x} ${result[x]}`);
       }
-
+ 
       if ("Notification" in window) {
         if (Notification.permission === "granted") {
           // If permission is already granted, register the user directly
@@ -84,7 +83,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-
+ 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (user, { rejectWithValue }) => {
@@ -93,7 +92,7 @@ export const registerUser = createAsyncThunk(
         `auth/register`,
         user
       );
-
+ 
       if (response?.code !== 200) {
         toast(response.message, { type: "error" });
         console.log("error in supplier/register api");
@@ -101,7 +100,7 @@ export const registerUser = createAsyncThunk(
           response.message || "Error occured with registration"
         );
       }
-
+ 
       (user_type == "Supplier" || user_type == "Buyer") &&
         socket.emit(
           user_type == "Supplier"
@@ -121,7 +120,7 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
+ 
 export const userDataSlice = createSlice({
   name: "user",
   initialState,
@@ -171,7 +170,7 @@ export const userDataSlice = createSlice({
       });
   },
 });
-
+ 
 export const { resetUserData } = userDataSlice.actions;
-
+ 
 export default userDataSlice.reducer;

@@ -5,26 +5,23 @@ import SearchDetailsCard from './SearchDetailsCard';
 import SearchFilterSection from '../SearchFilterSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
-// import { postRequestWithToken } from '../api/Requests';
-import { apiRequests } from '../api';
-// import Search from '../assest/Buy/search-icon.svg';
-
+import { apiRequests } from '../../../../api';
 
 const SearchsearchDetails = () => {
     const { medicineId } = useParams()
     const navigate       = useNavigate();
-
+ 
     const [details, setDetails]                           = useState()
     const [medId, setMedId]                               = useState(medicineId)
     const [supplierId, setSupplierId]                     = useState()
     const [medicineName, setMedicineName]                 = useState()
     const [similarMedicinesList, setSimilarMedicinesList] = useState([])
     const [countryAvailableIn, setCountryAvailableIn]     = useState([])
-
+ 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems]   = useState()
     const itemsPerPage = 2;
-
+ 
     //filter state variables
     const [priceRange, setPriceRange]       = useState([])
     const [deliveryTime, setDeliveryTime]   = useState([])
@@ -34,52 +31,52 @@ const SearchsearchDetails = () => {
     //searchkey
     const [inputValue, setInputValue] = useState('')
     const [searchKey, setSearchKey]   = useState(null)
-
+ 
     const handleInputChange = (e) => {
         const input = e.target.value;
         // if(input.length <= 10) {
             setInputValue(e.target.value)
-
+ 
         if (e.target.value === '') {
             setSearchKey('');
         }
         // }
         
     }
-
+ 
     const handleProductSearch = () => {
         setSearchKey(inputValue)
         setCurrentPage(1)
     }
-
+ 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleProductSearch();
         }
     };
-
+ 
     const handleReset = () => {
         setPriceRange([])
         setDeliveryTime([])
         setStockedIn([])
         setTotalQuantity([])
     }
-
+ 
     useEffect(() => {
         const fetchData = async () => {
             const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
             const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
+ 
             if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
                 navigate("/buyer/login");
                 return;
             }
-
+ 
             const obj = {
                 medicine_id: medId,
                 buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
             }
-
+ 
             // postRequestWithToken('buyer/medicine/medicine-details', obj, async (response) => {
             //     if (response.code === 200) {
             //         setDetails(response?.result?.data)
@@ -91,31 +88,31 @@ const SearchsearchDetails = () => {
             //     }
             // })
             try {
-                // const response = await apiRequests.postRequest('medicine/get-specific-medicine-details', obj)
-                // if(response?.code !== 200){
-                //     return
-                // }
-                // setDetails(response?.result?.data)
-                // setCountryAvailableIn(response?.result?.countryAvailable)
-                // setMedicineName(response.result?.data?.medicine_name)
-                // setSupplierId(response.result?.supplier_id)
-                postRequestWithToken('medicine/get-specific-medicine-details', obj, async (response) => {
-                    if (response.code === 200) {
-                        setDetails(response?.result)
-                        setCountryAvailableIn(response?.result?.countryAvailable)
-                        setMedicineName(response.result?.medicine_name)
-                        setSupplierId(response.result?.supplier_id)
-                    } else {
-                        console.log('error in med details api');
-                    }
-                })
+                const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${medId}`, obj)
+                if(response?.code !== 200){
+                    return
+                }
+                setDetails(response?.result)
+                setCountryAvailableIn(response?.result?.countryAvailable)
+                setMedicineName(response.result?.medicine_name)
+                setSupplierId(response.result?.supplier_id)
+                // postRequestWithToken(`medicine/get-specific-medicine-details/${medId}`, obj, async (response) => {
+                //     if (response.code === 200) {
+                //         setDetails(response?.result)
+                //         setCountryAvailableIn(response?.result?.countryAvailable)
+                //         setMedicineName(response.result?.medicine_name)
+                //         setSupplierId(response.result?.supplier_id)
+                //     } else {
+                //         console.log('error in med details api');
+                //     }
+                // })
             } catch (error) {
                 console.log('error in medicine list api',error);
             }
         }
         fetchData()
     }, [medId])
-
+ 
     useEffect(() => {
         const obj = {
             medicine_id    : medicineId,
@@ -140,7 +137,7 @@ const SearchsearchDetails = () => {
             }
         })
     }, [medicineName, medId, currentPage, priceRange, deliveryTime, stockedIn, totalQuantity, searchKey])
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };

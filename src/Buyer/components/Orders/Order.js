@@ -8,56 +8,56 @@ import PendingOrders from './PendingOrders/DeletedOrder';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api'
+import { apiRequests } from '../../../api';
 
 
 const Order = () => {
     const location  = useLocation();
     const navigate = useNavigate()
-
+ 
     const [loading, setLoading] = useState(true);
     const [orderList, setOrderList]     = useState([])
     const [totalOrders, setTotalOrders] = useState()
     const [currentPage, setCurrentPage] = useState(1); 
     const ordersPerPage = 5;
-
+ 
     
     const getActiveLinkFromPath = (path) => {
         
         switch (path) {
-            case '/buyer/order/active':
+            case '/buyer/order/Active-Order':
                 return 'active';
-            case '/buyer/order/completed':
+            case '/buyer/order/Completed-Orders':
                 return 'completed';
             default:
                 return 'active';
         }
     };
-
+ 
     const activeLink = getActiveLinkFromPath(location.pathname);
-
+ 
     const handleLinkClick = (link) => {
         setCurrentPage(1)
         switch (link) {
             case 'active':
-                navigate('/buyer/order/active');
+                navigate('Active-Order');
                 break;
             case 'completed':
-                navigate('/buyer/order/completed');
+                navigate('Completed-Orders');
                 break;
             default:
-                navigate('/buyer/order/active');
+                navigate('Active-Order');
         }
     };
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-
+ 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         navigate("/buyer/login");
         return;
@@ -79,17 +79,17 @@ const Order = () => {
         //     setLoading(false);
         // })
         try {
-            // const response = await  apiRequests.postRequest('order/get-order-list-all-users', obj)
-            // if (response.code === 200) {
-            //     setOrderList(response.result.data)
-            //     setTotalOrders(response.result.totalItems)
-            // }
-            postRequestWithToken('order/get-order-list-all-users', obj, async (response) => {
-                if (response.code == 200) {
-                    setOrderList(response.result.data)
-                    setTotalOrders(response.result.totalItems)
-                }
-            })
+            const response = await apiRequests.getRequest(`order/get-all-order-list?filterKey=${activeLink}&pageNo=${currentPage}&pageSize=${ordersPerPage}`)
+            if (response.code === 200) {
+                setOrderList(response.result.data)
+                setTotalOrders(response.result.totalItems)
+            }
+            // postRequestWithToken(`order/get-all-order-list?filterKey=${activeLink}&pageNo=${currentPage}&pageSize=${ordersPerPage}`, obj, async (response) => {
+            //     if (response.code == 200) {
+            //         setOrderList(response.result.data)
+            //         setTotalOrders(response.result.totalItems)
+            //     }
+            // })
         } catch (error) {
             toast(error.message, {type:'error'})
             console.log('error in order list api',error);
@@ -97,8 +97,8 @@ const Order = () => {
             setLoading(false);
         }
     }
-
-
+ 
+ 
     useEffect(() => {
         fetchData()
     },[activeLink, currentPage])

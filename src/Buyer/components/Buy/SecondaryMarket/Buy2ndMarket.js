@@ -14,7 +14,7 @@ import Pagination from 'react-js-pagination';
 import { postRequestWithToken } from '../../../../api/Requests';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../../api'
+import { apiRequests } from '../../../../api';
 
 const Buy2ndMarket = ({active}) => {
     const navigate = useNavigate()
@@ -28,37 +28,37 @@ const Buy2ndMarket = ({active}) => {
     const [totalItems, setTotalitems] = useState()
     const itemsPerPage = 6;
     // const active = 'product';
-
+ 
     const handleInputChange = (e) => {
         setInputValue(e.target.value)
-
+ 
         if (e.target.value === '') {
             setSearchKey('');
         }
     }
-
+ 
     const handleProductSearch = () => {
         setSearchKey(inputValue)
         setCurrentPage(1)
     }   
-
+ 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleProductSearch();
         }
     };
-
+ 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+ 
     const handleCategoryFilter = (category) => {
         setFilterCategory(category)
     }
-
+ 
     useEffect(() => {
         const fetchData = async () => {
-
+ 
             const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
             const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
     
@@ -89,21 +89,21 @@ const Buy2ndMarket = ({active}) => {
                     setLoading(false);
                 })
                 try {
-                    //   const response = await apiRequests.postRequest('medicine/get-all-medicines-list', obj)
-                    //   if(response?.code !== 200){
-                    //   return
-                    //   }
-                    //   setMedicineList(response.result.data)
-                    //     setTotalitems(response.result.totalItems)
-                    postRequestWithToken('medicine/get-all-medicines-list', obj, async (response) => {
-                        if (response.code === 200) {
-                            setMedicineList(response.result.data)
-                            setTotalitems(response.result.totalItems)
-                        } else {
-                            toast(response.message, {type:'error'})
-                            console.log('error in medicine list api',response);
-                        }
-                    })
+                    const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`)
+                    if(response?.code !== 200){
+                    return
+                    }
+                    setMedicineList(response.result.data)
+                    setTotalitems(response.result.totalItems)
+                    // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`, obj, async (response) => {
+                    //     if (response.code === 200) {
+                    //         setMedicineList(response.result.data)
+                    //         setTotalitems(response.result.totalItems)
+                    //     } else {
+                    //         toast(response.message, {type:'error'})
+                    //         console.log('error in medicine list api',response);
+                    //     }
+                    // })
                 } catch (error) {
                       console.log('error in medicine list api',error);
                 } finally{

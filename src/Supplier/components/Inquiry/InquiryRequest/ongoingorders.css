@@ -1,0 +1,139 @@
+.inquiry-purchase-container-right {
+  width: 88%;
+}
+
+.ongoing-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  row-gap: 20px;
+}
+.ongoing-order-button-span{
+  background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.ongoing-container-right-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  margin-top: 24px;
+  margin-bottom: 12rem;
+}
+
+.ongoing-inner-container-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-ongoing-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.ongoing-container-thead {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ongoing-container-tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ongoing-container-th {
+  width: 18%;
+  font-weight: 500;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.ongoing-container-large-th {
+  width: 22%;
+  font-weight: 500;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.ongoing-section-tr {
+  background-color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ongoing-section-td {
+  width: 18%;
+  font-weight: 500;
+  padding: 16px 6px;
+  font-size: 14px;
+}
+
+.ongoing-section-large-td {
+  width: 22%;
+  font-weight: 500;
+  padding: 16px 6px;
+  font-size: 14px;
+}
+
+.ongoing-section-heading {
+  color: #99a0ac;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.ongoing-section-button {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.ongoing-section-view {
+  background-color: #31c971;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  justify-content: center;
+  width: 34px;
+}
+.ongoing-section-eye {
+  width: 18px !important;
+}
+.ongoing-section-button-section-cont{
+  
+}
+.ongoing-section-orders-button{
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+@media (max-width: 992px){
+  .inquiry-purchase-container-right {
+    width: 100%;
+}
+}

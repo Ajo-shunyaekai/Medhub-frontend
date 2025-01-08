@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import { createBrowserRouter, RouterProvider, useNavigate, useLocation } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useNavigate, useLocation,Navigate } from "react-router-dom";
 import { postRequestWithToken } from '../../api/Requests';
 import Sidebar from "../components/SharedComponents/Sidebar/Sidebar"
 import io from 'socket.io-client';
@@ -50,16 +50,17 @@ import NotificationList from "../components/SharedComponents/Notification/Notifi
 import SupplyProductList from "../components/Buy/BySupplier/SupplyProductList";
 import SupplyOrderList from "../components/Buy/BySupplier/SupplyOrderList";
 import SupplySecondaryList from "../components/Buy/BySupplier/SupplySecondaryList";
+import SupplierCompleted from "../components/SharedComponents/supplier/SuplierCompleted"
+import SupplierActive from "../components/SharedComponents/supplier/SupplierActive"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
     const [invoiceCount, setInvoiceCount] = useState(0);
-
+    const [refresh, setRefresh] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-
     const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
 
     const showNotification = (title, options, url) => {
@@ -77,8 +78,8 @@ export function NotificationProvider({ children }) {
         postRequestWithToken("buyer/get-notification-list", obj, (response) => {
             if (response.code === 200) {
                 setNotificationList(response.result.data);
-                setCount(response.result.totalItems || 0); 
-                console.log(response.result.data)
+                setCount(response.result.data.length);
+                console.log(response.result.data);
             } else {
                 console.error("Error fetching notification list");
             }
@@ -92,6 +93,23 @@ export function NotificationProvider({ children }) {
                 setInvoiceCount(response.result || 0);
             } else {
                 console.error("Error fetching invoice count");
+            }
+        });
+    };
+
+    const handleClick = (id, event) => {
+        const obj = {
+            notification_id: id,
+            event,
+            status: 1
+        };
+        postRequestWithToken('buyer/update-notification-status', obj, (response) => {
+            if (response.code === 200) {
+                setRefresh(true);
+                console.log("Notification status updated");
+                fetchNotifications(); // Refresh notifications after updating
+            } else {
+                console.error('Error updating notification status');
             }
         });
     };
@@ -130,16 +148,25 @@ export function NotificationProvider({ children }) {
                 });
             };
         }
-    }, [buyerId]);
+    }, [buyerId, refresh]);
 
     return (
-        <Sidebar invoiceCount = {invoiceCount} notificationList= {notificationList} count={count}>
-            </Sidebar>
+        <Sidebar 
+            invoiceCount={invoiceCount} 
+            notificationList={notificationList} 
+            count={count} 
+            handleClick={handleClick}>
+            {children}
+        </Sidebar>
     );
 }
 
 // Routes
 const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Navigate to="/buyer" replace />,
+    },
     {
         path: "/buyer/login",
         element: <Login />,
@@ -230,6 +257,14 @@ const router = createBrowserRouter([
                         element: <SupplyOrderList />
                     },
                 ]
+            },
+            {
+                path: "supplier-completed/:supplierId",
+                element: <SupplierCompleted/>
+            },
+            {
+                path: "supplier-active/:supplierId",
+                element: <SupplierActive/>
             },
 
             {

@@ -8,20 +8,20 @@ import moment from 'moment-timezone';
 import BuyerActiveCodinator from './BuyerActiveCodinator';
 import OrderInvoiceList from './OrderInvoiceList';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api';
+import { apiRequests } from '../../../../api';
 
 const OrderDetails = ({socket}) => {
     const { orderId } = useParams();
     const navigate = useNavigate();
-
+ 
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage = localStorage.getItem('buyer_id');
-
+ 
     const [loading, setLoading] = useState(false);
     const [activeButton, setActiveButton] = useState('1h');
     const [orderDetails, setOrderDetails] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+ 
     const fetchData = async () => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate('/buyer/login');
@@ -39,35 +39,35 @@ const OrderDetails = ({socket}) => {
         //     }
         // });
         try {
-            // const response = await  apiRequests.postRequest('order/get-specific-order-details', obj)
-            // if (response.code === 200) {
-            //     setOrderDetails(response.result);
-            // }
-            postRequestWithToken('order/get-specific-order-details', obj, (response) => {
-                if (response.code === 200) {
-                    setOrderDetails(response.result);
-                } else {
-                    console.log('error in order details api');
-                }
-            });
+            const response = await  apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
+            if (response.code === 200) {
+                setOrderDetails(response.result);
+            }
+            // postRequestWithToken(`order/get-specific-order-details/${orderId}`, obj, (response) => {
+            //     if (response.code === 200) {
+            //         setOrderDetails(response.result);
+            //     } else {
+            //         console.log('error in order details api');
+            //     }
+            // });
         } catch (error) {
             console.log('error in order details api');
         }
     }
-
+ 
     useEffect(() => {
         fetchData()
     }, [navigate, orderId]);
-
+ 
     const handleButtonClick = (value) => {
         setActiveButton(value);
     };
-
+ 
     const onClose = () => {
         setIsModalOpen(false)
         setLoading(false)
     }
-
+ 
     const handleModalSubmit = (data) => {
         console.log('Modal Data:', data);
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -81,7 +81,7 @@ const OrderDetails = ({socket}) => {
         } else if (data.customClearance) {
             type = 'custom clearance';
         }
-
+ 
         // Create the logistics_details object
         const logisticsDetails = {
             door_to_door: data.doorToDoor ,
@@ -112,7 +112,7 @@ const OrderDetails = ({socket}) => {
                 postRequestWithToken('buyer/order/order-details', obj, (response) => {
                     if (response.code === 200) {
                         toast('Logistics Details Submitted Successfully', {type:'success'})
-
+ 
                         socket.emit('bookLogistics', {
                             supplierId : orderDetails?.supplier_id, 
                             orderId    : orderId,

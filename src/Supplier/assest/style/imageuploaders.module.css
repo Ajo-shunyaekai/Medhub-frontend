@@ -1,0 +1,70 @@
+/* react upload document */
+.upload-area {
+    width: 330px;
+    height: 110px;
+    cursor: pointer;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    cursor: pointer;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .image-name {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  .image-uploader {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  .uploaded-image {
+    transition: transform 0.3s ease;
+    width: 150px;
+    height: auto;
+  }
+  /*
+    .uploaded-image:hover {
+      transform: scale(1.5);
+    } */
+  
+  .remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+  }
+  
+  .upload-icon {
+    width: 36px;
+  }
+  
+  .upload-text {
+    font-size: 13px;
+  }
+  .uploaded-image {
+    max-width: 100%;
+    cursor: pointer;
+  }
+  
+  .remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .modal-image {
+    max-width: 100%;
+    height: auto;
+  }
+  

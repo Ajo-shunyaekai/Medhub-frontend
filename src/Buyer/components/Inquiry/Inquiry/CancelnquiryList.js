@@ -4,15 +4,15 @@ import CancelProductList from './CancelProductList';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
-import { apiRequests } from '../api';
+import { apiRequests } from '../../../../api';
 
 const CancelInquiryList = () => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
+ 
     const { inquiryId } = useParams();
     const navigate = useNavigate();
-
+ 
     const [loading, setLoading] = useState(false);
     const [inquiryDetails, setInquiryDetails] = useState();
     const [selectedReasons, setSelectedReasons] = useState({
@@ -24,27 +24,27 @@ const CancelInquiryList = () => {
         Other: false,
     });
     const [text, setText] = useState('');
-
+ 
     const handleChanged = (event) => {
         setText(event.target.value);
     };
-
+ 
     const handleChange = (e) => {
         const { name } = e.target;
-
+ 
         // Reset all checkboxes to false
         const updatedReasons = Object.keys(selectedReasons).reduce((acc, reason) => {
             acc[reason] = false;
             return acc;
         }, {});
-
+ 
         // Set the selected checkbox to true
         setSelectedReasons({
             ...updatedReasons,
             [name]: e.target.checked,
         });
     };
-
+ 
     const handleSubmit = (e) => {
         e.preventDefault();
         const selectedReasonKey = Object.keys(selectedReasons).find(key => selectedReasons[key]);
@@ -61,9 +61,9 @@ const CancelInquiryList = () => {
             ChangeInRequirement: 'Change in requirement',
             Other: 'Inquiry by mistake',
         };
-
+ 
         const reason = reasonMap[selectedReasonKey];
-
+ 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             enquiry_id: inquiryId,
@@ -71,7 +71,7 @@ const CancelInquiryList = () => {
             reason: reason,
             comment: text
         };
-
+ 
         postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
         if (response.code === 200) {
             toast(response.message, { type: "success" });
@@ -88,7 +88,7 @@ const CancelInquiryList = () => {
       }
     );
     };
-
+ 
     useEffect(() => {
         const fetchData = async () => {
             if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -106,19 +106,19 @@ const CancelInquiryList = () => {
             //         console.log("error in order list api", response);
             //     }
             // });           
-            // const response = await apiRequests.postRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
-            // if (response?.code !== 200) {
-            //     console.log('error in order list api', response);
-            //     return;
-            // }
-            // setInquiryDetails(response?.result);
-            postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
-                if (response.code === 200) {
-                    setInquiryDetails(response?.result);
-                } else {
-                    console.log("error in order list api", response);
-                }
-            });           
+            const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
+            if (response?.code !== 200) {
+                console.log('error in order list api', response);
+                return;
+            }
+            setInquiryDetails(response?.result);
+            // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInquiryDetails(response?.result);
+            //     } else {
+            //         console.log("error in order list api", response);
+            //     }
+            // });           
         }
         fetchData()
     }, []);
