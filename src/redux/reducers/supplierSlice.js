@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
- 
+
 const initialState = {
   suppliers: [],
   supplierCount : 0,
@@ -9,12 +9,12 @@ const initialState = {
   error: null,
   supplierData: {}
 };
- 
+
 export const fetchSupplierListRedux = createAsyncThunk(
   "supplier/fetchSupplierListRedux",
-  async (values, { rejectWithValue }) => {
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('supplier/get-all-suppliers-list', values)
+      const response = await apiRequests.getRequest(url)
       console.log('response', response)
       return response.result.data; 
     } catch (error) {
@@ -24,7 +24,7 @@ export const fetchSupplierListRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchSupplierDataRedux = createAsyncThunk(
   "medicine/fetchSupplierDataRedux",
   async (values, { rejectWithValue }) => {
@@ -38,7 +38,7 @@ export const fetchSupplierDataRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const supplierSlice = createSlice({
   name: "supplier",
   initialState,
@@ -76,7 +76,7 @@ export const supplierSlice = createSlice({
       })
   },
 });
- 
+
 export const { restSupplierData } = supplierSlice.actions;
- 
+
 export default supplierSlice.reducer;

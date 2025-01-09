@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
- 
+
 const initialState = {
   inquiries: [],
   inquiriesCount : 0,
@@ -9,12 +9,12 @@ const initialState = {
   error: null,
   inquiryData: {}
 };
- 
+
 export const fetchInquiryListRedux = createAsyncThunk(
   "enquiry/fetchInquiryListRedux",
-  async (values, { rejectWithValue }) => {
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(`enquiry/get-all-enquiry-list?pageNo=${values?.currentPage}&pageSize=${values?.listPerPage || values?.inquiryPerPage}&filterValue=${values?.filterValue}&status=${values?.status}`, values)
+      const response = await apiRequests.getRequest(url)
       console.log('response', response)
       return response.result.data; 
     } catch (error) {
@@ -24,7 +24,7 @@ export const fetchInquiryListRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchInquiryDataRedux = createAsyncThunk(
   "invoice/fetchInquiryDataRedux",
   async (values, { rejectWithValue }) => {
@@ -38,8 +38,8 @@ export const fetchInquiryDataRedux = createAsyncThunk(
     }
   }
 );
- 
- 
+
+
 export const inquirySlice = createSlice({
   name: "inquiry",
   initialState,
@@ -77,7 +77,7 @@ export const inquirySlice = createSlice({
       })
   },
 });
- 
+
 export const { restInquiryData } = inquirySlice.actions;
- 
+
 export default inquirySlice.reducer;

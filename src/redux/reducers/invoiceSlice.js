@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
- 
+
 const initialState = {
   invoices: [],
   invoiceCount : 0,
@@ -9,12 +9,12 @@ const initialState = {
   error: null,
   invoiceData: {},
 };
- 
+
 export const fetchInvoiceListRedux = createAsyncThunk(
   "invoice/fetchInvoiceListRedux",
-  async (values, { rejectWithValue }) => {
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('order/get-all-invoice-list', values)
+      const response = await apiRequests.getRequest(url)
       return response.result; 
     } catch (error) {
       // Log and pass the error
@@ -23,7 +23,7 @@ export const fetchInvoiceListRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchInvoiceDataRedux = createAsyncThunk(
   "invoice/fetchInvoiceDataRedux",
   async (values, { rejectWithValue }) => {
@@ -37,7 +37,7 @@ export const fetchInvoiceDataRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const invoiceSlice = createSlice({
   name: "invoice",
   initialState,
@@ -75,7 +75,7 @@ export const invoiceSlice = createSlice({
       })
   },
 });
- 
+
 export const { resteInvoivceData } = invoiceSlice.actions;
- 
+
 export default invoiceSlice.reducer;
