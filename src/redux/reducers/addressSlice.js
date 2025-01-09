@@ -3,18 +3,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 
 const initialState = {
-  orders: [],
-  orderCount : 0,
+  address: [],
+  addressCount : 0,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
-  orderData: {}
+  addressData: {}
 };
 
-export const fetchOrderListRedux = createAsyncThunk(
-  "order/fetchOrderListRedux",
-  async (url, { rejectWithValue }) => {
+export const fetchAddressListRedux = createAsyncThunk(
+  "address/fetchAddressListRedux",
+  async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(url)
+      const response = await apiRequests.postRequest('address/get-all-address-list', values)
       console.log('response', response)
       return response.result.data; 
     } catch (error) {
@@ -25,11 +25,11 @@ export const fetchOrderListRedux = createAsyncThunk(
   }
 );
 
-export const fetchOrderDataRedux = createAsyncThunk(
-  "medicine/fetchOrderDataRedux",
-  async (values, { rejectWithValue }) => {
+export const fetchAddressDataRedux = createAsyncThunk(
+  "medicine/fetchAddressDataRedux",
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(`order/get-specific-order-details/${values?.order_id}`, values)
+      const response = await apiRequests.getRequest(url)
       return response.result 
     } catch (error) {
       // Log and pass the error
@@ -39,44 +39,44 @@ export const fetchOrderDataRedux = createAsyncThunk(
   }
 );
 
-export const orderSlice = createSlice({
-  name: "order",
+export const addressSlice = createSlice({
+  name: "address",
   initialState,
   reducers: {
-    restOrderData: (state) => {
-      state.orders = [];
+    restAddressData: (state) => {
+      state.address = [];
       state.status = "idle";
       state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOrderListRedux.pending, (state) => {
+      .addCase(fetchAddressListRedux.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchOrderListRedux.fulfilled, (state, action) => {
+      .addCase(fetchAddressListRedux.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.orders = action?.payload?.data;
-        state.orderCount = action?.payload?.totalItems;
+        state.address = action?.payload?.data;
+        state.addressCount = action?.payload?.totalItems;
       })
-      .addCase(fetchOrderListRedux.rejected, (state, action) => {
+      .addCase(fetchAddressListRedux.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(fetchOrderDataRedux.pending, (state) => {
+      .addCase(fetchAddressDataRedux.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchOrderDataRedux.fulfilled, (state, action) => {
+      .addCase(fetchAddressDataRedux.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.orderData = action?.payload;
+        state.addressData = action?.payload;
       })
-      .addCase(fetchOrderDataRedux.rejected, (state, action) => {
+      .addCase(fetchAddressDataRedux.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
   },
 });
 
-export const { restOrderData } = orderSlice.actions;
+export const { restAddressData } = addressSlice.actions;
 
-export default orderSlice.reducer;
+export default addressSlice.reducer;

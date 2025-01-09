@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
- 
+
 const initialState = {
   buyers: [],
   buyerCount : 0,
@@ -9,12 +9,12 @@ const initialState = {
   error: null,
   buyerData: {}
 };
- 
+
 export const fetchBuyerListRedux = createAsyncThunk(
   "buyer/fetchBuyerListRedux",
-  async (values, { rejectWithValue }) => {
+  async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('buyer/get-all-buyer-list', values)
+      const response = await apiRequests.postRequest( url)
       console.log('response', response)
       return response.result.data; 
     } catch (error) {
@@ -24,7 +24,7 @@ export const fetchBuyerListRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchBuyerDataRedux = createAsyncThunk(
   "medicine/fetchBuyerDataRedux",
   async (values, { rejectWithValue }) => {
@@ -38,7 +38,7 @@ export const fetchBuyerDataRedux = createAsyncThunk(
     }
   }
 );
- 
+
 export const buyerSlice = createSlice({
   name: "buyer",
   initialState,
@@ -76,7 +76,7 @@ export const buyerSlice = createSlice({
       })
   },
 });
- 
+
 export const { restBuyerData } = buyerSlice.actions;
- 
+
 export default buyerSlice.reducer;

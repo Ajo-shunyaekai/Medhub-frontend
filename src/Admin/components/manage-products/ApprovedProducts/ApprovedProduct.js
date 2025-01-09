@@ -100,6 +100,23 @@ const ApprovedProduct = () => {
         fetchData()
     },[activeLink, currentPage])
 
+    const handleDownload = () => {
+        if (!adminIdSessionStorage && !adminIdLocalStorage) {
+        navigate("/admin/login");
+        return;
+        }
+        const medicineType = activeLink === 'newproduct' ? 'new' : activeLink === 'secondary' ? 'secondary market' : activeLink;
+        const obj = {
+            admin_id     : adminIdSessionStorage || adminIdLocalStorage,
+            medicineType : medicineType,
+            status       : 1,
+            pageNo       : currentPage, 
+            pageSize     : listPerPage,
+        }
+
+        apiRequests?.postReqCSVDownload('medicine/get-all-medicines-list-csv', obj, `${activeLink === 'newproduct' ? 'New Products' : 'Secondary Market Products'} Approved.csv`)        
+    };
+
     return (
         <>
         {loading ? (
