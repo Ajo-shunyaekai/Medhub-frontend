@@ -57,52 +57,6 @@ const Login = ({socket}) => {
                 password,
                 user_type: "Buyer"
             }
-            // postRequest('auth/login', obj, async (response) => {
-            //     if (response.status === 200) {
-            //         // toast(response.message, { type: "success" });
-                    
-            //         sessionStorage.setItem('buyer_id', response.result.buyer_id)
-            //         sessionStorage.setItem('_id', response?.result?._id)
-            //         sessionStorage.setItem('buyer_name', response.result.buyer_name)
-            //         sessionStorage.setItem('buyer_email', response.result.buyer_email)
-            //         sessionStorage.setItem('buyer_country_code', response.result.buyer_country_code)
-            //         sessionStorage.setItem('buyer_mobile', response.result.buyer_mobile)
-            //         sessionStorage.setItem('contact_person_country_code', response.result.contact_person_country_code)
-            //         sessionStorage.setItem('contact_person_mobile', response.result.contact_person_mobile)
-            //         sessionStorage.setItem('contact_person_name', response.result.contact_person_name)
-            //         sessionStorage.setItem('buyer_image', response.result.buyer_image)
-            //         sessionStorage.setItem('license_image', response.result.license_image)
-            //         sessionStorage.setItem('tax_image', response.result.tax_image)
-            //         sessionStorage.setItem('token', response.result.token)
-            //         sessionStorage.setItem('list_count', response.result.list_count)
-            //         setTimeout(() => {
-            //             navigate("/buyer");
-            //             setLoading(true)
-            //         }, 500);
-
-            //         if ('Notification' in window) {
-            //             if (Notification.permission === 'granted') {
-            //                 // If permission is already granted, register the user directly
-            //                 const userId = response.result.buyer_id;
-            //                 socket.emit('registerBuyer', userId);
-            //             } else if (Notification.permission !== 'denied') {
-            //                 // Request permission if not already denied
-            //                 const permission = await Notification.requestPermission();
-            //                 if (permission === 'granted') {
-            //                     const userId = response.result.buyer_id;
-            //                     socket.emit('registerBuyer', userId);
-            //                 }
-            //             }
-            //         }
-            //         // requestNotificationPermission();
-                    
-            //     } else {
-            //         setLoading(false)
-            //         toast(response.message, { type: "error" });
-            //         console.log('error while login')
-            //     }
-                
-            // })
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
                 if(response.code !== 200){

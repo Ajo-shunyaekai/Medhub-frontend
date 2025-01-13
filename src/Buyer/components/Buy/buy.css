@@ -249,6 +249,12 @@ ul {
 .buy-seller-copmany-name {
   font-size: 26px;
   font-weight: 500;
+  display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 .buy-seller-company-name-text {

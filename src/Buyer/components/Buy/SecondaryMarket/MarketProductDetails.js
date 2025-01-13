@@ -302,7 +302,7 @@ const MarketProductDetails = () => {
                                     </div>
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Shelf Life :</div>
-                                        <div className='buyer-product-details-two-right-text'>{details?.shelf_life}</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.shelf_life} Months</div>
                                     </div>
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Country of Origin :</div>

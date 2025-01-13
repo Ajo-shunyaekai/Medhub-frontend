@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './sidebar.module.css';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
@@ -63,17 +63,39 @@ const Sidebar = ({ children, dragWindow,
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+    const notificationRef = useRef(null);
+    const profileRef = useRef(null);
+
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
-        handleClick() //for notification status update
+        handleClick(); // for notification status update
     };
 
-    // Profile Dropdown Code
     const ProfileDropdown = () => {
         setIsProfileOpen(!isProfileOpen);
         setIsNotificationOpen(false); // Close notification dropdown if open
     };
+
+    const handleClickOutside = (event) => {
+        // Close dropdowns if clicking outside
+        if (
+            notificationRef.current &&
+            !notificationRef.current.contains(event.target) &&
+            profileRef.current &&
+            !profileRef.current.contains(event.target)
+        ) {
+            setIsNotificationOpen(false);
+            setIsProfileOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // Side bar code start from here
     const [isOpen, setIsOpen] = useState(true);
@@ -220,21 +242,21 @@ const Sidebar = ({ children, dragWindow,
 
     const handleNavigation = (notificationId, event, eventId, linkId) => {
         const eventRoutes = {
-          enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
-          order: `/buyer/order-details/${eventId}`,
-          purchaseorder: `/buyer/purchased-order-details/${linkId}`,
-          invoice: `/buyer/invoice/Pending-Invoice`,
+            enquiry: `/buyer/ongoing-inquiries-details/${eventId}`,
+            order: `/buyer/order-details/${eventId}`,
+            purchaseorder: `/buyer/purchased-order-details/${linkId}`,
+            invoice: `/buyer/invoice/Pending-Invoice`,
         };
-      
+
         const route = eventRoutes[event] || "/buyer/";
         setIsNotificationOpen(false);
         navigate(route);
-      
+
         // Uncomment this line if needed
         // handleClick(notificationId, event);
-      };
-      
-      
+    };
+
+
 
     const handleNotificationNavigate = () => {
         setIsNotificationOpen(false)
@@ -259,7 +281,7 @@ const Sidebar = ({ children, dragWindow,
                             <input type="text" placeholder='Search products...' className={styles.product_search_input} />
                         </div>
                         <div className={styles.nav_notifi_right}>
-                            <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} />
+                            {/* <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} /> */}
                             <Badge badgeContent={sessionStorage.getItem('list_count')} color="secondary">
                                 <Link to='/buyer/send-inquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
@@ -268,82 +290,118 @@ const Sidebar = ({ children, dragWindow,
 
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
                             {/* <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} /> */}
-                            <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
-                                <NotificationsNoneOutlinedIcon
-                                    className={styles.nav_icon_color}
-                                    onClick={NotificationDropdown}
-                                />
-                            </Badge>
+                            <div ref={notificationRef}>
+                                <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
+                                    <NotificationsNoneOutlinedIcon
+                                        className={styles.nav_icon_color}
+                                        onClick={NotificationDropdown}
+                                    />
+                                </Badge>
 
-                            {isNotificationOpen && (
-                                <div className={styles.noti_container}>
-                                    {/* Notificatio content goes here */}
-                                    <div className={styles.noti_wrapper}>
-                                        <div className={styles.noti_top_wrapper}>
-                                            {console.log(notificationList)}
+                                {isNotificationOpen && (
+                                    <div className={styles.noti_container}>
+                                        <div className={styles.noti_wrapper}>
+                                            <div className={styles.noti_top_wrapper}>
+                                                {console.log(notificationList)}
 
-                                            {notificationList?.slice(0, 5).map((data, i) => (
-                                                <div
-                                                    key={data.notification_id}
-                                                    className={styles.noti_profile_wrapper}
-                                                    onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)}
-                                                >
-                                                    <div className={styles.noti_profile}>{data.event_type.charAt(0)}</div>
-                                                    <div className={styles.noti_profile_text}>
-                                                        <span>
-                                                            {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
-                                                        </span>
+                                                {notificationList?.slice(0, 5).map((data) => (
+                                                    <div
+                                                        key={data.notification_id}
+                                                        className={styles.noti_profile_wrapper}
+                                                        onClick={() =>
+                                                            handleNavigation(
+                                                                data.notification_id,
+                                                                data.event,
+                                                                data.event_id,
+                                                                data.link_id
+                                                            )
+                                                        }
+                                                    >
+                                                        <div className={styles.noti_profile}>
+                                                            {data.event_type.charAt(0)}
+                                                        </div>
+                                                        <div className={styles.noti_profile_text}>
+                                                            <span>
+                                                                {data.message.length > 100
+                                                                    ? `${data.message.slice(0, 100)}...`
+                                                                    : data.message}
+                                                            </span>
+                                                        </div>
                                                     </div>
+                                                ))}
+                                            </div>
+
+                                            <div className={styles.noti_bottom_wrapper}>
+                                                <div className={styles.noti_see_all_num}>
+                                                    {notificationList?.length} Notifications
                                                 </div>
-                                            ))}
 
-
-
-                                        </div>
-
-                                        <div className={styles.noti_bottom_wrapper}>
-                                            <div className={styles.noti_see_all_num}>
-                                                {notificationList?.length} Notifications
+                                                <div
+                                                    className={styles.noti_see_all_btn}
+                                                    onClick={handleNotificationNavigate}
+                                                >
+                                                    See all
+                                                </div>
                                             </div>
-
-                                            {/* <Link to='/buyer/notification-list'> */}
-                                            <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
-                                            {/* </Link> */}
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                            <AccountCircleOutlinedIcon className={styles.nav_icon_color} onClick={ProfileDropdown} />
-                            {isProfileOpen && (
-                                <div className={styles.profile_dropdown}>
-                                    {/* Profile content goes here */}
-                                    <div className={styles.profile_wrapper}>
-                                        <div className={styles.profile_text}>
-                                            <Link to='#'>
-                                                {localStorage.getItem('buyer_name') || sessionStorage.getItem('buyer_name')}
-                                            </Link>
-                                        </div>
-                                        <div className={styles.profile_wrapper_mid}>
-                                            <div >
-                                                <Link to='#'>
-                                                    <div className={styles.profile_text}>Profile</div>
+                                )}
+                            </div>
+
+                            {/* Profile Icon and Dropdown */}
+                            <div ref={profileRef}>
+                                <AccountCircleOutlinedIcon
+                                    className={styles.nav_icon_color}
+                                    onClick={ProfileDropdown}
+                                />
+                                {isProfileOpen && (
+                                    <div className={styles.profile_dropdown}>
+                                        <div className={styles.profile_wrapper}>
+                                            <div className={styles.profile_text}>
+                                                <Link
+                                                    to="#"
+                                                    onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                                                >
+                                                    {localStorage.getItem('buyer_name') ||
+                                                        sessionStorage.getItem('buyer_name')}
                                                 </Link>
                                             </div>
-
-                                            <div className={styles.invoice_container}>
-                                                <Link to='/buyer/invoice/Pending-Invoice' className={styles.invoice_container}>
-                                                    <div className={styles.profile_text}>Invoice</div>
-                                                    <div className={styles.total_invoice}>{invoiceCount || 0}</div>
-                                                </Link>
+                                            <div className={styles.profile_wrapper_mid}>
+                                                <div>
+                                                    <Link
+                                                        to="/buyer/profile"
+                                                        onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                                                    >
+                                                        <div className={styles.profile_text}>Profile</div>
+                                                    </Link>
+                                                </div>
+                                                <div className={styles.invoice_container}>
+                                                    <Link
+                                                        to="/buyer/invoice/Pending-Invoice"
+                                                        className={styles.invoice_container}
+                                                        onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                                                    >
+                                                        <div className={styles.profile_text}>Invoice</div>
+                                                        <div className={styles.total_invoice}>
+                                                            {invoiceCount || 0}
+                                                        </div>
+                                                    </Link>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div className={styles.profile_sign_out} onClick={() => handleSignout()}>
-                                            Sign out
+                                            <div
+                                                className={styles.profile_sign_out}
+                                                onClick={() => {
+                                                    handleSignout();
+                                                    setIsProfileOpen(false); // Close dropdown on click
+                                                }}
+                                            >
+                                                Sign out
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
+
                             {/* <MenuOutlinedIcon className="nav_icon_color_two_3" onClick={toggle} /> */}
                             <MenuOutlinedIcon className={styles.nav_icon_color_two_3} onClick={toggleDrawer(true)} />
                         </div>

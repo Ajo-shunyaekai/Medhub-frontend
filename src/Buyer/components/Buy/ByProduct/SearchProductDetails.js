@@ -191,7 +191,7 @@ const SearchsearchDetails = () => {
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>Shelf Life :</div>
-                                        <div className='search-details-two-right-text'>{details?.shelf_life}</div>
+                                        <div className='search-details-two-right-text'>{details?.shelf_life} Months</div>
                                     </div>
                                     <div className="search-details-two">
                                         <div className='search-details-two-left-text'>GMP Approvals :</div>

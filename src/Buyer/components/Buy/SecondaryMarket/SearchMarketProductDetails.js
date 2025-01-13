@@ -228,7 +228,7 @@ const SearchMarketProductDetails = () => {
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Shelf Life :</div>
-                                        <div className='product-details-two-right-text'>{details?.shelf_life}</div>
+                                        <div className='product-details-two-right-text'>{details?.shelf_life} Months</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Condition :</div>

@@ -1,57 +1,77 @@
-.rejected-main-container {
+.member-order-main-container {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
-    height: 100vh;
-    overflow: scroll;
-    background-attachment: fixed;
-    scrollbar-width: none;
   }
-  .rejected-container {
+  .member-order-container {
     display: flex;
     justify-content: start;
     align-items: start;
     gap: 1rem;
-    margin-bottom: 20rem;
   }
-  .rejected-main-head {
+  .member-order-main-head {
     font-size: 20px;
     font-weight: 600;
     margin-top: 10px;
   }
   
-  .rejected-container-right-2 {
+  .member-order-container-right-2 {
     width: 100%;
     max-width: 100%;
   }
-  .rejected-table-view {
+  
+  .member-order-table {
+    color: #5e676f !important;
+    font-size: 14px;
+  }
+  
+  .member-order-table-view {
     background-color: #31c971 !important;
     display: flex;
     padding: 5px 10px;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    color: #ffffff !important;
   }
   
-  .rejected-table-view:hover {
+  .member-order-table-view:hover {
     background-color: #31c971 !important;
   }
   
-  .table-icon {
-    font-size: 19px !important;
+  .member-order-table-cancel {
+    background-color: #f4c414 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+  
+  .member-order-table-cancel:hover {
+    background-color: #cba20a !important;
+  }
+  
+  .member-table-icon {
+    font-size: 15px !important;
     color: #ffffff;
   }
   
-  .rejected-table-btn {
+  .member-order-table-btn {
     display: flex;
     justify-content: start;
     gap: 1.5rem;
     height: 60px;
     align-items: center;
   }
-  .rejected-table-row-container {
+  
+  .table > :not(caption) > * > * {
+    padding: 1rem 0.5rem !important;
+    width: 10vw !important;
+  }
+  
+  .member-table-row-container {
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -59,83 +79,79 @@
     background-color: #ffffff;
   }
   
-  .rejected-header-text-color {
+  .member-header-text-color {
     color: #99a0ac;
     font-size: 12px;
     font-weight: 600;
     background-color: transparent !important;
   }
   
-  .rejected-table-text-color {
+  .member-table-text-color {
     color: #5e676f;
     font-size: 14px;
   }
   
-  .rejected-table-text-color-2 {
+  .member-table-text-color-2 {
     color: #99a0ac;
     font-size: 14px;
   }
   
-  .rejected-table-order-1 {
-    width: 14%;
+  .member-table-order-1 {
+    width: 10% !important;
     background-color: transparent !important;
-    color: #5e676f !important;
-    font-size: 14px;
   }
   
-  .rejected-table-order-2 {
-    width: 22%;
+  .member-table-order-2 {
+    width: 20% !important;
     background-color: transparent !important;
-    color: #5e676f !important;
-    font-size: 14px;
   }
   
-  .rejected-pagi-container {
+  .member-pagi-container {
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 1rem;
   }
   
-  .rejected-pagi-total {
+  .member-pagi-total {
     color: #99a0ac;
     font-size: 14px;
   }
   
   .pagination {
-    display: flex !important;
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
-
+  
   .page-link {
-    display: inline-block !important;
-    color: #007bff !important;
-    background-color: #fff !important;
-    border: 1px solid #dee2e6 !important;
-    transition: color 0.15s !important;
+    display: inline-block;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color 0.15s;
   }
   
   .page-link:hover {
-    color: #0056b3 !important;
-    text-decoration: none !important;
-    background-color: #e9ecef !important;
+    color: #0056b3;
+    text-decoration: none;
+    background-color: #e9ecef;
   }
   
   .page-item.active .page-link {
-    z-index: 3 !important;
-    color: #fff !important;
-    background-color: #007bff !important;
+    z-index: 3;
+    color: #fff;
+    background-color: #007bff;
   }
   
   .page-item.disabled .page-link {
-    color: #6c757d !important;
-    pointer-events: none !important;
-    cursor: auto !important;
-    background-color: transparent !important;
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: transparent;
     border-color: rgba(160, 175, 185, 0.15) !important;
-}
+  }
   
   /* Add media quries from here  */
   
@@ -145,7 +161,7 @@
       margin: auto;
     }
   
-    .rejected-table-responsive {
+    .member-order-table-responsive {
       width: 1800px;
       overflow-y: scroll;
     }
@@ -156,23 +172,23 @@
       width: unset !important;
       margin: auto;
     }
-    .rejected-name-2 {
+    .member-order-name-2 {
       display: block;
     }
   
-    .rejected-name {
+    .member-order-name {
       display: none;
     }
   
-    .rejected-container {
+    .member-order-container {
       position: relative;
     }
   
-    .rejected-container-left {
+    .member-order-container-left {
       display: none;
     }
   
-    .rejected-table-responsive {
+    .member-order-table-responsive {
       width: 1300px;
     }
   }

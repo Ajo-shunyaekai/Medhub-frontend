@@ -89,6 +89,7 @@ import EditProductDetails from "../components/manage-products/EditUpdateProductd
 import EditSecondaryDetails from "../components/manage-products/EditUpdateSecondaryDetails"
 import SecondaryProductDetails from "../components/manage-products/SecondaryProductDetails"
 import NotificationList from "../components/shared-components/notification/NotificationList"
+import Profile from "../components/shared-components/Profile/profile"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -142,11 +143,11 @@ export function NotificationProvider({ children }) {
 
     useEffect(() => {
         if (adminIdSessionStorage || adminIdLocalStorage) {
-            
+
             const adminId = adminIdSessionStorage || adminIdLocalStorage;
             socket.emit('registerAdmin', adminId);
 
-            
+
 
             fetchNotifications();
 
@@ -222,7 +223,7 @@ export function NotificationProvider({ children }) {
 const router = createBrowserRouter([
     {
         path: "/admin/login",
-        element: <Login  socket={socket}/>,
+        element: <Login socket={socket} />,
     },
     {
         path: "/admin/",
@@ -254,6 +255,10 @@ const router = createBrowserRouter([
                     },
 
                 ]
+            },
+            {
+                path: "profile",
+                element: <Profile />
             },
             {
                 path: "notification-list",

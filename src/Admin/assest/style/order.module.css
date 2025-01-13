@@ -77,6 +77,7 @@
 }
 
 .complete-container-order-section {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -97,7 +98,25 @@
     line-height: 20px;
     font-weight: 500;
 }
-
+.rejected-head-button {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+    background: linear-gradient(270deg, #00dcff, #0075ce);
+    font-size: 0.825rem;
+    border-color: transparent;
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .rejected-images {
+    font-size: 16px;
+  }
 @media screen and (max-width: 992px) {
     .order-wrapper-left {
         display: none;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import styles from "./sidebar.module.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import order_list from "../../../assest/Images/dashboard/order_list.svg";
@@ -91,17 +91,39 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+  const notificationRef = useRef(null);
+  const profileRef = useRef(null);
+
   const NotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    setIsProfileOpen(false); 
-    handleClick() //for notification status update
+    setIsProfileOpen(false); // Close profile dropdown if open
+    handleClick(); // for notification status update
   };
 
-  // Profile Dropdown Code
   const ProfileDropdown = () => {
     setIsProfileOpen(!isProfileOpen);
     setIsNotificationOpen(false); // Close notification dropdown if open
   };
+
+  const handleClickOutside = (event) => {
+    // Close dropdowns if clicking outside
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target) &&
+      profileRef.current &&
+      !profileRef.current.contains(event.target)
+    ) {
+      setIsNotificationOpen(false);
+      setIsProfileOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Side bar code start from here
   const [isOpen, setIsOpen] = useState(true);
@@ -363,13 +385,13 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
       buyerregistration: '/admin/buyer-request',
       supplierregistration: '/admin/seller-request',
     };
-  
+
     const route = eventRoutes[event] || '/admin/';
     setIsNotificationOpen(false);
     navigate(route);
     // handleClick(notificationId, event); // Uncomment this if needed
   };
-  
+
 
   const handleNotificationNavigate = () => {
     setIsNotificationOpen(false)
@@ -401,87 +423,99 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               />
             </div>
             <div className={styles.nav_notifi_right}>
-              <CropFreeOutlinedIcon
+              {/* <CropFreeOutlinedIcon
                 className={styles.nav_icon_color}
                 onClick={toggleFullScreen}
-              />
+              /> */}
               <SearchOutlinedIcon
                 className={styles.nav_icon_color_two}
                 onClick={toggleSearchBar}
               />
-              <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
-                <NotificationsNoneOutlinedIcon
-                  className={styles.nav_icon_color}
-                  onClick={NotificationDropdown}
-                />
-              </Badge>
-              {isNotificationOpen && (
-                <div className={styles.noti_container}>
-                  <div className={styles.noti_wrapper}>
-                    <div className={styles.noti_top_wrapper}>
-                      {notificationList?.slice(0, 5).map((data, i) => (
-                        <div
-                          key={data.notification_id}
-                          className={styles.noti_profile_wrapper}
-                          onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)}
-                        >
-                          <div className={styles.noti_profile}>{data.event_type.charAt(0)}</div>
-                          <div className={styles.noti_profile_text}>
-                            <span>
-                              {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
-                            </span>
+              <div ref={notificationRef}>
+                <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
+                  <NotificationsNoneOutlinedIcon
+                    className={styles.nav_icon_color}
+                    onClick={NotificationDropdown}
+                  />
+                </Badge>
+                {isNotificationOpen && (
+                  <div className={styles.noti_container}>
+                    <div className={styles.noti_wrapper}>
+                      <div className={styles.noti_top_wrapper}>
+                        {notificationList?.slice(0, 5).map((data, i) => (
+                          <div
+                            key={data.notification_id}
+                            className={styles.noti_profile_wrapper}
+                            onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)}
+                          >
+                            <div className={styles.noti_profile}>{data.event_type.charAt(0)}</div>
+                            <div className={styles.noti_profile_text}>
+                              <span>
+                                {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
+                              </span>
+                            </div>
                           </div>
+                        ))}
+                      </div>
+                      <div className={styles.noti_bottom_wrapper}>
+                        <div className={styles.noti_see_all_num}>
+                          {notificationList?.length} Notifications
                         </div>
-                      ))}
-                    </div>
-                    <div className={styles.noti_bottom_wrapper}>
-                      <div className={styles.noti_see_all_num}>
-                        {notificationList?.length} Notifications
+                        <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
                       </div>
-                      <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
                     </div>
                   </div>
-                </div>
-              )}
-              <AccountCircleOutlinedIcon
-                className={styles.nav_icon_color}
-                onClick={ProfileDropdown}
-              />
-              {isProfileOpen && (
-                <div className={styles.profile_dropdown}>
-                  {/* Profile content goes here */}
-                  <div className={styles.profile_wrapper}>
-                    <div className={styles.profile_text}>
-                      <Link to="#">{sessionStorage?.email || 'admin@gmail.com'}</Link>
-                    </div>
-                    <div className={styles.profile_wrapper_mid}>
-                      <div>
-                        <Link to="#">
-                          <div className={styles.profile_text}>Profile</div>
+                )}
+              </div>
+              <div ref={profileRef}>
+                <AccountCircleOutlinedIcon
+                  className={styles.nav_icon_color}
+                  onClick={ProfileDropdown}
+                />
+                {isProfileOpen && (
+                  <div className={styles.profile_dropdown}>
+                    {/* Profile content goes here */}
+                    <div className={styles.profile_wrapper}>
+                      <div className={styles.profile_text}>
+                        <Link
+                          to="#"
+                          onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                        >
+                          {sessionStorage?.email || 'admin@gmail.com'}
                         </Link>
                       </div>
+                      <div className={styles.profile_wrapper_mid}>
+                        <div>
+                          <Link
+                            to="/admin/profile"
+                            onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                          >
+                            <div className={styles.profile_text}>Profile</div>
+                          </Link>
+                        </div>
+                      </div>
 
-                      {/* <div className={styles.invoice_container}>
-                        <Link to="#" className={styles.invoice_container}>
-                          <div className={styles.profile_text}>Invoice</div>
-                          <div className={styles.total_invoice}>5</div>
-                        </Link>
-                      </div> */}
+                      <div
+                        className={styles.profile_sign_out}
+                        onClick={() => {
+                          handleSignout();
+                          setIsProfileOpen(false); // Close dropdown on signout
+                        }}
+                      >
+                        Sign out
+                      </div>
                     </div>
-
-                    <div className={styles.profile_sign_out} onClick={handleSignout}>Sign out</div>
                   </div>
-                </div>
-              )}
-              {/* <MenuOutlinedIcon className="nav_icon_color_two_3" onClick={toggle} /> */}
-              <MenuOutlinedIcon
-                className={styles.nav_icon_color_two_3}
-                onClick={toggleDrawer(true)}
-              />
+                )}
+                <MenuOutlinedIcon
+                  className={styles.nav_icon_color_two_3}
+                  onClick={toggleDrawer(true)}
+                />
+              </div>
+
             </div>
           </div>
         </div>
-
         {isSearchVisible && (
           <div className={`${styles.nav_search} ${styles.nav_search_two}`}>
             <SearchOutlinedIcon className={styles.nav_icon_color_two} />
