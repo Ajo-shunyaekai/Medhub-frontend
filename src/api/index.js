@@ -12,8 +12,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection faild, please start node server",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
     }
   },
@@ -66,8 +66,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection failed, please start node server ",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
     }
   },
@@ -120,8 +120,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection failed, please start node server ",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
     }
   },
@@ -170,8 +170,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection faild, please start node server",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
       // throw err;
     }
@@ -230,8 +230,8 @@ export const apiRequests = {
         });
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection faild, please start node server",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
       // throw err;
     }
@@ -286,8 +286,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection failed, please start node server ",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
     }
   },
@@ -340,8 +340,8 @@ export const apiRequests = {
       return response.data;
     } catch (err) {
       return {
-        code: 500,
-        message: "Connection failed, please start node server ",
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
       };
     }
   },
