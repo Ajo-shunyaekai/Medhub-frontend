@@ -53,11 +53,12 @@ import SupplySecondaryList from "../components/Buy/BySupplier/SupplySecondaryLis
 import SupplierCompleted from "../components/supplier/SuplierCompleted"
 import SupplierActive from "../components/supplier/SupplierActive"
 import SupplierPending from "../components/supplier/SupplierPending"
+import Profile from "../components/SharedComponents/Profile/profile"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
     const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
-    const buyerIdLocalStorage   = localStorage.getItem('buyer_id');
+    const buyerIdLocalStorage = localStorage.getItem('buyer_id');
     const [notificationList, setNotificationList] = useState([]);
     const [count, setCount] = useState(0);
     const [invoiceCount, setInvoiceCount] = useState(0);
@@ -105,7 +106,7 @@ export function NotificationProvider({ children }) {
             notification_id: id,
             event,
             status: 1,
-            buyer_id : buyerIdSessionStorage || buyerIdLocalStorage,
+            buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
             user_type: 'buyer'
         };
         postRequestWithToken('buyer/update-notification-status', obj, (response) => {
@@ -156,10 +157,10 @@ export function NotificationProvider({ children }) {
     }, [buyerId, refresh]);
 
     return (
-        <Sidebar 
-            invoiceCount={invoiceCount} 
-            notificationList={notificationList} 
-            count={count} 
+        <Sidebar
+            invoiceCount={invoiceCount}
+            notificationList={notificationList}
+            count={count}
             handleClick={handleClick}>
             {children}
         </Sidebar>
@@ -174,7 +175,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/buyer/login",
-        element: <Login socket={socket}/>,
+        element: <Login socket={socket} />,
     },
     {
         path: "/buyer/sign-up",
@@ -191,6 +192,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Dashboard />,
+            },
+            {
+                path: "profile",
+                element: <Profile />
             },
             {
                 path: "ongoing-inquiries-list",

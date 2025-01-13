@@ -47,6 +47,9 @@ import BuyerCompletedList from "../components/Products/Buyer/BuyerCompletedList"
 import BuyerActiveList from "../components/Products/Buyer/BuyerActiveList"
 import BuyerPendingList from "../components/Products/Buyer/BuyerPendingList"
 import NotificationList from "../components/SharedComponents/Notification/NotificationList"
+import Subscription from "../components/Subscription/index"
+import Profile from "../components/SharedComponents/Profile/profile"
+import SubscriptionMembership from "../components/Subscription/SubscriptionMembership";
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export const NotificationProvider = ({ children }) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -341,8 +344,19 @@ const router = createBrowserRouter([
                 element: <Support />,
             },
             {
+path:"subscription",
+element:<Subscription/>
+            },
+            {
+path:"subscription-membership",
+element:<SubscriptionMembership/>
+            },
+            {
                 path:"notification-list",
                 element:<NotificationList/>
+            },{
+                path:"profile",
+                element:<Profile/>
             }
         ],
     },

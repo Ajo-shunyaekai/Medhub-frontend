@@ -1184,12 +1184,12 @@ const AddProduct = ({socket}) => {
                             </div>
 
                             <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Shelf Life</label>
+                                <label className={styles['create-invoice-div-label']}>Shelf Life (Months)</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
                                     type='text'
                                     name='shelfLife'
-                                    placeholder='Enter Shelf Life'
+                                    placeholder='Enter Shelf Life in Months'
                                     autoComplete='off'
                                     value={formData.shelfLife}
                                     onChange={handleChange}

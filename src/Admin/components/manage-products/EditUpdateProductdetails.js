@@ -187,7 +187,7 @@ const EditUpdateProductdetails = ({socket}) => {
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Shelf Life :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.shelf_life}</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.shelf_life} Months</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Country of Origin :</div>

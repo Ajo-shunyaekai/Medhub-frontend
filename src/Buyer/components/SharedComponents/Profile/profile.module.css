@@ -1,0 +1,68 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+    background-attachment: fixed;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.MainHeading{
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 10px;
+}
+.profileContainer{
+    background-color: #ffffff;
+    display: flex;
+    align-items: baseline;
+    gap: 30px;
+    border-radius: 4px;
+    padding: 28px 40px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.contentSection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.imgSection{
+    width: 150px;
+    height: 120px;
+    border-radius: 10px;
+}
+.profileImage{
+    width: 100%;
+
+}
+.mainHead {
+    font-size: 26px;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+.contentIconSection{
+    display: flex;
+align-items: center;
+    gap: 20px;
+}
+.iconSection{
+    display: flex;
+        align-items: end;
+        gap: 14px;
+}
+.icon{
+font-size: 20px;
+}
+.textSection{
+    font-size: 16px;
+    color: #5e676f !important;
+    font-weight: 500;
+}

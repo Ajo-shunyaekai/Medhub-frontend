@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './custommodalorder.module.css';
+import "./ordermodal.css"
 import { PhoneInput  } from 'react-international-phone';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';
 import {
