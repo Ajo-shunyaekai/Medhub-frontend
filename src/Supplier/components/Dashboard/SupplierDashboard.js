@@ -130,7 +130,7 @@ const SupplierDashboard = () => {
                             <div className='cart-top-left-section'>
                                 <div className='left-head'>Total Sales Amount</div>
                                 <div className='circular-process'>
-                                    <CircularBar totalSalesAmount = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase} />
+                                    <CircularBar totalSalesAmount = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase}  />
                                 </div>
                             </div>
                         </div>
@@ -178,15 +178,20 @@ const SupplierDashboard = () => {
                         </div>
                         <div className='right-head'>Your Buyer Countries</div>
                         <div className='right-country-section'>
-                            <div className='country-sect'>
+                            {/* <div className='country-sect'>
                                 <span className='country-names'>{countryData[0]?.country}</span>
-                                <span className='country-price'>{countryData[0]?.value} AED</span>
+                                <span className='country-price'>{countryData[0]?.value} USD</span>
                             </div>
                             <div className='country-sect'>
                                 <span className='country-name'>{countryData[1]?.country}</span>
-                                <span className='country-price'>{countryData[1]?.value} AED</span>
-                            </div>
-                            
+                                <span className='country-price'>{countryData[1]?.value} USD</span>
+                            </div> */}
+                            {countryData?.slice(0, 2).map((data, index) => (
+                                <div className="country-sect" key={index}>
+                                    <span className="country-names">{data?.country}</span>
+                                    <span className="country-price">{data?.value} USD</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

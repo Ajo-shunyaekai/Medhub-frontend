@@ -43,7 +43,7 @@ const PurchasedOrdersList = () => {
 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey: 'active',
+            status: 'active',
             pageNo: currentPage,
             pageSize: ordersPerPage,
         }

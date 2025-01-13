@@ -91,7 +91,7 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
                   <span className="table-g-not-name">
                   {item.target_price
                         ? item.target_price.toLowerCase().includes('aed')
-                            ? item.target_price.replace(/days/i, 'AED')
+                            ? item.target_price.replace(/days/i, 'GBP')
                             : `${item.target_price} AED` 
                         : '-'}
                   </span>
