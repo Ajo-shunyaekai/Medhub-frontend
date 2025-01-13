@@ -23,7 +23,7 @@ const AdminDashboard = () => {
 
     const [countryData, setCountryData] = useState([]);
     const [dashboardData, setDashboard] = useState()
-    const [filterValue, setFilterValue] = useState('today') // today, week(last 7 days), month(last 30 days), year(last 365 days)
+    const [filterValue, setFilterValue] = useState('') // today, week(last 7 days), month(last 30 days), year(last 365 days)
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
