@@ -12,6 +12,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import { Table } from 'react-bootstrap';
 import Loader from '../../SharedComponents/Loader/Loader'
 import { toast } from 'react-toastify';
+import { apiRequests } from '../../../../api';
 
 
 const CompletedInvoicesList = () => {
@@ -40,30 +41,48 @@ const CompletedInvoicesList = () => {
     };
 
     useEffect(() => {
-        const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-
-        if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-            return;
-        }
-        setLoading(true); 
-        const obj = {
-            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey: 'paid',
-            page_no: currentPage,
-            limit: ordersPerPage,
-        }
-
-        postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
-            if (response.code === 200) {
+        const fetchData = async ()=>{
+            const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+            const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+    
+            if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+                navigate("/supplier/login");
+                return;
+            }
+            setLoading(true); 
+            const obj = {
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                filterKey: 'paid',
+                page_no: currentPage,
+                limit: ordersPerPage,
+            }
+    
+            // postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setInvoiceList(response.result.data);
+            //         setTotalInvoices(response.result.totalItems);
+            //     } else {
+            //         console.log('error in order list api', response);
+            //     }
+            //     setLoading(false);
+            // })
+            try {
+                const response = await apiRequests.getRequest(`order/get-all-invoice-list?filterKey=${'paid'}&pageNo=${currentPage}&pageSize=${ordersPerPage}`)
+                if(response?.code!==200){
+                    console.log('error in invoice list api', response);
+                    return
+                }
+                
                 setInvoiceList(response.result.data);
                 setTotalInvoices(response.result.totalItems);
-            } else {
-                console.log('error in order list api', response);
+            } catch (error) {
+                console.log('Error in get-invoice-list API', error);
+                
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
-        })
+        }
+        fetchData()
     }, [currentPage])
     return (
         <>
