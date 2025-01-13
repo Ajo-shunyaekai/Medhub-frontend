@@ -112,7 +112,7 @@ const Dashboard = () => {
                                 <div className='bottom-container'>
                                     <Link to='/buyer/complete-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Completed Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
+                                            <div className='bottom-head'>Completed Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <ProgressBar />
                                             </div>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                                     </Link>
                                     <Link to='/buyer/pending-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.activeCount?.count || 0}</span></div>
+                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>

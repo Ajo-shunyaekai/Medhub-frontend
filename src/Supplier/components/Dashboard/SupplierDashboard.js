@@ -111,7 +111,7 @@ const SupplierDashboard = () => {
                                 <div className='bottom-container'>
                                     <Link to='/supplier/pending-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.pendingInvoicesCount?.count || 0}</span></div>
+                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <ProgressBar />
                                             </div>
@@ -119,7 +119,7 @@ const SupplierDashboard = () => {
                                     </Link>
                                     <Link to='/supplier/completed-invoices-list'>
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'> Completed Invoices: <span className='bottom-text'>{orderSummary?.orderDetails?.completedInvoicesCount?.count || 0}</span></div>
+                                            <div className='bottom-head'> Completed Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>
