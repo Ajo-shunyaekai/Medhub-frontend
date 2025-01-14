@@ -23,7 +23,7 @@ body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
+   cursor: pointer !important;;
   background-color: #f9f9fa;
   gap: 1rem;
 }
@@ -36,26 +36,26 @@ body{
 .nav_icon_color {
   color: #99a0ac;
   font-size: 22px !important;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .nav_icon_color_two {
   color: #99a0ac;
   font-size: 22px !important;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .nav_notifi_right .nav_icon_color_two {
   display: none !important;
   color: #99a0ac;
   font-size: 22px !important;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .nav_icon_color_two_3 {
   color: #99a0ac;
   font-size: 22px !important;
-  cursor: pointer;
+   cursor: pointer !important;;
   display: none !important;
 }
 
@@ -156,7 +156,7 @@ body{
   justify-content: space-between;
   align-items: center;
   padding: 8px 10px;
-  cursor: pointer;
+   cursor: pointer !important;;
   border-top: 1px solid rgba(160, 175, 185, 0.15);
 }
 
@@ -232,7 +232,7 @@ body{
   color: #5e676f;
   padding: 8px 14px;
  font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .profile_sign_out:hover {

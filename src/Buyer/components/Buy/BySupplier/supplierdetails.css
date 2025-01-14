@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .buyer-supplier-details-left-inner-email-button {
   background-color: #f4c414;
@@ -110,7 +110,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .buyer-supplier-details-left-inner-icon {
   width: 18px !important;
@@ -190,7 +190,7 @@
   font-size: 14px;
   font-weight: 500;
   text-align: start;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .buyer-supplier-details-card-conteianer-text {
   font-size: 14px;
@@ -224,6 +224,7 @@
 }
 .table-supply-section-eye {
   width: 18px !important;
+   cursor: pointer !important;;
 }
 .supply-card-body {
   display: flex;
@@ -278,7 +279,7 @@
   width: 100%;
 }
 .buyer-supplier-details-left-inner-icon {
-  cursor: pointer; /* Ensure cursor changes to pointer on hover */
+   cursor: pointer !important;; /* Ensure cursor changes to pointer on hover */
 }
 
 .tooltip {
@@ -333,7 +334,7 @@
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .buyer-supplier-details-list-bottom {
   border: none !important;
@@ -344,7 +345,7 @@
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .buyer-supplier-details-product-bottom.active, .buyer-supplier-details-list-bottom.active {
   background-color: #e1e1e4;

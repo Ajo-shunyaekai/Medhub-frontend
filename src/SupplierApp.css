@@ -10,10 +10,22 @@ h1 {
     sans-serif !important;
     cursor: default !important;
 }
+.table-icon{
+  cursor: pointer !important;
+}
+.invoice-view{
+  cursor: pointer !important;
+}
+.ongoing-section-view{
+  cursor: pointer !important;
+}
 a{
   cursor: pointer !important; 
 }
 a div{ 
+  cursor: pointer !important; 
+}
+a span{ 
   cursor: pointer !important; 
 }
 input {
@@ -35,7 +47,7 @@ a button{
   background-color: #f9f9fa !important;
   display: flex;
   align-items: center;
-  cursor: pointer;
+   cursor: pointer !important;;
   justify-content: end;
   width: 100%;
   max-width: 99.4%;

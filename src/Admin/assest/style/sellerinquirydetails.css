@@ -156,7 +156,7 @@
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .inquiry-invoice-list-main-container{
     margin-top: 10px !important;
@@ -189,7 +189,7 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
-  cursor: pointer;
+   cursor: pointer !important;;
   padding: 0px 10px !important;
   flex-direction: column;
   row-gap: 8px;
@@ -256,7 +256,7 @@
     font-size: 14px;
     font-weight: 500;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .inquiry-text-input-section {
     outline: none !important;
@@ -276,7 +276,7 @@
     font-size: 14px;
     font-weight: 500;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .table-g-section-content {
     display: flex;
@@ -385,7 +385,7 @@
     font-weight: 500;
     font-size: 13px;
     line-height: 15px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .inquiry-details-left-bottom-vehicle-head {
     color: #99a0ac;
@@ -499,7 +499,7 @@
     text-align: center;
     padding: 8px 0px;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 14px;
     margin-top: 6px;
   }
@@ -510,7 +510,7 @@
     display: flex;
     justify-content: center;
     column-gap: 20px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .inquiry-details-submit-button {
     background: linear-gradient(to left, #00dcff, #0075ce);
@@ -521,7 +521,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
 
    /* for button loader */
@@ -558,7 +558,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .tables-td-input {
     margin-bottom: 0px !important;
@@ -570,7 +570,7 @@
     outline: none !important;
   }
   .add-term-icon{
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .inquiry-details-payment-sec-input{
     width: 100%;
@@ -580,7 +580,7 @@
     border: none;
     outline: none;
     border-bottom: 1px dotted #99a0ac;
-    cursor: pointer;
+     cursor: pointer !important;;
     flex: 1;
     padding-right: 30px;
   }
@@ -591,7 +591,7 @@
 
 .remove-term-icon {
     margin-left: -25px; 
-    cursor: pointer;
+     cursor: pointer !important;;
 }
   /* start the payment terms section */
   .inquiry-details-payment-ul-section {

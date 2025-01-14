@@ -135,7 +135,7 @@ const OrderRequest = ({orderList, totalOrders, currentPage, ordersPerPage, handl
                                                             <div className='order-section-button'>
                                                                 <Link to={`/supplier/order-details/${order.order_id}`}>
                                                                     <div className='order-section-view'>
-                                                                        <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                                                                        <RemoveRedEyeOutlinedIcon className='table-icon' />
                                                                     </div>
                                                                 </Link>
                                                                 
@@ -175,7 +175,7 @@ const OrderRequest = ({orderList, totalOrders, currentPage, ordersPerPage, handl
                                                         <div className='order-section-button'>
                                                             <Link to='/supplier/order-details/879824'>
                                                                 <div className='order-section-view'>
-                                                                    <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                                                                    <RemoveRedEyeOutlinedIcon className='table-icon' />
                                                                 </div>
                                                             </Link>
                                                             

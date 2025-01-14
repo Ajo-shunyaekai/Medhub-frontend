@@ -2,14 +2,14 @@
 .pdf-upload-area {
     width: 380px;
     height: 100px;
-    cursor: pointer;
+     cursor: pointer !important;;
     display: flex;
     background-color: #ffffff;
     border-radius: 4px;
     text-align: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
       rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    cursor: pointer;
+     cursor: pointer !important;;
     position: relative;
     flex-direction: column;
     justify-content: center;
@@ -41,7 +41,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
+     cursor: pointer !important;;
     width: 10px;
     height: 10px;
   
@@ -56,7 +56,7 @@
   }
   .pdf-uploaded-image {
     max-width: 100%;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   
   

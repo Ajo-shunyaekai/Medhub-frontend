@@ -7,7 +7,7 @@
   text-align: center;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .image-name {
@@ -22,7 +22,7 @@
 
 .upload-area {
   position: relative;
-  cursor: pointer;
+   cursor: pointer !important;;
   text-align: center;
 }
 .image-file-name{
@@ -44,7 +44,7 @@
 .remove-icon {
   position: absolute;
   right: 10px;
-  cursor: pointer;
+   cursor: pointer !important;;
   width: 10px;
   height: 14px;
   color: #5e676f !important;
@@ -59,7 +59,7 @@
 }
 
 .upload-area {
-  cursor: pointer;
+   cursor: pointer !important;;
   padding: 24px 0px;
   display: inline-block;
 }
@@ -68,7 +68,7 @@
 }
 .uploaded-image {
   max-width: 100%;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 
@@ -108,7 +108,7 @@
   right: 8px;
   font-size: 24px;
   font-weight: bold;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .file-upload-container{

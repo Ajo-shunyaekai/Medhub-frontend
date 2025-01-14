@@ -31,7 +31,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
     color: #ffffff !important;
   }
   
@@ -42,6 +42,7 @@
   .table-icon {
     font-size: 19px !important;
     color: #ffffff;
+     cursor: pointer !important;
   }
   
   .actives-table-btn {

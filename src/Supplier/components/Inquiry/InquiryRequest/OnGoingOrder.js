@@ -53,7 +53,7 @@ const OnGoingongoing = ({inquiryList,totalInquiries,currentPage ,inquiryPerPage,
           <div className='ongoing-section-button'>
             <Link to={`/supplier/inquiry-request-details/${ongoing?.enquiry_id}`}>
               <div className='ongoing-section-view'>
-                <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
+                <RemoveRedEyeOutlinedIcon className='table-icon' />
               </div>
             </Link>
           </div>

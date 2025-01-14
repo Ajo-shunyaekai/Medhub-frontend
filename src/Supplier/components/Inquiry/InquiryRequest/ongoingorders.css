@@ -1,7 +1,9 @@
 .inquiry-purchase-container-right {
   width: 88%;
 }
-
+.ongoing-section-view{
+  cursor: pointer !important;
+}
 .ongoing-container {
   width: 100%;
   display: flex;
@@ -18,7 +20,7 @@
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 
 .ongoing-container-right-section {
@@ -130,7 +132,7 @@
   align-items: center;
   column-gap: 8px;
   font-size: 11px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 @media (max-width: 992px){
   .inquiry-purchase-container-right {

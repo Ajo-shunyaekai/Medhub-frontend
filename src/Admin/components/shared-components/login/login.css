@@ -84,7 +84,7 @@
   left: 92%;
   right: 100%;
   color: #99a0ac;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .login-form-main-cancel {
   outline: none !important;
@@ -98,7 +98,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .login-form-main-login {
   outline: none !important;
@@ -111,7 +111,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .login-error {
   font-size: 12px;
@@ -121,7 +121,7 @@
 .login-form-main-password {
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .header__center {
   font-size: 16px;
@@ -151,7 +151,7 @@
 .login__signup__here {
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .login-errors {
   font-size: 12px;

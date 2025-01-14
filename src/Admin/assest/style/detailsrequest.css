@@ -180,7 +180,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 
 .buyer-details-left-inner-email-button {
@@ -192,7 +192,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 
 .buyer-details-left-inner-icon {
@@ -328,7 +328,7 @@
     font-size: 14px;
     font-weight: 500;
     text-align: start;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 
 .buyer-details-card-conteianer-text {
@@ -434,7 +434,7 @@
 }
 
 .buyer-details-left-inner-icon {
-    cursor: pointer;
+     cursor: pointer !important;;
     /* Ensure cursor changes to pointer on hover */
 }
 
@@ -486,7 +486,7 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
     color: #5e676f;
     align-items: center;
-    cursor: pointer;
+     cursor: pointer !important;;
     display: flex;
     font-size: 14px;
     line-height: 18px;
@@ -501,7 +501,7 @@
     color: #fff;
     outline: none !important;
     align-items: center;
-    cursor: pointer;
+     cursor: pointer !important;;
     display: flex;
     font-size: 14px;
     line-height: 18px;

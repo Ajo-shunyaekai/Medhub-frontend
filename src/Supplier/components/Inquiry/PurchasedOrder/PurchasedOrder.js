@@ -62,7 +62,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                             </Link>
                             <Link to={`/supplier/purchased-order-details/${data.purchaseOrder_id}`}>
                               <div className='ongoing-section-view'>
-                                <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
+                                <RemoveRedEyeOutlinedIcon className='table-icon' />
                               </div>
                             </Link>
                           </div>
