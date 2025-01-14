@@ -313,52 +313,66 @@ const OrderDetails = ({socket}) => {
                 
                 <div className='active-order-details-payment-right-section'>
                
-                {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
+                {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
+
+                {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
+                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && (
                     <>
                     <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
                     <div className='active-order-details-payment-right-details-row'>
                         <div className='active-order-details-right-details-row-one'>
                             <div className='active-order-details-right-pickupdata'>
                                 <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
-                                <div className='active-order-details-right-pickdata-text'>{orderDetails?.shipment_details?.supplier_details?.name}</div>
+                                <div className='active-order-details-right-pickdata-text'>
+                                {orderDetails?.shipment_details?.supplier_details?.name || 
+                         orderDetails?.supplier_logistics_data?.full_name}
+                                </div>
                             </div>
                             <div className='active-order-details-right-pickupdata'>
                                 <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                <div className='active-order-details-right-pickdata-text'>{orderDetails?.shipment_details?.supplier_details?.mobile}</div>
+                                <div className='active-order-details-right-pickdata-text'>
+                                {orderDetails?.shipment_details?.supplier_details?.mobile || 
+                         orderDetails?.supplier_logistics_data?.mobile_number}
+                                </div>
                             </div>
                             <div className='active-order-details-right-pickupdata-address'>
                                 <div className='active-order-details-right-pickdata-head'>Address</div>
                                 <div className='active-order-details-right-pickdata-text'>
-                                    {orderDetails?.shipment_details?.supplier_details?.address},
-                                    {orderDetails?.shipment_details?.supplier_details?.ciyt_disctrict},
-                                    {orderDetails?.shipment_details?.supplier_details?.pincode}.
+                                {orderDetails?.shipment_details?.supplier_details?.address || 
+                         `${orderDetails?.supplier_logistics_data?.house_name}, ${orderDetails?.supplier_logistics_data?.locality}, 
+                         ${orderDetails?.supplier_logistics_data?.city}, ${orderDetails?.supplier_logistics_data?.state}, 
+                         ${orderDetails?.supplier_logistics_data?.country}, ${orderDetails?.supplier_logistics_data?.pincode}.`}
                                     </div>
                             </div>
                         </div>
                     </div> 
                     </> 
                     )}
-                    {orderDetails?.logistics_details && (
+                    {(orderDetails?.logistics_details || orderDetails?.buyer_logistics_data) && (
                         <>
                              <hr className='active-order-details-right-pickupdata-hr' />
                             <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
                             <div className='active-order-details-right-details-row-one'>
                                 <div className='active-order-details-right-pickupdata'>
                                     <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
-                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.logistics_details?.drop_location?.name}</div>
+                                    <div className='active-order-details-right-pickdata-text'>
+                                        {orderDetails?.logistics_details?.drop_location?.name || orderDetails?.buyer_logistics_data?.full_name}
+                                        </div>
                                 </div>
                                 <div className='active-order-details-right-pickupdata'>
                                     <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                    <div className='active-order-details-right-pickdata-text'>{orderDetails?.logistics_details?.drop_location?.mobile}</div>
+                                    <div className='active-order-details-right-pickdata-text'>
+                                        {orderDetails?.logistics_details?.drop_location?.mobile || orderDetails?.buyer_logistics_data?.mobile_number}
+                                        </div>
                                 </div>
                                 <div className='active-order-details-right-pickupdata-address'>
                                     <div className='active-order-details-right-pickdata-head'>Address</div>
                                     <div className='active-order-details-right-pickdata-text'>
-                                        {orderDetails.logistics_details.drop_location.address},
-                                        {orderDetails.logistics_details.drop_location.country}, 
-                                        {orderDetails.logistics_details.drop_location.state}, 
-                                        {orderDetails.logistics_details.drop_location.city_district}, 
-                                        {orderDetails.logistics_details.drop_location.pincode}.</div>
+                                        {orderDetails?.logistics_details?.drop_location?.address || orderDetails?.buyer_logistics_data?.house_name},
+                                        {orderDetails?.logistics_details?.drop_location?.country || orderDetails?.buyer_logistics_data?.locality}, 
+                                        {orderDetails?.logistics_details?.drop_location?.state || orderDetails?.buyer_logistics_data?.country}, 
+                                        {orderDetails?.logistics_details?.drop_location?.city_district || orderDetails?.buyer_logistics_data?.state}, 
+                                        {orderDetails?.logistics_details?.drop_location?.pincode || orderDetails?.buyer_logistics_data?.pincode}.</div>
                                 </div>
                             </div>
                         </>
