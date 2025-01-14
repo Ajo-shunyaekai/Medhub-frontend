@@ -115,7 +115,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .create-invoices-submit {
@@ -129,7 +129,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 /* for button loader */
@@ -169,7 +169,7 @@
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
-  cursor: pointer;
+   cursor: pointer !important;;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -180,14 +180,14 @@
 .craete-add-cross-icon {
   display: flex;
   justify-content: end;
-  cursor: pointer;
+   cursor: pointer !important;;
   margin-top: 38px;
   
 }
 .addproduct-add-cross-icon{
   display: flex;
   justify-content: end;
-  cursor: pointer; 
+   cursor: pointer !important;; 
   margin-top: 34px;
 }
 
@@ -195,7 +195,7 @@
   display: flex;
   justify-content: end;
   align-items: center;
-  cursor: pointer;
+   cursor: pointer !important;;
   position: relative;
   top: -50px;
   left: 10px;
@@ -271,7 +271,7 @@ display: flex;
   border-left: none;
   padding: 5px 10px;
   border-radius: 0 4px 4px 0;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .optionButton.selected {
@@ -279,7 +279,7 @@ display: flex;
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
-  cursor: pointer;
+   cursor: pointer !important;;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -309,7 +309,7 @@ display: flex;
 .radioGroup label {
   display: flex;
   align-items: center;
-  cursor: pointer;
+   cursor: pointer !important;;
   outline: none !important;
     border: none !important;
     background-color: #ffffff !important;

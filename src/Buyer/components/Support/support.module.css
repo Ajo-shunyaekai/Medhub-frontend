@@ -97,7 +97,7 @@
   border-radius: 4px;
   color: #99a0ac;
   background-color: #ffffff;
-  cursor: pointer;
+   cursor: pointer !important;;
   font-size: 14px;
   font-weight: 500;
 }

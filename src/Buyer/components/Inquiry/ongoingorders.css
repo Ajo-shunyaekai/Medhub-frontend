@@ -104,10 +104,11 @@
 }
 .ongoing-section-eye {
   width: 18px !important;
+  cursor: pointer !important;
 }
 .ongoing-section-delete {
   background-color: #f4c414;
-  cursor: pointer;
+  cursor: pointer !important;
   border-radius: 4px;
   color: #fff;
   display: flex;

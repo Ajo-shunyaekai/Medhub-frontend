@@ -30,7 +30,7 @@
     column-gap: 8px;
     font-size: 14px;
     line-height: 20px;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 .active-order-details-conatiner-heading {
   font-size: 20px;
@@ -172,7 +172,7 @@
   align-items: center;
   column-gap: 8px;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 /* start the assign driver table list */
 .active-order-details-assign-driver-section {
@@ -221,7 +221,7 @@
   font-size: 14px;
   font-weight: 500;
   border-radius: 4px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .table-reject-button {
   background-color: #f54394;
@@ -230,7 +230,7 @@
   font-size: 14px;
   font-weight: 500;
   border-radius: 4px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .table-g-section-content {
   display: flex;
@@ -341,7 +341,7 @@
   font-weight: 500;
   font-size: 13px;
   line-height: 15px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .active-order-details-left-bottom-vehicle-head {
   color: #99a0ac;
@@ -449,7 +449,7 @@
   text-align: center;
   padding: 8px 0px;
   border-radius: 4px;
-  cursor: pointer;
+   cursor: pointer !important;;
   font-size: 14px;
   margin-top: 6px;
 }
@@ -459,7 +459,7 @@
   display: flex;
   justify-content: center;
   column-gap: 20px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .active-order-details-submit-button {
   background: linear-gradient(to left, #00dcff, #0075ce);
@@ -470,7 +470,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .active-order-details-cancel-button {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
@@ -483,7 +483,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .tables-td-input {
   margin-bottom: 0px !important;
@@ -523,7 +523,7 @@
   justify-content: end;
   margin-top: 20px;
   margin-bottom: 20px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .active-invoice-list{
   background: linear-gradient(to left, #00dcff, #0075ce);
@@ -534,7 +534,7 @@
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 /* End the payment terms section */
 @media screen and (max-width: 1450px) {

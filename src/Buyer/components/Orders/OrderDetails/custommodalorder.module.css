@@ -34,7 +34,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 18px;
 }
 
@@ -56,7 +56,7 @@
     appearance: none !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     text-align: left;
-    cursor: pointer;
+     cursor: pointer !important;;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -77,7 +77,7 @@
 
 .dropdownItem {
     padding: 4px 10px;
-    cursor: pointer;
+     cursor: pointer !important;;
     white-space: nowrap;
     font-size: 13px;
 }
@@ -157,7 +157,7 @@ font-weight: 500;
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
     border: none !important;
 }
 

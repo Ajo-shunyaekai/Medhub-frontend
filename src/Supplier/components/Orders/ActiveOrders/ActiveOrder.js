@@ -141,7 +141,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
 
                                                                 <Link to={`/supplier/active-orders-details/${order.order_id}`}>
                                                                     <div className='order-section-view'>
-                                                                        <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                                                                        <RemoveRedEyeOutlinedIcon className='table-icon' />
                                                                     </div>
                                                                 </Link>
 

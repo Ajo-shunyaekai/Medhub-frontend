@@ -96,7 +96,7 @@
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
-    cursor: pointer;
+     cursor: pointer !important;;
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -136,7 +136,7 @@
     padding-left: 30px;
     /* Adjust this value as needed */
     margin-bottom: 12px;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 22px;
     /* Adjust this value as needed */
     user-select: none;
@@ -145,7 +145,7 @@
 .custom-checkbox-label input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
+     cursor: pointer !important;;
     height: 0;
     width: 0;
 }
@@ -284,7 +284,7 @@
     justify-content: end;
     align-items: baseline;
     position: relative;
-    cursor: pointer;
+     cursor: pointer !important;;
 }
 .send-enquiry-supplier-list-upper-section{
     display: flex;
@@ -353,7 +353,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
 /* end the modal code */
 @media screen and (max-width: 1420px) {

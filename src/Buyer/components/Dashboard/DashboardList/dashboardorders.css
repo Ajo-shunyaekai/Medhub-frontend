@@ -32,7 +32,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .completed-order-table-view:hover {
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+   cursor: pointer !important;;
   border-radius: 5px;
   padding: 5px 10px;
 }

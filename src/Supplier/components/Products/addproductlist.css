@@ -58,7 +58,7 @@
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .buy-product-card-first-left {
     display: flex;

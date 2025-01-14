@@ -39,7 +39,7 @@
   display: flex;
   column-gap: 14px;
   justify-content: start;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .invoice-details-button-column {
   background-color: #31c971;
@@ -59,13 +59,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .invoices-details-button-pay {
   font-size: 13px;
 }
 .invoice-details-button-column-download {
-  cursor: pointer;
+   cursor: pointer !important;;
   background-color: #f4c414;
   border-radius: 4px;
   color: #ffffff;

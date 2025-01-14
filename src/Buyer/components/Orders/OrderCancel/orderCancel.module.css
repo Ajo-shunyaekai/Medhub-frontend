@@ -6,7 +6,7 @@
   font-size: 18px;
   font-weight: 500;
   color: #5e676f;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .order-cancel-content {
@@ -50,7 +50,7 @@ textarea.order-textarea {
   align-items: center;
   gap: 10px;
   padding: 0px 12px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .order-close-btn {
@@ -64,7 +64,7 @@ textarea.order-textarea {
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .order-submit-btn {

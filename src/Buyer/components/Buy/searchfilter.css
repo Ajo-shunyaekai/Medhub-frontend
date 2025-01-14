@@ -14,14 +14,14 @@
     width: 100%;
     column-gap: 60px;
     margin-bottom: 0px !important;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   .search-seller-filter-drop {
     position: relative;
     top: 0%;
   }
   .search-seller-inner-dropdown {
-    cursor: pointer;
+     cursor: pointer !important;;
     position: absolute;
     top: 110%;
     height: 200px;
@@ -60,5 +60,5 @@
     display: flex;
     justify-content: center;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
 }

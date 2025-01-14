@@ -105,7 +105,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 .create-invoices-submit {
   outline: none !important;
@@ -118,7 +118,7 @@
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
  /* for button loader */
@@ -157,7 +157,7 @@
   border-radius: 4px;
   color: #fff;
   column-gap: 8px;
-  cursor: pointer;
+   cursor: pointer !important;;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -166,7 +166,7 @@
 }
 .craete-add-cross-icon{
   display: flex;
-  cursor: pointer;
+   cursor: pointer !important;;
   position: relative;
   top: 38px;
  
@@ -176,7 +176,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  cursor: pointer;
+   cursor: pointer !important;;
   color: linear-gradient(270deg, #00dcff, #0075ce);
 }
 .form-item-container {

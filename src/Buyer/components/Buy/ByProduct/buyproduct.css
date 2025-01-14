@@ -73,7 +73,7 @@
   align-items: center;
   column-gap: 8px;
   font-size: 14px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .byproduct-product-card-first-left {
@@ -172,7 +172,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 .byproduct-seller-img-one {
@@ -240,7 +240,7 @@
 }
 
 .byproduct-seller-search {
-  cursor: pointer;
+   cursor: pointer !important;;
   position: absolute;
   background-color: #5e676f;
   right: 28%;
@@ -275,7 +275,7 @@
   width: 100%;
   column-gap: 60px;
   margin-bottom: 0px !important;
-  cursor: pointer;
+   cursor: pointer !important;;
 }
 
 @media screen and (max-width: 1450px) {

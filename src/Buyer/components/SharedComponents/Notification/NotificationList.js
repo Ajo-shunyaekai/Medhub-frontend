@@ -127,7 +127,7 @@ const NotificationList = () => {
                                                 
                                                 <div className='notification-section-view' 
                                                 onClick={() => handleNavigation(notification.notification_id, notification.event, notification.event_id, notification.link_id)}>
-                                                    <RemoveRedEyeOutlinedIcon className='notification-section-eye' />
+                                                    <RemoveRedEyeOutlinedIcon className='table-icon' />
                                                 </div>
                                                 
                                             </div>

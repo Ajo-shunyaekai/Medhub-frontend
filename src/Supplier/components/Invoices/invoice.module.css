@@ -44,7 +44,7 @@
   justify-content: start;
   align-items: start;
   gap: 1rem;
-  cursor: pointer;
+   cursor: pointer !important;;
   margin-top: 1rem;
 }
 

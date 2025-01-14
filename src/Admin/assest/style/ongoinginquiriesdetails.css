@@ -200,7 +200,7 @@
     column-gap: 8px;
     font-size: 14px;
     line-height: 20px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   
   /* start the assign driver table list */
@@ -374,7 +374,7 @@
     font-size: 13px;
     line-height: 15px;
     color: #5e676f !important;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   
   .ongoing-details-left-bottom-vehicle-head {
@@ -514,7 +514,7 @@
     text-align: center;
     padding: 8px 0px;
     border-radius: 4px;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 14px;
     margin-top: 6px;
   }
@@ -531,7 +531,7 @@
     padding: 10px 14px;
     border-radius: 4px;
     color: #fff;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 14px;
     height: 30px;
     font-weight: 500;
@@ -544,7 +544,7 @@
     padding: 10px 14px;
     border-radius: 4px;
     color: #fff;
-    cursor: pointer;
+     cursor: pointer !important;;
     font-size: 14px;
     height: 30px;
     font-weight: 500;
@@ -602,7 +602,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   
   .pending-order-contact-order {
@@ -616,7 +616,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   
   /* ongoing inquiries styling */
@@ -635,7 +635,7 @@
     align-items: center;
     column-gap: 8px;
     font-size: 14px;
-    cursor: pointer;
+     cursor: pointer !important;;
   }
   @media screen and (max-width: 1530px) {
   .ongoing-details-container {
