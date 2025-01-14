@@ -173,7 +173,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/supplier/sign-up",
-        element: <Signup/>,
+        element: <Signup socket={socket}/>,
     },
     {
         path: "/supplier",

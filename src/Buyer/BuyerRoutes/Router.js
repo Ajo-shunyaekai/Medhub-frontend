@@ -179,7 +179,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/buyer/sign-up",
-        element: <SignUp />,
+        element: <SignUp socket={socket}/>,
     },
     {
         path: "/buyer",
