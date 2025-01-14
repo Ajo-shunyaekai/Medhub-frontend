@@ -54,56 +54,6 @@ const SupplierLogin = ({socket}) => {
                 password,
                 user_type: "Supplier"
             }
-
-            // postRequest('supplier/login', obj, async(response) => {
-            //     if(response.code === 200) {
-            //         // toast(response.message, { type: "success" });
-            //         sessionStorage.setItem('supplier_id',response.result.supplier_id)
-            //         sessionStorage.setItem('supplier_name',response.result.supplier_name)
-            //         sessionStorage.setItem('supplier_email',response.result.supplier_email)
-            //         sessionStorage.setItem('supplier_country_code',response.result.supplier_country_code)
-            //         sessionStorage.setItem('supplier_mobile',response.result.supplier_mobile)
-            //         sessionStorage.setItem('contact_person_country_code',response.result.contact_person_country_code)
-            //         sessionStorage.setItem('contact_person_mobile',response.result.contact_person_mobile_no)
-            //         sessionStorage.setItem('contact_person_name',response.result.contact_person_name)
-            //         sessionStorage.setItem('supplier_image',response.result.supplier_image)
-            //         sessionStorage.setItem('license_image',response.result.license_image)
-            //         sessionStorage.setItem('tax_image',response.result.tax_image)
-            //         sessionStorage.setItem('token',response.result.token)                    
-            //         sessionStorage.setItem('_id', response?.result?._id)
-            //         setTimeout(() => {
-            //             navigate("/supplier");
-            //             setLoading(true)
-            //           }, 1000);
-
-            //         //   if ('Notification' in window && Notification.permission !== 'granted') {
-            //         //     const permission = await Notification.requestPermission();
-            //         //     if (permission === 'granted') {
-            //         //       const userId = response.result.supplier_id; 
-            //         //       socket.emit('register',  userId );
-            //         //     }
-            //         //   } 
-
-            //         if ('Notification' in window) {
-            //             if (Notification.permission === 'granted') {
-            //                 // If permission is already granted, register the user directly
-            //                 const userId = response.result.supplier_id;
-            //                 socket.emit('register', userId);
-            //             } else if (Notification.permission !== 'denied') {
-            //                 // Request permission if not already denied
-            //                 const permission = await Notification.requestPermission();
-            //                 if (permission === 'granted') {
-            //                     // const userId = response.result.supplier_id;
-            //                     // socket.emit('register', userId);
-            //                 }
-            //             }
-            //         }
-            //     } else {
-            //         setLoading(false)
-            //         toast(response.message, { type: "error" });
-            //         console.log('error while login')
-            //     }
-            // })
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
                 if(response.code !== 200){
@@ -216,7 +166,7 @@ const SupplierLogin = ({socket}) => {
                 <img src={logo} alt="Logo" />
             </div>
             <div className='login-container-form-section'>
-                <div className='login-container-form-section-heading'>Login</div>
+                <div className='login-container-form-section-heading'>Supplier Login</div>
                 <form className='login-main-form-section' onSubmit={handleSubmit}>
                     <div className='login-form-main-div'>
                         <label className='login-form-main-label'>Email ID</label>

@@ -114,14 +114,14 @@ const InquiriesDashList = () => {
                                 className={`${activeLink === 'request' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                             >
                                 <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                                <div>Inquiry Requests</div>
+                                <div className='inquiry-content-navbar'>Inquiry Requests</div>
                             </div>
                             <div
                                 onClick={() => handleLinkClick('ongoing')}
                                 className={`${activeLink === 'ongoing' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                             >
                                 <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                                <div>Ongoing Inquiries</div>
+                                <div className='inquiry-content-navbar'>Ongoing Inquiries</div>
                             </div>
 
                         </div>

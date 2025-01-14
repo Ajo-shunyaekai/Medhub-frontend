@@ -28,6 +28,9 @@ a div{
 a span{ 
   cursor: pointer !important; 
 }
+.inquiry-content-navbar{
+  cursor: pointer !important;
+}
 input {
   cursor:  pointer !important;
 }

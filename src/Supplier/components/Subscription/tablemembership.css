@@ -68,7 +68,6 @@
   
   .table > :not(caption) > * > * {
     padding: 1rem 0.5rem !important;
-    width: 10vw !important;
   }
   
   .member-table-row-container {
