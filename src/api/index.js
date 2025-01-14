@@ -21,8 +21,9 @@ export const apiRequests = {
   getRequest: async (URL) => {
     try {
       const response = await axios({
-        method: "GET",
+        method: "POST",
         url: URL,
+        data: {},
         headers: {
           authorization: process.env.REACT_APP_Authorization,
           access_token:
