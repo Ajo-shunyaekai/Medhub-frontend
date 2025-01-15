@@ -299,6 +299,16 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Est.Delivery Time :</div>
+                                    <div className='buyer-details-inner-text'>
+                                    {
+                                    supplierDetails?.estimated_delivery_time && !supplierDetails?.estimated_delivery_time.includes('Days') 
+                                    ? `${supplierDetails?.estimated_delivery_time} Days` 
+                                    : supplierDetails?.estimated_delivery_time
+                                    }
+                                    </div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
                                 </div>
@@ -327,6 +337,14 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Tags :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Payment Terms :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.payment_terms}</div>
                                 </div>
                             </div>
                         </div>
