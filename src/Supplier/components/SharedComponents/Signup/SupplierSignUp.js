@@ -38,7 +38,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 };
 
-const SupplierSignUp = ({socket}) => {
+const SupplierSignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
@@ -100,6 +100,9 @@ const SupplierSignUp = ({socket}) => {
     const companyTypeOptions = [
         { value: 'manufacturer', label: 'Manufacturer' },
         { value: 'distributor', label: 'Distributor' },
+        {
+            value: 'medical practitioner', label: 'Medical Practitioner'
+        }
         // Add more options as needed
     ];
 
@@ -121,13 +124,13 @@ const SupplierSignUp = ({socket}) => {
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
 
-   
+
 
 
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
-            [`${imageType}Image`]: null, 
+            [`${imageType}Image`]: null,
         }));
         setTimeout(() => {
             setFormData(prevState => ({
@@ -135,7 +138,7 @@ const SupplierSignUp = ({socket}) => {
                 [`${imageType}Image`]: hasImage ? file : null,
             }));
         }, 0);
-    
+
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
@@ -171,14 +174,14 @@ const SupplierSignUp = ({socket}) => {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
-            
+
             // Disallow spaces in these fields
             if (!alphanumericNoSpaceRegex.test(value)) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
         }
-    
+
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
@@ -190,7 +193,7 @@ const SupplierSignUp = ({socket}) => {
             setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };
-    
+
 
     // const handlePhoneChange = (name, value) => {
     //     setErrors(prevState => ({ ...prevState, [name]: '' }));
@@ -213,38 +216,38 @@ const SupplierSignUp = ({socket}) => {
     const handlePhoneChange = (name, value) => {
         // Clear previous errors
         setErrors(prevState => ({ ...prevState, [name]: '' }));
-      
+
         try {
-          // Parse the phone number
-          const phoneNumber = parsePhoneNumber(value);
-      
-          // Validate the phone number
-          if (phoneNumber && isValidPhoneNumber(value)) {
-            // Format the phone number in E.164 format (international standard)
-           
-            console.log(phoneNumber.countryCallingCode);
-            const countryCode = phoneNumber.countryCallingCode
-            const nationalNumber = phoneNumber.nationalNumber
-            // const formattedNumber = phoneNumber.format('E.164');
-            const formattedNumber = `+${countryCode} ${nationalNumber}`
-            console.log(formattedNumber);
-            // Update form data with the formatted number
-            setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
-          } else {
-            // Set error if phone number is invalid
-            setErrors(prevState => ({ 
-              ...prevState, 
-              [name]: 'Invalid phone number' 
-            }));
-          }
+            // Parse the phone number
+            const phoneNumber = parsePhoneNumber(value);
+
+            // Validate the phone number
+            if (phoneNumber && isValidPhoneNumber(value)) {
+                // Format the phone number in E.164 format (international standard)
+
+                console.log(phoneNumber.countryCallingCode);
+                const countryCode = phoneNumber.countryCallingCode
+                const nationalNumber = phoneNumber.nationalNumber
+                // const formattedNumber = phoneNumber.format('E.164');
+                const formattedNumber = `+${countryCode} ${nationalNumber}`
+                console.log(formattedNumber);
+                // Update form data with the formatted number
+                setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+            } else {
+                // Set error if phone number is invalid
+                setErrors(prevState => ({
+                    ...prevState,
+                    [name]: 'Invalid phone number'
+                }));
+            }
         } catch (error) {
-          // Handle parsing errors
-          setErrors(prevState => ({ 
-            ...prevState, 
-            [name]: '' 
-          }));
+            // Handle parsing errors
+            setErrors(prevState => ({
+                ...prevState,
+                [name]: ''
+            }));
         }
-      };
+    };
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -267,33 +270,33 @@ const SupplierSignUp = ({socket}) => {
         // if (!companyPhone || companyPhone.length <= 6) {
         //     formErrors.companyPhone = 'Company Phone No. is Required';
         // }
-        
-        // Phone number validations using libphonenumber-js
-  try {
-    // Validate Company Phone
-    if (!companyPhone) {
-      formErrors.companyPhone = 'Company Phone No. is Required';
-    } else {
-      const companyPhoneNumber = parsePhoneNumber(companyPhone);
-      if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
-        formErrors.companyPhone = 'Invalid Company Phone Number';
-      }
-    }
 
-    // Validate Mobile Number
-    if (!mobile) {
-      formErrors.mobile = 'Mobile No. is Required';
-    } else {
-      const mobileNumber = parsePhoneNumber(mobile);
-      if (!mobileNumber || !isValidPhoneNumber(mobile)) {
-        formErrors.mobile = 'Invalid Mobile Number';
-      }
-    }
-  } catch (error) {
-    // Catch any parsing errors
-    formErrors.companyPhone = 'Invalid Phone Number Format';
-    formErrors.mobile = 'Invalid Phone Number Format';
-  }
+        // Phone number validations using libphonenumber-js
+        try {
+            // Validate Company Phone
+            if (!companyPhone) {
+                formErrors.companyPhone = 'Company Phone No. is Required';
+            } else {
+                const companyPhoneNumber = parsePhoneNumber(companyPhone);
+                if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
+                    formErrors.companyPhone = 'Invalid Company Phone Number';
+                }
+            }
+
+            // Validate Mobile Number
+            if (!mobile) {
+                formErrors.mobile = 'Mobile No. is Required';
+            } else {
+                const mobileNumber = parsePhoneNumber(mobile);
+                if (!mobileNumber || !isValidPhoneNumber(mobile)) {
+                    formErrors.mobile = 'Invalid Mobile Number';
+                }
+            }
+        } catch (error) {
+            // Catch any parsing errors
+            formErrors.companyPhone = 'Invalid Phone Number Format';
+            formErrors.mobile = 'Invalid Phone Number Format';
+        }
         // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
@@ -314,7 +317,7 @@ const SupplierSignUp = ({socket}) => {
         if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.tags.split(',').map(tag => tag.trim()).length > 5) formErrors.tags = 'You can only enter up to 5 tags';
         if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
-        
+
         if (!formData.taxImage) formErrors.taxImage = 'Tax Image is Required';
         if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
@@ -397,9 +400,9 @@ const SupplierSignUp = ({socket}) => {
         setResetUploaders(true);
     }
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         const isFormValid = await validateForm();
-    console.log('Is Form Valid:', isFormValid);
+        console.log('Is Form Valid:', isFormValid);
         if (isFormValid && isChecked) {
             setLoading(true)
             const formDataToSend = new FormData();
@@ -461,9 +464,9 @@ const SupplierSignUp = ({socket}) => {
             // })
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
-                if(response?.code !== 200) {
+                if (response?.code !== 200) {
                     setLoading(false)
-                    toast(response.message, {type: 'error'})
+                    toast(response.message, { type: 'error' })
                     console.log('error in supplier/register api');
                     return;
                 }
@@ -472,21 +475,21 @@ const SupplierSignUp = ({socket}) => {
                 setLoading(false)
 
                 socket.emit('supplierRegistration', {
-                    adminId : process.env.REACT_APP_ADMIN_ID,
-                    message : `New Supplier Registration Request `,
-                    link    : process.env.REACT_APP_PUBLIC_URL
+                    adminId: process.env.REACT_APP_ADMIN_ID,
+                    message: `New Supplier Registration Request `,
+                    link: process.env.REACT_APP_PUBLIC_URL
                     // send other details if needed
                 });
             } catch (error) {
                 // setButtonLoading(false)
                 setLoading(false)
-                toast(error.message, {type: 'error'})
+                toast(error.message, { type: 'error' })
                 console.log('error in buyer/register api');
-                
+
             }
         } else {
             setLoading(false)
-            toast('Some Fields are Missing', {type: 'error'})
+            toast('Some Fields are Missing', { type: 'error' })
         }
     };
 
@@ -538,7 +541,7 @@ const SupplierSignUp = ({socket}) => {
                             />
                             {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>}
                         </div>
-                        <div className='signup-form-section-div'>
+                        {/* <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Email ID</label>
                             <input
                                 className='signup-form-section-input'
@@ -549,7 +552,7 @@ const SupplierSignUp = ({socket}) => {
                                 onChange={handleChange}
                             />
                             {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
-                        </div>
+                        </div> */}
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Registration Number</label>
                             <input
@@ -591,7 +594,7 @@ const SupplierSignUp = ({socket}) => {
                                     handlePhoneChange('companyPhone', value);
                                     // Update local state for the input
                                     setCompanyPhone(value);
-                                  }}
+                                }}
                             />
                             {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                         </div>
@@ -648,7 +651,7 @@ const SupplierSignUp = ({socket}) => {
                                     handlePhoneChange('mobile', value);
                                     // Update local state for the input
                                     setMobile(value);
-                                  }}
+                                }}
 
                             />
                             {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
@@ -679,7 +682,7 @@ const SupplierSignUp = ({socket}) => {
                             {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
                         </div>
 
-                        <div className='signup-form-section-div'>
+                        {/* <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Est. Delivery Time</label>
                             <input
                                 className='signup-form-section-input'
@@ -690,7 +693,7 @@ const SupplierSignUp = ({socket}) => {
                                 onChange={handleChange}
                             />
                             {errors.delivertime && <div className='signup__errors'>{errors.delivertime}</div>}
-                        </div>
+                        </div> */}
 
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company License No.</label>
@@ -705,17 +708,17 @@ const SupplierSignUp = ({socket}) => {
                             {errors.companyLicenseNo && <div className='signup__errors'>{errors.companyLicenseNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
-                            <label className='signup-form-section-label'>License Expiry Date</label>
+                            <label className='signup-form-section-label'>License Expiry / Renewal Date</label>
                             <InputMask
-                            className='signup-form-section-input'
-                            type="text"
-                             mask="dd-mm-yyyy" 
-                             placeholder='DD-MM-YYYY'
-                             name="companyLicenseExpiry"
-                             value={formData.companyLicenseExpiry}
-                             onChange={handleChange}
-                             replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate />
-                           
+                                className='signup-form-section-input'
+                                type="text"
+                                mask="dd-mm-yyyy"
+                                placeholder='DD-MM-YYYY'
+                                name="companyLicenseExpiry"
+                                value={formData.companyLicenseExpiry}
+                                onChange={handleChange}
+                                replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate />
+
                             {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
                         </div>
                         <div className='signup-form-section-div'>
@@ -811,18 +814,18 @@ const SupplierSignUp = ({socket}) => {
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                            <button 
-                             type='submit' 
-                             className='signup-form-button-submit'
-                             disabled={loading}
-                             >
+                            <button
+                                type='submit'
+                                className='signup-form-button-submit'
+                                disabled={loading}
+                            >
                                 {/* Submit */}
                                 {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Submit'
-                            )}
-                                </button>
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Submit'
+                                )}
+                            </button>
                         </div>
                     </form>
                 </div>

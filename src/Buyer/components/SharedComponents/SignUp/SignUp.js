@@ -729,7 +729,7 @@ const SignUp = ({socket}) => {
                             {errors.companyLicenseNo && <div className='signup__errors'>{errors.companyLicenseNo}</div>}
                         </div>
                         <div className='signup-form-section-div'>
-                            <label className='signup-form-section-label'>License Expiry Date</label>
+                            <label className='signup-form-section-label'>License Expiry / Renewal Date</label>
                             <InputMask
                                 className='signup-form-section-input'
                                 type="text"

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import  './pendingInvoice.css';
+import './pendingInvoice.css';
 import Pagination from "react-js-pagination";
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -33,7 +33,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
     const handleDownload = (invoiceId) => {
         const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
         if (iframeRef.current) {
-            
+
             iframeRef.current.src = invoiceUrl;
         }
     };
@@ -86,25 +86,25 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
             <div className='table-responsive mh-2 50'>
                 <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                     {
-                            <thead>
-                                <tr>
-                                    <th className="text-muted invoice-th">Invoice No.</th>
-                                    <th className="text-muted invoice-th">Order ID</th>
-                                    <th className="text-muted invoice-th">Customer Name</th>
-                                    <th className="text-muted invoice-th">Amount</th>
-                                    <th className="text-muted invoice-th">Status</th>
-                                    <th className="text-muted invoice-th">Action</th>
-                                </tr>
-                            </thead>
+                        <thead>
+                            <tr>
+                                <th className="text-muted invoice-th">Invoice No.</th>
+                                <th className="text-muted invoice-th">Order ID</th>
+                                <th className="text-muted invoice-th">Customer Name</th>
+                                <th className="text-muted invoice-th">Amount</th>
+                                <th className="text-muted invoice-th">Status</th>
+                                <th className="text-muted invoice-th">Action</th>
+                            </tr>
+                        </thead>
                     }
 
-                   
-                        {
-                            invoiceList && invoiceList.length > 0 ? (
-                                invoiceList?.map((invoice, i) => {
-                                    return (
-                                        <tbody className='pending-invoies-tbody-section' data-id="9">
-                                        <tr  className='table-row v-middle'>
+
+                    {
+                        invoiceList && invoiceList.length > 0 ? (
+                            invoiceList?.map((invoice, i) => {
+                                return (
+                                    <tbody className='pending-invoies-tbody-section' data-id="9">
+                                        <tr className='table-row v-middle'>
                                             <td>
                                                 <span className="item-title">{invoice.invoice_no}</span>
                                             </td>
@@ -125,7 +125,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                             </td>
                                             <td className='pending-invoices-td'>
                                                 <div className='invoice-details-button-row'>
-                                                    <div className='invoice-details-button-column-pay' onClick={() => {handleModal(invoice.invoice_id, invoice.order_id)}}>
+                                                    <div className='invoice-details-button-column-pay' onClick={() => { handleModal(invoice.invoice_id, invoice.order_id) }}>
                                                         <span
                                                             className='invoices-details-button-pay'
                                                             variant="primary"
@@ -135,13 +135,13 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                         </span>
                                                     </div>
 
-                                                    <PayModal 
-                                                       showModal   = {showModal} 
-                                                       handleClose = {handleCloseModal}  
-                                                       invoiceId   = {selectedInvoiceId}
-                                                       orderId     = {selectedOrderId}
-                                                       buyerId     = {invoice.buyer_id}
-                                                       supplierId  = {invoice.supplier_id}
+                                                    <PayModal
+                                                        showModal={showModal}
+                                                        handleClose={handleCloseModal}
+                                                        invoiceId={selectedInvoiceId}
+                                                        orderId={selectedOrderId}
+                                                        buyerId={invoice.buyer_id}
+                                                        supplierId={invoice.supplier_id}
                                                     //    socket      = {socket}
                                                     />
                                                     <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
@@ -157,11 +157,11 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                 </div>
                                             </td>
                                         </tr>
-                                        </tbody>
-                                    )
-                                })
-                            ) :(
-                                <tbody>
+                                    </tbody>
+                                )
+                            })
+                        ) : (
+                            <tbody>
                                 <tr>
                                     <td colSpan="8">
                                         <div className='pending-products-no-orders'>
@@ -170,29 +170,32 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                     </td>
                                 </tr>
                             </tbody>
-                            )
-                        }
+                        )
+                    }
                 </table>
             </div>
             <div className='pending-invoice-pagination-conatiner-section'>
-                <div className='pagi-container'>
-                    <Pagination
-                        activePage={currentPage}
-                        itemsCountPerPage={invoicesPerPage}
-                        totalItemsCount={totalInvoices || invoiceList.length}
-                        pageRangeDisplayed={5}
-                        onChange={handlePageChange}
-                        itemClass="page-item"
-                        linkClass="page-link"
-                        prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                        nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                        hideFirstLastPages={true}
-                    />
-                    <div className='pagi-total'>
-                        <div>Total Items: {totalInvoices || invoiceList.length}</div>
+                {invoiceList && invoiceList.length > 0 && (
+                    <div className='pagi-container'>
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={invoicesPerPage}
+                            totalItemsCount={totalInvoices || invoiceList.length}
+                            pageRangeDisplayed={5}
+                            onChange={handlePageChange}
+                            itemClass="page-item"
+                            linkClass="page-link"
+                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                            hideFirstLastPages={true}
+                        />
+                        <div className='pagi-total'>
+                            <div>Total Items: {totalInvoices || invoiceList.length}</div>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
+
         </div>
     )
 }

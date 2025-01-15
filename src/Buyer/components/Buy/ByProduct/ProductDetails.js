@@ -238,7 +238,7 @@ const handleTargetPriceChange = (e) => {
             <div className="buyer-product-details-section-two-img">
               {details?.medicine_image?.map((image, j) => (
                 <div className="buyer-product-details-sec-img-left" key={j}>
-                  <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${details?.medicine_name} ${j}`} className="responsive-image" />
+                  <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`} alt={`${details?.medicine_name}`} className="responsive-image" />
                 </div>
               ))}
             </div>
