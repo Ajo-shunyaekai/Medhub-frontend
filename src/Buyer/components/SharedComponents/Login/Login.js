@@ -236,7 +236,7 @@ const Login = ({socket}) => {
                 <div className='login-form-main-signup'>
                     <span className='login__signup__content'>Don't have an account?</span>
                     <Link to='/buyer/sign-up'>
-                        <span className='login__signup__here'>&nbsp;Signup here</span>
+                        <span className='login__signup__here'>&nbsp;Sign up here</span>
                     </Link>
                 </div>
             </div>

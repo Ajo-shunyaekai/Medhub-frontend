@@ -22,7 +22,7 @@ const PurchasedOrdersList = () => {
         setSelectedOrderId(orderId)
         setModal(!modal)
     }
- const [poList, setPOList]           = useState([])
+    const [poList, setPOList] = useState([])
     const [totalPoList, setTotalPoList] = useState()
     const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
@@ -45,10 +45,10 @@ const PurchasedOrdersList = () => {
         }
 
         const obj = {
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            status      : 'active',
-            pageNo      : currentPage,
-            pageSize    : ordersPerPage,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            status: 'active',
+            pageNo: currentPage,
+            pageSize: ordersPerPage,
         }
 
         postRequestWithToken('supplier/purchaseorder/get-po-list', obj, async (response) => {
@@ -56,7 +56,7 @@ const PurchasedOrdersList = () => {
                 setPOList(response.result.data)
                 setTotalPoList(response.result.totalItems)
             } else {
-                toast(response.message, {type:'error'})
+                toast(response.message, { type: 'error' })
                 console.log('error in purchased order list api', response);
             }
             // setLoading(false);
@@ -94,66 +94,68 @@ const PurchasedOrdersList = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                            {poList?.length > 0 ? (
-                                poList.map((order, i) => {
-                                const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
-                                return (
-                                                <div className='completed-table-row-container'>
-                                                    <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
-                                                    </div>
-                                                    <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order.enquiry_id}</div>
-                                                    </div>
-                                                    <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{order.po_date}</div>
-                                                    </div>
-                                                    <div className='completed-table-row-item  completed-table-order-2'>
-                                                        <div className='table-text-color'>{order.buyer_name}</div>
-                                                    </div>
-                                                    <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>
-                                                            {order?.po_status?.charAt(0).toUpperCase() + order?.po_status?.slice(1)}
-                                                            </div>
-                                                    </div>
-                                                    <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                                        <Link to={`/supplier/proforma-invoice/${order.purchaseOrder_id}`}>
-                                                            <div className='ongoing-section-button-section-cont'>
-                                                                <span className='ongoing-section-orders-button'>Make Order</span>
-                                                            </div>
-                                                        </Link>
-                                                        <Link to={`/supplier/purchased-order-details/${order.purchaseOrder_id}`}>
-                                                            <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                                        </Link>
+                                {poList?.length > 0 ? (
+                                    poList.map((order, i) => {
+                                        const totalAmount = order.order_items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+                                        return (
+                                            <div className='completed-table-row-container'>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.purchaseOrder_id}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.enquiry_id}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{order.po_date}</div>
+                                                </div>
+                                                <div className='completed-table-row-item  completed-table-order-2'>
+                                                    <div className='table-text-color'>{order.buyer_name}</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>
+                                                        {order?.po_status?.charAt(0).toUpperCase() + order?.po_status?.slice(1)}
                                                     </div>
                                                 </div>
-                                           );
-                                        })
-                                      ) : (
-                                        <div className='pending-products-no-orders'>
-                                         No Purchase Orders Available
-                                         </div>
-                                      )}
+                                                <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                    <Link to={`/supplier/proforma-invoice/${order.purchaseOrder_id}`}>
+                                                        <div className='ongoing-section-button-section-cont'>
+                                                            <span className='ongoing-section-orders-button'>Make Order</span>
+                                                        </div>
+                                                    </Link>
+                                                    <Link to={`/supplier/purchased-order-details/${order.purchaseOrder_id}`}>
+                                                        <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className='pending-products-no-orders'>
+                                        No Purchase Orders Available
+                                    </div>
+                                )}
                             </tbody>
                         </Table>
                         <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalPoList}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
-                                <div className='completed-pagi-total'>
-                                    Total Items: {totalPoList}
-                                </div>
-                            </div>
+                            {poList.length > 0 && (
+                                <>
+                                    <Pagination
+                                        activePage={currentPage}
+                                        itemsCountPerPage={ordersPerPage}
+                                        totalItemsCount={totalPoList}
+                                        pageRangeDisplayed={5}
+                                        onChange={handlePageChange}
+                                        itemClass="page-item"
+                                        linkClass="page-link"
+                                        prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                        nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                        hideFirstLastPages={true}
+                                    />
+                                    <div className='completed-pagi-total'>
+                                        Total Items: {totalPoList}
+                                    </div>
+                                </>
+                            )}
                         </div>
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'completed'} /> : ''
