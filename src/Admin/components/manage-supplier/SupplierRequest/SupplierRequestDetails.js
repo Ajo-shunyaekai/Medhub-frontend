@@ -8,7 +8,7 @@ import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
-import { FaFilePdf } from 'react-icons/fa';
+import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import SupplierCustomModal from './SupplierCustomModal';
 import { apiRequests } from '../../../../api/index';
 
@@ -37,6 +37,39 @@ const SupplierRequestDetails = () => {
     };
  
     // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+    // const renderFiles = (files, type) => {
+    //     return files?.map((file, index) => {
+    //         if (file.endsWith('.pdf')) {
+    //             // Render a PDF icon with a clickable link
+    //             return (
+    //                 <div key={index} className='buyer-details-pdf-section'>
+    //                     <FaFilePdf
+    //                         size={50}
+    //                         color="red"
+    //                         style={{ cursor: 'pointer' }}
+    //                         onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+    //                     />
+    //                     <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+    //                         {extractFileName(file)}
+    //                     </div>
+    //                 </div>
+    //             );
+    //         } else {
+    //             // Render an image
+    //             return (
+    //                 <img
+    //                     key={index}
+    //                     src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+    //                     alt={type}
+    //                     className='buyer-details-document-image'
+    //                 />
+    //             );
+    //         }
+    //     });
+    // };
+ 
+ 
+
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
             if (file.endsWith('.pdf')) {
@@ -54,6 +87,22 @@ const SupplierRequestDetails = () => {
                         </div>
                     </div>
                 );
+            } else if (file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+                // Treat as a DOCX file
+                const docxFileName = file.replace('.vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx');
+                return (
+                    <div key={index} className='buyer-details-docx-section'>
+                        <FaFileWord
+                            size={50}
+                            color="blue"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${docxFileName}`)}
+                        />
+                        <div className='docx-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${docxFileName}`)}>
+                            {extractFileName(docxFileName)}
+                        </div>
+                    </div>
+                );
             } else {
                 // Render an image
                 return (
@@ -67,8 +116,8 @@ const SupplierRequestDetails = () => {
             }
         });
     };
- 
- 
+    
+    
  
  
     // End the modal and pdf url
@@ -154,7 +203,7 @@ const SupplierRequestDetails = () => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Supplier Request</div>
+                    <div className='buyer-details-container-heading'>Seller Details</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>

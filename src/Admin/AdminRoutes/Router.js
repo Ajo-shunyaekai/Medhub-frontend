@@ -483,7 +483,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "supplier-request-details/:supplierId",
+                path: "seller-request-details/:supplierId",
                 element: <SellerRequestDetails />,
             },
             {
