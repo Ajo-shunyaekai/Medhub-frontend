@@ -19,6 +19,9 @@ a div{
 input {
   cursor:  pointer !important;
 }
+.inquiry-content-navbar{
+  cursor: pointer !important;
+}
 .table-icon{
   cursor: pointer !important;
 }

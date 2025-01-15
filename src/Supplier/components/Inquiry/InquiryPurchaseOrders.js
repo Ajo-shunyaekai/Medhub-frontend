@@ -132,14 +132,14 @@ const InquiryPurchaseOrder = () => {
                             className={activeLink === 'ongoing' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
                         >
                             <img src={order_list} alt="inquiry-purchase icon" />
-                            <div>Inquiry Request</div>
+                            <div className='inquiry-content-navbar'>Inquiry Request</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('purchased')}
                             className={activeLink === 'purchased' ? 'active inquiry-purchase-left-wrapper' : 'inquiry-purchase-left-wrapper'}
                         >
                             <img src={order_list} alt="inquiry-purchase icon" />
-                            <div>Purchased Orders</div>
+                            <div className='inquiry-content-navbar'>Purchased Orders</div>
                         </div>
                     </div>
                     <div className="inquiry-purchase-container-right">
