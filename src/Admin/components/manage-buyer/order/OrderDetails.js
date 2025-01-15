@@ -133,7 +133,7 @@ const OrderDetails = ({socket}) => {
                     <div className="buyer-order-details-top-inner-section">
                         <div className="buyer-order-details-left-inner-section-container">
                             <div className="buyer-order-details-left-top-containers">
-                                <Link to={`/admin/supplier-details/${orderDetails?.supplier_id}`}>
+                                <Link to={`/admin/seller-details/${orderDetails?.supplier_id}`}>
                                     <div className="buyer-order-details-top-order-cont">
                                         <div className="buyer-order-details-left-top-main-heading">
                                             Seller Name

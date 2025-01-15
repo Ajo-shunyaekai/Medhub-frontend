@@ -34,7 +34,7 @@ const SellerTransactionDetails = () => {
     <>
       <div className='transaction-details-container'>
         <div className='transaction-details-inner-conatiner'>
-          <div className='transaction-details-container-heading'>Supplier Transaction Details</div>
+          <div className='transaction-details-container-heading'>Seller Transaction Details</div>
           <div className='transaction-details-left-inner-container'>
             <div className='transaction-details-left-uppar-section'>
               <div className='transaction-details-uppar-main-logo-section'>

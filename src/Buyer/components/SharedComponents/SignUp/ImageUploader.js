@@ -22,28 +22,85 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
         }
     }, [reset]);
 
+    // const handleImageUpload = (event) => {
+    //     const files = Array.from(event.target.files);
+    //     let validFiles;
+
+    //     if (imageType === 'logo') {
+    //         // For logo, only allow JPEG and only one file
+    //         validFiles = files.filter(file => file.type === 'image/jpeg').slice(0, 1);
+
+    //         if (files.length > 1 || validFiles.length === 0) {
+    //             setErrorMessage('Only one JPEG image is allowed for the logo.');
+    //             return;
+    //         }
+    //     } else {
+    //         // For other types, allow multiple files with valid types and sizes
+    //         validFiles = files.filter(file => {
+    //             const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
+    //             const isValidSize = file.size <= 5 * 1024 * 1024;
+    //             return isValidType && isValidSize;
+    //         });
+
+    //         if (validFiles.length !== files.length) {
+    //             setErrorMessage('Some files were invalid. Only PNG, JPEG, JPG, and PDF are allowed, and file size must not exceed 5MB.');
+    //             return;
+    //         }
+    //     }
+
+    //     setErrorMessage('');
+
+    //     // Process valid files
+    //     const newPreviews = validFiles.map(file => {
+    //         return new Promise((resolve, reject) => {
+    //             const reader = new FileReader();
+    //             reader.onload = () => {
+    //                 resolve({ name: file.name, preview: reader.result, type: file.type, file });
+    //             };
+    //             reader.onerror = reject;
+    //             reader.readAsDataURL(file);
+    //         });
+    //     });
+
+    //     setUploading(true);
+    //     Promise.all(newPreviews)
+    //         .then(results => {
+    //             setFilePreviews(prev => {
+    //                 const updatedPreviews = imageType === 'logo' ? results.slice(0, 1) : [...prev, ...results];
+    //                 onUploadStatusChange(true, updatedPreviews.map(file => file.file), imageType);
+    //                 return updatedPreviews;
+    //             });
+    //         })
+    //         .catch(err => {
+    //             setErrorMessage('Error reading files.');
+    //         })
+    //         .finally(() => {
+    //             setUploading(false);
+    //         });
+    // };
+
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
         let validFiles;
 
         if (imageType === 'logo') {
-            // For logo, only allow JPEG and only one file
-            validFiles = files.filter(file => file.type === 'image/jpeg').slice(0, 1);
+            // Allow only JPEG and PNG for logos, and only one file
+            validFiles = files.filter(file => file.type === 'image/jpeg' || file.type === 'image/png').slice(0, 1);
 
             if (files.length > 1 || validFiles.length === 0) {
-                setErrorMessage('Only one JPEG image is allowed for the logo.');
+                setErrorMessage('Only one JPEG or PNG image is allowed for the logo.');
                 return;
             }
         } else {
-            // For other types, allow multiple files with valid types and sizes
+            // Allow only PDF and DOCX for other file types, with size <= 5MB
             validFiles = files.filter(file => {
-                const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
-                const isValidSize = file.size <= 5 * 1024 * 1024;
+                const isValidType = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type);
+                const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB max size
                 return isValidType && isValidSize;
             });
 
             if (validFiles.length !== files.length) {
-                setErrorMessage('Some files were invalid. Only PNG, JPEG, JPG, and PDF are allowed, and file size must not exceed 5MB.');
+                setErrorMessage('Some files were invalid. Only PDF and DOCX files are allowed, and file size must not exceed 5MB.');
                 return;
             }
         }
@@ -55,7 +112,16 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
-                    resolve({ name: file.name, preview: reader.result, type: file.type, file });
+                    const newFileName = file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        ? file.name.endsWith('.docx') ? file.name : `${file.name.split('.')[0]}.docx`
+                        : file.name;
+
+                    resolve({ 
+                        name: newFileName, 
+                        preview: reader.result, 
+                        type: file.type, 
+                        file: new File([file], newFileName, { type: file.type })
+                    });
                 };
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
@@ -71,7 +137,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                     return updatedPreviews;
                 });
             })
-            .catch(err => {
+            .catch(() => {
                 setErrorMessage('Error reading files.');
             })
             .finally(() => {
@@ -122,7 +188,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
                 )}
                 <input
                     type="file"
-                    accept={imageType === 'logo' ? 'image/jpeg' : 'image/png, image/jpeg, image/jpg, application/pdf'}
+                    accept={imageType === 'logo' ? 'image/png, image/jpeg' : 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
                     onChange={handleImageUpload}
                     style={{ display: 'none' }}
                     ref={fileInputRef}

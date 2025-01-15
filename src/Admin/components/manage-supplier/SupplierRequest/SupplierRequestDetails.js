@@ -68,47 +68,54 @@ const SupplierRequestDetails = () => {
     //     });
     // };
  
- 
 
+    
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
+            const serverUrl = process.env.REACT_APP_SERVER_URL;
+    
             if (file.endsWith('.pdf')) {
-                // Render a PDF icon with a clickable link
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
                         <FaFilePdf
                             size={50}
                             color="red"
                             style={{ cursor: 'pointer' }}
-                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+                            onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}
                         />
-                        <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+                        <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}>
                             {extractFileName(file)}
                         </div>
                     </div>
                 );
-            } else if (file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document')) {
-                // Treat as a DOCX file
-                const docxFileName = file.replace('.vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx');
+            } else if (
+                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+                file.endsWith('.docx')
+            ) {
+                const docxFileName = file.replace(
+                    '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    '.docx'
+                );
+                const docxUrl = `${serverUrl}uploads/supplier/${type}/${docxFileName}`;
+    
                 return (
                     <div key={index} className='buyer-details-docx-section'>
                         <FaFileWord
                             size={50}
                             color="blue"
                             style={{ cursor: 'pointer' }}
-                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${docxFileName}`)}
+                            onClick={() => window.open(docxUrl, '_blank')}
                         />
-                        <div className='docx-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${docxFileName}`)}>
+                        <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
                             {extractFileName(docxFileName)}
                         </div>
                     </div>
                 );
             } else {
-                // Render an image
                 return (
                     <img
                         key={index}
-                        src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+                        src={`${serverUrl}uploads/supplier/${type}/${file}`}
                         alt={type}
                         className='buyer-details-document-image'
                     />
@@ -118,8 +125,6 @@ const SupplierRequestDetails = () => {
     };
     
     
- 
- 
     // End the modal and pdf url
     useEffect(()=>{
         const getSupplierdetails = async() => {

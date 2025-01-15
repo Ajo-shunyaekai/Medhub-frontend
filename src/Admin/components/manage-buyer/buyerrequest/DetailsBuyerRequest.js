@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import BuyerCustomModal from './BuyerCustomModal';
-import { FaFilePdf } from 'react-icons/fa';
+import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import {apiRequests} from '../../../../api/index'
 
 const DetailsBuyerRequest = () => {
@@ -34,29 +34,83 @@ const DetailsBuyerRequest = () => {
     };
  
     // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+    // const renderFiles = (files, type) => {
+    //     return files?.map((file, index) => {
+    //         if (file.endsWith('.pdf')) {
+    //             // Render a PDF icon with a clickable link
+    //             return (
+    //                 <div key={index} className='buyer-details-pdf-section'>
+    //                     <FaFilePdf
+    //                         size={50}
+    //                         color="red"
+    //                         style={{ cursor: 'pointer' }}
+    //                         onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}
+    //                     />
+    //                     <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}>
+    //                         {extractFileName(file)}
+    //                     </div>
+    //                 </div>
+    //             );
+    //         } else {
+    //             // Render an image
+    //             return (
+    //                 <img
+    //                     key={index}
+    //                     src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`}
+    //                     alt={type}
+    //                     className='buyer-details-document-image'
+    //                 />
+    //             );
+    //         }
+    //     });
+    // };
+
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
+            const serverUrl = process.env.REACT_APP_SERVER_URL;
+    
             if (file.endsWith('.pdf')) {
-                // Render a PDF icon with a clickable link
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
                         <FaFilePdf
                             size={50}
                             color="red"
                             style={{ cursor: 'pointer' }}
-                            onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}
+                            onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}
                         />
-                        <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}>
+                        <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/buyer/${type}/${file}`, '_blank')}>
                             {extractFileName(file)}
                         </div>
                     </div>
                 );
+            } else if (
+                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+                file.endsWith('.docx')
+            ) {
+                const docxFileName = file.replace(
+                    '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    '.docx'
+                );
+                const docxUrl = `${serverUrl}uploads/buyer/${type}/${docxFileName}`;
+    
+                return (
+                    <div key={index} className='buyer-details-docx-section'>
+                        <FaFileWord
+                            size={50}
+                            color="blue"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => window.open(docxUrl, '_blank')}
+                        />
+                        <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
+                            {extractFileName(docxFileName)}
+                        </div>
+                    </div>
+                );
             } else {
-                // Render an image
                 return (
                     <img
                         key={index}
-                        src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`}
+                        src={`${serverUrl}uploads/buyer/${type}/${file}`}
                         alt={type}
                         className='buyer-details-document-image'
                     />
@@ -143,7 +197,7 @@ const DetailsBuyerRequest = () => {
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-                console.log('error in accept-reject-supplier api', response);
+                console.log('error in accept-reject-buyer api', response);
                 toast(response.message, { type: 'error' })
             }
         })

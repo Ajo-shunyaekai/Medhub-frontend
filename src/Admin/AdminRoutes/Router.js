@@ -487,7 +487,7 @@ const router = createBrowserRouter([
                 element: <SellerRequestDetails />,
             },
             {
-                path: "supplier-details/:supplierId",
+                path: "seller-details/:supplierId",
                 element: <SellerDetails />,
             },
             {
@@ -503,7 +503,7 @@ const router = createBrowserRouter([
                 element: <SellerPurchasedOrderDetails />,
             },
             {
-                path: "supplier-order-details/:orderId",
+                path: "seller-order-details/:orderId",
                 element: <SellerOrderDetails />,
             },
             {

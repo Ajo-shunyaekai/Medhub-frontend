@@ -8,7 +8,7 @@ import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
-import { FaFilePdf } from 'react-icons/fa';
+import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 import { apiRequests } from '../../../../api/index';
 
 
@@ -34,35 +34,90 @@ const SupplierDetails = () => {
    };
  
 // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
+// const renderFiles = (files, type) => {
+//    return files?.map((file, index) => {
+//        if (file.endsWith('.pdf')) {
+//            // Render a PDF icon with a clickable link
+//            return (
+//                <div key={index} className='buyer-details-pdf-section'>
+//                    <FaFilePdf
+//                        size={50}
+//                        color="red"
+//                        style={{ cursor: 'pointer' }}
+//                        onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
+//                    />
+//                    <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
+//                        {extractFileName(file)}
+//                    </div>
+//                </div>
+//            );
+//        } else {
+//            // Render an image
+//            return (
+//                <img
+//                    key={index}
+//                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
+//                    alt={type}
+//                    className='buyer-details-document-image'
+//                />
+//            );
+//        }
+//    });
+// };
+
+
 const renderFiles = (files, type) => {
-   return files?.map((file, index) => {
-       if (file.endsWith('.pdf')) {
-           // Render a PDF icon with a clickable link
-           return (
-               <div key={index} className='buyer-details-pdf-section'>
-                   <FaFilePdf
-                       size={50}
-                       color="red"
-                       style={{ cursor: 'pointer' }}
-                       onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
-                   />
-                   <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
-                       {extractFileName(file)}
-                   </div>
-               </div>
-           );
-       } else {
-           // Render an image
-           return (
-               <img
-                   key={index}
-                   src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-                   alt={type}
-                   className='buyer-details-document-image'
-               />
-           );
-       }
-   });
+    return files?.map((file, index) => {
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
+
+        if (file.endsWith('.pdf')) {
+            return (
+                <div key={index} className='buyer-details-pdf-section'>
+                    <FaFilePdf
+                        size={50}
+                        color="red"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}
+                    />
+                    <div className='pdf-url' onClick={() => window.open(`${serverUrl}uploads/supplier/${type}/${file}`, '_blank')}>
+                        {extractFileName(file)}
+                    </div>
+                </div>
+            );
+        } else if (
+            file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+            file.endsWith('.docx')
+        ) {
+            const docxFileName = file.replace(
+                '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                '.docx'
+            );
+            const docxUrl = `${serverUrl}uploads/supplier/${type}/${docxFileName}`;
+
+            return (
+                <div key={index} className='buyer-details-docx-section'>
+                    <FaFileWord
+                        size={50}
+                        color="blue"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => window.open(docxUrl, '_blank')}
+                    />
+                    <div className='docx-url' onClick={() => window.open(docxUrl, '_blank')}>
+                        {extractFileName(docxFileName)}
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <img
+                    key={index}
+                    src={`${serverUrl}uploads/supplier/${type}/${file}`}
+                    alt={type}
+                    className='buyer-details-document-image'
+                />
+            );
+        }
+    });
 };
  
  
@@ -132,7 +187,7 @@ const renderFiles = (files, type) => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Supplier Details</div>
+                    <div className='buyer-details-container-heading'>Seller Details</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>
