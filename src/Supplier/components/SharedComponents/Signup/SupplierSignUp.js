@@ -265,7 +265,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyType) formErrors.companyType = 'Company Type is Required';
         if (!formData.companyName) formErrors.companyName = 'Company Name is Required';
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
-        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
+        // if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
         // if (!companyPhone || companyPhone.length <= 6) {
         //     formErrors.companyPhone = 'Company Phone No. is Required';
@@ -312,7 +312,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
-        if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
+        // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.tags.split(',').map(tag => tag.trim()).length > 5) formErrors.tags = 'You can only enter up to 5 tags';

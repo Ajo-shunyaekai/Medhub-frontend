@@ -321,7 +321,7 @@ const CreatePO = ({socket}) => {
                         // send other details if needed
                     });
                     setTimeout(() => {
-                        navigate('/buyer/inquiry-purchase-orders/purchased')
+                        navigate('/buyer/inquiry/Purchased-Order')
                         setLoading(true)
                     }, 1000)
                 } else {
