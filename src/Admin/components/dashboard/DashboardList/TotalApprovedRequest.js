@@ -124,7 +124,7 @@ const TotalApprovedRequest = () => {
                                               to={
                                                 request.registration_type === 'Buyer' 
                                                 ? `/admin/buyer-details/${request.buyer_id}` 
-                                                : `/admin/supplier-details/${request.supplier_id}`
+                                                : `/admin/seller-details/${request.supplier_id}`
                                             }
                                             >
                                                 <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>

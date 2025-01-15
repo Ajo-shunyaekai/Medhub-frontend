@@ -247,6 +247,10 @@ const SendInquiry = ({socket}) => {
                           </div>
                         </div>
                         <div className='send-enquiry-inner-bottom-section'>
+                        <div className='send-enquiry-inner-bottom-container'>
+                            <span className='send-enquiry-inner-bootom-head'>Quantity Required:</span>
+                            <span className='send-enquiry-inner-bootom-text'>{product?.quantity_required} </span>
+                          </div>
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Unit Price:</span>
                             <span className='send-enquiry-inner-bootom-text'>{product?.unit_price} AED</span>

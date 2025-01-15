@@ -119,7 +119,7 @@ const TotalRequestList = () => {
                                                     to={
                                                         request.registration_type === 'Buyer' 
                                                         ? `/admin/buyer-request-details/${request.buyer_id}` 
-                                                        : `/admin/supplier-request-details/${request.supplier_id}`
+                                                        : `/admin/seller-request-details/${request.supplier_id}`
                                                     }
                                                 >
                                                     <div className='completed-order-table completed-order-table-view'>
