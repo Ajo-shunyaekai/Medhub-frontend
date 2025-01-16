@@ -11,6 +11,20 @@
 .buyer-details-container::-webkit-scrollbar {
     display: none;
 }
+.editable-details {
+    text-align: end;
+    font-size: 13px;
+    line-height: 0px;
+    outline: none !important;
+    color: #99a0ac !important;
+    border:1px solid whitesmoke;
+    width: 100%;
+}
+.edit-icon {
+    cursor: pointer !important;
+    margin-left: 10px;
+}
+
 .pdf-url{
     cursor: pointer !important;
     text-decoration: none !important;
@@ -88,7 +102,7 @@
 }
 .buyer-details-company-logo-container{
     width: 20vw;
-    height: 218px;
+    height: 226px;
     display: flex;
     background-color: white;
     padding: 30px 28px;
@@ -292,6 +306,8 @@
 .buyer-details-inner-head {
     font-size: 14px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 .buyer-details-company-img-container{
     display: flex;

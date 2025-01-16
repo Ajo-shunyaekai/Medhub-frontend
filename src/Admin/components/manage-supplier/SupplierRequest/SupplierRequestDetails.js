@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 import '../../../assest/style/detailsrequest.css';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
@@ -24,10 +25,22 @@ const SupplierRequestDetails = () => {
     // Start the modal and pdf url
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [salesPersonName, setSalesPersonName] = useState("John Doe"); // initial value
+    const [isEditable, setIsEditable] = useState(false);
+
+    const handleEditClick = () => {
+        setIsEditable(true); // Allow editing on icon click
+    };
+
+    const handleChange = (e) => {
+        setSalesPersonName(e.target.value); // Update value on input change
+    };
+
+
     const openModal = (url) => {
         window.open(url, '_blank');
     };
- 
+
     const closeModal = () => {
         setOpen(false);
         setPdfUrl(null);
@@ -35,45 +48,10 @@ const SupplierRequestDetails = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
- 
-    // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-    // const renderFiles = (files, type) => {
-    //     return files?.map((file, index) => {
-    //         if (file.endsWith('.pdf')) {
-    //             // Render a PDF icon with a clickable link
-    //             return (
-    //                 <div key={index} className='buyer-details-pdf-section'>
-    //                     <FaFilePdf
-    //                         size={50}
-    //                         color="red"
-    //                         style={{ cursor: 'pointer' }}
-    //                         onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
-    //                     />
-    //                     <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
-    //                         {extractFileName(file)}
-    //                     </div>
-    //                 </div>
-    //             );
-    //         } else {
-    //             // Render an image
-    //             return (
-    //                 <img
-    //                     key={index}
-    //                     src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-    //                     alt={type}
-    //                     className='buyer-details-document-image'
-    //                 />
-    //             );
-    //         }
-    //     });
-    // };
- 
-
-    
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
-    
+
             if (file.endsWith('.pdf')) {
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
@@ -89,15 +67,15 @@ const SupplierRequestDetails = () => {
                     </div>
                 );
             } else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
                 file.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
-                    '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    '.vnd.openxmlformats-officedocument.wordprocessingml.document',
                     '.docx'
                 );
                 const docxUrl = `${serverUrl}uploads/supplier/${type}/${docxFileName}`;
-    
+
                 return (
                     <div key={index} className='buyer-details-docx-section'>
                         <FaFileWord
@@ -123,70 +101,50 @@ const SupplierRequestDetails = () => {
             }
         });
     };
-    
-    
+
+
     // End the modal and pdf url
-    useEffect(()=>{
-        const getSupplierdetails = async() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
- 
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            supplier_id: supplierId,
-        };
- 
-        // postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setSupplierDetails(response.result);
-        //     } else {
-        //         console.log('error in get-supplier-details api', response);
-        //     }
-        // });
-        try {
-            const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
-            if (response?.code !== 200) {
-                console.log('error in get-supplier-details api', response);
+    useEffect(() => {
+        const getSupplierdetails = async () => {
+            if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                navigate("/admin/login");
                 return;
             }
-            setSupplierDetails(response?.result);
-            // postRequestWithToken(`supplier/get-specific-supplier-details/${supplierId}`, obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setSupplierDetails(response?.result);
-            //     } else {
-            //         console.log('error in get-buyer-details api', response);
-            //     }
-            // })
-        } catch (error) {
-            console.log('error in get-supplier-details api', error);
-        }
+
+            const obj = {
+                admin_id: adminIdSessionStorage || adminIdLocalStorage,
+                supplier_id: supplierId,
+            };
+            try {
+                const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
+                if (response?.code !== 200) {
+                    console.log('error in get-supplier-details api', response);
+                    return;
+                }
+                setSupplierDetails(response?.result);
+            } catch (error) {
+                console.log('error in get-supplier-details api', error);
+            }
         }
         getSupplierdetails()
     }, [adminIdSessionStorage, adminIdLocalStorage, supplierId, navigate,]);
- 
+
     const handleRejectClick = () => {
         setIsModalOpen(true);
     };
- 
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // };
- 
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             supplier_id: supplierId,
             action: action
         }
- 
+
         if (action === 'accept') {
             setLoading(true)
         } else if (action === 'reject') {
             setRejectLoading(true)
         }
- 
+
         postRequestWithToken('admin/accept-reject-supplier-registration', obj, async (response) => {
             if (response.code === 200) {
                 setLoading(false);
@@ -195,7 +153,7 @@ const SupplierRequestDetails = () => {
                 setTimeout(() => {
                     navigate('/admin/seller-request')
                 }, 300)
- 
+
                 // setSupplierDetails(response.result)
             } else {
                 console.log('error in accept-reject-supplier api', response);
@@ -282,6 +240,25 @@ const SupplierRequestDetails = () => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
+                                <div className="buyer-details-inner-section">
+                                    <div className="buyer-details-inner-head">
+                                        Sales Person Name :
+                                        <FaEdit className="edit-icon" onClick={handleEditClick} />
+                                    </div>
+                                    <div className="buyer-details-inner-text">
+                                        {isEditable ? (
+                                            <input
+                                                type="text"
+                                                value={salesPersonName}
+                                                onChange={handleChange}
+                                                className="editable-details"
+                                                placeholder="Sales Person Name"
+                                            />
+                                        ) : (
+                                            <span>{salesPersonName}</span>
+                                        )}
+                                    </div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
@@ -301,11 +278,11 @@ const SupplierRequestDetails = () => {
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Est.Delivery Time :</div>
                                     <div className='buyer-details-inner-text'>
-                                    {
-                                    supplierDetails?.estimated_delivery_time && !supplierDetails?.estimated_delivery_time.includes('Days') 
-                                    ? `${supplierDetails?.estimated_delivery_time} Days` 
-                                    : supplierDetails?.estimated_delivery_time
-                                    }
+                                        {
+                                            supplierDetails?.estimated_delivery_time && !supplierDetails?.estimated_delivery_time.includes('Days')
+                                                ? `${supplierDetails?.estimated_delivery_time} Days`
+                                                : supplierDetails?.estimated_delivery_time
+                                        }
                                     </div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
