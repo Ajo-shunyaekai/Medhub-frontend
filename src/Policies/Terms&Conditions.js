@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './policy.module.css';
 import PrivacyPolicyModal from "./PrivcyPolicy"
-const TermsAndConditions = () => {
+
+const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => setIsModalOpen(true);
@@ -11,9 +12,10 @@ const TermsAndConditions = () => {
     const navigate = useNavigate(); // Navigation hook
 
     const handleAccept = () => {
-        setAccepted(true); // Mark terms as accepted
-        navigate('/buyer/sign-up'); // Redirect to sign-up page
-        navigate('/supplier/sign-up');
+        setIsChecked(true); // Mark terms as accepted
+        setShowTnC(false)
+        // navigate('/buyer/sign-up'); // Redirect to sign-up page
+        // navigate('/supplier/sign-up');
     };
 
     const handleCancel = () => {
