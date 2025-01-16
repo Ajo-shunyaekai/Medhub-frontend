@@ -63,10 +63,10 @@ const Login = ({socket}) => {
                     toast(response.message, { type: "error" });
                     return
                 }
-                const {result} = await response;
-                for (let x in result) {
-                    sessionStorage.setItem(`${x}`, result[x])
-                    console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
+                const {data} = await response;
+                for (let x in data) {
+                    sessionStorage.setItem(`${x}`, data[x])
+                    console.log(`RESPONSE OF LOGIN USER : ${x} ${ data[x]}`)
                 }
                 setTimeout(() => {
                     navigate("/buyer");
@@ -76,13 +76,13 @@ const Login = ({socket}) => {
                 if ('Notification' in window) {
                     if (Notification.permission === 'granted') {
                         // If permission is already granted, register the user directly
-                        const userId = response.result.buyer_id;
+                        const userId = response.data.buyer_id;
                         socket.emit('registerBuyer', userId);
                     } else if (Notification.permission !== 'denied') {
                         // Request permission if not already denied
                         const permission = await Notification.requestPermission();
                         if (permission === 'granted') {
-                            const userId = response.result.buyer_id;
+                            const userId = response.data.buyer_id;
                             socket.emit('registerBuyer', userId);
                         }
                     }

@@ -98,10 +98,10 @@ const Login = ({socket}) => {
                         toast(response.message, { type: "error" });
                     }else{
 
-                        const {result} = await response;
-                        for (let x in result) {
-                            sessionStorage.setItem(`${x}`, result[x])
-                            console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
+                        const {data} = await response;
+                        for (let x in data) {
+                            sessionStorage.setItem(`${x}`, data[x])
+                            console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ data[x]}`)
                         }
     
                         setTimeout(() => {
@@ -111,13 +111,13 @@ const Login = ({socket}) => {
                         if ('Notification' in window) {
                             if (Notification.permission === 'granted') {
                                 // If permission is already granted, register the user directly
-                                const userId = response.result?.admin_id;
+                                const userId = response.data?.admin_id;
                                 socket.emit('registerAdmin', userId);
                             } else if (Notification.permission !== 'denied') {
                                 // Request permission if not already denied
                                 const permission = await Notification.requestPermission();
                                 if (permission === 'granted') {
-                                    const userId = response.result?.admin_id;
+                                    const userId = response.data?.admin_id;
                                     socket.emit('registerAdmin', userId);
                                 }
                             }
