@@ -121,7 +121,7 @@ const AddProduct = ({socket}) => {
 
         quantity: [],
     unitPrice: [],
-    totalPrice: [],
+    // totalPrice: [],
     estDeliveryTime: [],
     })
     const [formSections, setFormSections] = useState([
@@ -133,7 +133,7 @@ const AddProduct = ({socket}) => {
             unitPrice: '',
             estDeliveryTime: '',
             condition: '',
-            totalPrice: ''
+            // totalPrice: ''
         }
     ]);
 
@@ -162,7 +162,7 @@ const AddProduct = ({socket}) => {
                 productCategory: null,
                 unitPrice: item.unit_price,
                 estDeliveryTime: item.est_delivery_days,
-                totalPrice: item.total_price,
+                // totalPrice: item.total_price,
                 condition: { value: '', label: '' } // Adjust based on available conditions
             }));
             setFormSections(initialSections);
@@ -171,7 +171,7 @@ const AddProduct = ({socket}) => {
                 ...prev,
                     quantity: initialSections.map(section => section.quantity),
                 unitPrice: initialSections.map(section => section.unitPrice),
-                totalPrice: initialSections.map(section => section.totalPrice),
+                // totalPrice: initialSections.map(section => section.totalPrice),
                 estDeliveryTime: initialSections.map(section => section.estDeliveryTime),
             }))
         }
@@ -230,18 +230,20 @@ const AddProduct = ({socket}) => {
                     [`${name}${index}`]: ''
                 }));
             }
-        } else if (name === 'totalPrice') {
-            // Restrict input to max 8 digits before decimal, and 3 digits after
-            if (/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
-                isValid = true;
-            } else {
-                isValid = false;
-                setErrors(prevErrors => ({
-                    ...prevErrors,
-                    [`${name}${index}`]: ''
-                }));
-            }
-        } else if (name === 'estDeliveryTime') {
+        }
+        //  else if (name === 'totalPrice') {
+        //     // Restrict input to max 8 digits before decimal, and 3 digits after
+        //     if (/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
+        //         isValid = true;
+        //     } else {
+        //         isValid = false;
+        //         setErrors(prevErrors => ({
+        //             ...prevErrors,
+        //             [`${name}${index}`]: ''
+        //         }));
+        //     }
+        // } 
+        else if (name === 'estDeliveryTime') {
             // Restrict input to 3 digits for delivery time
             if (/^\d{0,3}$/.test(value)) {
                 isValid = true;
@@ -271,13 +273,13 @@ const AddProduct = ({socket}) => {
     
             // Update formData with the newly modified values
             const unitPrices = newFormSections.map(section => section.unitPrice);
-            const totalPrices = newFormSections.map(section => section.totalPrice);
+            // const totalPrices = newFormSections.map(section => section.totalPrice);
             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
     
             setFormData(prevFormData => ({
                 ...prevFormData,
                 unitPrice: unitPrices,
-                totalPrice: totalPrices,
+                // totalPrice: totalPrices,
                 estDeliveryTime: estDeliveryTimes,
             }));
     
@@ -300,13 +302,13 @@ const AddProduct = ({socket}) => {
 
         // if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
-                if (!section.quantity || !section.unitPrice || !section.totalPrice || !section.estDeliveryTime) {
+                if (!section.quantity || !section.unitPrice || !section.estDeliveryTime) {
                     newProductValid = false;
                     setErrors(prevErrors => ({
                         ...prevErrors,
                         [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
                         [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
-                        [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                        // [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
                         [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
 
                     }));
@@ -319,7 +321,7 @@ const AddProduct = ({socket}) => {
                         id: formSections.length,
                         quantity: null,
                         typeOfForm: null,
-                        totalPrice: '',
+                        // totalPrice: '',
                         unitPrice: '',
                         shelfLife: '',
                         estDeliveryTime: '',
@@ -367,7 +369,7 @@ const AddProduct = ({socket}) => {
                 ...prevFormData,
                 quantity: prevFormData.quantity.filter((_, i) => i !== index),
                 unitPrice: prevFormData.unitPrice.filter((_, i) => i !== index),
-                totalPrice: prevFormData.totalPrice.filter((_, i) => i !== index),
+                // totalPrice: prevFormData.totalPrice.filter((_, i) => i !== index),
                 estDeliveryTime: prevFormData.estDeliveryTime.filter((_, i) => i !== index),
             }));
         }
@@ -598,7 +600,7 @@ const AddProduct = ({socket}) => {
             formSections.forEach((section, index) => {
                 if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
                 if (!section.unitPrice) formErrors[`unitPrice${index}`] = 'Unit Price is Required';
-                if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
+                // if (!section.totalPrice) formErrors[`totalPrice${index}`] = 'Total Price is Required';
                 if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
             });
         } else if (productType && productType.label === 'Secondary Market') {
@@ -689,7 +691,7 @@ const AddProduct = ({socket}) => {
                 typeOfForm: null,
                 productCategory: null,
                 unitPrice: '',
-                totalPrice: '',
+                // totalPrice: '',
                 estDeliveryTime: '',
                 condition: '',
                 quantityNo: '',
@@ -758,7 +760,7 @@ console.log('FORMDATA',formData);
                 newFormData.append('description', formData.description);
                 quantities.forEach(item => newFormData.append('quantity[]', item));
                 formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
-                formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
+                // formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
                 formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
                 Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
                 newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -1450,7 +1452,7 @@ console.log('FORMDATA',formData);
                                                     />
                                                     {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
                                                 </div>
-                                                <div className={styles['create-invoice-div-container']}>
+                                                {/* <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Total Price</label>
                                                     <input
                                                         className={styles['create-invoice-div-input']}
@@ -1461,7 +1463,7 @@ console.log('FORMDATA',formData);
                                                         onChange={(event) => handleInputChange(index, event)}
                                                     />
                                                      {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
-                                                </div>
+                                                </div> */}
 
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>

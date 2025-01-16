@@ -277,7 +277,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
                             <div className="product-range-container">
                                 <div className="product-range-heading">Quantity</div>
                                 <div className="product-range-heading">Unit Price</div>
-                                <div className="product-range-heading">Total Price</div>
+                                {/* <div className="product-range-heading">Total Price</div> */}
                                 <div className="product-range-heading">Est. Delivery Time</div>
                             </div>
 
@@ -299,9 +299,9 @@ const SecondaryProductRequestDetails = ({socket}) => {
                                                 }
                                             />
                                             </div>
-                                            <div className="product-range-text"><input className="product-range-input"
+                                            {/* <div className="product-range-text"><input className="product-range-input"
                                                 type="text"
-                                                // value={info?.total_price} 
+                                         
                                                 value={
                                                     info?.total_price
                                                         ? info.total_price.toLowerCase().includes('aed')
@@ -310,7 +310,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
                                                         : ''
                                                 }
                                             />
-                                            </div>
+                                            </div> */}
                                             <div className="product-range-text"> <input className="product-range-input" type="text"
                                                 // value={info?.est_delivery_days} 
                                                 value={

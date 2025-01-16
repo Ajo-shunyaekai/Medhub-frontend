@@ -169,10 +169,10 @@ export function NotificationProvider({ children }) {
 
 // Routes
 const router = createBrowserRouter([
-    // {
-    //     path: "/",
-    //     element: <Navigate to="/buyer" replace />,
-    // },
+    {
+        path: "/",
+        element: <Navigate to="/buyer" replace />,
+    },
     {
         path: "/buyer/login",
         element: <Login socket={socket} />,

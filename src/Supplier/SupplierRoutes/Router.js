@@ -273,7 +273,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "add-product",
-                element: <AddProduct />,
+                element: <AddProduct socket={socket}/>,
             },
             {
                 path: "pending-products-list",
