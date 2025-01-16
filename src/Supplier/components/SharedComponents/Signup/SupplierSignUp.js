@@ -414,7 +414,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('supplier_name', formData.companyName);
             formDataToSend.append('description', formData.description);
             formDataToSend.append('supplier_address', formData.companyAddress);
-            formDataToSend.append('supplier_email', formData.companyEmail);
+            // formDataToSend.append('supplier_email', formData.companyEmail);
             // formDataToSend.append('supplier_mobile_no', companyPhone);
             formDataToSend.append('supplier_mobile_no', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
