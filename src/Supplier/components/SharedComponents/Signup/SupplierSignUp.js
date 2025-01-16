@@ -59,6 +59,7 @@ const SupplierSignUp = ({ socket }) => {
         companyAddress: '',
         companyEmail: '',
         companyPhone: '',
+        salesPersonName:'',
         contactPersonName: '',
         designation: '',
         email: '',
@@ -187,7 +188,11 @@ const SupplierSignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
             setErrors(prevState => ({ ...prevState, designation: '' }));
-        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+        }
+        else if ((name === 'salesPersonName' || name === 'personname') && !/^[a-zA-Z\s]*$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, personname: '' }));
+        }
+         else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, delivertime: '' }));
         } else {
             setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -300,6 +305,7 @@ const SupplierSignUp = ({ socket }) => {
         }
         // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
+        if (!formData.salesPersonName) formErrors.salesPersonName = 'Sales Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
         if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
@@ -422,6 +428,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('license_expiry_date', formData.companyLicenseExpiry);
             formDataToSend.append('country_of_origin', formData.originCountry);
             formDataToSend.append('contact_person_name', formData.contactPersonName);
+            formDataToSend.append('sales_person_name', formData.salesPersonName);
             formDataToSend.append('designation', formData.designation);
             formDataToSend.append('payment_terms', formData.paymentterms);
             formDataToSend.append('tags', formData.tags);
@@ -542,18 +549,7 @@ const SupplierSignUp = ({ socket }) => {
                             />
                             {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>}
                         </div>
-                        {/* <div className='signup-form-section-div'>
-                            <label className='signup-form-section-label'>Company Email ID</label>
-                            <input
-                                className='signup-form-section-input'
-                                type="text"
-                                name="companyEmail"
-                                placeholder="Enter Company Email ID"
-                                value={formData.companyEmail}
-                                onChange={handleChange}
-                            />
-                            {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
-                        </div> */}
+                        
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company Registration Number</label>
                             <input
@@ -599,7 +595,18 @@ const SupplierSignUp = ({ socket }) => {
                             />
                             {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                         </div>
-
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Sales Person Name</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="salesPersonName"
+                                placeholder="Enter Sales Person Name"
+                                value={formData.salesPersonName}
+                                onChange={handleChange}
+                            />
+                            {errors.salesPersonName && <div className='signup__errors'>{errors.salesPersonName}</div>}
+                        </div>
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Contact Person Name</label>
                             <input
@@ -683,18 +690,7 @@ const SupplierSignUp = ({ socket }) => {
                             {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
                         </div>
 
-                        {/* <div className='signup-form-section-div'>
-                            <label className='signup-form-section-label'>Est. Delivery Time</label>
-                            <input
-                                className='signup-form-section-input'
-                                type="text"
-                                name="delivertime"
-                                placeholder="Enter Delivery Time"
-                                value={formData.delivertime}
-                                onChange={handleChange}
-                            />
-                            {errors.delivertime && <div className='signup__errors'>{errors.delivertime}</div>}
-                        </div> */}
+                       
 
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Company License No.</label>
@@ -752,7 +748,7 @@ const SupplierSignUp = ({ socket }) => {
                             <textarea
                                 className='signup-form-section-input'
                                 name="description"
-                                rows="4"
+                                rows="2"
                                 cols="50"
                                 placeholder='Enter Description'
                                 value={formData.description}
@@ -760,6 +756,7 @@ const SupplierSignUp = ({ socket }) => {
                             />
                             {errors.description && <div className='signup__errors'>{errors.description}</div>}
                         </div>
+                        
 
                         <div className='signup-form-section-div'>
                             <label className='signup-form-section-label'>Payment Terms</label>
