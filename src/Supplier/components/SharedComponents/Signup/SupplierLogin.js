@@ -106,30 +106,31 @@ const SupplierLogin = ({socket}) => {
             // })
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
+                console.log("RESPONSE OF SUPPLIER LOGIN", response)
                 if(response.code !== 200){
                     toast(response.message, { type: "error" });
                 }else{
                     console.log("response ", response)
-                    const {result} = await response;
-                    for (let x in result) {
-                        sessionStorage.setItem(`${x}`, result[x])
-                        console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ result[x]}`)
+                    const {data} = await response;
+                    for (let x in data) {
+                        sessionStorage.setItem(`${x}`, data[x])
+                        console.log(`RESPONSE OF LOGIN ADMIN USER : ${x} ${ data[x]}`)
                     }
                     setTimeout(() => {
                         navigate("/supplier");
                         setLoading(true)
-                        }, 1000);
+                    }, 1000);
 
                     if ('Notification' in window) {
                         if (Notification.permission === 'granted') {
                             // If permission is already granted, register the user directly
-                            const userId = response.result.supplier_id;
+                            const userId = data.supplier_id;
                             socket.emit('register', userId);
                         } else if (Notification.permission !== 'denied') {
                             // Request permission if not already denied
                             const permission = await Notification.requestPermission();
                             if (permission === 'granted') {
-                                // const userId = response.result.supplier_id;
+                                // const userId = data.supplier_id;
                                 // socket.emit('register', userId);
                             }
                         }

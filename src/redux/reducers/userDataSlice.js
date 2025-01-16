@@ -34,19 +34,19 @@ export const loginUser = createAsyncThunk(
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
-      const { result } = await response;
-      for (let x in result) {
-        sessionStorage.setItem(`${x}`, result[x]);
-        // console.log(`RESPONSE OF LOGIN USER : ${x} ${result[x]}`);
+      const { data } = await response;
+      for (let x in data) {
+        sessionStorage.setItem(`${x}`, data[x]);
+        // console.log(`RESPONSE OF LOGIN USER : ${x} ${data[x]}`);
       }
  
       if ("Notification" in window) {
         if (Notification.permission === "granted") {
           // If permission is already granted, register the user directly
           const userId =
-            response.result.buyer_id ||
-            response.result.admin_id ||
-            response.result.supplier_id;
+            response.data.buyer_id ||
+            response.data.admin_id ||
+            response.data.supplier_id;
           socket.emit(
             user_type == "Buyer"
               ? "registerBuyer"
@@ -60,9 +60,9 @@ export const loginUser = createAsyncThunk(
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
             const userId =
-              response.result.buyer_id ||
-              response.result.admin_id ||
-              response.result.supplier_id;
+              response.data.buyer_id ||
+              response.data.admin_id ||
+              response.data.supplier_id;
             socket.emit(
               user_type == "Buyer"
                 ? "registerBuyer"
@@ -75,7 +75,7 @@ export const loginUser = createAsyncThunk(
         }
       }
       // return response?.data?.user;
-      return result;
+      return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
       //   toast.error("An error occurred while logging in");
