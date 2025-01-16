@@ -169,10 +169,10 @@ export function NotificationProvider({ children }) {
 
 // Routes
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navigate to="/buyer" replace />,
-    },
+    // {
+    //     path: "/",
+    //     element: <Navigate to="/buyer" replace />,
+    // },
     {
         path: "/buyer/login",
         element: <Login socket={socket} />,
@@ -350,11 +350,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "invoice",
-                element: <Invoice />,
+                element: <Invoice socket={socket}/>,
                 children: [
                     {
                         path: "pending-invoice",
-                        element: <PendingInvoice />
+                        element: <PendingInvoice socket={socket}/>
                     },
                     {
                         path: "paid-invoice",
