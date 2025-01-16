@@ -54,6 +54,8 @@ import SupplierCompleted from "../components/supplier/SuplierCompleted"
 import SupplierActive from "../components/supplier/SupplierActive"
 import SupplierPending from "../components/supplier/SupplierPending"
 import Profile from "../components/SharedComponents/Profile/profile"
+import PrivacyPolicy from "../../Policies/PrivcyPolicy"
+import TermsConditions from "../../Policies/Terms&Conditions"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -180,6 +182,14 @@ const router = createBrowserRouter([
     {
         path: "/buyer/sign-up",
         element: <SignUp socket={socket}/>,
+    },
+    {
+        path: "/buyer/privacy-policy",
+        element: <PrivacyPolicy/>,
+    },
+    {
+        path: "/buyer/terms-and-conditions",
+        element: <TermsConditions/>,
     },
     {
         path: "/buyer",

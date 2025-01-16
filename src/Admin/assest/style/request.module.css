@@ -62,12 +62,20 @@
   
   .rejected-header-text-color {
     color: #99a0ac;
+    white-space: normal; 
+    word-wrap: break-word; 
+    word-break: break-word; 
+    overflow-wrap: break-word;
     font-size: 12px;
     font-weight: 600;
     background-color: transparent !important;
   }
   
   .rejected-table-text-color {
+    white-space: normal; 
+    word-wrap: break-word; 
+    word-break: break-word; 
+    overflow-wrap: break-word;
     color: #5e676f;
     font-size: 14px;
   }

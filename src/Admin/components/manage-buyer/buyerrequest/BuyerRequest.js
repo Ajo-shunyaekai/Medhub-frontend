@@ -8,6 +8,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
+import moment from 'moment/moment';
 
 const BuyerRequest = () => {
     const navigate = useNavigate()
@@ -65,16 +66,22 @@ const BuyerRequest = () => {
                         <Table responsive="xxl" className={styles['rejected-table-responsive']}>
                             <thead>
                                 <div className={styles['rejected-table-row-container']} style={{ backgroundColor: 'transparent' }}>
+                                <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
+                                        <span className={styles['rejected-header-text-color']}>Date</span>
+                                    </div>
                                     <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                         <span className={styles['rejected-header-text-color']}>Company Type</span>
                                     </div>
                                     <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                         <span className={styles['rejected-header-text-color']}>Company Name</span>
                                     </div>
+                                    <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                        <span className={styles['rejected-header-text-color']}>Email</span>
+                                    </div>
                                     <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                         <span className={styles['rejected-header-text-color']}>Country of Origin</span>
                                     </div>
-                                    <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                    <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                         <span className={styles['rejected-header-text-color']}>Company License No</span>
                                     </div>
                                     <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
@@ -89,16 +96,22 @@ const BuyerRequest = () => {
                             {buyerRequestList?.length > 0 ? (
                                     buyerRequestList?.map((buyer, index) => (
                                         <div className={styles['rejected-table-row-container']} key={index}>
+                                             <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
+                                            <div className={styles['rejected-table-text-color']}>{ moment(buyer.createdAt).format("DD/MM/YYYY")}</div>
+                                        </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['rejected-table-text-color']}>{buyer.buyer_type}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['rejected-table-text-color']}>{buyer.buyer_name}</div>
                                         </div>
+                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                            <div className={styles['rejected-table-text-color']}>{buyer.contact_person_email}</div>
+                                        </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['table-text-color']}>{buyer.country_of_origin}</div>
                                         </div>
-                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <div className={styles['rejected-table-text-color']}>{buyer.license_no}</div>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
