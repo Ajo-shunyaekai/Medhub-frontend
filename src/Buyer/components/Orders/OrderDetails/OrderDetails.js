@@ -315,8 +315,13 @@ const OrderDetails = ({socket}) => {
                
                 {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
 
-                {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
-                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && (
+                {/* {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
+                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && ( */}
+
+{(orderDetails?.shipment_details?.supplier_details &&
+                        Object.keys(orderDetails.shipment_details.supplier_details).length > 0) ||
+                        (orderDetails?.supplier_logistics_data &&
+                        Object.keys(orderDetails?.supplier_logistics_data).length > 0) ? (
                     <>
                     <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
                     <div className='active-order-details-payment-right-details-row'>
@@ -347,7 +352,8 @@ const OrderDetails = ({socket}) => {
                         </div>
                     </div> 
                     </> 
-                    )}
+                    // )}
+                ) : null}
                     {(orderDetails?.logistics_details || orderDetails?.buyer_logistics_data) && (
                         <>
                              <hr className='active-order-details-right-pickupdata-hr' />
