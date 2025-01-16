@@ -75,13 +75,13 @@ const SellerRequest = () => {
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <span className={styles['rejected-header-text-color']}>Company Name</span>
                                         </div>
-                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
+                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
                                             <span className={styles['rejected-header-text-color']}>Email</span>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <span className={styles['rejected-header-text-color']}>Country of Origin</span>
                                         </div>
-                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                        <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                             <span className={styles['rejected-header-text-color']}>Company License No</span>
                                         </div>
                                         <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
@@ -106,13 +106,13 @@ const SellerRequest = () => {
                                                 <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                                     <div className={styles['rejected-table-text-color']}>{seller.supplier_name}</div>
                                                 </div>
-                                                <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
+                                                <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
                                                     <div className={styles['rejected-table-text-color']}>{seller.contact_person_email}</div>
                                                 </div>
                                                 <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                                     <div className={styles['table-text-color']}>{seller.country_of_origin}</div>
                                                 </div>
-                                                <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-2']}`}>
+                                                <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                                     <div className={styles['rejected-table-text-color']}>{seller.license_no}</div>
                                                 </div>
                                                 <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>

@@ -3,6 +3,7 @@ import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
+import { Link } from 'react-router-dom';
 import './signup.css'
 import logo from '../../../assest/images/navibluelogo.svg'
 import SuccessModal from './SuccessModal';
@@ -42,7 +43,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     );
 };
 
-const SignUp = ({socket}) => {
+const SignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -80,8 +81,8 @@ const SignUp = ({socket}) => {
         licenseImageType: 'license',
         certificateImage: null,
         certificateImageType: 'certificate',
-        registrationNo : '',
-        vatRegistrationNo : '',
+        registrationNo: '',
+        vatRegistrationNo: '',
         user_type: 'Buyer'
     }
 
@@ -125,11 +126,11 @@ const SignUp = ({socket}) => {
         { value: 'medical devices', label: 'Medical Devices' },
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
-    
+
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
-            [`${imageType}Image`]: null, 
+            [`${imageType}Image`]: null,
         }));
         setTimeout(() => {
             setFormData(prevState => ({
@@ -137,7 +138,7 @@ const SignUp = ({socket}) => {
                 [`${imageType}Image`]: hasImage ? file : null,
             }));
         }, 0);
-    
+
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
@@ -147,10 +148,10 @@ const SignUp = ({socket}) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-    
+
         // Regex to allow only alphanumeric characters and spaces
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-    
+
         // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
 
@@ -172,21 +173,21 @@ const SignUp = ({socket}) => {
             }));
             return;
         }
-    
-    
+
+
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
             if (value.length > 16) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
-            
+
             // Disallow spaces in these fields
             if (!alphanumericNoSpaceRegex.test(value)) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
         }
-    
+
         // Validate yearlyPurchaseValue to allow only one whitespace or an empty value
         if (name === 'yearlyPurchaseValue') {
             if (!yearlyPurchaseValueRegex.test(value)) {
@@ -194,7 +195,7 @@ const SignUp = ({socket}) => {
                 return;
             }
         }
-    
+
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
@@ -230,38 +231,38 @@ const SignUp = ({socket}) => {
     const handlePhoneChange = (name, value) => {
         // Clear previous errors
         setErrors(prevState => ({ ...prevState, [name]: '' }));
-      
+
         try {
-          // Parse the phone number
-          const phoneNumber = parsePhoneNumber(value);
-      
-          // Validate the phone number
-          if (phoneNumber && isValidPhoneNumber(value)) {
-            // Format the phone number in E.164 format (international standard)
-           
-            console.log(phoneNumber.countryCallingCode);
-            const countryCode = phoneNumber.countryCallingCode
-            const nationalNumber = phoneNumber.nationalNumber
-            // const formattedNumber = phoneNumber.format('E.164');
-            const formattedNumber = `+${countryCode} ${nationalNumber}`
-            console.log(formattedNumber);
-            // Update form data with the formatted number
-            setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
-          } else {
-            // Set error if phone number is invalid
-            setErrors(prevState => ({ 
-              ...prevState, 
-              [name]: 'Invalid phone number' 
-            }));
-          }
+            // Parse the phone number
+            const phoneNumber = parsePhoneNumber(value);
+
+            // Validate the phone number
+            if (phoneNumber && isValidPhoneNumber(value)) {
+                // Format the phone number in E.164 format (international standard)
+
+                console.log(phoneNumber.countryCallingCode);
+                const countryCode = phoneNumber.countryCallingCode
+                const nationalNumber = phoneNumber.nationalNumber
+                // const formattedNumber = phoneNumber.format('E.164');
+                const formattedNumber = `+${countryCode} ${nationalNumber}`
+                console.log(formattedNumber);
+                // Update form data with the formatted number
+                setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
+            } else {
+                // Set error if phone number is invalid
+                setErrors(prevState => ({
+                    ...prevState,
+                    [name]: 'Invalid phone number'
+                }));
+            }
         } catch (error) {
-          // Handle parsing errors
-          setErrors(prevState => ({ 
-            ...prevState, 
-            [name]: '' 
-          }));
+            // Handle parsing errors
+            setErrors(prevState => ({
+                ...prevState,
+                [name]: ''
+            }));
         }
-      };
+    };
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -288,28 +289,28 @@ const SignUp = ({socket}) => {
         try {
             // Validate Company Phone
             if (!companyPhone) {
-              formErrors.companyPhone = 'Company Phone No. is Required';
+                formErrors.companyPhone = 'Company Phone No. is Required';
             } else {
-              const companyPhoneNumber = parsePhoneNumber(companyPhone);
-              if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
-                formErrors.companyPhone = 'Invalid Company Phone Number';
-              }
+                const companyPhoneNumber = parsePhoneNumber(companyPhone);
+                if (!companyPhoneNumber || !isValidPhoneNumber(companyPhone)) {
+                    formErrors.companyPhone = 'Invalid Company Phone Number';
+                }
             }
-        
+
             // Validate Mobile Number
             if (!mobile) {
-              formErrors.mobile = 'Mobile No. is Required';
+                formErrors.mobile = 'Mobile No. is Required';
             } else {
-              const mobileNumber = parsePhoneNumber(mobile);
-              if (!mobileNumber || !isValidPhoneNumber(mobile)) {
-                formErrors.mobile = 'Invalid Mobile Number';
-              }
+                const mobileNumber = parsePhoneNumber(mobile);
+                if (!mobileNumber || !isValidPhoneNumber(mobile)) {
+                    formErrors.mobile = 'Invalid Mobile Number';
+                }
             }
-          } catch (error) {
+        } catch (error) {
             // Catch any parsing errors
             formErrors.companyPhone = 'Invalid Phone Number Format';
             formErrors.mobile = 'Invalid Phone Number Format';
-          }
+        }
 
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
@@ -344,7 +345,7 @@ const SignUp = ({socket}) => {
         if (resetUploaders) {
             setResetUploaders(false);
         }
-    }, [resetUploaders]);    
+    }, [resetUploaders]);
 
     const handleCancel = () => {
         setFormData(defaultFormData)
@@ -358,7 +359,7 @@ const SignUp = ({socket}) => {
     }
 
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         if (validateForm() && isChecked) {
             setLoading(true)
             // setButtonLoading(true)
@@ -399,43 +400,15 @@ const SignUp = ({socket}) => {
             Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
 
             console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
-            // postRequestWithFile('auth/register', formDataToSend, async (response) => {
-                // if (response.code === 200) {
-                //     setFormData(defaultFormData)
-                //     setErrors({});
-                //     setIsChecked(false);
-                //     setCompanyPhone('');
-                //     setMobile('');
-                //     setSelectedCompanyType(null)
-                //     setSelectedOptions([])
-                //     setResetUploaders(true);
-                //     setShowModal(true)
-                //     // setButtonLoading(false)
-                //     setLoading(false)
 
-                //     socket.emit('buyerRegistration', {
-                //         adminId : process.env.REACT_APP_ADMIN_ID,
-                //         message : `New Buyer Registration Request `,
-                //         link    : process.env.REACT_APP_PUBLIC_URL
-                //         // send other details if needed
-                //     });
-
-                // } else {
-                //     // setButtonLoading(false)
-                //     setLoading(false)
-                //     toast(response.message, {type: 'error'})
-                //     console.log('error in buyer/register api');
-                // }
-                // // setButtonLoading(false)
-            // })
 
             console.log(`formDataToSend ${formDataToSend}`)
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
-                if(response?.code !== 200){
+                if (response?.code !== 200) {
                     // setButtonLoading(false)
                     setLoading(false)
-                    toast(response.message, {type: 'error'})
+                    toast(response.message, { type: 'error' })
                     console.log('error in buyer/register api');
                     return
                 }
@@ -445,9 +418,9 @@ const SignUp = ({socket}) => {
                 setLoading(false)
 
                 socket.emit('buyerRegistration', {
-                    adminId : process.env.REACT_APP_ADMIN_ID,
-                    message : `New Buyer Registration Request `,
-                    link    : process.env.REACT_APP_PUBLIC_URL
+                    adminId: process.env.REACT_APP_ADMIN_ID,
+                    message: `New Buyer Registration Request `,
+                    link: process.env.REACT_APP_PUBLIC_URL
                     // send other details if needed
                 });
 
@@ -455,23 +428,31 @@ const SignUp = ({socket}) => {
             } catch (error) {
                 // setButtonLoading(false)
                 setLoading(false)
-                toast(error.message, {type: 'error'})
+                toast(error.message, { type: 'error' })
                 console.log('error in buyer/register api');
-                
-            }finally{
-    
+
+            } finally {
+
                 setLoading(false)
 
             }
         } else {
             setLoading(false)
-            toast('Some Fields are Missing', {type: 'error'})
+            toast('Some Fields are Missing', { type: 'error' })
         }
     };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
         handleSubmit();
+    };
+    const handlePermissionSubmit = () => {
+        setLoading(true);
+        // Simulate form submission and loading state
+        setTimeout(() => {
+            setLoading(false);
+            alert('Signup Successful!');
+        }, 2000); // Simulate loading for 2 seconds
     };
 
     const handleCloseModal = () => setShowModal(false);
@@ -614,7 +595,7 @@ const SignUp = ({socket}) => {
                                     handlePhoneChange('companyPhone', value);
                                     // Update local state for the input
                                     setCompanyPhone(value);
-                                  }}
+                                }}
                             />
                             {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                         </div>
@@ -627,7 +608,7 @@ const SignUp = ({socket}) => {
                                 name="contactPersonName"
                                 placeholder="Enter Contact Person Name"
                                 value={formData.contactPersonName}
-                                pattern="[A-Za-z\s]*" 
+                                pattern="[A-Za-z\s]*"
                                 onChange={handleChange}
                             />
                             {errors.contactPersonName && <div className='signup__errors'>{errors.contactPersonName}</div>}
@@ -673,7 +654,7 @@ const SignUp = ({socket}) => {
                                     handlePhoneChange('mobile', value);
                                     // Update local state for the input
                                     setMobile(value);
-                                  }}
+                                }}
 
                             />
                             {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
@@ -800,35 +781,24 @@ const SignUp = ({socket}) => {
                             {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
                         </div>
                         <div className='signup-form-section-checkbox'>
-                            <div className='signup-form-inner-section-checkbox'>
-                                <label className='signup-form-checkbox-label'>
-                                    <input
-                                        style={{ width: '20px', height: '20px' }}
-                                        className='signup-form-checkbox-input'
-                                        type='checkbox'
-                                        checked={isChecked}
-                                        onChange={handleCheckboxChange}
-                                    />
-                                    I agree to the terms and conditions
-                                </label>
-                            </div>
-                            {errors.terms && <div className='signup__errors'>{errors.terms}</div>}
+                            <Link to='/buyer/terms-and-conditions' >
+                                <div className='termscondition'>Terms & Conditions</div>
+                            </Link>
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                            <button 
-                            type='submit' 
-                            className='signup-form-button-submit'
-                            disabled={loading}
+                            <button
+                                type='submit'
+                                className='signup-form-button-submit'
+                                disabled={loading}
                             >
                                 {/* Submit */}
                                 {loading ? (
-                                <div className='loading-spinner'></div> 
-                            ) : (
-                                'Submit'
-                            )}
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Submit'
+                                )}
                             </button>
-                            
                         </div>
                     </form>
                 </div>

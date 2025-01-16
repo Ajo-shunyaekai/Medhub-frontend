@@ -86,23 +86,25 @@ const RejectedSecondaryProducts = ({productList, totalProducts, currentPage, lis
 
                             </tbody>
                         </Table>
-                        <div className='rejected-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={listPerPage}
-                                totalItemsCount={totalProducts}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='rejected-pagi-total'>
-                            <div>Total Items: {totalProducts}</div>
+                        {productList?.length > 0 && ( 
+                            <div className='rejected-pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={listPerPage}
+                                    totalItemsCount={totalProducts}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
+                                <div className='rejected-pagi-total'>
+                                    <div>Total Items: {totalProducts}</div>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

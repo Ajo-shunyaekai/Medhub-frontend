@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select, { components } from 'react-select';
+import { Link } from 'react-router-dom';
 import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
@@ -798,19 +799,9 @@ const SupplierSignUp = ({ socket }) => {
                             {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
                         </div>
                         <div className='signup-form-section-checkbox'>
-                            <div className='signup-form-inner-section-checkbox'>
-                                <label className='signup-form-checkbox-label'>
-                                    <input
-                                        style={{ width: '20px', height: '20px' }}
-                                        className='signup-form-checkbox-input'
-                                        type='checkbox'
-                                        checked={isChecked}
-                                        onChange={handleCheckboxChange}
-                                    />
-                                    I agree to the terms and conditions
-                                </label>
-                            </div>
-                            {errors.terms && <div className='signup__errors'>{errors.terms}</div>}
+                            <Link to='/supplier/terms-and-conditions' >
+                                <div className='termscondition'>Terms & Conditions</div>
+                            </Link>
                         </div>
                         <div className='signup-form-cont-button'>
                             <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>

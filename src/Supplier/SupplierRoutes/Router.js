@@ -50,6 +50,8 @@ import NotificationList from "../components/SharedComponents/Notification/Notifi
 import Subscription from "../components/Subscription/index"
 import Profile from "../components/SharedComponents/Profile/profile"
 import SubscriptionMembership from "../components/Subscription/SubscriptionMembership";
+import PrivacyPolicy from "../../Policies/PrivcyPolicy"
+import TermsConditions from "../../Policies/Terms&Conditions"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export const NotificationProvider = ({ children }) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -174,6 +176,14 @@ const router = createBrowserRouter([
     {
         path: "/supplier/sign-up",
         element: <Signup socket={socket}/>,
+    },
+    {
+        path: "/supplier/privacy-policy",
+        element: <PrivacyPolicy/>,
+    },
+    {
+        path: "/supplier/terms-and-conditions",
+        element: <TermsConditions/>,
     },
     {
         path: "/supplier",
