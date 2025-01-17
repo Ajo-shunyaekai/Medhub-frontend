@@ -285,7 +285,7 @@ const Sidebar = ({ children, dragWindow,
                         </div>
                         <div className={styles.nav_notifi_right}>
                             {/* <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} /> */}
-                            <Badge badgeContent={inquiriesCartCount || 0} color="secondary">
+                            <Badge badgeContent={inquiriesCartCount} color="secondary">
                                 <Link to='/buyer/send-inquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>
