@@ -43,7 +43,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
                             <div className='buy-product-card-first-section'>
                                 <div className='buy-product-card-first-left'>
                                     <div className='buy-product-card-first-copmany-name'>{product.medicine_name}</div>
-                                    <div className='buy-product-card-first-copmany-description'>{product.composition}</div>
+                                    <div className='buy-product-card-first-copmany-description'>{product?.strength.includes('mg') ? product?.strength : `${product?.strength}mg`}</div>
                                 </div>
                                 <div className='buy-product-card-second-section'>
                                     <div className='buy-product-card-second-head'>Country of Origin</div>

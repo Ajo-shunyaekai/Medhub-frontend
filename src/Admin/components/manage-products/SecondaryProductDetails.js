@@ -78,11 +78,11 @@ const SecondaryProductDetails = () => {
                         <div className="product-details-section-one">
                             <div className="product-details-sec-one-left">
                                 <h4>
-                                    {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '50mg'})</span>
+                                    {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength.includes('mg') ? medicineDetails?.strength : `${medicineDetails?.strength}mg`})</span>
                                 </h4>
-                                <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {medicineDetails?.composition}
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>

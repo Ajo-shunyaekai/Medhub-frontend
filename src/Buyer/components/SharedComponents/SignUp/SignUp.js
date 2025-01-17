@@ -16,8 +16,8 @@ import { ClipLoader } from 'react-spinners';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { apiRequests } from '../../../../api/index';
 import TermsAndConditions from '../../../../Policies/Terms&Conditions';
-
-
+ 
+ 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
         <input
@@ -28,7 +28,7 @@ const MultiSelectOption = ({ children, ...props }) => (
         <label>{children}</label>
     </components.Option>
 );
-
+ 
 // MultiSelectDropdown Component
 const MultiSelectDropdown = ({ options, value, onChange }) => {
     return (
@@ -43,7 +43,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
         />
     );
 };
-
+ 
 const SignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
     const [showTnC, setShowTnC] = useState(false);
@@ -56,7 +56,7 @@ const SignUp = ({ socket }) => {
     const [mobile, setMobile] = useState('');
     const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
-
+ 
     const defaultFormData = {
         companyType: '',
         companyName: '',
@@ -87,10 +87,10 @@ const SignUp = ({ socket }) => {
         vatRegistrationNo: '',
         user_type: 'Buyer'
     }
-
+ 
     const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
-
+ 
     const handleMultiSelectChange = (selected) => {
         setSelectedOptions(selected);
         setFormData(prevState => ({ ...prevState, interestedIn: selected }));
@@ -100,17 +100,17 @@ const SignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, interestedIn: '' }));
         }
     };
-
+ 
     useEffect(() => {
         const options = countryList().getData();
         setCountries(options);
     }, []);
-
+ 
     const companyTypeOptions = [
         { value: 'distributor', label: 'Distributor' },
         { value: 'end user', label: 'End User' },
     ];
-
+ 
     const handleCompanyTypeChange = (selectedOption) => {
         setSelectedCompanyType(selectedOption);
         setFormData(prevState => ({ ...prevState, companyType: selectedOption }));
@@ -120,7 +120,7 @@ const SignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, companyType: '' }));
         }
     };
-
+ 
     const options = [
         { value: 'generies', label: 'Generies' },
         { value: 'orignal', label: 'Orignals' },
@@ -128,7 +128,7 @@ const SignUp = ({ socket }) => {
         { value: 'medical devices', label: 'Medical Devices' },
         { value: 'nutraceuticals', label: 'Nutraceuticals' },
     ];
-
+ 
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
@@ -140,23 +140,23 @@ const SignUp = ({ socket }) => {
                 [`${imageType}Image`]: hasImage ? file : null,
             }));
         }, 0);
-
+ 
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
         }));
     };
-
-
+ 
+ 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
+ 
         // Regex to allow only alphanumeric characters and spaces
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-
+ 
         // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
-
+ 
         if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
             // setErrors((prevState) => ({
             //     ...prevState,
@@ -168,28 +168,28 @@ const SignUp = ({ socket }) => {
             //         : 'Email'
             //     } cannot exceed 50 characters`,
             // }));
-
+ 
             setErrors((prevState) => ({
                 ...prevState,
                 [name]: ``,
             }));
             return;
         }
-
-
+ 
+ 
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
             if (value.length > 16) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
-
+ 
             // Disallow spaces in these fields
             if (!alphanumericNoSpaceRegex.test(value)) {
                 setErrors(prevState => ({ ...prevState, [name]: '' }));
                 return;
             }
         }
-
+ 
         // Validate yearlyPurchaseValue to allow only one whitespace or an empty value
         if (name === 'yearlyPurchaseValue') {
             if (!yearlyPurchaseValueRegex.test(value)) {
@@ -197,7 +197,7 @@ const SignUp = ({ socket }) => {
                 return;
             }
         }
-
+ 
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
@@ -209,10 +209,10 @@ const SignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };
-
-
+ 
+ 
     // const handlePhoneChange = (name, value) => {
-
+ 
     //     setErrors(prevState => ({ ...prevState, [name]: '' }));
     //     if (value.trim() !== '') {
     //         const phoneRegex = /^[0-9]{10,15}$/;
@@ -225,23 +225,23 @@ const SignUp = ({ socket }) => {
     //             // setErrors(prevState => ({ ...prevState, [name]: 'Invalid phone number' }));
     //         }
     //     } else {
-
+ 
     //     }
     // };
-
-
+ 
+ 
     const handlePhoneChange = (name, value) => {
         // Clear previous errors
         setErrors(prevState => ({ ...prevState, [name]: '' }));
-
+ 
         try {
             // Parse the phone number
             const phoneNumber = parsePhoneNumber(value);
-
+ 
             // Validate the phone number
             if (phoneNumber && isValidPhoneNumber(value)) {
                 // Format the phone number in E.164 format (international standard)
-
+ 
                 console.log(phoneNumber.countryCallingCode);
                 const countryCode = phoneNumber.countryCallingCode
                 const nationalNumber = phoneNumber.nationalNumber
@@ -265,20 +265,20 @@ const SignUp = ({ socket }) => {
             }));
         }
     };
-
+ 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
         if (!isChecked) setErrors(prevState => ({ ...prevState, terms: '' }));
     };
-
+ 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
-
+ 
     const validateForm = () => {
         let formErrors = {};
-
+ 
         if (!formData.companyType) formErrors.companyType = 'Company Type is Required';
         if (!formData.companyName) formErrors.companyName = 'Company Name is Required';
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
@@ -287,7 +287,7 @@ const SignUp = ({ socket }) => {
         // if (!companyPhone || companyPhone.length <= 12) {
         //     formErrors.companyPhone = 'Company Phone No. is Required';
         // }
-
+ 
         try {
             // Validate Company Phone
             if (!companyPhone) {
@@ -298,7 +298,7 @@ const SignUp = ({ socket }) => {
                     formErrors.companyPhone = 'Invalid Company Phone Number';
                 }
             }
-
+ 
             // Validate Mobile Number
             if (!mobile) {
                 formErrors.mobile = 'Mobile No. is Required';
@@ -313,7 +313,7 @@ const SignUp = ({ socket }) => {
             formErrors.companyPhone = 'Invalid Phone Number Format';
             formErrors.mobile = 'Invalid Phone Number Format';
         }
-
+ 
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
         if (!formData.email) formErrors.email = 'Email ID is Required';
@@ -337,18 +337,18 @@ const SignUp = ({ socket }) => {
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
-
+ 
         setErrors(formErrors);
-
+ 
         return Object.keys(formErrors).length === 0;
     };
-
+ 
     useEffect(() => {
         if (resetUploaders) {
             setResetUploaders(false);
         }
     }, [resetUploaders]);
-
+ 
     const handleCancel = () => {
         setFormData(defaultFormData)
         setErrors({});
@@ -359,8 +359,8 @@ const SignUp = ({ socket }) => {
         setSelectedOptions([])
         setResetUploaders(true);
     }
-
-
+ 
+ 
     const handleSubmit = async () => {
         if (validateForm()) {
             if( !isChecked) {
@@ -370,7 +370,7 @@ const SignUp = ({ socket }) => {
             setLoading(true)
             // setButtonLoading(true)
             const formDataToSend = new FormData();
-
+ 
             const countryLabels = formData.operationCountries?.map(country => {
                 return country ? country.label : '';
             });
@@ -404,10 +404,10 @@ const SignUp = ({ socket }) => {
             Array.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
             Array.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
             Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
-
+ 
             console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
-
-
+ 
+ 
             console.log(`formDataToSend ${formDataToSend}`)
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
@@ -422,32 +422,32 @@ const SignUp = ({ socket }) => {
                 setShowModal(true)
                 // setButtonLoading(false)
                 setLoading(false)
-
+ 
                 socket.emit('buyerRegistration', {
                     adminId: process.env.REACT_APP_ADMIN_ID,
                     message: `New Buyer Registration Request `,
                     link: process.env.REACT_APP_PUBLIC_URL
                     // send other details if needed
                 });
-
-
+ 
+ 
             } catch (error) {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, { type: 'error' })
                 console.log('error in buyer/register api');
-
+ 
             } finally {
-
+ 
                 setLoading(false)
-
+ 
             }
         } else {
             setLoading(false)
             toast('Some Fields are Missing', { type: 'error' })
         }
     };
-
+ 
     const handleFormSubmit = (event) => {
         event.preventDefault();
         handleSubmit();
@@ -460,9 +460,9 @@ const SignUp = ({ socket }) => {
             alert('Signup Successful!');
         }, 2000); // Simulate loading for 2 seconds
     };
-
+ 
     const handleCloseModal = () => setShowModal(false);
-
+ 
     const formatPhoneNumber = (value) => {
         const phoneNumber = parsePhoneNumberFromString(value);
         if (phoneNumber) {
@@ -472,9 +472,9 @@ const SignUp = ({ socket }) => {
         }
         return value;
     };
-
+ 
     const handleCountryOriginChange = (selectedOption) => {
-
+ 
         setFormData({ ...formData, originCountry: selectedOption.label })
         if (!selectedOption) {
             setErrors(prevState => ({ ...prevState, originCountry: 'Country of Origin is Required' }));
@@ -482,28 +482,28 @@ const SignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, originCountry: '' }));
         }
     };
-
+ 
     const handleOperationCountriesChange = (selectedOptions) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
-
+ 
         setFormData({
             ...formData,
             operationCountries: selectedOptions
         });
-
+ 
         setErrors(prevState => ({
             ...prevState,
             operationCountries: selectedLabels.length === 0 ? 'Country of Operation is Required' : ''
         }));
     };
-
+ 
     const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
         if (value && value.length) {
             return value.map(country => country.label).join(', ');
         }
         return placeholderButtonLabel;
     };
-
+ 
     return (
         <>
         {
@@ -546,7 +546,7 @@ const SignUp = ({ socket }) => {
                                 />
                                 {errors.companyName && <div className='signup__errors'>{errors.companyName}</div>}
                             </div>
-
+ 
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Company Address</label>
                                 <input
@@ -604,11 +604,11 @@ const SignUp = ({ socket }) => {
                                     value={companyPhone}
                                     // onChange={(value) => {
                                     //     const formattedValue = formatPhoneNumber(value);
-
+ 
                                     //     setCompanyPhone(formattedValue);
                                     //     handlePhoneChange('companyPhone', value);
                                     // }}
-
+ 
                                     onChange={(value) => {
                                         handlePhoneChange('companyPhone', value);
                                         // Update local state for the input
@@ -617,7 +617,7 @@ const SignUp = ({ socket }) => {
                                 />
                                 {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
                             </div>
-
+ 
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Contact Person Name</label>
                                 <input
@@ -667,13 +667,13 @@ const SignUp = ({ socket }) => {
                                     //     setMobile(formattedValue);
                                     //     handlePhoneChange('mobile', value);
                                     // }}
-
+ 
                                     onChange={(value) => {
                                         handlePhoneChange('mobile', value);
                                         // Update local state for the input
                                         setMobile(value);
                                     }}
-
+ 
                                 />
                                 {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
                             </div>
@@ -699,7 +699,7 @@ const SignUp = ({ socket }) => {
                                         getDropdownButtonLabel={getDropdownButtonLabel}
                                     // onChange={(selectedOptions) => setFormData({ ...formData, operationCountries: selectedOptions })}
                                     />
-
+ 
                                 )}
                                 {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
                             </div>
@@ -762,7 +762,7 @@ const SignUp = ({ socket }) => {
                                 />
                                 {errors.interestedIn && <div className='signup__errors'>{errors.interestedIn}</div>}
                             </div>
-
+ 
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>About Company</label>
                                 <textarea
@@ -786,13 +786,13 @@ const SignUp = ({ socket }) => {
                                 <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} />
                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
                             </div>
-
+ 
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload a Certificate</label>
                                 <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
                             </div>
-
+ 
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload Company Logo</label>
                                 <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} />
@@ -827,5 +827,5 @@ const SignUp = ({ socket }) => {
         </>
     );
 };
-
+ 
 export default SignUp;

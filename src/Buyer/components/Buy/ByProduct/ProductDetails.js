@@ -179,11 +179,11 @@ const handleTargetPriceChange = (e) => {
           <div className="buyer-product-details-section-one">
             <div className="buyer-product-details-sec-one-left">
               <h4>
-                {details?.medicine_name} <span className="buyer-product-details-stength"> ({details?.strength})</span>
+                {details?.medicine_name} <span className="buyer-product-details-stength"> ({details?.strength.includes('mg') ? details?.strength : `${details?.strength}mg`})</span>
               </h4>
-              <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+              {/* <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                 {details?.composition}
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
