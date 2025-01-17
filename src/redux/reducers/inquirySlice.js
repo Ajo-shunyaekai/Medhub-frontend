@@ -5,6 +5,7 @@ import { apiRequests } from "../../api";
 const initialState = {
   inquiries: [],
   inquiriesCount : 0,
+  inquiriesCartCount : 0,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
   inquiryData: {}
@@ -49,6 +50,9 @@ export const inquirySlice = createSlice({
       state.status = "idle";
       state.error = null;
     },
+    updateInquiryCartCount: (state, action) => {
+      state.inquiriesCartCount = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,6 +82,6 @@ export const inquirySlice = createSlice({
   },
 });
 
-export const { restInquiryData } = inquirySlice.actions;
+export const { restInquiryData, updateInquiryCartCount } = inquirySlice.actions;
 
 export default inquirySlice.reducer;

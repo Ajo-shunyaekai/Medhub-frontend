@@ -21,12 +21,15 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Outlet } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 
 const Sidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate();
+    const {inquiriesCartCount} = useSelector(state => state.inquiryReducer)
+
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
     const toggleSearchBar = () => {
@@ -282,7 +285,7 @@ const Sidebar = ({ children, dragWindow,
                         </div>
                         <div className={styles.nav_notifi_right}>
                             {/* <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} /> */}
-                            <Badge badgeContent={sessionStorage.getItem('list_count')} color="secondary">
+                            <Badge badgeContent={inquiriesCartCount || 0} color="secondary">
                                 <Link to='/buyer/send-inquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>

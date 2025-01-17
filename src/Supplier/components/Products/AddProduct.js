@@ -54,8 +54,18 @@ const AddProduct = ({socket}) => {
     ];
 
     const formTypesOptions = [
-        { value: 'tablet', label: 'Tablet' },
-        { value: 'syrup', label: 'Syrup' }
+        // { value: 'tablet', label: 'Tablet' },
+        // { value: 'syrup', label: 'Syrup' },
+        { value: 'Liquid', label: 'Liquid' },
+        { value: 'Tablet', label: 'Tablet' },
+        { value: 'Capsule', label: 'Capsule' },
+        { value: 'Tropical Medicine', label: 'Tropical Medicine' },
+        { value: 'Suppositories', label: 'Suppositories' },
+        { value: 'Drops', label: 'Drops' },
+        { value: 'Inhales', label: 'Inhales' },
+        { value: 'Injections', label: 'Injections' },
+        { value: 'Implants', label: 'Implants' },
+        { value: 'Patches', label: 'Patches' },
     ];
     const conditionOptions = [
         { value: 'new', label: 'New' },

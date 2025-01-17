@@ -9,6 +9,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import { useDispatch } from 'react-redux';
+import { updateInquiryCartCount } from '../../../../redux/reducers/inquirySlice';
 
 const SendInquiry = ({socket}) => {
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -16,6 +18,7 @@ const SendInquiry = ({socket}) => {
   const buyerNameSessionStorage = sessionStorage.getItem("buyer_name");
   const buyerNameLocalStorage = localStorage.getItem("buyer_name");
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   
   const itemsPerPage = 3;
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -24,6 +27,7 @@ const SendInquiry = ({socket}) => {
   const [list, setList] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const [cartCount, setCartCount] = useState(sessionStorage.getItem("list_count"))
 
   const handleCheckboxChange = (id) => {
     setCheckedState(prevState => ({
@@ -52,7 +56,9 @@ const SendInquiry = ({socket}) => {
 
     postRequestWithToken('buyer/delete-list-item', obj, async (response) => {
       if (response.code === 200) {
+        // setCartCount(response.result.listCount)
         sessionStorage.setItem('list_count', response.result.listCount)
+        dispatch(updateInquiryCartCount(response.result.listCount))
         toast(response.message, { type: "success" });
         setCheckedState({});
         setCurrentPage(1);
@@ -165,6 +171,7 @@ const SendInquiry = ({socket}) => {
         // });
         navigate("/buyer/thank-you", { state: { from: 'order' } });
         sessionStorage.setItem('list_count', response.result.listCount)
+        dispatch(updateInquiryCartCount(response.result.listCount))
       
       } else {
         toast(response.message, { type: "error" });

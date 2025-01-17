@@ -9,9 +9,12 @@ import Select from 'react-select';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
+import { useDispatch } from 'react-redux';
+import { updateInquiryCartCount } from '../../../../redux/reducers/inquirySlice';
 
 const ProductDetails = () => {
   const navigate       = useNavigate();
+  const dispatch = useDispatch()
   const { medicineId } = useParams();
 
   const [loading, setLoading]                           = useState(false);
@@ -141,6 +144,7 @@ const ProductDetails = () => {
         if (response.code === 200) {
           toast(response.message, { type: "success" });
           sessionStorage.setItem('list_count', response.result.listCount)
+          dispatch(updateInquiryCartCount(response.result.listCount))
           setTimeout(() => {
             navigate('/buyer/send-inquiry')
             setLoading(true)
