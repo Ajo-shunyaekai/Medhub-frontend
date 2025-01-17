@@ -76,7 +76,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0)}</span>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
-                                                <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name} ({item.composition || item.medicine_details?.composition || 'Claritin'}) </span>
+                                                <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name} ({item?.strength || item.medicine_details?.strength}) </span>
                                             </div>
                                         </div>
                                     </td>

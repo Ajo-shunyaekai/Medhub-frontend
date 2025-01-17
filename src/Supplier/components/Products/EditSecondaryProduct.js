@@ -92,7 +92,7 @@ const EditSecondaryProduct = ({socket}) => {
     const [formData, setFormData] = useState({
         productName: '',
         productType: productType,
-        composition: '',
+        // composition: '',
         unitTax: '',
         strength: '',
         typeOfForm: null,
@@ -383,7 +383,7 @@ const EditSecondaryProduct = ({socket}) => {
                     ...prevFormData,
                     productName: result?.medicine_name || '',
                     productType: { label: result?.medicine_type, value: result?.medicine_type } || null,
-                    composition: result?.composition || '',
+                    // composition: result?.composition || '',
                     unitTax: result?.unit_tax || '',
                     strength: result?.strength || '',
                     typeOfForm: { label: result?.type_of_form, value: result?.type_of_form } || null,
@@ -557,7 +557,7 @@ const EditSecondaryProduct = ({socket}) => {
 
         if (!formData.productName) formErrors.productName = 'Product Name is Required';
         if (!productType) formErrors.productType = 'Product Type is Required';
-        if (!formData.composition) formErrors.composition = 'Composition is Required';
+        // if (!formData.composition) formErrors.composition = 'Composition is Required';
         if (!formData.strength) formErrors.strength = 'Strength is Required';
         if (!formData.unitTax) formErrors.unitTax = 'Unit Tax is Required';
         if (!formType) formErrors.typeOfForm = 'Type of Form is Required';
@@ -638,7 +638,7 @@ const EditSecondaryProduct = ({socket}) => {
         setFormData({
             productName: '',
             productType: { value: 'secondary_market', label: 'Secondary Market' },
-            composition: '',
+            // composition: '',
             strength: '',
             unitTax: '',
             typeOfForm: '',
@@ -722,7 +722,7 @@ const EditSecondaryProduct = ({socket}) => {
                 newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);
                 newFormData.append('product_type', 'new');
-                newFormData.append('composition', formData.composition);
+                // newFormData.append('composition', formData.composition);
                 newFormData.append('unit_tax', formData.unitTax);
                 newFormData.append('strength', formData.strength);
                 newFormData.append('type_of_form', formData.typeOfForm?.label);
@@ -783,7 +783,7 @@ const EditSecondaryProduct = ({socket}) => {
                 secondaryFormData.append('unit_tax', formData.unitTax);
                 secondaryFormData.append('total_quantity', formData.totalQuantity);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
-                secondaryFormData.append('composition', formData.composition);
+                // secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
                 secondaryFormData.append('shelf_life', formData.shelfLife);
                 secondaryFormData.append('dossier_type', formData.dossierType);
@@ -1171,7 +1171,7 @@ const EditSecondaryProduct = ({socket}) => {
                                     </div>
                                 </>
                             )}
-                            <div className={styles['create-invoice-div-container']}>
+                            {/* <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Composition</label>
                                 <input
                                     className={styles['create-invoice-div-input']}
@@ -1183,7 +1183,7 @@ const EditSecondaryProduct = ({socket}) => {
                                     onChange={handleChange}
                                 />
                                 {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
-                            </div>
+                            </div> */}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
                                 <input

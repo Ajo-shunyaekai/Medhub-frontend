@@ -212,7 +212,7 @@ const Buy2ndMarket = ({active}) => {
                                 <div className='byproduct-product-card-first-section'>
                                     <div className='byproduct-product-card-first-left'>
                                         <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
-                                        <div className='byproduct-product-card-first-copmany-description'>{medicine.composition || 'paracetamol' }</div>
+                                        <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>
                                     </div>
                                     <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>Country of Origin</div>

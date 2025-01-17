@@ -35,7 +35,7 @@ const ProductDetailsCard = ({ similarMedicines, onMedicineClick, totalItems, cur
                                     <div className='buyer-product-details-card-right-container'>
                                         <div className='buyer-product-details-card-upper-section'>
                                             <div className='buyer-product-details-card-medicine-head'>{product.medicine_name}</div>
-                                            <div className='buyer-product-details-card-medicine-text'>{product.composition}</div>
+                                            <div className='buyer-product-details-card-medicine-text'>{product.str}</div>
                                         </div>
                                         <div className='buyer-product-details-card-text-section'>
                                             <div className='buyer-product-details-card-text-head'>Country of Origin :</div>

@@ -130,9 +130,9 @@ const EditUpdateSecondaryDetails = ({socket}) => {
                                 <h4>
                                     {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '50mg'})</span>
                                 </h4>
-                                <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p className="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {medicineDetails?.composition}
-                                </p>
+                                </p> */}
                             </div>
                             <div className="product-details-sec-one-right">
                                 {/* <button className='product-details-send-btn'>Accept</button> */}

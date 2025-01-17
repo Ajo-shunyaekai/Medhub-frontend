@@ -156,9 +156,9 @@ const SearchsearchDetails = () => {
                                         ({details?.strength}{details?.strength && !details.strength.toLowerCase().includes('mg') && 'mg'})
                                     </span>
                                 </h4>
-                                <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {details?.composition}
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>

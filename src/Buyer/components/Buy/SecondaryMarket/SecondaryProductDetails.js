@@ -36,7 +36,7 @@ const SecondaryProductDetails = ({ similarMedicines, totalItems, onMedicineClick
                                 <div className='buyer-product-details-card-right-container'>
                                     <div className='buyer-product-details-card-upper-section'>
                                         <div className='buyer-product-details-card-medicine-head'>{product.medicine_name}</div>
-                                        <div className='buyer-product-details-card-medicine-text'>{product.composition}</div>
+                                        <div className='buyer-product-details-card-medicine-text'>{product?.strength.includes('mg') ? product?.strength : `${product?.strength}mg`}</div>
                                     </div>
                                     <div className='buyer-product-details-card-text-section'>
                                         <div className='buyer-product-details-card-text-head'>Country of Origin :</div>

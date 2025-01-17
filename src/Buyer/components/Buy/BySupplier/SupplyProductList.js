@@ -59,7 +59,7 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
                 <div className='supply-product-right-container'>
                   <div className='supply-product-right-first-heading-section'>
                     <div className='supply-product-right-container-main-heading'>{product.medicine_name}</div>
-                    <div className='supply-product-right-container-main-text'>{product.composition}</div>
+                    <div className='supply-product-right-container-main-text'>{product.strength.includes('mg') ? product.strength : `${product.strength}mg`}</div>
                   </div>
                   <div className='supply-product-right-first-section'>
                     <div className='supply-product-right-container-head'>Country of Origin</div>

@@ -118,9 +118,9 @@ const EditUpdateProductdetails = ({socket}) => {
                                 <h4 >
                                     {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '5000mg'})</span>
                                 </h4>
-                                <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {medicineDetails?.composition}
-                                </p>
+                                </p> */}
                             </div>
                             {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}> */}
                                 <div className="product-details-sec-one-right">

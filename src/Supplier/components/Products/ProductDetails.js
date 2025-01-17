@@ -90,11 +90,11 @@ const ProductDetails = () => {
                         <div className="product-details-section-one">
                             <div className="product-details-sec-one-left">
                                 <h4 >
-                                    {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength || '5000mg'})</span>
+                                    {medicineDetails?.medicine_name} <span className='product-details-stength'> ({medicineDetails?.strength.includes('mg') ? medicineDetails?.strength : `${medicineDetails?.strength}mg` || 'n/a'})</span>
                                 </h4>
-                                <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {medicineDetails?.composition}
-                                </p>
+                                </p> */}
                             </div>
                             {/* {medicineDetails?.edit_status === 1 && ( */}
                             <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>

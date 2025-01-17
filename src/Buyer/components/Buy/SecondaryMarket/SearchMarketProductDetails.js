@@ -183,11 +183,11 @@ const SearchMarketProductDetails = () => {
                         <div className="search-details-section-one">
                             <div className="search-details-sec-one-left">
                                 <h4 >
-                                    {details?.medicine_name} <span className='search-details-stength'>({details?.strength})</span>
+                                    {details?.medicine_name} <span className='search-details-stength'>({details?.strength.includes('mg') ? details?.strength : `${details?.strength}mg`})</span>
                                 </h4>
-                                <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
+                                {/* <p class="font-semibold text-[12px] leading-[21px] md:text-[16px] md:leading-[28px] text-gray-700 m-0">
                                     {details?.composition}
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>
