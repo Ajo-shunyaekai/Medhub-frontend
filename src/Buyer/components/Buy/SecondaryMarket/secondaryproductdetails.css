@@ -29,7 +29,7 @@
   }
   .view-purchase-invoice-button-sec {
     width: 168px;
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 0px;
     border-radius: 4px;
@@ -118,7 +118,7 @@
     text-transform: capitalize;
   }
   .product-details-send-btn {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -508,7 +508,7 @@
     height: auto;
   }
   .product-details-card-image-button-cont {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -751,7 +751,7 @@
       margin-top: 20px;
     }
     .product-details-inner-view-card-details {
-      background: linear-gradient(to left, #00dcff, #0075ce);
+       background: linear-gradient(to left, #00dcff, #0075ce);
       color: white;
       padding: 6px 16px;
       border-radius: 4px;
@@ -806,7 +806,7 @@
     align-items: center;
   }
   #invoice-download-button{
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
       color: white;
       padding: 6px 16px;
       border-radius: 4px;

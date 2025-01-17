@@ -33,7 +33,7 @@
 }
 
 .subscription-plan-head {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     display: flex;

@@ -5,7 +5,7 @@ import PrivacyPolicyModal from "./PrivcyPolicy"
  
 const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    console.log("setIsChecked", setIsChecked);
+    
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const [accepted, setAccepted] = useState(false); // Track acceptance of terms

@@ -35,7 +35,7 @@
   }
   .view-purchase-invoice-button-sec {
     width: 168px;
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 0px;
     border-radius: 4px;
@@ -137,7 +137,7 @@
     text-transform: capitalize;
   }
   .search-details-send-btn {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;
@@ -538,7 +538,7 @@
     height: auto;
 }
   .search-details-card-image-button-cont {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     width: 100px;
     padding: 6px 0px;
@@ -747,7 +747,7 @@
       margin-top: 20px;
     }
     .search-details-inner-view-card-details {
-      background: linear-gradient(to left, #00dcff, #0075ce);
+       background: linear-gradient(to left, #00dcff, #0075ce);
       color: white;
       padding: 6px 16px;
       border-radius: 4px;
@@ -801,7 +801,7 @@
     align-items: center;
   }
   #invoice-download-button{
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
       color: white;
       padding: 6px 16px;
       border-radius: 4px;

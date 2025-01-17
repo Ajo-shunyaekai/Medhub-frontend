@@ -202,9 +202,11 @@ const SupplierLogin = ({socket}) => {
                         </div>
                         {errors.password && <span className="login-errors">{errors.password}</span>}
                     </div>
+                    <Link to='/supplier/forgot-password'>
                     <div className='login-form-main-div'>
                         <span className='login-form-main-password'>Forgot Password?</span>
                     </div>
+                    </Link>
                     <div className='login-form-main-buttons'>
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
                         <button 

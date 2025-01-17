@@ -261,6 +261,10 @@ const renderFiles = (files, type) => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Sales Person Name :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
