@@ -824,4 +824,3 @@ const SupplierSignUp = ({ socket }) => {
 };
 
 export default SupplierSignUp;
-
