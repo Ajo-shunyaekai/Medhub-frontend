@@ -258,3 +258,9 @@
     font-size: 14px;
   }
 }
+
+.error-message {
+  color: red; /* Set error message text color to red */
+  font-size: 12px; /* Optional: Set font size */
+  margin-top: 5px; /* Optional: Adjust margin */
+}
