@@ -23,7 +23,7 @@
 }
 
 .supply-product-list-main-head span {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 4px 12px;
     border-radius: 4px;
@@ -63,7 +63,7 @@
 }
 
 .supply-product-left-button-details {
-    background: linear-gradient(to left, #00dcff, #0075ce);
+     background: linear-gradient(to left, #00dcff, #0075ce);
     color: white;
     padding: 6px 16px;
     border-radius: 4px;

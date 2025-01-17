@@ -52,6 +52,7 @@ import Profile from "../components/SharedComponents/Profile/profile"
 import SubscriptionMembership from "../components/Subscription/SubscriptionMembership";
 import PrivacyPolicy from "../../Policies/PrivcyPolicy"
 import TermsConditions from "../../Policies/Terms&Conditions"
+import ForgotPassword from "../components/SharedComponents/Signup/ForgotPassword"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export const NotificationProvider = ({ children }) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -176,6 +177,10 @@ const router = createBrowserRouter([
     {
         path: "/supplier/sign-up",
         element: <Signup socket={socket}/>,
+    },
+    {
+path:"/supplier/forgot-password",
+element:<ForgotPassword/>
     },
     {
         path: "/supplier/privacy-policy",

@@ -23,48 +23,11 @@ const OngoingInquiriesList = () => {
         setSelectedOrderId(orderId)
         setModal(!modal)
     }
-    const [totalOrders, setTotalOrders] = useState()
-
-    // Alloted Order JSOn file
-    const [activeOrders, setActiveOrders] = useState([
-        {
-            "inquiry_id": "3654646",
-            "date": "12-04-2024",
-            "supplier_name": "Pharmaceuticals",
-            "status": "Pending"
-        },
-
-        {
-            "inquiry_id": "3654444",
-            "date": "12-04-2024",
-            "supplier_name": "Pharmaceuticals",
-            "status": "Pending"
-        },
-        {
-            "inquiry_id": "365433",
-            "date": "12-04-2024",
-            "supplier_name": "Pharmaceuticals",
-            "status": "Pending"
-        },
-        {
-            "inquiry_id": "3654333",
-            "date": "12-04-2024",
-            "supplier_name": "Pharmaceuticals",
-            "status": "Pending"
-        },
-    ]);
-
-
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
 
     const [inquiryList, setInquiryList] = useState([])
     const [totalInquiries, setTotalInquiries] = useState()
-
-    // const indexOfLastOrder = currentPage * ordersPerPage;
-    // const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    // const currentOrders = inquiryList.slice(indexOfFirstOrder, indexOfLastOrder);
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -81,7 +44,7 @@ const OngoingInquiriesList = () => {
 
         const obj = {
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-            filterKey : 'pending',
+            filterKey: 'pending',
             pageNo: currentPage,
             pageSize: ordersPerPage,
         }
@@ -91,8 +54,8 @@ const OngoingInquiriesList = () => {
                 setInquiryList(response.result.data)
                 setTotalInquiries(response.result.totalItems)
             } else {
-                toast(response.message, {type:'error'})
-               console.log('error in order list api',response);
+                toast(response.message, { type: 'error' })
+                console.log('error in order list api', response);
             }
             // setLoading(false);
         })
@@ -100,7 +63,7 @@ const OngoingInquiriesList = () => {
 
     const handleNavigate = (id) => {
         navigate(`/buyer/cancel-inquiry-list/${id}`)
-      }
+    }
 
     return (
         <>
@@ -147,10 +110,10 @@ const OngoingInquiriesList = () => {
                                             <div className='completed-table-text-color'>
                                                 {/* {order.status} */}
                                                 {order?.enquiry_status === 'Quotation submitted'
-                            ? 'Quotation Received'
-                            : order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-                          }
-                                         </div>
+                                                    ? 'Quotation Received'
+                                                    : order?.enquiry_status?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                                                }
+                                            </div>
                                         </div>
                                         <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/buyer/ongoing-inquiries-details/${order.enquiry_id}`}>
@@ -159,13 +122,12 @@ const OngoingInquiriesList = () => {
                                                 </div>
                                             </Link>
                                             {order?.enquiry_status === 'pending' && (
-                                            <div className='completed-order-table completed-order-table-cancel' 
-                                            // onClick={() => showModal(order.order_id)}
-                                            onClick={() => handleNavigate(order?.enquiry_id)}
-                                            >
-                                                <HighlightOffIcon className="table-icon" />
-                                            </div>
-                                             )}
+                                                <div className='completed-order-table completed-order-table-cancel'
+                                                    onClick={() => handleNavigate(order?.enquiry_id)}
+                                                >
+                                                    <HighlightOffIcon className="table-icon" />
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
