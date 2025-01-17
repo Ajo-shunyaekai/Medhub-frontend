@@ -13,7 +13,6 @@ import { apiRequests } from '../../../../api/index';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
-import TermsAndConditions from '../../../../Policies/Terms&Conditions';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -42,7 +41,6 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 
 const SupplierSignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
-    const [showTnC, setShowTnC] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -61,6 +59,7 @@ const SupplierSignUp = ({ socket }) => {
         companyAddress: '',
         companyEmail: '',
         companyPhone: '',
+        salesPersonName:'',
         contactPersonName: '',
         designation: '',
         email: '',
@@ -189,7 +188,11 @@ const SupplierSignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
             setErrors(prevState => ({ ...prevState, designation: '' }));
-        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+        }
+        else if ((name === 'salesPersonName' || name === 'personname') && !/^[a-zA-Z\s]*$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, personname: '' }));
+        }
+         else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, delivertime: '' }));
         } else {
             setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -302,6 +305,7 @@ const SupplierSignUp = ({ socket }) => {
         }
         // if (!companyPhone) formErrors.companyPhone = 'Company Phone No. is Required';
         if (!formData.contactPersonName) formErrors.contactPersonName = 'Contact Person Name is Required';
+        if (!formData.salesPersonName) formErrors.salesPersonName = 'Sales Person Name is Required';
         if (!formData.designation) formErrors.designation = 'Designation is Required';
         if (!formData.email) formErrors.email = 'Email ID is Required';
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
@@ -313,7 +317,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
         if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-        // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
+        if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
         // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
@@ -406,11 +410,7 @@ const SupplierSignUp = ({ socket }) => {
     const handleSubmit = async () => {
         const isFormValid = await validateForm();
         console.log('Is Form Valid:', isFormValid);
-        if (isFormValid) {
-            if( !isChecked) {
-                toast("You must agree to the terms and conditions", { type: 'error' });
-                return;
-            }
+        if (isFormValid && isChecked) {
             setLoading(true)
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
@@ -428,6 +428,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('license_expiry_date', formData.companyLicenseExpiry);
             formDataToSend.append('country_of_origin', formData.originCountry);
             formDataToSend.append('contact_person_name', formData.contactPersonName);
+            formDataToSend.append('sales_person_name', formData.salesPersonName);
             formDataToSend.append('designation', formData.designation);
             formDataToSend.append('payment_terms', formData.paymentterms);
             formDataToSend.append('tags', formData.tags);
@@ -507,343 +508,319 @@ const SupplierSignUp = ({ socket }) => {
 
     return (
         <>
-        {
-            showTnC
-            ?
-            <TermsAndConditions
-                setShowTnC={setShowTnC}
-                showTnC={showTnC}
-                isChecked={isChecked}
-                setIsChecked={setIsChecked}
-            />
-            :
-            <>
-                <div className='signup-container'>
-                    <div className='signup-logo-section'>
-                        <img src={logo} alt='Signup Logo' />
-                    </div>
-                    <div className='signup-form-section'>
-                        <div className='signup-form-section-heading'>Supplier Registration</div>
-                        <form className='signup-form-container' onSubmit={handleFormSubmit}>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Type</label>
-                                <Select
-                                    value={selectedCompanyType}
-                                    onChange={handleCompanyTypeChange}
-                                    options={companyTypeOptions}
-                                />
-                                {errors.companyType && <div className='signup__errors'>{errors.companyType}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Name</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="companyName"
-                                    placeholder="Enter Company Name"
-                                    value={formData.companyName}
-                                    onChange={handleChange}
-                                />
-                                {errors.companyName && <div className='signup__errors'>{errors.companyName}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Address</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="companyAddress"
-                                    placeholder="Enter Company Address"
-                                    value={formData.companyAddress}
-                                    onChange={handleChange}
-                                />
-                                {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>}
-                            </div>
-                            {/* <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Email ID</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="companyEmail"
-                                    placeholder="Enter Company Email ID"
-                                    value={formData.companyEmail}
-                                    onChange={handleChange}
-                                />
-                                {errors.companyEmail && <div className='signup__errors'>{errors.companyEmail}</div>}
-                            </div> */}
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Registration Number</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="registrationNo"
-                                    placeholder="Enter Company Registration Number"
-                                    value={formData.registrationNo}
-                                    onChange={handleChange}
-                                />
-                                {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>VAT Registration Number</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="vatRegistrationNo"
-                                    placeholder="Enter VAT Registration Number"
-                                    value={formData.vatRegistrationNo}
-                                    onChange={handleChange}
-                                />
-                                {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Phone No.</label>
-                                <PhoneInput
-                                    className='signup-form-section-phone-input'
-                                    defaultCountry="gb"
-                                    name="companyPhone"
-                                    value={companyPhone}
-                                    // onChange={(value) => {
-                                    //     const formattedValue = formatCompanyPhoneNumber(value);
-                                    //     setCompanyPhone(formattedValue);
-                                    //     handlePhoneChange('companyPhone', value);
-                                    // }}
-
-                                    onChange={(value) => {
-                                        handlePhoneChange('companyPhone', value);
-                                        // Update local state for the input
-                                        setCompanyPhone(value);
-                                    }}
-                                />
-                                {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Contact Person Name</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="contactPersonName"
-                                    placeholder="Enter Contact Person Name"
-                                    value={formData.contactPersonName}
-                                    onChange={handleChange}
-                                />
-                                {errors.contactPersonName && <div className='signup__errors'>{errors.contactPersonName}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Designation</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="designation"
-                                    placeholder="Enter Designation"
-                                    value={formData.designation}
-                                    onChange={handleChange}
-                                />
-                                {errors.designation && <div className='signup__errors'>{errors.designation}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Email ID</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="email"
-                                    placeholder="Enter Email ID"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
-                                {errors.email && <div className='signup__errors'>{errors.email}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Mobile No.</label>
-                                <PhoneInput
-                                    className='signup-form-section-phone-input'
-                                    defaultCountry="gb"
-                                    name="mobile"
-                                    value={mobile}
-                                    // onChange={(value) => {
-                                    //     const formattedValue = formatPhoneNumber(value);
-                                    //     setMobile(formattedValue);
-                                    //     handlePhoneChange('mobile', value);
-                                    // }}
-                                    onChange={(value) => {
-                                        handlePhoneChange('mobile', value);
-                                        // Update local state for the input
-                                        setMobile(value);
-                                    }}
-
-                                />
-                                {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Country of Origin</label>
-                                <Select
-                                    className='signup-forms-sections-select'
-                                    options={countries}
-                                    value={countries.find(option => option.value === formData.originCountry)}
-                                    onChange={handleCountryOriginChange}
-                                />
-                                {errors.originCountry && <div className='signup__errors'>{errors.originCountry}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Country of Operation</label>
-                                {countries.length > 0 && (
-                                    < MultiSelectDropdown
-                                        className='signup-forms-sections-select custom-multi-select'
-                                        options={countries}
-                                        value={formData.operationCountries}
-                                        onChange={handleOperationCountriesChange}
-                                        getDropdownButtonLabel={getDropdownButtonLabel}
-                                        style={{ width: '100%!important' }}
-                                    />
-                                )}
-                                {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
-                            </div>
-
-                            {/* <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Est. Delivery Time</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="delivertime"
-                                    placeholder="Enter Delivery Time"
-                                    value={formData.delivertime}
-                                    onChange={handleChange}
-                                />
-                                {errors.delivertime && <div className='signup__errors'>{errors.delivertime}</div>}
-                            </div> */}
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company License No.</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="companyLicenseNo"
-                                    placeholder="Enter License No."
-                                    value={formData.companyLicenseNo}
-                                    onChange={handleChange}
-                                />
-                                {errors.companyLicenseNo && <div className='signup__errors'>{errors.companyLicenseNo}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>License Expiry / Renewal Date</label>
-                                <InputMask
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    mask="dd-mm-yyyy"
-                                    placeholder='DD-MM-YYYY'
-                                    name="companyLicenseExpiry"
-                                    value={formData.companyLicenseExpiry}
-                                    onChange={handleChange}
-                                    replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate />
-
-                                {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Company Tax No.</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="companyTaxNo"
-                                    placeholder="Enter Company Tax No."
-                                    value={formData.companyTaxNo}
-                                    onChange={handleChange}
-                                />
-                                {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Tags</label>
-                                <input
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="tags"
-                                    placeholder="Enter Tags (comma separated, max 5)"
-                                    value={formData.tags}
-                                    onChange={handleChange}
-                                />
-                                {errors.tags && <div className='signup__errors'>{errors.tags}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>About Company</label>
-                                <textarea
-                                    className='signup-form-section-input'
-                                    name="description"
-                                    rows="4"
-                                    cols="50"
-                                    placeholder='Enter Description'
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                />
-                                {errors.description && <div className='signup__errors'>{errors.description}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Payment Terms</label>
-                                <textarea
-                                    className='signup-form-section-input'
-                                    type="text"
-                                    name="paymentterms"
-                                    rows="4"
-                                    cols="50"
-                                    placeholder="Enter Payment Terms"
-                                    value={formData.paymentterms}
-                                    onChange={handleChange}
-                                />
-                                {errors.paymentterms && <div className='signup__errors'>{errors.paymentterms}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Upload Trade License</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} />
-                                {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
-                            </div>
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Upload Tax Registration Certificate</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} />
-                                {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Upload a Certificate</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
-                                {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
-                            </div>
-
-                            <div className='signup-form-section-div'>
-                                <label className='signup-form-section-label'>Upload Company Logo</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} />
-                                {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
-                            </div>
-                            <div className='signup-form-section-checkbox'>
-                                {/* <Link to='/supplier/terms-and-conditions' > */}
-                                    <div className='termscondition' onClick={()=>setShowTnC(true)}>Terms & Conditions</div>
-                                {/* </Link> */}
-                            </div>
-                            <div className='signup-form-cont-button'>
-                                <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
-                                <button
-                                    type='submit'
-                                    className='signup-form-button-submit'
-                                    disabled={loading}
-                                >
-                                    {/* Submit */}
-                                    {loading ? (
-                                        <div className='loading-spinner'></div>
-                                    ) : (
-                                        'Submit'
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+            <div className='signup-container'>
+                <div className='signup-logo-section'>
+                    <img src={logo} alt='Signup Logo' />
                 </div>
-                <SuccessModal show={showModal} handleClose={handleCloseModal} />
-            </>
-        }
+                <div className='signup-form-section'>
+                    <div className='signup-form-section-heading'>Supplier Registration</div>
+                    <form className='signup-form-container' onSubmit={handleFormSubmit}>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Type</label>
+                            <Select
+                                value={selectedCompanyType}
+                                onChange={handleCompanyTypeChange}
+                                options={companyTypeOptions}
+                            />
+                            {errors.companyType && <div className='signup__errors'>{errors.companyType}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Name</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyName"
+                                placeholder="Enter Company Name"
+                                value={formData.companyName}
+                                onChange={handleChange}
+                            />
+                            {errors.companyName && <div className='signup__errors'>{errors.companyName}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Address</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyAddress"
+                                placeholder="Enter Company Address"
+                                value={formData.companyAddress}
+                                onChange={handleChange}
+                            />
+                            {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>}
+                        </div>
+                        
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="registrationNo"
+                                placeholder="Enter Company Registration Number"
+                                value={formData.registrationNo}
+                                onChange={handleChange}
+                            />
+                            {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>VAT Registration Number</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="vatRegistrationNo"
+                                placeholder="Enter VAT Registration Number"
+                                value={formData.vatRegistrationNo}
+                                onChange={handleChange}
+                            />
+                            {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Phone No.</label>
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="gb"
+                                name="companyPhone"
+                                value={companyPhone}
+                                // onChange={(value) => {
+                                //     const formattedValue = formatCompanyPhoneNumber(value);
+                                //     setCompanyPhone(formattedValue);
+                                //     handlePhoneChange('companyPhone', value);
+                                // }}
+
+                                onChange={(value) => {
+                                    handlePhoneChange('companyPhone', value);
+                                    // Update local state for the input
+                                    setCompanyPhone(value);
+                                }}
+                            />
+                            {errors.companyPhone && <div className='signup__errors'>{errors.companyPhone}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Sales Person Name</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="salesPersonName"
+                                placeholder="Enter Sales Person Name"
+                                value={formData.salesPersonName}
+                                onChange={handleChange}
+                            />
+                            {errors.salesPersonName && <div className='signup__errors'>{errors.salesPersonName}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Contact Person Name</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="contactPersonName"
+                                placeholder="Enter Contact Person Name"
+                                value={formData.contactPersonName}
+                                onChange={handleChange}
+                            />
+                            {errors.contactPersonName && <div className='signup__errors'>{errors.contactPersonName}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Designation</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="designation"
+                                placeholder="Enter Designation"
+                                value={formData.designation}
+                                onChange={handleChange}
+                            />
+                            {errors.designation && <div className='signup__errors'>{errors.designation}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Email ID</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="email"
+                                placeholder="Enter Email ID"
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                            {errors.email && <div className='signup__errors'>{errors.email}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Mobile No.</label>
+                            <PhoneInput
+                                className='signup-form-section-phone-input'
+                                defaultCountry="gb"
+                                name="mobile"
+                                value={mobile}
+                                // onChange={(value) => {
+                                //     const formattedValue = formatPhoneNumber(value);
+                                //     setMobile(formattedValue);
+                                //     handlePhoneChange('mobile', value);
+                                // }}
+                                onChange={(value) => {
+                                    handlePhoneChange('mobile', value);
+                                    // Update local state for the input
+                                    setMobile(value);
+                                }}
+
+                            />
+                            {errors.mobile && <div className='signup__errors'>{errors.mobile}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Country of Origin</label>
+                            <Select
+                                className='signup-forms-sections-select'
+                                options={countries}
+                                value={countries.find(option => option.value === formData.originCountry)}
+                                onChange={handleCountryOriginChange}
+                            />
+                            {errors.originCountry && <div className='signup__errors'>{errors.originCountry}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Country of Operation</label>
+                            {countries.length > 0 && (
+                                < MultiSelectDropdown
+                                    className='signup-forms-sections-select custom-multi-select'
+                                    options={countries}
+                                    value={formData.operationCountries}
+                                    onChange={handleOperationCountriesChange}
+                                    getDropdownButtonLabel={getDropdownButtonLabel}
+                                    style={{ width: '100%!important' }}
+                                />
+                            )}
+                            {errors.operationCountries && <div className='signup__errors'>{errors.operationCountries}</div>}
+                        </div>
+
+                       
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company License No.</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyLicenseNo"
+                                placeholder="Enter License No."
+                                value={formData.companyLicenseNo}
+                                onChange={handleChange}
+                            />
+                            {errors.companyLicenseNo && <div className='signup__errors'>{errors.companyLicenseNo}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>License Expiry / Renewal Date</label>
+                            <InputMask
+                                className='signup-form-section-input'
+                                type="text"
+                                mask="dd-mm-yyyy"
+                                placeholder='DD-MM-YYYY'
+                                name="companyLicenseExpiry"
+                                value={formData.companyLicenseExpiry}
+                                onChange={handleChange}
+                                replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate />
+
+                            {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Company Tax No.</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="companyTaxNo"
+                                placeholder="Enter Company Tax No."
+                                value={formData.companyTaxNo}
+                                onChange={handleChange}
+                            />
+                            {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Tags</label>
+                            <input
+                                className='signup-form-section-input'
+                                type="text"
+                                name="tags"
+                                placeholder="Enter Tags (comma separated, max 5)"
+                                value={formData.tags}
+                                onChange={handleChange}
+                            />
+                            {errors.tags && <div className='signup__errors'>{errors.tags}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>About Company</label>
+                            <textarea
+                                className='signup-form-section-input'
+                                name="description"
+                                rows="2"
+                                cols="50"
+                                placeholder='Enter Description'
+                                value={formData.description}
+                                onChange={handleChange}
+                            />
+                            {errors.description && <div className='signup__errors'>{errors.description}</div>}
+                        </div>
+                        
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Payment Terms</label>
+                            <textarea
+                                className='signup-form-section-input'
+                                type="text"
+                                name="paymentterms"
+                                rows="4"
+                                cols="50"
+                                placeholder="Enter Payment Terms"
+                                value={formData.paymentterms}
+                                onChange={handleChange}
+                            />
+                            {errors.paymentterms && <div className='signup__errors'>{errors.paymentterms}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Upload Trade License</label>
+                            <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} />
+                            {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
+                        </div>
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Upload Tax Registration Certificate</label>
+                            <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} />
+                            {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Upload a Certificate</label>
+                            <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
+                            {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
+                        </div>
+
+                        <div className='signup-form-section-div'>
+                            <label className='signup-form-section-label'>Upload Company Logo</label>
+                            <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} />
+                            {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
+                        </div>
+                        <div className='signup-form-section-checkbox'>
+                            <Link to='/supplier/terms-and-conditions' >
+                                <div className='termscondition'>Terms & Conditions</div>
+                            </Link>
+                        </div>
+                        <div className='signup-form-cont-button'>
+                            <div className='signup-form-button-cancel' onClick={handleCancel}>Cancel</div>
+                            <button
+                                type='submit'
+                                className='signup-form-button-submit'
+                                disabled={loading}
+                            >
+                                {/* Submit */}
+                                {loading ? (
+                                    <div className='loading-spinner'></div>
+                                ) : (
+                                    'Submit'
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <SuccessModal show={showModal} handleClose={handleCloseModal} />
         </>
     );
 };
 
 export default SupplierSignUp;
-
