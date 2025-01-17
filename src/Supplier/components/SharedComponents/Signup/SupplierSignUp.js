@@ -13,6 +13,7 @@ import { apiRequests } from '../../../../api/index';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+import TermsAndConditions from '../../../../Policies/Terms&Conditions';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -41,8 +42,9 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 
 const SupplierSignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
+    const [showTnC, setShowTerms] = useState(false);
     const [errors, setErrors] = useState({});
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setTermsChecked] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [countries, setCountries] = useState([]);
     const [companyPhone, setCompanyPhone] = useState('');
@@ -52,6 +54,7 @@ const SupplierSignUp = ({ socket }) => {
     const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
+    
 
     const defaultFormData = {
         companyType: '',
@@ -256,7 +259,7 @@ const SupplierSignUp = ({ socket }) => {
     };
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
+        setTermsChecked(!isChecked);
         if (!isChecked) setErrors(prevState => ({ ...prevState, terms: '' }));
     };
 
@@ -317,7 +320,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
         if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-        if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
+        // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
         // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
@@ -400,7 +403,7 @@ const SupplierSignUp = ({ socket }) => {
     const handleCancel = () => {
         setFormData(defaultFormData);
         setErrors({});
-        setIsChecked(false);
+        setTermsChecked(false);
         setCompanyPhone('');
         setMobile('');
         setSelectedCompanyType(null)
@@ -410,7 +413,11 @@ const SupplierSignUp = ({ socket }) => {
     const handleSubmit = async () => {
         const isFormValid = await validateForm();
         console.log('Is Form Valid:', isFormValid);
-        if (isFormValid && isChecked) {
+        if (isFormValid) {
+            if( !isChecked) {
+                toast("You must agree to the terms and conditions", { type: 'error' });
+                return;
+            }
             setLoading(true)
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
@@ -508,7 +515,19 @@ const SupplierSignUp = ({ socket }) => {
 
     return (
         <>
-            <div className='signup-container'>
+        {
+            showTnC
+            ?
+            <TermsAndConditions
+                setShowTnC={setShowTerms}
+                // showTnC={showTnC}
+                // isChecked={isChecked}
+                setIsChecked={setTermsChecked}
+                
+            />
+            :
+            <>
+             <div className='signup-container'>
                 <div className='signup-logo-section'>
                     <img src={logo} alt='Signup Logo' />
                 </div>
@@ -819,6 +838,8 @@ const SupplierSignUp = ({ socket }) => {
                 </div>
             </div>
             <SuccessModal show={showModal} handleClose={handleCloseModal} />
+            </>
+        }
         </>
     );
 };
