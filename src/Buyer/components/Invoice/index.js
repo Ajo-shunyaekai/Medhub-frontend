@@ -2,10 +2,10 @@ import React from 'react'
 import Invoices from './Invoice'
 
 
-const Invoice = () => {
+const Invoice = ({socket}) => {
   return (
     <div>
-      <Invoices/>
+      <Invoices socket={socket}/>
     </div>
   )
 }

@@ -192,6 +192,7 @@ const Invoice = ({socket}) => {
                                 totalInvoices={totalInvoices} 
                                 invoicesPerPage={invoicesPerPage} 
                                 handlePageChange={handlePageChange} 
+                                socket = {socket}
                             />}
                             {activeIndex === 2 && 
                             <ProformaInvoice 

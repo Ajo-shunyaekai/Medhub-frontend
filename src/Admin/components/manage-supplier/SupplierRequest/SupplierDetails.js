@@ -223,15 +223,15 @@ const renderFiles = (files, type) => {
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
                                                     <MailOutlineIcon
-                                                        data-tooltip-id={supplierDetails?.supplier_email ? "my-tooltip-2" : null}
+                                                        data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
                                                         className='buyer-details-left-inner-icon'
                                                     />
-                                                    {supplierDetails?.supplier_email && (
+                                                    {supplierDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"
                                                             place="bottom"
                                                             effect="solid"
-                                                            content={supplierDetails.supplier_email}
+                                                            content={supplierDetails.contact_person_email}
                                                         />
                                                     )}
                                                 </div>
@@ -261,6 +261,10 @@ const renderFiles = (files, type) => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Sales Person Name :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
@@ -269,15 +273,23 @@ const renderFiles = (files, type) => {
                                     <div className='buyer-details-inner-head'>Designation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.designation}</div>
                                 </div>
-                                <div className='buyer-details-inner-section'>
+                                {/* <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Email ID :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_email}</div>
-                                </div>
+                                </div> */}
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Tags :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Payment Terms :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.payment_terms}</div>
+                                </div>
+                                {/* <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Est.Delivery Time :</div>
                                     <div className='buyer-details-inner-text'>
                                     {
@@ -286,7 +298,7 @@ const renderFiles = (files, type) => {
                                     : supplierDetails?.estimated_delivery_time
                                     }
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
@@ -317,14 +329,7 @@ const renderFiles = (files, type) => {
                                     <div className='buyer-details-inner-head'>Country of Operation :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.country_of_operation?.join(', ')}</div>
                                 </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tags :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Payment Terms :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.payment_terms}</div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

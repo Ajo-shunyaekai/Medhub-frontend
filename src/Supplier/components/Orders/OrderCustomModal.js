@@ -652,8 +652,10 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                     setLoading(false)
                 } else {
                     setLoading(false)
-                    toast(response.message, { type: 'error' })
-                    console.log('error in order details api');
+                    setRefresh(true)
+                    onClose()
+                    // toast(response.message, { type: 'error' })
+                    console.log('error in order detailsssss api');
                 }
             }); 
         }  else {

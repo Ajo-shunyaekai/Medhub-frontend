@@ -30,13 +30,13 @@ const ActiveOrdersDetails = ({socket}) => {
             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
         };
     
-        postRequestWithToken('buyer/order/supplier-order-details', obj, (response) => {
-            if (response.code === 200) {
-                setOrderDetails(response.result);
-            } else {
-                console.log('error in order details api');
-            }
-        });
+        // postRequestWithToken('buyer/order/supplier-order-details', obj, (response) => {
+        //     if (response.code === 200) {
+        //         setOrderDetails(response.result);
+        //     } else {
+        //         console.log('error in order details api');
+        //     }
+        // });
         try {
             const response = await  apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
             if (response.code === 200) {
@@ -152,8 +152,14 @@ const ActiveOrdersDetails = ({socket}) => {
             {/* end the main component heading */}
             {/* start the main component heading */}
             {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
+{/*             
             {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
-                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && (
+                 (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && ( */}
+
+{(orderDetails?.shipment_details?.supplier_details &&
+                        Object.keys(orderDetails.shipment_details.supplier_details).length > 0) ||
+                        (orderDetails?.supplier_logistics_data &&
+                        Object.keys(orderDetails?.supplier_logistics_data).length > 0) ? (
                 <div className='active-order-details-middle-bottom-containers'>
                     <div className='active-order-details-left-middle-vehichle-no'>
                         <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
@@ -200,7 +206,7 @@ const ActiveOrdersDetails = ({socket}) => {
                         </div>
                     </div>
                 </div>
-            )}
+            ) : null}
             {/* end the main component heading */}
             {/* Start the end section */}
             <div className='active-order-details-payment-container'>
@@ -243,8 +249,14 @@ const ActiveOrdersDetails = ({socket}) => {
 
                     {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
 
-                    {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
-                     (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && (
+                    {/* {(orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0) ||
+                     (orderDetails?.supplier_logistics_data && Object.keys(orderDetails?.supplier_logistics_data).length > 0) && ( */}
+
+
+                        {(orderDetails?.shipment_details?.supplier_details &&
+                        Object.keys(orderDetails.shipment_details.supplier_details).length > 0) ||
+                        (orderDetails?.supplier_logistics_data &&
+                        Object.keys(orderDetails?.supplier_logistics_data).length > 0) ? (
                         <>
                             <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
                             <div className='active-order-details-payment-right-details-row'>
@@ -275,7 +287,7 @@ const ActiveOrdersDetails = ({socket}) => {
                                 </div>
                             </div>
                         </>
-                    )}
+                    ) : null}
 
                     {/* {orderDetails?.logistics_details && ( */}
                     {(orderDetails?.logistics_details || orderDetails?.buyer_logistics_data) && (

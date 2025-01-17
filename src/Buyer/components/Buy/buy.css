@@ -193,7 +193,7 @@ ul {
 
 .buy-seller-filter-container {
   margin-top: 30px;
-  background: linear-gradient(to left, #00dcff, #0075ce);
+   background: linear-gradient(to left, #00dcff, #0075ce);
   color: #ffffff;
   padding: 12px;
 }
@@ -310,7 +310,7 @@ ul {
 }
 
 .buy-seller-company-card-button {
-  background: linear-gradient(to left, #00dcff, #0075ce);
+   background: linear-gradient(to left, #00dcff, #0075ce);
   color: white;
   padding: 6px 16px;
   border-radius: 4px;

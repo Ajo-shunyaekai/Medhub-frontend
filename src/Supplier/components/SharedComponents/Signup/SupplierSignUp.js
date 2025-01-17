@@ -13,6 +13,7 @@ import { apiRequests } from '../../../../api/index';
 import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+import TermsAndConditions from '../../../../Policies/Terms&Conditions';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -41,6 +42,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 
 const SupplierSignUp = ({ socket }) => {
     const [loading, setLoading] = useState(false);
+    const [showTnC, setShowTnC] = useState(false);
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -52,6 +54,7 @@ const SupplierSignUp = ({ socket }) => {
     const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
+    
 
     const defaultFormData = {
         companyType: '',
@@ -271,7 +274,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyType) formErrors.companyType = 'Company Type is Required';
         if (!formData.companyName) formErrors.companyName = 'Company Name is Required';
         if (!formData.companyAddress) formErrors.companyAddress = 'Company Address is Required';
-        if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
+        // if (!formData.companyEmail) formErrors.companyEmail = 'Company Email ID is Required';
         if (formData.companyEmail && !validateEmail(formData.companyEmail)) formErrors.companyEmail = 'Invalid Company Email ID';
         // if (!companyPhone || companyPhone.length <= 6) {
         //     formErrors.companyPhone = 'Company Phone No. is Required';
@@ -317,9 +320,9 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
         if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-        if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
+        // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
-        if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
+        // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.tags.split(',').map(tag => tag.trim()).length > 5) formErrors.tags = 'You can only enter up to 5 tags';
@@ -410,7 +413,11 @@ const SupplierSignUp = ({ socket }) => {
     const handleSubmit = async () => {
         const isFormValid = await validateForm();
         console.log('Is Form Valid:', isFormValid);
-        if (isFormValid && isChecked) {
+        if (isFormValid) {
+            if( !isChecked) {
+                toast("You must agree to the terms and conditions", { type: 'error' });
+                return;
+            }
             setLoading(true)
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
@@ -421,7 +428,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('supplier_name', formData.companyName);
             formDataToSend.append('description', formData.description);
             formDataToSend.append('supplier_address', formData.companyAddress);
-            formDataToSend.append('supplier_email', formData.companyEmail);
+            // formDataToSend.append('supplier_email', formData.companyEmail);
             // formDataToSend.append('supplier_mobile_no', companyPhone);
             formDataToSend.append('supplier_mobile_no', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
@@ -508,7 +515,19 @@ const SupplierSignUp = ({ socket }) => {
 
     return (
         <>
-            <div className='signup-container'>
+        {
+            showTnC
+            ?
+            <TermsAndConditions
+                setShowTnC={setShowTnC}
+                // showTnC={showTnC}
+                // isChecked={isChecked}
+                setIsChecked={setIsChecked}
+                
+            />
+            :
+            <>
+             <div className='signup-container'>
                 <div className='signup-logo-section'>
                     <img src={logo} alt='Signup Logo' />
                 </div>
@@ -819,9 +838,10 @@ const SupplierSignUp = ({ socket }) => {
                 </div>
             </div>
             <SuccessModal show={showModal} handleClose={handleCloseModal} />
+            </>
+        }
         </>
     );
 };
 
 export default SupplierSignUp;
-

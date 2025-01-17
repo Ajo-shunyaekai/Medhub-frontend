@@ -12,7 +12,7 @@ import { ClipLoader } from 'react-spinners';
 import { messaging, getToken, onMessage } from '../../../../utils/firebaseUtils';
 
 
-const Login = ({socket}) => {
+const Login = ({ socket }) => {
     const [fcmToken, setFcmToken] = useState(null)
 
     const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const Login = ({socket}) => {
         return newErrors;
     };
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -59,14 +59,14 @@ const Login = ({socket}) => {
             }
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
-                if(response.code !== 200){
+                if (response.code !== 200) {
                     toast(response.message, { type: "error" });
                     return
                 }
-                const {result} = await response;
-                for (let x in result) {
-                    sessionStorage.setItem(`${x}`, result[x])
-                    console.log(`RESPONSE OF LOGIN USER : ${x} ${ result[x]}`)
+                const { data } = await response;
+                for (let x in data) {
+                    sessionStorage.setItem(`${x}`, data[x])
+                    console.log(`RESPONSE OF LOGIN USER : ${x} ${data[x]}`)
                 }
                 setTimeout(() => {
                     navigate("/buyer");
@@ -76,27 +76,27 @@ const Login = ({socket}) => {
                 if ('Notification' in window) {
                     if (Notification.permission === 'granted') {
                         // If permission is already granted, register the user directly
-                        const userId = response.result.buyer_id;
+                        const userId = response.data.buyer_id;
                         socket.emit('registerBuyer', userId);
                     } else if (Notification.permission !== 'denied') {
                         // Request permission if not already denied
                         const permission = await Notification.requestPermission();
                         if (permission === 'granted') {
-                            const userId = response.result.buyer_id;
+                            const userId = response.data.buyer_id;
                             socket.emit('registerBuyer', userId);
                         }
                     }
                 } else {
-                setLoading(false)
-                toast(response.message, { type: "error" });
-                console.log('error while login')
+                    setLoading(false)
+                    toast(response.message, { type: "error" });
+                    console.log('error while login')
                 }
             } catch (error) {
                 console.log(error)
                 setLoading(false)
                 toast(error.message, { type: "error" });
                 console.log('error while login')
-            } finally{
+            } finally {
                 setLoading(false)
 
             }
@@ -114,7 +114,7 @@ const Login = ({socket}) => {
         // }
         if (e.target.value.length <= 50) {
             setEmail(e.target.value);
-    
+
             // Clear errors if email was previously invalid
             if (errors.email) {
                 setErrors((prevErrors) => ({
@@ -131,27 +131,27 @@ const Login = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-            // setPassword(e.target.value);
-            // if (errors.password) {
-            //     setErrors((prevErrors) => ({
-            //         ...prevErrors,
-            //         password: '',
-            //     }));
-            // }
-            if (e.target.value.length <= 25) {
-                setPassword(e.target.value);
-                if (errors.password) {
-                    setErrors((prevErrors) => ({
-                        ...prevErrors,
-                        password: '',
-                    }));
-                }
+        // setPassword(e.target.value);
+        // if (errors.password) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         password: '',
+        //     }));
+        // }
+        if (e.target.value.length <= 25) {
+            setPassword(e.target.value);
+            if (errors.password) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    password: '',
+                }));
             }
+        }
     };
 
 
-   
-    
+
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -211,25 +211,27 @@ const Login = ({socket}) => {
                         </div>
                         {errors.password && <span className="login-errors">{errors.password}</span>}
                     </div>
-                    <div className='login-form-main-div'>
-                        <span className='login-form-main-password'>Forgot Password?</span>
-                    </div>
+                    <Link to='/buyer/forgot-password'>
+                        <div className='login-form-main-div'>
+                            <span className='login-form-main-password'>Forgot Password?</span>
+                        </div>
+                    </Link>
                     <div className='login-form-main-buttons'>
-                       
+
                         <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
-                        <button 
-                        type='submit' 
-                        className='login-form-main-login'
-                        disabled={loading}
+                        <button
+                            type='submit'
+                            className='login-form-main-login'
+                            disabled={loading}
                         >
                             {/* Login */}
                             {loading ? (
-                                <div className='loading-spinner'></div> 
+                                <div className='loading-spinner'></div>
                             ) : (
                                 'Login'
                             )}
                         </button>
-                       
+
                     </div>
                 </form>
                 <div className="header__center">OR</div>

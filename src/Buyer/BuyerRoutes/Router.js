@@ -56,6 +56,7 @@ import SupplierPending from "../components/supplier/SupplierPending"
 import Profile from "../components/SharedComponents/Profile/profile"
 import PrivacyPolicy from "../../Policies/PrivcyPolicy"
 import TermsConditions from "../../Policies/Terms&Conditions"
+import ForgotPassword from '../components/SharedComponents/Login/ForgotPassword';
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -178,6 +179,10 @@ const router = createBrowserRouter([
     {
         path: "/buyer/login",
         element: <Login socket={socket} />,
+    },
+    {
+        path:"/buyer/forgot-password",
+        element:<ForgotPassword/>
     },
     {
         path: "/buyer/sign-up",
@@ -360,11 +365,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "invoice",
-                element: <Invoice />,
+                element: <Invoice socket={socket}/>,
                 children: [
                     {
                         path: "pending-invoice",
-                        element: <PendingInvoice />
+                        element: <PendingInvoice socket={socket}/>
                     },
                     {
                         path: "paid-invoice",
