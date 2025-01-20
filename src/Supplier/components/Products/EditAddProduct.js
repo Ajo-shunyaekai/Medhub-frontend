@@ -746,6 +746,7 @@ console.log('FORMDATA',formData);
                 newFormData.append('dossier_type', formData.dossierType);
                 newFormData.append('dossier_status', formData.dossierStatus);
                 newFormData.append('product_category', formData.productCategory?.label);
+                // newFormData.append('medicine_category', formData.productCategory?.label)
                 newFormData.append('total_quantity', formData.totalQuantity);
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
