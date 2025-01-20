@@ -48,7 +48,7 @@ const VerifyEmail = ({ step, setStep }) => {
       {() => (
         <Form className="login-main-form-section">
           <div className="login-form-main-div">
-            <label className="login-form-main-label">Email ID*</label>
+            <label className="login-form-main-label">Email ID<span className='labelstamp'>*</span></label>
             <Field
               className="login-form-main-input"
               autoComplete="off"
