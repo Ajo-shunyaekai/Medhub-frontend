@@ -5,6 +5,8 @@ import "./login.css";
 import "./forgotpass.css";
 import { useSelector } from "react-redux";
 import { apiRequests } from "../../../../api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 // Validation schemas for each step using Yup
 
@@ -26,28 +28,32 @@ const passwordValidationSchema = Yup.object({
 });
 
 const ChangePassword = ({ step, setStep }) => {
+  const navigate = useNavigate();
   const { emailToResetPassword } = useSelector((state) => state?.userReducer);
   return (
     <Formik
       initialValues={{ password: "", confirmPassword: "" }}
       validationSchema={passwordValidationSchema}
       onSubmit={async (values) => {
-              // Handle password change logic here
-              const payloadData = {
-                password: values.password,
-                confirmPassword: values.confirmPassword,
-                email: emailToResetPassword,
-                user_type: "Supplier",
-              };
-              console.log("Password reset:", payloadData);
-              const response = await apiRequests.postRequest(
-                "auth/reset-password",
-                payloadData
-              );
-              if (response?.code == 200) {
-                alert("Password Changed Successfully!");
-              }
-            }}
+        // Handle password change logic here
+        const payloadData = {
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+          email: emailToResetPassword,
+          user_type: "Buyer",
+        };
+        console.log("Password reset:", payloadData);
+        const response = await apiRequests.postRequest(
+          "auth/reset-password",
+          payloadData
+        );
+        if (response?.code != 200) {
+          toast.error(response?.message);
+          return;
+        }
+        toast.success("Password Changed Successfully!");
+        navigate(`/buyer/login`);
+      }}
       validateOnBlur={true}
       validateOnChange={true} // Validate on change as well
     >

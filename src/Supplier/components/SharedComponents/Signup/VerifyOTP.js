@@ -6,6 +6,7 @@ import "./login.css";
 import "./forgotpass.css";
 import { useSelector } from "react-redux";
 import { apiRequests } from "../../../../api";
+import { toast } from "react-toastify";
 
 const otpValidationSchema = Yup.object({
   otp: Yup.string()
@@ -31,6 +32,32 @@ const VerifyOTP = ({ step, setStep }) => {
     }
   }, [step, timer]);
 
+  // Function to request resending the OTP
+  const reqResendOTP = async () => {
+    try {
+      const payloadData = {
+        email: emailToResetPassword,
+        user_type: "Supplier", // Make sure you have the correct user_type
+      };
+
+      const response = await apiRequests.postRequest(
+        "auth/resend-otp",
+        payloadData
+      );
+
+      if (response?.code !== 200) {
+        toast.error(response?.message);
+        return;
+      }
+
+      toast.success(response?.message || "OTP Resent Successfully");
+      setTimer(60); // Reset timer after successfully resending OTP
+      setCanResend(false); // Disable resend button again after sending
+    } catch (error) {
+      toast.error("Failed to resend OTP. Please try again.");
+    }
+  };
+
   return (
     <Formik
       initialValues={{ otp: "" }}
@@ -47,9 +74,12 @@ const VerifyOTP = ({ step, setStep }) => {
           "auth/verify-otp",
           payloadData
         );
-        if (response?.code == 200) {
-          setStep(3); // Proceed to password reset step
+        if (response?.code != 200) {
+          toast.error(response?.message);
+          return;
         }
+        toast.success(response?.message || "OTP Verified");
+        setStep(3); // Proceed to OTP verification step
       }}
       validateOnBlur={true}
       validateOnChange={false} // Only validate when user submits
@@ -57,7 +87,7 @@ const VerifyOTP = ({ step, setStep }) => {
       {({ setFieldValue, values }) => (
         <Form className="login-main-form-section">
           <div className="otp-inputs">
-            <label className="login-form-main-label">OTP*</label>
+            {/* <label className="login-form-main-label">OTP*</label> */}
             <OtpInput
               value={values.otp} // Now it refers to Formik's state
               onChange={(otp) => setFieldValue("otp", otp)} // Update Formik state
@@ -86,7 +116,7 @@ const VerifyOTP = ({ step, setStep }) => {
             Didn't receive the code?{" "}
             <span
               className={`resend-link ${canResend ? "active" : "disabled"}`}
-              onClick={() => canResend && console.log("Resend OTP clicked")}
+              onClick={() => canResend && reqResendOTP("Resend OTP clicked")}
               style={{ cursor: canResend ? "pointer" : "not-allowed" }}
             >
               {canResend ? "Resend OTP" : `Resend OTP in ${timer}s`}

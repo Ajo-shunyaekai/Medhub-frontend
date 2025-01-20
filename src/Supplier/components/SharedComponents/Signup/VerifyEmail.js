@@ -6,6 +6,7 @@ import "./forgotpass.css";
 import { useDispatch } from "react-redux";
 import { setEmailToResetPassword } from "../../../../redux/reducers/userDataSlice";
 import { apiRequests } from "../../../../api";
+import { toast } from "react-toastify";
 
 // Validation schemas for each step using Yup
 const emailValidationSchema = Yup.object({
@@ -20,7 +21,7 @@ const VerifyEmail = ({ step, setStep }) => {
     <Formik
       initialValues={{ email: "" }}
       validationSchema={emailValidationSchema}
-      onSubmit={async(values) => {
+      onSubmit={async (values) => {
         // Handle email verification logic here
         dispatch(setEmailToResetPassword(values.email));
         const payloadData = {
@@ -28,10 +29,18 @@ const VerifyEmail = ({ step, setStep }) => {
           user_type: "Supplier",
         };
         console.log("Email submitted:", payloadData);
-        const response = await apiRequests.postRequest('auth/verify-email',payloadData)
-        if(response?.code == 200){
-          setStep(2); // Proceed to OTP verification step
+        const response = await apiRequests.postRequest(
+          "auth/verify-email",
+          payloadData
+        );
+        if (response?.code != 200) {
+          toast.error(response?.message);
+          return;
         }
+        toast.success(
+          response?.message || "Email Verified and otp sent on the mail"
+        );
+        setStep(2); // Proceed to OTP verification step
       }}
       validateOnBlur={true}
       validateOnChange={false} // Only validate when user submits
