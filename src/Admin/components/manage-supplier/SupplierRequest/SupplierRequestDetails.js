@@ -166,7 +166,7 @@ const SupplierRequestDetails = () => {
         <>
             <div className='buyer-details-container'>
                 <div className='buyer-details-inner-conatiner'>
-                    <div className='buyer-details-container-heading'>Seller Details</div>
+                    <div className='buyer-details-container-heading'>Supplier Details</div>
                     <div className='buyer-details-left-inner-container'>
                         <div className='buyer-details-left-uppar-section'>
                             <div className='buyer-details-uppar-main-logo-section'>

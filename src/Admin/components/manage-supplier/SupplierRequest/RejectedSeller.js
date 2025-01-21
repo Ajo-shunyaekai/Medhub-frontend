@@ -61,7 +61,7 @@ const RejectedOrders = () => {
                      <Loader />
                 ) : (
             <div className='rejected-main-container'>
-                <div className="rejected-main-head">Rejected Seller</div>
+                <div className="rejected-main-head">Rejected Supplier</div>
                 <div className="rejected-container">
                     <div className="rejected-container-right-2">
                         <Table responsive="xxl" className='rejected-table-responsive'>
@@ -102,7 +102,7 @@ const RejectedOrders = () => {
                                             <div className='table-text-color'>{supplier.supplier_country_code} {supplier.supplier_mobile}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='rejected-table-text-color'>{supplier.supplier_email}</div>
+                                            <div className='rejected-table-text-color'>{supplier.contact_person_email}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>{supplier.account_status ? (supplier.account_status === 1 ? 'Accepted' : (supplier.account_status === 2 ? 'Rejected' : 'Pending')) : ''}</div>
