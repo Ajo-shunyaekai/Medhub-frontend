@@ -97,8 +97,8 @@ const SignUp = ({ socket }) => {
         licenseImageType: 'license',
         certificateImage: null,
         certificateImageType: 'certificate',
-        medicalCertificate: null,
-        medicalCertificateType: 'medical',
+        medicalCertificateImage: null,
+        medicalCertificateType: 'medicalCertificate',
         registrationNo: '',
         vatRegistrationNo: '',
         locality: '',
@@ -109,6 +109,9 @@ const SignUp = ({ socket }) => {
         pincode: '',
         user_type: 'Buyer'
     }
+
+   
+
     const handleCountryChange = (selectedOption) => {
         setSelectedCountry(selectedOption);
         setSelectedState(null);
@@ -188,6 +191,11 @@ const SignUp = ({ socket }) => {
         }
     };
 
+    console.log('taxImage',formData.taxImage)
+    console.log('certificate',formData.certificateImage)
+    console.log('medical',formData.medicalCertificateImage)
+    console.log('logo',formData.logoImage)
+
     const options = [
         { value: 'generies', label: 'Generies' },
         { value: 'orignal', label: 'Orignals' },
@@ -207,7 +215,7 @@ const SignUp = ({ socket }) => {
                 [`${imageType}Image`]: hasImage ? file : null,
             }));
         }, 0);
-
+console.log('FORMMMM',formData )
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
@@ -384,8 +392,8 @@ const SignUp = ({ socket }) => {
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
         // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
-        if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificate) {
-            formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificateImage) {
+            formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
         }
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
         if (!formData.locality) formErrors.locality = 'Locality is Required';
@@ -481,7 +489,7 @@ const SignUp = ({ socket }) => {
             Array.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
             Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
             if (selectedCompanyType?.value === "medical practitioner") {
-                Array.from(formData.medicalCertificate).forEach(file => formDataToSend.append('medical_certificate', file));
+                Array.from(formData.medicalCertificateImage).forEach(file => formDataToSend.append('medical_practitioner_image', file));
             }
             
             console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
@@ -1018,8 +1026,8 @@ const SignUp = ({ socket }) => {
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
                                                     {/* <ImageUploaders onUploadStatusChange={handleImageUpload} imageType="medical" reset={resetUploaders} allowMultiple={true} /> */}
-                                                    <ImageUploaders onUploadStatusChange={handleImageUpload} filePreviews={medicalPractitionerPreview} setFilePreviews={setMedicalPractiotionerPreview} imageType="medical" reset={resetUploaders} allowMultiple={true} />
-                                                    {errors.medicalCertificate && <div className='signup__errors'>{errors.medicalCertificate}</div>}
+                                                    <ImageUploaders onUploadStatusChange={handleImageUpload} filePreviews={medicalPractitionerPreview} setFilePreviews={setMedicalPractiotionerPreview} imageType="medicalCertificate" reset={resetUploaders} allowMultiple={true} />
+                                                    {errors.medicalCertificateImage && <div className='signup__errors'>{errors.medicalCertificateImage}</div>}
                                                 </div>
                                             )}
                                             <div className='signup-form-section-div'>
