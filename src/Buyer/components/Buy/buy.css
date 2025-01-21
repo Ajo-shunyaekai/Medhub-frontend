@@ -38,6 +38,7 @@ ul {
   justify-content: start;
   align-items: center;
   column-gap: 18px;
+  margin-top: 8px;
 }
 
 .buy-button-one {
@@ -96,7 +97,26 @@ ul {
 .buy-seller-name-images {
   width: 16px;
 }
-
+/* style the breadcrumbs section */
+.buy-breadcrumbs-section{
+  display: flex;
+      width: 100%;
+      gap: 6px;
+      align-items: center;
+}
+.breadcrumbs-head{
+    color: #99a0ac;
+    font-size: 12px;
+    font-weight: 500;
+    cursor:pointer !important;
+}
+.breadcrumbs-head.active {
+  color:#448bff;
+}
+.breadcrumbs-icon{
+  width: 5px;
+}
+/* end the breadcrumbs section */
 .buy-seller-card {
   background-color: #ffffff;
   width: 15vw;
