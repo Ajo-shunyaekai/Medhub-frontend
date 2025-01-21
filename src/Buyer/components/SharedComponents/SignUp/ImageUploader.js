@@ -202,7 +202,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 </div>
             )}
             <div className={styles['file-previews']}>
-                {filePreviews.map((file) => (
+                {filePreviews?.map((file) => (
                     <div key={file.name} className={styles['file-container']}>
                         <div className={styles['file-wrapper']} onClick={() => openModal(file.preview, file.type)}>
                             {file.type.startsWith('image') ? (

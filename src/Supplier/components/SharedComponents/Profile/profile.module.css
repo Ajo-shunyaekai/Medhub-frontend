@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 100%;
     height: 100vh;
     overflow: scroll;
@@ -10,25 +10,81 @@
     flex-direction: column;
     row-gap: 20px;
 }
-.MainHeading{
+.profileHeadSection{
+    width: 100%;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.MainHeading {
     font-size: 20px;
     font-weight: 600;
     padding-top: 10px;
 }
-.profileContainer{
-    background-color: #ffffff;
-    display: flex;
-    align-items: baseline;
-    gap: 30px;
+.EditButtonSection{
+    background: linear-gradient(270deg, #00dcff, #0075ce);
     border-radius: 4px;
-    padding: 28px 40px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    color: #fff;
+    column-gap: 8px;
+    cursor: pointer !important;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 6px 16px;
 }
-.contentSection{
+.editButton{
+    cursor: pointer !important;
+}
+
+.imgSection {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileImage {
+    width: 220px;
+    height: 200px;
+}
+
+.profileContainer {
+    display: flex;
+    align-items: start;
+    gap: 30px;
+
+}
+
+.contentSection {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+    width: 70vw;
 }
+
+.companyNameSection {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.addressSection {
+    width: 50%;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    flex-direction: column;
+    row-gap: 14px;
+}
+
 .mainHead {
     font-size: 26px;
     font-weight: 500;
@@ -39,21 +95,112 @@
     text-overflow: ellipsis;
     white-space: normal;
 }
-.contentIconSection{
+
+.contentIconSection {
     display: flex;
-align-items: center;
     gap: 20px;
 }
-.iconSection{
+
+.addressContainers {
     display: flex;
-        align-items: end;
-        gap: 14px;
+    flex-direction: column;
+    row-gap: 2px;
 }
-.icon{
-font-size: 20px;
+
+.iconSection {
+    display: flex;
+    gap: 14px;
 }
-.textSection{
+
+.icon {
+    font-size: 26px;
+}
+
+.textSection {
     font-size: 16px;
     color: #5e676f !important;
     font-weight: 500;
+    line-height: 20px;
 }
+/* style the company section */
+.companySection{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: start;
+    justify-content: start;
+}
+.companyContainerSection{
+    width: 100%;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    flex-direction: column;
+    row-gap: 8px;
+}
+.companyDetailsSection{
+    display: flex;
+        justify-content: start;
+        align-items: start;
+        gap: 40px;
+}
+.companyInnerContainer{
+    display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        row-gap: 8px;
+}
+.companyMainHeading{
+    font-size: 20px;
+    font-weight: 600;
+}
+.companyDetails{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.companyHead{
+    font-size: 16px;
+    color: #5e676f !important;
+    font-weight: 500;
+    line-height: 20px;
+}
+.companyText{
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    color: #99a0ac;
+    font-size: 15px;
+    text-align: end;
+}
+.textareaContainer{
+    margin-bottom: 24rem;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+.textareaSeaction{
+    width: 33.33%;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 26px 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+.textareaHead{
+    font-size: 20px;
+    font-weight: 600;
+}
+.textareaContent{
+    color: #99a0ac;
+    font-size: 15px;
+    line-height: 20px;
+}
+/* Style the media quiery section */
