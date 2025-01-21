@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import { Tooltip, TooltipProvider } from "react-tooltip";
@@ -44,6 +45,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
 
 const SupplierSignUp = ({ socket }) => {
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [showTnC, setShowTnC] = useState(false);
     const [errors, setErrors] = useState({});
@@ -61,6 +63,12 @@ const SupplierSignUp = ({ socket }) => {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
+    const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
+    const [taxRegPreviews, setTaxRegPreviews] = useState([]);
+    const [certificatePreviews, setcertificatePreviews] = useState([]);
+    const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([])
+    const [logoPreviews, setlogoPreviews] = useState([]);
+
     const defaultFormData = {
         companyType: '',
         companyName: '',
@@ -428,6 +436,17 @@ const SupplierSignUp = ({ socket }) => {
     };
 
     const handleCancel = () => {
+        // setFormData(defaultFormData);
+        // setErrors({});
+        // setIsChecked(false);
+        // setCompanyPhone('');
+        // setMobile('');
+        // setSelectedCompanyType(null)
+        // setResetUploaders(true);
+        navigate('/supplier/login')
+    }
+
+    const handleResetForm = () => {
         setFormData(defaultFormData);
         setErrors({});
         setIsChecked(false);
@@ -501,7 +520,8 @@ const SupplierSignUp = ({ socket }) => {
                     console.log('error in supplier/register api');
                     return;
                 }
-                handleCancel()
+                // handleCancel()
+                handleResetForm()
                 setShowModal(true);
                 setLoading(false)
 
@@ -960,30 +980,34 @@ const SupplierSignUp = ({ socket }) => {
 
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload Trade License<span className='labelstamp'>*</span></label>
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} />
+                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} /> */}
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={tradeLicensePreviews} setFilePreviews={setTradeLicensePreviews} imageType="license" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload Tax Registration Certificate<span className='labelstamp'>*</span></label>
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} />
+                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} /> */}
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
                                             </div>
 
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload a Certificate<span className='labelstamp'>*</span></label>
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
+                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} /> */}
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
                                             </div>
                                             {selectedCompanyType?.value === "medical practitioner" && (
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
-                                                    <ImageUploader onUploadStatusChange={handleImageUpload} imageType="medical" reset={resetUploaders} allowMultiple={true} />
+                                                    <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={medicalPractitionerPreview} setFilePreviews={setMedicalPractiotionerPreview} imageType="medical" reset={resetUploaders} allowMultiple={true} />
                                                     {errors.medicalCertificate && <div className='signup__errors'>{errors.medicalCertificate}</div>}
                                                 </div>
                                             )}
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload Company Logo<span className='labelstamp'>*</span></label>
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} />
+                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} /> */}
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={logoPreviews} setFilePreviews={setlogoPreviews} imageType="logo" reset={resetUploaders} allowMultiple={false} />
                                                 {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
                                             </div>
                                             <div className='signup-form-section-checkbox'>
