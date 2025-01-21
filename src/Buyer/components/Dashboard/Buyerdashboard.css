@@ -151,7 +151,7 @@ body::first-letter {
   align-items: start;
 }
 .cart-left-bottom-container {
-  width: 15.4vw;
+  width: 23.6vw !important; 
   background-color: white;
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
@@ -523,7 +523,7 @@ input[type="checkbox"]:focus + span::before {
     sans-serif !important;
 }
 #chart-line-2 {
-  width: 150px !important;
+  width: 400px !important;
   height: 40px !important;
 }
 #search-engine-chart {

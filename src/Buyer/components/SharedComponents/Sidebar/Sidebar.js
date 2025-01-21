@@ -378,6 +378,14 @@ const Sidebar = ({ children, dragWindow,
                                                         <div className={styles.profile_text}>Profile</div>
                                                     </Link>
                                                 </div>
+                                                <div>
+                                                    <Link
+                                                        to="/buyer/subscription"
+                                                        onClick={() => setIsProfileOpen(false)}
+                                                    >
+                                                        <div className={styles.profile_text}>Subscription</div>
+                                                    </Link>
+                                                </div>
                                                 <div className={styles.invoice_container}>
                                                     <Link
                                                         to="/buyer/invoice/Pending-Invoice"

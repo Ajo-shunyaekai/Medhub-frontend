@@ -158,7 +158,9 @@ body {
   justify-content: space-between;
 }
 .left-bottom-pert {
+  color: #5e676f;
   font-size: 14px;
+  font-weight: 600;
 }
 .left-bottom-plus {
   color: #99a0ac;
@@ -166,6 +168,7 @@ body {
 }
 .left-bottom-head {
   font-size: 14px;
+  color: #5e676f !important;
 }
 .cart-right-main-container {
   background-color: white;
@@ -513,13 +516,16 @@ input[type="checkbox"]:focus + span::before {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif !important;
 }
+.search-engine-chart{
+  width: 20vw !important;
+}
 #chart-line-2 {
-  width: 150px !important;
+  width: 400px !important;
   height: 40px !important;
 }
 #search-engine-chart {
-  width: 130px !important;
-  height: 40px !important;
+  width: 380px !important;
+  height: 30px !important;
 }
 #directly-chart {
   width: 140px !important;

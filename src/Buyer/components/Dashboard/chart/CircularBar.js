@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import '../dashboard.css';
+import '../Buyerdashboard.css';
 
 const initialPercentage = 55;
 
