@@ -61,7 +61,7 @@ const ChangePassword = ({ step, setStep }) => {
       {({ errors, touched }) => (
         <Form className="login-main-form-section">
           <div className="login-form-main-div">
-            <label className="login-form-main-label">New Password*</label>
+            <label className="login-form-main-label">New Password<span className='labelstamp'>*</span></label>
             <Field
               className="login-form-main-input"
               autoComplete="off"
@@ -76,7 +76,7 @@ const ChangePassword = ({ step, setStep }) => {
             />
           </div>
           <div className="login-form-main-div">
-            <label className="login-form-main-label">Confirm Password*</label>
+            <label className="login-form-main-label">Confirm Password<span className='labelstamp'>*</span></label>
             <Field
               className="login-form-main-input"
               autoComplete="off"

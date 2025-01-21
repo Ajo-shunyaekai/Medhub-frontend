@@ -54,6 +54,11 @@ const SupplierSignUp = ({ socket }) => {
     const [resetUploaders, setResetUploaders] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
+    const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
+    const [taxRegPreviews, setTaxRegPreviews] = useState([]);
+    const [certificatePreviews, setcertificatePreviews] = useState([]);
+    const [logoPreviews, setlogoPreviews] = useState([]);
+     
  
     const defaultFormData = {
         companyType: '',
@@ -812,24 +817,24 @@ const SupplierSignUp = ({ socket }) => {
  
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload Trade License</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} />
+                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={tradeLicensePreviews} setFilePreviews={setTradeLicensePreviews} imageType="license" reset={resetUploaders} allowMultiple={true} />
                                 {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
                             </div>
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload Tax Registration Certificate</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} />
+                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax" reset={resetUploaders} allowMultiple={true} />
                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
                             </div>
  
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload a Certificate</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
+                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
                             </div>
  
                             <div className='signup-form-section-div'>
                                 <label className='signup-form-section-label'>Upload Company Logo</label>
-                                <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} />
+                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={logoPreviews} setFilePreviews={setlogoPreviews} imageType="logo" reset={resetUploaders} allowMultiple={false} />
                                 {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
                             </div>
                             <div className='signup-form-section-checkbox'>
