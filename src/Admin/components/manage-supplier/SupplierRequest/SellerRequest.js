@@ -60,7 +60,7 @@ const SellerRequest = () => {
                 <Loader />
             ) : (
                 <div className={styles['rejected-main-container']}>
-                    <div className={styles['rejected-main-head']}>Seller Request</div>
+                    <div className={styles['rejected-main-head']}>Supplier Request</div>
                     <div className={styles['rejected-container']}>
                         <div className={styles['rejected-container-right-2']}>
                             <Table responsive="xxl" className={styles['rejected-table-responsive']}>

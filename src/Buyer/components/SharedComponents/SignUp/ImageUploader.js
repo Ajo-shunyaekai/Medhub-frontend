@@ -3,9 +3,9 @@ import UploadImage from '../../../assest/images/uplaod.svg';
 import CrossIcon from '../../../assest/images/Icon.svg';
 import PDFIcon from '../../../assest/images/pdf-icon.svg';
 import styles from './imageuploader.module.css';
-const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }) => {
+const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, filePreviews, setFilePreviews }) => {
     const fileInputRef = useRef(null);
-    const [filePreviews, setFilePreviews] = useState([]);
+    // const [filePreviews, setFilePreviews] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
@@ -177,6 +177,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple }
 
     return (
         <div className={styles['image-uploader']}>
+            {console.log("filePreviews" , filePreviews)}
             <div className={styles['upload-area']} onClick={handleImageClick}>
                 {uploading ? (
                     <p>Uploading...</p>
