@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select, { components } from 'react-select';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
@@ -41,6 +41,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
  
 const SupplierSignUp = ({ socket }) => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [showTnC, setShowTnC] = useState(false);
     const [errors, setErrors] = useState({});
@@ -404,6 +405,11 @@ const SupplierSignUp = ({ socket }) => {
     };
  
     const handleCancel = () => {
+        
+        navigate('/supplier/login')
+    }
+
+    const handleResetForm = () => {
         setFormData(defaultFormData);
         setErrors({});
         setIsChecked(false);
@@ -488,7 +494,8 @@ const SupplierSignUp = ({ socket }) => {
                     console.log('error in supplier/register api');
                     return;
                 }
-                handleCancel()
+                // handleCancel()
+                handleResetForm()
                 setShowModal(true);
                 setLoading(false)
  

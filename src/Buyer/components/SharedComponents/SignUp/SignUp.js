@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './signup.css'
 import logo from '../../../assest/images/navibluelogo.svg'
 import SuccessModal from './SuccessModal';
@@ -45,6 +45,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 };
  
 const SignUp = ({ socket }) => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [showTnC, setShowTnC] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -354,13 +355,16 @@ const SignUp = ({ socket }) => {
     }, [resetUploaders]);
  
     const handleCancel = () => {
-        setFormData(defaultFormData)
+        navigate('/buyer/login')
+    }
+
+    const handleResetForm = () => {
+        setFormData(defaultFormData);
         setErrors({});
         setIsChecked(false);
         setCompanyPhone('');
         setMobile('');
         setSelectedCompanyType(null)
-        setSelectedOptions([])
         setResetUploaders(true);
     }
  
@@ -422,7 +426,8 @@ const SignUp = ({ socket }) => {
                     console.log('error in buyer/register api');
                     return
                 }
-                handleCancel()
+                // handleCancel()
+                handleResetForm()
                 setShowModal(true)
                 // setButtonLoading(false)
                 setLoading(false)
