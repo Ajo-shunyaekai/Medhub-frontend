@@ -432,6 +432,9 @@ console.log('FORMMMM',formData )
         setSelectedCompanyType(null)
         setSelectedOptions([])
         setResetUploaders(true);
+        setSelectedCountry(null)
+        setSelectedState(null)
+        setSelectedCity(null)
     }
 
 
@@ -510,6 +513,7 @@ console.log('FORMMMM',formData )
                 setShowModal(true)
                 // setButtonLoading(false)
                 setLoading(false)
+                setMedicalPractiotionerPreview([])
 
                 socket.emit('buyerRegistration', {
                     adminId: process.env.REACT_APP_ADMIN_ID,

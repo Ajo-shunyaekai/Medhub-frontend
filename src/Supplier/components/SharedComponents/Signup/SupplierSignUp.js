@@ -462,6 +462,9 @@ const SupplierSignUp = ({ socket }) => {
         setMobile('');
         setSelectedCompanyType(null)
         setResetUploaders(true);
+        setSelectedCountry(null)
+        setSelectedState(null)
+        setSelectedCity(null)
     }
 
     const handleSubmit = async () => {
@@ -535,6 +538,7 @@ const SupplierSignUp = ({ socket }) => {
                 handleResetForm()
                 setShowModal(true);
                 setLoading(false)
+                setMedicalPractiotionerPreview([])
 
                 socket.emit('supplierRegistration', {
                     adminId: process.env.REACT_APP_ADMIN_ID,
