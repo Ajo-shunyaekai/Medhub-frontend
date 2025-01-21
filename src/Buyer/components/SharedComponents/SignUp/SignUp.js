@@ -383,7 +383,10 @@ const SignUp = ({ socket }) => {
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
-        if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificate) {
+            formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        }
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
         if (!formData.locality) formErrors.locality = 'Locality is Required';
         if (!formData.country) formErrors.country = 'Country is Required';
@@ -465,12 +468,11 @@ const SignUp = ({ socket }) => {
             formDataToSend.append('activity_code', formData.activityCode);
             formDataToSend.append('user_type', formData.user_type || 'Buyer');
             // New data fields
-
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
-            formDataToSend.append('country', formData.country);
-            formDataToSend.append('state', formData.state);
-            formDataToSend.append('city', formData.city);
+            formDataToSend.append('country', formData.country?.name);
+            formDataToSend.append('state', formData.state?.name);
+            formDataToSend.append('city', formData.city?.name);
             formDataToSend.append('pincode', formData.pincode);
 
 
@@ -478,7 +480,10 @@ const SignUp = ({ socket }) => {
             Array.from(formData.licenseImage).forEach(file => formDataToSend.append('license_image', file));
             Array.from(formData.taxImage).forEach(file => formDataToSend.append('tax_image', file));
             Array.from(formData.certificateImage).forEach(file => formDataToSend.append('certificate_image', file));
-            Array.from(formData.medicalCertificate).forEach(file => formDataToSend.append('medical_certificate', file));
+            if (selectedCompanyType?.value === "medical practitioner") {
+                Array.from(formData.medicalCertificate).forEach(file => formDataToSend.append('medical_certificate', file));
+            }
+            
             console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
 
 
