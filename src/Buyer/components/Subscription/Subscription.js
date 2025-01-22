@@ -16,7 +16,7 @@ const Subscription = () => {
         </div>
         <Link to='/buyer/subscription-membership' className='subscription-footer-link'>
         <div className='subscription-footer-container'>       
-          <div className='subscriprion-footer-head'>Subscription Membership</div>
+          <div className='subscriprion-footer-head'>Billing</div>
           <div className='subscription-footer-icon'>
             <ChevronRightIcon />
           </div>         

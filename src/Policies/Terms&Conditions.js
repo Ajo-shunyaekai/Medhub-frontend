@@ -5,17 +5,22 @@ import PrivacyPolicyModal from "./PrivcyPolicy"
  
 const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
- 
+    
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const [accepted, setAccepted] = useState(false); // Track acceptance of terms
     const navigate = useNavigate(); // Navigation hook
  
     const handleAccept = () => {
-        setIsChecked(true); // Mark terms as accepted
+        console.log("here", setIsChecked);
+        // setIsChecked(true); // Mark terms as accepted
+        // setShowTnC(false)
+        if (setIsChecked) {
+            setIsChecked(true);
+        } else {
+            console.warn("setIsChecked is not defined");
+        }
         setShowTnC(false)
-        // navigate('/buyer/sign-up'); // Redirect to sign-up page
-        // navigate('/supplier/sign-up');
     };
  
     const handleCancel = () => {

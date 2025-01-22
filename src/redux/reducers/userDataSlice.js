@@ -9,6 +9,7 @@ const initialState = {
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   showSuccessSignup: false,
   error: null,
+  emailToResetPassword: ""
 };
  
 export const fetchUserData = createAsyncThunk(
@@ -130,6 +131,9 @@ export const userDataSlice = createSlice({
       state.status = "idle";
       state.error = null;
     },
+    setEmailToResetPassword: (state,action) => {
+      state.emailToResetPassword = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -171,6 +175,6 @@ export const userDataSlice = createSlice({
   },
 });
  
-export const { resetUserData } = userDataSlice.actions;
+export const { resetUserData, setEmailToResetPassword } = userDataSlice.actions;
  
 export default userDataSlice.reducer;

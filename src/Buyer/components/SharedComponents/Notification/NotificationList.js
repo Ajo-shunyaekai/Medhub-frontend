@@ -114,7 +114,13 @@ const NotificationList = () => {
                                             </div>
                                         </td>
                                         <td className='notification-section-td'>
-                                            <div className="notification-section-heading">{moment(notification.createdAt).format("DD/MM/YYYY")}</div>
+                                            <div className="notification-section-heading">
+                                                {/* {moment(notification.createdAt).format("DD/MM/YYYY")} */}
+                                                {moment(notification.createdAt).format("DD/MM/YYYY HH:mm")}
+                                                <span style={{ color: 'gray', fontSize: '12px', marginLeft: '8px' }}>
+                                                    ({moment(notification.createdAt).fromNow()})
+                                                </span>
+                                            </div>
                                         </td>
                                         <td className='notification-section-tds'>
                                             <div className="notification-section-heading">

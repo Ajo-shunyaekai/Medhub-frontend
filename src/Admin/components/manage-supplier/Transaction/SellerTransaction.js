@@ -55,7 +55,7 @@ const SellerTransaction = () => {
                      <Loader />
                 ) : (
             <div className='rejected-main-container'>
-                <div className="rejected-main-head">Seller Transaction List</div>
+                <div className="rejected-main-head">Supplier Transaction List</div>
                 <div className="rejected-container">
                     <div className="rejected-container-right-2">
                         <Table responsive="xxl" className='rejected-table-responsive'>

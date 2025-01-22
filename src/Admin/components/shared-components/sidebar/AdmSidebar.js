@@ -251,7 +251,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
           <div className={styles.dropdown} style={{ marginTop: '8px' }}>
             <div className={styles.dropdownToggle} onClick={toggleSellerDropdown}>
               <LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} />
-              <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Seller
+              <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Supplier
                 {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
               </div>
             </div>
@@ -259,20 +259,20 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               <div className={styles.dropdownContent}>
                 <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Seller Requests</div>
+                  <div className={styles.sidebar_text}>Supplier Requests</div>
                 </Link>
                 <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Approved Seller</div>
+                  <div className={styles.sidebar_text}>Approved Supplier</div>
                 </Link>
                 <Link to="/admin/rejected-seller" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Rejected Seller </div>
+                  <div className={styles.sidebar_text}>Rejected Supplier </div>
                 </Link>
 
                 <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Seller Transaction</div>
+                  <div className={styles.sidebar_text}>Supplier Transaction</div>
                 </Link>
                 <Link to="/admin/manage-seller/feedback" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
@@ -561,7 +561,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
             <div className={styles.dropdown} style={{ marginTop: '8px' }}>
               <div className={styles.dropdownToggle} onClick={toggleSellerDropdown}>
                 <LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} />
-                <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Seller
+                <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Supplier
                   {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
                 </div>
               </div>
@@ -569,19 +569,19 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                 <div className={styles.dropdownContent}>
                   <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Seller Requests</div>
+                    <div className={styles.sidebar_text}>Supplier Requests</div>
                   </Link>
                   <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Approved Seller</div>
+                    <div className={styles.sidebar_text}>Approved Supplier</div>
                   </Link>
                   <Link to="/admin/rejected-seller" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Rejected Seller </div>
+                    <div className={styles.sidebar_text}>Rejected Supplier </div>
                   </Link>
                   <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Seller Transaction</div>
+                    <div className={styles.sidebar_text}>Supplier Transaction</div>
                   </Link>
                   <Link to="/admin/seller-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />

@@ -77,7 +77,7 @@ const AdminDashboard = () => {
                                     to={`/admin/seller-request?filterValue=${filterValue}`}
                                     >
                                         <div className='top-content-section'>
-                                            <div className='top-head'>No. of Seller Request</div>
+                                            <div className='top-head'>No. of Supplier Request</div>
                                             <div className='top-text'>{dashboardData?.supplierRegisReqCount.count || 0}</div>
                                         </div>
                                     </Link>
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
                                      to={`/admin/rejected-seller?filterValue=${filterValue}`}
                                      >
                                         <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Rejected Seller:<span className='bottom-text'> {dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
+                                            <div className='bottom-head'>Rejected Supplier:<span className='bottom-text'> {dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
                                             <div className='bottom-graph'>
                                                 <OrangeBar />
                                             </div>
@@ -186,7 +186,7 @@ const AdminDashboard = () => {
                                 data={countryData}
                             />
                         </div>
-                        <div className='right-head'>Top Buyer and Seller Countries</div>
+                        <div className='right-head'>Top Buyer and Supplier Countries</div>
                         <div className='right-country-section'>
                             <div className='country-sect'>
                                 <span className='country-names'>{countryData[0]?.country}</span>
