@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./login.css";
@@ -17,12 +17,14 @@ const emailValidationSchema = Yup.object({
 
 const VerifyEmail = ({ step, setStep }) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
   return (
     <Formik
       initialValues={{ email: "" }}
       validationSchema={emailValidationSchema}
       onSubmit={async (values) => {
         // Handle email verification logic here
+        setLoading(true)
         dispatch(setEmailToResetPassword(values.email));
         const payloadData = {
           email: values.email,
@@ -35,11 +37,13 @@ const VerifyEmail = ({ step, setStep }) => {
         );
         if (response?.code != 200) {
           toast.error(response?.message);
+          setLoading(false)
           return;
         }
         toast.success(
           response?.message || "Email Verified and otp sent on the mail"
         );
+        setLoading(false)
         setStep(2); // Proceed to OTP verification step
       }}
       validateOnBlur={true}
@@ -63,8 +67,12 @@ const VerifyEmail = ({ step, setStep }) => {
             />
           </div>
           <div className="login-form-main-buttons">
-            <button type="submit" className="login-form-main-login">
-              Verify Email
+            <button type="submit" className="login-form-main-login" disabled={loading}>
+            {loading ? (
+                  <div className='loading-spinner'></div>
+              ) : (
+                  'Verify Email'
+              )}
             </button>
           </div>
         </Form>

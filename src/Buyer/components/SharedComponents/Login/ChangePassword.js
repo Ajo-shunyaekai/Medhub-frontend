@@ -29,6 +29,7 @@ const passwordValidationSchema = Yup.object({
 
 const ChangePassword = ({ step, setStep }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const { emailToResetPassword } = useSelector((state) => state?.userReducer);
   return (
     <Formik
@@ -36,6 +37,7 @@ const ChangePassword = ({ step, setStep }) => {
       validationSchema={passwordValidationSchema}
       onSubmit={async (values) => {
         // Handle password change logic here
+        setLoading(true)
         const payloadData = {
           password: values.password,
           confirmPassword: values.confirmPassword,
@@ -49,9 +51,11 @@ const ChangePassword = ({ step, setStep }) => {
         );
         if (response?.code != 200) {
           toast.error(response?.message);
+          setLoading(false)
           return;
         }
         toast.success("Password Changed Successfully!");
+        setLoading(false)
         navigate(`/buyer/login`);
       }}
       validateOnBlur={true}
@@ -90,8 +94,12 @@ const ChangePassword = ({ step, setStep }) => {
             />
           </div>
           <div className="login-form-main-buttons">
-            <button type="submit" className="login-form-main-login">
-              Reset Password
+            <button type="submit" className="login-form-main-login" disabled={loading}>
+              {loading ? (
+                  <div className='loading-spinner'></div>
+              ) : (
+                  'Reset Password'
+              )}
             </button>
           </div>
         </Form>

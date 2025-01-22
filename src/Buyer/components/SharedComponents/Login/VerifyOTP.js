@@ -19,6 +19,7 @@ const VerifyOTP = ({ step, setStep }) => {
   const { emailToResetPassword } = useSelector((state) => state?.userReducer);
   const [timer, setTimer] = useState(60); // Timer starts at 60 seconds
   const [canResend, setCanResend] = useState(false); // Initially disable resend button
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (timer > 0) {
@@ -69,6 +70,7 @@ const VerifyOTP = ({ step, setStep }) => {
           email: emailToResetPassword,
           user_type: "Buyer",
         };
+        setLoading(true)
         console.log("OTP submitted:", payloadData);
         const response = await apiRequests.postRequest(
           "auth/verify-otp",
@@ -76,9 +78,11 @@ const VerifyOTP = ({ step, setStep }) => {
         );
         if (response?.code != 200) {
           toast.error(response?.message);
+          setLoading(false)
           return;
         }
         toast.success(response?.message || "OTP Verified");
+        setLoading(false)
         setStep(3); // Proceed to OTP verification step
       }}
       validateOnBlur={true}
@@ -123,8 +127,12 @@ const VerifyOTP = ({ step, setStep }) => {
             </span>
           </p>
           <div className="login-form-main-buttons">
-            <button type="submit" className="login-form-main-login">
-              Verify OTP
+            <button type="submit" className="login-form-main-login" disabled={loading}>
+              {loading ? (
+                  <div className='loading-spinner'></div>
+              ) : (
+                  'Verify OTP'
+              )}
             </button>
           </div>
         </Form>
