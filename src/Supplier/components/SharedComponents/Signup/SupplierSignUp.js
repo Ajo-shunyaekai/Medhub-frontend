@@ -161,11 +161,7 @@ const SupplierSignUp = ({ socket }) => {
 
     const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
-    console.log('taxImage',formData.taxImage)
-    console.log('license',formData.licenseImage)
-    console.log('certificate',formData.certificateImage)
-    console.log('medical',formData.medicalCertificateImage)
-    console.log('logo',formData.logoImage)
+    
     const handleMultiSelectChange = (selected) => {
         setSelectedOptions(selected);
     };
@@ -193,17 +189,7 @@ const SupplierSignUp = ({ socket }) => {
         }
     };
 
-    const options = [
-        { value: 'generies', label: 'Generies' },
-        { value: 'orignal', label: 'Orignals' },
-        { value: 'biosimilars', label: 'Biosimilars' },
-        { value: 'medical devices', label: 'Medical Devices' },
-        { value: 'nutraceuticals', label: 'Nutraceuticals' },
-    ];
-
-
-
-
+    
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
@@ -222,46 +208,133 @@ const SupplierSignUp = ({ socket }) => {
         }));
     };
 
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+
+    //     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
+
+    //     if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+    //         setErrors((prevState) => ({
+    //             ...prevState,
+    //             [name]: ``,
+    //         }));
+    //         return;
+    //     }
+
+    //     if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
+    //         if (value.length > 16) {
+    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //             return;
+    //         }
+
+    //         // Disallow spaces in these fields
+    //         if (!alphanumericNoSpaceRegex.test(value)) {
+    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //             return;
+    //         }
+    //     }
+
+    //     if (name === 'description' && value.length > 1000) {
+    //         setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+    //     } else if ((name === 'salesPersonName' || name === 'salesPersonName') && !/^[a-zA-Z\s]*$/.test(value)) {
+    //         setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
+    //     }
+    //     else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+    //         setErrors(prevState => ({ ...prevState, designation: '' }));
+    //     } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+    //         setErrors(prevState => ({ ...prevState, delivertime: '' }));
+    //     } else {
+    //         setFormData(prevState => ({ ...prevState, [name]: value }));
+    //         setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //     }
+    // };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-
-        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
-            setErrors((prevState) => ({
+      
+        // Handle license expiry date validation
+        if (name === 'companyLicenseExpiry') {
+          setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+          }));
+      
+          // Only validate if we have a complete date
+          if (value.length === 10) {
+            const [day, month, year] = value.split('-').map(Number);
+      
+            // Create date objects
+            const inputDate = new Date(year, month - 1, day);
+            const currentDate = new Date();
+            
+            // Reset time parts for accurate comparison
+            currentDate.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+      
+            // Check if it's a valid date
+            if (
+              inputDate.getFullYear() === year &&
+              inputDate.getMonth() === month - 1 &&
+              inputDate.getDate() === day
+            ) {
+              // Check if date is in the future
+              if (inputDate <= currentDate) {
+                setErrors(prevState => ({
+                  ...prevState,
+                  companyLicenseExpiry: 'License expiry date must be a future date'
+                }));
+              } else {
+                setErrors(prevState => ({
+                  ...prevState,
+                  companyLicenseExpiry: ''
+                }));
+              }
+            } else {
+              setErrors(prevState => ({
                 ...prevState,
-                [name]: ``,
-            }));
-            return;
+                companyLicenseExpiry: 'Please enter a valid date'
+              }));
+            }
+          }
+          return;
         }
-
+      
+        // Existing validations
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+          setErrors((prevState) => ({
+            ...prevState,
+            [name]: ``,
+          }));
+          return;
+        }
+      
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
-            if (value.length > 16) {
-                setErrors(prevState => ({ ...prevState, [name]: '' }));
-                return;
-            }
-
-            // Disallow spaces in these fields
-            if (!alphanumericNoSpaceRegex.test(value)) {
-                setErrors(prevState => ({ ...prevState, [name]: '' }));
-                return;
-            }
-        }
-
-        if (name === 'description' && value.length > 1000) {
-            setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-        } else if ((name === 'salesPersonName' || name === 'salesPersonName') && !/^[a-zA-Z\s]*$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
-        }
-        else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, designation: '' }));
-        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, delivertime: '' }));
-        } else {
-            setFormData(prevState => ({ ...prevState, [name]: value }));
+          if (value.length > 16) {
             setErrors(prevState => ({ ...prevState, [name]: '' }));
+            return;
+          }
+          // Disallow spaces in these fields
+          if (!alphanumericNoSpaceRegex.test(value)) {
+            setErrors(prevState => ({ ...prevState, [name]: '' }));
+            return;
+          }
         }
-    };
+      
+        if (name === 'description' && value.length > 1000) {
+          setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+        } else if ((name === 'salesPersonName' || name === 'salesPersonName') && !/^[a-zA-Z\s]*$/.test(value)) {
+          setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
+        } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+          setErrors(prevState => ({ ...prevState, designation: '' }));
+        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+          setErrors(prevState => ({ ...prevState, delivertime: '' }));
+        } else {
+          setFormData(prevState => ({ ...prevState, [name]: value }));
+          setErrors(prevState => ({ ...prevState, [name]: '' }));
+        }
+      };
+
     const handlePhoneChange = (name, value) => {
         // Clear previous errors
         setErrors(prevState => ({ ...prevState, [name]: '' }));
@@ -350,7 +423,38 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
-        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
+        // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
+        // License expiry date validation
+    if (!formData.companyLicenseExpiry) {
+        formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
+    } else {
+        // Check if date is in valid format
+        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!dateRegex.test(formData.companyLicenseExpiry)) {
+            formErrors.companyLicenseExpiry = 'Please enter date in DD-MM-YYYY format';
+        } else {
+            const [day, month, year] = formData.companyLicenseExpiry.split('-').map(Number);
+            const inputDate = new Date(year, month - 1, day);
+            const currentDate = new Date();
+            
+            // Reset time parts for accurate comparison
+            currentDate.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            // Check if it's a valid date (e.g., not 31st Feb)
+            if (
+                inputDate.getFullYear() !== year ||
+                inputDate.getMonth() !== month - 1 ||
+                inputDate.getDate() !== day
+            ) {
+                formErrors.companyLicenseExpiry = 'Please enter a valid date';
+            }
+            // Check if date is in the future
+            else if (inputDate <= currentDate) {
+                formErrors.companyLicenseExpiry = 'License expiry date must be a future date';
+            }
+        }
+    }
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';

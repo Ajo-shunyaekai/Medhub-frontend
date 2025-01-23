@@ -191,11 +191,6 @@ const SignUp = ({ socket }) => {
         }
     };
 
-    console.log('taxImage',formData.taxImage)
-    console.log('certificate',formData.certificateImage)
-    console.log('medical',formData.medicalCertificateImage)
-    console.log('logo',formData.logoImage)
-
     const options = [
         { value: 'generies', label: 'Generies' },
         { value: 'orignal', label: 'Orignals' },
@@ -215,7 +210,6 @@ const SignUp = ({ socket }) => {
                 [`${imageType}Image`]: hasImage ? file : null,
             }));
         }, 0);
-console.log('FORMMMM',formData )
         setErrors(prevState => ({
             ...prevState,
             [`${imageType}Image`]: !hasImage && !file ? `${imageType} image is Required` : '',
@@ -223,67 +217,220 @@ console.log('FORMMMM',formData )
     };
 
 
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+
+    //     // Regex to allow only alphanumeric characters and spaces
+    //     const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
+
+    //     // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
+    //     const yearlyPurchaseValueRegex = /^\d{0,8}$/;
+
+    //     if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+    //         // setErrors((prevState) => ({
+    //         //     ...prevState,
+    //         //     [name]: `${
+    //         //         name === 'companyName' 
+    //         //         ? 'Company Name' 
+    //         //         : name === 'companyEmail' 
+    //         //         ? 'Company Email' 
+    //         //         : 'Email'
+    //         //     } cannot exceed 50 characters`,
+    //         // }));
+
+    //         setErrors((prevState) => ({
+    //             ...prevState,
+    //             [name]: ``,
+    //         }));
+    //         return;
+    //     }
+
+
+    //     if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
+    //         if (value.length > 16) {
+    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //             return;
+    //         }
+
+    //         // Disallow spaces in these fields
+    //         if (!alphanumericNoSpaceRegex.test(value)) {
+    //             setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //             return;
+    //         }
+    //     }
+
+    //     // Validate yearlyPurchaseValue to allow only one whitespace or an empty value
+    //     if (name === 'yearlyPurchaseValue') {
+    //         if (!yearlyPurchaseValueRegex.test(value)) {
+    //             setErrors(prevState => ({ ...prevState, yearlyPurchaseValue: '' }));
+    //             return;
+    //         }
+    //     }
+
+    //     if (name === 'description' && value.length > 1000) {
+    //         setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+    //     } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+    //         setErrors(prevState => ({ ...prevState, designation: '' }));
+    //     } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+    //         setErrors(prevState => ({ ...prevState, delivertime: 'Invalid delivery time' }));
+    //     } else {
+    //         setFormData(prevState => ({ ...prevState, [name]: value }));
+    //         setErrors(prevState => ({ ...prevState, [name]: '' }));
+    //     }
+    // };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        // Regex to allow only alphanumeric characters and spaces
+        
+        // Regex patterns
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-
-        // Regex to allow empty string or only one white space between numbers for yearlyPurchaseValue
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
-
-        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
-            // setErrors((prevState) => ({
-            //     ...prevState,
-            //     [name]: `${
-            //         name === 'companyName' 
-            //         ? 'Company Name' 
-            //         : name === 'companyEmail' 
-            //         ? 'Company Email' 
-            //         : 'Email'
-            //     } cannot exceed 50 characters`,
-            // }));
-
-            setErrors((prevState) => ({
-                ...prevState,
-                [name]: ``,
+      
+        // Handle license expiry date validation
+        if (name === 'companyLicenseExpiry') {
+          // Always update the form data to show the input
+          setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+          }));
+      
+          // Check for empty value
+          if (!value) {
+            setErrors(prevState => ({
+              ...prevState,
+              companyLicenseExpiry: 'This field is required'
             }));
             return;
+          }
+      
+          // Validate date format using regex
+          const dateRegex = /^(\d{2})-(\d{2})-(\d{4})$/;
+          if (!dateRegex.test(value)) {
+            setErrors(prevState => ({
+              ...prevState,
+              companyLicenseExpiry: 'Please enter date in DD-MM-YYYY format'
+            }));
+            return;
+          }
+      
+          const [day, month, year] = value.split('-').map(Number);
+          
+          // Validate date components
+          if (
+            month < 1 || month > 12 ||
+            day < 1 || day > 31 ||
+            year < 2024  // Assuming we don't want dates before 2024
+          ) {
+            setErrors(prevState => ({
+              ...prevState,
+              companyLicenseExpiry: 'Please enter a valid date'
+            }));
+            return;
+          }
+      
+          // Create date objects for comparison
+          const inputDate = new Date(year, month - 1, day);
+          const currentDate = new Date();
+          
+          // Reset time parts
+          currentDate.setHours(0, 0, 0, 0);
+          inputDate.setHours(0, 0, 0, 0);
+      
+          // Validate if date is actually valid (handles cases like 31st Feb)
+          if (
+            inputDate.getFullYear() !== year ||
+            inputDate.getMonth() !== month - 1 ||
+            inputDate.getDate() !== day
+          ) {
+            setErrors(prevState => ({
+              ...prevState,
+              companyLicenseExpiry: 'Please enter a valid date'
+            }));
+            return;
+          }
+      
+          // Check if date is in the future
+          if (inputDate <= currentDate) {
+            setErrors(prevState => ({
+              ...prevState,
+              companyLicenseExpiry: 'License expiry date must be a future date'
+            }));
+            return;
+          }
+      
+          // Clear errors if all validations pass
+          setErrors(prevState => ({
+            ...prevState,
+            companyLicenseExpiry: ''
+          }));
+          return;
         }
-
-
+      
+        // Rest of your existing validations...
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+          setErrors(prevState => ({
+            ...prevState,
+            [name]: ''
+          }));
+          return;
+        }
+      
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
-            if (value.length > 16) {
-                setErrors(prevState => ({ ...prevState, [name]: '' }));
-                return;
-            }
-
-            // Disallow spaces in these fields
-            if (!alphanumericNoSpaceRegex.test(value)) {
-                setErrors(prevState => ({ ...prevState, [name]: '' }));
-                return;
-            }
+          if (value.length > 16) {
+            setErrors(prevState => ({
+              ...prevState,
+              [name]: ''
+            }));
+            return;
+          }
+          if (!alphanumericNoSpaceRegex.test(value)) {
+            setErrors(prevState => ({
+              ...prevState,
+              [name]: ''
+            }));
+            return;
+          }
         }
-
-        // Validate yearlyPurchaseValue to allow only one whitespace or an empty value
+      
         if (name === 'yearlyPurchaseValue') {
-            if (!yearlyPurchaseValueRegex.test(value)) {
-                setErrors(prevState => ({ ...prevState, yearlyPurchaseValue: '' }));
-                return;
-            }
+          if (!yearlyPurchaseValueRegex.test(value)) {
+            setErrors(prevState => ({
+              ...prevState,
+              yearlyPurchaseValue: ''
+            }));
+            return;
+          }
         }
-
+      
         if (name === 'description' && value.length > 1000) {
-            setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-        } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, designation: '' }));
-        } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, delivertime: 'Invalid delivery time' }));
-        } else {
-            setFormData(prevState => ({ ...prevState, [name]: value }));
-            setErrors(prevState => ({ ...prevState, [name]: '' }));
+          setErrors(prevState => ({
+            ...prevState,
+            description: 'Description cannot exceed 1000 characters'
+          }));
+        } 
+        else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+          setErrors(prevState => ({
+            ...prevState,
+            [name]: ''
+          }));
         }
-    };
+        else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
+          setErrors(prevState => ({
+            ...prevState,
+            delivertime: 'Invalid delivery time'
+          }));
+        }
+        else {
+          setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+          }));
+          setErrors(prevState => ({
+            ...prevState,
+            [name]: ''
+          }));
+        }
+      };
 
     const handlePhoneChange = (name, value) => {
         setErrors(prevState => ({ ...prevState, [name]: '' }));
@@ -378,7 +525,38 @@ console.log('FORMMMM',formData )
         if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
-        if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is Required';
+        // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry is Required';
+        // License expiry date validation
+    if (!formData.companyLicenseExpiry) {
+        formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
+    } else {
+        // Check if date is in valid format
+        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!dateRegex.test(formData.companyLicenseExpiry)) {
+            formErrors.companyLicenseExpiry = 'Please enter date in DD-MM-YYYY format';
+        } else {
+            const [day, month, year] = formData.companyLicenseExpiry.split('-').map(Number);
+            const inputDate = new Date(year, month - 1, day);
+            const currentDate = new Date();
+            
+            // Reset time parts for accurate comparison
+            currentDate.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            // Check if it's a valid date (e.g., not 31st Feb)
+            if (
+                inputDate.getFullYear() !== year ||
+                inputDate.getMonth() !== month - 1 ||
+                inputDate.getDate() !== day
+            ) {
+                formErrors.companyLicenseExpiry = 'Please enter a valid date';
+            }
+            // Check if date is in the future
+            else if (inputDate <= currentDate) {
+                formErrors.companyLicenseExpiry = 'License expiry date must be a future date';
+            }
+        }
+    }
         if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue = 'Yearly Purchase Value is Required';
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         if (!formData.interestedIn) formErrors.interestedIn = 'Interested in  is Required';

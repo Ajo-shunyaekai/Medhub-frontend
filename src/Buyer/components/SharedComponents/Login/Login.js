@@ -180,7 +180,7 @@ const Login = ({ socket }) => {
                 <img src={logo} alt="Logo" />
             </div>
             <div className='login-container-form-section'>
-                <div className='login-container-form-section-heading'>Login</div>
+                <div className='login-container-form-section-heading'>Buyer Login</div>
                 <form className='login-main-form-section' onSubmit={handleSubmit}>
                     <div className='login-form-main-div'>
                         <label className='login-form-main-label'>Email ID</label>

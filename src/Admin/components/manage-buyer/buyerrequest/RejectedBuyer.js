@@ -27,7 +27,7 @@ const RejectedBuyer = () => {
     const [buyerList, setBuyerList]     = useState([])
     const [totalBuyers, setTotalBuyers] = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const listPerPage = 2
+    const listPerPage = 5
 
     useEffect(() => {
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
