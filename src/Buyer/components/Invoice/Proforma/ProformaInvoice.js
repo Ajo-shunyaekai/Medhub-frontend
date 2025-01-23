@@ -141,25 +141,28 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
 
                     </table>
                 </div>
-                <div className='pending-invoice-pagination-conatiner-section'>
-                    <div className='pagi-container'>
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={invoicesPerPage}
-                            totalItemsCount={totalInvoices || invoiceList.length}
-                            pageRangeDisplayed={5}
-                            onChange={handlePageChange}
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                            hideFirstLastPages={true}
-                        />
-                        <div className='pagi-total'>
-                            <div>Total Items: {totalInvoices || invoiceList.length}</div>
+                {invoiceList && invoiceList.length > 0 && (
+                    <div className='pending-invoice-pagination-conatiner-section'>
+                        <div className='pagi-container'>
+                            <Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={invoicesPerPage}
+                                totalItemsCount={totalInvoices || invoiceList.length}
+                                pageRangeDisplayed={5}
+                                onChange={handlePageChange}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                hideFirstLastPages={true}
+                            />
+                            <div className='pagi-total'>
+                                <div>Total Items: {totalInvoices || invoiceList.length}</div>
+                            </div>
                         </div>
+
                     </div>
-                </div>
+                )}
             </div>
         </>
     )

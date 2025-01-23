@@ -71,19 +71,19 @@ const OngoingInquiriesList = () => {
                         <thead>
                             <tr className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }}>
                                 <th className='table-row-item table-order-1'>
-                                    Inquiry ID
+                                <span className='completed-header-text-color' >  Inquiry ID</span>
                                 </th>
                                 <th className='completed-table-row-item completed-table-order-1'>
-                                    Date
+                                <span className='completed-header-text-color' >   Date</span>
                                 </th>
                                 <th className='completed-table-row-item completed-table-order-2'>
-                                    Supplier Name
+                                <span className='completed-header-text-color' >  Supplier Name</span>
                                 </th>
                                 <th className='completed-table-row-item completed-table-order-1'>
-                                    Status
+                                <span className='completed-header-text-color' >   Status</span>
                                 </th>
                                 <th className='completed-table-row-item completed-table-order-1'>
-                                    Action
+                                <span className='completed-header-text-color' >  Action</span>
                                 </th>
                             </tr>
                         </thead>
@@ -119,11 +119,12 @@ const OngoingInquiriesList = () => {
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
-                                    <td colSpan="5" className='text-center'>
-                                        No Data Available
-                                    </td>
-                                </tr>
+                                <>
+                                <div className='pending-products-no-orders'>
+                                    No Purchase Orders
+                                </div>
+
+                            </>
                             )}
                         </tbody>
                     </Table>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './support.module.css';
 import FaqSupport from './FaqSupport';
 import SupportImageUpload from './SupportImageUpload';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postRequestWithTokenAndFile } from '../../api/Requests';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -189,6 +189,11 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
+                            <Link to='/supplier/edit-profile'>
+                                <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
+                                    Update Profile
+                                </div>
+                                </Link>
                         </div>
                         {
                             feedbackVisible && (

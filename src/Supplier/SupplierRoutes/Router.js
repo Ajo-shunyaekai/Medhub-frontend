@@ -53,6 +53,7 @@ import SubscriptionMembership from "../components/Subscription/SubscriptionMembe
 import PrivacyPolicy from "../../Policies/PrivcyPolicy"
 import TermsConditions from "../../Policies/Terms&Conditions"
 import ForgotPassword from "../components/SharedComponents/Signup/ForgotPassword"
+import EditProfile from "../components/SharedComponents/Profile/EditProfile"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 export const NotificationProvider = ({ children }) => {
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
@@ -372,6 +373,10 @@ element:<SubscriptionMembership/>
             },{
                 path:"profile",
                 element:<Profile/>
+            },
+            {
+                path:"edit-profile",
+                element:<EditProfile/>
             }
         ],
     },

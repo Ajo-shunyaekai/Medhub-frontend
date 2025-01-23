@@ -210,10 +210,12 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                 </div>
         
                                 <div className='byproduct-product-card-first-section'>
+                                <Link to={`/buyer/Search-Market-Product-Details/${medicine.medicine_id}`}>
                                     <div className='byproduct-product-card-first-left'>
                                         <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
                                         <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>
                                     </div>
+                                    </Link>
                                     <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>Country of Origin</div>
                                         <div className='byproduct-product-card-second-text'>{medicine.country_of_origin}</div>

@@ -3,7 +3,7 @@ import styles from './support.module.css';
 import FaqSupport from './FaqSupport';
 import SupportImageUpload from './SupportImageUpload'
 import { postRequestWithFile, postRequestWithTokenAndFile } from '../../../api/Requests';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 
@@ -90,11 +90,11 @@ const Support = () => {
     const handleSubmit = (event) => {
 
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         event.preventDefault();
@@ -113,7 +113,7 @@ const Support = () => {
             Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
 
             postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
-                if(response.code === 200) {
+                if (response.code === 200) {
                     toast(response.message, { type: "success" });
                     setOrderId('')
                     setFeedback('')
@@ -122,17 +122,17 @@ const Support = () => {
                     toast(response.message, { type: "error" });
                 }
             })
-            
+
         }
     };
 
     const complaintSubmit = (event) => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-        const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+        const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-        navigate("/buyer/login");
-        return;
+            navigate("/buyer/login");
+            return;
         }
 
         event.preventDefault();
@@ -151,7 +151,7 @@ const Support = () => {
             Array.from(compImages).forEach(file => formData.append('complaint_image', file))
 
             postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {
-                if(response.code === 200) {
+                if (response.code === 200) {
                     toast(response.message, { type: "success" });
                     setCompOrderId('')
                     setCompFeedback('')
@@ -174,7 +174,7 @@ const Support = () => {
     return (
         <div className={styles['support-main-container']}>
             <div className={styles['support-heading']}>Support</div>
-           
+
             <div className={styles['support-container']}>
                 <div className={styles['support-page']}>
                     <div className={styles['faq-section']}>
@@ -189,6 +189,12 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
+                            <Link to='/buyer/edit-profile'>
+                                <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
+                                    Update Profile
+                                </div>
+                            </Link>
+
                         </div>
                         <ToastContainer />
                         {
@@ -233,7 +239,7 @@ const Support = () => {
                                                     clearImageError={clearFeedbackImageError}
                                                     ErrorMessage={setImageError}
                                                 />
-                                                {imageError && <div className={styles['error-message']}>{imageError }</div>}
+                                                {imageError && <div className={styles['error-message']}>{imageError}</div>}
                                             </div>
                                         </div>
                                         <div className={styles['form-submit-btn-cont']}>
@@ -285,7 +291,7 @@ const Support = () => {
                                                     clearImageError={clearComplaintImageError}
                                                     ErrorMessage={setImageError}
                                                 />
-                                                {compImageError && <div className={styles['error-message']}>{compImageError }</div>}
+                                                {compImageError && <div className={styles['error-message']}>{compImageError}</div>}
                                             </div>
                                         </div>
                                         <div className={styles['form-submit-btn-cont']}>
