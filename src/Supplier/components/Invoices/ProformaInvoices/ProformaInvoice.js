@@ -235,7 +235,7 @@ const ProformaInvoice = ({socket}) => {
         if(!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
         if(!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
         if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested Amount is Required'
-        if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
+        // if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
         if(!formData.depositDueDate) formErrors.depositDueDate = 'Deposit Due Date is Required'
         if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
         // if(!formData.totalDueAmount) formErrors.totalDueAmount = 'Total Due Amount is Required'
@@ -463,13 +463,13 @@ const ProformaInvoice = ({socket}) => {
     useEffect(()=>{
         const grandTotalCalc = orderItems.reduce((accumulator, item) => {
             // setGrandTotal(accumulator + (item?.total_amount || 0))
-            return accumulator + (item?.total_amount || 0);
+            return accumulator + (Number.parseInt(item?.total_amount || 0) || 0);
         }, 0)
 
         setGrandTotal(grandTotalCalc)
         orderItems?.length > 0 && setFormData({
             ...formData,
-            totalDueAmount : grandTotalCalc - requestedAmount,
+            totalDueAmount : (grandTotalCalc - Number.parseInt(requestedAmount || 0)),
         })
     },[orderItems, requestedAmount, grandTotal])
 
