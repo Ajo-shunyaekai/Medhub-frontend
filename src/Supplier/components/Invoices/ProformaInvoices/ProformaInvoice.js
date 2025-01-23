@@ -24,31 +24,36 @@ const ProformaInvoice = ({socket}) => {
     const [invoiceNumber, setInvoiceNumber] = useState();
     const [inquiryDetails, setInquiryDetails] = useState();
     const [orderItems, setOrderItems] = useState([])
+    const [grandTotal, setGrandTotal] = useState(0)
+    const [requestedAmount, setrequestedAmount] = useState(0)
+    const [depostDueDateError, setDepostDueDateError] = useState('')
+    const [depostDueDateValue, setDepostDueDateValue] = useState();
     const [dateError, setDateError] = useState('')
     const [dateValue, setDateValue] = useState();
     const [mobileError, setMobileError] = useState('')
     const [errors, setErrors]    = useState({})
     const [formData, setFormData] = useState({
         invoiceDate: '',
-            invoiceDueDate: '',
-            invoiceNumber: '',
-            dueDate : '',
-            depositRequested : '',
-            depositDue : '',
-            supplierName: '',
-            supplierAddress: '',
-            supplierEmail: '',
-            supplierMobile: '',
-            newSupplierMobile: '',
-            buyerName: '',
-            buyerAddress: '',
-            buyerEmail: '',
-            buyerMobile: '',
-            newBuyerMobile: '',
-            orderItems: [],
-            paymentTerms : '',
-            totalDueAmount : '',
-            totalAmount: ''
+        invoiceDueDate: '',
+        invoiceNumber: '',
+        dueDate : '',
+        depositDueDate: '',
+        depositRequested : '',
+        depositDue : '',
+        supplierName: '',
+        supplierAddress: '',
+        supplierEmail: '',
+        supplierMobile: '',
+        newSupplierMobile: '',
+        buyerName: '',
+        buyerAddress: '',
+        buyerEmail: '',
+        buyerMobile: '',
+        newBuyerMobile: '',
+        orderItems: [],
+        paymentTerms : '',
+        totalDueAmount : '',
+        totalAmount: ''
     })
 
     const handlePaymentDueDateChange = (e) => {
@@ -57,6 +62,15 @@ const ProformaInvoice = ({socket}) => {
         setFormData(prevState => ({
             ...prevState,
             dueDate: formatDate(e)
+        }));
+    }
+
+    const handleDepositDueDateChange = (e) => {
+        setDepostDueDateValue(e)
+        setDepostDueDateError(null)
+        setFormData(prevState => ({
+            ...prevState,
+            depositDueDate: formatDate(e)
         }));
     }
 
@@ -220,10 +234,11 @@ const ProformaInvoice = ({socket}) => {
         if(!formData.supplierEmail) formErrors.supplierEmail = 'Supplier Email is Required'
         if(!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
         if(!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
-        if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested is Required'
+        if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested Amount is Required'
         if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
+        if(!formData.depositDueDate) formErrors.depositDueDate = 'Deposit Due Date is Required'
         if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
-        if(!formData.totalDueAmount) formErrors.totalDueAmount = 'Total Due Amount is Required'
+        // if(!formData.totalDueAmount) formErrors.totalDueAmount = 'Total Due Amount is Required'
 
         // if(!formData.suppl) formErrors.buyerRegNo = 'Buyer VAT Reg No. is Required'
         setErrors(formErrors);
@@ -335,6 +350,10 @@ const ProformaInvoice = ({socket}) => {
             ...prevState,
             [name]: cleanedValue,
         }));
+
+        if(name=='depositRequested') {
+            setrequestedAmount(cleanedValue)
+        }
     };
     
     const grandTotalAmount = orderItems.reduce((total, item) => {
@@ -441,6 +460,19 @@ const ProformaInvoice = ({socket}) => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    useEffect(()=>{
+        const grandTotalCalc = orderItems.reduce((accumulator, item) => {
+            // setGrandTotal(accumulator + (item?.total_amount || 0))
+            return accumulator + (item?.total_amount || 0);
+        }, 0)
+
+        setGrandTotal(grandTotalCalc)
+        orderItems?.length > 0 && setFormData({
+            ...formData,
+            totalDueAmount : grandTotalCalc - requestedAmount,
+        })
+    },[orderItems, requestedAmount, grandTotal])
+
     return (
         <div className={styles['create-invoice-container']}>
             <div className={styles['create-invoice-heading']}>Create Proforma Invoice</div>
@@ -496,26 +528,38 @@ const ProformaInvoice = ({socket}) => {
                              {errors.dueDate && <p style={{color: 'red', fontSize: '12px'}}>{errors.dueDate}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Deposit Requested</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
-                                name='depositRequested'
-                                placeholder='Enter Deposit Requested'
-                                value={formData.depositRequested}
-                                // {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested is Required' })}
-                                onInput={handleNumberInput}
-                                />
-                                {errors.depositRequested && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositRequested}</p>}
-                        </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Deposit Due</label>
-                            <input className={styles['create-invoice-div-input']} type='text'
+                            <label className={styles['create-invoice-div-label']}>Deposit Due Date</label>
+                            {/* <input className={styles['create-invoice-div-input']} type='text'
                                 name='depositDue'
                                 placeholder='Enter Deposit Due'
                                 value={formData.depositDue}
                                 // {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
                                 onInput={handleNumberInput}
-                                 />
-                                 {errors.depositDue && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositDue}</p>}
+                            /> */}
+                            <DatePicker
+                                className={styles['create-invoice-div-input']}
+                                onChange={handleDepositDueDateChange}
+                                value={depostDueDateValue}
+                                // minDate={new Date()}
+                                minDate={tomorrow}
+                                clearIcon={null}
+                                format="dd/MM/yyyy"
+                                placeholder='dd/MM/yyyy'
+                            />
+                            {errors.depositDueDate && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositDueDate}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Deposit Requested Amount</label>
+                            <input className={styles['create-invoice-div-input']} type='text'
+                                name='depositRequested'
+                                placeholder='Enter Deposit Requested Amount'
+                                value={formData.depositRequested}
+                                min={0}
+                                max={grandTotal}
+                                // {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested Amount is Required' })}
+                                onInput={handleNumberInput}
+                                />
+                                {errors.depositRequested && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositRequested}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Total Due Amount</label>
@@ -525,7 +569,7 @@ const ProformaInvoice = ({socket}) => {
                                 placeholder='Enter Total Due Amount'
                                 // {...register('totalDueAmount',
                                 // )}
-                                // readOnly
+                                readOnly
                                 value={formData.totalDueAmount}
                                 onInput={handleNumberInput}
                                 />
