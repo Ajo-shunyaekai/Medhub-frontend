@@ -184,10 +184,13 @@ function BuyerProformaDetails() {
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
                                                                                 </tr>
-                                                                                <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} AED</p>
-                                                                                </tr>
+                                                                                {
+                                                                                    orderDetails?.deposit_due_date && 
+                                                                                    <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
+                                                                                        <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due Date :</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due_date}</p>
+                                                                                    </tr>
+                                                                                }
                                                                             </tbody>
                                                                         </table>
                                                                     </td>

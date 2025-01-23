@@ -66,7 +66,11 @@ const Login = ({ socket }) => {
                 const { data } = await response;
                 for (let x in data) {
                     sessionStorage.setItem(`${x}`, data[x])
-                    console.log(`RESPONSE OF LOGIN USER : ${x} ${data[x]}`)
+                    if(x =='registeredAddress'){
+                        for (let y in data[x]) {
+                            sessionStorage.setItem(`${y}`, data[x][y])
+                        }
+                    }
                 }
                 setTimeout(() => {
                     navigate("/buyer");
