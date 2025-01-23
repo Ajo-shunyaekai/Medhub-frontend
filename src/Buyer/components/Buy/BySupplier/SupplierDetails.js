@@ -215,8 +215,16 @@ const SupplierDetails = () => {
                 <div className='buyer-supplier-details-inner-text'>{supplier?.contact_person_country_code} {supplier?.contact_person_mobile_no}</div>
               </div>
               <div className='buyer-supplier-details-inner-section'>
+                <div className='buyer-supplier-details-inner-head'>Sales Person Name:</div>
+                <div className='buyer-supplier-details-inner-text'>{supplier?.sales_person_name || 'Rohit Sharma'}</div>
+              </div>
+              <div className='buyer-supplier-details-inner-section'>
                 <div className='buyer-supplier-details-inner-head'>Address</div>
                 <div className='buyer-supplier-details-inner-text'>{supplier?.supplier_address || '476 Udyog Vihar, Phase 5, Gurgaon'}</div>
+              </div>
+              <div className='buyer-supplier-details-inner-section'>
+                <div className='buyer-supplier-details-inner-head'>Business/Trade Activity Code</div>
+                <div className='buyer-supplier-details-inner-text'>{supplier?.activity_code || 'CODE876857'}</div>
               </div>
               <div className='buyer-supplier-details-inner-section'>
                 <div className='buyer-supplier-details-inner-head'>License No.</div>

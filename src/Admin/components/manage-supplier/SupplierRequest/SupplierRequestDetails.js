@@ -122,6 +122,8 @@ const SupplierRequestDetails = () => {
                     return;
                 }
                 setSupplierDetails(response?.result);
+                setSalesPersonName(response?.result?.sales_person_name)
+                
             } catch (error) {
                 console.log('error in get-supplier-details api', error);
             }
@@ -136,7 +138,8 @@ const SupplierRequestDetails = () => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             supplier_id: supplierId,
-            action: action
+            action: action,
+            sales_person_name: salesPersonName
         }
 
         if (action === 'accept') {
@@ -249,13 +252,13 @@ const SupplierRequestDetails = () => {
                                         {isEditable ? (
                                             <input
                                                 type="text"
-                                                value={salesPersonName}
+                                                defaultValue={supplierDetails?.sales_person_name}
                                                 onChange={handleChange}
                                                 className="editable-details"
                                                 placeholder="Sales Person Name"
                                             />
                                         ) : (
-                                            <span>{salesPersonName}</span>
+                                            <span>{supplierDetails?.sales_person_name}</span>
                                         )}
                                     </div>
                                 </div>
@@ -275,7 +278,7 @@ const SupplierRequestDetails = () => {
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_country_code} {supplierDetails?.contact_person_mobile_no}</div>
                                 </div>
-
+                                
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tags :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
@@ -294,6 +297,7 @@ const SupplierRequestDetails = () => {
                                         }
                                     </div>
                                 </div> */}
+                                 
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
@@ -304,6 +308,18 @@ const SupplierRequestDetails = () => {
                                 </div>
                             </div>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>License No. :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_no}</div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>License Expiry Date :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.license_expiry_date}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
@@ -331,7 +347,16 @@ const SupplierRequestDetails = () => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
-
+                            {
+                                    supplierDetails?.supplier_type === 'Medical Practitioner' && (
+                                        <div className='buyer-details-card-container'>
+                                    <div className='buyer-details-company-logo-heading'>Medical Practioner Document</div>
+                                    <div className='buyer-details-company-img-container'>
+                                        {renderFiles(supplierDetails?.medical_certificate, 'medical_practitioner_image')}
+                                    </div>
+                                </div>
+                                    )
+                                }
                                 {/* Trade License */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
@@ -355,6 +380,8 @@ const SupplierRequestDetails = () => {
                                         {renderFiles(supplierDetails?.certificate_image, 'certificate_image')}
                                     </div>
                                 </div>
+
+                                
                             </div>
                         </div>
 

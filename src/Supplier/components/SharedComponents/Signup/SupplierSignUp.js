@@ -98,8 +98,8 @@ const SupplierSignUp = ({ socket }) => {
         licenseImageType: 'license',
         certificateImage: null,
         certificateImageType: 'certificate',
-        medicalCertificate: null,
-        medicalCertificateType: 'medical',
+        medicalCertificateImage: null,
+        medicalCertificateType: 'medicalCertificate',
         terms: '',
         registrationNo: '',
         vatRegistrationNo: '',
@@ -111,6 +111,7 @@ const SupplierSignUp = ({ socket }) => {
         pincode: '',
         user_type: 'Supplier'
     }
+
 
 
     const handleCountryChange = (selectedOption) => {
@@ -160,7 +161,11 @@ const SupplierSignUp = ({ socket }) => {
 
     const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
-
+    console.log('taxImage',formData.taxImage)
+    console.log('license',formData.licenseImage)
+    console.log('certificate',formData.certificateImage)
+    console.log('medical',formData.medicalCertificateImage)
+    console.log('logo',formData.logoImage)
     const handleMultiSelectChange = (selected) => {
         setSelectedOptions(selected);
     };
@@ -359,7 +364,10 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.logoImage) formErrors.logoImage = 'Logo Image is Required';
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
-        if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
+        if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificateImage) {
+            formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
+        }
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
@@ -454,6 +462,9 @@ const SupplierSignUp = ({ socket }) => {
         setMobile('');
         setSelectedCompanyType(null)
         setResetUploaders(true);
+        setSelectedCountry(null)
+        setSelectedState(null)
+        setSelectedCity(null)
     }
 
     const handleSubmit = async () => {
@@ -499,9 +510,9 @@ const SupplierSignUp = ({ socket }) => {
 
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
-            formDataToSend.append('country', formData.country);
-            formDataToSend.append('state', formData.state);
-            formDataToSend.append('city', formData.city);
+            formDataToSend.append('country', formData.country?.name);
+            formDataToSend.append('state', formData.state?.name);
+            formDataToSend.append('city', formData.city?.name);
             formDataToSend.append('pincode', formData.pincode);
 
 
@@ -511,7 +522,10 @@ const SupplierSignUp = ({ socket }) => {
             (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));
             (Array.isArray(formData.taxImage) ? formData.taxImage : []).forEach(file => formDataToSend.append('tax_image', file));
             (Array.isArray(formData.certificateImage) ? formData.certificateImage : []).forEach(file => formDataToSend.append('certificate_image', file));
-            (Array.isArray(formData.medicalCertificate) ? formData.medicalCertificate : []).forEach(file => formDataToSend.append('medical_practitioner_image', file));
+            if (selectedCompanyType?.value === "medical practitioner") {
+                (Array.isArray(formData.medicalCertificateImage) ? formData.medicalCertificateImage : []).forEach(file => formDataToSend.append('medical_practitioner_image', file));
+            }
+            
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
                 if (response?.code !== 200) {
@@ -524,6 +538,7 @@ const SupplierSignUp = ({ socket }) => {
                 handleResetForm()
                 setShowModal(true);
                 setLoading(false)
+                setMedicalPractiotionerPreview([])
 
                 socket.emit('supplierRegistration', {
                     adminId: process.env.REACT_APP_ADMIN_ID,
@@ -1000,8 +1015,8 @@ const SupplierSignUp = ({ socket }) => {
                                             {selectedCompanyType?.value === "medical practitioner" && (
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
-                                                    <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={medicalPractitionerPreview} setFilePreviews={setMedicalPractiotionerPreview} imageType="medical" reset={resetUploaders} allowMultiple={true} />
-                                                    {errors.medicalCertificate && <div className='signup__errors'>{errors.medicalCertificate}</div>}
+                                                    <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={medicalPractitionerPreview} setFilePreviews={setMedicalPractiotionerPreview} imageType="medicalCertificate" reset={resetUploaders} allowMultiple={true} />
+                                                    {errors.medicalCertificateImage && <div className='signup__errors'>{errors.medicalCertificateImage}</div>}
                                                 </div>
                                             )}
                                             <div className='signup-form-section-div'>

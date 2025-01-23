@@ -7,6 +7,9 @@
     background-attachment: fixed;
     scrollbar-width: none;
 }
+.rejected-main-container::-webkit-scrollbar{
+  display: none;
+}
 .rejected-container {
   display: flex;
   justify-content: start;

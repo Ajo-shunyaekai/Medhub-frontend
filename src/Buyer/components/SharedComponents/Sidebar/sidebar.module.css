@@ -119,9 +119,14 @@ body{
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+    align-items: center;
   row-gap: 12px;
 }
-
+.no_notifications{
+  font-size: 14px;
+  font-weight: 500;
+}
 .noti_top_wrapper::-webkit-scrollbar {
   display: none;
 }
@@ -152,8 +157,20 @@ body{
   line-height: 20px;
   color: #5e676f;
   display: flex;
-      flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
   cursor: pointer !important;
+}
+.noti_time_section{
+  width: 90px;
+  display: flex
+;
+  justify-content: end;
+  text-align: center;
+}
+.noti_time_content{
+  display: flex;
+  flex-direction: column;
 }
 .noti_message_part_top{
   color:#448bff !important ;

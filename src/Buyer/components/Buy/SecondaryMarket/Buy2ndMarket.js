@@ -16,14 +16,14 @@ import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
 
-const Buy2ndMarket = ({active}) => {
+const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
     const navigate = useNavigate()
     
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
     const [inputValue, setInputValue]     = useState('')
     const [searchKey, setSearchKey]       = useState(null)
-    const [filterCategory, setFilterCategory] = useState('')
+    // const [filterCategory, setFilterCategory] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState()
     const itemsPerPage = 6;

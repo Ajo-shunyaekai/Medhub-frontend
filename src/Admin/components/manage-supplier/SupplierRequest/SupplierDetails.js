@@ -215,7 +215,7 @@ const renderFiles = (files, type) => {
                             <div className='buyer-details-inner-left-section'>
                             <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.contact_person_name}</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.sales_person_name}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
@@ -261,6 +261,10 @@ const renderFiles = (files, type) => {
                                 </div>
                             </div>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{supplierDetails?.activity_code || '-'}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tax_no}</div>
@@ -288,7 +292,16 @@ const renderFiles = (files, type) => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
-
+                              {
+                                supplierDetails?.supplier_type === 'Medical Practitioner' && (
+                                    <div className='buyer-details-card-container'>
+                                    <div className='buyer-details-company-logo-heading'>Medical Practioner Document</div>
+                                    <div className='buyer-details-company-img-container'>
+                                    {renderFiles(supplierDetails?.medical_certificate, 'medical_practitioner_image')}
+                                    </div>
+                                </div>
+                                )
+                              }
                                 {/* Trade License */}
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>

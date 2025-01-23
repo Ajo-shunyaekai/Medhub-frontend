@@ -283,6 +283,7 @@ const DetailsBuyerRequest = () => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
+                           
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
@@ -299,6 +300,11 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
                                 </div>
+                               
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.activity_code || '-'}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
@@ -307,20 +313,21 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>License Expiry Date :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Tax No. :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
-                                </div>
+                                
 
                             </div>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Tax No. :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>COM147852369</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>VAT Registartion No. :</div>
-                                    <div className='buyer-details-inner-text'>VAT14785236</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.vat_reg_no}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Approx. Yearly Purchase :<br /> Value</div>
@@ -346,6 +353,16 @@ const DetailsBuyerRequest = () => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
+                            {
+                                    buyerDetails?.buyer_type === 'Medical Practitioner' && (
+                                        <div className='buyer-details-card-container'>
+                                            <div className='buyer-details-company-logo-heading'>Medical Practitioner Document</div>
+                                            <div className='buyer-details-company-img-container'>
+                                                {renderFiles(buyerDetails?.medical_certificate, 'medical_practitioner_images')}
+                                            </div>
+                                        </div>
+                                    )
+                                }
                                 <div className='buyer-details-card-container'>
                                     <div className='buyer-details-company-logo-heading'>Trade License</div>
                                     <div className='buyer-details-company-img-container'>
@@ -364,6 +381,7 @@ const DetailsBuyerRequest = () => {
                                         {renderFiles(buyerDetails?.certificate_image, 'certificate_images')}
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                         {/* Modal for PDF viewing */}

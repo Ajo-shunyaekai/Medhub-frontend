@@ -277,7 +277,9 @@ main {
   z-index: 4;
  cursor: pointer !important;;
 }
-
+.sidebar::-webkit-scrollbar{
+  display: none;
+}
 .top_section {
   display: flex;
   align-items: center;

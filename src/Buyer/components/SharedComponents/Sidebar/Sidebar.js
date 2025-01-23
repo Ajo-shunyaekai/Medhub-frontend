@@ -340,18 +340,21 @@ const Sidebar = ({ children, dragWindow,
                                                             <div className={styles.noti_profile_text}>
                                                                 {data.message.split(' ').length > 2 ? (
                                                                     <>
-                            
-                                                                        <span className={styles.noti_message_part_top}>
-                                                                            {data.message.split(' ').slice(0, 2).join(' ')}
-                                                                        </span>
-                                                                        <span className={styles.noti_message_part_bottom}>
-                                                                            {data.message.split(' ').slice(2).join(' ')}&nbsp;&nbsp;
-                                                                            <span className={styles.noti_time}>( 11:12 &nbsp;16-12-2024 )</span>
-                                                                        </span>
+                                                                        <div className={styles.noti_time_content}>
+                                                                            <span className={styles.noti_message_part_top}>
+                                                                                {data.message.split(' ').slice(0, 2).join(' ')}
+                                                                            </span>
+                                                                            <span className={styles.noti_message_part_bottom}>
+                                                                                {data.message.split(' ').slice(2).join(' ')}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div className={styles.noti_time_section}>
+                                                                            <span className={styles.noti_time}>11:12 <br /> 16-12-2024</span>
+                                                                        </div>
                                                                     </>
                                                                 ) : (
                                                                     <span>{data.message}</span>
-    )}
+                                                                )}
                                                             </div>
                                                             {/* <div className={styles.noti_profile}>
                                                                 <span className={styles.noti_time}>11:12</span>
@@ -361,7 +364,7 @@ const Sidebar = ({ children, dragWindow,
                                                     ))
                                                 ) : (
                                                     <div className={styles.no_notifications}>
-                                                        No notifications available.
+                                                        No notifications available
                                                     </div>
                                                 )}
                                             </div>

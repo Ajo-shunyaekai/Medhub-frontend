@@ -165,8 +165,9 @@ body::first-letter {
   justify-content: space-between;
 }
 .left-bottom-pert {
-  font-size: 0.825rem;
-  color: #5e676f !important;
+  color: #5e676f;
+  font-size: 14px;
+  font-weight: 600;
 }
 .left-bottom-plus {
   color: #99a0ac;
