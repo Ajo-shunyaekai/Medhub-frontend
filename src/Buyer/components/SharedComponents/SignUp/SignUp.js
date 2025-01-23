@@ -576,8 +576,6 @@ const SignUp = ({ socket }) => {
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
         if (!formData.locality) formErrors.locality = 'Locality is Required';
         if (!formData.country) formErrors.country = 'Country is Required';
-        if (!formData.state) formErrors.state = 'State is Required';
-        if (!formData.city) formErrors.city = 'City is Required';
         setErrors(formErrors);
 
         return Object.keys(formErrors).length === 0;
@@ -919,7 +917,7 @@ const SignUp = ({ socket }) => {
                                                 {errors.country && <div className="signup__errors">{errors.country}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>State<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>State/Province</label>
                                                 <Select
                                                     options={
                                                         selectedCountry
@@ -935,10 +933,9 @@ const SignUp = ({ socket }) => {
                                                     onChange={handleStateChange}
                                                     placeholder="Select State"
                                                 />
-                                                {errors.state && <div className="signup__errors">{errors.state}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>City<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>City/Town</label>
                                                 <Select
                                                     options={
                                                         selectedState && selectedState.isoCode !== "OTHER"
@@ -954,7 +951,7 @@ const SignUp = ({ socket }) => {
                                                     onChange={handleCityChange}
                                                     placeholder="Select City"
                                                 />
-                                                {errors.city && <div className="signup__errors">{errors.city}</div>}
+                                               
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Pincode(Optional)</label>
@@ -966,7 +963,18 @@ const SignUp = ({ socket }) => {
                                                     value={formData.pincode}
                                                     onChange={handleChange}
                                                 />
-                                                {/* {errors.companyAddress && <div className='signup__errors'>{errors.companyAddress}</div>} */}
+                                              
+                                            </div>
+                                            <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Sales Person Name</label>
+                                                <input
+                                                    className='signup-form-section-input'
+                                                    type="text"
+                                                    name="salesPersonName"
+                                                    placeholder="Enter Sales Person Name"
+                                                    value={formData.salesPersonName}
+                                                    onChange={handleChange}
+                                                />
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Country of Origin<span className='labelstamp'>*</span></label>

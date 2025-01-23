@@ -147,8 +147,6 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                 </tr>
                             </tbody>
                         )}
-
-
                     </table>
                 </div>
                 {invoiceList && invoiceList.length > 0 && (

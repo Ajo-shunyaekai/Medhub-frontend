@@ -30,7 +30,7 @@
 .otp-inputs {
     display: flex;
     gap: 20px;
-    justify-content: center;
+    justify-content: start !important;
 }
 
 .otp-input {
@@ -81,3 +81,40 @@
     font-weight: 500;
     cursor: pointer !important;
 }
+
+.password-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .login-form-main-input {
+    flex: 1;
+    padding-right: 40px; 
+  }
+  .errors-message{
+    font-size: 11px;
+    color: red;
+    margin-top: -4px;
+  }
+  .toggle-password-visibility {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer !important;
+    font-size: 16px;
+    color: #99a0ac;
+  }
+  
+  .toggle-password-visibility:disabled {
+    cursor: not-allowed;
+    color: #ccc;
+  }
+  .toggle-password-visibility {
+    color: #99a0ac;
+  }
+  
+  .toggle-password-visibility:hover {
+    color:  #99a0ac;
+  }

@@ -143,7 +143,6 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                 </div>
                 {invoiceList && invoiceList.length > 0 && (
                     <div className='pending-invoice-pagination-conatiner-section'>
-
                         <div className='pagi-container'>
                             <Pagination
                                 activePage={currentPage}

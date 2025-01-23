@@ -35,7 +35,22 @@ const Profile = () => {
     const supplierTaxImage = sessionStorage.getItem("tax_image");
     const supplierLicenseImage = sessionStorage.getItem("license_image");
     const supplierCertificateImage = sessionStorage.getItem("certificate_image");
+    const supplierActivityCode = sessionStorage.getItem("activity_code");
+    const supplierMedicalImage = sessionStorage.getItem("medical_practitioner_image")
 
+    const supplierLocality = sessionStorage.getItem("locality");
+    const supplierLandMark = sessionStorage.getItem("land_mark");
+    const supplierCity = sessionStorage.getItem("city");
+    const supplierState = sessionStorage.getItem("state");
+    const supplierCountry = sessionStorage.getItem("country");
+    const supplierPincode = sessionStorage.getItem("pincode")
+    
+
+  
+
+
+
+    
     if (supplierId) {
       setSupplierData({
         supplierId,
@@ -61,9 +76,19 @@ const Profile = () => {
         supplierVatRegNo,
         supplierDescription,
         supplierPaymentTerms,
+        supplierActivityCode,
         supplierLicenseImage,
         supplierCertificateImage,
         supplierTaxImage,
+        supplierMedicalImage,
+
+
+        supplierLocality,
+        supplierLandMark, 
+        supplierCity,
+        supplierState,
+      supplierCountry ,
+      supplierPincode
       });
     }
   }, []);
@@ -180,9 +205,9 @@ const Profile = () => {
                 <FaRegAddressCard className={styles.icon} />
                 <div className={styles.addressContainers}>
                   <span className={styles.textSection}>{supplierData.supplierAddress}</span>
-                  <span className={styles.textSection}>Near Vishal Mega Mart</span>
-                  <span className={styles.textSection}>Gurugram Haryana</span>
-                  <span className={styles.textSection}>122016</span>
+                  <span className={styles.textSection}>{supplierData.supplierLocality} {supplierData.supplierLandMark}</span>
+                  <span className={styles.textSection}>{supplierData.supplierCountry} {supplierData.supplierState} {supplierData.supplierCity}</span>
+                  <span className={styles.textSection}>{supplierData.supplierPincode}</span>      
                 </div>
               </div>
             </div>
@@ -237,8 +262,19 @@ const Profile = () => {
           </div>
         </div>
       </div>
+        {/* style the textarea container */}
+        <div className={styles.textareaContainer}>
+        <div className={styles.textareaSeaction}>
+          <div className={styles.textareaHead}>About Company</div>
+          <span className={styles.textareaContent}>{supplierData.supplierDescription}</span>
+        </div>
+        <div className={styles.textareaSeaction}>
+          <div className={styles.textareaHead}>Business / Trade Activity Code</div>
+          <span className={styles.textareaContent}>{supplierData.supplierActivityCode}</span>
+        </div>
+      </div>
       <div className={styles.companySection}>
-        <div className={styles.companyContainerSection}>
+        <div className={styles.companyContainerContactSection}>
           <div className={styles.companyMainHeading}>Contact Details</div>
           <div className={styles.companyDetails}>
             <div className={styles.companyHead}>Contact Name</div>
@@ -253,22 +289,12 @@ const Profile = () => {
             <div className={styles.companyText}>{supplierData.supplierDesignation}</div>
           </div>
         </div>
-      </div>
-      {/* style the textarea container */}
-      <div className={styles.textareaContainer}>
-        <div className={styles.textareaSeaction}>
-          <div className={styles.textareaHead}>About Company</div>
-          <span className={styles.textareaContent}>{supplierData.supplierDescription}</span>
-        </div>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>Payment Terms</div>
           <span className={styles.textareaContent}>{supplierData.supplierPaymentTerms}</span>
         </div>
-        <div className={styles.textareaSeaction}>
-          <div className={styles.textareaHead}>Business / Trade Activity Code</div>
-          <span className={styles.textareaContent}>{supplierData.supplierDescription}</span>
-        </div>
       </div>
+    
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>
@@ -301,7 +327,7 @@ const Profile = () => {
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Medical Practitioner</div>
             <div className={styles.documentDocContent}>
-              {renderFiles(supplierData?.supplierLicenseImage, "Medical Practitioner")}
+              {renderFiles(supplierData?.supplierMedicalImage, "Medical Practitioner")}
             </div>
           </div>
         </div>

@@ -40,14 +40,14 @@ const Profile = () => {
     const buyerVAT = sessionStorage.getItem("vat_reg_no");
     const buyerTaxNo = sessionStorage.getItem("tax_no");
     const buyerActivityCode = sessionStorage.getItem("activity_code");
-    
+
     // Start the buyer another list
     const buyerCertificateImage = sessionStorage.getItem("certificate_image");
     const buyerImage = sessionStorage.getItem("buyer_image");
     const buyerLicenseImage = sessionStorage.getItem("license_image");
     const buyerTaxImage = sessionStorage.getItem("tax_image");
     const buyerMedicalImage = sessionStorage.getItem("medical_certificate");
-   
+
 
     if (buyerId) {
       setBuyerData({
@@ -195,7 +195,7 @@ const Profile = () => {
               </div>
               <div className={styles.iconSection}>
                 <LuPhoneCall className={styles.icon} />
-                <span className={styles.textSection}> 
+                <span className={styles.textSection}>
                   {buyerData.buyerMobileCode} {buyerData.buyerMobile}
                 </span>
               </div>
@@ -266,8 +266,17 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className={styles.companySection}>
+
+      {/* style the textarea container */}
+      <div className={styles.textareaContainer}>
         <div className={styles.companyContainerSection}>
+          <div className={styles.textareaHead}>About Company</div>
+          <span className={styles.textareaContent}>{buyerData.buyerDescription}</span>
+        </div>
+      </div>
+
+      <div className={styles.companySection}>
+        <div className={styles.companyContainerContactSection}>
           <div className={styles.companyMainHeading}>Contact Details</div>
           <div className={styles.companyDetails}>
             <div className={styles.companyHead}>Contact Name</div>
@@ -286,18 +295,12 @@ const Profile = () => {
             <div className={styles.companyText}>{buyerData.buyerDesignation}</div>
           </div>
         </div>
-      </div>
-      {/* style the textarea container */}
-      <div className={styles.textareaContainer}>
-        <div className={styles.textareaSeaction}>
-          <div className={styles.textareaHead}>About Company</div>
-          <span className={styles.textareaContent}>{buyerData.buyerDescription}</span>
-        </div>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>Business / Trade Activity Code</div>
           <span className={styles.textareaContent}>{buyerData.buyerActivityCode}</span>
         </div>
       </div>
+
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>

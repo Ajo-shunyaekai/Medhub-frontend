@@ -103,9 +103,10 @@
     height: 140px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
   .buy-product-card-first-medicine-image img {
-    width: 100%;
+    width: 100px;
     height: auto;
   }
   .buy-product-card-right-section-container {

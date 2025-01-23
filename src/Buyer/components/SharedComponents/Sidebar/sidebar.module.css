@@ -109,18 +109,16 @@ body{
   right: 4%;
   width: 350px;
   border-radius: 5px;
-  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
-    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 }
 
 .noti_top_wrapper {
   height: 250px;
   padding: 10px 14px;
   overflow-y: scroll;
-  display: flex;
+  display: flex
+;
   flex-direction: column;
-  justify-content: center;
-    align-items: center;
   row-gap: 12px;
 }
 .no_notifications{
@@ -157,6 +155,7 @@ body{
   line-height: 20px;
   color: #5e676f;
   display: flex;
+  align-items: center;
   gap: 8px;
   justify-content: space-between;
   cursor: pointer !important;
