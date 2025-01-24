@@ -77,16 +77,16 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
          }
  
         if(active === 'product') {
-            postRequestWithToken('buyer/medicine/medicine-list', obj, async (response) => {
-                if (response.code === 200) {
-                    setMedicineList(response.result.data)
-                    setTotalitems(response.result.totalItems)
-                } else {
-                    toast(response.message, {type:'error'})
-                   console.log('error in medicine list api',response);
-                }
-                setLoading(false);
-            })
+            // postRequestWithToken('buyer/medicine/medicine-list', obj, async (response) => {
+            //     if (response.code === 200) {
+            //         setMedicineList(response.result.data)
+            //         setTotalitems(response.result.totalItems)
+            //     } else {
+            //         toast(response.message, {type:'error'})
+            //        console.log('error in medicine list api',response);
+            //     }
+            //     setLoading(false);
+            // })
             try {
                   const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'new'}&medicine_status=${'accepted'}&searchKey=${searchKey}`)
                   if(response?.code !== 200){
@@ -215,6 +215,28 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                             <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg`}</div>
                         </div>
                         <div className='byproduct-product-card-second-section'>
+                            <div className='byproduct-product-card-second-head'>Unit Price</div>
+                            <div className='byproduct-product-card-second-text'>{medicine.inventory_info?.[0]?.unit_price} AED</div>
+                        </div>
+                        <div className='byproduct-product-card-second-section'>
+                            <div className='byproduct-product-card-second-head'>Total Quantity</div>
+                            <div className='byproduct-product-card-second-text'>{medicine.inventory_info?.[0]?.quantity}</div>
+                        </div>
+                        <div className='byproduct-product-card-second-section'>
+                            <div className='byproduct-product-card-second-head'>Delivery Time</div>
+                            <div className='byproduct-product-card-second-text'>
+                                {medicine?.inventory_info?.[0]?.est_delivery_days 
+                                    ? medicine.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
+                                        ? medicine.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
+                                        : `${medicine.inventory_info[0].est_delivery_days} Days`
+                                    : 'N/A'} AED
+                            </div>
+                        </div>
+                        <div className='byproduct-product-card-second-section'>
+                            <div className='byproduct-product-card-second-head'>Stocked In</div>
+                            <div className='byproduct-product-card-second-text'>{medicine.stocked_in?.join(', ')}</div>
+                        </div>
+                        {/* <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>Country of Origin</div>
                             <div className='byproduct-product-card-second-text'>{medicine.country_of_origin}</div>
                         </div>
@@ -233,7 +255,7 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                         <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>GMP Approvals</div>
                             <div className='byproduct-product-card-second-text'>{medicine.gmp_approvals}</div>
-                        </div>
+                        </div> */}
                         </div>
                     </div>
                     );
