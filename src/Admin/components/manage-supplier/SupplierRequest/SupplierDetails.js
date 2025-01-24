@@ -32,40 +32,6 @@ const SupplierDetails = () => {
    const extractFileName = (url) => {
        return url.split('/').pop();
    };
- 
-// Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-// const renderFiles = (files, type) => {
-//    return files?.map((file, index) => {
-//        if (file.endsWith('.pdf')) {
-//            // Render a PDF icon with a clickable link
-//            return (
-//                <div key={index} className='buyer-details-pdf-section'>
-//                    <FaFilePdf
-//                        size={50}
-//                        color="red"
-//                        style={{ cursor: 'pointer' }}
-//                        onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}
-//                    />
-//                    <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`)}>
-//                        {extractFileName(file)}
-//                    </div>
-//                </div>
-//            );
-//        } else {
-//            // Render an image
-//            return (
-//                <img
-//                    key={index}
-//                    src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/${type}/${file}`}
-//                    alt={type}
-//                    className='buyer-details-document-image'
-//                />
-//            );
-//        }
-//    });
-// };
-
-
 const renderFiles = (files, type) => {
     return files?.map((file, index) => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -134,13 +100,7 @@ const renderFiles = (files, type) => {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage ,
             supplier_id  : supplierId,
         }
-        // postRequestWithToken('admin/get-supplier-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setSupplierDetails(response.result)
-        //     } else {
-        //        console.log('error in get-supplier-details api',response);
-        //     }
-        // })
+       
         try {
             const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
             if (response?.code !== 200) {
@@ -148,13 +108,7 @@ const renderFiles = (files, type) => {
                 return;
             }
             setSupplierDetails(response?.result);
-            // postRequestWithToken(`supplier/get-specific-supplier-details/${supplierId}`, obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setSupplierDetails(response?.result);
-            //     } else {
-            //         console.log('error in get-buyer-details api', response);
-            //     }
-            // })
+         
         } catch (error) {
             console.log('error in get-supplier-details api', error);
         }
@@ -175,8 +129,6 @@ const renderFiles = (files, type) => {
                 setTimeout(() => {
                     navigate('/admin/seller-request')
                 },1000)
-                
-                // setSupplierDetails(response.result)
             } else {
                console.log('error in accept-reject-supplier api',response);
                toast(response.message, {type: 'error'})

@@ -35,11 +35,15 @@
 .buyer-supplier-details-left-uppar-section {
   display: flex;
   background-color: white;
-  padding: 28px;
+  padding: 20px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   flex-direction: column;
-  row-gap: 8px;
+  row-gap: 10px;
+}
+.buyer-supplier-business-section{
+  display: flex;
+  gap: 10px;
 }
 .buyer-supplier-details-company-type-conatiner{
   display: flex;
@@ -62,9 +66,10 @@
 }
 .buyer-supplier-details-description-section {
   display: flex;
+  width: 50%;
   flex-direction: column;
   background-color: white;
-  padding: 28px;
+  padding: 20px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   flex-direction: column;
@@ -117,8 +122,9 @@
 }
 .buyer-supplier-details-left-inner-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
 }
 .buyer-supplier-details-left-inner-img-container {
   display: flex;
@@ -128,11 +134,16 @@
 .buyer-supplier-details-section {
   display: flex;
   background-color: white;
-  padding: 28px;
+  padding: 20px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
+}
+.buyer-supplier-description-content{
+  display: flex;
+      justify-content: space-between;
+      gap: 10px;
 }
 .buyer-supplier-details-inner-section {
   width: 100%;

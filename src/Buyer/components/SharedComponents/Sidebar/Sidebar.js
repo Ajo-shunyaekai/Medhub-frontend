@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './sidebar.module.css';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'
 import order_list from '../../../assest/images/dashboard/order_list.svg'
 import DeliverLogo from '../../../assest/images/navibluelogo.svg';
+import invoice from '../../../assest/images/invoice.svg'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
 import Badge from '@mui/material/Badge';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -28,7 +30,7 @@ const Sidebar = ({ children, dragWindow,
     invoiceCount, notificationList, count, handleClick
 }) => {
     const navigate = useNavigate();
-    const {inquiriesCartCount} = useSelector(state => state.inquiryReducer)
+    const { inquiriesCartCount } = useSelector(state => state.inquiryReducer)
 
     // Search bar toggle function
     const [isSearchVisible, setSearchVisible] = useState(false);
@@ -284,15 +286,28 @@ const Sidebar = ({ children, dragWindow,
                             <input type="text" placeholder='Search products...' className={styles.product_search_input} />
                         </div>
                         <div className={styles.nav_notifi_right}>
-                            {/* <CropFreeOutlinedIcon className={styles.nav_icon_color} onClick={toggleFullScreen} /> */}
                             <Badge badgeContent={inquiriesCartCount} color="secondary">
                                 <Link to='/buyer/send-inquiry'>
                                     <ShoppingCartCheckoutIcon className={styles.nav_icon_color} />
                                 </Link>
                             </Badge>
+                            <Link to='/buyer/invoice/Pending-Invoice'>
+                                <div className={styles.invoice_head}>
+                                    <img
+                                        className={styles.invoice_head_img}
+                                        src={invoice}
+                                        alt='invoice'
+                                        id='invoice-tooltip'
+                                    />
+                                    <Tooltip
+                                        anchorId='invoice-tooltip'
+                                        content='Invoice'
+                                        place='top'
+                                    />
+                                </div>
+                            </Link>
 
                             <SearchOutlinedIcon className={styles.nav_icon_color_two} onClick={toggleSearchBar} />
-                            {/* <NotificationsNoneOutlinedIcon className={styles.nav_icon_color} onClick={NotificationDropdown} /> */}
                             <div ref={notificationRef}>
                                 <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
                                     <NotificationsNoneOutlinedIcon
@@ -307,49 +322,74 @@ const Sidebar = ({ children, dragWindow,
                                             <div className={styles.noti_top_wrapper}>
                                                 {console.log(notificationList)}
 
-                                                {notificationList?.slice(0, 5).map((data) => (
-                                                    <div
-                                                        key={data.notification_id}
-                                                        className={styles.noti_profile_wrapper}
-                                                        onClick={() =>
-                                                            handleNavigation(
-                                                                data.notification_id,
-                                                                data.event,
-                                                                data.event_id,
-                                                                data.link_id
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className={styles.noti_profile}>
-                                                            {data.event_type.charAt(0)}
+                                                {/* Handle empty notificationList */}
+                                                {notificationList && notificationList.length > 0 ? (
+                                                    notificationList.slice(0, 5).map((data) => (
+                                                        <div
+                                                            key={data.notification_id}
+                                                            className={styles.noti_profile_wrapper}
+                                                            onClick={() =>
+                                                                handleNavigation(
+                                                                    data.notification_id,
+                                                                    data.event,
+                                                                    data.event_id,
+                                                                    data.link_id
+                                                                )
+                                                            }
+                                                        >
+                                                            <div className={styles.noti_profile_text}>
+                                                                {data.message.split(' ').length > 2 ? (
+                                                                    <>
+                                                                        <div className={styles.noti_time_content}>
+                                                                            <span className={styles.noti_message_part_top}>
+                                                                                {data.message.split(' ').slice(0, 2).join(' ')}
+                                                                            </span>
+                                                                            <span className={styles.noti_message_part_bottom}>
+                                                                                {data.message.split(' ').slice(2).join(' ')}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div className={styles.noti_time_section}>
+                                                                            <span className={styles.noti_time}>11:12 <br /> 16-12-2024</span>
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <span>{data.message}</span>
+                                                                )}
+                                                            </div>
+                                                            {/* <div className={styles.noti_profile}>
+                                                                <span className={styles.noti_time}>11:12</span>
+                                                                <span className={styles.noti_time}>16-12-2024</span>
+                                                            </div> */}
                                                         </div>
-                                                        <div className={styles.noti_profile_text}>
-                                                            <span>
-                                                                {data.message.length > 100
-                                                                    ? `${data.message.slice(0, 100)}...`
-                                                                    : data.message}
-                                                            </span>
-                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className={styles.no_notifications}>
+                                                        No notifications available
                                                     </div>
-                                                ))}
+                                                )}
                                             </div>
 
                                             <div className={styles.noti_bottom_wrapper}>
-                                                <div className={styles.noti_see_all_num}>
-                                                    {notificationList?.length} Notifications
-                                                </div>
+                                                {notificationList && notificationList.length > 0 && (
+                                                    <>
+                                                        <div className={styles.noti_see_all_num}>
+                                                            {notificationList.length} Notifications
+                                                        </div>
 
-                                                <div
-                                                    className={styles.noti_see_all_btn}
-                                                    onClick={handleNotificationNavigate}
-                                                >
-                                                    See all
-                                                </div>
+                                                        <div
+                                                            className={styles.noti_see_all_btn}
+                                                            onClick={handleNotificationNavigate}
+                                                        >
+                                                            See all
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
+
 
                             {/* Profile Icon and Dropdown */}
                             <div ref={profileRef}>
@@ -378,18 +418,26 @@ const Sidebar = ({ children, dragWindow,
                                                         <div className={styles.profile_text}>Profile</div>
                                                     </Link>
                                                 </div>
-                                                <div className={styles.invoice_container}>
+                                                <div>
+                                                    <Link
+                                                        to="/buyer/subscription"
+                                                        onClick={() => setIsProfileOpen(false)}
+                                                    >
+                                                        <div className={styles.profile_text}>Subscription</div>
+                                                    </Link>
+                                                </div>
+                                                {/* <div className={styles.invoice_container}>
                                                     <Link
                                                         to="/buyer/invoice/Pending-Invoice"
                                                         className={styles.invoice_container}
-                                                        onClick={() => setIsProfileOpen(false)} // Close dropdown on click
+                                                        onClick={() => setIsProfileOpen(false)} 
                                                     >
                                                         <div className={styles.profile_text}>Invoice</div>
                                                         <div className={styles.total_invoice}>
                                                             {invoiceCount || 0}
                                                         </div>
                                                     </Link>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div
                                                 className={styles.profile_sign_out}

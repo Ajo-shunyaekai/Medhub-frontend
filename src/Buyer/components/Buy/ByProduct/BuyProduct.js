@@ -210,10 +210,12 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                         </div>
                         </div>
                         <div className='byproduct-product-card-first-section'>
+                            <Link to={`/buyer/search-product-details/${medicine.medicine_id}`}>
                         <div className='byproduct-product-card-first-left'>
                             <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
                             <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg`}</div>
                         </div>
+                        </Link>
                         <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>Unit Price</div>
                             <div className='byproduct-product-card-second-text'>{medicine.inventory_info?.[0]?.unit_price} AED</div>

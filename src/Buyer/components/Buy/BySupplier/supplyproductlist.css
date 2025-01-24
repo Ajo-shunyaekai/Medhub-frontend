@@ -172,7 +172,7 @@
 }
 
 /* start the media query */
-@media screen and (max-width: 1710px) {
+/* @media screen and (max-width: 1710px) {
     .supply-product-left-image-cont {
         width: 130px;
         height: auto;
@@ -194,9 +194,9 @@
     .supply-product-list-container {
         width: 24vw;
     }
-}
+} */
 
-@media screen and (max-width: 1590px) {
+@media screen and (max-width: 1880px) {
     .supply-product-list-container {
         width: 100%;
         column-gap: 3rem;

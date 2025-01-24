@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./login.css";
 import "./forgotpass.css";
 import { useSelector } from "react-redux";
@@ -28,6 +30,16 @@ const passwordValidationSchema = Yup.object({
 });
 
 const ChangePassword = ({ step, setStep }) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setPasswordVisible(!passwordVisible);
+    } else if (field === 'confirmPassword') {
+      setConfirmPasswordVisible(!confirmPasswordVisible);
+    }
+  };
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
   const { emailToResetPassword } = useSelector((state) => state?.userReducer);
@@ -63,46 +75,71 @@ const ChangePassword = ({ step, setStep }) => {
     >
       {({ errors, touched }) => (
         <Form className="login-main-form-section">
-          <div className="login-form-main-div">
-            <label className="login-form-main-label">New Password<span className='labelstamp'>*</span></label>
+        {/* New Password Field */}
+        <div className="login-form-main-div">
+          <label className="login-form-main-label">
+            New Password<span className="labelstamp">*</span>
+          </label>
+          <div className="password-input-container">
             <Field
               className="login-form-main-input"
               autoComplete="off"
-              type="password"
+              type={passwordVisible ? 'text' : 'password'}
               name="password"
               placeholder="Enter the New Password"
             />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="error-message"
-            />
+            <button
+              type="button"
+              className="toggle-password-visibility"
+              onClick={() => togglePasswordVisibility('password')}
+              disabled={!document.querySelector('[name="password"]')?.value}
+            >
+              {passwordVisible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+            </button>
           </div>
-          <div className="login-form-main-div">
-            <label className="login-form-main-label">Confirm Password<span className='labelstamp'>*</span></label>
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="errors-message"
+          />
+        </div>
+  
+        {/* Confirm Password Field */}
+        <div className="login-form-main-div">
+          <label className="login-form-main-label">
+            Confirm Password<span className="labelstamp">*</span>
+          </label>
+          <div className="password-input-container">
             <Field
               className="login-form-main-input"
               autoComplete="off"
-              type="password"
+              type={confirmPasswordVisible ? 'text' : 'password'}
               name="confirmPassword"
               placeholder="Re-enter the New Password"
             />
-            <ErrorMessage
-              name="confirmPassword"
-              component="div"
-              className="error-message"
-            />
-          </div>
-          <div className="login-form-main-buttons">
-            <button type="submit" className="login-form-main-login" disabled={loading}>
-              {loading ? (
-                  <div className='loading-spinner'></div>
-              ) : (
-                  'Reset Password'
-              )}
+            <button
+              type="button"
+              className="toggle-password-visibility"
+              onClick={() => togglePasswordVisibility('confirmPassword')}
+              disabled={!document.querySelector('[name="confirmPassword"]')?.value}
+            >
+              {confirmPasswordVisible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
             </button>
           </div>
-        </Form>
+          <ErrorMessage
+            name="confirmPassword"
+            component="div"
+            className="errors-message"
+          />
+        </div>
+  
+        {/* Submit Button */}
+        <div className="login-form-main-buttons">
+          <button type="submit" className="login-form-main-login" disabled={loading}>
+            {loading ? <div className="loading-spinner"></div> : 'Reset Password'}
+          </button>
+        </div>
+      </Form>
       )}
     </Formik>
   );

@@ -134,34 +134,31 @@ const SupplierDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='cart-left-bottom-section'>
-                            <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{salesSummary[0]?.weeklyData[0]?.orderCount || 0}</span>
-                                    {/* <span className='left-bottom-plus'>+3.5</span> */}
+                        <div className='supplier-cart-left-bottom-section'>
+                            <div className='supplier-cart-left-bottom-container'>
+                                <div className='supplier-left-bottom-cart-top'>
+                                    <span className='supplier-left-bottom-pert'>{salesSummary[0]?.weeklyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='left-bottom-head'>Weekly Sales</div>
-                                <div className='line-chart-graph'>
+                                <div className='supplier-left-bottom-head'>Weekly Sales</div>
+                                <div className='supplier-line-chart-graph'>
                                     <ConversionChart />
                                 </div>
                             </div>
-                            <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    {/* <span className='left-bottom-pert'>1</span> */}
-                                    <span className='left-bottom-plus'>{salesSummary[0]?.monthlyData[0]?.orderCount || 0}</span>
+                            <div className='supplier-cart-left-bottom-container'>
+                                <div className='supplier-left-bottom-cart-top'>
+                                    <span className='supplier-left-bottom-plus'>{salesSummary[0]?.monthlyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='left-bottom-head'>Monthly Sales</div>
-                                <div className='line-chart-graph'>
+                                <div className='supplier-left-bottom-head'>Monthly Sales</div>
+                                <div className='supplier-line-chart-graph'>
                                     <SearchEngineChart />
                                 </div>
                             </div>
-                            <div className='cart-left-bottom-container'>
-                                <div className='left-bottom-cart-top'>
-                                    <span className='left-bottom-pert'>{salesSummary[0]?.yearlyData[0]?.orderCount || 0}</span>
-                                    {/* <span className='left-bottom-plus'>+4.5</span> */}
+                            <div className='supplier-cart-left-bottom-container'>
+                                <div className='supplier-left-bottom-cart-top'>
+                                    <span className='supplier-left-bottom-pert'>{salesSummary[0]?.yearlyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='left-bottom-head'>Yearly Sales</div>
-                                <div className='line-chart-graph'>
+                                <div className='supplier-left-bottom-head'>Yearly Sales</div>
+                                <div className='supplier-line-chart-graph'>
                                     <DirectlyChart data={chartData}/>
                                 </div>
                             </div>
