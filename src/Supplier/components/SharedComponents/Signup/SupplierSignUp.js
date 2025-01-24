@@ -329,7 +329,9 @@ const SupplierSignUp = ({ socket }) => {
           setErrors(prevState => ({ ...prevState, designation: '' }));
         } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
           setErrors(prevState => ({ ...prevState, delivertime: '' }));
-        } else {
+        } else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
+            setErrors(prevState => ({ ...prevState, pincode: '' }));
+        }else {
           setFormData(prevState => ({ ...prevState, [name]: value }));
           setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
