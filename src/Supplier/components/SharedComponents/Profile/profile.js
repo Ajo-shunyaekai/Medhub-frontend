@@ -166,11 +166,11 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link to='/supplier/edit-profile'>
+        {/* <Link to='/supplier/edit-profile'>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
@@ -204,10 +204,10 @@ const Profile = () => {
               <div className={styles.iconSection}>
                 <FaRegAddressCard className={styles.icon} />
                 <div className={styles.addressContainers}>
-                  <span className={styles.textSection}>{supplierData.supplierAddress}</span>
-                  <span className={styles.textSection}>{supplierData.supplierLocality} {supplierData.supplierLandMark}</span>
-                  <span className={styles.textSection}>{supplierData.supplierCountry} {supplierData.supplierState} {supplierData.supplierCity}</span>
-                  <span className={styles.textSection}>{supplierData.supplierPincode}</span>      
+                  <span className={styles.textSection}>{supplierData.supplierAddress || 'Udyog Vihar'}</span>
+                  <span className={styles.textSection}>{supplierData.supplierLocality || 'Sector 19'} {supplierData.supplierLandMark || 'Phase 5'}</span>
+                  <span className={styles.textSection}>{supplierData.supplierCountry} {supplierData.supplierState || 'Haryana'} {supplierData.supplierCity || 'Gurgaon'}</span>
+                  <span className={styles.textSection}>{supplierData.supplierPincode || '122016'}</span>      
                 </div>
               </div>
             </div>
@@ -230,7 +230,7 @@ const Profile = () => {
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Sales Person Name</div>
-                <div className={styles.companyText}>{supplierData.supplierSalesName}</div>
+                <div className={styles.companyText}>{supplierData.supplierSalesName || '-'}</div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Country of Origin</div>

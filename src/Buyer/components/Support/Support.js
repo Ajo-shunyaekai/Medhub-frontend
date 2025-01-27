@@ -189,11 +189,11 @@ const Support = () => {
                                     Complaint
                                 </div>
                             </div>
-                            <Link to='/buyer/edit-profile'>
+                            {/* <Link to='/buyer/edit-profile'>
                                 <div className={`${styles['support-btn']} ${activeButton === 'profile' && styles.active}`}>
                                     Update Profile
                                 </div>
-                            </Link>
+                            </Link> */}
 
                         </div>
                         <ToastContainer />

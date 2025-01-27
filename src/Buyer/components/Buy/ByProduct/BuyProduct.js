@@ -231,12 +231,12 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                                     ? medicine.inventory_info[0].est_delivery_days.toLowerCase().includes('days') 
                                         ? medicine.inventory_info[0].est_delivery_days.replace(/days/i, 'Days')
                                         : `${medicine.inventory_info[0].est_delivery_days} Days`
-                                    : 'N/A'} AED
+                                    : 'N/A'} Days
                             </div>
                         </div>
                         <div className='byproduct-product-card-second-section'>
-                            <div className='byproduct-product-card-second-head'>Stocked In</div>
-                            <div className='byproduct-product-card-second-text'>{medicine.stocked_in?.join(', ')}</div>
+                            <div className='byproduct-product-card-second-head'>Country Available</div>
+                            <div className='byproduct-product-card-second-text'>{medicine?.stocked_in?.join(', ')}</div>
                         </div>
                         {/* <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>Country of Origin</div>

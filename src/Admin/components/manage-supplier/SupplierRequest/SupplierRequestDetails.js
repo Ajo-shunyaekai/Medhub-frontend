@@ -25,7 +25,7 @@ const SupplierRequestDetails = () => {
     // Start the modal and pdf url
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
-    const [salesPersonName, setSalesPersonName] = useState("John Doe"); // initial value
+    const [salesPersonName, setSalesPersonName] = useState(""); // initial value
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
@@ -141,6 +141,10 @@ const SupplierRequestDetails = () => {
             action: action,
             sales_person_name: salesPersonName
         }
+        console.log('salesPersonName',salesPersonName)
+        if(salesPersonName == '' || salesPersonName == null) {
+            return toast('Sales Person is required',{ type: 'error' })
+        }
 
         if (action === 'accept') {
             setLoading(true)
@@ -155,7 +159,7 @@ const SupplierRequestDetails = () => {
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/admin/seller-request')
-                }, 300)
+                }, 1000)
 
                 // setSupplierDetails(response.result)
             } else {
