@@ -228,7 +228,7 @@ console.log(setFormData)
         if(!formData.supplierAddress) formErrors.supplierAddress = 'Supplier Address is Required'
         if(!formData.supplierMobile) formErrors.supplierMobile = 'Supplier Mobile is Required'
         if(!formData.depositRequested) formErrors.depositRequested = 'Deposit Requested Amount is Required'
-        if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
+        // if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
         if(!formData.depositDueDate) formErrors.depositDueDate = 'Deposit Due Date is Required'
         if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
         setErrors(formErrors);
@@ -255,7 +255,7 @@ console.log(setFormData)
             const buyerCountryCode = buyerDetails.contact_person_country_code || '';
             const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
             const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
-            const  supplierDetails = inquiryDetails.supplier_details[0];
+            const supplierDetails = inquiryDetails.supplier_details[0];
             const supplierCountryCode = supplierDetails.contact_person_country_code || '';
             const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
             const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
@@ -264,7 +264,8 @@ console.log(setFormData)
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 enquiry_id: inquiryDetails?.enquiry_id,
                 purchaseOrder_id: purchaseOrderId,
-                buyer_id: inquiryDetails?.buyer_id,
+                // buyer_id: inquiryDetails?.buyer_id,
+                buyer_id: buyerDetails?.buyer_id,
                 orderItems: updatedOrderItems,
                 data: {
                     ...formData,
@@ -399,13 +400,13 @@ console.log(setFormData)
     useEffect(()=>{
         const grandTotalCalc = orderItems.reduce((accumulator, item) => {
             // setGrandTotal(accumulator + (item?.total_amount || 0))
-            return accumulator + (item?.total_amount || 0);
+            return accumulator + (Number.parseInt(item?.total_amount || 0) || 0);
         }, 0)
 
         setGrandTotal(grandTotalCalc)
         orderItems?.length > 0 && setFormData({
             ...formData,
-            totalDueAmount : grandTotalCalc - requestedAmount,
+            totalDueAmount : (grandTotalCalc - Number.parseInt(requestedAmount || 0)),
         })
     },[orderItems, requestedAmount, grandTotal])
 

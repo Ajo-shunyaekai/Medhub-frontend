@@ -35,9 +35,9 @@ const ProductDetailsCard = ({ similarMedicines, onMedicineClick, totalItems, cur
                                     <div className='buyer-product-details-card-right-container'>
                                         <div className='buyer-product-details-card-upper-section'>
                                             <div className='buyer-product-details-card-medicine-head'>{product.medicine_name}</div>
-                                            <div className='buyer-product-details-card-medicine-text'>{product.str}</div>
+                                            <div className='buyer-product-details-card-medicine-text'>{product.strength}</div>
                                         </div>
-                                        <div className='buyer-product-details-card-text-section'>
+                                        {/* <div className='buyer-product-details-card-text-section'>
                                             <div className='buyer-product-details-card-text-head'>Country of Origin :</div>
                                             <div className='buyer-product-details-card-test-text'>{product.country_of_origin}</div>
                                         </div>
@@ -56,6 +56,22 @@ const ProductDetailsCard = ({ similarMedicines, onMedicineClick, totalItems, cur
                                         <div className='buyer-product-details-card-text-section'>
                                             <div className='buyer-product-details-card-text-head'>GMP Approvals :</div>
                                             <div className='buyer-product-details-card-test-text'>{product.gmp_approvals}</div>
+                                        </div> */}
+                                        <div className='buyer-product-details-card-text-section'>
+                                            <div className='buyer-product-details-card-text-head'>Unit Price :</div>
+                                            <div className='buyer-product-details-card-test-text'>{product?.inventory_info[0]?.unit_price} AED</div>
+                                        </div>
+                                        <div className='buyer-product-details-card-text-section'>
+                                            <div className='buyer-product-details-card-text-head'>Total Quantity :</div>
+                                            <div className='buyer-product-details-card-test-text'>{product?.inventory_info[0]?.quantity}</div>
+                                        </div>
+                                        <div className='buyer-product-details-card-text-section'>
+                                            <div className='buyer-product-details-card-text-head'>Delivery Time :</div>
+                                            <div className='buyer-product-details-card-test-text'>{product?.inventory_info[0]?.est_delivery_days} Days</div>
+                                        </div>
+                                        <div className='buyer-product-details-card-text-section'>
+                                            <div className='buyer-product-details-card-text-head'>Country Available :</div>
+                                            <div className='buyer-product-details-card-test-text'>{product?.stocked_in?.join(', ')}</div>
                                         </div>
                                         <div className='buyer-product-details-inner-card-button-sec'>
                                             <span className='buyer-product-details-inner-view-card-details'>View Details</span>

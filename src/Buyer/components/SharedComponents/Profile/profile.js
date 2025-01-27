@@ -165,11 +165,11 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link to='/buyer/edit-profile'>
+        {/* <Link to='/buyer/edit-profile'>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
@@ -204,10 +204,10 @@ const Profile = () => {
               <div className={styles.iconSection}>
                 <FaRegAddressCard className={styles.icon} />
                 <div className={styles.addressContainers}>
-                  <span className={styles.textSection}>{buyerData.buyerAddress}</span>
-                  <span className={styles.textSection}>{buyerData.buyerlocality}, {buyerData.buyerLandMark}</span>
-                  <span className={styles.textSection}>{buyerData.buyerCountry}, {buyerData.buyerState}, {buyerData.buyerCity}</span>
-                  <span className={styles.textSection}>{buyerData.buyerPincode}</span>
+                  <span className={styles.textSection}>{buyerData.buyerAddress || 'Udyog Vihar'}</span>
+                  <span className={styles.textSection}>{buyerData.buyerlocality || 'Sectorr 19'}, {buyerData.buyerLandMark || 'Phase 5'}</span>
+                  <span className={styles.textSection}>{buyerData.buyerCountry || 'India'}, {buyerData.buyerState || 'Haryana'}, {buyerData.buyerCity || 'Gurgaon'}</span>
+                  <span className={styles.textSection}>{buyerData.buyerPincode || '122016'}</span>
                 </div>
               </div>
             </div>
@@ -230,7 +230,7 @@ const Profile = () => {
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Sales Person Name</div>
-                <div className={styles.companyText}>{buyerData.supplierSalesName}</div>
+                <div className={styles.companyText}>{buyerData.buyerSalesName || 'Kapil Dev'}</div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Country of Origin</div>
@@ -297,7 +297,7 @@ const Profile = () => {
         </div>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>Business / Trade Activity Code</div>
-          <span className={styles.textareaContent}>{buyerData.buyerActivityCode}</span>
+          <span className={styles.textareaContent}>{buyerData.buyerActivityCode || 'BRT8765123'}</span>
         </div>
       </div>
 

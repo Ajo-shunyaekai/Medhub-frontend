@@ -76,6 +76,7 @@ const SignUp = ({ socket }) => {
         companyAddress: '',
         companyEmail: '',
         companyPhone: '',
+        salesPersonName : '',
         contactPersonName: '',
         designation: '',
         email: '',
@@ -285,6 +286,7 @@ const SignUp = ({ socket }) => {
         // Regex patterns
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
+        const pincodeValueRegex          = /^\d{0,6}$/;
       
         // Handle license expiry date validation
         if (name === 'companyLicenseExpiry') {
@@ -401,6 +403,16 @@ const SignUp = ({ socket }) => {
             return;
           }
         }
+
+        if (name === 'pincode') {
+            if (!pincodeValueRegex.test(value)) {
+              setErrors(prevState => ({
+                ...prevState,
+                pincode: ''
+              }));
+              return;
+            }
+          }
       
         if (name === 'description' && value.length > 1000) {
           setErrors(prevState => ({
@@ -408,7 +420,7 @@ const SignUp = ({ socket }) => {
             description: 'Description cannot exceed 1000 characters'
           }));
         } 
-        else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+        else if ((name === 'contactPersonName' || name === 'salesPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
           setErrors(prevState => ({
             ...prevState,
             [name]: ''
@@ -639,6 +651,7 @@ const SignUp = ({ socket }) => {
             formDataToSend.append('buyer_mobile', formData.companyPhone);
             formDataToSend.append('license_no', formData.companyLicenseNo);
             formDataToSend.append('country_of_origin', formData.originCountry);
+            formDataToSend.append('sales_person_name', formData.salesPersonName);
             formDataToSend.append('contact_person_name', formData.contactPersonName);
             interested.forEach(item => formDataToSend.append('interested_in[]', item));
             formDataToSend.append('approx_yearly_purchase_value', formData.yearlyPurchaseValue);
