@@ -265,7 +265,7 @@ const ProformaInvoice = ({socket}) => {
             const buyerCountryCode = buyerDetails.contact_person_country_code || '';
             const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
             const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
-            const  supplierDetails = inquiryDetails.supplier_details[0];
+            const supplierDetails = inquiryDetails.supplier_details[0];
             const supplierCountryCode = supplierDetails.contact_person_country_code || '';
             const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
             const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);

@@ -120,18 +120,18 @@ const SendInquiry = ({socket}) => {
       const selectedItemDetails = supplierData.items.filter(item => checkedState[item?._id]);
       if (selectedItemDetails.length > 0) {
         selectedItems.push({
-          supplier_id            : supplierData.supplier_details.supplier_id,
-          supplier_name          : supplierData.supplier_details.supplier_name,
-          supplier_email         : supplierData.supplier_details.supplier_email,
-          supplier_contact_email : supplierData.supplier_details.contact_person_email,
-          list_id                : supplierData.list_id,
+          supplier_id            : supplierData.supplier_details.supplier_id || "",
+          supplier_name          : supplierData.supplier_details.supplier_name || "",
+          supplier_email         : supplierData.supplier_details.contact_person_email || supplierData.supplier_details.supplier_email || "",
+          supplier_contact_email : supplierData.supplier_details.contact_person_email || "",
+          list_id                : supplierData.list_id || "",
           item_details           : selectedItemDetails.map(item => ({
-            item_id              : item._id,
-            medicine_id          : item.medicine_id,
-            unit_price           : item.unit_price,
-            quantity_required    : item.quantity_required,
-            est_delivery_days    : item.est_delivery_days,
-            target_price         : item.target_price
+            item_id              : item._id || "",
+            medicine_id          : item.medicine_id || "",
+            unit_price           : item.unit_price || "",
+            quantity_required    : item.quantity_required || "",
+            est_delivery_days    : item.est_delivery_days || "",
+            target_price         : item.target_price || "",
           }))
         });
       } 

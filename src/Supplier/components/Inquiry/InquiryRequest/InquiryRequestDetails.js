@@ -116,7 +116,7 @@ const InquiryRequestDetails = ({socket}) => {
             quotation_details: transformedQuotationItems,
             payment_terms: paymentTerms
         }
- 
+
         postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
