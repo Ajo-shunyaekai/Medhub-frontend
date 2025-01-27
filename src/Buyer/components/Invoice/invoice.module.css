@@ -24,6 +24,9 @@
   font-weight: 600;
   color: #5e676f;
 }
+.invoiceHeading{
+  cursor: pointer !important;
+}
 .complete-conatiner-head {
   font-size: 20px;
   line-height: 20px;

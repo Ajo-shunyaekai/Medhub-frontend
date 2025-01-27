@@ -47,9 +47,12 @@
    cursor: pointer !important;;
   margin-top: 1rem;
 }
-
+.invoiceHeading{
+  cursor: pointer !important;
+}
 .invoice-wrapper-left-icons {
   color: #99a0ac;
+  cursor: pointer !important;
 }
 
 .invoice-left-wrapper {

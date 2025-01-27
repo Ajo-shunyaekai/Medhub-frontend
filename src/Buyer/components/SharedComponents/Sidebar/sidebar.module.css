@@ -175,8 +175,10 @@ body{
   color:#448bff !important ;
 }
 .noti_time{
-  color:#99a0ac !important ;
+  text-align: center;
   font-size: 12px !important;
+  color: #99a0ac;
+  width: 80px;
 }
 .noti_profile_text span {
   cursor: pointer !important;

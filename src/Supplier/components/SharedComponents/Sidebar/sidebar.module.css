@@ -161,8 +161,9 @@ flex-direction: column;
 }
 .noti_time{
   text-align: center;
-  font-size: 12px;
+  font-size: 12px !important;
   color: #99a0ac;
+  width: 80px;
 }
 .noti_content{
   display: flex
@@ -179,6 +180,7 @@ flex-direction: column;
   display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
 }
 .noti_profile_content{
   display: flex;

@@ -90,6 +90,10 @@ import EditSecondaryDetails from "../components/manage-products/EditUpdateSecond
 import SecondaryProductDetails from "../components/manage-products/SecondaryProductDetails"
 import NotificationList from "../components/shared-components/notification/NotificationList"
 import Profile from "../components/shared-components/Profile/profile"
+import BuyerEditProfile from "../components/manage-buyer/support/UpdateProfile/EditProfileList"
+import BuyerEditProfileDetails from "../components/manage-buyer/support/UpdateProfile/EditProfileDetails"
+import SupplierEditProfile from "../components/manage-supplier/Support/UpdateProfile/EditProfileList"
+import SupplierEditProfileDetails from "../components/manage-supplier/Support/UpdateProfile/EditProfileDetails"
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -364,7 +368,15 @@ const router = createBrowserRouter([
                         path: "feedback",
                         element: <BuyerFeedback />
                     },
+                    {
+                        path: "edit-profile",
+                        element: <BuyerEditProfile />
+                    }
                 ]
+            },
+            {
+                path: "buyer-edit-profile-details",
+                element: <BuyerEditProfileDetails />
             },
             {
                 path: "buyer-transaction",
@@ -480,7 +492,15 @@ const router = createBrowserRouter([
                         path: "feedback",
                         element: <SellerFeedback />
                     },
+                    {
+                        path: "edit-profile",
+                        element: <SupplierEditProfile/>
+                    },
                 ]
+            },
+            {
+path:"supplier-edit-profile-details",
+element:<SupplierEditProfileDetails/>
             },
             {
                 path: "seller-request-details/:supplierId",

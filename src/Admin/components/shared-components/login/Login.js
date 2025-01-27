@@ -58,39 +58,7 @@ const Login = ({socket}) => {
                     user_type: "Admin"
                 }
         
-                // postRequest('admin/login', obj, async (response) => {
-                //     if (response.code === 200) {
-                //         // toast(response.message, { type: "success" });
-                //         sessionStorage.setItem('admin_id', response.result?.admin_id) 
-                //         sessionStorage.setItem('user_name', response.result?.user_name)
-                //         sessionStorage.setItem('token', response.result?.token)
-                //         sessionStorage.setItem('email', response.result?.email)
-                //         sessionStorage.setItem('_id', response?.result?._id)
-
-                //         setTimeout(() => {
-                //         navigate("/admin");
-                //       }, 1000);
-
-                //       if ('Notification' in window) {
-                //         if (Notification.permission === 'granted') {
-                //             // If permission is already granted, register the user directly
-                //             const userId = response.result?.admin_id;
-                //             socket.emit('registerAdmin', userId);
-                //         } else if (Notification.permission !== 'denied') {
-                //             // Request permission if not already denied
-                //             const permission = await Notification.requestPermission();
-                //             if (permission === 'granted') {
-                //                 const userId = response.result?.admin_id;
-                //                 socket.emit('registerAdmin', userId);
-                //             }
-                //         }
-                //     }
-                //     } else {
-                //         setLoading(false)
-                //         toast(response.message, { type: "error" });
-                //        console.log('error in admin/login api',response);
-                //     }
-                // })
+             
                 try {
                     const response = await apiRequests?.postRequest(`auth/login`, obj)
                     console.log("response ", response)
@@ -140,13 +108,7 @@ const Login = ({socket}) => {
     };
 
     const handleEmailChange = (e) => {
-        // setEmail(e.target.value);
-        // if (errors.email) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         email: '',
-        //     }));
-        // }
+        
 
         if (e.target.value.length <= 50) {
             setEmail(e.target.value);
@@ -167,14 +129,7 @@ const Login = ({socket}) => {
     };
 
     const handlePasswordChange = (e) => {
-        // setPassword(e.target.value);
-        // if (errors.password) {
-        //     setErrors((prevErrors) => ({
-        //         ...prevErrors,
-        //         password: '',
-        //     }));
-        // }
-
+     
         if (e.target.value.length <= 25) {
             setPassword(e.target.value);
             if (errors.password) {
@@ -232,13 +187,14 @@ const Login = ({socket}) => {
                         </div>
                         {errors.password && <span className="login-errors">{errors.password}</span>}
                     </div>
-                    <div className='login-form-main-div'>
+                    {/* <div className='login-form-main-div'>
                         <span className='login-form-main-password'>Forgot Password?</span>
-                    </div>
+                    </div> */}
                     <div className='login-form-main-buttons'>
-                        <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
+                        {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
                         <button type='submit' 
                         className='login-form-main-login'
+                        style={{marginTop:'10px'}}
                         disabled={loading}
                         >
                             {loading ? (

@@ -127,14 +127,14 @@ const BuyerOrder = () => {
                             className={`${activeLink === 'active' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div>Active Orders</div>
+                            <div className={styles.OrderHeading}>Active Orders</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('completed')}
                             className={`${activeLink === 'completed' ? styles.active : ''} ${styles['order-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['order-wrapper-left-icons']} />
-                            <div>Completed Orders</div>
+                            <div className={styles.OrderHeading}>Completed Orders</div>
                         </div>
                        
                     </div>
