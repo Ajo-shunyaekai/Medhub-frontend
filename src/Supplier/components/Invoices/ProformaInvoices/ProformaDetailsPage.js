@@ -211,10 +211,17 @@ function ProformaDetailsPage() {
                                                                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
                                                                                         <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
                                                                                     </tr>
+                                                                                    {
+                                                                                    orderDetails?.deposit_due_date &&
                                                                                     <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
+                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due Date :</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{orderDetails?.deposit_due_date} </p>
+                                                                                    </tr>
+                                                                                }
+                                                                                    {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
                                                                                         <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} AED</p>
-                                                                                    </tr>
+                                                                                    </tr> */}
                                                                                 </tbody>
                                                                             </table>
                                                                         </td>
@@ -222,7 +229,7 @@ function ProformaDetailsPage() {
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                                            {/* <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                                 <tr>
                                                                     <td style={{ width: '750px' }} >
                                                                         <table style={{ width: '100%', borderSpacing: 0, }}>
@@ -231,16 +238,13 @@ function ProformaDetailsPage() {
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
                                                                                     <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
                                                                                 </tr>
-                                                                                {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
-                                                                                    <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due Date :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due_date} </p>
-                                                                                </tr> */}
+                                                                                
                                                                             </tbody>
                                                                         </table>
                                                                     </td>
 
                                                                 </tr>
-                                                            </tbody>
+                                                            </tbody> */}
                                                         </table>
                                                     </td>
                                                 </tr>
