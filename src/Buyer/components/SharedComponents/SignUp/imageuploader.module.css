@@ -51,7 +51,8 @@
 }
 
 .upload-icon {
-  width: 36px;
+  width: 30px;
+  cursor: pointer !important;
 }
 
 .image-uploader {
@@ -59,12 +60,13 @@
 }
 
 .upload-area {
-   cursor: pointer !important;;
-  padding: 24px 0px;
-  display: inline-block;
+  cursor: pointer !important;
+  padding: 14px 0px;
+ display: inline-block;
 }
 .upload-text {
-  font-size: 13px;
+  font-size: 12px;
+  cursor: pointer !important;
 }
 .uploaded-image {
   max-width: 100%;

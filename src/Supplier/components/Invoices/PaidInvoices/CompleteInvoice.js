@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import moment from "moment-timezone";
 import '../pendingInvoice.css';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
@@ -14,51 +14,51 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
 
     const iframeRef = useRef(null);
 
-     const handleDownload = (invoiceId) => {
-         const invoiceUrl = `/supplier/invoice-design/${invoiceId}`;
-         if (iframeRef.current) {
-             iframeRef.current.src = invoiceUrl;
-         }
-     };
- 
-     useEffect(() => {
-         const iframe = iframeRef.current;
- 
-         if (iframe) {
-             const handleIframeLoad = () => {
-                 setTimeout(() => {
-                     const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                     const element = iframeDocument.getElementById('invoice-content');
-                     if (element) {
-                         const options = {
-                             margin: 0.5,
-                             filename: `invoice_${iframeDocument.title}.pdf`,
-                             image: { type: 'jpeg', quality: 1.00 },
-                             html2canvas: { scale: 2 },
-                             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                         };
- 
-                         html2pdf().from(element).set(options).save();
-                     } else {
-                         console.error('Invoice content element not found');
-                     }
-                 }, 500);
-             };
-             iframe.addEventListener('load', handleIframeLoad);
-             return () => {
-                 iframe.removeEventListener('load', handleIframeLoad);
-             };
-         }
-     }, []);
+    const handleDownload = (invoiceId) => {
+        const invoiceUrl = `/supplier/invoice-design/${invoiceId}`;
+        if (iframeRef.current) {
+            iframeRef.current.src = invoiceUrl;
+        }
+    };
+    useEffect(() => {
+        const iframe = iframeRef.current;
+
+        if (iframe) {
+            const handleIframeLoad = () => {
+                setTimeout(() => {
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    const element = iframeDocument.getElementById('invoice-content');
+                    if (element) {
+                        const options = {
+                            margin: 0.5,
+                            filename: `invoice_${iframeDocument.title}.pdf`,
+                            image: { type: 'jpeg', quality: 1.00 },
+                            html2canvas: { scale: 2 },
+                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+
+                        html2pdf().from(element).set(options).save();
+                    } else {
+                        console.error('Invoice content element not found');
+                    }
+                }, 500);
+            };
+            iframe.addEventListener('load', handleIframeLoad);
+            return () => {
+                iframe.removeEventListener('load', handleIframeLoad);
+            };
+        }
+    }, []);
 
 
     return (
         <>
             <div className='pending-invo-container'>
-            <div className='table-responsive mh-2 50'>
+                <div className='table-responsive mh-2 50'>
                     <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                         <thead>
                             <tr>
+                                <th className="text-muted invoice-th">Date & Time</th>
                                 <th className="text-muted invoice-th">Invoice No.</th>
                                 <th className="text-muted invoice-th">Order ID</th>
                                 <th className="text-muted invoice-th">Customer Name</th>
@@ -70,11 +70,22 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                         </thead>
 
                         {
-                        invoiceList && invoiceList.length > 0 ? (
-                            invoiceList?.map((invoice, i) => {
-                                return (
+                           invoiceList && invoiceList.length > 0 ? (
+                            invoiceList.map((invoice, i) => {
+                                const dateToDisplay = 
+                                    invoice?.quotation_items_created_at ||
+                                    invoice?.quotation_items_updated_at ||
+                                    invoice?.created_at ||
+                                    moment().toISOString();
+                                    return (
                                         <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                             <tr className='table-row v-middle'>
+                                            <td>
+                                                    <div className="item-title">
+                                                        <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("DD/MM/YYYY")}</div>
+                                                        <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("HH:mm:ss")}</div>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <span className="item-title">{invoice.invoice_no}</span>
                                                 </td>
@@ -93,7 +104,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                                     <span className="item-title text-color">{invoice.mode_of_payment}</span>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1) }</span>
+                                                    <span className="item-title text-color">{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</span>
                                                 </td>
                                                 <td className='pending-invoices-td'>
                                                     <div className='invoice-details-button-row'>
@@ -110,25 +121,25 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                                     </div>
                                                 </td>
                                             </tr>
-            
-                                        </tbody>
-                                )
-                            })
-                        ) : (
-                            <>
-                                <tbody>
-                                    <tr>
-                                        <td colSpan="6">
-                                            <div className='pending-products-no-orders'>
-                                                No Paid Invoices
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
 
-                            </>
-                        )
-                    }
+                                        </tbody>
+                                    )
+                                })
+                            ) : (
+                                <>
+                                    <tbody>
+                                        <tr>
+                                            <td colSpan="6">
+                                                <div className='pending-products-no-orders'>
+                                                    No Paid Invoices
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </>
+                            )
+                        }
                     </table>
                 </div>
                 <div className='pending-invoice-pagination-conatiner-section'>

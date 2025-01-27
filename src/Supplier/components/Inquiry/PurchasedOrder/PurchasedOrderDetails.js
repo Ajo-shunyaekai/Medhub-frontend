@@ -220,7 +220,7 @@ const PurchasedOrderDetails = () => {
                         <tfoot>
                             <tbody style={{ width: '100%', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                 <tr>
-                                    <td style={{ verticalAlign: 'top', width: '100%', paddingRight: '20px', paddingBottom: '20px' }}>
+                                    <td style={{ verticalAlign: 'top', width: '100vw', paddingBottom: '20px' }}>
                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Additional Instruction :</h1>
                                         <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
                                             <p style={{ position: 'relative', paddingLeft: '20px' }}>

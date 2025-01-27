@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import moment from "moment-timezone";
 import '../pendingInvoice.css';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
@@ -60,6 +61,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                 <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                     <thead>
                         <tr>
+                            <th className="text-muted invoice-th">Date & Time</th>
                             <th className="text-muted invoice-th">Invoice No.</th>
                             <th className="text-muted invoice-th">Order ID</th>
                             <th className="text-muted invoice-th">Customer Name</th>
@@ -71,10 +73,21 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
 
                     {
                         invoiceList && invoiceList.length > 0 ? (
-                            invoiceList?.map((invoice, i) => {
+                            invoiceList.map((invoice, i) => {
+                                const dateToDisplay =
+                                    invoice?.quotation_items_created_at ||
+                                    invoice?.quotation_items_updated_at ||
+                                    invoice?.created_at ||
+                                    moment().toISOString();
                                 return (
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
+                                            <td>
+                                                <div className="item-title">
+                                                    <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("DD/MM/YYYY")}</div>
+                                                    <div>{moment(dateToDisplay).tz("Asia/Kolkata").format("HH:mm:ss")}</div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <span className="item-title">{invoice.invoice_no}</span>
                                             </td>

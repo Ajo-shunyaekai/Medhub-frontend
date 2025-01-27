@@ -58,8 +58,9 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                 <table className="table table-theme table-row v-middle" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
                     <thead>
                         <tr>
+                        <th className="text-muted invoice-th">PO Date & Time</th>
                             <th className="text-muted invoice-th">Invoice No.</th>
-                            <th className="text-muted invoice-th">PO Date</th>
+                           
                             <th className="text-muted invoice-th">Order ID</th>
                             <th className="text-muted invoice-th">Customer Name</th>
                             <th className="text-muted invoice-th">Action</th>
@@ -72,12 +73,16 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                                 return (
                                     <tbody className='pending-invoices-tbody-section' key={i} data-id="9" >
                                         <tr className='table-row v-middle'>
+                                            <td className="flex">
+                                                <span className="item-title text-color">
+                                                    {moment(invoice.created_at).format("DD/MM/YYYY ")}<br />
+                                                    {moment(invoice.created_at).format("HH:mm:ss")}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <span className="item-title">{invoice.invoice_no}</span>
                                             </td>
-                                            <td className="flex">
-                                                <span className="item-title text-color">{moment(invoice.created_at).format("DD/MM/YYYY")}</span>
-                                            </td>
+
                                             <td>
                                                 <span className="item-title">{invoice.order_id}</span>
                                             </td>

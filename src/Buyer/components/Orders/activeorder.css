@@ -80,9 +80,11 @@
 }
 .order-section-eye {
   width: 18px !important;
+  cursor: pointer !important;
 }
 .order-section-off {
   width: 18px !important;
+  cursor: pointer !important;
 }
 @media screen and (max-width: 1360px) {
   .order-section-td {

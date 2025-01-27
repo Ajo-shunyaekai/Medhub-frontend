@@ -6,10 +6,10 @@ import { postRequestWithToken } from '../../../api/Requests';
 
 function ProformaDetailsPage() {
     const { orderId } = useParams()
-    const navigate    = useNavigate()
+    const navigate = useNavigate()
 
     const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-    const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+    const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
     const [orderDetails, setOrderDetails] = useState()
 
@@ -19,29 +19,29 @@ function ProformaDetailsPage() {
             return;
         }
         const obj = {
-            supplier_id   : supplierIdSessionStorage || supplierIdLocalStorage,
-            order_id : orderId,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            order_id: orderId,
         }
-        
+
         postRequestWithToken('order/supplier-order-details', obj, async (response) => {
             if (response.code === 200) {
                 setOrderDetails(response.result)
             } else {
-               console.log('error in purchaseorder/get-po-details api',response);
+                console.log('error in purchaseorder/get-po-details api', response);
             }
         })
-    },[])
+    }, [])
 
     const orderItems = orderDetails?.items?.map(item => ({
         ...item,
         unit_price: parseFloat(item.unit_price),
-        unit_tax: parseFloat(item?.unit_tax || '0') ,
+        unit_tax: parseFloat(item?.unit_tax || '0'),
         total_amount: parseFloat(item.total_amount)
     })) || [];
 
     const totalAmount = orderItems.reduce((sum, item) => sum + item.total_amount, 0);
     const totalTaxAmount = orderItems.reduce((sum, item) => {
-        const unitTaxRate     = parseFloat(item.unit_tax || '0') / 100;
+        const unitTaxRate = parseFloat(item.unit_tax || '0') / 100;
         const itemTotalAmount = parseFloat(item.total_amount);
         return sum + (itemTotalAmount * unitTaxRate);
     }, 0);
@@ -142,28 +142,28 @@ function ProformaDetailsPage() {
                                                                 </tr>
                                                             </thead>
                                                             {orderItems.map((item, index) => (
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td style={{ paddingBlock: '12px', display: 'flex', alignItems: 'baseline' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{index + 1}.</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item?.strength || '150mg'})</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
-                                                                    </td>
-                                                                    <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                        <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style={{ paddingBlock: '12px', display: 'flex', alignItems: 'baseline' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '14px' }}>{index + 1}.</p>
+                                                                        </td>
+                                                                        <td style={{ paddingBlock: '12px' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item?.strength || '150mg'})</p>
+                                                                        </td>
+                                                                        <td style={{ paddingBlock: '12px' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
+                                                                        </td>
+                                                                        <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
+                                                                        </td>
+                                                                        <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
+                                                                        </td>
+                                                                        <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
                                                             ))}
                                                         </table>
                                                         <table>
@@ -190,7 +190,38 @@ function ProformaDetailsPage() {
 
                                                                 </tr>
                                                             </tbody>
+                                                            <table>
+                                                                <tbody style={{ borderBottom: '1px dotted rgb(153, 160, 172)' }}>
+                                                                    <tr>
+                                                                        <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
+                                                                            <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
+                                                                            <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Bank Name :</p>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.bank_name}</p>
+                                                                            </tr>
+                                                                            <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.account_number}</p>
+                                                                            </tr>
+                                                                        </td>
+                                                                        <td style={{ width: '550px' }} >
+                                                                            <table style={{ width: '100%', borderSpacing: 0, }}>
+                                                                                <tbody>
+                                                                                    <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
+                                                                                        <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
+                                                                                    </tr>
+                                                                                    <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
+                                                                                        <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} AED</p>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
 
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <tbody style={{ borderTop: '1px dotted rgb(153, 160, 172)', borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                                 <tr>
                                                                     <td style={{ width: '750px' }} >
@@ -223,27 +254,18 @@ function ProformaDetailsPage() {
                                     <tr>
                                         <td style={{ verticalAlign: 'top', width: '100vw', paddingBottom: '20px' }}>
                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px' }}>Payment Terms :</h1>
-                                            
+
                                             <div style={{ fontSize: '13px', lineHeight: '20px', marginTop: '4px', color: '#99a0ac' }}>
-                                            {
-                                                orderDetails?.enquiry?.payment_terms?.map((data, i) => {
-                                                    return (
-                                                        <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                        <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                       {data}
-                                                    </p>
-                                                    )
-                                                })
-                                            }
-                                               
-                                                {/* <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p>
-                                                <p style={{ position: 'relative', paddingLeft: '20px' }}>
-                                                    <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                                </p> */}
+                                                {
+                                                    orderDetails?.enquiry?.payment_terms?.map((data, i) => {
+                                                        return (
+                                                            <p style={{ position: 'relative', paddingLeft: '20px' }}>
+                                                                <span style={{ position: 'absolute', left: '0', top: '0', fontSize: '22px' }}>•</span>
+                                                                {data}
+                                                            </p>
+                                                        )
+                                                    })
+                                                }
                                             </div>
                                         </td>
                                     </tr>

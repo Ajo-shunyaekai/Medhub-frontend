@@ -64,6 +64,7 @@
     "react-scripts": "^5.0.1",
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
+    "react-select-currency": "^1.0.7",
     "react-spinners": "^0.14.1",
     "react-svg-circular-progressbar": "^1.0.1",
     "react-svg-worldmap": "^2.0.0-alpha.16",

@@ -30,7 +30,7 @@ const Profile = () => {
     const supplierVatRegNo = sessionStorage.getItem("vat_reg_no");
     const supplierRegistrationNo = sessionStorage.getItem("registration_no");
     const supplierDescription = sessionStorage.getItem("description");
-    const supplierPaymentTerms = sessionStorage.getItem("payment_terms");
+    const supplierBankDetails = sessionStorage.getItem("bank_details");
     const supplierSalesName = sessionStorage.getItem("sales_person_name");
     const supplierTaxImage = sessionStorage.getItem("tax_image");
     const supplierLicenseImage = sessionStorage.getItem("license_image");
@@ -70,7 +70,7 @@ const Profile = () => {
         supplierTaxNo,
         supplierVatRegNo,
         supplierDescription,
-        supplierPaymentTerms,
+        supplierBankDetails,
         supplierActivityCode,
         supplierLicenseImage,
         supplierCertificateImage,
@@ -283,8 +283,8 @@ const Profile = () => {
           </div>
         </div>
         <div className={styles.textareaSeaction}>
-          <div className={styles.textareaHead}>Payment Terms</div>
-          <span className={styles.textareaContent}>{supplierData.supplierPaymentTerms}</span>
+          <div className={styles.textareaHead}>Bank Details</div>
+          <span className={styles.textareaContent}>{supplierData.supplierBankDetails}</span>
         </div>
       </div>
     

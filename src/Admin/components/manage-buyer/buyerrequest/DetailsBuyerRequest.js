@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assest/style/detailsrequest.css'
 import { Modal } from 'react-responsive-modal';
+import { FaEdit } from 'react-icons/fa';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -10,7 +11,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
 import BuyerCustomModal from './BuyerCustomModal';
 import { FaFilePdf, FaFileWord } from 'react-icons/fa';
-import {apiRequests} from '../../../../api/index'
+import { apiRequests } from '../../../../api/index'
 
 const DetailsBuyerRequest = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,11 +21,22 @@ const DetailsBuyerRequest = () => {
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [salesPersonName, setSalesPersonName] = useState("John Doe");
+    const [isEditable, setIsEditable] = useState(false);
+
+    const handleEditClick = () => {
+        setIsEditable(true);
+    };
+
+    const handleChange = (e) => {
+        setSalesPersonName(e.target.value);
+    };
+
     const openModal = (url) => {
         console.log("Opening URL:", url);
         window.open(url, '_blank');
     };
- 
+
     const closeModal = () => {
         setOpen(false);
         setPdfUrl(null);
@@ -32,43 +44,10 @@ const DetailsBuyerRequest = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
- 
-    // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
-    // const renderFiles = (files, type) => {
-    //     return files?.map((file, index) => {
-    //         if (file.endsWith('.pdf')) {
-    //             // Render a PDF icon with a clickable link
-    //             return (
-    //                 <div key={index} className='buyer-details-pdf-section'>
-    //                     <FaFilePdf
-    //                         size={50}
-    //                         color="red"
-    //                         style={{ cursor: 'pointer' }}
-    //                         onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}
-    //                     />
-    //                     <div className='pdf-url' onClick={() => openModal(`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`)}>
-    //                         {extractFileName(file)}
-    //                     </div>
-    //                 </div>
-    //             );
-    //         } else {
-    //             // Render an image
-    //             return (
-    //                 <img
-    //                     key={index}
-    //                     src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/${type}/${file}`}
-    //                     alt={type}
-    //                     className='buyer-details-document-image'
-    //                 />
-    //             );
-    //         }
-    //     });
-    // };
-
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
-    
+
             if (file.endsWith('.pdf')) {
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
@@ -84,15 +63,15 @@ const DetailsBuyerRequest = () => {
                     </div>
                 );
             } else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
                 file.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
-                    '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    '.vnd.openxmlformats-officedocument.wordprocessingml.document',
                     '.docx'
                 );
                 const docxUrl = `${serverUrl}uploads/buyer/${type}/${docxFileName}`;
-    
+
                 return (
                     <div key={index} className='buyer-details-docx-section'>
                         <FaFileWord
@@ -118,60 +97,39 @@ const DetailsBuyerRequest = () => {
             }
         });
     };
- 
- 
- 
- 
-    // End the modal and pdf url
- 
- 
- 
- 
- 
+
     const [loading, setLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false)
     const [buyerDetails, setBuyerDetails] = useState()
- 
-    useEffect(()=>{
+
+    useEffect(() => {
         const getBuyerDetails = async () => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            buyer_id: buyerId,
-        }
-        // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setBuyerDetails(response.result)
-        //     } else {
-        //         console.log('error in get-buyer-details api', response);
-        //     }
-        // })
-        try {
-            const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
-            if (response?.code !== 200) {
-                console.log('error in get-buyer-details api', response);
+            if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                navigate("/admin/login");
                 return;
             }
-            setBuyerDetails(response?.result);
-            // postRequestWithToken(`buyer/get-specific-buyer-details/${buyerId}`, obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setBuyerDetails(response.result)
-            //     } else {
-            //         console.log('error in get-buyer-details api', response);
-            //     }
-            // })
-        } catch (error) {
-            console.log('error in get-buyer-details api', error);
-        }
+            const obj = {
+                admin_id: adminIdSessionStorage || adminIdLocalStorage,
+                buyer_id: buyerId,
+            }
+
+            try {
+                const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
+                if (response?.code !== 200) {
+                    console.log('error in get-buyer-details api', response);
+                    return;
+                }
+                setBuyerDetails(response?.result);
+
+            } catch (error) {
+                console.log('error in get-buyer-details api', error);
+            }
         }
         getBuyerDetails()
     }, [])
- 
+
     const handleAcceptReject = (action) => {
- 
+
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             buyer_id: buyerId,
@@ -182,11 +140,11 @@ const DetailsBuyerRequest = () => {
         } else if (action === 'reject') {
             setRejectLoading(true)
         }
- 
- 
+
+
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
             if (response.code === 200) {
- 
+
                 toast(response.message, { type: 'success' })
                 setLoading(false);
                 setRejectLoading(false);
@@ -205,10 +163,6 @@ const DetailsBuyerRequest = () => {
     const handleRejectClick = () => {
         setIsModalOpen(true);
     };
- 
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // };
     return (
         <>
             <div className='buyer-details-container'>
@@ -220,7 +174,7 @@ const DetailsBuyerRequest = () => {
                                 <div className='buyer-details-company-logo-container'>
                                     <div className='buyer-details-company-logo-section'>
                                         <img src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${buyerDetails?.buyer_image[0]}`} alt='CompanyLogo' />
-                                        {/* src={`${process.env.REACT_APP_SERVER_URL}uploads/buyer/buyer_images/${poDetails?.buyer_details[0]?.buyer_image[0]}`} */}
+
                                     </div>
                                 </div>
                                 <div className='buyer-details-uppar-right-main-section'>
@@ -233,7 +187,7 @@ const DetailsBuyerRequest = () => {
                                                 <div className='buyer-details-left-inner-sec-text'>Buyer ID: {buyerDetails?.buyer_id}</div>
                                             </div>
                                             <div className='buyer-details-left-inner-img-container'>
-                                            <div className='buyer-details-left-inner-mobile-button'>
+                                                <div className='buyer-details-left-inner-mobile-button'>
                                                     <PhoneInTalkOutlinedIcon
                                                         data-tooltip-id={buyerDetails?.buyer_country_code && buyerDetails?.buyer_mobile ? "my-tooltip-1" : null}
                                                         className='buyer-details-left-inner-icon'
@@ -260,7 +214,7 @@ const DetailsBuyerRequest = () => {
                                                             content={buyerDetails.buyer_email}
                                                         />
                                                     )}
-                                                </div>  
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -271,8 +225,17 @@ const DetailsBuyerRequest = () => {
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
-                                            <div className='buyer-details-company-type-sec-text'>{buyerDetails?.buyer_address}</div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                {buyerDetails?.buyer_address} {buyerDetails?.registeredAddress?.locality}
+                                            </div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                 {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}  
+                                            </div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                            {buyerDetails?.registeredAddress?.pincode || ''}
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -283,7 +246,25 @@ const DetailsBuyerRequest = () => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
-                           
+                                <div className="buyer-details-inner-section">
+                                    <div className="buyer-details-inner-head">
+                                        Sales Person Name :
+                                        <FaEdit className="edit-icon" onClick={handleEditClick} />
+                                    </div>
+                                    <div className="buyer-details-inner-text">
+                                        {isEditable ? (
+                                            <input
+                                                type="text"
+                                                defaultValue={buyerDetails?.sales_person_name}
+                                                onChange={handleChange}
+                                                className="editable-details"
+                                                placeholder="Sales Person Name"
+                                            />
+                                        ) : (
+                                            <span>{buyerDetails?.sales_person_name}</span>
+                                        )}
+                                    </div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
@@ -300,11 +281,6 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>Mobile No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_country_code} {buyerDetails?.contact_person_mobile}</div>
                                 </div>
-                               
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.activity_code || '-'}</div>
-                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>License No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_no}</div>
@@ -313,11 +289,11 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>License Expiry Date :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
-                                
+
 
                             </div>
                             <div className='buyer-details-inner-left-section'>
-                            <div className='buyer-details-inner-section'>
+                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
                                 </div>
@@ -346,6 +322,10 @@ const DetailsBuyerRequest = () => {
                                     <div className='buyer-details-inner-head'>Interested In :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
                                 </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.activity_code || '-'}</div>
+                                </div>
                             </div>
 
                         </div>
@@ -353,7 +333,7 @@ const DetailsBuyerRequest = () => {
                     <div className='buyer-details-card-section'>
                         <div className='buyer-details-uppar-card-section'>
                             <div className='buyer-details-uppar-card-inner-section'>
-                            {
+                                {
                                     buyerDetails?.buyer_type === 'Medical Practitioner' && (
                                         <div className='buyer-details-card-container'>
                                             <div className='buyer-details-company-logo-heading'>Medical Practitioner Document</div>
@@ -381,7 +361,7 @@ const DetailsBuyerRequest = () => {
                                         {renderFiles(buyerDetails?.certificate_image, 'certificate_images')}
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         {/* Modal for PDF viewing */}
@@ -415,7 +395,6 @@ const DetailsBuyerRequest = () => {
                             </div>
                             <div
                                 className='buyer-details-button-reject'
-                                //  onClick={handleRejectClick}
                                 onClick={() => handleAcceptReject('reject')}
                                 disabled={rejectLoading}
                             >
