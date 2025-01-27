@@ -274,7 +274,8 @@ const ProformaInvoice = ({socket}) => {
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 enquiry_id: inquiryDetails?.enquiry_id,
                 purchaseOrder_id: purchaseOrderId,
-                buyer_id: inquiryDetails?.buyer_id,
+                // buyer_id: inquiryDetails?.buyer_id,
+                buyer_id: buyerDetails?.buyer_id,
                 orderItems: updatedOrderItems,
                 data: {
                     ...formData,
