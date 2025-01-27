@@ -4,8 +4,10 @@ import Select from 'react-select';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { Country, State, City } from "country-state-city";
+import { useParams } from 'react-router-dom';
 
 const EditProfile = () => {
+    const [supplierData, setSupplierData] = useState(null);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
@@ -56,6 +58,84 @@ const EditProfile = () => {
             setFormData({ ...formData, city: selectedOption });
         }
     };
+
+    useEffect(() => {
+        const supplierId = sessionStorage.getItem("supplier_id");
+        const supplierName = sessionStorage.getItem("supplier_name");
+        const supplierEmail = sessionStorage.getItem("contact_person_email");
+        const supplierMobileCode = sessionStorage.getItem("supplier_country_code");
+        const supplierMobile = sessionStorage.getItem("supplier_mobile");
+        const supplierAddress = sessionStorage.getItem("supplier_address");
+        const supplierImage = sessionStorage.getItem("supplier_image");
+        const supplierType = sessionStorage.getItem("supplier_type");
+        const supplierPersonCountryCode = sessionStorage.getItem("contact_person_country_code");
+        const supplierPersonMobileNo = sessionStorage.getItem("contact_person_mobile_no");
+        const supplierPersonName = sessionStorage.getItem("contact_person_name");
+        const supplierOperation = sessionStorage.getItem("country_of_operation");
+        const supplierOrigin = sessionStorage.getItem("country_of_origin");
+        const supplierDesignation = sessionStorage.getItem("designation");
+        const supplierLicanseDate = sessionStorage.getItem("license_expiry_date");
+        const supplierLicaneseNo = sessionStorage.getItem("license_no");
+        const suppliertags = sessionStorage.getItem("tags");
+        const supplierTaxNo = sessionStorage.getItem("tax_no");
+        const supplierVatRegNo = sessionStorage.getItem("vat_reg_no");
+        const supplierRegistrationNo = sessionStorage.getItem("registration_no");
+        const supplierDescription = sessionStorage.getItem("description");
+        const supplierPaymentTerms = sessionStorage.getItem("payment_terms");
+        const supplierSalesName = sessionStorage.getItem("sales_person_name");
+        const supplierTaxImage = sessionStorage.getItem("tax_image");
+        const supplierLicenseImage = sessionStorage.getItem("license_image");
+        const supplierCertificateImage = sessionStorage.getItem("certificate_image");
+        const supplierActivityCode = sessionStorage.getItem("activity_code");
+        const supplierMedicalImage = sessionStorage.getItem("medical_practitioner_image")
+    
+        const supplierLocality = sessionStorage.getItem("locality");
+        const supplierLandMark = sessionStorage.getItem("land_mark");
+        const supplierCity = sessionStorage.getItem("city");
+        const supplierState = sessionStorage.getItem("state");
+        const supplierCountry = sessionStorage.getItem("country");
+        const supplierPincode = sessionStorage.getItem("pincode")
+        
+    
+        if (supplierId) {
+          setSupplierData({
+            supplierId,
+            supplierName,
+            supplierEmail,
+            supplierMobileCode,
+            supplierMobile,
+            supplierAddress,
+            supplierImage,
+            supplierType,
+            supplierPersonCountryCode,
+            supplierPersonMobileNo,
+            supplierSalesName,
+            supplierPersonName,
+            supplierRegistrationNo,
+            supplierOperation,
+            supplierOrigin,
+            supplierDesignation,
+            supplierLicanseDate,
+            supplierLicaneseNo,
+            suppliertags,
+            supplierTaxNo,
+            supplierVatRegNo,
+            supplierDescription,
+            supplierPaymentTerms,
+            supplierActivityCode,
+            supplierLicenseImage,
+            supplierCertificateImage,
+            supplierTaxImage,
+            supplierMedicalImage,
+            supplierLocality,
+            supplierLandMark, 
+            supplierCity,
+            supplierState,
+            supplierCountry ,
+            supplierPincode
+          });
+        }
+      }, []);
 
 
     return (

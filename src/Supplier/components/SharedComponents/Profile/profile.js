@@ -46,11 +46,6 @@ const Profile = () => {
     const supplierPincode = sessionStorage.getItem("pincode")
     
 
-  
-
-
-
-    
     if (supplierId) {
       setSupplierData({
         supplierId,
@@ -81,14 +76,12 @@ const Profile = () => {
         supplierCertificateImage,
         supplierTaxImage,
         supplierMedicalImage,
-
-
         supplierLocality,
         supplierLandMark, 
         supplierCity,
         supplierState,
-      supplierCountry ,
-      supplierPincode
+        supplierCountry ,
+        supplierPincode
       });
     }
   }, []);
@@ -166,11 +159,11 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        {/* <Link to='/supplier/edit-profile'>
+        <Link to={`/supplier/edit-profile/${supplierData?.supplierId}`}>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link> */}
+        </Link>
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
