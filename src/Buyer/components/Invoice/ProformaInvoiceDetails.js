@@ -95,6 +95,12 @@ function ProformaDetailsPage() {
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px' }}>From :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px' }}>{orderDetails?.supplier_name}</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{orderDetails?.supplier_address}</p>
+                                                        {orderDetails?.supplier_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{orderDetails?.supplier_registered_address?.locality}</p>}
+                                                        {orderDetails?.supplier_registered_address?.land_mark && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{orderDetails?.supplier_registered_address?.land_mark}</p>}
+                                                        {
+                                                            (orderDetails?.supplier_registered_address?.city || orderDetails?.supplier_registered_address?.state || orderDetails?.supplier_registered_address?.pincode || orderDetails?.supplier_registered_address?.country) &&
+                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac' }}>{orderDetails?.supplier_registered_address?.city} {orderDetails?.supplier_registered_address?.state} {orderDetails?.supplier_registered_address?.pincode} {orderDetails?.supplier_registered_address?.country} </p>
+                                                        }
                                                         {/* <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>United Arab Emirates</p> */}
                                                         <td style={{ display: 'flex', justifyContent: 'start' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
@@ -109,6 +115,12 @@ function ProformaDetailsPage() {
                                                         <h1 style={{ fontSize: '14px', fontWeight: 500, paddingBottom: '3px', textAlign: 'end' }}>To :</h1>
                                                         <p style={{ fontSize: '16px', fontWeight: 500, paddingBottom: '6px', textAlign: 'end' }}>{orderDetails?.buyer_name}</p>
                                                         <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{orderDetails?.buyer_address}</p>
+                                                        {orderDetails?.buyer_registered_address?.locality && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{orderDetails?.buyer_registered_address?.locality}</p>}
+                                                        {orderDetails?.buyer_registered_address?.land_mark && <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{orderDetails?.buyer_registered_address?.land_mark}</p>}
+                                                        {
+                                                            (orderDetails?.buyer_registered_address?.city || orderDetails?.buyer_registered_address?.state || orderDetails?.buyer_registered_address?.pincode || orderDetails?.buyer_registered_address?.country) &&
+                                                            <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end' }}>{orderDetails?.buyer_registered_address?.city} {orderDetails?.buyer_registered_address?.state} {orderDetails?.buyer_registered_address?.pincode} {orderDetails?.buyer_registered_address?.country} </p>
+                                                        }
                                                         {/* <p style={{ fontSize: '13px', color: '#99a0ac', lineHeight: '16px', textAlign: 'end', paddingTop: '6px' }}>Dubai (United Arab Emirates)</p> */}
                                                         <td style={{ display: 'flex', justifyContent: 'end' }}>
                                                             <p style={{ fontSize: '13px', lineHeight: '16px', color: '#99a0ac', paddingTop: '6px' }}>Mobile No. :</p>
