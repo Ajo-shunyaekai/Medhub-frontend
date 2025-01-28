@@ -128,6 +128,10 @@ const ProductDetails = () => {
     e.preventDefault();
 
     if (validateInputs()) {
+      
+      if(details?.total_quantity <=100) {
+        return toast('Item is out of stock, cannot add to list', { type: "error" });
+      }
       setLoading(true)
       const obj = {
         medicine_id       : medId,
