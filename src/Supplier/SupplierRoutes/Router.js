@@ -375,7 +375,7 @@ element:<SubscriptionMembership/>
                 element:<Profile/>
             },
             {
-                path:"edit-profile",
+                path:"edit-profile/:supplierId",
                 element:<EditProfile/>
             }
         ],

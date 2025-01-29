@@ -14,14 +14,14 @@ const Subscription = () => {
           <div className='subscription-basic-paln'>Basic Plan</div>
           <div className='subscription-next-payment'>Next Payment: 30 July 2025</div>
         </div>
-        <Link to='/supplier/subscription-membership' className='subscription-footer-link'>
+        {/* <Link to='/supplier/subscription-membership' className='subscription-footer-link'>
         <div className='subscription-footer-container'>       
           <div className='subscriprion-footer-head'>Subscription Membership</div>
           <div className='subscription-footer-icon'>
             <ChevronRightIcon />
           </div>         
         </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   )
