@@ -81,23 +81,25 @@ const SupplyOrderList = ({ orderList, totalOrders, currentPage, ordersPerPage, h
                     </tbody>
                 </table>
             </div>
-            <div className='pagi-container'>
-                <Pagination
-                    activePage={currentPage}
-                    itemsCountPerPage={ordersPerPage}
-                    totalItemsCount={totalOrders}
-                    pageRangeDisplayed={5}
-                    onChange={handleOrderPageChange}
-                    itemClass="page-item"
-                    linkClass="page-link"
-                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                    hideFirstLastPages={true}
-                />
-                <div className='pagi-total'>
-                    Total Items: {totalOrders}
+            {orderList && orderList.length > 0 && (
+                <div className='pagi-container'>
+                    <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={ordersPerPage}
+                        totalItemsCount={totalOrders}
+                        pageRangeDisplayed={5}
+                        onChange={handleOrderPageChange}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                        prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                        nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                        hideFirstLastPages={true}
+                    />
+                    <div className='pagi-total'>
+                        Total Items: {totalOrders}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 }

@@ -17,15 +17,15 @@ const BuyerDetails = () => {
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [buyerDetails, setBuyerDetails] = useState()
- 
- 
+
+
     // Start the modal and pdf url
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const openModal = (url) => {
         window.open(url, '_blank');
     };
- 
+
     const closeModal = () => {
         setOpen(false);
         setPdfUrl(null);
@@ -33,7 +33,7 @@ const BuyerDetails = () => {
     const extractFileName = (url) => {
         return url.split('/').pop();
     };
- 
+
     // Assuming `supplierDetails` has arrays like `license_image`, `tax_image`, and `certificate_image`
     // const renderFiles = (files, type) => {
     //     return files?.map((file, index) => {
@@ -69,7 +69,7 @@ const BuyerDetails = () => {
     const renderFiles = (files, type) => {
         return files?.map((file, index) => {
             const serverUrl = process.env.REACT_APP_SERVER_URL;
-    
+
             if (file.endsWith('.pdf')) {
                 return (
                     <div key={index} className='buyer-details-pdf-section'>
@@ -85,15 +85,15 @@ const BuyerDetails = () => {
                     </div>
                 );
             } else if (
-                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') || 
+                file.endsWith('.vnd.openxmlformats-officedocument.wordprocessingml.document') ||
                 file.endsWith('.docx')
             ) {
                 const docxFileName = file.replace(
-                    '.vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                    '.vnd.openxmlformats-officedocument.wordprocessingml.document',
                     '.docx'
                 );
                 const docxUrl = `${serverUrl}uploads/buyer/${type}/${docxFileName}`;
-    
+
                 return (
                     <div key={index} className='buyer-details-docx-section'>
                         <FaFileWord
@@ -119,62 +119,62 @@ const BuyerDetails = () => {
             }
         });
     };
- 
- 
- 
- 
+
+
+
+
     // End the modal and pdf url
- 
- 
-    useEffect(()=>{
-        const getBuyerDetails = async() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-            return;
-        }
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            buyer_id: buyerId,
-        }
- 
-        // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setBuyerDetails(response.result)
-        //     } else {
-        //        console.log('error in get-buyer-details api',response);
-        //     }
-        // })
-        try {
-            const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
-            if (response?.code !== 200) {
-                console.log('error in get-buyer-details api', response);
+
+
+    useEffect(() => {
+        const getBuyerDetails = async () => {
+            if (!adminIdSessionStorage && !adminIdLocalStorage) {
+                navigate("/admin/login");
                 return;
             }
-            setBuyerDetails(response?.result);
-            // postRequestWithToken(`buyer/get-specific-buyer-details/${buyerId}`, obj, async (response) => {
+            const obj = {
+                admin_id: adminIdSessionStorage || adminIdLocalStorage,
+                buyer_id: buyerId,
+            }
+
+            // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
             //     if (response.code === 200) {
-            //         setBuyerDetails(response?.result);
+            //         setBuyerDetails(response.result)
             //     } else {
-            //         console.log('error in get-buyer-details api', response);
+            //        console.log('error in get-buyer-details api',response);
             //     }
             // })
-        } catch (error) {
-            console.log('error in get-buyer-details api', error);
+            try {
+                const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
+                if (response?.code !== 200) {
+                    console.log('error in get-buyer-details api', response);
+                    return;
+                }
+                setBuyerDetails(response?.result);
+                // postRequestWithToken(`buyer/get-specific-buyer-details/${buyerId}`, obj, async (response) => {
+                //     if (response.code === 200) {
+                //         setBuyerDetails(response?.result);
+                //     } else {
+                //         console.log('error in get-buyer-details api', response);
+                //     }
+                // })
+            } catch (error) {
+                console.log('error in get-buyer-details api', error);
+            }
         }
-    }
-    getBuyerDetails()
-    },[])
- 
+        getBuyerDetails()
+    }, [])
+
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             buyer_id: buyerId,
             action
         }
- 
+
         postRequestWithToken('admin/accept-reject-buyer-registration', obj, async (response) => {
             if (response.code === 200) {
- 
+
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
                     navigate('/admin/buyer-request')
@@ -249,7 +249,15 @@ const BuyerDetails = () => {
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
-                                            <div className='buyer-details-company-type-sec-text'>{buyerDetails?.buyer_address}</div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                {buyerDetails?.buyer_address} {buyerDetails?.registeredAddress?.locality}
+                                            </div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                 {buyerDetails?.registeredAddress?.land_mark || ''} {buyerDetails?.registeredAddress?.country} {buyerDetails?.registeredAddress?.state || ''} {buyerDetails?.registeredAddress?.city || ''}  
+                                            </div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                            {buyerDetails?.registeredAddress?.pincode || ''}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +273,10 @@ const BuyerDetails = () => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
-                            
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Sales Person Name:</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.sales_person_name}</div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.contact_person_name}</div>
@@ -291,17 +302,13 @@ const BuyerDetails = () => {
                                     <div className='buyer-details-inner-text'>{buyerDetails?.license_expiry_date}</div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tax No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.tax_no}</div>
                                 </div>
 
                             </div>
                             <div className='buyer-details-inner-left-section'>
-                           
+
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Company Registartion No. :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
@@ -327,6 +334,10 @@ const BuyerDetails = () => {
                                     <div className='buyer-details-inner-head'>Interested In :</div>
                                     <div className='buyer-details-inner-text'>{buyerDetails?.interested_in?.join(', ')}</div>
                                 </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Business/Trade Activity Code :</div>
+                                    <div className='buyer-details-inner-text'>{buyerDetails?.registration_no}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -336,11 +347,11 @@ const BuyerDetails = () => {
                                 {
                                     buyerDetails?.buyer_type === 'Medical Practitioner' && (
                                         <div className='buyer-details-card-container'>
-                                        <div className='buyer-details-company-logo-heading'>Medical Practitioner Document</div>
-                                        <div className='buyer-details-company-img-container'>
-                                            {renderFiles(buyerDetails?.medical_certificate, 'medical_practitioner_images')}
+                                            <div className='buyer-details-company-logo-heading'>Medical Practitioner Document</div>
+                                            <div className='buyer-details-company-img-container'>
+                                                {renderFiles(buyerDetails?.medical_certificate, 'medical_practitioner_images')}
+                                            </div>
                                         </div>
-                                    </div>
                                     )
                                 }
                                 <div className='buyer-details-card-container'>

@@ -4,6 +4,7 @@ import styles from '../../../assest/style/sellersupport.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Complaint from './Complaint/SellerComplaint';
 import Feedback from './Feedback/Feedback';
+import EditProfile from './UpdateProfile/EditProfileList'
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 
@@ -12,12 +13,12 @@ const SellerSupport = () => {
     const navigate = useNavigate();
 
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage   = localStorage.getItem("admin_id");
+    const adminIdLocalStorage = localStorage.getItem("admin_id");
 
-    const [loading, setLoading]         = useState(true);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
     const [supportList, setSupportList] = useState([])
-    const [totalItems, setTotalIems]    = useState()
+    const [totalItems, setTotalIems] = useState()
     const listPerPage = 5
 
     const handlePageChange = (pageNumber) => {
@@ -30,6 +31,8 @@ const SellerSupport = () => {
                 return 'complaint';
             case '/admin/supplier-support/feedback':
                 return 'feedback';
+            case '/admin/supplier-support/edit-profile':
+                return 'editprofile';
             default:
                 return 'complaint';
         }
@@ -46,6 +49,9 @@ const SellerSupport = () => {
             case 'feedback':
                 navigate('/admin/supplier-support/feedback');
                 break;
+            case 'editprofile':
+                navigate('/admin/supplier-support/edit-profile');
+                break;
             default:
                 navigate('/admin/supplier-support/complaint');
         }
@@ -58,11 +64,11 @@ const SellerSupport = () => {
         }
 
         const obj = {
-            admin_id    : adminIdSessionStorage || adminIdLocalStorage,
-            filterKey   : 'supplier',
-            supportType : activeLink,
-            pageNo      : currentPage, 
-            pageSize    : listPerPage,
+            admin_id: adminIdSessionStorage || adminIdLocalStorage,
+            filterKey: 'supplier',
+            supportType: activeLink,
+            pageNo: currentPage,
+            pageSize: listPerPage,
         }
 
         postRequestWithToken('admin/get-support-list', obj, async (response) => {
@@ -70,60 +76,78 @@ const SellerSupport = () => {
                 setSupportList(response.result.data)
                 setTotalIems(response.result.totalItems)
             } else {
-               console.log('error in support-list api',response);
+                console.log('error in support-list api', response);
             }
             setLoading(false);
         })
-    },[currentPage, activeLink])
+    }, [currentPage, activeLink])
 
 
     return (
         <>
-        {loading ? (
-                     <Loader />
-                ) : (
-            <div className={styles[`invoice-container`]}>
-                <div className={styles['complete-container-invoice-section']}>
-                    <div className={styles['complete-conatiner-head']}>Support</div>
-                </div>
-                <div className={styles[`invoice-wrapper`]}>
-                    <div className={styles[`invoice-wrapper-left`]}>
-                        <div
-                            onClick={() => handleLinkClick('complaint')}
-                            className={`${activeLink === 'complaint' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
-                        >
-                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Complaint</div>
-                        </div>
-                        <div
-                            onClick={() => handleLinkClick('feedback')}
-                            className={`${activeLink === 'feedback' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
-                        >
-                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Feedback</div>
-                        </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className={styles[`invoice-container`]}>
+                    <div className={styles['complete-container-invoice-section']}>
+                        <div className={styles['complete-conatiner-head']}>Support</div>
                     </div>
-                    <div className={styles[`invoice-wrapper-right`]}>
-                        {activeLink === 'complaint' && 
-                        <Complaint
-                            supportList = {supportList}
-                            handlePageChange = {handlePageChange}
-                            currentPage = {currentPage}
-                            totalItems ={totalItems}
-                            listPerPage={listPerPage}
-                         />}
-                        {activeLink === 'feedback' && 
-                        <Feedback 
-                            supportList = {supportList}
-                            handlePageChange = {handlePageChange}
-                            currentPage = {currentPage}
-                            totalItems ={totalItems}
-                            listPerPage={listPerPage}
+                    <div className={styles[`invoice-wrapper`]}>
+                        <div className={styles[`invoice-wrapper-left`]}>
+                            <div
+                                onClick={() => handleLinkClick('complaint')}
+                                className={`${activeLink === 'complaint' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div className={styles.supportHead}>Complaint</div>
+                            </div>
+                            <div
+                                onClick={() => handleLinkClick('feedback')}
+                                className={`${activeLink === 'feedback' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div className={styles.supportHead}>Feedback</div>
+                            </div>
 
-                        />}
+                            <div
+                                onClick={() => handleLinkClick('editprofile')}
+                                className={`${activeLink === 'editprofile' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            >
+                                <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                                <div className={styles.supportHead}>Edit Profile Requests</div>
+                            </div>
+                        </div>
+                        <div className={styles[`invoice-wrapper-right`]}>
+                            {activeLink === 'complaint' &&
+                                <Complaint
+                                    supportList={supportList}
+                                    handlePageChange={handlePageChange}
+                                    currentPage={currentPage}
+                                    totalItems={totalItems}
+                                    listPerPage={listPerPage}
+                                />}
+                            {activeLink === 'feedback' &&
+                                <Feedback
+                                    supportList={supportList}
+                                    handlePageChange={handlePageChange}
+                                    currentPage={currentPage}
+                                    totalItems={totalItems}
+                                    listPerPage={listPerPage}
+
+                                />}
+                                
+                                {activeLink === 'editprofile' &&
+                                <EditProfile
+                                    supportList={supportList}
+                                    handlePageChange={handlePageChange}
+                                    currentPage={currentPage}
+                                    totalItems={totalItems}
+                                    listPerPage={listPerPage}
+
+                                />}
+                        </div>
                     </div>
                 </div>
-            </div>
             )}
         </>
     );

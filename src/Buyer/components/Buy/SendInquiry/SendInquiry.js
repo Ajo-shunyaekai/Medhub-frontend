@@ -132,6 +132,7 @@ const SendInquiry = ({socket}) => {
             quantity_required    : item.quantity_required || "",
             est_delivery_days    : item.est_delivery_days || "",
             target_price         : item.target_price || "",
+            total_quantity: item.total_quantity || 0
           }))
         });
       } 
@@ -143,6 +144,15 @@ const SendInquiry = ({socket}) => {
       buyer_name : buyerNameSessionStorage || buyerNameLocalStorage,
       items: selectedItems
     };
+
+    // Validation: Check if total_quantity is greater than 100
+  for (const supplier of enquiryPayload.items) {
+    for (const item of supplier.item_details) {
+      if (parseInt(item.total_quantity, 10) <= 50) {
+        return toast(`Selected Item is out of stock`, { type: "error" });
+      }
+    }
+  }
     if(enquiryPayload.items.length === 0) {
       return toast('Select Atleast One Item', { type: "error" });
     }

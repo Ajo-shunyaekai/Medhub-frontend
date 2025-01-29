@@ -34,7 +34,8 @@ border-radius: 4px;
     font-size: 12px !important;
     color: #5e676f !important;
 }
-.buyer-details-pdf-section{
+.buyer-details-pdf-section,
+.buyer-details-docx-section{
     display: flex;
     gap: 14px;
     flex-direction: column;
@@ -63,7 +64,6 @@ border-radius: 4px;
     width: 100%;
     gap: 1rem;
     justify-content: space-between;
-    align-items: center;
 }
 .buyer-details-left-inner-container {
     width: 100%;
@@ -103,9 +103,14 @@ border-radius: 4px;
     position: relative;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+.buyer-details-bank-container{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
 .buyer-details-company-logo-container{
     width: 20vw;
-    height: 226px;
+    height: 270px;
     display: flex;
     background-color: white;
     padding: 30px 28px;
@@ -141,10 +146,9 @@ border-radius: 4px;
 }
 .buyer-details-uppar-right-container-section{
     display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 2rem;
-}
+        justify-content: start;
+        gap: 16px;
+    }
 .buyer-details-company-logo-section img{
     width: 100%;
     height: 10vh;
@@ -158,6 +162,17 @@ border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     flex-direction: column;
     row-gap: 4px;
+}
+.buyer-details-bank-section{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 28px 34px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    row-gap: 4px;
+    width: 50%;
 }
 
 .buyer-details-upper-section-container {

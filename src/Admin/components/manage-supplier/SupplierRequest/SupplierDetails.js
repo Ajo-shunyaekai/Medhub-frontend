@@ -197,7 +197,11 @@ const renderFiles = (files, type) => {
                                         </div>
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
-                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address}</div>
+                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address} {supplierDetails?.registeredAddress?.locality} </div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                {supplierDetails?.registeredAddress?.land_mark ? supplierDetails?.registeredAddress?.land_mark : '' } {supplierDetails?.registeredAddress?.country ? supplierDetails?.registeredAddress?.country : ''}  {supplierDetails?.registeredAddress?.state ? supplierDetails?.registeredAddress?.state : ''} {supplierDetails?.registeredAddress?.city ? supplierDetails?.registeredAddress?.city : ''}
+                                            </div>
+                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.registeredAddress?.pincode}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -207,9 +211,15 @@ const renderFiles = (files, type) => {
                             <div className='buyer-details-description-head'>Reason for Rejected Supplier</div>
                             <div className='buyer-details-description-content'>{supplierDetails?.description}</div>
                         </div> */}
-                        <div className='buyer-details-description-section'>
+ <div className='buyer-details-bank-container'>
+                        <div className='buyer-details-bank-section'>
                             <div className='buyer-details-description-head'>Description</div>
                             <div className='buyer-details-description-content'>{supplierDetails?.description}</div>
+                        </div>
+                        <div className='buyer-details-bank-section'>
+                            <div className='buyer-details-description-head'>Bank Details</div>
+                            <div className='buyer-details-description-content'>{supplierDetails?.bank_details}</div>
+                        </div>
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
@@ -236,10 +246,6 @@ const renderFiles = (files, type) => {
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Tags :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.tags}</div>
-                                </div>
-                                <div className='buyer-details-inner-section'>
-                                    <div className='buyer-details-inner-head'>Payment Terms :</div>
-                                    <div className='buyer-details-inner-text'>{supplierDetails?.payment_terms}</div>
                                 </div>
                                 {/* <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Est.Delivery Time :</div>

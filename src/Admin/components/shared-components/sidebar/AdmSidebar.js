@@ -442,30 +442,59 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                   <div className={styles.noti_container}>
                     <div className={styles.noti_wrapper}>
                       <div className={styles.noti_top_wrapper}>
-                        {notificationList?.slice(0, 5).map((data, i) => (
-                          <div
-                            key={data.notification_id}
-                            className={styles.noti_profile_wrapper}
-                            onClick={() => handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)}
-                          >
-                            <div className={styles.noti_profile}>{data.event_type.charAt(0)}</div>
-                            <div className={styles.noti_profile_text}>
-                              <span>
-                                {data.message.length > 100 ? `${data.message.slice(0, 100)}...` : data.message}
-                              </span>
-                            </div>
+                        {notificationList && notificationList.length > 0 ? (
+                          notificationList.slice(0, 5).map((data, i) => {
+                            // Split the message into heading and content
+                            const words = data.message.split(' ');
+                            const heading = words.slice(0, 2).join(' '); // First two words
+                            const content = words.slice(2).join(' '); // Remaining content
+
+                            return (
+                              <div
+                                key={data.notification_id}
+                                className={styles.noti_profile_wrapper}
+                                onClick={() =>
+                                  handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)
+                                }
+                              >
+                                <div className={styles.noti_profile_text}>
+                                  <span className={styles.noti_heading}>{heading}</span>
+                                  <span className={styles.noti_head_content}>
+                                    {content.length > 100 ? `${content.slice(0, 100)}...` : content}
+                                  </span>
+                                </div>
+                                <div className={styles.noti_profile}>
+                                  11:12
+                                  <br />
+                                  12-10-2025
+                                </div>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          // Error message if no notifications exist
+                          <div className={styles.error_message}>
+                            <p>No notifications available</p>
                           </div>
-                        ))}
+                        )}
                       </div>
-                      <div className={styles.noti_bottom_wrapper}>
-                        <div className={styles.noti_see_all_num}>
-                          {notificationList?.length} Notifications
+                      {notificationList && notificationList.length > 0 && (
+                        <div className={styles.noti_bottom_wrapper}>
+                          <div className={styles.noti_see_all_num}>
+                            {notificationList.length} Notifications
+                          </div>
+                          <div
+                            className={styles.noti_see_all_btn}
+                            onClick={handleNotificationNavigate}
+                          >
+                            See all
+                          </div>
                         </div>
-                        <div className={styles.noti_see_all_btn} onClick={handleNotificationNavigate}>See all</div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 )}
+
               </div>
               <div ref={profileRef}>
                 <AccountCircleOutlinedIcon

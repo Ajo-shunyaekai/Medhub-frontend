@@ -21,64 +21,6 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
             }
         }
     }, [reset]);
-
-    // const handleImageUpload = (event) => {
-    //     const files = Array.from(event.target.files);
-    //     let validFiles;
-
-    //     if (imageType === 'logo') {
-    //         // For logo, only allow JPEG and only one file
-    //         validFiles = files.filter(file => file.type === 'image/jpeg').slice(0, 1);
-
-    //         if (files.length > 1 || validFiles.length === 0) {
-    //             setErrorMessage('Only one JPEG image is allowed for the logo.');
-    //             return;
-    //         }
-    //     } else {
-    //         // For other types, allow multiple files with valid types and sizes
-    //         validFiles = files.filter(file => {
-    //             const isValidType = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'].includes(file.type);
-    //             const isValidSize = file.size <= 5 * 1024 * 1024;
-    //             return isValidType && isValidSize;
-    //         });
-
-    //         if (validFiles.length !== files.length) {
-    //             setErrorMessage('Some files were invalid. Only PNG, JPEG, JPG, and PDF are allowed, and file size must not exceed 5MB.');
-    //             return;
-    //         }
-    //     }
-
-    //     setErrorMessage('');
-
-    //     // Process valid files
-    //     const newPreviews = validFiles.map(file => {
-    //         return new Promise((resolve, reject) => {
-    //             const reader = new FileReader();
-    //             reader.onload = () => {
-    //                 resolve({ name: file.name, preview: reader.result, type: file.type, file });
-    //             };
-    //             reader.onerror = reject;
-    //             reader.readAsDataURL(file);
-    //         });
-    //     });
-
-    //     setUploading(true);
-    //     Promise.all(newPreviews)
-    //         .then(results => {
-    //             setFilePreviews(prev => {
-    //                 const updatedPreviews = imageType === 'logo' ? results.slice(0, 1) : [...prev, ...results];
-    //                 onUploadStatusChange(true, updatedPreviews.map(file => file.file), imageType);
-    //                 return updatedPreviews;
-    //             });
-    //         })
-    //         .catch(err => {
-    //             setErrorMessage('Error reading files.');
-    //         })
-    //         .finally(() => {
-    //             setUploading(false);
-    //         });
-    // };
-
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
         let validFiles;
@@ -88,7 +30,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
             validFiles = files.filter(file => file.type === 'image/jpeg' || file.type === 'image/png').slice(0, 1);
 
             if (files.length > 1 || validFiles.length === 0) {
-                setErrorMessage('Only one JPEG or PNG image is allowed for the logo.');
+                setErrorMessage('Only JPEG/PNG format is allowed');
                 return;
             }
         } else {
@@ -100,7 +42,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
             });
 
             if (validFiles.length !== files.length) {
-                setErrorMessage('Some files were invalid. Only PDF and DOCX files are allowed, and file size must not exceed 5MB.');
+                setErrorMessage('Invalid files. Only PDF/DOCX, max 5MB.');
                 return;
             }
         }

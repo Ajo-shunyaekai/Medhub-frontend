@@ -61,7 +61,9 @@
   .inquiry-purchase-left-wrapper img {
     margin-top: 5px;
   }
-  
+  .inquiry-purchase-left-wrapper div {
+    cursor: pointer !important;
+  }
   .inquiry-purchase-table-view {
     background-color: #31c971 !important;
     display: flex;

@@ -104,16 +104,9 @@ const Invoice = ({socket}) => {
                 }
             }
             fetchInvoiceList()
-            // postRequestWithToken('buyer/order/buyer-invoice-list', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setInvoiceList(response.result.data);
-            //         setTotalInvoices(response.result.totalItems);
-            //     } else {
-            //         toast(response.message, { type: 'error' });
-            //         console.log('Error in invoice list API:', response);
-            //     }
+           
                 setLoading(false);
-            // });
+            
         }
     };
     
@@ -158,21 +151,21 @@ const Invoice = ({socket}) => {
                                 className={`${activeIndex === 0 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                             >
                                 <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                                <div>Pending Invoices</div>
+                                <div className={styles.invoiceHeading}>Pending Invoices</div>
                             </div>
                             <div
                                 onClick={() => handleLinkClick('paid')}
                                 className={`${activeIndex === 1 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                             >
                                 <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                                <div>Paid Invoices</div>
+                                <div className={styles.invoiceHeading}>Paid Invoices</div>
                             </div>
                             <div
                                 onClick={() => handleLinkClick('active')}
                                 className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                             >
                                 <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                                <div>Proforma Invoices</div>
+                                <div className={styles.invoiceHeading}>Proforma Invoices</div>
                             </div>
                         </div>
                         <div className={styles['invoice-wrapper-right']}>

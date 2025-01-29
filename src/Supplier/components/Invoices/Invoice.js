@@ -82,14 +82,7 @@ const Invoice = () => {
                     
                     setInvoiceList(response.result.data);
                     setTotalInvoices(response.result.totalItems)
-                    // postRequestWithToken(`order/get-all-invoice-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${invoicesPerPage}`, obj, async (response) => {
-                    //     if (response.code == 200) {
-                    //         setInvoiceList(response.result.data);
-                    //         setTotalInvoices(response.result.totalItems)
-                    //     } else {
-                    //         console.log('error in invoice list api', response);
-                    //     }
-                    // })
+                  
                 } catch (error) {
                     console.log('Error in get-invoice-list API', error);
                     
@@ -98,16 +91,7 @@ const Invoice = () => {
                 }
             }
             fetchInvoiceList()
-            // postRequestWithToken('supplier/order/supplier-invoice-list', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setInvoiceList(response.result.data);
-            //         setTotalInvoices(response.result.totalItems)
-            //     } else {
-            //         toast(response.message, {type:'error'});
-            //         console.log('error in invoice list api', response);
-            //     }
-            // setLoading(false);
-            // });
+         
         }
     }, [activeIndex, currentPage]);
     
@@ -158,14 +142,14 @@ const Invoice = () => {
                         className={`${activeIndex === 0 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                     >
                         <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Pending Invoices</div>
+                        <div className={styles.invoiceHeading}>Pending Invoices</div>
                     </div>
                     <div
                         onClick={() => handleLinkClick('paid')}
                         className={`${activeIndex === 1 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                     >
                         <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Paid Invoices</div>
+                        <div className={styles.invoiceHeading}>Paid Invoices</div>
                     </div>
 
                     <div
@@ -173,7 +157,7 @@ const Invoice = () => {
                         className={`${activeIndex === 2 ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                     >
                         <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                        <div>Proforma Invoices</div>
+                        <div className={styles.invoiceHeading}>Proforma Invoices</div>
                     </div>
                 </div>
                 <div className={styles['invoice-wrapper-right']}>

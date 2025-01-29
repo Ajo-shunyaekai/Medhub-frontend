@@ -128,6 +128,7 @@ font-weight: 500;
 }
 .tooltip-icons{
   width: 14px;
+  cursor: pointer !important;
 }
 .custom-select-wrapper {
   position: relative;

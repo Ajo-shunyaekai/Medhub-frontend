@@ -138,21 +138,21 @@ const SellerInvoice = () => {
                             className={`${activeLink === 'paid' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Paid Invoices</div>
+                            <div className={styles.invoiceHead}>Paid Invoices</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('pending')}
                             className={`${activeLink === 'pending' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Pending Invoices</div>
+                            <div className={styles.invoiceHead}>Pending Invoices</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('proforma')}
                             className={`${activeLink === 'proforma' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Proforma Invoices</div>
+                            <div className={styles.invoiceHead}>Proforma Invoices</div>
                         </div>
                     </div>
                     <div className={styles[`invoice-wrapper-right`]}>

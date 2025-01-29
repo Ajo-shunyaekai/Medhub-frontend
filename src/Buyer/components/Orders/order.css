@@ -59,7 +59,9 @@
 .order-left-wrapper.active {
   color: #448bff !important; 
 }
-
+.order-left-wrapper div{
+  cursor: pointer !important;
+}
 .order-left-wrapper img {
   margin-top: 5px;
 }
