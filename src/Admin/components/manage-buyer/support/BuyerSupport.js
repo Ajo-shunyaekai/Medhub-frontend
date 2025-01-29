@@ -4,6 +4,7 @@ import styles from '../../../assest/style/sellersupport.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import BuyerComplaint from './complaint/BuyerComplaint';
 import BuyerFeedback from './feedback/BuyerFeedback';
+import BuyerUpdateProfile from './UpdateProfile/EditProfileList'
 import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../../shared-components/Loader/Loader';
 
@@ -20,6 +21,8 @@ const SellerSupport = () => {
                 return 'complaint';
             case '/admin/buyer-support/feedback':
                 return 'feedback';
+                case '/admin/buyer-support/edit-profile':
+                    return 'editprofile';
             default:
                 return 'complaint';
         }
@@ -36,6 +39,9 @@ const SellerSupport = () => {
             case 'feedback':
                 navigate('/admin/buyer-support/feedback');
                 break;
+                case 'editprofile':
+                    navigate('/admin/buyer-support/edit-profile');
+                    break;
             default:
                 navigate('/admin/buyer-support/complaint');
         }
@@ -92,14 +98,21 @@ const SellerSupport = () => {
                             className={`${activeLink === 'complaint' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Complaint</div>
+                            <div className={styles.supportHead}>Complaint</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('feedback')}
                             className={`${activeLink === 'feedback' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div>Feedback</div>
+                            <div className={styles.supportHead}>Feedback</div>
+                        </div>
+                        <div
+                            onClick={() => handleLinkClick('editprofile')}
+                            className={`${activeLink === 'editprofile' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                        >
+                            <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
+                            <div className={styles.supportHead}>Edit Profile Requests</div>
                         </div>
                     </div>
                     <div className={styles[`invoice-wrapper-right`]}>
@@ -119,6 +132,16 @@ const SellerSupport = () => {
                             totalItems ={totalItems}
                             listPerPage={listPerPage}
                         />}
+                         {activeLink === 'editprofile' && 
+                        <BuyerUpdateProfile 
+                            supportList = {supportList}
+                            handlePageChange = {handlePageChange}
+                            currentPage = {currentPage}
+                            totalItems ={totalItems}
+                            listPerPage={listPerPage}
+                        />}
+
+
                     </div>
                 </div>
             </div>

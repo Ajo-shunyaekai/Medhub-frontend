@@ -104,12 +104,9 @@ const SupplierDetails = () => {
   }, []);
 
   console.log(activeButton, activeTab);
-  //supplier-product-list
   useEffect(() => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
-    // if(activeButton === 'products' || activeButton === 'secondary') {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
       return;
@@ -210,8 +207,8 @@ const SupplierDetails = () => {
                 </div>
               </div>
               <div className='buyer-supplier-details-description-section'>
-                <div className='buyer-supplier-details-description-head'>Business/Trade Activity Code</div>
-                <div className='buyer-supplier-details-description-content'>{supplier?.activity_code || 'CODE876857'}</div>
+                <div className='buyer-supplier-details-description-head'>Bank Details</div>
+                <div className='buyer-supplier-details-description-content'>{supplier?.bank_details || 'UCO Bank'}</div>
               </div>
             </div>
             <div className='buyer-supplier-details-section'>
@@ -249,13 +246,6 @@ const SupplierDetails = () => {
                 <div className='buyer-supplier-details-inner-head'>Country of Operation</div>
                 <div className='buyer-supplier-details-inner-text'>{supplier?.country_of_operation?.join(', ')}</div>
               </div>
-
-
-
-              <div className='buyer-supplier-details-inner-section'>
-                <div className='buyer-supplier-details-inner-head'>Payment Terms</div>
-                <div className='buyer-supplier-details-inner-text'>{supplier?.payment_terms || 'COD, Debit'}</div>
-              </div>
               {/* <div className='buyer-supplier-details-inner-section'>
                 <div className='buyer-supplier-details-inner-head'>Est. Delivery Time</div>
                 <div className='buyer-supplier-details-inner-text'>
@@ -266,6 +256,11 @@ const SupplierDetails = () => {
                     : '10 Days'}
                 </div>
               </div> */}
+              
+              <div className='buyer-supplier-details-inner-section'>
+                <div className='buyer-supplier-details-inner-head'>Business/Trade Activity Code</div>
+                <div className='buyer-supplier-details-inner-text'>{supplier?.activity_code || 'CODE876857'}</div>
+              </div>
               <div className='buyer-supplier-details-inner-section'>
                 <div className='buyer-supplier-details-inner-head'>Tags</div>
                 <div className='buyer-supplier-details-inner-text'>{supplier?.tags || 'Tag1, Tag2'}</div>

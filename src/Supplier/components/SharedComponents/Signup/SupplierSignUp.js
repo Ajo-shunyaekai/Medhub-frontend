@@ -61,8 +61,8 @@ const SupplierSignUp = ({ socket }) => {
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
     const [addressType, setAddressType] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
     const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
     const [taxRegPreviews, setTaxRegPreviews] = useState([]);
     const [certificatePreviews, setcertificatePreviews] = useState([]);
@@ -80,7 +80,7 @@ const SupplierSignUp = ({ socket }) => {
         designation: '',
         email: '',
         mobile: '',
-        paymentterms: '',
+        bankdetails: '',
         delivertime: '',
         tags: '',
         originCountry: '',
@@ -89,7 +89,7 @@ const SupplierSignUp = ({ socket }) => {
         companyLicenseExpiry: '',
         companyTaxNo: '',
         description: '',
-        activityCode:'',
+        activityCode: '',
         taxImage: null,
         taxImageType: 'tax',
         logoImage: null,
@@ -105,9 +105,9 @@ const SupplierSignUp = ({ socket }) => {
         vatRegistrationNo: '',
         locality: '',
         landMark: '',
-        country: null,
-        state: null,
-        city: null,
+        country: '',
+        state: '',
+        city: '',
         pincode: '',
         user_type: 'Supplier'
     }
@@ -116,8 +116,8 @@ const SupplierSignUp = ({ socket }) => {
 
     const handleCountryChange = (selectedOption) => {
         setSelectedCountry(selectedOption);
-        setSelectedState(null);
-        setSelectedCity(null);
+        setSelectedState('');
+        setSelectedCity('');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -129,10 +129,10 @@ const SupplierSignUp = ({ socket }) => {
             setFormData({ ...formData, country: selectedOption });
         }
     };
-
+    
     const handleStateChange = (selectedOption) => {
-        setSelectedState(selectedOption);
-        setSelectedCity(null);
+        setSelectedState(selectedOption || '');
+        setSelectedCity('');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -146,7 +146,7 @@ const SupplierSignUp = ({ socket }) => {
     };
 
     const handleCityChange = (selectedOption) => {
-        setSelectedCity(selectedOption);
+        setSelectedCity(selectedOption || '');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -161,7 +161,7 @@ const SupplierSignUp = ({ socket }) => {
 
     const [formData, setFormData] = useState(defaultFormData);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
-    
+
     const handleMultiSelectChange = (selected) => {
         setSelectedOptions(selected);
     };
@@ -189,7 +189,7 @@ const SupplierSignUp = ({ socket }) => {
         }
     };
 
-    
+
     const handleImageUpload = (hasImage, file, imageType) => {
         setFormData(prevState => ({
             ...prevState,
@@ -252,90 +252,153 @@ const SupplierSignUp = ({ socket }) => {
     const handleChange = (event) => {
         const { name, value } = event.target;
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
-      
+
         // Handle license expiry date validation
         if (name === 'companyLicenseExpiry') {
-          setFormData(prevState => ({
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+
+            // Only validate if we have a complete date
+            if (value.length === 10) {
+                const [day, month, year] = value.split('-').map(Number);
+
+                // Create date objects
+                const inputDate = new Date(year, month - 1, day);
+                const currentDate = new Date();
+
+                // Reset time parts for accurate comparison
+                currentDate.setHours(0, 0, 0, 0);
+                inputDate.setHours(0, 0, 0, 0);
+
+                // Check if it's a valid date
+                if (
+                    inputDate.getFullYear() === year &&
+                    inputDate.getMonth() === month - 1 &&
+                    inputDate.getDate() === day
+                ) {
+                    // Check if date is in the future
+                    if (inputDate <= currentDate) {
+                        setErrors(prevState => ({
+                            ...prevState,
+                            companyLicenseExpiry: 'License expiry date must be a future date'
+                        }));
+                    } else {
+                        setErrors(prevState => ({
+                            ...prevState,
+                            companyLicenseExpiry: ''
+                        }));
+                    }
+                } else {
+                    setErrors(prevState => ({
+                        ...prevState,
+                        companyLicenseExpiry: 'Please enter a valid date'
+                    }));
+                }
+            }
+            return;
+        }
+
+         //bank details validation
+        if (name === 'bankdetails') {
+            setFormData(prevState => ({
             ...prevState,
             [name]: value
-          }));
-      
-          // Only validate if we have a complete date
-          if (value.length === 10) {
-            const [day, month, year] = value.split('-').map(Number);
-      
-            // Create date objects
-            const inputDate = new Date(year, month - 1, day);
-            const currentDate = new Date();
-            
-            // Reset time parts for accurate comparison
-            currentDate.setHours(0, 0, 0, 0);
-            inputDate.setHours(0, 0, 0, 0);
-      
-            // Check if it's a valid date
-            if (
-              inputDate.getFullYear() === year &&
-              inputDate.getMonth() === month - 1 &&
-              inputDate.getDate() === day
-            ) {
-              // Check if date is in the future
-              if (inputDate <= currentDate) {
-                setErrors(prevState => ({
-                  ...prevState,
-                  companyLicenseExpiry: 'License expiry date must be a future date'
-                }));
-              } else {
-                setErrors(prevState => ({
-                  ...prevState,
-                  companyLicenseExpiry: ''
-                }));
-              }
-            } else {
-              setErrors(prevState => ({
-                ...prevState,
-                companyLicenseExpiry: 'Please enter a valid date'
-              }));
+            }));
+
+            const details = value.split(',').map(item => item.trim());
+            let errorMessage = '';
+
+            // validation for empty input
+            if (!value.trim()) {
+            errorMessage = 'Please enter bank details';
             }
-          }
-          return;
+            // Validate number of fields
+            else if (details.length > 3) {
+            errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
+            }
+            else {
+            const [bankName = '', accountNumber = '', ifscCode = ''] = details;
+
+            // Validate bank name
+            if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
+                errorMessage = 'Bank name should only contain letters and spaces';
+            }
+
+            // Validate account number if bank name is valid
+            else if (accountNumber) {
+                if (!/^\d*$/.test(accountNumber)) {
+                errorMessage = 'Account number should only contain digits';
+                } else if (accountNumber.length > 0 && accountNumber.length < 8) {
+                errorMessage = 'Account number should be at least 8 digits';
+                } else if (accountNumber.length > 20) {
+                errorMessage = 'Account number should not exceed 20 digits';
+                }
+            }
+
+            // Validate IFSC code if account number is valid
+            else if (ifscCode) {
+                // if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
+                // errorMessage = 'Invalid IFSC/Sort code format (should be like HDFC0123456)';
+                // } 
+                 if (ifscCode.length > 20) {
+                    errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
+                }
+            }
+
+            // If all fields are present, verify complete format
+            if (details.length === 3 && !errorMessage) {
+                if (!bankName) errorMessage = 'Please enter bank name';
+                else if (!accountNumber) errorMessage = 'Please enter account number';
+                else if (!ifscCode) errorMessage = 'Please enter IFSC code';
+            }
+            }
+
+            setErrors(prevState => ({
+            ...prevState,
+            bankdetails: errorMessage
+            }));
+
+            return;
         }
-      
+
         // Existing validations
         if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
-          setErrors((prevState) => ({
-            ...prevState,
-            [name]: ``,
-          }));
-          return;
+            setErrors((prevState) => ({
+                ...prevState,
+                [name]: ``,
+            }));
+            return;
         }
-      
+
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
-          if (value.length > 16) {
-            setErrors(prevState => ({ ...prevState, [name]: '' }));
-            return;
-          }
-          // Disallow spaces in these fields
-          if (!alphanumericNoSpaceRegex.test(value)) {
-            setErrors(prevState => ({ ...prevState, [name]: '' }));
-            return;
-          }
+            if (value.length > 16) {
+                setErrors(prevState => ({ ...prevState, [name]: '' }));
+                return;
+            }
+            // Disallow spaces in these fields
+            if (!alphanumericNoSpaceRegex.test(value)) {
+                setErrors(prevState => ({ ...prevState, [name]: '' }));
+                return;
+            }
         }
-      
+
         if (name === 'description' && value.length > 1000) {
-          setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
+            setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
         } else if ((name === 'salesPersonName' || name === 'salesPersonName') && !/^[a-zA-Z\s]*$/.test(value)) {
-          setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
+            setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
         } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
-          setErrors(prevState => ({ ...prevState, designation: '' }));
+            setErrors(prevState => ({ ...prevState, designation: '' }));
         } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
-          setErrors(prevState => ({ ...prevState, delivertime: '' }));
+            setErrors(prevState => ({ ...prevState, delivertime: '' }));
         } else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, pincode: '' }));
-        }else {
+        } else {
           setFormData(prevState => ({ ...prevState, [name]: value }));
           setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
-      };
+    };
 
     const handlePhoneChange = (name, value) => {
         // Clear previous errors
@@ -349,12 +412,10 @@ const SupplierSignUp = ({ socket }) => {
             if (phoneNumber && isValidPhoneNumber(value)) {
                 // Format the phone number in E.164 format (international standard)
 
-                console.log(phoneNumber.countryCallingCode);
                 const countryCode = phoneNumber.countryCallingCode
                 const nationalNumber = phoneNumber.nationalNumber
                 // const formattedNumber = phoneNumber.format('E.164');
                 const formattedNumber = `+${countryCode} ${nationalNumber}`
-                console.log(formattedNumber);
                 // Update form data with the formatted number
                 setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
             } else {
@@ -427,39 +488,39 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
         // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         // License expiry date validation
-    if (!formData.companyLicenseExpiry) {
-        formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
-    } else {
-        // Check if date is in valid format
-        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-        if (!dateRegex.test(formData.companyLicenseExpiry)) {
-            formErrors.companyLicenseExpiry = 'Please enter date in DD-MM-YYYY format';
+        if (!formData.companyLicenseExpiry) {
+            formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         } else {
-            const [day, month, year] = formData.companyLicenseExpiry.split('-').map(Number);
-            const inputDate = new Date(year, month - 1, day);
-            const currentDate = new Date();
-            
-            // Reset time parts for accurate comparison
-            currentDate.setHours(0, 0, 0, 0);
-            inputDate.setHours(0, 0, 0, 0);
+            // Check if date is in valid format
+            const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+            if (!dateRegex.test(formData.companyLicenseExpiry)) {
+                formErrors.companyLicenseExpiry = 'Please enter date in DD-MM-YYYY format';
+            } else {
+                const [day, month, year] = formData.companyLicenseExpiry.split('-').map(Number);
+                const inputDate = new Date(year, month - 1, day);
+                const currentDate = new Date();
 
-            // Check if it's a valid date (e.g., not 31st Feb)
-            if (
-                inputDate.getFullYear() !== year ||
-                inputDate.getMonth() !== month - 1 ||
-                inputDate.getDate() !== day
-            ) {
-                formErrors.companyLicenseExpiry = 'Please enter a valid date';
-            }
-            // Check if date is in the future
-            else if (inputDate <= currentDate) {
-                formErrors.companyLicenseExpiry = 'License expiry date must be a future date';
+                // Reset time parts for accurate comparison
+                currentDate.setHours(0, 0, 0, 0);
+                inputDate.setHours(0, 0, 0, 0);
+
+                // Check if it's a valid date (e.g., not 31st Feb)
+                if (
+                    inputDate.getFullYear() !== year ||
+                    inputDate.getMonth() !== month - 1 ||
+                    inputDate.getDate() !== day
+                ) {
+                    formErrors.companyLicenseExpiry = 'Please enter a valid date';
+                }
+                // Check if date is in the future
+                else if (inputDate <= currentDate) {
+                    formErrors.companyLicenseExpiry = 'License expiry date must be a future date';
+                }
             }
         }
-    }
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-        if (!formData.paymentterms) formErrors.paymentterms = 'Payment Terms are Required';
+        if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
         // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
@@ -477,7 +538,7 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
         if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
-        
+
 
         if (!formData.locality) formErrors.locality = 'Locality is Required';
         if (!formData.country) formErrors.country = 'Country is Required';
@@ -598,7 +659,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('sales_person_name', formData.salesPersonName);
             formDataToSend.append('contact_person_name', formData.contactPersonName);
             formDataToSend.append('designation', formData.designation);
-            formDataToSend.append('payment_terms', formData.paymentterms);
+            formDataToSend.append('bank_details', formData.bankdetails);
             formDataToSend.append('tags', formData.tags);
             formDataToSend.append('estimated_delivery_time', formData.delivertime);
             // formDataToSend.append('contact_person_mobile', mobile);
@@ -609,17 +670,14 @@ const SupplierSignUp = ({ socket }) => {
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
             formDataToSend.append('activity_code', formData.activityCode);
-            
-            // New data fields
 
+            // New data fields
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
             formDataToSend.append('country', formData.country?.name);
-            formDataToSend.append('state', formData.state?.name);
-            formDataToSend.append('city', formData.city?.name);
+            formDataToSend.append('state', formData.state?.name || '');
+            formDataToSend.append('city', formData.city?.name || '');
             formDataToSend.append('pincode', formData.pincode);
-
-
             formDataToSend.append('user_type', formData.user_type);
 
             (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));
@@ -629,7 +687,7 @@ const SupplierSignUp = ({ socket }) => {
             if (selectedCompanyType?.value === "medical practitioner") {
                 (Array.isArray(formData.medicalCertificateImage) ? formData.medicalCertificateImage : []).forEach(file => formDataToSend.append('medical_practitioner_image', file));
             }
-            
+
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Supplier")
                 if (response?.code !== 200) {
@@ -816,7 +874,7 @@ const SupplierSignUp = ({ socket }) => {
                                                     onChange={handleStateChange}
                                                     placeholder="Select State"
                                                 />
-                                               
+
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>City/Town</label>
@@ -835,7 +893,7 @@ const SupplierSignUp = ({ socket }) => {
                                                     onChange={handleCityChange}
                                                     placeholder="Select City"
                                                 />
-                                               
+
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Pincode(Optional)</label>
@@ -960,29 +1018,35 @@ const SupplierSignUp = ({ socket }) => {
                                             </div>
 
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Payment Terms<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>
+                                                    Bank Details<span className='labelstamp'>*</span>
+                                                </label>
                                                 <div className='signup-tooltip-class'>
                                                     <textarea
                                                         className='signup-form-section-input'
                                                         type="text"
-                                                        name="paymentterms"
+                                                        name="bankdetails"
                                                         rows="2"
                                                         cols="50"
-                                                        placeholder="Enter Payment Terms"
-                                                        value={formData.paymentterms}
+                                                        placeholder="Enter Bank Details (Bank Name, Account Number, IFSC Code)"
+                                                        value={formData.bankdetails}
                                                         onChange={handleChange}
                                                     />
                                                     <span
                                                         className="info-icon"
-                                                        data-tooltip-id="payment-terms-tooltip"
-                                                        data-tooltip-content="Specify the payment terms for your company."
+                                                        data-tooltip-id="bank-details-tooltip"
+                                                        data-tooltip-content="Provide the following information: 
+                                                            1. Bank Name 
+                                                            2. Account Number 
+                                                            3. IFSC Code"
                                                     >
                                                         <img src={Information} className='tooltip-icons' alt='information' />
                                                     </span>
-                                                    <Tooltip id="payment-terms-tooltip" />
+                                                    <Tooltip id="bank-details-tooltip" />
                                                 </div>
-                                                {errors.paymentterms && <div className='signup__errors'>{errors.paymentterms}</div>}
+                                                {errors.bankdetails && <div className='signup__errors'>{errors.bankdetails}</div>}
                                             </div>
+
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'> Business/Trade Activity Code<span className='labelstamp'>*</span></label>
                                                 <textarea

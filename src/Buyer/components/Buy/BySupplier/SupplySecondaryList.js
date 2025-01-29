@@ -99,28 +99,26 @@ const SupplySecondaryList = ({ productsData, totalProducts, currentPage, product
           </div>
         )}
       </div>
-      <div className='pagi-container'>
-        <Pagination
-          // activePage={currenttPage}
-          activePage={currentPage}
-          // itemsCountPerPage={itemsPerPage}
-          itemsCountPerPage={productsPerPage}
-          // totalItemsCount={productList.length}
-          totalItemsCount={totalProducts}
-          pageRangeDisplayed={5}
-          // onChange={handlePageChange}
-          onChange={handleProductPageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-          prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-          nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-          hideFirstLastPages={true}
-        />
-        <div className='pagi-total'>
-          {/* Total Items: {productList.length} */}
-          Total Items: {totalProducts}
+      {productsData?.length > 0 && (
+        <div className='pagi-container'>
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={productsPerPage}
+            totalItemsCount={totalProducts}
+            pageRangeDisplayed={5}
+            onChange={handleProductPageChange}
+            itemClass="page-item"
+            linkClass="page-link"
+            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+            hideFirstLastPages={true}
+          />
+          <div className='pagi-total'>
+            Total Items: {totalProducts}
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 };

@@ -212,7 +212,7 @@ const SupplierLogin = ({socket}) => {
                     </div>
                     </Link>
                     <div className='login-form-main-buttons'>
-                        <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button>
+                        {/* <button type='button' className='login-form-main-cancel' onClick={handleCancel}>Cancel</button> */}
                         <button 
                         type='submit' 
                         className='login-form-main-login'

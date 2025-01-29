@@ -11,7 +11,9 @@
     font-weight: 600;
     color: #5e676f;
 }
-
+.OrderHeading{
+    cursor: pointer !important;
+}
 .order-container {
     display: flex;
     flex-direction: column;

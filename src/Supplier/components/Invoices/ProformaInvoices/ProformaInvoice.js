@@ -52,6 +52,7 @@ const ProformaInvoice = ({socket}) => {
         newBuyerMobile: '',
         orderItems: [],
         paymentTerms : '',
+        bankDetails:'',
         totalDueAmount : '',
         totalAmount: ''
     })
@@ -157,14 +158,6 @@ const ProformaInvoice = ({socket}) => {
             }
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
-
-
-    // useEffect(() => {
-    //     getRequest('supplier/purchaseorder/get-po-details/8776', {}, (response) => {
-    //         console.log('Response:', response);
-    //     });
-    // }, []);
-
     const resetForm = () => {
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -183,7 +176,7 @@ const ProformaInvoice = ({socket}) => {
         }));
         setDateValue()
     }
-
+console.log(setFormData)
     const handleCancel = () => {
         resetForm()
     }
@@ -238,9 +231,6 @@ const ProformaInvoice = ({socket}) => {
         // if(!formData.depositDue) formErrors.depositDue = 'Deposit Due is Required'
         if(!formData.depositDueDate) formErrors.depositDueDate = 'Deposit Due Date is Required'
         if(!formData.dueDate) formErrors.dueDate = 'Payment Due Date is Required'
-        // if(!formData.totalDueAmount) formErrors.totalDueAmount = 'Total Due Amount is Required'
-
-        // if(!formData.suppl) formErrors.buyerRegNo = 'Buyer VAT Reg No. is Required'
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
     }
@@ -274,7 +264,8 @@ const ProformaInvoice = ({socket}) => {
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 enquiry_id: inquiryDetails?.enquiry_id,
                 purchaseOrder_id: purchaseOrderId,
-                buyer_id: inquiryDetails?.buyer_id,
+                // buyer_id: inquiryDetails?.buyer_id,
+                buyer_id: buyerDetails?.buyer_id,
                 orderItems: updatedOrderItems,
                 data: {
                     ...formData,
@@ -376,51 +367,6 @@ const ProformaInvoice = ({socket}) => {
             return false; 
         }
     };
-
-    // const handlePhoneChange = (value, type) => {
-    //     let countryCode = '';
-    //     let mobileNumber = value;
-    //     let isValidNumber = false;
-    
-    //     // Extract the country code and the mobile number
-    //     for (let code of countryCodes) {
-    //         if (value.startsWith(code)) {
-    //             countryCode = code.replace('+', ''); 
-    //             mobileNumber = value.substring(code.length); 
-    //             break;
-    //         }
-    //     }
-    
-    //     // Validate the phone number based on the country code
-    //     if (countryCode && mobileNumber) {
-    //         isValidNumber = validatePhoneNumber(mobileNumber, countryCode);
-    
-    //         if (isValidNumber) {
-    //             const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-    //             console.log("formattedPhoneNumber", formattedPhoneNumber);
-    
-    //             // Update formData with the formatted phone number
-    //             setFormData(prevState => ({
-    //                 ...prevState,
-    //                 [type]: formattedPhoneNumber,  // Here, type should be 'buyerMobile' to update the correct field
-    //             }));
-    //         } else {
-    //             setFormData(prevState => ({
-    //                 ...prevState,
-    //                 [type]: '',  // Clear the field if invalid
-    //             }));
-    //             console.error('Invalid phone number format for the specified country code');
-    //         }
-    //     } else {
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             [type]: '',  // Clear the field if invalid
-    //         }));
-    //         console.error('Invalid phone number format or unknown country code');
-    //     }
-    // };
-
-
     const handlePhoneChange = (value, type) => {
         try {
             const phoneNumber = parsePhoneNumberFromString(value);
@@ -437,11 +383,6 @@ const ProformaInvoice = ({socket}) => {
                     ...prevState,
                     [type]: '', // Clear the field if invalid
                 }));
-
-                // setErrors(prevErrors => ({
-                //     ...prevErrors,
-                //     [type]: 'Invalid phone number format', // Set error message for invalid phone number
-                // }));
             }
         } catch (error) {
             console.error('Error parsing phone number:', error);
@@ -450,10 +391,6 @@ const ProformaInvoice = ({socket}) => {
                 [type]: '', // Clear the field if an error occurs
             }));
 
-            // setErrors(prevErrors => ({
-            //     ...prevErrors,
-            //     [type]: 'Invalid phone number format', // Set error message for invalid phone number
-            // }));
         }
     };
     
@@ -488,7 +425,7 @@ const ProformaInvoice = ({socket}) => {
                                 name='supplierName' placeholder='Enter Name'
                                 value={formData.supplierName}
                                 onChange={handleChange}
-                                // {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })} 
+                            
                                 />
                                 {errors.supplierName && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierName}</p>}
                         </div>
@@ -500,7 +437,7 @@ const ProformaInvoice = ({socket}) => {
                                 name='invoiceNumber'
                                 value={formData.invoiceNumber}
                                 readOnly
-                                // {...register('invoiceNumber')} 
+                              
                                 />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -510,7 +447,7 @@ const ProformaInvoice = ({socket}) => {
                                 placeholder='Enter Invoice Generate Date'
                                 value={currentDate}
                                 readOnly
-                                // {...register('invoiceDate')} 
+                               
                                 />
                         </div>
                         <div className={styles['create-invoice-div-container']}>
@@ -519,7 +456,7 @@ const ProformaInvoice = ({socket}) => {
                                 className={styles['create-invoice-div-input']}
                                 onChange={handlePaymentDueDateChange}
                                 value={dateValue}
-                                // minDate={new Date()}
+                              
                                 minDate={tomorrow}
                                 clearIcon={null}
                                 format="dd/MM/yyyy"
@@ -529,18 +466,12 @@ const ProformaInvoice = ({socket}) => {
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Deposit Due Date</label>
-                            {/* <input className={styles['create-invoice-div-input']} type='text'
-                                name='depositDue'
-                                placeholder='Enter Deposit Due'
-                                value={formData.depositDue}
-                                // {...register('depositDue',{ validate: value => value?.trim() !== '' || 'Deposit Due is Required' })}
-                                onInput={handleNumberInput}
-                            /> */}
+                           
                             <DatePicker
                                 className={styles['create-invoice-div-input']}
                                 onChange={handleDepositDueDateChange}
                                 value={depostDueDateValue}
-                                // minDate={new Date()}
+                               
                                 minDate={tomorrow}
                                 clearIcon={null}
                                 format="dd/MM/yyyy"
@@ -556,7 +487,7 @@ const ProformaInvoice = ({socket}) => {
                                 value={formData.depositRequested}
                                 min={0}
                                 max={grandTotal}
-                                // {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit Requested Amount is Required' })}
+                               
                                 onInput={handleNumberInput}
                                 />
                                 {errors.depositRequested && <p style={{color: 'red', fontSize: '12px'}}>{errors.depositRequested}</p>}
@@ -717,6 +648,7 @@ const ProformaInvoice = ({socket}) => {
                     )}
                 </div>
                 <div className={styles['create-invoice-section']}>
+                    <div className={styles.createBankSection}>
                     <div className={styles['craete-invoice-form']}>
                         <div className={styles['create-invoice-div-textarea']}>
                             <label className={styles['create-invoice-div-label']}>Payment Terms</label>
@@ -727,10 +659,24 @@ const ProformaInvoice = ({socket}) => {
                                 cols="10"
                                 placeholder='Enter Payment Terms'
                                 value={formData.paymentTerms}
-                                // {...register('paymentTerms')}
                                 readOnly 
                             />
                         </div>
+                    </div>
+                    <div className={styles['craete-invoice-form']}>
+                        <div className={styles['create-invoice-div-textarea']}>
+                            <label className={styles['create-invoice-div-label']}>Bank Details</label>
+                            <textarea
+                                className={styles['create-invoice-div-input']}
+                                name="bankDetails"
+                                rows="4"
+                                cols="10"
+                                placeholder='Enter Bank Details'
+                                value={formData.bankDetails}
+                                readOnly 
+                            />
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <div className={styles['craete-invoices-button']}>

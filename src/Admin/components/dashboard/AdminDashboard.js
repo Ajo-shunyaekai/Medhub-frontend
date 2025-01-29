@@ -125,52 +125,52 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='cart-left-bottom-section'>
-                            <div className='cart-left-bottom-container'>
+                        <div className='admin-cart-left-bottom-section'>
+                            <div className='admin-cart-left-bottom-container'>
                                 <Link 
                                 //  to='/admin/approved-buyer'
                                  to={`/admin/approved-buyer?filterValue=${filterValue}`}
                                  >
-                                    <div className='left-bottom-cart-top'>
-                                        <span className='left-bottom-pert'>{dashboardData?.buyerAcceptedReqCount?.count || 0}</span>
+                                    <div className='admin-left-bottom-cart-top'>
+                                        <span className='admin-left-bottom-pert'>{dashboardData?.buyerAcceptedReqCount?.count || 0}</span>
                                         {/* <span className='left-bottom-plus'>+3.5</span> */}
                                     </div>
 
-                                    <div className='left-bottom-head'>Approved Buyer</div>
-                                    <div className='line-chart-graph'>
+                                    <div className='admin-left-bottom-head'>Approved Buyer</div>
+                                    <div className='admin-line-chart-graph'>
                                         <ConversionChart />
                                     </div>
                                 </Link>
                             </div>
-                            <div className='cart-left-bottom-container'>
+                            <div className='admin-cart-left-bottom-container'>
                                 <Link 
                                 //   to='/admin/approved-seller'
                                 to={`/admin/approved-seller?filterValue=${filterValue}`}
                                 >
-                                    <div className='left-bottom-cart-top'>
-                                        <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
+                                    <div className='admin-left-bottom-cart-top'>
+                                        <span className='admin-left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>
                                         {/* <span className='left-bottom-plus'>-2.0</span> */}
                                     </div>
 
-                                    <div className='left-bottom-head'>Approved Supplier</div>
-                                    <div className='line-chart-graph'>
+                                    <div className='admin-left-bottom-head'>Approved Supplier</div>
+                                    <div className='admin-line-chart-graph'>
                                         <SearchEngineChart />
                                     </div>
                                 </Link>
                             </div>
-                            <div className='cart-left-bottom-container'>
+                            <div className='admin-cart-left-bottom-container'>
                                 <Link 
                                 //   to='/admin/total-approved-request'
                                 to={`/admin/total-approved-request?filterValue=${filterValue}`}
                                 >
-                                    <div className='left-bottom-cart-top'>
-                                        <span className='left-bottom-pert'>
+                                    <div className='admin-left-bottom-cart-top'>
+                                        <span className='admin-left-bottom-pert'>
                                             {(Number(dashboardData?.buyerAcceptedReqCount.count) || 0) + (Number(dashboardData?.supplierAcceptedReqCount.count) || 0)}
                                         </span>
                                         {/* <span className='left-bottom-plus'>+4.5</span> */}
                                     </div>
-                                    <div className='left-bottom-head'>Total Approved Request</div>
-                                    <div className='line-chart-graph'>
+                                    <div className='admin-left-bottom-head'>Total Approved Request</div>
+                                    <div className='admin-line-chart-graph'>
                                         <DirectlyChart />
                                     </div>
                                 </Link>

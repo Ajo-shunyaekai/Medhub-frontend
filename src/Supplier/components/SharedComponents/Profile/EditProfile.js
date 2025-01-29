@@ -14,7 +14,7 @@ import {
 } from "../../../../redux/reducers/userDataSlice";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-
+ 
 const EditProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,12 +23,12 @@ const EditProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-
+ 
   useEffect(() => {
     (id || sessionStorage.getItem("id")) &&
       dispatch(fetchUserData(id || sessionStorage.getItem("id")));
   }, [id, dispatch]);
-
+ 
   const formik = useFormik({
     initialValues: {
       contactPersonName: "",
@@ -55,7 +55,7 @@ const EditProfile = () => {
         .test("is-valid-phone", "Invalid phone number", (value) => {
           try {
             const phoneNumber = parsePhoneNumber(value);
-
+ 
             // Validate phone number and return true if it's valid, false if not
             return phoneNumber && phoneNumber.isValid();
           } catch (error) {
@@ -90,14 +90,14 @@ const EditProfile = () => {
           .required("Confirm New password is required"),
         otherwise: Yup.string(), // It's optional if newPassword isn't provided
       }),
-
+ 
       companyAddress: Yup.string().required(
         "Company billing address is required"
       ),
       locality: Yup.string().required("Area/Locality/Road name is required"),
       country: Yup.object().nullable().required("Country is required"),
     }),
-
+ 
     onSubmit: async (values) => {
       const apiPayload = {
         name: values?.contactPersonName, // contact person name
@@ -125,7 +125,7 @@ const EditProfile = () => {
           obj: apiPayload,
         })
       );
-
+ 
       // After dispatching, check if the profile update was successful
       if (updatedProfile.meta.requestStatus === "fulfilled") {
         if (apiPayload?.newPassword) {
@@ -139,7 +139,7 @@ const EditProfile = () => {
       }
     },
   });
-
+ 
   const resetForminlValues = (user) => {
     const initialCountryValue = user?.registeredAddress?.country
       ? {
@@ -149,7 +149,7 @@ const EditProfile = () => {
           label: user.registeredAddress.country,
         }
       : null;
-
+ 
     const initialStateValue = user?.registeredAddress?.state
       ? {
           value: State.getStatesOfCountry(
@@ -159,7 +159,7 @@ const EditProfile = () => {
           label: user.registeredAddress.state,
         }
       : null;
-
+ 
     const initialCityValue = user?.registeredAddress?.city
       ? {
           value: City.getCitiesOfState(
@@ -190,19 +190,19 @@ const EditProfile = () => {
       city: initialCityValue,
       pincode: user?.registeredAddress?.pincode || null,
     });
-
+ 
     setSelectedCountry(initialCountryValue);
     setSelectedState(initialStateValue);
     setSelectedCity(initialCityValue);
   };
-
+ 
   // Update formik values when user data is fetched
   useEffect(() => {
     if (user) {
       resetForminlValues(user);
     }
   }, [user]);
-
+ 
   // Handlers for Select components
   const handleCountryChange = (selectedOption) => {
     console.log("selectedOption", selectedOption);
@@ -211,31 +211,31 @@ const EditProfile = () => {
     setSelectedCity(null);
     formik.setFieldValue("country", selectedOption);
   };
-
+ 
   const handleStateChange = (selectedOption) => {
     setSelectedState(selectedOption);
     setSelectedCity(null);
     formik.setFieldValue("state", selectedOption);
   };
-
+ 
   const handleCityChange = (selectedOption) => {
     setSelectedCity(selectedOption);
     formik.setFieldValue("city", selectedOption);
   };
-
+ 
   const handlePhoneChange = (name, value) => {
     console.log(name, value, "// Logs the field name and value");
-
+ 
     try {
       // Parse the phone number
       const phoneNumber = parsePhoneNumber(value);
-
+ 
       // Validate the phone number
       if (phoneNumber && phoneNumber.isValid()) {
         // Format the phone number in E.164 format (international standard)
         const formattedNumber = phoneNumber.formatInternational();
         console.log("Formatted Phone Number:", formattedNumber);
-
+ 
         // Update the Formik field value for phoneNumber
         formik.setFieldValue(name, formattedNumber);
         // Clear any previous error if the phone number is valid
@@ -251,7 +251,7 @@ const EditProfile = () => {
       formik.setFieldError(name, "Invalid phone number");
     }
   };
-
+ 
   return (
     <div className={styles.editProfileContainer}>
       <span className={styles.editProfileHead}>Edit Profile</span>
@@ -376,7 +376,7 @@ const EditProfile = () => {
                     //   setMobile(value);
                   }}
                 />
-
+ 
                 {formik.errors.phoneNumber && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.phoneNumber}
@@ -385,7 +385,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-
+ 
           {/* Password Section */}
           <div className={styles.editProfileSection}>
             <span className={styles.editProfileSubHead}>Password</span>
@@ -438,7 +438,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-
+ 
           {/* Billing Address Section */}
           <div className={styles.editProfileSection}>
             <span className={styles.editProfileSubHead}>
@@ -524,7 +524,7 @@ const EditProfile = () => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles.editSubSection}>
                 <label className={styles.editLabel}>State</label>
                 <Select
@@ -553,7 +553,7 @@ const EditProfile = () => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles.editSubSection}>
                 <label className={styles.editLabel}>City</label>
                 <Select
@@ -583,7 +583,7 @@ const EditProfile = () => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles.editSubSection}>
                 <label className={styles.editLabel}>Pincode</label>
                 <input
@@ -598,7 +598,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-
+ 
           {/* Submit Button */}
           <div className={styles.editButtonSection}>
             <button type="submit" className={styles.editSubmit}>
@@ -619,5 +619,5 @@ const EditProfile = () => {
     </div>
   );
 };
-
+ 
 export default EditProfile;
