@@ -1,283 +1,623 @@
-import React, { useState, useEffect } from 'react';
-import styles from './profile.module.css'
-import Select from 'react-select';
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
+import React, { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import styles from "./profile.module.css";
+import Select from "react-select";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 import { Country, State, City } from "country-state-city";
-import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+import {
+  editProfile,
+  fetchUserData,
+} from "../../../../redux/reducers/userDataSlice";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditProfile = () => {
-    const [supplierData, setSupplierData] = useState(null);
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
-    const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { user, loading } = useSelector((state) => state?.userReducer);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
-    const handleCountryChange = (selectedOption) => {
-        setSelectedCountry(selectedOption);
-        setSelectedState(null);
-        setSelectedCity(null);
+  useEffect(() => {
+    (id || sessionStorage.getItem("id")) &&
+      dispatch(fetchUserData(id || sessionStorage.getItem("id")));
+  }, [id, dispatch]);
 
-        if (!selectedOption) {
-            setErrors((prevState) => ({
-                ...prevState,
-                country: "Country is required",
-            }));
-        } else {
-            setErrors((prevState) => ({ ...prevState, country: "" }));
-            setFormData({ ...formData, country: selectedOption });
+  const formik = useFormik({
+    initialValues: {
+      contactPersonName: "",
+      contactPersonEmail: "",
+      phoneNumber: "",
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+      companyAddress: "",
+      locality: "",
+      land_mark: "",
+      country: null,
+      state: null,
+      city: null,
+      pincode: "",
+    },
+    validationSchema: Yup.object().shape({
+      contactPersonName: Yup.string().required("Contact name is required"),
+      contactPersonEmail: Yup.string()
+        .email("Invalid email format")
+        .required("Email is required"),
+      phoneNumber: Yup.string()
+        .required("Phone number is required")
+        .test("is-valid-phone", "Invalid phone number", (value) => {
+          try {
+            const phoneNumber = parsePhoneNumber(value);
+
+            // Validate phone number and return true if it's valid, false if not
+            return phoneNumber && phoneNumber.isValid();
+          } catch (error) {
+            // If parsing fails, mark it as invalid
+            return false;
+          }
+        }),
+      oldPassword: Yup.string(),
+      // New password is required when oldPassword is provided
+      newPassword: Yup.string().when("oldPassword", {
+        is: (oldPassword) => oldPassword && oldPassword.length > 0,
+        then: Yup.string()
+          .required("New password is required")
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
+            "Password must be 8-15 characters, include one capital letter, one small letter, one number, and one special character"
+          )
+          .notOneOf(
+            [Yup.ref("oldPassword")],
+            "New password cannot be the same as old password"
+          ),
+        otherwise: Yup.string(), // It's optional if oldPassword isn't provided
+      }),
+      // Confirm password is required and must match newPassword if newPassword is provided
+      confirmPassword: Yup.string().when("newPassword", {
+        is: (newPassword) => newPassword && newPassword.length > 0,
+        then: Yup.string()
+          .oneOf(
+            [Yup.ref("newPassword")],
+            "Confirm New password must match new password"
+          )
+          .required("Confirm New password is required"),
+        otherwise: Yup.string(), // It's optional if newPassword isn't provided
+      }),
+
+      companyAddress: Yup.string().required(
+        "Company billing address is required"
+      ),
+      locality: Yup.string().required("Area/Locality/Road name is required"),
+      country: Yup.object().nullable().required("Country is required"),
+    }),
+
+    onSubmit: async (values) => {
+      const apiPayload = {
+        name: values?.contactPersonName, // contact person name
+        email: values?.contactPersonEmail, // contact person email
+        phone: values?.phoneNumber, // contact person phone
+        newPassword: values?.newPassword || null,
+        oldPassword: values?.oldPassword || null,
+        confirmPassword: values?.confirmPassword || null,
+        address: {
+          company_reg_address: values?.companyAddress,
+          locality: values?.locality,
+          land_mark: values?.land_mark || null,
+          city: values?.city?.label || null,
+          state: values?.state?.label || null,
+          country: values?.country?.label,
+          pincode: values?.pincode,
+          type: "Registered",
+        },
+      };
+      console.log("Form Data", apiPayload);
+      // Dispatch the action to update the profile
+      const updatedProfile = await dispatch(
+        editProfile({
+          id: user?._id,
+          obj: apiPayload,
+        })
+      );
+
+      // After dispatching, check if the profile update was successful
+      if (updatedProfile.meta.requestStatus === "fulfilled") {
+        if (apiPayload?.newPassword) {
+          // If new password is provided, clear localStorage and sessionStorage and navigate to login
+          setTimeout(() => {
+            localStorage.clear();
+            sessionStorage.clear();
+            navigate("/supplier/login");
+          }, 100);
         }
-    };
+      }
+    },
+  });
 
-    const handleStateChange = (selectedOption) => {
-        setSelectedState(selectedOption);
-        setSelectedCity(null);
-
-        if (!selectedOption) {
-            setErrors((prevState) => ({
-                ...prevState,
-                state: "State is required",
-            }));
-        } else {
-            setErrors((prevState) => ({ ...prevState, state: "" }));
-            setFormData({ ...formData, state: selectedOption });
+  const resetForminlValues = (user) => {
+    const initialCountryValue = user?.registeredAddress?.country
+      ? {
+          value: Country.getAllCountries().find(
+            (country) => country.name === user.registeredAddress.country
+          )?.isoCode,
+          label: user.registeredAddress.country,
         }
-    };
+      : null;
 
-    const handleCityChange = (selectedOption) => {
-        setSelectedCity(selectedOption);
-
-        if (!selectedOption) {
-            setErrors((prevState) => ({
-                ...prevState,
-                city: "City is required",
-            }));
-        } else {
-            setErrors((prevState) => ({ ...prevState, city: "" }));
-            setFormData({ ...formData, city: selectedOption });
+    const initialStateValue = user?.registeredAddress?.state
+      ? {
+          value: State.getStatesOfCountry(
+            user.registeredAddress.country || selectedCountry?.value
+          ).find((state) => state.name === user.registeredAddress.state)
+            ?.isoCode,
+          label: user.registeredAddress.state,
         }
-    };
+      : null;
 
-    useEffect(() => {
-        const supplierId = sessionStorage.getItem("supplier_id");
-        const supplierName = sessionStorage.getItem("supplier_name");
-        const supplierEmail = sessionStorage.getItem("contact_person_email");
-        const supplierMobileCode = sessionStorage.getItem("supplier_country_code");
-        const supplierMobile = sessionStorage.getItem("supplier_mobile");
-        const supplierAddress = sessionStorage.getItem("supplier_address");
-        const supplierImage = sessionStorage.getItem("supplier_image");
-        const supplierType = sessionStorage.getItem("supplier_type");
-        const supplierPersonCountryCode = sessionStorage.getItem("contact_person_country_code");
-        const supplierPersonMobileNo = sessionStorage.getItem("contact_person_mobile_no");
-        const supplierPersonName = sessionStorage.getItem("contact_person_name");
-        const supplierOperation = sessionStorage.getItem("country_of_operation");
-        const supplierOrigin = sessionStorage.getItem("country_of_origin");
-        const supplierDesignation = sessionStorage.getItem("designation");
-        const supplierLicanseDate = sessionStorage.getItem("license_expiry_date");
-        const supplierLicaneseNo = sessionStorage.getItem("license_no");
-        const suppliertags = sessionStorage.getItem("tags");
-        const supplierTaxNo = sessionStorage.getItem("tax_no");
-        const supplierVatRegNo = sessionStorage.getItem("vat_reg_no");
-        const supplierRegistrationNo = sessionStorage.getItem("registration_no");
-        const supplierDescription = sessionStorage.getItem("description");
-        const supplierPaymentTerms = sessionStorage.getItem("payment_terms");
-        const supplierSalesName = sessionStorage.getItem("sales_person_name");
-        const supplierTaxImage = sessionStorage.getItem("tax_image");
-        const supplierLicenseImage = sessionStorage.getItem("license_image");
-        const supplierCertificateImage = sessionStorage.getItem("certificate_image");
-        const supplierActivityCode = sessionStorage.getItem("activity_code");
-        const supplierMedicalImage = sessionStorage.getItem("medical_practitioner_image")
-    
-        const supplierLocality = sessionStorage.getItem("locality");
-        const supplierLandMark = sessionStorage.getItem("land_mark");
-        const supplierCity = sessionStorage.getItem("city");
-        const supplierState = sessionStorage.getItem("state");
-        const supplierCountry = sessionStorage.getItem("country");
-        const supplierPincode = sessionStorage.getItem("pincode")
-        
-    
-        if (supplierId) {
-          setSupplierData({
-            supplierId,
-            supplierName,
-            supplierEmail,
-            supplierMobileCode,
-            supplierMobile,
-            supplierAddress,
-            supplierImage,
-            supplierType,
-            supplierPersonCountryCode,
-            supplierPersonMobileNo,
-            supplierSalesName,
-            supplierPersonName,
-            supplierRegistrationNo,
-            supplierOperation,
-            supplierOrigin,
-            supplierDesignation,
-            supplierLicanseDate,
-            supplierLicaneseNo,
-            suppliertags,
-            supplierTaxNo,
-            supplierVatRegNo,
-            supplierDescription,
-            supplierPaymentTerms,
-            supplierActivityCode,
-            supplierLicenseImage,
-            supplierCertificateImage,
-            supplierTaxImage,
-            supplierMedicalImage,
-            supplierLocality,
-            supplierLandMark, 
-            supplierCity,
-            supplierState,
-            supplierCountry ,
-            supplierPincode
-          });
+    const initialCityValue = user?.registeredAddress?.city
+      ? {
+          value: City.getCitiesOfState(
+            user.registeredAddress.state || selectedState?.value
+          ).find((city) => city.name === user.registeredAddress.city)?.name,
+          label: user.registeredAddress.city,
         }
-      }, []);
+      : null;
+    // Use setValues to update Formik form values
+    formik.setValues({
+      contactPersonName: user?.contact_person_name || "",
+      contactPersonEmail: user?.contact_person_email || "",
+      phoneNumber:
+        `${user?.contact_person_country_code} ${user?.contact_person_mobile_no}` ||
+        "",
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+      companyAddress:
+        user?.supplier_address ||
+        user?.buyer_address ||
+        user?.registeredAddress?.company_reg_address ||
+        "",
+      locality: user?.registeredAddress?.locality || "",
+      land_mark: user?.registeredAddress?.land_mark || "",
+      country: initialCountryValue,
+      state: initialStateValue,
+      city: initialCityValue,
+      pincode: user?.registeredAddress?.pincode || null,
+    });
 
+    setSelectedCountry(initialCountryValue);
+    setSelectedState(initialStateValue);
+    setSelectedCity(initialCityValue);
+  };
 
-    return (
-        <div className={styles.editProfileContainer}>
-            <span className={styles.editProfileHead}>Edit Profile</span>
-            <form className={styles.editForm}>
-                <div className={styles.editProfileSection}>
-                    <span className={styles.editProfileSubHead}>Contact Details</span>
-                    <div className={styles.editProfileInnerSection}>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Contact Name <span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='text' name="contactPersonName" placeholder='Enter Contact Name'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Email<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='text' name="email" placeholder='Enter Email'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Phone Number<span className={styles.labelStamp}>*</span> </label>
-                            <PhoneInput
-                                className='signup-form-section-phone-input'
-                                defaultCountry="gb"
-                                name="mobile"
+  // Update formik values when user data is fetched
+  useEffect(() => {
+    if (user) {
+      resetForminlValues(user);
+    }
+  }, [user]);
 
-                            />
-                        </div>
-                    </div>
-                </div>
+  // Handlers for Select components
+  const handleCountryChange = (selectedOption) => {
+    console.log("selectedOption", selectedOption);
+    setSelectedCountry(selectedOption);
+    setSelectedState(null);
+    setSelectedCity(null);
+    formik.setFieldValue("country", selectedOption);
+  };
 
-                <div className={styles.editProfileSection}>
-                    <span className={styles.editProfileSubHead}>Password</span>
-                    <div className={styles.editProfileInnerSection}>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Old Password<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='password' placeholder='Enter Old Password'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>New Password<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='password' placeholder='Enter New Password'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Confirm Password<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='password' placeholder='Enter Confirm Password'></input>
-                        </div>
-                    </div>
-                </div>
+  const handleStateChange = (selectedOption) => {
+    setSelectedState(selectedOption);
+    setSelectedCity(null);
+    formik.setFieldValue("state", selectedOption);
+  };
 
+  const handleCityChange = (selectedOption) => {
+    setSelectedCity(selectedOption);
+    formik.setFieldValue("city", selectedOption);
+  };
 
-                <div className={styles.editProfileSection}>
-                    <span className={styles.editProfileSubHead}>Billing Address Details</span>
-                    <div className={styles.editProfileInnerSection}>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Company Billing Address<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='text' name="companyAddress" placeholder='Enter Company Billing Address'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Area/Locality/Road Name<span className={styles.labelStamp}>*</span> </label>
-                            <input className={styles.editInput} type='text' name="locality" placeholder='Enter Area/Locality/Road Name'></input>
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Landmark</label>
-                            <input className={styles.editInput} type='text' name="landMark" placeholder='Enter Landmark'></input>
-                        </div>
+  const handlePhoneChange = (name, value) => {
+    console.log(name, value, "// Logs the field name and value");
 
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>
-                                Country<span className={styles.labelStamp}>*</span>
-                            </label>
-                            <Select
-                                options={Country.getAllCountries()}
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.isoCode}
-                                value={selectedCountry}
-                                onChange={handleCountryChange}
-                                placeholder="Select Country"
-                            />
-                            {errors.country && <span className={styles.error}>{errors.country}</span>}
-                        </div>
+    try {
+      // Parse the phone number
+      const phoneNumber = parsePhoneNumber(value);
 
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>
-                                State<span className={styles.labelStamp}>*</span>
-                            </label>
-                            <Select
-                                options={
-                                    selectedCountry
-                                        ? [
-                                            ...State.getStatesOfCountry(selectedCountry.isoCode),
-                                            { name: "Other", isoCode: "OTHER" },
-                                        ]
-                                        : []
-                                }
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.isoCode}
-                                value={selectedState}
-                                onChange={handleStateChange}
-                                placeholder="Select State"
-                                
-                            />
-                            {errors.state && <span className={styles.error}>{errors.state}</span>}
-                        </div>
+      // Validate the phone number
+      if (phoneNumber && phoneNumber.isValid()) {
+        // Format the phone number in E.164 format (international standard)
+        const formattedNumber = phoneNumber.formatInternational();
+        console.log("Formatted Phone Number:", formattedNumber);
 
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>
-                                City<span className={styles.labelStamp}>*</span>
-                            </label>
-                            <Select
-                                options={
-                                    selectedState && selectedState.isoCode !== "OTHER"
-                                        ? [
-                                            ...City.getCitiesOfState(
-                                                selectedState.countryCode,
-                                                selectedState.isoCode
-                                            ),
-                                            { name: "Other" },
-                                        ]
-                                        : [{ name: "Other" }]
-                                }
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.name}
-                                value={selectedCity}
-                                onChange={handleCityChange}
-                                placeholder="Select City"
-                               
-                            />
-                            {errors.city && <span className={styles.error}>{errors.city}</span>}
-                        </div>
-                        <div className={styles.editSubSection}>
-                            <label className={styles.editLabel}>Pincode</label>
-                            <input className={styles.editInput} type='text' name="pincode" placeholder='Enter Pincode'></input>
-                        </div>
-                    </div>
-                </div>
+        // Update the Formik field value for phoneNumber
+        formik.setFieldValue(name, formattedNumber);
+        // Clear any previous error if the phone number is valid
+        formik.setFieldError(name, "");
+      } else {
+        // Set error if phone number is invalid
+        formik.setFieldValue(name, value); // Keep the invalid value
+        formik.setFieldError(name, "Invalid phone number");
+      }
+    } catch (error) {
+      // Handle parsing errors (invalid number format)
+      formik.setFieldValue(name, value); // Keep the invalid value
+      formik.setFieldError(name, "Invalid phone number");
+    }
+  };
 
+  return (
+    <div className={styles.editProfileContainer}>
+      <span className={styles.editProfileHead}>Edit Profile</span>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <form
+          className={styles.editForm}
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (Object.keys(formik.errors).length > 0) {
+              // Show the toast message if there are validation errors
+              toast.error("Please fill the required fields correctly.");
+            } else {
+              // Call the formik.onSubmit() if there are no errors
+              formik.handleSubmit();
+            }
+          }}
+        >
+          {/* Contact Details Section */}
+          <div className={styles.editProfileSection}>
+            <span className={styles.editProfileSubHead}>Contact Details</span>
+            <div className={styles.editProfileInnerSection}>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Contact Name <span className={styles.labelStamp}>*</span>
+                </label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="contactPersonName"
+                  placeholder="Enter Contact Name"
+                  value={formik.values.contactPersonName}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.contactPersonName && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.contactPersonName}
+                  </span>
+                )}
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Email <span className={styles.labelStamp}>*</span>
+                </label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="email"
+                  name="contactPersonEmail"
+                  placeholder="Enter Email"
+                  value={formik.values.contactPersonEmail}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.contactPersonEmail && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.contactPersonEmail}
+                  </span>
+                )}
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Phone Number <span className={styles.labelStamp}>*</span>
+                </label>
+                {/* <PhoneInput
+                  className="signup-form-section-phone-input"
+                  name="phoneNumber"
+                  defaultCountry="gb"
+                  value={formik.values.phoneNumber}
+                  onChange={(phone) => formik.setFieldValue("phoneNumber", phone)}
+                /> */}
+                {/* <PhoneInput
+                  className="signup-form-section-phone-input"
+                  // country={selectedCountry?.value || "US"} // Default to "US" if no country selected
+                  country={
+                      Country.getAllCountries()?.filter(country=>  country?.phonecode?.replace("+", "") === user?.contact_person_country_code?.replace("+", ""))?.[0]?.isoCode
+                  }
+                  value={formik.values.phoneNumber}
+                  onChange={(value) => handlePhoneChange("phoneNumber", value)}
+                  placeholder="Enter phone number"
+                /> */}
+                {/* <PhoneInput
+                  className="signup-form-section-phone-input"
+                  country={
+                    Country.getAllCountries()?.filter(
+                      (country) =>
+                        country?.phonecode?.replace("+", "") ===
+                        user?.contact_person_country_code?.replace("+", "")
+                    )?.[0]?.isoCode
+                  }
+                  value={formik.values.phoneNumber}
+                  onChange={(value) => handlePhoneChange("phoneNumber", value)}
+                  placeholder="Enter phone number"
+                /> */}
+                {/* <PhoneInput
+                  className="signup-form-section-phone-input"
+                  country={
+                    Country.getAllCountries()?.filter(
+                      (country) =>
+                        country?.phonecode?.replace("+", "") ===
+                        user?.contact_person_country_code?.replace("+", "")
+                    )?.[0]?.isoCode
+                  }
+                  value={formik.values.phoneNumber}
+                  onChange={(value) => handlePhoneChange("phoneNumber", value)} // This triggers the handler for phone number change
+                  placeholder="Enter phone number"
+                /> */}
+                <PhoneInput
+                  className="signup-form-section-phone-input"
+                  defaultCountry={
+                    Country.getAllCountries()?.filter(
+                      (country) =>
+                        country?.phonecode?.replace("+", "") ===
+                        user?.contact_person_country_code?.replace("+", "")
+                    )?.[0]?.isoCode
+                  }
+                  name="mobile"
+                  value={formik.values.phoneNumber}
+                  onChange={(value) => {
+                    handlePhoneChange("phoneNumber", value);
+                    //   setMobile(value);
+                  }}
+                />
 
-                <div className={styles.editButtonSection}>
-                    <button className={styles.editSubmit}>Submit</button>
-                    <button className={styles.editCancel}>Cancel</button>
-                </div>
-            </form>
-        </div>
-    )
-}
+                {formik.errors.phoneNumber && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.phoneNumber}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
 
-export default EditProfile
+          {/* Password Section */}
+          <div className={styles.editProfileSection}>
+            <span className={styles.editProfileSubHead}>Password</span>
+            <div className={styles.editProfileInnerSection}>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>Old Password</label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="oldPassword"
+                  placeholder="Enter Old Password"
+                  value={formik.values.oldPassword}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>New Password</label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="newPassword"
+                  placeholder="Enter New Password"
+                  value={formik.values.newPassword}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.newPassword && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.newPassword}
+                  </span>
+                )}
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>Confirm New Password</label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="confirmPassword"
+                  placeholder="Confirm New Password"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.confirmPassword && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.confirmPassword}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Billing Address Section */}
+          <div className={styles.editProfileSection}>
+            <span className={styles.editProfileSubHead}>
+              Billing Address Details
+            </span>
+            <div className={styles.editProfileInnerSection}>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Company Billing Address{" "}
+                  <span className={styles.labelStamp}>*</span>
+                </label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="companyAddress"
+                  placeholder="Enter Company Billing Address"
+                  value={formik.values.companyAddress}
+                  readOnly={user?.profile_status == 0}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.companyAddress && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.companyAddress}
+                  </span>
+                )}
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Area/Locality/Road Name{" "}
+                  <span className={styles.labelStamp}>*</span>
+                </label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="locality"
+                  placeholder="Enter Area/Locality/Road Name"
+                  value={formik.values.locality}
+                  readOnly={user?.profile_status == 0}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.locality && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.locality}
+                  </span>
+                )}
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>Landmark</label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="text"
+                  name="landmark"
+                  placeholder="Enter Landmark"
+                  value={formik.values.land_mark}
+                  readOnly={user?.profile_status == 0}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>
+                  Country <span className={styles.labelStamp}>*</span>
+                </label>
+                <Select
+                  name="country"
+                  options={[
+                    ...Country.getAllCountries().map((country) => ({
+                      value: country.isoCode,
+                      label: country.name,
+                    })),
+                    { value: "OTHER", label: "Other" },
+                  ]}
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  placeholder="Select Country"
+                  isDisabled={user?.profile_status == 0}
+                />
+                {formik.errors.country && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.country}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>State</label>
+                <Select
+                  name="state"
+                  options={
+                    selectedCountry
+                      ? [
+                          ...State.getStatesOfCountry(
+                            selectedCountry.value
+                          ).map((state) => ({
+                            value: state.isoCode,
+                            label: state.name,
+                          })),
+                          { value: "OTHER", label: "Other" }, // Add "Other" option here
+                        ]
+                      : []
+                  }
+                  value={selectedState}
+                  onChange={handleStateChange}
+                  placeholder="Select State"
+                  isDisabled={user?.profile_status == 0 || !selectedCountry}
+                />
+                {formik.errors.state && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.state}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>City</label>
+                <Select
+                  name="city"
+                  options={
+                    selectedState
+                      ? [
+                          ...City.getCitiesOfState(
+                            selectedCountry.value,
+                            selectedState.value
+                          ).map((city) => ({
+                            value: city.name,
+                            label: city.name,
+                          })),
+                          { value: "Other", label: "Other" }, // Add "Other" option here
+                        ]
+                      : []
+                  }
+                  value={selectedCity}
+                  onChange={handleCityChange}
+                  placeholder="Select City"
+                  isDisabled={user?.profile_status == 0 || !selectedState}
+                />
+                {formik.errors.city && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.city}
+                  </span>
+                )}
+              </div>
+
+              <div className={styles.editSubSection}>
+                <label className={styles.editLabel}>Pincode</label>
+                <input
+                  autoComplete="false"
+                  className={styles.editInput}
+                  type="number"
+                  name="pincode"
+                  placeholder="Enter Pincode"
+                  value={formik.values.pincode}
+                  onChange={formik.handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className={styles.editButtonSection}>
+            <button type="submit" className={styles.editSubmit}>
+              Submit
+            </button>
+            <button
+              className={styles.editCancel}
+              onClick={(e) => {
+                e.preventDefault();
+                user && resetForminlValues(user);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default EditProfile;

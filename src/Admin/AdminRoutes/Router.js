@@ -90,10 +90,13 @@ import EditSecondaryDetails from "../components/manage-products/EditUpdateSecond
 import SecondaryProductDetails from "../components/manage-products/SecondaryProductDetails"
 import NotificationList from "../components/shared-components/notification/NotificationList"
 import Profile from "../components/shared-components/Profile/profile"
+import { fetchUserData } from '../../redux/reducers/userDataSlice';
+import { useDispatch } from 'react-redux';
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
 
@@ -211,6 +214,11 @@ export function NotificationProvider({ children }) {
             navigate("/admin/login");
         }
     }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
+
+    useEffect(()=>{
+        sessionStorage.getItem('_id') && dispatch(fetchUserData(sessionStorage.getItem('_id')))
+    },[sessionStorage.getItem('_id')])
+
     return (
         <AdmSidebar
             notificationList={notificationList}
