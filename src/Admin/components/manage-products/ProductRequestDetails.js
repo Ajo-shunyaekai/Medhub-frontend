@@ -64,6 +64,7 @@ const ProductRequestDetails = ({ socket }) => {
             supplier_id: medicineDetails?.supplier.supplier_id,
             supplier_email: medicineDetails?.supplier.supplier_email,
             supplier_name: medicineDetails?.supplier.supplier_name,
+            contact_person_name: medicineDetails?.supplier.contact_person_name,
             supplier_contact_email: medicineDetails?.supplier.contact_person_email,
             action
         }
