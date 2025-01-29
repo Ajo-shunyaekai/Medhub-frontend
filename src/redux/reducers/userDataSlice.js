@@ -9,6 +9,7 @@ const initialState = {
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   showSuccessSignup: false,
   error: null,
+  loading: false,
   emailToResetPassword: "",
 };
 
@@ -89,6 +90,30 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const editProfile = createAsyncThunk(
+  "user/editProfile",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `auth/edit-profile/${values?.id}`,
+        { ...values?.obj, type: "Registered" }
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (user, { rejectWithValue }) => {
@@ -143,13 +168,16 @@ export const userDataSlice = createSlice({
     builder
       .addCase(fetchUserData.pending, (state) => {
         state.status = "loading";
+        state.loading = true;
       })
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.loading = false;
         state.user = action?.payload;
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.status = "failed";
+        state.loading = false;
         state.error = action.payload;
       })
       .addCase(loginUser.pending, (state) => {
@@ -160,6 +188,17 @@ export const userDataSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(editProfile.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editProfile.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+      })
+      .addCase(editProfile.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

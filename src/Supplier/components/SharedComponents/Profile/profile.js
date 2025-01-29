@@ -44,6 +44,7 @@ const Profile = () => {
     const supplierState = sessionStorage.getItem("state");
     const supplierCountry = sessionStorage.getItem("country");
     const supplierPincode = sessionStorage.getItem("pincode")
+    const _id = sessionStorage.getItem("_id")
     
 
     if (supplierId) {
@@ -81,7 +82,8 @@ const Profile = () => {
         supplierCity,
         supplierState,
         supplierCountry ,
-        supplierPincode
+        supplierPincode,
+        _id
       });
     }
   }, []);
@@ -159,7 +161,7 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link to={`/supplier/edit-profile/${supplierData?.supplierId}`}>
+        <Link to={`/supplier/edit-profile/${(supplierData?._id || sessionStorage.getItem('_id'))}`}>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
