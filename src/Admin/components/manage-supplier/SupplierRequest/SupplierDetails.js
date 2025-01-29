@@ -127,7 +127,7 @@ const renderFiles = (files, type) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
-                    navigate('/admin/seller-request')
+                    navigate('/admin/supplier-request')
                 },1000)
             } else {
                console.log('error in accept-reject-supplier api',response);

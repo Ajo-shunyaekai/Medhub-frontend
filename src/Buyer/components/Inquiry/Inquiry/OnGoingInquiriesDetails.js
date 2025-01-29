@@ -337,7 +337,7 @@ const OnGoingInquiriesDetails = () => {
  
   // const handleCreatePOClick = () => {
   //   if (acceptedItems.length > 0) {
-  //     navigate(`/buyer/Create-PO/${inquiryId}`);
+  //     navigate(`/buyer/create-po/${inquiryId}`);
   //   } else {
   //     toast('Please Accept Atleast One Item Before Creating Purchase Order.', {type: 'error'})
   //   }
@@ -349,7 +349,7 @@ const OnGoingInquiriesDetails = () => {
   
     if (totalProcessedItems === totalQuotationItems) {
       if (acceptedItems.length > 0) {
-        navigate(`/buyer/Create-PO/${inquiryId}`);
+        navigate(`/buyer/create-po/${inquiryId}`);
       } else {
         toast('Please Accept At Least One Item Before Creating Purchase Order.', { type: 'error' });
       }

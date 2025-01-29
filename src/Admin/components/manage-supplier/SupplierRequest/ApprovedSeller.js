@@ -135,7 +135,7 @@ const ApprovedSeller = () => {
                                             <div className='rejected-table-text-color'>{supplier.account_status ? (supplier.account_status === 1 ? 'Accepted' : (supplier.account_status === 2 ? 'Rejected' : 'Pending')) : ''}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                            <Link to={`/admin/seller-details/${supplier.supplier_id}`}>
+                                            <Link to={`/admin/supplier-details/${supplier.supplier_id}`}>
                                                 <div className='rejected-table rejected-table-view'><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
                                             </Link>
                                         </div>

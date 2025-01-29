@@ -47,7 +47,7 @@ const Complaint = ({supportList, handlePageChange, currentPage, totalItems,listP
                                         </div>
                                     </div>
                                     <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                        <Link to={`/admin/seller-complaint-details/${support.support_id}`}>
+                                        <Link to={`/admin/supplier-complaint-details/${support.support_id}`}>
                                         <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
                                             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                         </div>

@@ -19,11 +19,11 @@ const SellerInvoice = () => {
  
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/admin/seller-invoice/paid':
+            case '/admin/supplier-invoice/paid':
                 return 'paid';
-            case '/admin/seller-invoice/pending':
+            case '/admin/supplier-invoice/pending':
                 return 'pending';
-            case '/admin/seller-invoice/proforma':
+            case '/admin/supplier-invoice/proforma':
                 return 'proforma';
             default:
                 return 'paid';
@@ -36,16 +36,16 @@ const SellerInvoice = () => {
         setCurrentPage(1);
         switch (link) {
             case 'paid':
-                navigate('/admin/seller-invoice/paid');
+                navigate('/admin/supplier-invoice/paid');
                 break;
             case 'pending':
-                navigate('/admin/seller-invoice/pending');
+                navigate('/admin/supplier-invoice/pending');
                 break;
             case 'proforma':
-                navigate('/admin/seller-invoice/proforma');
+                navigate('/admin/supplier-invoice/proforma');
                 break;
             default:
-                navigate('/admin/seller-invoice/paid');
+                navigate('/admin/supplier-invoice/paid');
         }
     };
  

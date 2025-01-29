@@ -22,7 +22,7 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
     const iframeRef = useRef(null);
 
     const handleDownload = (orderId) => {
-        const invoiceUrl = `/buyer/Proforma-Invoice-Details/${orderId}`;
+        const invoiceUrl = `/buyer/proforma-invoice-details/${orderId}`;
         if (iframeRef.current) {
 
             iframeRef.current.src = invoiceUrl;
@@ -110,7 +110,7 @@ const ProformaInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
 
                                         <td>
                                             <div className='invoice-details-button-row'>
-                                                <Link to={`/buyer/Proforma-Invoice-Details/${invoice.order_id}`}>
+                                                <Link to={`/buyer/proforma-invoice-details/${invoice.order_id}`}>
                                                     <div className='invoice-details-button-column'>
                                                         <VisibilityOutlinedIcon className='invoice-view' />
                                                     </div>

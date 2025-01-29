@@ -274,29 +274,29 @@ const router = createBrowserRouter([
         element: <Buy />,
         children: [
           {
-            path: "By-Supplier",
+            path: "by-supplier",
             element: <BySeller />,
           },
           {
-            path: "By-Product",
+            path: "by-product",
             element: <ByProduct />,
           },
           {
-            path: "Secondary-Market",
+            path: "secondary-market",
             element: <SecondaryMarket />,
           },
         ],
       },
       {
-        path: "Medicine-Details/:medicineId",
+        path: "medicine-details/:medicineId",
         element: <MedicineDetails />,
       },
       {
-        path: "Market-Product-Details/:medicineId",
+        path: "market-product-details/:medicineId",
         element: <MarketProductDetails />,
       },
       {
-        path: "Supplier-Details/:supplierId",
+        path: "supplier-details/:supplierId",
         element: <SupplierDetails />,
         children: [
           {
@@ -315,11 +315,11 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "Search-Product-Details/:medicineId",
+        path: "search-product-details/:medicineId",
         element: <SearchProductDetails />,
       },
       {
-        path: "Search-Market-Product-Details/:medicineId",
+        path: "search-market-product-details/:medicineId",
         element: <SearchMarketProductDetails />,
       },
       {
@@ -341,11 +341,11 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "Create-PO/:inquiryId",
+        path: "create-po/:inquiryId",
         element: <CreatePO socket={socket} />,
       },
       {
-        path: "edit-create-PO/:purchaseOrderId",
+        path: "edit-create-po/:purchaseOrderId",
         element: <EditCreatePO socket={socket} />,
       },
       {
@@ -413,7 +413,7 @@ const router = createBrowserRouter([
         element: <InvoiceDesign />,
       },
       {
-        path: "Proforma-Invoice-Details/:orderId",
+        path: "proforma-invoice-details/:orderId",
         element: <PerformaInvoiceDetails />,
       },
 
