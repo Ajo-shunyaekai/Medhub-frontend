@@ -201,7 +201,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                         <img  src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}  alt="Medicine" /> 
                                     </div>
                                     <div className='byproduct-product-card-first-button-container'>
-                                        <Link to={`/buyer/Search-Market-Product-Details/${medicine.medicine_id}`}>
+                                        <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
                                             <div className='byproduct-product-card-first-send-button'>
                                                 View Details
                                             </div>
@@ -210,7 +210,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                 </div>
         
                                 <div className='byproduct-product-card-first-section'>
-                                <Link to={`/buyer/Search-Market-Product-Details/${medicine.medicine_id}`}>
+                                <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
                                     <div className='byproduct-product-card-first-left'>
                                         <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
                                         <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>

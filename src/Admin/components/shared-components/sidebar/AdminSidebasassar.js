@@ -236,23 +236,23 @@ const AdminSidebar = () => {
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/line-chart" element={<LineChart />} />
                   <Route path="/admin/progress-bar" element={<ProgressBar />} />
-                  <Route path="/admin/seller-request" element={<SellerRequest />} />
+                  <Route path="/admin/supplier-request" element={<SellerRequest />} />
                   <Route path="/admin/buyer-request" element={<BuyerRequest/>} />          
-                  <Route path="/admin/approved-seller" element={<ApprovedSeller />} />
-                  <Route path="/admin/rejected-seller" element={<RejectedSeller />} />
+                  <Route path="/admin/approved-supplier" element={<ApprovedSeller />} />
+                  <Route path="/admin/rejected-supplier" element={<RejectedSeller />} />
                   <Route path="/admin/approved-buyer" element={<ApprovedBuyer />} />
                   <Route path="/admin/rejected-buyer" element={<RejectedBuyer />} />
-                  <Route path="/admin/seller-transaction" element={<SellerTransaction />} />
+                  <Route path="/admin/supplier-transaction" element={<SellerTransaction />} />
                   <Route path="/admin/buyer-transaction" element={<BuyerTransaction />} />
-                  <Route path="/admin/seller-support/complaint" element={<SellerSupport />} />
-                  <Route path="/admin/seller-support/feedback" element={<SellerSupport />} />
-                  <Route path="/admin/seller-support" element={<Navigate to="/admin/seller-support/complaint" />} />
+                  <Route path="/admin/supplier-support/complaint" element={<SellerSupport />} />
+                  <Route path="/admin/supplier-support/feedback" element={<SellerSupport />} />
+                  <Route path="/admin/supplier-support" element={<Navigate to="/admin/supplier-support/complaint" />} />
                   <Route path="/admin/complaint" element={<Complaint />} />
                   <Route path="/admin/feedback" element={<Feedback />} />
-                  <Route path="/admin/seller-invoice/paid" element={<SellerInvoice/>} />
-                  <Route path="/admin/seller-invoice/pending" element={<SellerInvoice/>} />
-                  <Route path="/admin/seller-invoice/proforma" element={<SellerInvoice/>} />
-                  <Route path="/admin/seller-invoice" element={<Navigate to="/admin/seller-invoice/paid" />} />
+                  <Route path="/admin/supplier-invoice/paid" element={<SellerInvoice/>} />
+                  <Route path="/admin/supplier-invoice/pending" element={<SellerInvoice/>} />
+                  <Route path="/admin/supplier-invoice/proforma" element={<SellerInvoice/>} />
+                  <Route path="/admin/supplier-invoice" element={<Navigate to="/admin/supplier-invoice/paid" />} />
                   <Route path="/admin/pending-invoice" element={<PendingInvoice/>} />
                   <Route path="/admin/paid-invoice" element={<PaidInvoice/>} />
                   <Route path="/admin/buyer-request-details/:buyerId" element={<DetailsBuyerRequest/>} />
@@ -260,12 +260,12 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-details/:supplierId" element={<SupplierDetails />} />
                   <Route path="/admin/inquiry-request-details" element={<InquiryRequestDetails/>} />
                   <Route path="/admin/purchased-order-details" element={<PurchasedOrderDetails />} />
-                  <Route path="/admin/seller-inquiry-details/:inquiryId" element={<SellerInquiryDetails/>} />
-                  <Route path="/admin/seller-inquiry-product-list" element={<SellerInquiryProductList/>} />
-                  <Route path="/admin/seller-purchased-order-details/:purchaseOrderId" element={<SellerPurchasedOrderDetails/>} />
-                  <Route path="/admin/seller-active-codinator" element={<SellerActiveCodinator/>} />
-                  <Route path="/admin/seller-active-invoice-list" element={<SellerActiveInvoiceList/>} />
-                  <Route path="/admin/seller-invoice-details/:invoiceId" element={<SellerInvoiceDetails/>} />
+                  <Route path="/admin/supplier-inquiry-details/:inquiryId" element={<SellerInquiryDetails/>} />
+                  <Route path="/admin/supplier-inquiry-product-list" element={<SellerInquiryProductList/>} />
+                  <Route path="/admin/supplier-purchased-order-details/:purchaseOrderId" element={<SellerPurchasedOrderDetails/>} />
+                  <Route path="/admin/supplier-active-codinator" element={<SellerActiveCodinator/>} />
+                  <Route path="/admin/supplier-active-invoice-list" element={<SellerActiveInvoiceList/>} />
+                  <Route path="/admin/supplier-invoice-details/:invoiceId" element={<SellerInvoiceDetails/>} />
                   <Route path="/admin/proforma-invoice-details/:orderId" element={<ProformaInvoiceDetails/>} />
                   <Route path="/admin/ongoing-inquiries-details/:inquiryId" element={<OngoingInquiriesDetails/>} />
                   <Route path="/admin/buyer-purchased-order-details/:purchaseOrderId" element={<BuyerPurchasedOrderDetails/>} />
@@ -279,9 +279,9 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-complaint-details/:supportId" element={<BuyerComplaintDetails/>} />
                   <Route path="/admin/buyer-transaction-details/:invoiceId" element={<BuyerTransactionDetails/>} />
                   
-                  <Route path="/admin/seller-transaction-details/:invoiceId" element={<SellerTransactionDetails/>} />
-                  <Route path="/admin/seller-feedback-details/:supportId" element={<SellerFeedbackDetails/>} />
-                  <Route path="/admin/seller-complaint-details/:supportId" element={<SellerComplaintDetails/>} />
+                  <Route path="/admin/supplier-transaction-details/:invoiceId" element={<SellerTransactionDetails/>} />
+                  <Route path="/admin/supplier-feedback-details/:supportId" element={<SellerFeedbackDetails/>} />
+                  <Route path="/admin/supplier-complaint-details/:supportId" element={<SellerComplaintDetails/>} />
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product" element={<Navigate to="/admin/rejected-product/newproduct" />} />
@@ -321,7 +321,7 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-invoice" element={<BuyerInvoice/>} />
                   <Route path="/admin/buyer-pending" element={<BuyerPending/>} />
                   <Route path="/admin/buyer-paid" element={<BuyerPaid/>} />
-                  {/* <Route path="/admin/seller-invoice/proforma" element={<SellerInvoice/>} /> */}
+                  {/* <Route path="/admin/supplier-invoice/proforma" element={<SellerInvoice/>} /> */}
                   <Route path="/admin/buyer-support/complaint" element={<BuyerSupport/>} />
                   <Route path="/admin/buyer-support/feedback" element={<BuyerSupport/>} />
                   <Route path="/admin/buyer-support" element={<Navigate to="/admin/buyer-support/complaint" />} />
@@ -329,9 +329,9 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-feedback" element={<BuyerFeedback/>} />    
                   <Route path="/admin/buyer-details/:buyerId" element={<BuyerDetails />} />   
                   {/* start the seller inquiry route  */}
-                  <Route path="/admin/seller-inquiry/inquiry" element={<SellerInquiry />} />
-                   <Route path="/admin/seller-purchased/purchased" element={<SellerInquiry/>} />
-                    <Route path="/admin/seller-inquiry" element={<Navigate to="/admin/seller-inquiry/inquiry" />} />
+                  <Route path="/admin/supplier-inquiry/inquiry" element={<SellerInquiry />} />
+                   <Route path="/admin/supplier-purchased/purchased" element={<SellerInquiry/>} />
+                    <Route path="/admin/supplier-inquiry" element={<Navigate to="/admin/supplier-inquiry/inquiry" />} />
                   {/* end the seller inquiry route */}
                   <Route path="/admin/buyer-inquiry/inquiry" element={<BuyerInquiry/>} />
                    <Route path="/admin/buyer-purchased/purchased" element={<BuyerInquiry/>} />
@@ -344,16 +344,16 @@ const AdminSidebar = () => {
                    <Route path="/admin/buyer-order/complete" element={<BuyerOrder/>} />
                     <Route path="/admin/buyer-order/pending" element={<BuyerOrder/>} />
                     <Route path="/admin/buyer-order" element={<Navigate to="/admin/buyer-order/active" />} />
-                    <Route path="/admin/seller-order/active" element={<SellerOrder/>} />
-                    <Route path="/admin/seller-order/complete" element={<SellerOrder/>} />
-                    <Route path="/admin/seller-order/pending" element={<SellerOrder/>} />
-                    <Route path="/admin/seller-order" element={<Navigate to="/admin/seller-order/active" />} />
+                    <Route path="/admin/supplier-order/active" element={<SellerOrder/>} />
+                    <Route path="/admin/supplier-order/complete" element={<SellerOrder/>} />
+                    <Route path="/admin/supplier-order/pending" element={<SellerOrder/>} />
+                    <Route path="/admin/supplier-order" element={<Navigate to="/admin/supplier-order/active" />} />
                     <Route path="/admin/active-buyer-order" element={<ActiveBuyerOrder/>} />
                     <Route path="/admin/completed-buyer-order" element={<CompletedBuyerOrder/>} />
                     <Route path="/admin/pending-buyer-order" element={<PendingBuyerOrder/>} />
-                    <Route path="/admin/active-seller-order" element={<ActiveSellerOrder/>} />
-                    <Route path="/admin/completed-seller-order" element={<CompletedSellerOrder/>} />
-                    <Route path="/admin/pending-seller-order" element={<PendingSellerOrder/>} />
+                    <Route path="/admin/active-supplier-order" element={<ActiveSellerOrder/>} />
+                    <Route path="/admin/completed-supplier-order" element={<CompletedSellerOrder/>} />
+                    <Route path="/admin/pending-supplier-order" element={<PendingSellerOrder/>} />
                     <Route path="/admin/order-details/:orderId" element={<OrderDetails/>} />
                     <Route path="/admin/supplier-order-details/:orderId" element={<SupplierOrderDetails/>} />
 

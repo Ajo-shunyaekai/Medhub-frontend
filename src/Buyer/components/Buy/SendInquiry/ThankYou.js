@@ -16,7 +16,7 @@ const ThankYou = () => {
     // Handle the popstate event (browser back button)
     const handleBackButton = (e) => {
       e.preventDefault();
-      navigate('/buyer/buy/By-Product');
+      navigate('/buyer/buy/by-product');
     };
 
     window.addEventListener('popstate', handleBackButton);
@@ -39,7 +39,7 @@ const ThankYou = () => {
         <div className='thank-you-main-content'>
           We've received your inquiry, and our team will respond to you shortly.
         </div>
-        <Link to='/buyer/buy/By-Product'>
+        <Link to='/buyer/buy/by-product'>
           <div className='thank-you-buttons-section'>
             <span className='thank-you-buttons'>Go Back</span>
           </div>

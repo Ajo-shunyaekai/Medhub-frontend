@@ -60,7 +60,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                                 <RemoveRedEyeOutlinedIcon className='ongoing-section-eye' />
                               </div>
                             </Link>
-                            <Link to={`/buyer/edit-create-PO/${data.purchaseOrder_id}`}>
+                            <Link to={`/buyer/edit-create-po/${data.purchaseOrder_id}`}>
                               <div className='ongoing-section-delete' onClick={() => showModal(data)}>
                                 <EditIcon className='ongoing-section-off' />
                               </div>

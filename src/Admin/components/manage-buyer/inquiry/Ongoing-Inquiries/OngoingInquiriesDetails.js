@@ -84,7 +84,7 @@ const OngoingInquiriesDetails = () => {
             <div className="ongoing-details-left-inner-section-container">
               <div className="ongoing-details-left-top-containers">
                 <Link
-                  to={`/admin/seller-details/${inquiryDetails?.supplier.supplier_id}`}
+                  to={`/admin/supplier-details/${inquiryDetails?.supplier.supplier_id}`}
                 >
                   <div className="ongoing-details-top-order-cont">
                     <div className="ongoing-details-left-top-main-heading">

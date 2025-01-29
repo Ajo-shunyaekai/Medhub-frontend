@@ -15,34 +15,34 @@ const Buy = () => {
     const [filterCategory, setFilterCategory] = useState(''); // Generics, Originals, Biosimilars, Medical Devices, Nutraceutical
     
     const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
-        const crumbs = [{ name: 'Buy', path: '/buyer/buy/By-Supplier' }];
+        const crumbs = [{ name: 'Buy', path: '/buyer/buy/by-supplier' }];
         
         switch (pathname) {
-            case '/buyer/buy/By-Supplier':
-                crumbs.push({ name: 'Supplier', path: '/buyer/buy/By-Supplier' });
+            case '/buyer/buy/by-supplier':
+                crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
                 break;
-            case '/buyer/buy/By-Product':
-                crumbs.push({ name: 'Category', path: '/buyer/buy/By-Product' });
+            case '/buyer/buy/by-product':
+                crumbs.push({ name: 'Category', path: '/buyer/buy/by-product' });
                 if (selectedCategory) {
-                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/By-Product/${selectedCategory}` });
+                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/by-product/${selectedCategory}` });
                 }
                 // Add the filterCategory breadcrumb if it exists
                 if (filterCategory) {
-                    crumbs.push({ name: filterCategory, path: `/buyer/buy/By-Product` });
+                    crumbs.push({ name: filterCategory, path: `/buyer/buy/by-product` });
                 }
                 break;
-            case '/buyer/buy/Secondary-Market':
-                crumbs.push({ name: 'Secondary Market', path: '/buyer/buy/Secondary-Market' });
+            case '/buyer/buy/secondary-market':
+                crumbs.push({ name: 'Secondary Market', path: '/buyer/buy/secondary-market' });
                 if (selectedCategory) {
-                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/Secondary-Market/${selectedCategory}` });
+                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/secondary-market/${selectedCategory}` });
                 }
                 // Add the filterCategory breadcrumb if it exists
                 if (filterCategory) {
-                    crumbs.push({ name: filterCategory, path: `/buyer/buy/Secondary-Market` });
+                    crumbs.push({ name: filterCategory, path: `/buyer/buy/secondary-market` });
                 }
                 break;
             default:
-                crumbs.push({ name: 'Supplier', path: '/buyer/buy/By-Supplier' });
+                crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
         }
         return crumbs;
     };
@@ -64,11 +64,11 @@ const Buy = () => {
 
     const getActiveButtonFromPath = (path) => {
         switch (path) {
-            case '/buyer/buy/By-Supplier':
+            case '/buyer/buy/by-supplier':
                 return 'seller';
-            case '/buyer/buy/By-Product':
+            case '/buyer/buy/by-product':
                 return 'product';
-            case '/buyer/buy/Secondary-Market':
+            case '/buyer/buy/secondary-market':
                 return 'market';
             default:
                 return 'seller';

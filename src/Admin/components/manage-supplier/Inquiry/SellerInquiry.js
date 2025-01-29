@@ -20,9 +20,9 @@ const SellerInquiry = () => {
     // Get initial active link based on the path
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/admin/seller-inquiry/inquiry-request':
+            case '/admin/supplier-inquiry/inquiry-request':
                 return 'inquiry';
-            case '/admin/seller-inquiry/purchased-order':
+            case '/admin/supplier-inquiry/purchased-order':
                 return 'purchased';
             default:
                 return 'inquiry';
@@ -45,9 +45,9 @@ const SellerInquiry = () => {
  
         // Navigate to appropriate route
         if (link === 'inquiry') {
-            navigate('/admin/seller-inquiry/inquiry-request');
+            navigate('/admin/supplier-inquiry/inquiry-request');
         } else if (link === 'purchased') {
-            navigate('/admin/seller-inquiry/purchased-order');
+            navigate('/admin/supplier-inquiry/purchased-order');
         }
     };
  

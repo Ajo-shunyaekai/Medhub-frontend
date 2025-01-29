@@ -73,8 +73,8 @@ const AdminDashboard = () => {
                                     </Link>
 
                                     <Link 
-                                    //   to='/admin/seller-request'
-                                    to={`/admin/seller-request?filterValue=${filterValue}`}
+                                    //   to='/admin/supplier-request'
+                                    to={`/admin/supplier-request?filterValue=${filterValue}`}
                                     >
                                         <div className='top-content-section'>
                                             <div className='top-head'>No. of Supplier Request</div>
@@ -106,8 +106,8 @@ const AdminDashboard = () => {
                                         </div>
                                     </Link>
                                     <Link 
-                                    //  to='/admin/rejected-seller'
-                                     to={`/admin/rejected-seller?filterValue=${filterValue}`}
+                                    //  to='/admin/rejected-supplier'
+                                     to={`/admin/rejected-supplier?filterValue=${filterValue}`}
                                      >
                                         <div className='bottom-cart-cont'>
                                             <div className='bottom-head'>Rejected Supplier:<span className='bottom-text'> {dashboardData?.supplierRejectedReqCount?.count || 0}</span></div>
@@ -144,8 +144,8 @@ const AdminDashboard = () => {
                             </div>
                             <div className='cart-left-bottom-container'>
                                 <Link 
-                                //   to='/admin/approved-seller'
-                                to={`/admin/approved-seller?filterValue=${filterValue}`}
+                                //   to='/admin/approved-supplier'
+                                to={`/admin/approved-supplier?filterValue=${filterValue}`}
                                 >
                                     <div className='left-bottom-cart-top'>
                                         <span className='left-bottom-pert'>{dashboardData?.supplierAcceptedReqCount?.count || 0}</span>

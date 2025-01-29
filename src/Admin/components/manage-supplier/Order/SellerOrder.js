@@ -16,11 +16,11 @@ const SellerOrder = () => {
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/admin/seller-order/active':
+            case '/admin/supplier-order/active':
                 return 'active';
-                case '/admin/seller-order/complete':
+                case '/admin/supplier-order/complete':
                 return 'completed';
-            case '/admin/seller-order/pending':
+            case '/admin/supplier-order/pending':
                 return 'pending';
             default:
                 return 'active';
@@ -33,16 +33,16 @@ const SellerOrder = () => {
         setCurrentPage(1)
         switch (link) {
             case 'active':
-                navigate('/admin/seller-order/active');
+                navigate('/admin/supplier-order/active');
                 break;
                 case 'completed':
-                navigate('/admin/seller-order/complete');
+                navigate('/admin/supplier-order/complete');
                 break;
             case 'pending':
-                navigate('/admin/seller-order/pending');
+                navigate('/admin/supplier-order/pending');
                 break;
             default:
-                navigate('/admin/seller-order/active');
+                navigate('/admin/supplier-order/active');
         }
     };
 

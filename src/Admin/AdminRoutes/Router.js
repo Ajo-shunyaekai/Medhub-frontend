@@ -412,23 +412,23 @@ const router = createBrowserRouter([
             },
             // start the seller routes
             {
-                path: "seller-request",
+                path: "supplier-request",
                 element: <SellerRequest />,
             },
             {
-                path: "approved-seller",
+                path: "approved-supplier",
                 element: <ApprovedSeller />,
             },
             {
-                path: "rejected-seller",
+                path: "rejected-supplier",
                 element: <RejectedSeller />,
             },
             {
-                path: "seller-transaction",
+                path: "supplier-transaction",
                 element: <SellerTransaction />,
             },
             {
-                path: "seller-inquiry",
+                path: "supplier-inquiry",
                 element: <SellerInquiry />,
                 children: [
                     {
@@ -443,7 +443,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-order",
+                path: "supplier-order",
                 element: <SellerOrder />,
                 children: [
                     {
@@ -458,7 +458,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-invoice",
+                path: "supplier-invoice",
                 element: <SellerInvoice />,
                 children: [
                     {
@@ -477,7 +477,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-support",
+                path: "supplier-support",
                 element: <SellerSupport />,
                 children: [
                     {
@@ -491,31 +491,31 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-request-details/:supplierId",
+                path: "supplier-request-details/:supplierId",
                 element: <SellerRequestDetails />,
             },
             {
-                path: "seller-details/:supplierId",
+                path: "supplier-details/:supplierId",
                 element: <SellerDetails />,
             },
             {
-                path: "seller-transaction-details/:invoiceId",
+                path: "supplier-transaction-details/:invoiceId",
                 element: <SellerTransactionDetails />,
             },
             {
-                path: "seller-inquiry-details/:inquiryId",
+                path: "supplier-inquiry-details/:inquiryId",
                 element: <SellerInquiryDetails />,
             },
             {
-                path: "seller-purchased-order-details/:purchaseOrderId",
+                path: "supplier-purchased-order-details/:purchaseOrderId",
                 element: <SellerPurchasedOrderDetails />,
             },
             {
-                path: "seller-order-details/:orderId",
+                path: "supplier-order-details/:orderId",
                 element: <SellerOrderDetails />,
             },
             {
-                path: "seller-invoice-details/:invoiceId",
+                path: "supplier-invoice-details/:invoiceId",
                 element: <SellerInvoiceDetails />,
             },
             {
@@ -523,11 +523,11 @@ const router = createBrowserRouter([
                 element: <SellerProformaDetails />,
             },
             {
-                path: "seller-complaint-details/:supportId",
+                path: "supplier-complaint-details/:supportId",
                 element: <SellerComplaintDetails />,
             },
             {
-                path: "seller-feedback-details/:supportId",
+                path: "supplier-feedback-details/:supportId",
                 element: <SellerFeedbackDetails />,
             },
             // start the product request

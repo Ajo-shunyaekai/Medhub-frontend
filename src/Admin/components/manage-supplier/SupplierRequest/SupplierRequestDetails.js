@@ -158,7 +158,7 @@ const SupplierRequestDetails = () => {
                 setRejectLoading(false);
                 toast(response.message, { type: 'success' })
                 setTimeout(() => {
-                    navigate('/admin/seller-request')
+                    navigate('/admin/supplier-request')
                 }, 1000)
 
                 // setSupplierDetails(response.result)
