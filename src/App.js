@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BuyerSidebar from './Buyer/BuyerRoutes/Router';
 import AdminSidebar from './Admin/AdminRoutes/Router';
 import SupplierSidebar from './Supplier/SupplierRoutes/Router';
+import LogisticsRoutes from './LogisticsPanel/LogisticsRoutes/Router'
 
 const activekey = () => {
     var res          = window.location.pathname;
@@ -34,6 +35,9 @@ useEffect(() => {
     } else if (route.includes('admin')) {
         import('./AdminApp.css').then(() => setCssFile('AdminApp.css'));
     }
+    else if (route.includes('logistics')) {
+        import('./logistics.css').then(() => setCssFile('logistics.css'));
+    }
 }, []);
 
 const renderSidebar = () => {
@@ -43,6 +47,9 @@ const renderSidebar = () => {
         return <SupplierSidebar />;
     } else if (activekey().includes('admin')) {
         return <AdminSidebar />;
+    }
+    else if (activekey().includes('logistics')) {
+        return <LogisticsRoutes/>;
     }
     return null;
 };
