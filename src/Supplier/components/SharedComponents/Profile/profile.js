@@ -36,7 +36,7 @@ const Profile = () => {
     const supplierLicenseImage = sessionStorage.getItem("license_image");
     const supplierCertificateImage = sessionStorage.getItem("certificate_image");
     const supplierActivityCode = sessionStorage.getItem("activity_code");
-    const supplierMedicalImage = sessionStorage.getItem("medical_practitioner_image")
+    const supplierMedicalImage = sessionStorage.getItem("medical_certificate")
 
     const supplierLocality = sessionStorage.getItem("locality");
     const supplierLandMark = sessionStorage.getItem("land_mark");
