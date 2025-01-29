@@ -137,6 +137,18 @@
     background-color: transparent;
     border-color: rgba(160, 175, 185, 0.15) !important;
   }
+  .editprofileAddSec{
+    display: flex
+;
+    gap: 10px;
+  }
+  .icon{
+    font-size: 24px;
+    color: #99a0ac
+  }
+  .editProfileImg{
+width: 26px;
+  }
 
   /* style the edit profile details container */
 .editProfileContainer{
@@ -170,8 +182,8 @@
 }
 .editProfileInnerContainer{
     width: 50%;
-    display: flex
-;
+    display: flex;
+    row-gap: 10px;
     background-color: #ffffff;
     border-radius: 4px;
     padding: 26px 30px;
@@ -195,13 +207,18 @@
 }
 .editProfileAddressContainer{
     width: 100%;
-    display: flex
-;
+    display: flex;
+    row-gap: 10px;
     background-color: #ffffff;
     border-radius: 4px;
     padding: 26px 30px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     flex-direction: column;
+}
+.editProfileAddInnerSec{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .editButtonContainer{
     width: 100%;
