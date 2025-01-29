@@ -61,8 +61,8 @@ const SupplierSignUp = ({ socket }) => {
     const [selectedCompanyType, setSelectedCompanyType] = useState(null);
     const [addressType, setAddressType] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
     const [tradeLicensePreviews, setTradeLicensePreviews] = useState([]);
     const [taxRegPreviews, setTaxRegPreviews] = useState([]);
     const [certificatePreviews, setcertificatePreviews] = useState([]);
@@ -105,9 +105,9 @@ const SupplierSignUp = ({ socket }) => {
         vatRegistrationNo: '',
         locality: '',
         landMark: '',
-        country: null,
-        state: null,
-        city: null,
+        country: '',
+        state: '',
+        city: '',
         pincode: '',
         user_type: 'Supplier'
     }
@@ -116,8 +116,8 @@ const SupplierSignUp = ({ socket }) => {
 
     const handleCountryChange = (selectedOption) => {
         setSelectedCountry(selectedOption);
-        setSelectedState(null);
-        setSelectedCity(null);
+        setSelectedState('');
+        setSelectedCity('');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -129,10 +129,10 @@ const SupplierSignUp = ({ socket }) => {
             setFormData({ ...formData, country: selectedOption });
         }
     };
-
+    
     const handleStateChange = (selectedOption) => {
-        setSelectedState(selectedOption);
-        setSelectedCity(null);
+        setSelectedState(selectedOption || '');
+        setSelectedCity('');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -146,7 +146,7 @@ const SupplierSignUp = ({ socket }) => {
     };
 
     const handleCityChange = (selectedOption) => {
-        setSelectedCity(selectedOption);
+        setSelectedCity(selectedOption || '');
 
         if (!selectedOption) {
             setErrors((prevState) => ({
@@ -300,6 +300,69 @@ const SupplierSignUp = ({ socket }) => {
             return;
         }
 
+         //bank details validation
+        if (name === 'bankdetails') {
+            setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+            }));
+
+            const details = value.split(',').map(item => item.trim());
+            let errorMessage = '';
+
+            // validation for empty input
+            if (!value.trim()) {
+            errorMessage = 'Please enter bank details';
+            }
+            // Validate number of fields
+            else if (details.length > 3) {
+            errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
+            }
+            else {
+            const [bankName = '', accountNumber = '', ifscCode = ''] = details;
+
+            // Validate bank name
+            if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
+                errorMessage = 'Bank name should only contain letters and spaces';
+            }
+
+            // Validate account number if bank name is valid
+            else if (accountNumber) {
+                if (!/^\d*$/.test(accountNumber)) {
+                errorMessage = 'Account number should only contain digits';
+                } else if (accountNumber.length > 0 && accountNumber.length < 8) {
+                errorMessage = 'Account number should be at least 8 digits';
+                } else if (accountNumber.length > 20) {
+                errorMessage = 'Account number should not exceed 20 digits';
+                }
+            }
+
+            // Validate IFSC code if account number is valid
+            else if (ifscCode) {
+                // if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
+                // errorMessage = 'Invalid IFSC/Sort code format (should be like HDFC0123456)';
+                // } 
+                 if (ifscCode.length > 20) {
+                    errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
+                }
+            }
+
+            // If all fields are present, verify complete format
+            if (details.length === 3 && !errorMessage) {
+                if (!bankName) errorMessage = 'Please enter bank name';
+                else if (!accountNumber) errorMessage = 'Please enter account number';
+                else if (!ifscCode) errorMessage = 'Please enter IFSC code';
+            }
+            }
+
+            setErrors(prevState => ({
+            ...prevState,
+            bankdetails: errorMessage
+            }));
+
+            return;
+        }
+
         // Existing validations
         if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
             setErrors((prevState) => ({
@@ -349,12 +412,10 @@ const SupplierSignUp = ({ socket }) => {
             if (phoneNumber && isValidPhoneNumber(value)) {
                 // Format the phone number in E.164 format (international standard)
 
-                console.log(phoneNumber.countryCallingCode);
                 const countryCode = phoneNumber.countryCallingCode
                 const nationalNumber = phoneNumber.nationalNumber
                 // const formattedNumber = phoneNumber.format('E.164');
                 const formattedNumber = `+${countryCode} ${nationalNumber}`
-                console.log(formattedNumber);
                 // Update form data with the formatted number
                 setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
             } else {
@@ -611,15 +672,12 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('activity_code', formData.activityCode);
 
             // New data fields
-
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
             formDataToSend.append('country', formData.country?.name);
-            formDataToSend.append('state', formData.state?.name);
-            formDataToSend.append('city', formData.city?.name);
+            formDataToSend.append('state', formData.state?.name || '');
+            formDataToSend.append('city', formData.city?.name || '');
             formDataToSend.append('pincode', formData.pincode);
-
-
             formDataToSend.append('user_type', formData.user_type);
 
             (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));

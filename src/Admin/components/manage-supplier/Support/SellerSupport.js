@@ -27,11 +27,11 @@ const SellerSupport = () => {
 
     const getActiveLinkFromPath = (path) => {
         switch (path) {
-            case '/admin/seller-support/complaint':
+            case '/admin/supplier-support/complaint':
                 return 'complaint';
-            case '/admin/seller-support/feedback':
+            case '/admin/supplier-support/feedback':
                 return 'feedback';
-            case '/admin/seller-support/edit-profile':
+            case '/admin/supplier-support/edit-profile':
                 return 'editprofile';
             default:
                 return 'complaint';
@@ -44,16 +44,16 @@ const SellerSupport = () => {
         setCurrentPage(1)
         switch (link) {
             case 'complaint':
-                navigate('/admin/seller-support/complaint');
+                navigate('/admin/supplier-support/complaint');
                 break;
             case 'feedback':
-                navigate('/admin/seller-support/feedback');
+                navigate('/admin/supplier-support/feedback');
                 break;
             case 'editprofile':
-                navigate('/admin/seller-support/edit-profile');
+                navigate('/admin/supplier-support/edit-profile');
                 break;
             default:
-                navigate('/admin/seller-support/complaint');
+                navigate('/admin/supplier-support/complaint');
         }
     };
 

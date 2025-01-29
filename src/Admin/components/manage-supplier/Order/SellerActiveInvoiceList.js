@@ -72,7 +72,7 @@ const SellerActiveInvoiceList = ({invoiceData}) => {
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Action</span>
                                             <span className="table-g-not-name">
-                                                <Link to={`/admin/seller-invoice-details/${invoice.invoice_id}`}>
+                                                <Link to={`/admin/supplier-invoice-details/${invoice.invoice_id}`}>
                                                     <div className='invoice-details-button-column'>
                                                         <VisibilityOutlinedIcon className='invoice-view' />
                                                     </div>

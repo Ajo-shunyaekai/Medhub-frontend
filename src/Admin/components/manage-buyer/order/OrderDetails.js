@@ -128,7 +128,7 @@ const OrderDetails = ({ socket }) => {
                         </React.Fragment>
                     ))}
                 </span>
-                <Link className='active-order-details-link-tag' to={`/admin/seller-details/${orderDetails?.supplier_id}`}>
+                <Link className='active-order-details-link-tag' to={`/admin/supplier-details/${orderDetails?.supplier_id}`}>
                     <span className='active-details-purchsed-by'>Sold By: </span><span className='active-details-Buyer-name'>{orderDetails?.supplier?.supplier_name ||
                         'Pharmaceuticals Pvt Ltd'}</span>
                 </Link>

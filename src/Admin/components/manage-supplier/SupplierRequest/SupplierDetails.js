@@ -127,7 +127,7 @@ const renderFiles = (files, type) => {
             if (response.code === 200) {
                 toast(response.message, {type: 'success'})
                 setTimeout(() => {
-                    navigate('/admin/seller-request')
+                    navigate('/admin/supplier-request')
                 },1000)
             } else {
                console.log('error in accept-reject-supplier api',response);
@@ -198,7 +198,9 @@ const renderFiles = (files, type) => {
                                         <div className='buyer-details-company-type-section'>
                                             <div className='buyer-details-company-type-sec-head'>Address:</div>
                                             <div className='buyer-details-company-type-sec-text'>{supplierDetails?.supplier_address} {supplierDetails?.registeredAddress?.locality} </div>
-                                            <div className='buyer-details-company-type-sec-text'>{supplierDetails?.registeredAddress?.land_mark} {supplierDetails?.registeredAddress?.country} {supplierDetails?.registeredAddress?.state} {supplierDetails?.registeredAddress?.city}</div>
+                                            <div className='buyer-details-company-type-sec-text'>
+                                                {supplierDetails?.registeredAddress?.land_mark ? supplierDetails?.registeredAddress?.land_mark : '' } {supplierDetails?.registeredAddress?.country ? supplierDetails?.registeredAddress?.country : ''}  {supplierDetails?.registeredAddress?.state ? supplierDetails?.registeredAddress?.state : ''} {supplierDetails?.registeredAddress?.city ? supplierDetails?.registeredAddress?.city : ''}
+                                            </div>
                                             <div className='buyer-details-company-type-sec-text'>{supplierDetails?.registeredAddress?.pincode}</div>
                                         </div>
                                     </div>

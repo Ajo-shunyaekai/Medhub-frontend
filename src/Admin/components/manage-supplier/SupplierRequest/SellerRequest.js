@@ -119,7 +119,7 @@ const SellerRequest = () => {
                                                     <div className={styles['rejected-table-text-color']}>{seller.tax_no}</div>
                                                 </div>
                                                 <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-btn']} ${styles['rejected-table-order-1']}`}>
-                                                    <Link to={`/admin/seller-request-details/${seller.supplier_id}`}>
+                                                    <Link to={`/admin/supplier-request-details/${seller.supplier_id}`}>
                                                         <div className={`${styles['rejected-table']} ${styles['rejected-table-view']}`}><RemoveRedEyeOutlinedIcon className={styles["table-icon"]} /></div>
                                                     </Link>
                                                 </div>

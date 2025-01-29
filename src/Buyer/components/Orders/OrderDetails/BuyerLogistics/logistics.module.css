@@ -1,0 +1,168 @@
+.container {
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: scroll;
+    row-gap: 20px;
+    scrollbar-width: none;
+}
+
+.logisticsHeading {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.inner-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.innerHeading {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.checkboxSection {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxInput {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.checkboxLabel {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.formLogistics {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.formInnerClass {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logisticesInputSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    row-gap: 6px;
+    width: 23.6%;
+}
+.radioLabel{
+   
+    display: flex;
+    flex-direction: column;
+}
+.radioSpan{
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+}
+.radioText{
+    font-size: 12px;
+    line-height: 10px;
+    color: #5e676f;
+}
+.formLabel {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.formInput {
+    background-color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    font-size: 14px !important;
+    outline: none !important;
+    padding: 10px !important;
+}
+
+/* Style the address container */
+.labelstamp{
+    color: red;
+}
+.addressContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.radioInnerContainer {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.radioGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 10px 14px;
+}
+.radioInput{
+    cursor: pointer;
+}
+
+/* END THE ADDRESS CONTAINER */
+
+.logistic-Button-Section{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 120px;
+  }
+  
+  .logistic-cancel{
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border: 1px solid #5e676f;
+    color: #5e676f;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .logistic-submit {
+    border: none !important;
+    outline: none !important;
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  /* Media query */
+  @media screen and (max-width: 1350px) {
+    .logisticesInputSection {
+        width: 31.6%;
+    }
+}

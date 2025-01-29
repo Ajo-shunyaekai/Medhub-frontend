@@ -54,7 +54,7 @@ const InquiryRequest = ({inquiryList, totalInquiries, currentPage, inquiriesPerP
                                             </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                            <Link to={`/admin/seller-inquiry-details/${ongoing?.enquiry_id}`}>
+                                            <Link to={`/admin/supplier-inquiry-details/${ongoing?.enquiry_id}`}>
                                                 <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                                     <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                 </div>

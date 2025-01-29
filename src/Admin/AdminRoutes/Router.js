@@ -90,6 +90,8 @@ import EditSecondaryDetails from "../components/manage-products/EditUpdateSecond
 import SecondaryProductDetails from "../components/manage-products/SecondaryProductDetails"
 import NotificationList from "../components/shared-components/notification/NotificationList"
 import Profile from "../components/shared-components/Profile/profile"
+import { fetchUserData } from '../../redux/reducers/userDataSlice';
+import { useDispatch } from 'react-redux';
 import BuyerEditProfile from "../components/manage-buyer/support/UpdateProfile/EditProfileList"
 import BuyerEditProfileDetails from "../components/manage-buyer/support/UpdateProfile/EditProfileDetails"
 import SupplierEditProfile from "../components/manage-supplier/Support/UpdateProfile/EditProfileList"
@@ -98,6 +100,7 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const adminIdSessionStorage = sessionStorage.getItem("admin_id");
     const adminIdLocalStorage = localStorage.getItem("admin_id");
 
@@ -215,6 +218,11 @@ export function NotificationProvider({ children }) {
             navigate("/admin/login");
         }
     }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
+
+    useEffect(()=>{
+        sessionStorage.getItem('_id') && dispatch(fetchUserData(sessionStorage.getItem('_id')))
+    },[sessionStorage.getItem('_id')])
+
     return (
         <AdmSidebar
             notificationList={notificationList}
@@ -416,23 +424,23 @@ const router = createBrowserRouter([
             },
             // start the seller routes
             {
-                path: "seller-request",
+                path: "supplier-request",
                 element: <SellerRequest />,
             },
             {
-                path: "approved-seller",
+                path: "approved-supplier",
                 element: <ApprovedSeller />,
             },
             {
-                path: "rejected-seller",
+                path: "rejected-supplier",
                 element: <RejectedSeller />,
             },
             {
-                path: "seller-transaction",
+                path: "supplier-transaction",
                 element: <SellerTransaction />,
             },
             {
-                path: "seller-inquiry",
+                path: "supplier-inquiry",
                 element: <SellerInquiry />,
                 children: [
                     {
@@ -447,7 +455,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-order",
+                path: "supplier-order",
                 element: <SellerOrder />,
                 children: [
                     {
@@ -462,7 +470,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-invoice",
+                path: "supplier-invoice",
                 element: <SellerInvoice />,
                 children: [
                     {
@@ -481,7 +489,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "seller-support",
+                path: "supplier-support",
                 element: <SellerSupport />,
                 children: [
                     {
@@ -503,31 +511,31 @@ path:"supplier-edit-profile-details",
 element:<SupplierEditProfileDetails/>
             },
             {
-                path: "seller-request-details/:supplierId",
+                path: "supplier-request-details/:supplierId",
                 element: <SellerRequestDetails />,
             },
             {
-                path: "seller-details/:supplierId",
+                path: "supplier-details/:supplierId",
                 element: <SellerDetails />,
             },
             {
-                path: "seller-transaction-details/:invoiceId",
+                path: "supplier-transaction-details/:invoiceId",
                 element: <SellerTransactionDetails />,
             },
             {
-                path: "seller-inquiry-details/:inquiryId",
+                path: "supplier-inquiry-details/:inquiryId",
                 element: <SellerInquiryDetails />,
             },
             {
-                path: "seller-purchased-order-details/:purchaseOrderId",
+                path: "supplier-purchased-order-details/:purchaseOrderId",
                 element: <SellerPurchasedOrderDetails />,
             },
             {
-                path: "seller-order-details/:orderId",
+                path: "supplier-order-details/:orderId",
                 element: <SellerOrderDetails />,
             },
             {
-                path: "seller-invoice-details/:invoiceId",
+                path: "supplier-invoice-details/:invoiceId",
                 element: <SellerInvoiceDetails />,
             },
             {
@@ -535,11 +543,11 @@ element:<SupplierEditProfileDetails/>
                 element: <SellerProformaDetails />,
             },
             {
-                path: "seller-complaint-details/:supportId",
+                path: "supplier-complaint-details/:supportId",
                 element: <SellerComplaintDetails />,
             },
             {
-                path: "seller-feedback-details/:supportId",
+                path: "supplier-feedback-details/:supportId",
                 element: <SellerFeedbackDetails />,
             },
             // start the product request

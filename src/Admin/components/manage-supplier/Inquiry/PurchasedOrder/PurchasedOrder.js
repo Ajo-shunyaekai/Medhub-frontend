@@ -67,7 +67,7 @@ const PurchasedOrder = ({poList, totalList, currentPage, listPerPage, handlePage
                                         </div>
                                         </div>
                                         <div className={`${styles['actives-table-row-item']} ${styles['actives-table-btn']} ${styles['actives-table-order-1']}`}>
-                                        <Link to={`/admin/seller-purchased-order-details/${list.purchaseOrder_id}`}>
+                                        <Link to={`/admin/supplier-purchased-order-details/${list.purchaseOrder_id}`}>
                                             <div className={`${styles['actives-table']} ${styles['actives-table-view']}`}>
                                             <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                             </div>

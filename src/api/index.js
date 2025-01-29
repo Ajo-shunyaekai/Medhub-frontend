@@ -73,7 +73,7 @@ export const apiRequests = {
     }
   },
 
-  postRequest: async (URL, requestData) => {
+  postRequest: async (URL, requestData={} ) => {
     try {
       const response = await axios({
         method: "POST",

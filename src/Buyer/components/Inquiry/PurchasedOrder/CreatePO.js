@@ -6,6 +6,9 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
 import { phoneValidationRules, countryCodes } from '../../../../utils/phoneNumberValidation';
 import { apiRequests } from '../../../../api';
+import countryList from 'react-select-country-list';
+import Select, { components } from 'react-select';
+import { Country, State, City } from "country-state-city";
 
 
 const CreatePO = ({socket}) => {
@@ -22,6 +25,12 @@ const CreatePO = ({socket}) => {
     const [itemId, setItemId] = useState([])
     const [rejectedItemId, setRejectedItemId] = useState([])
     const [errors, setErrors]    = useState({})
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [supplierCountry, setSupplierCountry] = useState(null)
+    const [supplierState, setSupplierState] = useState('')
+    const [supplierCity, setSupplierCity] = useState('')
     const [formData, setFormData] = useState({
         purchaseOrderId: '',
         poDate: '',
@@ -31,6 +40,12 @@ const CreatePO = ({socket}) => {
         buyerId: '',
         buyerName: '',
         buyerAddress: '',
+        buyerLocality: '',
+        buyerLandmark: '',
+        buyerCountry: '',
+        buyerState: '',
+        buyerCity: '',
+        buyerPincode: '',
         buyerEmail: '',
         buyerMobile: '',
         buyerCountryCode: '',
@@ -41,6 +56,12 @@ const CreatePO = ({socket}) => {
         supplierName: '',
         supplierEmail: '',
         supplierAddress: '',
+        supplierLocality: '',
+        supplierLandmark: '',
+        supplierCountry: '',
+        supplierState: '',
+        supplierCity: '',
+        supplierPincode: '',
         supplierMobile: '',
         supplierCountryCode: '',
         supplierContactPersonMobile: '',
@@ -166,7 +187,13 @@ const CreatePO = ({socket}) => {
                 supplierId: data?.supplier?.supplier_id,
                 supplierName: data?.supplier?.supplier_name,
                 supplierEmail: data?.supplier?.supplier_email,
-                supplierAddress: data?.supplier?.supplier_address,
+                supplierAddress: data?.supplier?.registered_address?.company_reg_address || data?.supplier?.supplier_address,
+                supplierLocality: data?.supplier?.registered_address?.locality,
+                supplierLandmark: data?.supplier?.registered_address?.land_mark,
+                // supplierCountry: data?.supplier?.registered_address?.country,
+                // supplierState: data?.supplier?.registered_address?.state,
+                // supplierCity: data?.supplier?.registered_address?.city,
+                supplierPincode: data?.supplier?.registered_address?.pincode,
                 supplierMobile: formattedSupplierMobile,
                 supplierContactPersonMobile: data?.supplier?.contact_person_mobile_no,
                 supplierContactPersonCountryCode: data?.supplier?.contact_person_country_code,
@@ -174,11 +201,49 @@ const CreatePO = ({socket}) => {
                 buyerId: data?.buyer?.buyer_id,
                 buyerName: data?.buyer?.buyer_name,
                 buyerEmail: data?.buyer?.buyer_email,
-                buyerAddress : data?.buyer?.buyer_address,
+                buyerAddress : data?.buyer?.registered_address?.company_reg_address || data?.buyer?.buyer_address,
+                buyerLocality: data?.buyer?.registered_address?.locality,
+                buyerLandmark: data?.buyer?.registered_address?.land_mark,
+                // buyerCountry: data?.buyer?.registered_address?.country,
+                // buyerState: data?.buyer?.registered_address?.state,
+                // buyerCity: data?.buyer?.registered_address?.city,
+                buyerPincode: data?.buyer?.registered_address?.pincode,
                 buyerMobile: formattedBuyerMobile,
                 buyerRegNo: data?.buyer?.registration_no,
                 orderItems: data?.items,
             }));
+            if(data?.buyer?.registered_address) {
+                const { country, state, city } = data?.buyer?.registered_address
+            
+                const countryObj = Country.getAllCountries().find(c => c.name === country);
+                setSelectedCountry(countryObj || '');
+                if (countryObj) {
+                    const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === state);
+                    setSelectedState(stateObj || '');
+                }
+
+                if (selectedState && selectedState.isoCode !== "OTHER") {
+                    const cityObj = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode).find(c => c.name === city);
+                    setSelectedCity(cityObj || '');
+                }
+            }
+
+            if(data?.supplier?.registered_address) {
+                const { country, state, city } = data?.supplier?.registered_address
+            
+                const countryObj = Country.getAllCountries().find(c => c.name === country);
+                setSupplierCountry(countryObj || '');
+                if (countryObj) {
+                    const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === state);
+                    setSupplierState(stateObj || '');
+                }
+
+                if (supplierState && supplierState.isoCode !== "OTHER") {
+                    const cityObj = City.getCitiesOfState(supplierState.countryCode, supplierState.isoCode).find(c => c.name === city);
+                    setSupplierCity(cityObj || '');
+                }
+            }
+            
             // postRequestWithToken(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj, async (response) => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result);
@@ -338,6 +403,51 @@ const CreatePO = ({socket}) => {
         }
        
     };
+
+    const handleCountryChange = (selectedOption) => {
+        setSelectedCountry(selectedOption);
+        setSelectedState('');
+        setSelectedCity('');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                country: "Country is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, country: "" }));
+            setFormData({ ...formData, buyerCountry: selectedOption?.name });
+        }
+    };
+    
+    const handleStateChange = (selectedOption) => {
+        setSelectedState(selectedOption || '');
+        setSelectedCity('');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                state: "State is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, state: "" }));
+            setFormData({ ...formData, buyerState: selectedOption?.name });
+        }
+    };
+
+    const handleCityChange = (selectedOption) => {
+        setSelectedCity(selectedOption || '');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                city: "City is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, city: "" }));
+            setFormData({ ...formData, buyerCity: selectedOption?.name });
+        }
+    };
  
     const formatPhoneNumber = (phoneNumber, countryCode) => {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
@@ -421,12 +531,27 @@ const CreatePO = ({socket}) => {
                                 placeholder='Enter Name'
                                 value={formData.buyerName}
                                 onChange={handleChange}
+                                readOnly
                                 // {...register('buyerName', { validate: value => value.trim() !== '' || 'Buyer name is required' })}
                             />
                             {errors.buyerName && <p style={{color: 'red'}}>{errors.buyerName}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Address</label>
+                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerRegNo'
+                                placeholder='Enter Company Registration Number'
+                                value={formData.buyerRegNo}
+                                onChange={handleChange}
+                                readOnly
+                                // {...register('buyerRegNo', { validate: value => value?.trim() !== '' || 'Buyer registration number is required' })}
+                            />
+                            {errors.buyerRegNo && <p style={{color: 'red'}}>{errors.buyerRegNo}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Billing Address</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
@@ -434,11 +559,107 @@ const CreatePO = ({socket}) => {
                                 placeholder='Enter Address'
                                 value={formData.buyerAddress}
                                 onChange={handleChange}
-                                // {...register('buyerAddress', { validate: value => value.trim() !== '' || 'Buyer address is required' })}
+                                // readOnly
                             />
                             {errors.buyerAddress && <p style={{color: 'red'}}>{errors.buyerAddress}</p>}
                         </div>
+                        {inquiryDetails?.buyer?.registered_address && (
+                            <>
                         <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Area/Locality/Road Name</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLocality'
+                                placeholder='Enter Area/Locality/Road Name'
+                                value={formData.buyerLocality}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLandmark'
+                                placeholder='Enter Locality'
+                                value={formData.buyerLandmark}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Country</label>
+                            <Select
+                                options={Country.getAllCountries()}
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={selectedCountry}
+                                onChange={handleCountryChange}
+                                placeholder="Select Country"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>State/Province</label>
+                            <Select
+                                options={
+                                    selectedCountry
+                                        ? [
+                                            ...State.getStatesOfCountry(selectedCountry.isoCode),
+                                            { name: "Other", isoCode: "OTHER" },
+                                        ]
+                                        : []
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={selectedState}
+                                onChange={handleStateChange}
+                                placeholder="Select State"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>City/Town</label>
+                            <Select
+                                options={
+                                    selectedState && selectedState.isoCode !== "OTHER"
+                                        ? [
+                                            ...City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode),
+                                            { name: "Other" },
+                                        ]
+                                        : [{ name: "Other" }]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.name}
+                                value={selectedCity}
+                                onChange={handleCityChange}
+                                placeholder="Select City"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerPincode'
+                                placeholder='Enter Pincode'
+                                value={formData.buyerPincode}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        </>
+                        )}
+                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
                             <input
                                 className={styles['create-invoice-div-input']}
@@ -446,10 +667,10 @@ const CreatePO = ({socket}) => {
                                 name='buyerEmail'
                                 placeholder='Enter Email ID'
                                 value={formData.buyerEmail}
-                                onChange={handleChange}
-                                // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                                readOnly
+                                // {...register('supplierEmail', { validate: value => value?.trim() !== '' || 'Supplier email is required' })}
                             />
-                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                            {errors.buyerEmail && <p>{errors.buyerEmail.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Mobile Number</label>
@@ -465,19 +686,7 @@ const CreatePO = ({socket}) => {
                             />
                             {errors.buyerMobile && <p style={{color: 'red'}}>{errors.buyerMobile}</p>}
                         </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='buyerRegNo'
-                                placeholder='Enter Company Registration Number'
-                                value={formData.buyerRegNo}
-                                onChange={handleChange}
-                                // {...register('buyerRegNo', { validate: value => value?.trim() !== '' || 'Buyer registration number is required' })}
-                            />
-                            {errors.buyerRegNo && <p style={{color: 'red'}}>{errors.buyerRegNo}</p>}
-                        </div>
+                        
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>
@@ -515,23 +724,132 @@ const CreatePO = ({socket}) => {
                                 placeholder='Enter Name'
                                 readOnly
                                 value={formData.supplierName}
-                                // {...register('supplierName', { validate: value => value?.trim() !== '' || 'Supplier name is required' })}
                             />
                             {errors.supplierName && <p>{errors.supplierName.message}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Address</label>
+                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='supplierRegNo'
+                                readOnly
+                                placeholder='Enter Company Registration Number'
+                                value={formData.supplierRegNo}
+                            />
+                            {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Billing Address</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
                                 name='supplierAddress'
                                 placeholder='Enter Address'
                                 value={formData.supplierAddress}
+                                onChange={handleChange}
                                 readOnly
-                                // {...register('supplierAddress', { validate: value => value?.trim() !== '' || 'Supplier address is required' })}
                             />
-                            {errors.supplierAddress && <p>{errors.supplierAddress.message}</p>}
+                            {errors.supplierAddress && <p style={{color: 'red'}}>{errors.supplierAddress}</p>}
                         </div>
+                        {inquiryDetails?.supplier?.registered_address && (
+                            <>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Area/Locality/Road Name</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLocality'
+                                placeholder='Enter Area/Locality/Road Name'
+                                value={formData.supplierLocality}
+                                onChange={handleChange}
+                                readOnly
+                                // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='supplierLandmark'
+                                placeholder='Enter Landmark'
+                                value={formData.supplierLandmark}
+                                onChange={handleChange}
+                                readOnly
+                                // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                            />
+                            {errors.supplierLandmark && <p style={{color: 'red'}}>{errors.supplierLandmark}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Country</label>
+                            <Select
+                                options={Country.getAllCountries()}
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={supplierCountry}
+                                onChange={handleCountryChange}
+                                placeholder="Select Country"
+                                isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>State/Province</label>
+                            <Select
+                                options={
+                                    supplierCountry
+                                        ? [
+                                            ...State.getStatesOfCountry(supplierCountry.isoCode),
+                                            { name: "Other", isoCode: "OTHER" },
+                                        ]
+                                        : []
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={supplierState}
+                                // onChange={handleStateChange}
+                                placeholder="Select State"
+                                isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>City/Town</label>
+                            <Select
+                                options={
+                                    supplierState && supplierState.isoCode !== "OTHER"
+                                        ? [
+                                            ...City.getCitiesOfState(supplierState.countryCode, supplierState.isoCode),
+                                            { name: "Other" },
+                                        ]
+                                        : [{ name: "Other" }]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.name}
+                                value={supplierCity}
+                                // onChange={handleCityChange}
+                                placeholder="Select City"
+                                isDisabled
+                            />
+                            {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='supplierPincode'
+                                placeholder='Enter Pincode'
+                                value={formData.supplierPincode}
+                                onChange={handleChange}
+                                readOnly
+                            />
+                            {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                        </div>
+                        </>
+                        )}
                         <div className={styles['create-invoice-div-container']}>
                             <label className={styles['create-invoice-div-label']}>Email ID</label>
                             <input
@@ -560,19 +878,7 @@ const CreatePO = ({socket}) => {
                             />
                             {errors.supplierMobile && <p>{errors.supplierMobile.message}</p>}
                         </div>
-                        <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Company Registration Number</label>
-                            <input
-                                className={styles['create-invoice-div-input']}
-                                type='text'
-                                name='supplierRegNo'
-                                readOnly
-                                placeholder='Enter Company Registration Number'
-                                value={formData.supplierRegNo}
-                                // {...register('supplierRegNo', { validate: value => value?.trim() !== '' || 'Supplier registration number is required' })}
-                            />
-                            {errors.supplierRegNo && <p>{errors.supplierRegNo.message}</p>}
-                        </div>
+                        
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>

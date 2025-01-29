@@ -671,8 +671,8 @@ const SignUp = ({ socket }) => {
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
             formDataToSend.append('country', formData.country?.name);
-            formDataToSend.append('state', formData.state?.name);
-            formDataToSend.append('city', formData.city?.name);
+            formDataToSend.append('state', formData.state?.name || '');
+            formDataToSend.append('city', formData.city?.name || '');
             formDataToSend.append('pincode', formData.pincode);
 
 

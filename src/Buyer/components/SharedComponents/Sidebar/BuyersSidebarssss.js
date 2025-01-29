@@ -289,14 +289,14 @@ const BuyerSidebar = () => {
                                         <Route path="/buyer/subscription-membership" element={<SubscriptionMembership />} />
                                         <Route path="/buyer/table-membership" element={<TableMembership />} />
                                         <Route path="/buyer/search-market-product-details/:medicineId" element={<SearchMarketProductDetails />} />
-                                        <Route path="/buyer/Create-PO/:inquiryId" element={<CreatePO socket = {socket}/>} />
+                                        <Route path="/buyer/create-po/:inquiryId" element={<CreatePO socket = {socket}/>} />
                                         <Route path="/buyer/create-PO-Image-Upload" element={<CreatePOImageUpload />} />
                                         <Route path="/buyer/purchased-order-details/:purchaseOrderId" element={<PurchasedOrderDetails />} />
                                         <Route path="/buyer/ongoing-inquiries-details/:inquiryId" element={<OnGoingInquiriesDetails />} />
                                         <Route path="/buyer/ongoing-list" element={<OnGoingList />} />
-                                        <Route path="/buyer/edit-create-PO/:purchaseOrderId" element={<EditCreatePO  socket = {socket}/>} />
+                                        <Route path="/buyer/edit-create-po/:purchaseOrderId" element={<EditCreatePO  socket = {socket}/>} />
                                         <Route path="/buyer/custom-order-modal" element={<CustomOrderModal />} />
-                                        <Route path="/buyer/Proforma-Invoice-Details/:orderId" element={<ProformaInvoiceDetails />} />
+                                        <Route path="/buyer/proforma-invoice-details/:orderId" element={<ProformaInvoiceDetails />} />
                                         <Route path="/buyer/inquiry-purchase-orders/ongoing" element={<InquiryPurchaseOrders />} />
                                         <Route path="/buyer/inquiry-purchase-orders/purchased" element={<InquiryPurchaseOrders />} />
                                         <Route path="/buyer/inquiry-purchase-orders" element={<Navigate to="/buyer/inquiry-purchase-orders/ongoing" />} />

@@ -257,20 +257,20 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
             </div>
             {isOpen && isSellerOpen && (
               <div className={styles.dropdownContent}>
-                <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
+                <Link to="/admin/supplier-request" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                   <div className={styles.sidebar_text}>Supplier Requests</div>
                 </Link>
-                <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
+                <Link to="/admin/approved-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                   <div className={styles.sidebar_text}>Approved Supplier</div>
                 </Link>
-                <Link to="/admin/rejected-seller" className={styles.sidebar_text} activeclassname={styles.active}>
+                <Link to="/admin/rejected-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                   <div className={styles.sidebar_text}>Rejected Supplier </div>
                 </Link>
 
-                <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
+                <Link to="/admin/supplier-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
                   <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                   <div className={styles.sidebar_text}>Supplier Transaction</div>
                 </Link>
@@ -383,7 +383,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
       editnewmedicinerequest: '/admin/product-update-requests/newproduct',
       editsecondarymedicinerequest: '/admin/product-update-requests/secondary',
       buyerregistration: '/admin/buyer-request',
-      supplierregistration: '/admin/seller-request',
+      supplierregistration: '/admin/supplier-request',
     };
 
     const route = eventRoutes[event] || '/admin/';
@@ -596,35 +596,35 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               </div>
               {isOpen && isSellerOpen && (
                 <div className={styles.dropdownContent}>
-                  <Link to="/admin/seller-request" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-request" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Supplier Requests</div>
                   </Link>
-                  <Link to="/admin/approved-seller" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/approved-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Approved Supplier</div>
                   </Link>
-                  <Link to="/admin/rejected-seller" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/rejected-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Rejected Supplier </div>
                   </Link>
-                  <Link to="/admin/seller-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Supplier Transaction</div>
                   </Link>
-                  <Link to="/admin/seller-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Inquiry</div>
                   </Link>
-                  <Link to="/admin/seller-order" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-order" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
-                  <Link to="/admin/seller-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
-                  <Link to="/admin/seller-support" className={styles.sidebar_text} activeclassname={styles.active}>
+                  <Link to="/admin/supplier-support" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>

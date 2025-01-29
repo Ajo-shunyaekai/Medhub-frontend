@@ -418,3 +418,9 @@
 }
    
 }
+
+.error_message_formik {
+    font-size: 12px;
+    color: red;
+    margin-top: -4px;
+}
