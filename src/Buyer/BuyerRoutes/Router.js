@@ -67,6 +67,7 @@ import EditProfile from "../components/SharedComponents/Profile/EditProfile";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
 import { apiRequests } from "../../api";
+import LogisticsForm from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm";
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -437,6 +438,10 @@ const router = createBrowserRouter([
         path: "supplier-pending/:supplierId",
         element: <SupplierPending />,
       },
+      {
+        path:"logistics-form",
+        element:<LogisticsForm />
+      }
     ],
   },
   {

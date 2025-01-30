@@ -136,6 +136,10 @@ body{
       gap: 10px;
       cursor: pointer !important;
 }
+.noti_profile_wrapper:hover {
+  background-color: rgba(135, 150, 165, 0.1);
+  cursor: pointer !important;
+}
 
 .noti_profile {
   color:#5e676f;
@@ -175,10 +179,8 @@ body{
   color:#448bff !important ;
 }
 .noti_time{
-  text-align: center;
-  font-size: 12px !important;
+  font-size: 11px !important;
   color: #99a0ac;
-  width: 80px;
 }
 .noti_profile_text span {
   cursor: pointer !important;

@@ -96,6 +96,7 @@ const ActiveOrdersDetails = ({ socket }) => {
                                 {
                                     orderDetails?.status === 'Awaiting Details from Supplier' ?
                                         <div className='active-order-details-top-order-cont'>
+                                            {/* <Link to='/supplier/supplier-logistics'> */}
                                             <div
                                                 className='active-order-details-left-top-main-heading-button'
                                                 onClick={openModal}
@@ -103,6 +104,7 @@ const ActiveOrdersDetails = ({ socket }) => {
                                             >
                                                 Submit Details
                                             </div>
+                                            {/* </Link> */}
                                         </div> : ''
                                 }
 
