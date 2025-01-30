@@ -12,7 +12,7 @@ const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handleP
         <>
             <div className={styles['new-product-support-main-section']}>
                 <div className={styles['support-container']}>
-                    <Link to='/supplier/add-product' style={{ marginTop: '-24px' }}>
+                    <Link to='/supplier/add-product' style={{ marginTop: '-26px' }}>
                         <div className={styles['support-container-text-add']}>Add a Product</div>
                         <div className={styles['support-add-card']}>
                             <div className={styles['support-add-icon-container']}>
