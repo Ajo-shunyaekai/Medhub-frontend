@@ -55,7 +55,7 @@ const OrderInvoiceList = ({invoiceData}) => {
                                         <span className="table-g-driver-name">Amount</span>
                                         <span className="table-g-not-name">
                                            {invoice.total_payable_amount !== null && invoice.total_payable_amount !== undefined
-                                            ? `${invoice.total_payable_amount} AED`
+                                            ? `${invoice.total_payable_amount} USD`
                                             : ''}
                                         </span>
                                     </div>

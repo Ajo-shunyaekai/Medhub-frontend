@@ -146,13 +146,13 @@ function BuyerProformaDetails() {
                                                                             <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} USD</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                             <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} USD </p>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -166,7 +166,7 @@ function BuyerProformaDetails() {
                                                                             <tbody>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{totalAmount.toFixed(2)} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{totalAmount.toFixed(2)} USD</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -193,7 +193,7 @@ function BuyerProformaDetails() {
                                                                                 <tbody>
                                                                                     <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
-                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} USD</p>
                                                                                     </tr>
                                                                                      {
                                                                                     orderDetails?.deposit_due_date && 

@@ -270,11 +270,11 @@ const SendInquiry = ({socket}) => {
                           </div>
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Unit Price:</span>
-                            <span className='send-enquiry-inner-bootom-text'>{product?.unit_price} AED</span>
+                            <span className='send-enquiry-inner-bootom-text'>{product?.unit_price} USD</span>
                           </div>
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Target Price:</span>
-                            <span className='send-enquiry-inner-bootom-text'>{product?.target_price} AED</span>
+                            <span className='send-enquiry-inner-bootom-text'>{product?.target_price} USD</span>
                           </div>
                           <div className='send-enquiry-inner-bottom-container'>
                             <span className='send-enquiry-inner-bootom-head'>Est. Delivery Time:</span>

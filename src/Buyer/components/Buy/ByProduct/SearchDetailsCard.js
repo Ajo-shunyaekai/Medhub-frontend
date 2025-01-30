@@ -34,7 +34,7 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                                 <div className='search-details-card-text-head'>Unit Price :</div>
                                 <div className='search-details-card-test-text'>
                                 {/* {med?.inventory_info?.map((item) => item.unit_price).join(', ')} */}
-                                {med?.inventory_info?.[0]?.unit_price} AED
+                                {med?.inventory_info?.[0]?.unit_price} USD
                                 </div>
                             </div>
                             <div className='search-details-card-text-section'>

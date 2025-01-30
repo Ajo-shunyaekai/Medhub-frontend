@@ -165,7 +165,7 @@ const SupplierPending = () => {
                                                     <div className='completed-table-text-color'>{totalQuantity}</div>
                                                 </td>
                                                 <td className='completed-table-row-item completed-table-order-2'>
-                                                    <div className='completed-table-text-color'>{totalPrice || '500 AED'} AED</div>
+                                                    <div className='completed-table-text-color'>{totalPrice || '500 USD'} USD</div>
                                                 </td>
                                                 <td className='completed-table-row-item completed-table-order-1'>
                                                     <div className='completed-table-text-color'>{order.order_status}</div>

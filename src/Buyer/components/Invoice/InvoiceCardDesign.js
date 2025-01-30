@@ -22,7 +22,7 @@ const InvoiceCardDesign = ({invoiceDetails}) => {
                         </div>
                         <div className={styles['invoice-card-conts']}>
                             <div className={styles['invoice-card-conts-head']}>Amount :</div>
-                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.amount_paid} AED</div>
+                            <div className={styles['invoice-card-conts-text']}>{invoiceDetails?.amount_paid} USD</div>
                         </div>
                     </div>
                     <div className={styles['invoice-card-section']}>

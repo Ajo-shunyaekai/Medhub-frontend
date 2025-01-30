@@ -11,9 +11,9 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
     const ordersPerPage = 10;
 
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 AED' },
-        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 AED' },
-        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 USD' },
+        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 USD' },
+        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 USD' },
     ];
 
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -108,8 +108,8 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Target Price</span>
                                     <span className="table-g-not-name">
-                                        {/* {item.target_price} AED */}
-                                        {item.target_price ? `${item.target_price} AED` : '-'}
+                                        {/* {item.target_price} USD */}
+                                        {item.target_price ? `${item.target_price} USD` : '-'}
                                         </span>
                                 </div>
                             </td>
@@ -121,11 +121,11 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Counter Price</span>
                                     <span className="table-g-not-name">
-                                        {/* {quotation[index]?.counter_price} AED */}
+                                        {/* {quotation[index]?.counter_price} USD */}
                                         {quotation[index]?.counter_price
-                                            ? quotation[index]?.counter_price.toLowerCase().includes('aed')
-                                                ? quotation[index]?.counter_price.replace(/aed/i, 'AED') 
-                                                : `${quotation[index]?.counter_price} AED` 
+                                            ? quotation[index]?.counter_price.toLowerCase().includes('usd')
+                                                ? quotation[index]?.counter_price.replace(/usd/i, 'USD') 
+                                                : `${quotation[index]?.counter_price} USD` 
                                             : '-'}
                                     </span>
                                 </div>

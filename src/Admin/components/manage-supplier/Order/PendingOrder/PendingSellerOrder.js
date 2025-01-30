@@ -14,35 +14,35 @@ const PendingSellerOrder = ({orderList, totalOrders, currentPage, ordersPerPage,
            id: "125252",
             date: "12/10/2024",
             buyer_name: "Atom Pharma",
-            quantity:"250 AED",
+            quantity:"250 USD",
             status:"Pending"
         },
         {
             id: "125252",
              date: "12/10/2024",
              buyer_name: "Atom Pharma",
-             quantity:"250 AED",
+             quantity:"250 USD",
              status:"Pending"
          },
          {
             id: "125252",
              date: "12/10/2024",
              buyer_name: "Atom Pharma",
-             quantity:"250 AED",
+             quantity:"250 USD",
              status:"Pending"
          },
          {
             id: "125252",
              date: "12/10/2024",
              buyer_name: "Atom Pharma",
-             quantity:"250 AED",
+             quantity:"250 USD",
              status:"Pending"
          },
          {
             id: "125252",
              date: "12/10/2024",
              buyer_name: "Atom Pharma",
-             quantity:"250 AED",
+             quantity:"250 USD",
              status:"Pending"
          },
 

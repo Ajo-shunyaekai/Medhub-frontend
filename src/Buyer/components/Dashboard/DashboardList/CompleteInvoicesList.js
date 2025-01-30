@@ -31,7 +31,7 @@ const CompleteInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "1478366",
             "customer_name":"Pharmaceuticals",
-            "amount":"244 AED",
+            "amount":"244 USD",
             "amount_type":"Card Payment",
             "status": "Pending"
         },
@@ -39,16 +39,7 @@ const CompleteInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "1478366",
             "customer_name":"Pharmaceuticals",
-            "amount":"244 AED",
-            "amount_type":"Card Payment",
-            "status": "Pending"
-        },
-           
-        {
-            "invoice_no": "3654646",
-            "order_id": "1478366",
-            "customer_name":"Pharmaceuticals",
-            "amount":"244 AED",
+            "amount":"244 USD",
             "amount_type":"Card Payment",
             "status": "Pending"
         },
@@ -57,7 +48,7 @@ const CompleteInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "1478366",
             "customer_name":"Pharmaceuticals",
-            "amount":"244 AED",
+            "amount":"244 USD",
             "amount_type":"Card Payment",
             "status": "Pending"
         },
@@ -66,7 +57,16 @@ const CompleteInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "1478366",
             "customer_name":"Pharmaceuticals",
-            "amount":"244 AED",
+            "amount":"244 USD",
+            "amount_type":"Card Payment",
+            "status": "Pending"
+        },
+           
+        {
+            "invoice_no": "3654646",
+            "order_id": "1478366",
+            "customer_name":"Pharmaceuticals",
+            "amount":"244 USD",
             "amount_type":"Card Payment",
             "status": "Pending"
         },
@@ -184,7 +184,7 @@ const CompleteInvoicesList = () => {
                                             <div className='table-text-color'>{invoice.supplier_name}</div>
                                         </div>  
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} AED</div>
+                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} USD</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{invoice.mode_of_payment}</div>

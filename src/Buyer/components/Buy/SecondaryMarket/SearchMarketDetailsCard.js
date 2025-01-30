@@ -32,7 +32,7 @@ const SearchDetailsCard = ({similarMedicines, totalItems, currentPage, itemsPerP
                             <div className='search-details-card-text-section'>
                                 <div className='search-details-card-text-head'>Unit Price :</div>
                                 <div className='search-details-card-test-text'>
-                                {search?.inventory_info?.[0]?.unit_price} AED
+                                {search?.inventory_info?.[0]?.unit_price} USD
                                     </div>
                             </div>
                             <div className='search-details-card-text-section'>

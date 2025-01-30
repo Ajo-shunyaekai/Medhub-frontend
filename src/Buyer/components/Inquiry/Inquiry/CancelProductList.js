@@ -10,16 +10,16 @@ const CancelProductList = ({items, inquiryDetails}) => {
   //     productId: '123654789',
   //     productName: 'Paracetamol',
   //     quantity: 1400,
-  //     listedPrice: '20 AED',
-  //     targetPrice: '14 AED',
+  //     listedPrice: '20 USD',
+  //     targetPrice: '14 USD',
   //     status: 'Pending',
   //   },
   //   {
   //     productId: '456123789',
   //     productName: 'Aspirin',
   //     quantity: 800,
-  //     listedPrice: '15 AED',
-  //     targetPrice: '10 AED',
+  //     listedPrice: '15 USD',
+  //     targetPrice: '10 USD',
   //     status: 'Pending',
   //   },
   // ];
@@ -68,11 +68,11 @@ const CancelProductList = ({items, inquiryDetails}) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Listed Price</span>
                   <span className="table-g-not-name">
-                    {/* {item.unit_price} AED */}
+                    {/* {item.unit_price} USD */}
                     {item.unit_price
-                        ? item.unit_price.toLowerCase().includes('aed')
-                            ? item.unit_price.replace(/aed/i, 'AED')
-                            : `${item.unit_price} AED` 
+                        ? item.unit_price.toLowerCase().includes('usd')
+                            ? item.unit_price.replace(/usd/i, 'USD')
+                            : `${item.unit_price} USD` 
                         : '-'}
                     </span>
                 </div>
@@ -81,11 +81,11 @@ const CancelProductList = ({items, inquiryDetails}) => {
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Target Price</span>
                   <span className="table-g-not-name">
-                    {/* {item.target_price} AED */}
+                    {/* {item.target_price} USD */}
                     {item.target_price
-                        ? item.target_price.toLowerCase().includes('aed')
-                            ? item.target_price.replace(/aed/i, 'AED')
-                            : `${item.target_price} AED` 
+                        ? item.target_price.toLowerCase().includes('usd')
+                            ? item.target_price.replace(/usd/i, 'USD')
+                            : `${item.target_price} USD` 
                         : '-'}
                     </span>
                 </div>

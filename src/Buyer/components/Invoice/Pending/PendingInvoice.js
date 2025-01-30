@@ -118,7 +118,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                             </td>
 
                                             <td className="flex">
-                                                <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                             </td>
                                             <td className="flex">
                                                 <span className="item-title text-color">{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</span>

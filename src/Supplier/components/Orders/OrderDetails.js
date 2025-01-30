@@ -64,7 +64,7 @@ const OrderDetails = ({productList}) => {
                             </div>
                             <div className='order-details-left-bottom-vehichle-no'>
                                 <div className='order-details-left-bottom-vehichle-no-head'>Total Cost</div>
-                                <div className='order-details-left-bottom-vehichle-no-text'>4000 AED</div>
+                                <div className='order-details-left-bottom-vehichle-no-text'>4000 USD</div>
                             </div>
 
                         </div>
@@ -87,7 +87,7 @@ const OrderDetails = ({productList}) => {
                     </div>
                     <div className='order-details-top-bottom-order-sect'>
                         <div className='order-details-top-bottom-order-heading'>Order Rate</div>
-                        <div className='order-details-top-bottom-order-content'>AED 2152/TRWB</div>
+                        <div className='order-details-top-bottom-order-content'>USD 2152/TRWB</div>
                     </div>
                     <div className='order-details-top-bottom-order-sect'>
                         <div className='order-details-top-bottom-order-heading'>Order Date & Time</div>
@@ -122,7 +122,7 @@ const OrderDetails = ({productList}) => {
                         <div className='order-details-payment-detention-head'>Due Invoices</div>
                         <div className='order-details-payment-detention-content'>
                             <div className='order-details-payment-detention-date'>20</div>
-                            {/* <div className='order-details-payment-detention-time'>AED 300</div> */}
+                            {/* <div className='order-details-payment-detention-time'>USD 300</div> */}
                         </div>
                     </div>
                     <div className='order-details-payment-first-terms-cont'>

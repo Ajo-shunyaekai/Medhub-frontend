@@ -98,7 +98,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                                     </div>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                    <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                                 </td>
                                                 <td className="flex">
                                                     <span className="item-title text-color">{invoice.mode_of_payment}</span>

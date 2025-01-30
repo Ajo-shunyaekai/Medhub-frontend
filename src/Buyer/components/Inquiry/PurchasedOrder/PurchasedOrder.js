@@ -51,7 +51,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
                           <div className="ongoing-section-heading">{data.supplier_name}</div>
                         </td>
                         <td className='ongoing-section-td'>
-                          <div className="ongoing-section-heading">{data.total_amount || totalAmount} AED</div>
+                          <div className="ongoing-section-heading">{data.total_amount || totalAmount} USD</div>
                         </td>
                         <td className='ongoing-section-td'>
                           <div className='ongoing-section-button'>
