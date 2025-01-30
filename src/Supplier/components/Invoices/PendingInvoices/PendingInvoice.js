@@ -128,7 +128,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             <>
                                 <tbody>
                                     <tr>
-                                        <td colSpan="6">
+                                        <td colSpan="12">
                                             <div className='pending-products-no-orders'>
                                                 No Pending Invoices
                                             </div>
@@ -141,6 +141,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                     }
                 </table>
             </div>
+            {
+                        invoiceList.length > 0 && (
             <div className='pending-invoice-pagination-conatiner-section'>
                 <div className='pagi-container'>
                     <Pagination
@@ -160,6 +162,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                     </div>
                 </div>
             </div>
+                        )}
         </div>
     )
 }

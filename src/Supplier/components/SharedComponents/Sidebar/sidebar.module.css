@@ -196,7 +196,8 @@ flex-direction: column;
   color: #448bff !important;
 }
 .noti_error{
-  text-align: center;
+font-size: 14px;
+font-weight: 500;
 }
 .noti_bottom_wrapper {
   display: flex;
