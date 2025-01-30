@@ -161,11 +161,11 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link to={`/supplier/edit-profile/${(supplierData?._id || sessionStorage.getItem('_id'))}`}>
+        {/* <Link to={`/supplier/edit-profile/${(supplierData?._id || sessionStorage.getItem('_id'))}`}>
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>

@@ -1,77 +1,125 @@
-import React from 'react'
-import styles from './editprofile.module.css'
-import { MdOutlineAttachEmail } from "react-icons/md";
-import { LuPhoneCall } from "react-icons/lu";
-import { FaRegAddressCard } from "react-icons/fa";
-import { BsCalendar2Date } from "react-icons/bs";
-import CompanyType from "../../../../assest/Images/companytype.svg"
-import CompanyName from "../../../../assest/Images/companyname.svg"
-
+import React, { useEffect } from "react";
+import styles from "./editprofile.module.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProfileEditReqsDetail,
+  updateProfileEditReqsDetail,
+} from "../../../../../redux/reducers/adminSlice";
+import { formatDate } from "../../../../../utils/dateFormatter";
+import { toast } from "react-toastify";
+ 
 const EditProfileDetails = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { profileEditReqDetail, loading } = useSelector(
+    (state) => state?.adminReducer
+  );
+ 
+  const handleAdminAction = async (action) => {
+    // Dispatch the action to update the profile
+    const apiPayload = {
+      id,
+      status: action,
+      type: "buyer",
+    };
+    const updatedProfileRequest = await dispatch(
+      updateProfileEditReqsDetail(apiPayload)
+    );
+ 
+    // After dispatching, check if the profile update was successful
+    if (updatedProfileRequest.meta.requestStatus === "fulfilled") {
+      toast.success("Success");
+      console.log("Success");
+    }
+  };
+ 
+  useEffect(() => {
+    if (id) {
+      dispatch(
+        fetchProfileEditReqsDetail(
+          `admin/get-profile-edit-request-details/buyer/${id}`
+        )
+      );
+    }
+  }, [id, dispatch]);
+ 
   return (
     <div className={styles.editProfileContainer}>
       <div className={styles.editProfileHead}>Profile ID : </div>
       <div className={styles.editProfileSection}>
         <div className={styles.editProfileInnerContainer}>
           <span className={styles.editProfileInnerHead}>Date & Time</span>
-          <div className={styles.editprofileAddSec}>
-          <BsCalendar2Date className={styles.icon} />
-          <span className={styles.editProfileInnerText}>12-12-2024  12:54:08</span>
-          </div>
+          <span className={styles.editProfileInnerText}>
+            {formatDate(profileEditReqDetail?.createdAt)}
+          </span>
         </div>
         <div className={styles.editProfileInnerContainer}>
           <span className={styles.editProfileInnerHead}>Buyer Name</span>
-          <div className={styles.editprofileAddSec}>
-          <img className={styles.editProfileImg} src={CompanyName} alt='Name'/>
-          <span className={styles.editProfileInnerText}>Pure Med Pharmaceuticals</span>
-          </div>
+          <span className={styles.editProfileInnerText}>
+            {profileEditReqDetail?.name}
+          </span>
         </div>
         <div className={styles.editProfileInnerContainer}>
           <span className={styles.editProfileInnerHead}>Company Type</span>
-          <div className={styles.editprofileAddSec}>
-          <img  className={styles.editProfileImg} src={CompanyType} alt='Name'/>
-          <span className={styles.editProfileInnerText}>End Users</span>
-          </div>
+          <span className={styles.editProfileInnerText}>
+            {profileEditReqDetail?.user_type}
+          </span>
         </div>
       </div>
-
-
+ 
       <div className={styles.editProfileSection}>
         <div className={styles.editProfileAddressContainer}>
-          <div className={styles.editProfileInnerHead}>Contact Details</div>
-          <div className={styles.editprofileAddSec}>
-            <MdOutlineAttachEmail className={styles.icon} />
-            <span className={styles.editProfileInnerText}>Shivanshitripathi82gmail.com</span>
-          </div>
-          <div className={styles.editprofileAddSec}>
-            <LuPhoneCall className={styles.icon} />
-            <span className={styles.editProfileInnerText}>+91 6265986969</span>
-          </div>
+          <span className={styles.editProfileInnerHead}>
+            Registered Address
+          </span>
+          {profileEditReqDetail?.registeredAddress?.company_reg_address
+            ?.value && (
+            <span className={styles.editProfileInnerText}>
+              {
+                profileEditReqDetail?.registeredAddress?.company_reg_address
+                  ?.value
+              }
+            </span>
+          )}
+          {profileEditReqDetail?.registeredAddress?.locality?.value && (
+            <span className={styles.editProfileInnerText}>
+              {profileEditReqDetail?.registeredAddress?.locality?.value}
+            </span>
+          )}
+          {(profileEditReqDetail?.registeredAddress?.land_mark?.value ||
+            profileEditReqDetail?.registeredAddress?.city?.value ||
+            profileEditReqDetail?.registeredAddress?.state?.value ||
+            profileEditReqDetail?.registeredAddress?.pincode?.value ||
+            profileEditReqDetail?.registeredAddress?.country?.value) && (
+            <span className={styles.editProfileInnerText}>
+              {profileEditReqDetail?.registeredAddress?.land_mark?.value}{" "}
+              {profileEditReqDetail?.registeredAddress?.city?.value}{" "}
+              {profileEditReqDetail?.registeredAddress?.state?.value}{" "}
+              {profileEditReqDetail?.registeredAddress?.pincode?.value}{" "}
+              {profileEditReqDetail?.registeredAddress?.country?.value}
+            </span>
+          )}
         </div>
-
-        <div className={styles.editProfileAddressContainer}>
-        <div className={styles.editProfileInnerHead}>Registered Address</div>
-          <div className={styles.editprofileAddSec}>
-            <FaRegAddressCard className={styles.icon} />
-            <div className={styles.editProfileAddInnerSec}>
-            <span className={styles.editProfileInnerText}>476 Udyog Vihar</span>
-            <span className={styles.editProfileInnerText}>Gurugram Haryana</span>
-            <span className={styles.editProfileInnerText}>India</span>
-            <div className={styles.editprofileAddSec}>
-            </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+ 
       <div className={styles.editButtonContainer}>
-        <button className={styles.editButtonSubmit}>Accept</button>
-        <button className={styles.editButtonCancel}>Reject</button>
+        <button
+          className={styles.editButtonSubmit}
+          onClick={(e) => handleAdminAction("Approved")}
+        >
+          Accept
+        </button>
+        <button
+          className={styles.editButtonCancel}
+          onClick={(e) => handleAdminAction("Rejected")}
+        >
+          Reject
+        </button>
       </div>
-
     </div>
-
-  )
-}
-
-export default EditProfileDetails
+  );
+};
+ 
+export default EditProfileDetails;
