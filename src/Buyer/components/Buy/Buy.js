@@ -80,16 +80,16 @@ const Buy = () => {
     const handleButtonClick = (button) => {
         switch (button) {
             case 'seller':
-                navigate('By-Supplier');
+                navigate('by-supplier');
                 break;
             case 'product':
-                navigate('By-Product');
+                navigate('by-product');
                 break;
             case 'market':
-                navigate('Secondary-Market');
+                navigate('secondary-market');
                 break;
             default:
-                navigate('By-Supplier');
+                navigate('by-supplier');
         }
     };
 
