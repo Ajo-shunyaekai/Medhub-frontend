@@ -8,7 +8,7 @@ import {
 } from "../../../../../redux/reducers/adminSlice";
 import { formatDate } from "../../../../../utils/dateFormatter";
 import { toast } from "react-toastify";
-
+ 
 const EditProfileDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const EditProfileDetails = () => {
   const { profileEditReqDetail, loading } = useSelector(
     (state) => state?.adminReducer
   );
-
+ 
   const handleAdminAction = async (action) => {
     // Dispatch the action to update the profile
     const apiPayload = {
@@ -27,14 +27,14 @@ const EditProfileDetails = () => {
     const updatedProfileRequest = await dispatch(
       updateProfileEditReqsDetail(apiPayload)
     );
-
+ 
     // After dispatching, check if the profile update was successful
     if (updatedProfileRequest.meta.requestStatus === "fulfilled") {
       toast.success("Success");
       console.log("Success");
     }
   };
-
+ 
   useEffect(() => {
     if (id) {
       dispatch(
@@ -44,7 +44,7 @@ const EditProfileDetails = () => {
       );
     }
   }, [id, dispatch]);
-
+ 
   return (
     <div className={styles.editProfileContainer}>
       <div className={styles.editProfileHead}>Profile ID : </div>
@@ -68,7 +68,7 @@ const EditProfileDetails = () => {
           </span>
         </div>
       </div>
-
+ 
       <div className={styles.editProfileSection}>
         <div className={styles.editProfileAddressContainer}>
           <span className={styles.editProfileInnerHead}>
@@ -103,7 +103,7 @@ const EditProfileDetails = () => {
           )}
         </div>
       </div>
-
+ 
       <div className={styles.editButtonContainer}>
         <button
           className={styles.editButtonSubmit}
@@ -121,5 +121,5 @@ const EditProfileDetails = () => {
     </div>
   );
 };
-
+ 
 export default EditProfileDetails;
