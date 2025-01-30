@@ -314,10 +314,11 @@ const SupplierSignUp = ({ socket }) => {
             if (!value.trim()) {
             errorMessage = 'Please enter bank details';
             }
+            
             // Validate number of fields
             else if (details.length > 3) {
             errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
-            }
+            } 
             else {
             const [bankName = '', accountNumber = '', ifscCode = ''] = details;
 
