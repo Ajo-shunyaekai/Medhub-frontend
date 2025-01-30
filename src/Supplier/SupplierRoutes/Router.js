@@ -61,6 +61,7 @@ import ForgotPassword from "../components/SharedComponents/Signup/ForgotPassword
 import EditProfile from "../components/SharedComponents/Profile/EditProfile";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
+import SupplierLogistics from "../components/Orders/SupplierLogistics";
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export const NotificationProvider = ({ children }) => {
@@ -418,6 +419,10 @@ const router = createBrowserRouter([
         path: "edit-profile/:id",
         element: <EditProfile />,
       },
+      {
+        path:"supplier-logistics",
+        element:<SupplierLogistics/>
+      }
     ],
   },
   {

@@ -159,22 +159,6 @@ const Product = () => {
                             />}
                     </>
                 )}
-                {/* {activeButton === 'newproduct' && 
-                <NewProduct
-                    productList = {medicineList}
-                    totalItems = {totalItems}
-                    currentPage = {currentPage}
-                    itemsPerPage    = {itemsPerPage}
-                    handlePageChange = {handlePageChange}
-                 />}
-                {activeButton === 'secondarymarket' && 
-                <SecondaryMarket 
-                    productList = {medicineList}
-                    totalItems = {totalItems}
-                    currentPage = {currentPage}
-                    itemsPerPage    = {itemsPerPage}
-                    handlePageChange = {handlePageChange}
-                />} */}
             </div>
         </>
     )

@@ -362,10 +362,9 @@ const SupSidebar = ({ children, dragWindow,
                                                                     <span className={styles.noti_heading}>{heading}</span>
                                                                     <span className={styles.noti_content}>{content}
                                                                     </span>
+                                                                    <span className={styles.noti_time}>4 hours ago</span>
                                                                     </div>
-                                                                    <div className={styles.noti_profile_content}>
-                                                                    <span className={styles.noti_time}>11:12 <br/>16-12-2024</span>
-                                                                    </div>
+                                                                   
                                                                 </div>
                                                               
                                                             </div>
