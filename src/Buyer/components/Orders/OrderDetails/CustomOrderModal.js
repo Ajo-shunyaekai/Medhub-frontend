@@ -346,11 +346,11 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                      onClick={handleSubmit}
                      disabled={loading}
                      >
-                        {/* Request Seller for Further Details */}
+                        {/* Request Supplier for Further Details */}
                         {loading ? (
                                 <div className='loading-spinner'></div> 
                             ) : (
-                                'Request Seller for Further Details'
+                                'Request Supplier for Further Details'
                             )}
                     </button>
                 </div>

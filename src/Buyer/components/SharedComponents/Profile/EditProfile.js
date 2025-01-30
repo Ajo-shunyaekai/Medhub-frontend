@@ -317,49 +317,6 @@ const EditProfile = () => {
                 <label className={styles.editLabel}>
                   Phone Number <span className={styles.labelStamp}>*</span>
                 </label>
-                {/* <PhoneInput
-                  className="signup-form-section-phone-input"
-                  name="phoneNumber"
-                  defaultCountry="gb"
-                  value={formik.values.phoneNumber}
-                  onChange={(phone) => formik.setFieldValue("phoneNumber", phone)}
-                /> */}
-                {/* <PhoneInput
-                  className="signup-form-section-phone-input"
-                  // country={selectedCountry?.value || "US"} // Default to "US" if no country selected
-                  country={
-                      Country.getAllCountries()?.filter(country=>  country?.phonecode?.replace("+", "") === user?.contact_person_country_code?.replace("+", ""))?.[0]?.isoCode
-                  }
-                  value={formik.values.phoneNumber}
-                  onChange={(value) => handlePhoneChange("phoneNumber", value)}
-                  placeholder="Enter phone number"
-                /> */}
-                {/* <PhoneInput
-                  className="signup-form-section-phone-input"
-                  country={
-                    Country.getAllCountries()?.filter(
-                      (country) =>
-                        country?.phonecode?.replace("+", "") ===
-                        user?.contact_person_country_code?.replace("+", "")
-                    )?.[0]?.isoCode
-                  }
-                  value={formik.values.phoneNumber}
-                  onChange={(value) => handlePhoneChange("phoneNumber", value)}
-                  placeholder="Enter phone number"
-                /> */}
-                {/* <PhoneInput
-                  className="signup-form-section-phone-input"
-                  country={
-                    Country.getAllCountries()?.filter(
-                      (country) =>
-                        country?.phonecode?.replace("+", "") ===
-                        user?.contact_person_country_code?.replace("+", "")
-                    )?.[0]?.isoCode
-                  }
-                  value={formik.values.phoneNumber}
-                  onChange={(value) => handlePhoneChange("phoneNumber", value)} // This triggers the handler for phone number change
-                  placeholder="Enter phone number"
-                /> */}
                 <PhoneInput
                   className="signup-form-section-phone-input"
                   defaultCountry={
