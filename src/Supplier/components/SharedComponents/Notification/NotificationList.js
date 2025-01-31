@@ -88,7 +88,13 @@ const NotificationList = () => {
                 break;  
             case 'editsecondarymedicine':
                 navigate(`/supplier/secondary-product-details/${eventId}`);
-                break;      
+                break;   
+            case 'Profile Edit Approved':
+                navigate(`/supplier/profile/${sessionStorage.getItem('_id')}`);
+                break; 
+            case 'Profile Edit Rejected':
+                navigate(`/supplier/profile/${sessionStorage.getItem('_id')}`);
+                break;    
                 
             default:
                 navigate('/supplier/');

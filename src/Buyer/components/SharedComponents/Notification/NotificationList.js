@@ -65,6 +65,12 @@ const NotificationList = () => {
             case 'invoice':
                 navigate(`/buyer/invoice/Pending-Invoice`);
                 break; 
+                case 'Profile Edit Approved':
+                    navigate(`/buyer/profile/${sessionStorage.getItem('_id')}`);
+                    break; 
+                case 'Profile Edit Rejected':
+                    navigate(`/buyer/profile/${sessionStorage.getItem('_id')}`);
+                    break; 
             default:
                 navigate('/buyer/');
                 break;
