@@ -24,7 +24,7 @@ const SupplierRequestDetails = () => {
     const [rejectLoading, setRejectLoading] = useState(false)
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
-    const [salesPersonName, setSalesPersonName] = useState(""); // initial value
+    const [salesPersonName, setSalesPersonName] = useState(""); 
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
@@ -141,8 +141,12 @@ const SupplierRequestDetails = () => {
             sales_person_name: salesPersonName
         }
         console.log('salesPersonName',salesPersonName)
-        if(salesPersonName == '' || salesPersonName == null) {
-            return toast('Sales Person is required',{ type: 'error' })
+        // if(salesPersonName == '' || salesPersonName == null) {
+        //     return toast('Sales Person is required',{ type: 'error' })
+        // }
+
+        if (!salesPersonName) {
+            return toast('Sales Person is required', { type: 'error' });
         }
 
         if (action === 'accept') {
@@ -162,6 +166,7 @@ const SupplierRequestDetails = () => {
 
                 // setSupplierDetails(response.result)
             } else {
+                setLoading(false);
                 console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
@@ -445,3 +450,4 @@ const SupplierRequestDetails = () => {
 };
 
 export default SupplierRequestDetails;
+

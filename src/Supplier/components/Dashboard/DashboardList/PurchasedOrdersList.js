@@ -80,13 +80,13 @@ const PurchasedOrdersList = () => {
                                     <div className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>PO Date</span>
                                     </div>
-                                    <div className='completed-table-row-item completed-table-order-2'>
+                                    <div className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Buyer Name</span>
                                     </div>
                                     <div className='completed-table-row-item completed-table-order-1'>
                                         <span className='completed-header-text-color'>Status</span>
                                     </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
+                                    <div className='completed-table-row-item completed-table-order-2'>
                                         <span className='completed-header-text-color'>Action</span>
                                     </div>
 
@@ -108,7 +108,7 @@ const PurchasedOrdersList = () => {
                                                 <div className='completed-table-row-item completed-table-order-1'>
                                                     <div className='completed-table-text-color'>{order.po_date}</div>
                                                 </div>
-                                                <div className='completed-table-row-item  completed-table-order-2'>
+                                                <div className='completed-table-row-item  completed-table-order-1'>
                                                     <div className='table-text-color'>{order.buyer_name}</div>
                                                 </div>
                                                 <div className='completed-table-row-item completed-table-order-1'>
@@ -116,7 +116,7 @@ const PurchasedOrdersList = () => {
                                                         {order?.po_status?.charAt(0).toUpperCase() + order?.po_status?.slice(1)}
                                                     </div>
                                                 </div>
-                                                <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                <div className='completed-table-row-item  completed-order-table-btn completed-table-order-2'>
                                                     <Link to={`/supplier/proforma-invoice/${order.purchaseOrder_id}`}>
                                                         <div className='ongoing-section-button-section-cont'>
                                                             <span className='ongoing-section-orders-button'>Make Order</span>

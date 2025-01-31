@@ -317,7 +317,7 @@ const EditProformaInvoice = () => {
                                 name='depositRequested'
                                 placeholder='Enter Deposit Requested'
                                 {...register('depositRequested',{ validate: value => value?.trim() !== '' || 'Deposit requested is required' })}
-                                // value={`AED ${watch('totalDueAmount') || ''}`}
+                                // value={`USD ${watch('totalDueAmount') || ''}`}
                                 onInput={handleNumberInput}
                                 />
                                 {errors.depositRequested && <p>{errors.depositRequested.message}</p>}

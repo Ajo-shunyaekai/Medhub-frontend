@@ -9,9 +9,9 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
     const ordersPerPage = 10;
 
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 AED' },
-        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 AED' },
-        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, targetprice: '10 USD' },
+        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, targetprice: '14 USD' },
+        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, targetprice: '18 USD' },
     ];
 
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -58,9 +58,9 @@ const SellerInquiryProductList = ({ items, setCounterChecked, setAcceptChecked, 
                                 <span className="table-g-driver-name">Target Price</span>
                                 <span className="table-g-not-name">
                                 {item.target_price
-                                    ? item.target_price.toLowerCase().includes('aed')
-                                        ? item.target_price.replace(/days/i, 'AED')
-                                        : `${item.target_price} AED` 
+                                    ? item.target_price.toLowerCase().includes('usd')
+                                        ? item.target_price.replace(/days/i, 'USD')
+                                        : `${item.target_price} USD` 
                                     : '-'}
                                 </span>
                             </div>

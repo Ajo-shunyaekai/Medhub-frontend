@@ -21,7 +21,7 @@ const DetailsBuyerRequest = () => {
     const adminIdLocalStorage = localStorage.getItem("admin_id");
     const [open, setOpen] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
-    const [salesPersonName, setSalesPersonName] = useState("John Doe");
+    const [salesPersonName, setSalesPersonName] = useState("");
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
@@ -120,6 +120,7 @@ const DetailsBuyerRequest = () => {
                     return;
                 }
                 setBuyerDetails(response?.result);
+                setSalesPersonName(response?.result?.sales_person_name)
 
             } catch (error) {
                 console.log('error in get-buyer-details api', error);
@@ -133,7 +134,11 @@ const DetailsBuyerRequest = () => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
             buyer_id: buyerId,
-            action: action
+            action: action,
+            sales_person_name: salesPersonName
+        }
+        if (!salesPersonName) {
+             return toast('Sales Person is required', { type: 'error' });
         }
         if (action === 'accept') {
             setLoading(true)

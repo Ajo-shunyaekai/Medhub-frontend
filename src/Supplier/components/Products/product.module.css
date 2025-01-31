@@ -105,7 +105,7 @@
   padding: 16px 0px;
   display: flex;
   justify-content: start;
-  gap: 1rem;
+  gap: 10px;
   flex-wrap: wrap;
 }
 .new-product-pagination-section{
@@ -126,6 +126,7 @@
 .support-add-card .support-add-icon {
   font-size: 2rem !important;
   color: #99a0ac;
+  cursor: pointer !important;
 }
 
 .support-add-icon-container {

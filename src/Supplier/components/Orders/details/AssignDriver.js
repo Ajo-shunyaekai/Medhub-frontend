@@ -7,9 +7,9 @@
 //     const [currentPage, setCurrentPage] = useState(1);
 //     const ordersPerPage = 10; 
 //     const activeOrders = [
-//         { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
-//         { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, totalAmount: '300 AED' },
-//         { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, totalAmount: '450 AED' },
+//         { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 USD' },
+//         { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, totalAmount: '300 USD' },
+//         { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, totalAmount: '450 USD' },
 //     ];
 
 //     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -148,9 +148,9 @@ const AssignDriver = ({ productList }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 1;
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, totalAmount: '300 AED' },
-        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, totalAmount: '450 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234568', productName: 'Ibuprofen', quantity: 100, totalAmount: '300 USD' },
+        { productId: 'PR1234569', productName: 'Aspirin', quantity: 150, totalAmount: '450 USD' },
     ];
 
     const data = productList && productList.length > 0 ? productList : activeOrders;

@@ -33,11 +33,11 @@ const Profile = () => {
               size={50}
               color="red"
               style={{ cursor: "pointer" }}
-              onClick={() => window.open(fileUrl, "_blank")}
+              // onClick={() => window.open(fileUrl, "_blank")}
             />
             <div
               className={styles.fileName}
-              onClick={() => window.open(fileUrl, "_blank")}
+              // onClick={() => window.open(fileUrl, "_blank")}
             >
               {extractFileName(file)}
             </div>
@@ -61,11 +61,11 @@ const Profile = () => {
               size={50}
               color="blue"
               style={{ cursor: "pointer" }}
-              onClick={() => window.open(docxUrl, "_blank")}
+              // onClick={() => window.open(docxUrl, "_blank")}
             />
             <div
               className={styles.fileName}
-              onClick={() => window.open(docxUrl, "_blank")}
+              // onClick={() => window.open(docxUrl, "_blank")}
             >
               {extractFileName(docxFileName)}
             </div>

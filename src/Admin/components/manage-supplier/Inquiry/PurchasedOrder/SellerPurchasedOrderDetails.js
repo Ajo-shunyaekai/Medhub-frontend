@@ -161,13 +161,13 @@ const SellerPurchasedOrderDetails = () => {
                                   <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
+                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} USD</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                   <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.medicine_details?.unit_tax}%</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
+                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} USD </p>
                                 </td>
                               </tr>
 
@@ -183,7 +183,7 @@ const SellerPurchasedOrderDetails = () => {
                                     <tbody>
                                       <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Total Amount :</p>
-                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{totalAmount.toFixed(2)} AED</p>
+                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{totalAmount.toFixed(2)} USD</p>
                                       </tr>
                                       
 

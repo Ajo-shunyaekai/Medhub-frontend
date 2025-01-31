@@ -18,8 +18,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
 }
-
 .innerHeading {
     font-size: 18px;
     font-weight: 500;
@@ -32,13 +33,13 @@
 
 .checkboxInput {
     margin-right: 8px;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .checkboxLabel {
     font-size: 14px;
     color: #333;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .formLogistics {
@@ -64,7 +65,13 @@
     row-gap: 6px;
     width: 23.6%;
 }
-
+.logisticInputSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    row-gap: 6px;
+    width: 26%; 
+}
 .formLabel {
     font-size: 14px;
     font-weight: 500;
@@ -92,7 +99,8 @@
 .logisticesDimensionSection {
     display: flex;
     flex-direction: column;
-    row-gap: 6px;
+    row-gap: 8px;
+    width: 42%;
 }
 
 .dimensionSections {
@@ -108,6 +116,7 @@
     font-size: 14px !important;
     outline: none !important;
     padding: 10px !important;
+    width: 40% !important;
 }
 
 .headBillSection {
@@ -127,7 +136,7 @@
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
-    cursor: pointer;
+    cursor: pointer !important;
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -162,34 +171,42 @@
 }
 
 .radioInput {
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .removeButton {
     display: flex;
     justify-content: end;
     align-items: center;
-    cursor: pointer;
-    position: relative;
+    cursor: pointer !important;;
+    position: absolute; 
+    top: 50%; 
+    right: 16px;
+    transform: translateY(-50%);
+    cursor: pointer !important; 
 }
 
 .removeButtons {
     display: flex;
     justify-content: end;
     align-items: center;
-    cursor: pointer;
-    position: relative;
-    left: 23%;
-    right: 20%;
+    cursor: pointer !important;;
+    position: absolute; 
+    top: 50%; 
+    right: 16px;
+    transform: translateY(-50%);
+    cursor: pointer !important; 
 }
 
 .crossButton {
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 4px 10px;
+    padding: 2px 8px;
+    font-size: 13px;
     border-radius: 4px;
     display: flex;
     align-items: center;
     font-weight: 500;
+    cursor: pointer !important;
 }
 
 /* END THE ADDRESS CONTAINER */
@@ -200,7 +217,7 @@
     justify-content: center;
     column-gap: 20px;
     margin-top: 30px;
-    margin-bottom: 120px;
+    margin-bottom:30rem;
 }
 
 .logistic-cancel {
@@ -214,7 +231,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .logistic-submit {
@@ -228,7 +245,7 @@
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 /* style the drop details card */
@@ -236,7 +253,6 @@
     width: 100%;
     display: flex;
     gap: 20px;
-    align-items: center;
 }
 
 .logisticsMainHeading {
@@ -264,7 +280,7 @@
 .addressText {
     font-size: 14px;
     color: #333;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .typeAdresss {
@@ -277,7 +293,7 @@
     border-radius: 2px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;;
 }
 
 .transportInnerSection {
@@ -301,5 +317,11 @@
 @media screen and (max-width: 1350px) {
     .logisticesInputSection {
         width: 31.6%;
+    }
+    .logisticInputSection{
+        width: 29.8%; 
+    }
+    .logisticesDimensionSection {
+        width: 59%;
     }
 }

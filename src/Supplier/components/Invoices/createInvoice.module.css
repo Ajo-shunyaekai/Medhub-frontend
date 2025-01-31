@@ -11,6 +11,9 @@
   height: 100vh;
   margin: auto;
 }
+.create-invoice-container::-webkit-scrollbar{
+  display: none;
+}
 .create-invoice-form-main-container{
   display: flex;
   flex-direction: column;

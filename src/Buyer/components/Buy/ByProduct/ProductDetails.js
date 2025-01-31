@@ -328,7 +328,7 @@ const handleTargetPriceChange = (e) => {
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Unit Price</div>
-                <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} AED`} readOnly />
+                <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} USD`} readOnly />
               </div>
               <div className="buyer-product-range-text">
                 <div className="buyer-product-range-heading">Est. Delivery Time</div>

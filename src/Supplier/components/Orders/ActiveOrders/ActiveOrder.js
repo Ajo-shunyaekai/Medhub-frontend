@@ -168,6 +168,8 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                             </table>
                         </div>
                         {modal && <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={activeLink} />}
+                        {
+                                    orderList.length > 0 && (
                         <div className='pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -188,6 +190,7 @@ const ActiveOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                 </div>
                             </div>
                         </div>
+                                    )}
                     </div>
                 </div>
             </div>

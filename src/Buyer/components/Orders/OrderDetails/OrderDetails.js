@@ -194,6 +194,7 @@ const OrderDetails = ({ socket }) => {
                                 {
                                     orderDetails?.status === 'Active' ?
                                         <div className="buyer-order-details-top-order-cont">
+                                            {/* <Link to='/buyer/logistics-form'> */}
                                             <div
                                                 className="buyer-order-details-left-top-main-heading-button"
                                                 onClick={() => setIsModalOpen(true)}
@@ -201,6 +202,7 @@ const OrderDetails = ({ socket }) => {
                                                 Book Logistics
                                             </div>
                                             <div className="buyer-order-details-left-top-main-contents"></div>
+                                            {/* </Link> */}
                                         </div> : ''
                                 }
 

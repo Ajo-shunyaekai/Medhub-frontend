@@ -9,9 +9,9 @@ const LogisticsProductList = ({ orderItems }) => {
   const ordersPerPage = 3;
 
   const activeOrders = [
-    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED', est_delivery_days: '10 Days' },
-    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED', est_delivery_days: '10 Days' },
-    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED', est_delivery_days: '10 Days' },
+    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD', est_delivery_days: '10 Days' },
+    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD', est_delivery_days: '10 Days' },
+    { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD', est_delivery_days: '10 Days' },
   ];
 
   const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
@@ -58,7 +58,7 @@ const LogisticsProductList = ({ orderItems }) => {
                 </td>
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
-                    <span>{item.total_amount || item.item_price} AED</span>
+                    <span>{item.total_amount || item.item_price} USD</span>
                   </div>
                 </td>
                 <td className={styles.td}>

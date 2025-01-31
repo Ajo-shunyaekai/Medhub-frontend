@@ -11,7 +11,7 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 import { postRequestWithToken } from "../api/Requests";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
-
+ 
 // Lazy-load the components
 const SupplierSidebar = lazy(() =>
   import("../components/SharedComponents/Sidebar/SupSidebar")
@@ -142,21 +142,21 @@ const ForgotPassword = lazy(() =>
 const EditProfile = lazy(() =>
   import("../components/SharedComponents/Profile/EditProfile")
 );
-
+ 
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
-
+ 
 export const NotificationProvider = ({ children }) => {
   const dispatch = useDispatch();
   const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage.getItem("supplier_id");
   const location = useLocation();
   const navigate = useNavigate();
-
+ 
   const [invoiceCount, setInvoiceCount] = useState();
   const [notificationList, setNotificationList] = useState([]);
   const [count, setCount] = useState();
   const [refresh, setRefresh] = useState(false);
-
+ 
   const showNotification = (title, options, url) => {
     if (Notification.permission === "granted") {
       const notification = new Notification(title, options);
@@ -166,7 +166,7 @@ export const NotificationProvider = ({ children }) => {
       };
     }
   };
-
+ 
   const fetchNotifications = () => {
     const obj = {
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
@@ -180,7 +180,7 @@ export const NotificationProvider = ({ children }) => {
       }
     });
   };
-
+ 
   const fetchInvoiceCount = () => {
     const obj = {
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
@@ -193,7 +193,7 @@ export const NotificationProvider = ({ children }) => {
       }
     });
   };
-
+ 
   const handleClick = (id, event) => {
     const obj = {
       notification_id: id,
@@ -214,7 +214,7 @@ export const NotificationProvider = ({ children }) => {
       }
     );
   };
-
+ 
   useEffect(() => {
     if (
       !supplierIdSessionStorage &&
@@ -224,16 +224,16 @@ export const NotificationProvider = ({ children }) => {
       navigate("/supplier/login");
     }
   }, [location.pathname]);
-
+ 
   useEffect(() => {
     if (supplierIdSessionStorage || supplierIdLocalStorage) {
       const supplierId = supplierIdSessionStorage || supplierIdLocalStorage;
-
+ 
       fetchInvoiceCount();
       fetchNotifications();
-
+ 
       socket.emit("register", supplierId);
-
+ 
       const notificationEvents = [
         { event: "newEnquiry", title: "New Enquiry Received" },
         { event: "POCreated", title: "PO Created" },
@@ -253,7 +253,7 @@ export const NotificationProvider = ({ children }) => {
           title: "Update on Edit Medicine Request",
         },
       ];
-
+ 
       notificationEvents.forEach(({ event, title }) => {
         socket.on(event, (message) => {
           const enquiryLink = `${process.env.REACT_APP_SUPPLIER_URL}/notification-list`;
@@ -265,11 +265,11 @@ export const NotificationProvider = ({ children }) => {
           fetchNotifications();
         });
       });
-
+ 
       socket.on("updateNotification", () => {
         fetchNotifications();
       });
-
+ 
       return () => {
         notificationEvents.forEach(({ event }) => {
           socket.off(event);
@@ -278,7 +278,7 @@ export const NotificationProvider = ({ children }) => {
       };
     }
   }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
-
+ 
   return (
     <SupplierSidebar
       invoiceCount={invoiceCount}
@@ -290,7 +290,7 @@ export const NotificationProvider = ({ children }) => {
     </SupplierSidebar>
   );
 };
-
+ 
 const router = createBrowserRouter([
   {
     path: "/supplier/login",
@@ -708,5 +708,5 @@ const router = createBrowserRouter([
 function Router() {
   return <RouterProvider router={router} />;
 }
-
+ 
 export default Router;

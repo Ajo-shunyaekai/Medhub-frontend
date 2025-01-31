@@ -23,12 +23,12 @@ const DashboardOngoing = () => {
         setModal(!modal)
     }
 
-    const [orderList, setOrderList]     = useState([])
+    const [orderList, setOrderList] = useState([])
     const [totalOrders, setTotalOrders] = useState()
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage     = 5;
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const ordersPerPage = 5;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     // const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
@@ -38,18 +38,18 @@ const DashboardOngoing = () => {
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem('supplier_id')
-        const supplierIdLocalStorage   = localStorage.getItem('supplier_id')
+        const supplierIdLocalStorage = localStorage.getItem('supplier_id')
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-        navigate("/supplier/login");
-        return;
+            navigate("/supplier/login");
+            return;
         }
-        
+
         const obj = {
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            filterKey   : 'active',
-            page_no     : currentPage, 
-            limit       : ordersPerPage,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+            filterKey: 'active',
+            page_no: currentPage,
+            limit: ordersPerPage,
         }
 
         postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
@@ -57,10 +57,10 @@ const DashboardOngoing = () => {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             } else {
-               console.log('error in order list api',response);
+                console.log('error in order list api', response);
             }
-          })
-    },[currentPage])
+        })
+    }, [currentPage])
 
     return (
         <>
@@ -94,76 +94,77 @@ const DashboardOngoing = () => {
                             </thead>
 
                             <tbody className='bordered'>
-                               {
-                            orderList && orderList.length > 0 ? (
+                                {
+                                    orderList && orderList.length > 0 ? (
                                         orderList.map((order, i) => {
                                             const totalQuantity = order.items.reduce((total, item) => {
                                                 return total + (item.quantity || item.quantity_required);
-                                              }, 0);
-                                              const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                            }, 0);
+                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
-                                    <div className='completed-table-row-container'>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order.order_id}</div>
-                                        </div>
+                                                <div className='completed-table-row-container'>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{order.order_id}</div>
+                                                    </div>
 
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{orderedDate}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{order.buyer.buyer_name}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{totalQuantity}</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1) }</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/supplier/active-orders-details/${order.order_id}`}>
-                                                <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
-                                            </Link>
-                                            {/* <div className='request-section-delete' onClick={() => showModal(order.order_id)}>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{orderedDate}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item  completed-table-order-2'>
+                                                        <div className='table-text-color'>{order.buyer.buyer_name}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{totalQuantity}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item completed-table-order-1'>
+                                                        <div className='completed-table-text-color'>{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}</div>
+                                                    </div>
+                                                    <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                        <Link to={`/supplier/active-orders-details/${order.order_id}`}>
+                                                            <div className='completed-order-table completed-order-table-view '><RemoveRedEyeOutlinedIcon className="table-icon" /></div>
+                                                        </Link>
+                                                        {/* <div className='request-section-delete' onClick={() => showModal(order.order_id)}>
                                                 <HighlightOffIcon className='request-section-off' />
                                             </div> */}
-                                        </div>
-                                    </div>
-                                 ) 
-                                })
-                            ) :  (
-                                <>
-                                <div className='pending-products-no-orders'>
-                                    No Active Orders
-                                </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    ) : (
+                                        <>
+                                            <div className='pending-products-no-orders'>
+                                                No Active Orders
+                                            </div>
 
-                            </>
-                                
-                        )
-                        }
+                                        </>
+
+                                    )
+                                }
                             </tbody>
                         </Table>
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
+                        {orderList?.length > 0 && (
+                            <div className='completed-pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={ordersPerPage}
+                                    totalItemsCount={totalOrders}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
                                 <div className='completed-pagi-total'>
                                     Total Items: {totalOrders}
                                 </div>
                             </div>
-                        </div>
+                        )}
+
 
                         {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
+                            modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
                         }
                     </div>
                 </div>

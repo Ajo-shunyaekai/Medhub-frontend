@@ -66,7 +66,7 @@ const SellerTransactionDetails = () => {
                             <div className='transaction-details-left-inner-section'>
                               <div className='transaction-details-left-company-type'>
                                 <div className='transaction-details-company-type-sec-head'>Amount:</div>
-                                <div className='transaction-details-company-type-sec-text'>{transactionDetails?.total_amount_paid} AED</div>
+                                <div className='transaction-details-company-type-sec-text'>{transactionDetails?.total_amount_paid} USD</div>
                               </div>
                               <div className='transaction-details-left-company-type'>
                                 <div className='transaction-details-company-type-sec-head'>Payment Type:</div>

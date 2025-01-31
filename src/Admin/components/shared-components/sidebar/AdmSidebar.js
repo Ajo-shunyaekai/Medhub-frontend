@@ -232,20 +232,6 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                 />
                 Completed Orders
               </Link>
-
-              <Link
-                to="/admin/complete-order"
-                className={styles.sidebar_text}
-                activeclassname={styles.active}
-                style={{ width: "170px" }}
-              >
-                <img
-                  src={order_list}
-                  alt="order icon"
-                  style={{ padding: "6px 6px 0px 10px" }}
-                />
-                Pending Orders
-              </Link>
             </div>
           )}
           <div className={styles.dropdown} style={{ marginTop: '8px' }}>
@@ -462,11 +448,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                   <span className={styles.noti_head_content}>
                                     {content.length > 100 ? `${content.slice(0, 100)}...` : content}
                                   </span>
-                                </div>
-                                <div className={styles.noti_profile}>
-                                  11:12
-                                  <br />
-                                  12-10-2025
+                                  <span className={styles.noti_profile}> 11:12  12-10-2025</span>
                                 </div>
                               </div>
                             );
