@@ -3,6 +3,7 @@ import styles from "./profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaRegAddressCard } from "react-icons/fa";
+import Loader from "../Loader/Loader";
 
 const Profile = () => {
   const [adminData, setAdminData] = useState(null);
@@ -22,7 +23,7 @@ const Profile = () => {
     }
   }, []);
 
-  if (!adminData) return <div>Loading...</div>;
+  if (!adminData) return <Loader />;
 
   return (
     <div className={styles.container}>

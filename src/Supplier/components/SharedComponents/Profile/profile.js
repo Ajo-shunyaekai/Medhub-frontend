@@ -3,90 +3,17 @@ import styles from "./profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaRegAddressCard } from "react-icons/fa";
-import { FaFilePdf, FaFileWord } from 'react-icons/fa';
-import { Link } from "react-router-dom";
+import { FaFilePdf, FaFileWord } from "react-icons/fa";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
+import Loader from "../Loader/Loader";
 
 const Profile = () => {
-  const [supplierData, setSupplierData] = useState(null);
-  useEffect(() => {
-    const supplierId = sessionStorage.getItem("supplier_id");
-    const supplierName = sessionStorage.getItem("supplier_name");
-    const supplierEmail = sessionStorage.getItem("contact_person_email");
-    const supplierMobileCode = sessionStorage.getItem("supplier_country_code");
-    const supplierMobile = sessionStorage.getItem("supplier_mobile");
-    const supplierAddress = sessionStorage.getItem("supplier_address");
-    const supplierImage = sessionStorage.getItem("supplier_image");
-    const supplierType = sessionStorage.getItem("supplier_type");
-    const supplierPersonCountryCode = sessionStorage.getItem("contact_person_country_code");
-    const supplierPersonMobileNo = sessionStorage.getItem("contact_person_mobile_no");
-    const supplierPersonName = sessionStorage.getItem("contact_person_name");
-    const supplierOperation = sessionStorage.getItem("country_of_operation");
-    const supplierOrigin = sessionStorage.getItem("country_of_origin");
-    const supplierDesignation = sessionStorage.getItem("designation");
-    const supplierLicanseDate = sessionStorage.getItem("license_expiry_date");
-    const supplierLicaneseNo = sessionStorage.getItem("license_no");
-    const suppliertags = sessionStorage.getItem("tags");
-    const supplierTaxNo = sessionStorage.getItem("tax_no");
-    const supplierVatRegNo = sessionStorage.getItem("vat_reg_no");
-    const supplierRegistrationNo = sessionStorage.getItem("registration_no");
-    const supplierDescription = sessionStorage.getItem("description");
-    const supplierBankDetails = sessionStorage.getItem("bank_details");
-    const supplierSalesName = sessionStorage.getItem("sales_person_name");
-    const supplierTaxImage = sessionStorage.getItem("tax_image");
-    const supplierLicenseImage = sessionStorage.getItem("license_image");
-    const supplierCertificateImage = sessionStorage.getItem("certificate_image");
-    const supplierActivityCode = sessionStorage.getItem("activity_code");
-    const supplierMedicalImage = sessionStorage.getItem("medical_certificate")
-
-    const supplierLocality = sessionStorage.getItem("locality");
-    const supplierLandMark = sessionStorage.getItem("land_mark");
-    const supplierCity = sessionStorage.getItem("city");
-    const supplierState = sessionStorage.getItem("state");
-    const supplierCountry = sessionStorage.getItem("country");
-    const supplierPincode = sessionStorage.getItem("pincode")
-    const _id = sessionStorage.getItem("_id")
-    
-
-    if (supplierId) {
-      setSupplierData({
-        supplierId,
-        supplierName,
-        supplierEmail,
-        supplierMobileCode,
-        supplierMobile,
-        supplierAddress,
-        supplierImage,
-        supplierType,
-        supplierPersonCountryCode,
-        supplierPersonMobileNo,
-        supplierSalesName,
-        supplierPersonName,
-        supplierRegistrationNo,
-        supplierOperation,
-        supplierOrigin,
-        supplierDesignation,
-        supplierLicanseDate,
-        supplierLicaneseNo,
-        suppliertags,
-        supplierTaxNo,
-        supplierVatRegNo,
-        supplierDescription,
-        supplierBankDetails,
-        supplierActivityCode,
-        supplierLicenseImage,
-        supplierCertificateImage,
-        supplierTaxImage,
-        supplierMedicalImage,
-        supplierLocality,
-        supplierLandMark, 
-        supplierCity,
-        supplierState,
-        supplierCountry ,
-        supplierPincode,
-        _id
-      });
-    }
-  }, []);
+  const { user } = useSelector((state) => state?.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const extractFileName = (url) => (url ? url.split("/").pop() : "Unknown");
   const renderFiles = (files, type) => {
@@ -98,7 +25,7 @@ const Profile = () => {
     }
 
     return files.map((file, index) => {
-      const fileUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplierImage_files/${file}`;
+      const fileUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${file}`;
 
       if (file.endsWith(".pdf")) {
         return (
@@ -118,14 +45,16 @@ const Profile = () => {
           </div>
         );
       } else if (
-        file.endsWith(".vnd.openxmlformats-officedocument.wordprocessingml.document") ||
+        file.endsWith(
+          ".vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) ||
         file.endsWith(".docx")
       ) {
         const docxFileName = file.replace(
           ".vnd.openxmlformats-officedocument.wordprocessingml.document",
           ".docx"
         );
-        const docxUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplierImage_files/${docxFileName}`;
+        const docxUrl = `${process.env.REACT_APP_SERVER_URL}/uploads/supplier/supplier_image_files/${docxFileName}`;
 
         return (
           <div key={index} className={styles.docxSection}>
@@ -156,22 +85,31 @@ const Profile = () => {
     });
   };
 
-  if (!supplierData) return <div>Loading...</div>;
+  useEffect(() => {
+    (id || sessionStorage?.getItem("_id")) &&
+      dispatch(fetchUserData(id || sessionStorage?.getItem("_id")));
+  }, [dispatch, id, sessionStorage?.getItem("_id")]);
+
+  if (!user) return <Loader />;
   return (
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        {/* <Link to={`/supplier/edit-profile/${(supplierData?._id || sessionStorage.getItem('_id'))}`}>
+        <Link
+          to={`/supplier/edit-profile/${
+            user?._id || sessionStorage.getItem("_id")
+          }`}
+        >
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link> */}
+        </Link>
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>
-          {supplierData.supplierImage && (
+          {user?.supplier_image && (
             <img
-              src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplierImage_files/${supplierData.supplierImage}`}
+              src={`${process.env.REACT_APP_SERVER_URL}uploads/supplier/supplier_image_files/${user?.supplier_image}`}
               alt="supplier Profile"
               className={styles.profileImage}
             />
@@ -179,19 +117,22 @@ const Profile = () => {
         </div>
         <div className={styles.contentSection}>
           <div className={styles.companyNameSection}>
-            <span className={styles.mainHead}>{supplierData.supplierName}&nbsp;({supplierData.supplierType})
+            <span className={styles.mainHead}>
+              {user?.supplier_name}&nbsp;({user?.supplier_type})
             </span>
           </div>
           <div className={styles.contentIconSection}>
             <div className={styles.addressSection}>
               <div className={styles.iconSection}>
                 <MdOutlineAttachEmail className={styles.icon} />
-                <span className={styles.textSection}>{supplierData.supplierEmail}</span>
+                <span className={styles.textSection}>
+                  {user?.contact_person_email || "N/A"}
+                </span>
               </div>
               <div className={styles.iconSection}>
                 <LuPhoneCall className={styles.icon} />
                 <span className={styles.textSection}>
-                  {supplierData.supplierMobileCode} {supplierData.supplierMobile}
+                  {user?.supplier_country_code} {user?.supplier_mobile}
                 </span>
               </div>
             </div>
@@ -199,10 +140,35 @@ const Profile = () => {
               <div className={styles.iconSection}>
                 <FaRegAddressCard className={styles.icon} />
                 <div className={styles.addressContainers}>
-                  <span className={styles.textSection}>{supplierData.supplierAddress || 'Udyog Vihar'}</span>
-                  <span className={styles.textSection}>{supplierData.supplierLocality || 'Sector 19'} {supplierData.supplierLandMark || 'Phase 5'}</span>
-                  <span className={styles.textSection}>{supplierData.supplierCountry} {supplierData.supplierState || 'Haryana'} {supplierData.supplierCity || 'Gurgaon'}</span>
-                  <span className={styles.textSection}>{supplierData.supplierPincode || '122016'}</span>      
+                  {(user?.registeredAddress?.company_reg_address ||
+                    user?.supplier_address) && (
+                    <span className={styles.textSection}>
+                      {user?.registeredAddress?.company_reg_address ||
+                        user?.supplier_address ||
+                        ""}
+                    </span>
+                  )}
+                  {(user?.registeredAddress?.locality ||
+                    user?.registeredAddress?.land_mark) && (
+                    <span className={styles.textSection}>
+                      {user?.registeredAddress?.locality || ""}{" "}
+                      {user?.registeredAddress?.land_mark || ""}
+                    </span>
+                  )}
+                  {(user?.registeredAddress?.state ||
+                    user?.registeredAddress?.city ||
+                    user?.registeredAddress?.country) && (
+                    <span className={styles.textSection}>
+                      {user?.registeredAddress?.city || ""}{" "}
+                      {user?.registeredAddress?.state || ""}{" "}
+                      {user?.registeredAddress?.country || ""}
+                    </span>
+                  )}
+                  {user?.registeredAddress?.pincode && (
+                    <span className={styles.textSection}>
+                      {user?.registeredAddress?.pincode || ""}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -216,56 +182,82 @@ const Profile = () => {
           <div className={styles.companyDetailsSection}>
             <div className={styles.companyInnerContainer}>
               <div className={styles.companyDetails}>
-                <div className={styles.companyHead}>Company Registration No.</div>
-                <div className={styles.companyText}>{supplierData.supplierRegistrationNo}</div>
+                <div className={styles.companyHead}>
+                  Company Registration No.
+                </div>
+                <div className={styles.companyText}>
+                  {user?.registration_no || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>VAT Registration No.</div>
-                <div className={styles.companyText}>{supplierData.supplierVatRegNo}</div>
+                <div className={styles.companyText}>
+                  {user?.vat_reg_no || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Sales Person Name</div>
-                <div className={styles.companyText}>{supplierData.supplierSalesName || '-'}</div>
+                <div className={styles.companyText}>
+                  {user?.sales_person_name || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Country of Origin</div>
-                <div className={styles.companyText}>{supplierData.supplierOrigin}</div>
+                <div className={styles.companyText}>
+                  {user?.country_of_origin || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Country of Operation</div>
-                <div className={styles.companyText}>{supplierData.supplierOperation}</div>
+                <div className={styles.companyText}>
+                  {user?.country_of_operation || "N/A"}
+                </div>
               </div>
             </div>
             <div className={styles.companyInnerContainer}>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Company License No.</div>
-                <div className={styles.companyText}>{supplierData.supplierLicaneseNo}</div>
+                <div className={styles.companyText}>
+                  {user?.license_no || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
-                <div className={styles.companyHead}>License Expiry/ Renewal Date</div>
-                <div className={styles.companyText}>{supplierData.supplierLicanseDate}</div>
+                <div className={styles.companyHead}>
+                  License Expiry/ Renewal Date
+                </div>
+                <div className={styles.companyText}>
+                  {user?.license_expiry_date || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Company Tax No.</div>
-                <div className={styles.companyText}>{supplierData.supplierTaxNo}</div>
+                <div className={styles.companyText}>
+                  {user?.tax_no || "N/A"}
+                </div>
               </div>
               <div className={styles.companyDetails}>
                 <div className={styles.companyHead}>Tags</div>
-                <div className={styles.companyText}>{supplierData.suppliertags}</div>
+                <div className={styles.companyText}>{user?.tags || "N/A"}</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-        {/* style the textarea container */}
-        <div className={styles.textareaContainer}>
+      {/* style the textarea container */}
+      <div className={styles.textareaContainer}>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>About Company</div>
-          <span className={styles.textareaContent}>{supplierData.supplierDescription}</span>
+          <span className={styles.textareaContent}>
+            {user?.description || "N/A"}
+          </span>
         </div>
         <div className={styles.textareaSeaction}>
-          <div className={styles.textareaHead}>Business / Trade Activity Code</div>
-          <span className={styles.textareaContent}>{supplierData.supplierActivityCode}</span>
+          <div className={styles.textareaHead}>
+            Business / Trade Activity Code
+          </div>
+          <span className={styles.textareaContent}>
+            {user?.activity_code || "N/A"}
+          </span>
         </div>
       </div>
       <div className={styles.companySection}>
@@ -273,23 +265,31 @@ const Profile = () => {
           <div className={styles.companyMainHeading}>Contact Details</div>
           <div className={styles.companyDetails}>
             <div className={styles.companyHead}>Contact Name</div>
-            <div className={styles.companyText}>{supplierData.supplierPersonName}</div>
+            <div className={styles.companyText}>
+              {user?.contact_person_name}
+            </div>
           </div>
           <div className={styles.companyDetails}>
             <div className={styles.companyHead}>Mobile No.</div>
-            <div className={styles.companyText}>{supplierData.supplierPersonCountryCode} {supplierData.supplierPersonMobileNo}</div>
+            <div className={styles.companyText}>
+              {user?.contact_person_country_code}{" "}
+              {user?.contact_person_mobile_no}
+            </div>
           </div>
           <div className={styles.companyDetails}>
             <div className={styles.companyHead}>Designation</div>
-            <div className={styles.companyText}>{supplierData.supplierDesignation}</div>
+            <div className={styles.companyText}>
+              {user?.designation || "N/A"}
+            </div>
           </div>
         </div>
         <div className={styles.textareaSeaction}>
           <div className={styles.textareaHead}>Bank Details</div>
-          <span className={styles.textareaContent}>{supplierData.supplierBankDetails}</span>
+          <span className={styles.textareaContent}>
+            {user?.bank_details || "N/A"}
+          </span>
         </div>
       </div>
-    
       {/* style the documents section */}
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>
@@ -298,7 +298,7 @@ const Profile = () => {
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Trade License</div>
             <div className={styles.documentDocContent}>
-              {renderFiles(supplierData?.supplierLicenseImage, "Trade License")}
+              {renderFiles(user?.license_image, "Trade License")}
             </div>
           </div>
 
@@ -306,7 +306,7 @@ const Profile = () => {
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Tax Certificate</div>
             <div className={styles.documentDocContent}>
-              {renderFiles(supplierData?.supplierTaxImage, "Tax Certificate")}
+              {renderFiles(user?.tax_image, "Tax Certificate")}
             </div>
           </div>
 
@@ -314,7 +314,7 @@ const Profile = () => {
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Certificate</div>
             <div className={styles.documentDocContent}>
-              {renderFiles(supplierData?.supplierCertificateImage, "Certificate")}
+              {renderFiles(user?.certificate_image, "Certificate")}
             </div>
           </div>
 
@@ -322,11 +322,12 @@ const Profile = () => {
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Medical Practitioner</div>
             <div className={styles.documentDocContent}>
-              {renderFiles(supplierData?.supplierMedicalImage, "Medical Practitioner")}
+              {renderFiles(user?.medical_certificate, "Medical Practitioner")}
             </div>
           </div>
         </div>
-      </div>;
+      </div>
+      ;
     </div>
   );
 };

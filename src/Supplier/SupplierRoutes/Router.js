@@ -1,5 +1,5 @@
 // Import dependencies
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,64 +7,146 @@ import {
   useNavigate,
 } from "react-router-dom";
 import io from "socket.io-client";
+import Loader from "../components/SharedComponents/Loader/Loader";
 import { postRequestWithToken } from "../api/Requests";
-import SupplierSidebar from "../components/SharedComponents/Sidebar/SupSidebar";
-import SuccessModal from "../components/SharedComponents/Signup/SuccessModal";
-import Layout from "../components/SharedComponents/Layout";
-import Login from "../components/SharedComponents/Signup/SupplierLogin";
-import Signup from "../components/SharedComponents/Signup/SupplierSignUp";
-import Dashboard from "../components/Dashboard/index";
-import Inquiry from "../components/Inquiry/InquiryPurchaseOrders";
-import InquiryRequest from "../components/Inquiry/InquiryRequest/OnGoingOrder";
-import PurchasedOrder from "../components/Inquiry/PurchasedOrder/PurchasedOrder";
-import Invoices from "../components/Invoices/Invoice";
-import PendingInvoice from "../components/Invoices/PendingInvoices/PendingInvoice";
-import PaidInvoice from "../components/Invoices/PaidInvoices/CompleteInvoice";
-import ProformaList from "../components/Invoices/ProformaInvoices/ProformaList";
-import Orders from "../components/Orders/Order";
-import ActiveOrder from "../components/Orders/ActiveOrders/ActiveOrder";
-import CompleteOrder from "../components/Orders/CompletedOrders/CompleteOrder";
-import Products from "../components/Products/Product";
-import NewProducts from "../components/Products/NewProducts/NewProduct";
-import SecondaryMarket from "../components/Products/SecondaryProducts/SecondaryMarket";
-import Support from "../components/Support/Support";
-import AddProduct from "../components/Products/AddProduct";
-import PendingProductsList from "../components/Products/PendingProducts/PendingProducts";
-import ProductDetails from "../components/Products/ProductDetails";
-import SecondaryProductDetails from "../components/Products/SecondaryProducts/SecondaryProductDetails";
-import EditSecondaryProduct from "../components/Products/EditSecondaryProduct";
-import EditProduct from "../components/Products/EditAddProduct";
-import InquiryRequestDetails from "../components/Inquiry/InquiryRequest/InquiryRequestDetails";
-import PurchasedOrderDetails from "../components/Inquiry/PurchasedOrder/PurchasedOrderDetails";
-import ProformaInvoice from "../components/Invoices/ProformaInvoices/ProformaInvoice";
-import ActiveOrderDetails from "../components/Orders/ActiveOrdersDetails";
-import InvoiceDesign from "../components/Invoices/InvoiceDesign";
-import ProformaInvoiceDetails from "../components/Invoices/ProformaInvoices/ProformaDetailsPage";
-import CreateInvoice from "../components/Invoices/CreateInvoice";
-import BuyerDetails from "../components/Products/BuyerDetails";
-import InquiryRequestList from "../components/Dashboard/DashboardList/InquiryRequestList";
-import PurchasedOrderList from "../components/Dashboard/DashboardList/PurchasedOrdersList";
-import ActiveOrders from "../components/Dashboard/DashboardList/DashboardOngoing";
-import CompletedOrder from "../components/Dashboard/DashboardList/CompletedOrders";
-import PendingInvoicesList from "../components/Dashboard/DashboardList/PendingInvoicesList";
-import CompletedInvoicesList from "../components/Dashboard/DashboardList/CompletedInvoicesList";
-import BuyerCompletedList from "../components/Products/Buyer/BuyerCompletedList";
-import BuyerActiveList from "../components/Products/Buyer/BuyerActiveList";
-import BuyerPendingList from "../components/Products/Buyer/BuyerPendingList";
-import NotificationList from "../components/SharedComponents/Notification/NotificationList";
-import Subscription from "../components/Subscription/index";
-import Profile from "../components/SharedComponents/Profile/profile";
-import SubscriptionMembership from "../components/Subscription/SubscriptionMembership";
-import PrivacyPolicy from "../../Policies/PrivcyPolicy";
-import TermsConditions from "../../Policies/Terms&Conditions";
-import ForgotPassword from "../components/SharedComponents/Signup/ForgotPassword";
-import EditProfile from "../components/SharedComponents/Profile/EditProfile";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
+
+// Lazy-load the components
+const SupplierSidebar = lazy(() =>
+  import("../components/SharedComponents/Sidebar/SupSidebar")
+);
+const SuccessModal = lazy(() =>
+  import("../components/SharedComponents/Signup/SuccessModal")
+);
+const Layout = lazy(() => import("../components/SharedComponents/Layout"));
+const Login = lazy(() =>
+  import("../components/SharedComponents/Signup/SupplierLogin")
+);
+const Signup = lazy(() =>
+  import("../components/SharedComponents/Signup/SupplierSignUp")
+);
+const Dashboard = lazy(() => import("../components/Dashboard/index"));
+const Inquiry = lazy(() =>
+  import("../components/Inquiry/InquiryPurchaseOrders")
+);
+const InquiryRequest = lazy(() =>
+  import("../components/Inquiry/InquiryRequest/OnGoingOrder")
+);
+const PurchasedOrder = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/PurchasedOrder")
+);
+const Invoices = lazy(() => import("../components/Invoices/Invoice"));
+const PendingInvoice = lazy(() =>
+  import("../components/Invoices/PendingInvoices/PendingInvoice")
+);
+const PaidInvoice = lazy(() =>
+  import("../components/Invoices/PaidInvoices/CompleteInvoice")
+);
+const ProformaList = lazy(() =>
+  import("../components/Invoices/ProformaInvoices/ProformaList")
+);
+const Orders = lazy(() => import("../components/Orders/Order"));
+const ActiveOrder = lazy(() =>
+  import("../components/Orders/ActiveOrders/ActiveOrder")
+);
+const CompleteOrder = lazy(() =>
+  import("../components/Orders/CompletedOrders/CompleteOrder")
+);
+const Products = lazy(() => import("../components/Products/Product"));
+const NewProducts = lazy(() =>
+  import("../components/Products/NewProducts/NewProduct")
+);
+const SecondaryMarket = lazy(() =>
+  import("../components/Products/SecondaryProducts/SecondaryMarket")
+);
+const Support = lazy(() => import("../components/Support/Support"));
+const AddProduct = lazy(() => import("../components/Products/AddProduct"));
+const PendingProductsList = lazy(() =>
+  import("../components/Products/PendingProducts/PendingProducts")
+);
+const ProductDetails = lazy(() =>
+  import("../components/Products/ProductDetails")
+);
+const SecondaryProductDetails = lazy(() =>
+  import("../components/Products/SecondaryProducts/SecondaryProductDetails")
+);
+const EditSecondaryProduct = lazy(() =>
+  import("../components/Products/EditSecondaryProduct")
+);
+const EditProduct = lazy(() => import("../components/Products/EditAddProduct"));
+const InquiryRequestDetails = lazy(() =>
+  import("../components/Inquiry/InquiryRequest/InquiryRequestDetails")
+);
+const PurchasedOrderDetails = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/PurchasedOrderDetails")
+);
+const ProformaInvoice = lazy(() =>
+  import("../components/Invoices/ProformaInvoices/ProformaInvoice")
+);
+const ActiveOrderDetails = lazy(() =>
+  import("../components/Orders/ActiveOrdersDetails")
+);
+const InvoiceDesign = lazy(() =>
+  import("../components/Invoices/InvoiceDesign")
+);
+const ProformaInvoiceDetails = lazy(() =>
+  import("../components/Invoices/ProformaInvoices/ProformaDetailsPage")
+);
+const CreateInvoice = lazy(() =>
+  import("../components/Invoices/CreateInvoice")
+);
+const BuyerDetails = lazy(() => import("../components/Products/BuyerDetails"));
+const InquiryRequestList = lazy(() =>
+  import("../components/Dashboard/DashboardList/InquiryRequestList")
+);
+const PurchasedOrderList = lazy(() =>
+  import("../components/Dashboard/DashboardList/PurchasedOrdersList")
+);
+const ActiveOrders = lazy(() =>
+  import("../components/Dashboard/DashboardList/DashboardOngoing")
+);
+const CompletedOrder = lazy(() =>
+  import("../components/Dashboard/DashboardList/CompletedOrders")
+);
+const PendingInvoicesList = lazy(() =>
+  import("../components/Dashboard/DashboardList/PendingInvoicesList")
+);
+const CompletedInvoicesList = lazy(() =>
+  import("../components/Dashboard/DashboardList/CompletedInvoicesList")
+);
+const BuyerCompletedList = lazy(() =>
+  import("../components/Products/Buyer/BuyerCompletedList")
+);
+const BuyerActiveList = lazy(() =>
+  import("../components/Products/Buyer/BuyerActiveList")
+);
+const BuyerPendingList = lazy(() =>
+  import("../components/Products/Buyer/BuyerPendingList")
+);
+const NotificationList = lazy(() =>
+  import("../components/SharedComponents/Notification/NotificationList")
+);
+const Subscription = lazy(() => import("../components/Subscription/index"));
+const Profile = lazy(() =>
+  import("../components/SharedComponents/Profile/profile")
+);
+const SubscriptionMembership = lazy(() =>
+  import("../components/Subscription/SubscriptionMembership")
+);
+const PrivacyPolicy = lazy(() => import("../../Policies/PrivcyPolicy"));
+const TermsConditions = lazy(() => import("../../Policies/Terms&Conditions"));
+const ForgotPassword = lazy(() =>
+  import("../components/SharedComponents/Signup/ForgotPassword")
+);
+const EditProfile = lazy(() =>
+  import("../components/SharedComponents/Profile/EditProfile")
+);
+
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export const NotificationProvider = ({ children }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
   const supplierIdLocalStorage = localStorage.getItem("supplier_id");
   const location = useLocation();
@@ -159,6 +241,10 @@ export const NotificationProvider = ({ children }) => {
         { event: "logisticsRequest", title: "Logistics Booking Request" },
         { event: "invoicePaymentStatusUpdated", title: "Invoice Payment Done" },
         {
+          event: "editProfileRequestUpdated",
+          title: "Profile Edit Request Updated",
+        },
+        {
           event: "addMedicineRequestUpdated",
           title: "Update on Add Medicine Request",
         },
@@ -192,10 +278,6 @@ export const NotificationProvider = ({ children }) => {
       };
     }
   }, [supplierIdSessionStorage, supplierIdLocalStorage, refresh]);
-  
-    // useEffect(()=>{
-    //     sessionStorage.getItem('_id') && dispatch(fetchUserData(sessionStorage.getItem('_id')))
-    // },[])
 
   return (
     <SupplierSidebar
@@ -212,217 +294,415 @@ export const NotificationProvider = ({ children }) => {
 const router = createBrowserRouter([
   {
     path: "/supplier/login",
-    element: <Login socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Login socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/supplier/sign-up",
-    element: <Signup socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Signup socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/supplier/forgot-password",
-    element: <ForgotPassword />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ForgotPassword socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/supplier/privacy-policy",
-    element: <PrivacyPolicy />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <PrivacyPolicy socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/supplier/terms-and-conditions",
-    element: <TermsConditions />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <TermsConditions socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/supplier",
     element: (
-      <NotificationProvider>
-        <Layout />
-      </NotificationProvider>
+      <Suspense fallback={<Loader />}>
+        <NotificationProvider>
+          <Layout />
+        </NotificationProvider>
+      </Suspense>
     ),
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Dashboard socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "product",
-        element: <Products />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Products socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "newproduct",
-            element: <NewProducts />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <NewProducts socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "secondarymarket",
-            element: <SecondaryMarket />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SecondaryMarket socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "inquiry-request-list",
-        element: <InquiryRequestList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InquiryRequestList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "purchased-orders-list",
-        element: <PurchasedOrderList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PurchasedOrderList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "ongoing-orders",
-        element: <ActiveOrders />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ActiveOrders socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "completed-orders",
-        element: <CompletedOrder />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CompletedOrder socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "pending-invoices-list",
-        element: <PendingInvoicesList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PendingInvoicesList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "completed-invoices-list",
-        element: <CompletedInvoicesList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CompletedInvoicesList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "inquiry-purchase-orders",
-        element: <Inquiry />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Inquiry socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "ongoing",
-            element: <InquiryRequest />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <InquiryRequest socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "purchased",
-            element: <PurchasedOrder />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PurchasedOrder socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "invoice",
-        element: <Invoices />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Invoices socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "pending",
-            element: <PendingInvoice />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PendingInvoice socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "paid",
-            element: <PaidInvoice />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PaidInvoice socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "proforma",
-            element: <ProformaList />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ProformaList socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "order",
-        element: <Orders />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Orders socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "active",
-            element: <ActiveOrder />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ActiveOrder socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "completed",
-            element: <CompleteOrder />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <CompleteOrder socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "add-product",
-        element: <AddProduct socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AddProduct socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "pending-products-list",
-        element: <PendingProductsList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PendingProductsList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "product-details/:medicineId",
-        element: <ProductDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "secondary-product-details/:medicineId",
-        element: <SecondaryProductDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SecondaryProductDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "edit-secondary-product/:medicineId",
-        element: <EditSecondaryProduct socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditSecondaryProduct socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "edit-product/:medicineId",
-        element: <EditProduct socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditProduct socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "inquiry-request-details/:inquiryId",
-        element: <InquiryRequestDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InquiryRequestDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "purchased-order-details/:purchaseOrderId",
-        element: <PurchasedOrderDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PurchasedOrderDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "proforma-invoice/:purchaseOrderId",
-        element: <ProformaInvoice socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProformaInvoice socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "active-orders-details/:orderId",
-        element: <ActiveOrderDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ActiveOrderDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "invoice-design/:invoiceId",
-        element: <InvoiceDesign />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InvoiceDesign socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "proforma-invoice-details/:orderId",
-        element: <ProformaInvoiceDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProformaInvoiceDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "create-invoice/:orderId",
-        element: <CreateInvoice socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CreateInvoice socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "buyer-details/:buyerId",
-        element: <BuyerDetails />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "buyer-completed-list/:buyerId",
-        element: <BuyerCompletedList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerCompletedList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "buyer-active-list/:buyerId",
-        element: <BuyerActiveList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerActiveList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "buyer-pending-list/:buyerId",
-        element: <BuyerPendingList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerPendingList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "Support",
-        element: <Support />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Support socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "subscription",
-        element: <Subscription />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Subscription socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "subscription-membership",
-        element: <SubscriptionMembership />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SubscriptionMembership socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "notification-list",
-        element: <NotificationList />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <NotificationList socket={socket} />
+          </Suspense>
+        ),
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "profile/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Profile socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "edit-profile/:id",
-        element: <EditProfile />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditProfile socket={socket} />
+          </Suspense>
+        ),
       },
     ],
   },
   {
     path: "/supplier/sign-up",
-    element: <SuccessModal />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <SuccessModal socket={socket} />
+      </Suspense>
+    ),
   },
 ]);
 function Router() {

@@ -1,426 +1,444 @@
 .container {
-    width: 100%;
-    max-width: 90%;
-    height: 100vh;
-    overflow: scroll;
-    background-attachment: fixed;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 }
 
 .profileHeadSection {
-    width: 100%;
-    margin-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 100%;
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .MainHeading {
-    font-size: 20px;
-    font-weight: 600;
-    padding-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 10px;
 }
 
 .EditButtonSection {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
-    border-radius: 4px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    padding: 6px 16px;
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 16px;
 }
 
 .editButton {
-    cursor: pointer !important;
+  cursor: pointer !important;
 }
 
 .imgSection {
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    width: 20vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  width: 20vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profileImage {
-    width: 220px;
-    height: 200px;
+  width: 220px;
+  height: 200px;
 }
 
 .profileContainer {
-    display: flex;
-    gap: 30px;
+  display: flex;
+  gap: 30px;
 }
 
 .contentSection {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 70vw;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 70vw;
 }
 
 .companyNameSection {
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
 
 .addressSection {
-    width: 50%;
-    display: flex;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    flex-direction: column;
-    row-gap: 14px;
+  width: 50%;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  row-gap: 14px;
 }
 
 .mainHead {
-    font-size: 26px;
-    font-weight: 500;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
+  font-size: 26px;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .contentIconSection {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .addressContainers {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
 }
 
 .iconSection {
-    display: flex;
-    gap: 14px;
+  display: flex;
+  gap: 14px;
 }
 
 .icon {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 .textSection {
-    font-size: 14px;
-    color: #99a0ac !important;
-    font-weight: 500;
-    line-height: 20px;
+  font-size: 14px;
+  color: #99a0ac !important;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 /* style the company section */
 .companySection {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    justify-content: start;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: start;
 }
 
 .companyContainerSection {
-    width: 100%;
-    display: flex;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    flex-direction: column;
-    row-gap: 8px;
+  width: 100%;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  row-gap: 8px;
 }
-.companyContainerContactSection{
-    width: 50%;
-    display: flex;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    flex-direction: column;
-    row-gap: 8px;
+.companyContainerContactSection {
+  width: 50%;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  row-gap: 8px;
 }
 .companyDetailsSection {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    gap: 40px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 40px;
 }
 
 .companyInnerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    row-gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  row-gap: 8px;
 }
 
 .companyMainHeading {
-    font-size: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .companyDetails {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .companyHead {
-    font-size: 14px;
-    color: #5e676f !important;
-    font-weight: 500;
-    line-height: 20px;
+  font-size: 14px;
+  color: #5e676f !important;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .companyText {
-    white-space: normal;
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    color: #99a0ac;
-    font-size: 14px;
-    text-align: end;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: #99a0ac;
+  font-size: 14px;
+  text-align: end;
 }
 
 .textareaContainer {
-    display: flex;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  gap: 20px;
+  width: 100%;
 }
 
 .textareaSeaction {
-    width: 50%;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    display: flex;
-    flex-direction: column;
-    row-gap: 6px;
+  width: 50%;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
 }
 
 .textareaHead {
-    font-size: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .textareaContent {
-    color: #99a0ac;
-    font-size: 14px;
-    line-height: 20px;
+  color: #99a0ac;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* style the document section */
 .documentContainer {
-    margin-bottom: 20rem;
-    width: 100%;
-    display: flex;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 26px 30px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    flex-direction: column;
-    row-gap: 8px;
+  margin-bottom: 20rem;
+  width: 100%;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  flex-direction: column;
+  row-gap: 8px;
 }
 
 .documentMainHeading {
-    font-size: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .documentSection {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .documentInnerSection {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    width: 24%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 24%;
 }
 
 .documentDocName {
-    font-size: 14px;
-    color: #5e676f !important;
-    font-weight: 500;
-    line-height: 20px;
+  font-size: 14px;
+  color: #5e676f !important;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .documentDocContent {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .pdfSection,
 .docxSection {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
 }
 
 .fileName {
-    cursor: pointer !important;
-    font-size: 13px;
-    text-decoration: underline;
+  cursor: pointer !important;
+  font-size: 13px;
+  text-decoration: underline;
 }
 
 .documentImage {
-    max-width: 100px;
-    max-height: 100px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
+  max-width: 100px;
+  max-height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 /* end the documnt section */
 /* Style the Edit profile form section */
-.editProfileContainer{
-    display: flex;
-        flex-direction: column;
-        row-gap: 20px;
-        width: 100%;
-        max-width: 1500px;
-        overflow: scroll;
-        background-attachment: fixed;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        height: 100vh;
-        margin: auto;
+.editProfileContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 100%;
+  max-width: 1500px;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  height: 100vh;
+  margin: auto;
 }
-.editProfileContainer::-webkit-scrollbar{
-    display: none;
+.editProfileContainer::-webkit-scrollbar {
+  display: none;
 }
-.labelStamp{
-    color: red;
+.labelStamp {
+  color: crimson;
 }
-.editForm{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.editProfileHead{
-    font-size: 20px;
-    font-weight: 500;
-    width: 100%;
-    margin: 0px auto;
+.editProfileHead {
+  font-size: 20px;
+  font-weight: 500;
+  width: 100%;
+  margin: 0px auto;
 }
-.editProfileSection{
-    background-color: #fff;
-    border-radius: 4px;
-    padding: 30px 20px;
-    display: flex
-;
-    flex-wrap: wrap;
-    gap: 16px;
+.editProfileSection {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 30px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
-.editProfileSubHead{
-    font-size: 18px;
-    font-weight: 500;
+.editProfileSubHead {
+  font-size: 18px;
+  font-weight: 500;
 }
-.editProfileInnerSection{
-    display: flex;
-        width: 100%;
-        gap: 20px;
-        flex-wrap: wrap;
+.editProfileInnerSection {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
 }
-.editSubSection{
-    display: flex
-;
-    flex-direction: column;
-    justify-content: start;
-    width: 31.8%;
-    row-gap: 6px;
+.editSubSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 31.8%;
+  row-gap: 6px;
 }
-.editLabel{
-    font-size: 14px;
-    font-weight: 500;
+.editLabel {
+  font-size: 14px;
+  font-weight: 500;
 }
-.editInput{
-    outline: none !important;
-    border: none !important;
-    background-color: #ffffff !important;
-    padding: 12px !important;
-    font-size: 14px !important;
-    border-radius: 4px !important;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+.onEditInfo {
+  font-size: 14px;
+  font-weight: 500;
+  color: crimson;
 }
-.editButtonSection{
-    display: flex
-;
-    width: 100%;
-    justify-content: center;
-    column-gap: 20px;
-    margin-top: 30px;
-    margin-bottom: 20rem;
+.editInput {
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-.editSubmit{
-    border: none !important;
-    outline: none !important;
-    background: linear-gradient(to left, #00dcff, #0075ce);
-    color: white;
-    padding: 6px 22px;
-    border-radius: 4px;
-    display: flex
-;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer !important;
+.editInputDisabed {
+  cursor: not-allowed !important;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
 }
-.editCancel{
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-    background-color: #ffffff;
-    border: 1px solid #5e676f;
-    color: #5e676f;
-    padding: 6px 22px;
-    border-radius: 4px;
-    display: flex
-;
-    align-items: center;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer !important;
+.editButtonSection {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  column-gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 20rem;
+}
+.editSubmit {
+  border: none !important;
+  outline: none !important;
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer !important;
+}
+.editCancel {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff;
+  border: 1px solid #5e676f;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer !important;
 }
 
 /* End style the Edit profile form section */
 
 /* Style the media quiery section */
-@media(max-width:1200px) {
-    .container {
-        width: 100%;
-        max-width: 85%;
-        margin: unset;
-    }
+@media (max-width: 1200px) {
+  .container {
+    width: 100%;
+    max-width: 85%;
+    margin: unset;
+  }
 }
-@media(max-width:1150px) {
-.editSubSection{
+@media (max-width: 1150px) {
+  .editSubSection {
     width: 31%;
-}
-   
+  }
 }
 
 .error_message_formik {
-    font-size: 12px;
-    color: red;
-    margin-top: -4px;
+  font-size: 12px;
+  color: red;
+  margin-top: -4px;
 }
