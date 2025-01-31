@@ -14,6 +14,7 @@ import {
 } from "../../../../redux/reducers/userDataSlice";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -117,7 +118,6 @@ const EditProfile = () => {
           type: "Registered",
         },
       };
-      console.log("Form Data", apiPayload);
       // Dispatch the action to update the profile
       const updatedProfile = await dispatch(
         editProfile({
@@ -205,7 +205,6 @@ const EditProfile = () => {
 
   // Handlers for Select components
   const handleCountryChange = (selectedOption) => {
-    console.log("selectedOption", selectedOption);
     setSelectedCountry(selectedOption);
     setSelectedState(null);
     setSelectedCity(null);
@@ -224,8 +223,6 @@ const EditProfile = () => {
   };
 
   const handlePhoneChange = (name, value) => {
-    console.log(name, value, "// Logs the field name and value");
-
     try {
       // Parse the phone number
       const phoneNumber = parsePhoneNumber(value);
@@ -234,7 +231,6 @@ const EditProfile = () => {
       if (phoneNumber && phoneNumber.isValid()) {
         // Format the phone number in E.164 format (international standard)
         const formattedNumber = phoneNumber.formatInternational();
-        console.log("Formatted Phone Number:", formattedNumber);
 
         // Update the Formik field value for phoneNumber
         formik.setFieldValue(name, formattedNumber);
@@ -256,18 +252,19 @@ const EditProfile = () => {
     <div className={styles.editProfileContainer}>
       <span className={styles.editProfileHead}>Edit Profile</span>
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <form
           className={styles.editForm}
           onSubmit={(e) => {
             e.preventDefault();
-            if (Object.keys(formik.errors).length > 0) {
-              // Show the toast message if there are validation errors
-              toast.error("Please fill the required fields correctly.");
-            } else {
-              // Call the formik.onSubmit() if there are no errors
+
+            // Check if the form is changed and no validation errors
+            if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
+            } else {
+              // If validation errors exist or no change, show the error message
+              toast.error("Please fill the required fields correctly.");
             }
           }}
         >
@@ -399,7 +396,13 @@ const EditProfile = () => {
           {/* Billing Address Section */}
           <div className={styles.editProfileSection}>
             <span className={styles.editProfileSubHead}>
-              Billing Address Details
+              Billing Address Details{" "}
+              {user?.profile_status == 0 && (
+                <label className={styles.onEditInfo}>
+                  (You cannot edit address details as your request is pending
+                  with the admin.)
+                </label>
+              )}
             </span>
             <div className={styles.editProfileInnerSection}>
               <div className={styles.editSubSection}>
@@ -409,12 +412,17 @@ const EditProfile = () => {
                 </label>
                 <input
                   autoComplete="false"
-                  className={styles.editInput}
+                  className={
+                    user?.profile_status == 0
+                      ? styles?.editInputDisabed
+                      : styles.editInput
+                  }
                   type="text"
                   name="companyAddress"
                   placeholder="Enter Company Billing Address"
                   value={formik.values.companyAddress}
                   readOnly={user?.profile_status == 0}
+                  disabled={user?.profile_status == 0}
                   onChange={formik.handleChange}
                 />
                 {formik.errors.companyAddress && (
@@ -430,12 +438,17 @@ const EditProfile = () => {
                 </label>
                 <input
                   autoComplete="false"
-                  className={styles.editInput}
+                  className={
+                    user?.profile_status == 0
+                      ? styles?.editInputDisabed
+                      : styles.editInput
+                  }
                   type="text"
                   name="locality"
                   placeholder="Enter Area/Locality/Road Name"
                   value={formik.values.locality}
                   readOnly={user?.profile_status == 0}
+                  disabled={user?.profile_status == 0}
                   onChange={formik.handleChange}
                 />
                 {formik.errors.locality && (
@@ -448,12 +461,17 @@ const EditProfile = () => {
                 <label className={styles.editLabel}>Landmark</label>
                 <input
                   autoComplete="false"
-                  className={styles.editInput}
+                  className={
+                    user?.profile_status == 0
+                      ? styles?.editInputDisabed
+                      : styles.editInput
+                  }
                   type="text"
                   name="landmark"
                   placeholder="Enter Landmark"
                   value={formik.values.land_mark}
                   readOnly={user?.profile_status == 0}
+                  disabled={user?.profile_status == 0}
                   onChange={formik.handleChange}
                 />
               </div>
@@ -545,11 +563,17 @@ const EditProfile = () => {
                 <label className={styles.editLabel}>Pincode</label>
                 <input
                   autoComplete="false"
-                  className={styles.editInput}
+                  className={
+                    user?.profile_status == 0
+                      ? styles?.editInputDisabed
+                      : styles.editInput
+                  }
                   type="number"
                   name="pincode"
                   placeholder="Enter Pincode"
                   value={formik.values.pincode}
+                  readOnly={user?.profile_status == 0}
+                  disabled={user?.profile_status == 0}
                   onChange={formik.handleChange}
                 />
               </div>

@@ -411,7 +411,7 @@ const SupSidebar = ({ children, dragWindow,
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
                                                     <Link
-                                                        to="/supplier/profile"
+                                                        to={`/supplier/profile/${sessionStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                     >
                                                         <div className={styles.profile_text}>Profile</div>

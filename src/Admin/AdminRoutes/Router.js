@@ -275,357 +275,357 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <Dashboard socket={socket} />,
       },
       {
         path: "total-request-list",
-        element: <TotalRequestList />,
+        element: <TotalRequestList socket={socket} />,
       },
       {
         path: "inquiries-section",
-        element: <InquiriesDashList />,
+        element: <InquiriesDashList socket={socket} />,
         children: [
           {
             path: "request",
-            element: <TotalInquiriesRequest />,
+            element: <TotalInquiriesRequest socket={socket} />,
           },
           {
             path: "ongoing",
-            element: <TotalOngoingInquiries />,
+            element: <TotalOngoingInquiries socket={socket} />,
           },
         ],
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: <Profile socket={socket} />,
       },
       {
         path: "notification-list",
-        element: <NotificationList />,
+        element: <NotificationList socket={socket} />,
       },
       {
         path: "total-approved-request",
-        element: <TotalApprovedRequest />,
+        element: <TotalApprovedRequest socket={socket} />,
       },
       {
         path: "total-PO",
-        element: <TotalPO />,
+        element: <TotalPO socket={socket} />,
       },
       {
         path: "total-active-orders",
-        element: <TotalActiveOrders />,
+        element: <TotalActiveOrders socket={socket} />,
       },
       {
         path: "total-completed-order",
-        element: <TotalCompletedOrders />,
+        element: <TotalCompletedOrders socket={socket} />,
       },
       {
         path: "manage-commission",
-        element: <ManageCommission />,
+        element: <ManageCommission socket={socket} />,
       },
       {
         path: "buyer-request",
-        element: <BuyerRequest />,
+        element: <BuyerRequest socket={socket} />,
       },
       {
         path: "approved-buyer",
-        element: <ApprovedBuyer />,
+        element: <ApprovedBuyer socket={socket} />,
       },
       {
         path: "rejected-buyer",
-        element: <RejectedBuyer />,
+        element: <RejectedBuyer socket={socket} />,
       },
       {
         path: "buyer-request-details/:buyerId",
-        element: <BuyerRequestDetails />,
+        element: <BuyerRequestDetails socket={socket} />,
       },
       {
         path: "buyer-details/:buyerId",
-        element: <BuyerDetails />,
+        element: <BuyerDetails socket={socket} />,
       },
       {
         path: "buyer-inquiry",
-        element: <BuyerInquiry />,
+        element: <BuyerInquiry socket={socket} />,
         children: [
           {
             path: "ongoing-inquiry",
-            element: <OngoingInquiry />,
+            element: <OngoingInquiry socket={socket} />,
           },
           {
             path: "purchased-order",
-            element: <PurchasedOrders />,
+            element: <PurchasedOrders socket={socket} />,
           },
         ],
       },
       {
         path: "buyer-invoice",
-        element: <BuyerInvoice />,
+        element: <BuyerInvoice socket={socket} />,
         children: [
           {
             path: "paid",
-            element: <BuyerPaid />,
+            element: <BuyerPaid socket={socket} />,
           },
           {
             path: "pending",
-            element: <BuyerPending />,
+            element: <BuyerPending socket={socket} />,
           },
           {
             path: "proforma",
-            element: <BuyerProforma />,
+            element: <BuyerProforma socket={socket} />,
           },
         ],
       },
       {
         path: "buyer-order",
-        element: <BuyerOrder />,
+        element: <BuyerOrder socket={socket} />,
         children: [
           {
             path: "active",
-            element: <BuyerActiveOrder />,
+            element: <BuyerActiveOrder socket={socket} />,
           },
           {
             path: "complete",
-            element: <BuyerCompleteOrder />,
+            element: <BuyerCompleteOrder socket={socket} />,
           },
         ],
       },
       {
         path: "buyer-support",
-        element: <BuyerSupport />,
+        element: <BuyerSupport socket={socket} />,
         children: [
           {
             path: "complaint",
-            element: <BuyerComplaint />,
+            element: <BuyerComplaint socket={socket} />,
           },
           {
             path: "feedback",
-            element: <BuyerFeedback />,
+            element: <BuyerFeedback socket={socket} />,
           },
           {
             path: "edit-profile",
-            element: <BuyerEditProfile />,
+            element: <BuyerEditProfile socket={socket} />,
           },
         ],
       },
       {
         path: "buyer-edit-profile-details/:id",
-        element: <BuyerEditProfileDetails />,
+        element: <BuyerEditProfileDetails socket={socket} />,
       },
       {
         path: "buyer-transaction",
-        element: <BuyerTransaction />,
+        element: <BuyerTransaction socket={socket} />,
       },
       {
         path: "buyer-transaction-details/:invoiceId",
-        element: <BuyerTransactionDetails />,
+        element: <BuyerTransactionDetails socket={socket} />,
       },
       {
         path: "ongoing-inquiries-details/:inquiryId",
-        element: <OngoingInquiryDetails />,
+        element: <OngoingInquiryDetails socket={socket} />,
       },
       {
         path: "buyer-purchased-order-details/:purchaseOrderId",
-        element: <BuyerPurchasedOrderDetails />,
+        element: <BuyerPurchasedOrderDetails socket={socket} />,
       },
       {
         path: "order-details/:orderId",
-        element: <OrderDetails />,
+        element: <OrderDetails socket={socket} />,
       },
       {
         path: "buyer-invoice-details/:invoiceId",
-        element: <BuyerInvoiceDetails />,
+        element: <BuyerInvoiceDetails socket={socket} />,
       },
       {
         path: "buyer-proforma-details/:orderId",
-        element: <BuyerProformaDetails />,
+        element: <BuyerProformaDetails socket={socket} />,
       },
       {
         path: "buyer-complaint-details/:supportId",
-        element: <BuyerComplaintDetails />,
+        element: <BuyerComplaintDetails socket={socket} />,
       },
       {
         path: "buyer-feedback-details/:supportId",
-        element: <BuyerFeedbackDetails />,
+        element: <BuyerFeedbackDetails socket={socket} />,
       },
       // start the seller routes
       {
         path: "supplier-request",
-        element: <SellerRequest />,
+        element: <SellerRequest socket={socket} />,
       },
       {
         path: "approved-supplier",
-        element: <ApprovedSeller />,
+        element: <ApprovedSeller socket={socket} />,
       },
       {
         path: "rejected-supplier",
-        element: <RejectedSeller />,
+        element: <RejectedSeller socket={socket} />,
       },
       {
         path: "supplier-transaction",
-        element: <SellerTransaction />,
+        element: <SellerTransaction socket={socket} />,
       },
       {
         path: "supplier-inquiry",
-        element: <SellerInquiry />,
+        element: <SellerInquiry socket={socket} />,
         children: [
           {
             path: "inquiry-request",
-            element: <InquiryRequest />,
+            element: <InquiryRequest socket={socket} />,
           },
           {
             path: "purchased-order",
-            element: <SellerPurchasedOrder />,
+            element: <SellerPurchasedOrder socket={socket} />,
           },
         ],
       },
       {
         path: "supplier-order",
-        element: <SellerOrder />,
+        element: <SellerOrder socket={socket} />,
         children: [
           {
             path: "active",
-            element: <SellerActiveOrder />,
+            element: <SellerActiveOrder socket={socket} />,
           },
           {
             path: "complete",
-            element: <SellerCompleteOrder />,
+            element: <SellerCompleteOrder socket={socket} />,
           },
         ],
       },
       {
         path: "supplier-invoice",
-        element: <SellerInvoice />,
+        element: <SellerInvoice socket={socket} />,
         children: [
           {
             path: "paid",
-            element: <SellerPaid />,
+            element: <SellerPaid socket={socket} />,
           },
           {
             path: "pending",
-            element: <SellerPending />,
+            element: <SellerPending socket={socket} />,
           },
           {
             path: "proforma",
-            element: <SellerProforma />,
+            element: <SellerProforma socket={socket} />,
           },
         ],
       },
       {
         path: "supplier-support",
-        element: <SellerSupport />,
+        element: <SellerSupport socket={socket} />,
         children: [
           {
             path: "complaint",
-            element: <SellerComplaint />,
+            element: <SellerComplaint socket={socket} />,
           },
           {
             path: "feedback",
-            element: <SellerFeedback />,
+            element: <SellerFeedback socket={socket} />,
           },
           {
             path: "edit-profile",
-            element: <SupplierEditProfile />,
+            element: <SupplierEditProfile socket={socket} />,
           },
         ],
       },
       {
         path: "supplier-edit-profile-details/:id",
-        element: <SupplierEditProfileDetails />,
+        element: <SupplierEditProfileDetails socket={socket} />,
       },
       {
         path: "supplier-request-details/:supplierId",
-        element: <SellerRequestDetails />,
+        element: <SellerRequestDetails socket={socket} />,
       },
       {
         path: "supplier-details/:supplierId",
-        element: <SellerDetails />,
+        element: <SellerDetails socket={socket} />,
       },
       {
         path: "supplier-transaction-details/:invoiceId",
-        element: <SellerTransactionDetails />,
+        element: <SellerTransactionDetails socket={socket} />,
       },
       {
         path: "supplier-inquiry-details/:inquiryId",
-        element: <SellerInquiryDetails />,
+        element: <SellerInquiryDetails socket={socket} />,
       },
       {
         path: "supplier-purchased-order-details/:purchaseOrderId",
-        element: <SellerPurchasedOrderDetails />,
+        element: <SellerPurchasedOrderDetails socket={socket} />,
       },
       {
         path: "supplier-order-details/:orderId",
-        element: <SellerOrderDetails />,
+        element: <SellerOrderDetails socket={socket} />,
       },
       {
         path: "supplier-invoice-details/:invoiceId",
-        element: <SellerInvoiceDetails />,
+        element: <SellerInvoiceDetails socket={socket} />,
       },
       {
         path: "proforma-invoice-details/:orderId",
-        element: <SellerProformaDetails />,
+        element: <SellerProformaDetails socket={socket} />,
       },
       {
         path: "supplier-complaint-details/:supportId",
-        element: <SellerComplaintDetails />,
+        element: <SellerComplaintDetails socket={socket} />,
       },
       {
         path: "supplier-feedback-details/:supportId",
-        element: <SellerFeedbackDetails />,
+        element: <SellerFeedbackDetails socket={socket} />,
       },
       // start the product request
       {
         path: "product-requests",
-        element: <ProductRequests />,
+        element: <ProductRequests socket={socket} />,
         children: [
           {
             path: "newproduct",
-            element: <NewProductRequest />,
+            element: <NewProductRequest socket={socket} />,
           },
           {
             path: "secondary",
-            element: <SecondaryProductRequest />,
+            element: <SecondaryProductRequest socket={socket} />,
           },
         ],
       },
       {
         path: "product-update-requests",
-        element: <ProductUpdateRequest />,
+        element: <ProductUpdateRequest socket={socket} />,
         children: [
           {
             path: "newproduct",
-            element: <NewProductUpdateRequest />,
+            element: <NewProductUpdateRequest socket={socket} />,
           },
           {
             path: "secondary",
-            element: <SecondaryUpdateRequest />,
+            element: <SecondaryUpdateRequest socket={socket} />,
           },
         ],
       },
       {
         path: "approved-product",
-        element: <ApprovedProducts />,
+        element: <ApprovedProducts socket={socket} />,
         children: [
           {
             path: "newproduct",
-            element: <ApprovedNewProducts />,
+            element: <ApprovedNewProducts socket={socket} />,
           },
           {
             path: "secondary",
-            element: <ApprovedSecondaryProducts />,
+            element: <ApprovedSecondaryProducts socket={socket} />,
           },
         ],
       },
       {
         path: "rejected-product",
-        element: <RejectedProducts />,
+        element: <RejectedProducts socket={socket} />,
         children: [
           {
             path: "newproduct",
-            element: <RejectedNewProducts />,
+            element: <RejectedNewProducts socket={socket} />,
           },
           {
             path: "secondary",
-            element: <RejectedSecondaryProducts />,
+            element: <RejectedSecondaryProducts socket={socket} />,
           },
         ],
       },

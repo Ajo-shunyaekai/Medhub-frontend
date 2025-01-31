@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
+import { toast } from "react-toastify";
 
 const initialState = {
   loading: false,
@@ -43,7 +44,11 @@ export const updateProfileEditReqsDetail = createAsyncThunk(
     try {
       const response = await apiRequests.postRequest(`admin/update-profile-edit-request-details/${values?.id}`,values)
       console.log('response of admin/updateProfileEditReqsDetail', response)
-      return response?.data?.[0]; 
+      if(response.code != 200){
+        return;
+      }
+      toast.success(response?.message);
+      return response?.data; 
     } catch (error) {
       // Log and pass the error
       console.log("API error:", error);

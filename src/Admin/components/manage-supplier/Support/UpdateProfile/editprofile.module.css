@@ -31,7 +31,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-   cursor: pointer !important;;
+  cursor: pointer !important;
   color: #ffffff !important;
 }
 
@@ -137,21 +137,20 @@
   background-color: transparent;
   border-color: rgba(160, 175, 185, 0.15) !important;
 }
-.editprofileAddSec{
-  display: flex
-;
+.editprofileAddSec {
+  display: flex;
   gap: 10px;
 }
-.icon{
+.icon {
   font-size: 24px;
-  color: #99a0ac
+  color: #99a0ac;
 }
-.editProfileImg{
-width: 26px;
+.editProfileImg {
+  width: 26px;
 }
 
 /* style the edit profile details container */
-.editProfileContainer{
+.editProfileContainer {
   width: 100%;
   max-width: 90%;
   height: 100vh;
@@ -160,43 +159,42 @@ width: 26px;
   scrollbar-width: none;
   -ms-overflow-style: none;
   margin: auto;
-  display: flex
-;
+  display: flex;
   flex-direction: column;
   row-gap: 20px;
 }
-.editProfileContainer::-webkit-scrollbar{
+.editProfileContainer::-webkit-scrollbar {
   display: none;
 }
-.editProfileHead{
+.editProfileHead {
   font-size: 20px;
   font-weight: 600;
   padding-top: 10px;
 }
-.editProfileSection{
-  display: flex
-  ;
-      width: 100%;
-      gap: 20px;
-      justify-content: start;
+.editProfileSection {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: start;
 }
-.editProfileInnerContainer{
+.editProfileInnerContainer {
   width: 50%;
   display: flex;
   row-gap: 10px;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   flex-direction: column;
 }
 
-.editProfileInnerHead{
+.editProfileInnerHead {
   font-size: 18px;
   color: #5e676f !important;
   font-weight: 500;
 }
-.editProfileInnerText{
+.editProfileInnerText {
   white-space: normal;
   word-wrap: break-word;
   word-break: break-word;
@@ -205,29 +203,39 @@ width: 26px;
   font-size: 15px;
   font-weight: 500;
 }
-.editProfileAddressContainer{
+.editProfileInnerTextHighlight {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: #448bff;
+  font-size: 15px;
+  font-weight: 500;
+}
+.editProfileAddressContainer {
   width: 100%;
   display: flex;
   row-gap: 10px;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   flex-direction: column;
 }
-.editProfileAddInnerSec{
-display: flex;
-flex-direction: column;
-gap: 4px;
+.editProfileAddInnerSec {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.editButtonContainer{
+.editButtonContainer {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 14px;
   margin-top: 16px;
 }
-.editButtonSubmit{
+.editButtonSubmit {
   background: linear-gradient(270deg, #00dcff, #0075ce);
   border: none !important;
   border-radius: 4px;
@@ -235,29 +243,26 @@ gap: 4px;
   outline: none !important;
   align-items: center;
   cursor: pointer !important;
-  display: flex
-;
+  display: flex;
   font-size: 14px;
   line-height: 18px;
   font-weight: 500;
   padding: 6px 22px;
 }
-.editButtonCancel{
+.editButtonCancel {
   background-color: #fff;
   border: 1px solid #5e676f;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .05) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
   color: #5e676f;
   align-items: center;
   cursor: pointer !important;
-  display: flex
-;
+  display: flex;
   font-size: 14px;
   line-height: 18px;
   font-weight: 500;
   padding: 6px 22px;
 }
-
 
 /* Add media quries from here  */
 

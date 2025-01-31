@@ -71,7 +71,7 @@ import LogisticsForm from "../components/Orders/OrderDetails/BuyerLogistics/Logi
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
   const [notificationList, setNotificationList] = useState([]);
@@ -160,6 +160,10 @@ export function NotificationProvider({ children }) {
           title: "Shipment Details Submitted",
         },
         { event: "invoiceCreated", title: "Invoice Created" },
+        {
+          event: "editProfileRequestUpdated",
+          title: "Profile Edit Request Updated",
+        },
       ];
 
       notificationEvents.forEach(({ event, title }) => {
@@ -181,11 +185,11 @@ export function NotificationProvider({ children }) {
       };
     }
   }, [buyerId, refresh]);
-  
-  useEffect(()=>{
-      sessionStorage.getItem('_id') && dispatch(fetchUserData(sessionStorage.getItem('_id')))
-  },[sessionStorage.getItem('_id')])
 
+  useEffect(() => {
+    sessionStorage.getItem("_id") &&
+      dispatch(fetchUserData(sessionStorage.getItem("_id")));
+  }, [sessionStorage.getItem("_id")]);
 
   return (
     <Sidebar
@@ -211,7 +215,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/buyer/forgot-password",
-    element: <ForgotPassword />,
+    element: <ForgotPassword socket={socket} />,
   },
   {
     path: "/buyer/sign-up",
@@ -219,11 +223,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/buyer/privacy-policy",
-    element: <PrivacyPolicy />,
+    element: <PrivacyPolicy socket={socket} />,
   },
   {
     path: "/buyer/terms-and-conditions",
-    element: <TermsConditions />,
+    element: <TermsConditions socket={socket} />,
   },
   {
     path: "/buyer",
@@ -235,93 +239,93 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <Dashboard socket={socket} />,
       },
       {
         path: "edit-profile/:id",
-        element: <EditProfile />,
+        element: <EditProfile socket={socket} />,
       },
       {
-        path: "profile",
-        element: <Profile />,
+        path: "profile/:id",
+        element: <Profile socket={socket} />,
       },
       {
         path: "ongoing-inquiries-list",
-        element: <OnGoingInquiriesList />,
+        element: <OnGoingInquiriesList socket={socket} />,
       },
       {
         path: "purchased-orders-list",
-        element: <PurchasedOrdersList />,
+        element: <PurchasedOrdersList socket={socket} />,
       },
       {
         path: "active-orders",
-        element: <ActiveOrders />,
+        element: <ActiveOrders socket={socket} />,
       },
       {
         path: "completed-order",
-        element: <CompletedOrder />,
+        element: <CompletedOrder socket={socket} />,
       },
       {
         path: "complete-invoices-list",
-        element: <CompleteInvoicesList />,
+        element: <CompleteInvoicesList socket={socket} />,
       },
       {
         path: "pending-invoices-list",
-        element: <PendingInvoicesList />,
+        element: <PendingInvoicesList socket={socket} />,
       },
 
       {
         path: "buy",
-        element: <Buy />,
+        element: <Buy socket={socket} />,
         children: [
           {
             path: "by-supplier",
-            element: <BySeller />,
+            element: <BySeller socket={socket} />,
           },
           {
             path: "by-product",
-            element: <ByProduct />,
+            element: <ByProduct socket={socket} />,
           },
           {
             path: "secondary-market",
-            element: <SecondaryMarket />,
+            element: <SecondaryMarket socket={socket} />,
           },
         ],
       },
       {
         path: "medicine-details/:medicineId",
-        element: <MedicineDetails />,
+        element: <MedicineDetails socket={socket} />,
       },
       {
         path: "market-product-details/:medicineId",
-        element: <MarketProductDetails />,
+        element: <MarketProductDetails socket={socket} />,
       },
       {
         path: "supplier-details/:supplierId",
-        element: <SupplierDetails />,
+        element: <SupplierDetails socket={socket} />,
         children: [
           {
             path: "products",
-            element: <SupplyProductList />,
+            element: <SupplyProductList socket={socket} />,
           },
           {
             path: "secondary",
-            element: <SupplySecondaryList />,
+            element: <SupplySecondaryList socket={socket} />,
           },
           {
             path: "orders",
-            element: <SupplyOrderList />,
+            element: <SupplyOrderList socket={socket} />,
           },
         ],
       },
 
       {
         path: "search-product-details/:medicineId",
-        element: <SearchProductDetails />,
+        element: <SearchProductDetails socket={socket} />,
       },
       {
         path: "search-market-product-details/:medicineId",
-        element: <SearchMarketProductDetails />,
+        element: <SearchMarketProductDetails socket={socket} />,
       },
       {
         path: "send-inquiry",
@@ -329,15 +333,15 @@ const router = createBrowserRouter([
       },
       {
         path: "inquiry",
-        element: <Inquiry />,
+        element: <Inquiry socket={socket} />,
         children: [
           {
             path: "inquiry",
-            element: <OnGoingOrder />,
+            element: <OnGoingOrder socket={socket} />,
           },
           {
             path: "purchased-order",
-            element: <PurchasedOrder />,
+            element: <PurchasedOrder socket={socket} />,
           },
         ],
       },
@@ -351,27 +355,27 @@ const router = createBrowserRouter([
       },
       {
         path: "cancel-inquiry-list/:inquiryId",
-        element: <CancelInquiryList />,
+        element: <CancelInquiryList socket={socket} />,
       },
       {
         path: "ongoing-inquiries-details/:inquiryId",
-        element: <OnGoingInquiriesDetails />,
+        element: <OnGoingInquiriesDetails socket={socket} />,
       },
       {
         path: "purchased-order-details/:purchaseOrderId",
-        element: <PurchaseOrderDetails />,
+        element: <PurchaseOrderDetails socket={socket} />,
       },
       {
         path: "order",
-        element: <Order />,
+        element: <Order socket={socket} />,
         children: [
           {
             path: "active-orders",
-            element: <ActiveOrder />,
+            element: <ActiveOrder socket={socket} />,
           },
           {
             path: "completed-orders",
-            element: <CompletedOrders />,
+            element: <CompletedOrders socket={socket} />,
           },
         ],
       },
@@ -381,15 +385,15 @@ const router = createBrowserRouter([
       },
       {
         path: "my-supplier",
-        element: <MySupplier />,
+        element: <MySupplier socket={socket} />,
       },
       {
         path: "subscription",
-        element: <Subscription />,
+        element: <Subscription socket={socket} />,
       },
       {
         path: "subscription-membership",
-        element: <SubscriptionMembership />,
+        element: <SubscriptionMembership socket={socket} />,
       },
       {
         path: "invoice",
@@ -401,42 +405,42 @@ const router = createBrowserRouter([
           },
           {
             path: "paid-invoice",
-            element: <PaidInvoice />,
+            element: <PaidInvoice socket={socket} />,
           },
           {
             path: "proforma-invoice",
-            element: <ProformaInvoice />,
+            element: <ProformaInvoice socket={socket} />,
           },
         ],
       },
       {
         path: "invoice-design/:invoiceId",
-        element: <InvoiceDesign />,
+        element: <InvoiceDesign socket={socket} />,
       },
       {
         path: "proforma-invoice-details/:orderId",
-        element: <PerformaInvoiceDetails />,
+        element: <PerformaInvoiceDetails socket={socket} />,
       },
 
       {
         path: "support",
-        element: <Support />,
+        element: <Support socket={socket} />,
       },
       {
         path: "notification-list",
-        element: <NotificationList />,
+        element: <NotificationList socket={socket} />,
       },
       {
         path: "supplier-completed/:supplierId",
-        element: <SupplierCompleted />,
+        element: <SupplierCompleted socket={socket} />,
       },
       {
         path: "supplier-active/:supplierId",
-        element: <SupplierActive />,
+        element: <SupplierActive socket={socket} />,
       },
       {
         path: "supplier-pending/:supplierId",
-        element: <SupplierPending />,
+        element: <SupplierPending socket={socket} />,
       },
       {
         path:"logistics-form",
@@ -446,7 +450,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/buyer/thank-you",
-    element: <ThankYou />,
+    element: <ThankYou socket={socket} />,
   },
 ]);
 
