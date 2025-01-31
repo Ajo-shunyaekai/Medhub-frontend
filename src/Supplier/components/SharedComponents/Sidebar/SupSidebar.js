@@ -271,6 +271,8 @@ const SupSidebar = ({ children, dragWindow,
             editsecondarymedicinerequest: `/supplier/pending-products-list`,
             editnewmedicine: `/supplier/product-details/${eventId}`,
             editsecondarymedicine: `/supplier/secondary-product-details/${eventId}`,
+            "Profile Edit Approved": `/supplier/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/supplier/profile/${sessionStorage.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || '/supplier/';

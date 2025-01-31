@@ -251,6 +251,8 @@ const Sidebar = ({ children, dragWindow,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/Pending-Invoice`,
+            "Profile Edit Approved": `/buyer/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/buyer/profile/${sessionStorage.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || "/buyer/";
