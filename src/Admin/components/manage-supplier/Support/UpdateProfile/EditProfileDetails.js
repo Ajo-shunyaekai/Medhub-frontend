@@ -208,7 +208,7 @@ const EditProfileDetails = ({ socket }) => {
                 ? styles.editButtonSubmit
                 : styles.editButtonCancel
             }
-            onClick={(e) => handleAdminAction("Approved")}
+            onClick={(e) => e.preventDefault()}
           >
             {profileEditReqDetail?.editReqStatus}
           </button>
