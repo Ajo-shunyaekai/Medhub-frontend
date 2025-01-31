@@ -71,10 +71,10 @@ function SupplierPurchaseInvoice() {
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>50</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>50 AED</p>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>50 USD</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>5000 AED </p>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>5000 USD </p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -88,10 +88,10 @@ function SupplierPurchaseInvoice() {
                                                                     <p style={{ fontWeight: 500, fontSize: '13px' }}>100</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>60 AED</p>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>60 USD</p>
                                                                 </td>
                                                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>6000 AED</p>
+                                                                    <p style={{ fontWeight: 500, fontSize: '13px' }}>6000 USD</p>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -115,15 +115,15 @@ function SupplierPurchaseInvoice() {
                                                                         <tbody>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 USD</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 USD</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                 <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable :</p>
-                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>1425500 AED</p>
+                                                                                <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>1425500 USD</p>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>

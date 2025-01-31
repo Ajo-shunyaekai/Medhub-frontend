@@ -10,9 +10,9 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const ordersPerPage = 2;
 
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
     ];
 
     // const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
@@ -91,7 +91,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             <span className="table-g-driver-name">Target Price</span>
                                             <span className="table-g-not-name">
                                                 {item.price || item.target_price || item.totalAmount
-                                                    ? `${item.price || item.target_price || item.totalAmount} AED`
+                                                    ? `${item.price || item.target_price || item.totalAmount} USD`
                                                     : '-'}
                                             </span>
                                         </div>
@@ -102,7 +102,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                             <span className="table-g-driver-name">Counter Price</span>
                                             <span className="table-g-not-name">
                                                 {item.counterprice || item.counter_price
-                                                    ? `${item.counterprice || item.counter_price} AED`
+                                                    ? `${item.counterprice || item.counter_price} USD`
                                                     : '-'}
                                             </span>
                                         </div>

@@ -176,7 +176,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
                                 <div className="product-details-sec-two-left">
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Unit Price :</div>
-                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price} AED</div>
+                                        <div className='product-details-two-right-text'>{medicineDetails?.unit_price} USD</div>
                                     </div>
                                     <div className="product-details-two">
                                         <div className='product-details-two-left-text'>Minimum Purchase :</div>
@@ -292,9 +292,9 @@ const SecondaryProductRequestDetails = ({socket}) => {
                                                 // value={info?.unit_price}
                                                 value={
                                                     info?.unit_price
-                                                        ? info.unit_price.toLowerCase().includes('aed')
-                                                            ? info.unit_price.replace(/aed/i, 'AED')
-                                                            : `${info.unit_price} AED`
+                                                        ? info.unit_price.toLowerCase().includes('usd')
+                                                            ? info.unit_price.replace(/usd/i, 'USD')
+                                                            : `${info.unit_price} USD`
                                                         : ''
                                                 }
                                             />
@@ -304,9 +304,9 @@ const SecondaryProductRequestDetails = ({socket}) => {
                                          
                                                 value={
                                                     info?.total_price
-                                                        ? info.total_price.toLowerCase().includes('aed')
-                                                            ? info.total_price.replace(/aed/i, 'AED')
-                                                            : `${info.total_price} AED`
+                                                        ? info.total_price.toLowerCase().includes('usd')
+                                                            ? info.total_price.replace(/usd/i, 'USD')
+                                                            : `${info.total_price} USD`
                                                         : ''
                                                 }
                                             />

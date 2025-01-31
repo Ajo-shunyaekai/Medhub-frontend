@@ -77,6 +77,15 @@ const LogisticsForm = () => {
                             />
                         </div>
                         <div className={styles.logisticesInputSection}>
+                            <label className={styles.formLabel}>Landmark</label>
+                            <input
+                                className={styles.formInput}
+                                type="text"
+                                placeholder="Enter Landmark"
+                                autoComplete="off"
+                            />
+                        </div>
+                        <div className={styles.logisticesInputSection}>
                             <label className={styles.formLabel}>Country<span className={styles.labelstamp}>*</span></label>
                             <Select
                                 options={Country.getAllCountries()}
@@ -92,7 +101,7 @@ const LogisticsForm = () => {
                             />
                         </div>
                         <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>State<span className={styles.labelstamp}>*</span></label>
+                            <label className={styles.formLabel}>State</label>
                             <Select
                                 options={
                                     selectedCountry
@@ -113,7 +122,7 @@ const LogisticsForm = () => {
                             />
                         </div>
                         <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>City<span className={styles.labelstamp}>*</span></label>
+                            <label className={styles.formLabel}>City</label>
                             <Select
                                 options={
                                     selectedState && selectedState.isoCode !== "OTHER"

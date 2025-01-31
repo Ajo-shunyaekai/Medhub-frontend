@@ -112,7 +112,7 @@ const PurchasedOrdersList = () => {
                                                 </div>
                                                 <div className='completed-table-row-item completed-table-order-1'>
                                                     {/* Display totalAmount, fall back to order.total_amount if available */}
-                                                    <div className='completed-table-text-color'>{order.total_amount || totalAmount} AED</div>
+                                                    <div className='completed-table-text-color'>{order.total_amount || totalAmount} USD</div>
                                                 </div>
                                                 <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
                                                     <Link to={`/buyer/purchased-order-details/${order.purchaseOrder_id}`}>

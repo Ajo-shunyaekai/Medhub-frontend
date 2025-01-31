@@ -59,7 +59,7 @@ const ProductDetailsCard = ({ similarMedicines, onMedicineClick, totalItems, cur
                                         </div> */}
                                         <div className='buyer-product-details-card-text-section'>
                                             <div className='buyer-product-details-card-text-head'>Unit Price :</div>
-                                            <div className='buyer-product-details-card-test-text'>{product?.inventory_info[0]?.unit_price} AED</div>
+                                            <div className='buyer-product-details-card-test-text'>{product?.inventory_info[0]?.unit_price} USD</div>
                                         </div>
                                         <div className='buyer-product-details-card-text-section'>
                                             <div className='buyer-product-details-card-text-head'>Total Quantity :</div>

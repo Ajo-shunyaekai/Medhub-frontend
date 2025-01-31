@@ -9,9 +9,9 @@ const AssignDriver = ({orderItems, orderDetails}) => {
     const ordersPerPage = 3; 
 
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
     ];
 
     const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
@@ -61,7 +61,7 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Total Amount</span>
                                             <span className="table-g-not-name">
-                                            {item.total_amount || item.item_price ? `${item.total_amount || item.item_price} AED` : '-'}
+                                            {item.total_amount || item.item_price ? `${item.total_amount || item.item_price} USD` : '-'}
                                             </span>
                                         </div>
                                     </td>

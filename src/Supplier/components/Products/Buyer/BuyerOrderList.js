@@ -6,10 +6,10 @@ import moment from 'moment/moment';
 
 const BuyerOrderList = ({orderList, totalOrders, currentPage, ordersPerPage, handleOrderPageChange}) => {
     const orders = [
-        { id: 'PR1234567', price: '588 AED', quantity: 100 },
-        { id: 'PR1234568', price: '700 AED', quantity: 50 },
-        { id: 'PR1234569', price: '1200 AED', quantity: 200 },
-        { id: 'PR1234570', price: '300 AED', quantity: 150 },
+        { id: 'PR1234567', price: '588 USD', quantity: 100 },
+        { id: 'PR1234568', price: '700 USD', quantity: 50 },
+        { id: 'PR1234569', price: '1200 USD', quantity: 200 },
+        { id: 'PR1234570', price: '300 USD', quantity: 150 },
     ];
 
     return (

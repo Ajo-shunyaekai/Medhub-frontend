@@ -136,7 +136,7 @@ const CompletedInvoicesList = () => {
                                                         <div className='table-text-color'>{invoice.buyer_name}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color'>{invoice.total_payable_amount} AED</div>
+                                                        <div className='completed-table-text-color'>{invoice.total_payable_amount} USD</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
                                                         <div className='completed-table-text-color'>{invoice.mode_of_payment}</div>
@@ -163,6 +163,7 @@ const CompletedInvoicesList = () => {
                                         )}
                             </tbody>
                         </Table>
+                        {invoiceList.length > 0 && (
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -182,6 +183,7 @@ const CompletedInvoicesList = () => {
                                 </div>
                             </div>
                         </div>
+                        )}
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'completed'} /> : ''
                         }

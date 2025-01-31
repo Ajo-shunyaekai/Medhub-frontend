@@ -126,17 +126,17 @@ body {
   justify-content: space-around;
   align-items: center;
   gap: 10px;
+  cursor: pointer !important;
 }
 
 .noti_profile_wrapper:hover {
   background-color: rgba(135, 150, 165, 0.1);
+  cursor: pointer !important;
 }
 
 .noti_profile {
-  text-align: center;
-  font-size: 12px !important;
+  font-size: 11px !important;
   color: #99a0ac;
-  width: 80px;
 }
 
 .noti_profile_text {

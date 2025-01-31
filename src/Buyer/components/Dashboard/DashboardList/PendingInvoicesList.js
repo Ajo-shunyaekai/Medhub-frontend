@@ -31,7 +31,7 @@ const PendingInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "14785269",
             "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
+            "amount":"233 USD",
             "status":"Pending",
            
         },
@@ -39,7 +39,7 @@ const PendingInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "14785269",
             "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
+            "amount":"233 USD",
             "status":"Pending",
            
         },
@@ -47,7 +47,7 @@ const PendingInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "14785269",
             "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
+            "amount":"233 USD",
             "status":"Pending",
            
         },
@@ -55,7 +55,7 @@ const PendingInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "14785269",
             "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
+            "amount":"233 USD",
             "status":"Pending",
            
         },
@@ -63,7 +63,7 @@ const PendingInvoicesList = () => {
             "invoice_no": "3654646",
             "order_id": "14785269",
             "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
+            "amount":"233 USD",
             "status":"Pending",
            
         },
@@ -176,7 +176,7 @@ const PendingInvoicesList = () => {
                                             <div className='table-text-color'>{invoice.supplier_name}</div>
                                         </div>  
                                         <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} AED</div>
+                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} USD</div>
                                         </div>
                                         <div className='completed-table-row-item completed-table-order-1'>
                                             <div className='completed-table-text-color'>{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</div>

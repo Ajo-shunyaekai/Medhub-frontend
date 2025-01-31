@@ -28,7 +28,7 @@ const OngoingInvoice = () => {
                             </td>
                             <td>
                                 <div className="mx-0">
-                                    <span className="item-title text-color">2748 AED</span>
+                                    <span className="item-title text-color">2748 USD</span>
                                 </div>
                             </td>
 
@@ -63,7 +63,7 @@ const OngoingInvoice = () => {
                             </td>
                             <td>
                                 <div className="mx-0">
-                                    <span className="item-title text-color">2748 AED</span>
+                                    <span className="item-title text-color">2748 USD</span>
                                 </div>
                             </td>
 
@@ -98,7 +98,7 @@ const OngoingInvoice = () => {
                             </td>
                             <td>
                                 <div className="mx-0">
-                                    <span className="item-title text-color">2748 AED</span>
+                                    <span className="item-title text-color">2748 USD</span>
                                 </div>
                             </td>
 
@@ -133,7 +133,7 @@ const OngoingInvoice = () => {
                             </td>
                             <td>
                                 <div className="mx-0">
-                                    <span className="item-title text-color">2748 AED</span>
+                                    <span className="item-title text-color">2748 USD</span>
                                 </div>
                             </td>
 

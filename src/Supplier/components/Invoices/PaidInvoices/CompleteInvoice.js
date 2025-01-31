@@ -98,7 +98,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                                     </div>
                                                 </td>
                                                 <td className="flex">
-                                                    <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                    <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                                 </td>
                                                 <td className="flex">
                                                     <span className="item-title text-color">{invoice.mode_of_payment}</span>
@@ -129,7 +129,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                 <>
                                     <tbody>
                                         <tr>
-                                            <td colSpan="6">
+                                            <td colSpan="12">
                                                 <div className='pending-products-no-orders'>
                                                     No Paid Invoices
                                                 </div>
@@ -142,6 +142,8 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                         }
                     </table>
                 </div>
+                {
+                           invoiceList.length > 0 && (
                 <div className='pending-invoice-pagination-conatiner-section'>
                     <div className='pagi-container'>
                         <Pagination
@@ -161,6 +163,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                         </div>
                     </div>
                 </div>
+                           )}
             </div>
         </>
     );

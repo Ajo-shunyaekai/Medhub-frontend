@@ -250,9 +250,9 @@ const ProductRequestDetails = ({ socket }) => {
                                                 // value={info?.unit_price}
                                                 value={
                                                     info?.unit_price
-                                                        ? info.unit_price.toLowerCase().includes('aed')
-                                                            ? info.unit_price.replace(/aed/i, 'AED')
-                                                            : `${info.unit_price} AED`
+                                                        ? info.unit_price.toLowerCase().includes('usd')
+                                                            ? info.unit_price.replace(/usd/i, 'USD')
+                                                            : `${info.unit_price} USD`
                                                         : ''
                                                 }
                                             />
@@ -262,9 +262,9 @@ const ProductRequestDetails = ({ socket }) => {
                                                
                                                 value={
                                                     info?.total_price
-                                                        ? info.total_price.toLowerCase().includes('aed')
-                                                            ? info.total_price.replace(/aed/i, 'AED')
-                                                            : `${info.total_price} AED`
+                                                        ? info.total_price.toLowerCase().includes('usd')
+                                                            ? info.total_price.replace(/usd/i, 'USD')
+                                                            : `${info.total_price} USD`
                                                         : ''
                                                 }
                                             />

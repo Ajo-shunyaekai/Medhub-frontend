@@ -110,7 +110,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                         </td>
                                         <td>
                                             <div className="mx-0">
-                                                <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                             </div>
                                         </td>
 
