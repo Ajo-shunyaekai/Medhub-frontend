@@ -364,12 +364,20 @@ const SupplierSignUp = ({ socket }) => {
         }
 
         // Existing validations
-        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email' || name === 'companyAddress' 
+            || name === 'locality' || name === 'landMark') && value.length > 50) {
             setErrors((prevState) => ({
                 ...prevState,
                 [name]: ``,
             }));
             return;
+        }
+
+        if((name === 'tags' || name === 'activityCode')&& value.length > 60) {
+            setErrors((prevState) => ({
+                ...prevState,
+                [name]: ``,
+            }));
         }
 
         if (['registrationNo', 'vatRegistrationNo', 'companyLicenseNo', 'companyTaxNo'].includes(name)) {
@@ -386,9 +394,8 @@ const SupplierSignUp = ({ socket }) => {
 
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-        } else if ((name === 'salesPersonName' || name === 'salesPersonName') && !/^[a-zA-Z\s]*$/.test(value)) {
-            setErrors(prevState => ({ ...prevState, salesPersonName: '' }));
-        } else if ((name === 'contactPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+        }  else if ((name === 'contactPersonName' || name === 'designation' || name === 'salesPersonName') && 
+                    (!/^[a-zA-Z\s]*$/.test(value) ||  value.length > 50)) {
             setErrors(prevState => ({ ...prevState, designation: '' }));
         } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, delivertime: '' }));
@@ -896,12 +903,12 @@ const SupplierSignUp = ({ socket }) => {
 
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Pincode(Optional)</label>
+                                                <label className='signup-form-section-label'>Pincode/Postcode(Optional)</label>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="pincode"
-                                                    placeholder="Enter Pincode"
+                                                    placeholder="Enter Pincode/Postcode"
                                                     value={formData.pincode}
                                                     onChange={handleChange}
                                                 />
@@ -986,7 +993,7 @@ const SupplierSignUp = ({ socket }) => {
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="tags"
-                                                    placeholder="Enter Tags (comma separated, max 5)"
+                                                    placeholder="Enter Tags (comma separated)"
                                                     value={formData.tags}
                                                     onChange={handleChange}
                                                 />
@@ -1036,9 +1043,12 @@ const SupplierSignUp = ({ socket }) => {
                                                         className="info-icon"
                                                         data-tooltip-id="bank-details-tooltip"
                                                         data-tooltip-content="Provide the following information: 
-                                                            1. Bank Name 
-                                                            2. Account Number 
-                                                            3. IFSC Code"
+                                                             Bank Name ,
+                                                            Account Number ,
+                                                             IFSC Code,
+                                                            (comma seperated)
+                                                            "
+                                                            
                                                     >
                                                         <img src={Information} className='tooltip-icons' alt='information' />
                                                     </span>
