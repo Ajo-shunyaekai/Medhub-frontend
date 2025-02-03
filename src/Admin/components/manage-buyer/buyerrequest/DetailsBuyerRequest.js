@@ -137,7 +137,7 @@ const DetailsBuyerRequest = () => {
             action: action,
             sales_person_name: salesPersonName
         }
-        if (!salesPersonName) {
+        if (!salesPersonName || salesPersonName === '') {
              return toast('Sales Person is required', { type: 'error' });
         }
         if (action === 'accept') {
