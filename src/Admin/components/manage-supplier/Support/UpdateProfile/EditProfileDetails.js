@@ -91,7 +91,7 @@ const EditProfileDetails = ({ socket }) => {
               alt="Name"
             />
             <span className={styles.editProfileInnerText}>
-              {profileEditReqDetail?.user_type}
+              {profileEditReqDetail?.usertype}
             </span>
           </div>
         </div>

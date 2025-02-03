@@ -8,7 +8,7 @@ const user_type_from_url = window?.location?.href
   
   
 
-export const user_type =
+export const usertype =
   sessionStorage.getItem("buyer_id") || user_type_from_url === "buyer" || window?.location?.pathname == '/buyer' || window?.location?.pathname?.includes('/buyer/')
     ? "Buyer"
     : sessionStorage.getItem("supplier_id") ||  user_type_from_url === "supplier"  || window?.location?.pathname == '/supplier' || window?.location?.pathname?.includes('/supplier/')

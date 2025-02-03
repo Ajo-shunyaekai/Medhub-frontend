@@ -109,7 +109,7 @@ const SupplierSignUp = ({ socket }) => {
         state: '',
         city: '',
         pincode: '',
-        user_type: 'Supplier'
+        usertype: 'Supplier'
     }
 
 
@@ -685,7 +685,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('state', formData.state?.name || '');
             formDataToSend.append('city', formData.city?.name || '');
             formDataToSend.append('pincode', formData.pincode);
-            formDataToSend.append('user_type', formData.user_type);
+            formDataToSend.append('usertype', formData.usertype);
 
             (Array.isArray(formData.logoImage) ? formData.logoImage : []).forEach(file => formDataToSend.append('supplier_image', file));
             (Array.isArray(formData.licenseImage) ? formData.licenseImage : []).forEach(file => formDataToSend.append('license_image', file));

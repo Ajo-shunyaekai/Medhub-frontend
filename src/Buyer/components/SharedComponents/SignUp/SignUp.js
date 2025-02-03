@@ -108,7 +108,7 @@ const SignUp = ({ socket }) => {
         state: null,
         city: null,
         pincode: '',
-        user_type: 'Buyer'
+        usertype: 'Buyer'
     }
 
    
@@ -667,7 +667,7 @@ const SignUp = ({ socket }) => {
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
             formDataToSend.append('activity_code', formData.activityCode);
-            formDataToSend.append('user_type', formData.user_type || 'Buyer');
+            formDataToSend.append('usertype', formData.usertype || 'Buyer');
             // New data fields
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);

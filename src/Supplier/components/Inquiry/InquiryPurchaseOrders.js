@@ -67,7 +67,7 @@ const InquiryPurchaseOrder = () => {
             status      : status,
             pageNo      : currentPage, 
             pageSize    : inquiryPerPage,
-            user_type   : 'Supplier'
+            usertype   : 'Supplier'
         }
  
         // postRequestWithToken('supplier/enquiry/enquiry-list', obj, async (response) => {

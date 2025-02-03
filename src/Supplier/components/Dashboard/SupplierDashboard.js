@@ -32,7 +32,7 @@ const SupplierDashboard = () => {
 
         const obj = {
             supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            user_type   : 'supplier'
+            usertype   : 'supplier'
         }
         postRequestWithToken('supplier/orders-buyer-country', obj, async (response) => {
             if (response.code === 200) {
@@ -72,100 +72,100 @@ const SupplierDashboard = () => {
     }
     return (
         <>
-            <div className='dashboard-section'>
-                <div className='dashboard-heading'>Dashboard</div>
-                <div className='analystic-button' >
-                    <div className='buttons'>Analytics</div>
+            <div className='supplier-dashboard-section'>
+                <div className='supplier-dashboard-heading'>Dashboard</div>
+                <div className='supplier-analystic-button' >
+                    <div className='supplier-buttons'>Analytics</div>
                 </div>
                 {/* start the card container */}
-                <div className='cart-main-container'>
-                    <div className='cart-left-main-container'>
-                        <div className='cart-left-top-section'>
-                            <div className='cart-top-right-section'>
-                                <div className='top-container'>
+                <div className='supplier-cart-main-container'>
+                    <div className='supplier-cart-left-main-container'>
+                        <div className='supplier-cart-left-top-section'>
+                            <div className='supplier-cart-top-right-section'>
+                                <div className='supplier-top-container'>
                                     <Link to='/supplier/inquiry-request-list'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Inquiry Request</div>
-                                            <div className='top-text'>{orderSummary?.enquiryCount || 0}</div>
+                                        <div className='supplier-top-content-section'>
+                                            <div className='supplier-top-head'>Inquiry Request</div>
+                                            <div className='supplier-top-text'>{orderSummary?.enquiryCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/purchased-orders-list'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Purchased Orders</div>
-                                            <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
+                                        <div className='supplier-top-content-section'>
+                                            <div className='supplier-top-head'>Purchased Orders</div>
+                                            <div className='supplier-top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/ongoing-orders'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
+                                        <div className='supplier-top-content-section'>
+                                            <div className='supplier-top-head'>Active Orders</div>
+                                            <div className='supplier-top-text'>{orderSummary?.orderDetails?.activeCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/completed-orders'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 0}</div>
+                                        <div className='supplier-top-content-section'>
+                                            <div className='supplier-top-head'>Completed Orders</div>
+                                            <div className='supplier-top-text'>{orderSummary?.orderDetails?.completedCount[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                 </div>
-                                <div className='bottom-container'>
+                                <div className='supplier-bottom-container'>
                                     <Link to='/supplier/pending-invoices-list'>
-                                        <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
-                                            <div className='bottom-graph'>
+                                        <div className='supplier-bottom-cart-cont'>
+                                            <div className='supplier-bottom-head'>Pending Invoices: <span className='supplier-bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
+                                            <div className='supplier-bottom-graph'>
                                                 <ProgressBar />
                                             </div>
                                         </div>
                                     </Link>
                                     <Link to='/supplier/completed-invoices-list'>
-                                        <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'> Completed Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
-                                            <div className='bottom-graph'>
+                                        <div className='supplier-bottom-cart-cont'>
+                                            <div className='supplier-bottom-head'> Completed Invoices: <span className='supplier-bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
+                                            <div className='supplier-bottom-graph'>
                                                 <OrangeBar />
                                             </div>
                                         </div>
                                     </Link>
                                 </div>
                             </div>
-                            <div className='cart-top-left-section'>
-                                <div className='left-head'>Total Sales Amount</div>
-                                <div className='circular-process'>
+                            <div className='supplier-cart-top-left-section'>
+                                <div className='supplier-left-head'>Total Sales Amount</div>
+                                <div className='supplier-circular-process'>
                                     <CircularBar totalSalesAmount = {orderSummary?.orderDetails?.totalPurchaseAmount[0]?.total_purchase}  />
                                 </div>
                             </div>
                         </div>
-                        <div className='supplier-cart-left-bottom-section'>
-                            <div className='supplier-cart-left-bottom-container'>
-                                <div className='supplier-left-bottom-cart-top'>
-                                    <span className='supplier-left-bottom-pert'>{salesSummary[0]?.weeklyData[0]?.orderCount || 0}</span>
+                        <div className='supplier-supplier-cart-left-bottom-section'>
+                            <div className='supplier-supplier-cart-left-bottom-container'>
+                                <div className='supplier-supplier-left-bottom-cart-top'>
+                                    <span className='supplier-supplier-left-bottom-pert'>{salesSummary[0]?.weeklyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='supplier-left-bottom-head'>Weekly Sales</div>
-                                <div className='supplier-line-chart-graph'>
+                                <div className='supplier-supplier-left-bottom-head'>Weekly Sales</div>
+                                <div className='supplier-supplier-line-chart-graph'>
                                     <ConversionChart />
                                 </div>
                             </div>
-                            <div className='supplier-cart-left-bottom-container'>
-                                <div className='supplier-left-bottom-cart-top'>
-                                    <span className='supplier-left-bottom-plus'>{salesSummary[0]?.monthlyData[0]?.orderCount || 0}</span>
+                            <div className='supplier-supplier-cart-left-bottom-container'>
+                                <div className='supplier-supplier-left-bottom-cart-top'>
+                                    <span className='supplier-supplier-left-bottom-plus'>{salesSummary[0]?.monthlyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='supplier-left-bottom-head'>Monthly Sales</div>
-                                <div className='supplier-line-chart-graph'>
+                                <div className='supplier-supplier-left-bottom-head'>Monthly Sales</div>
+                                <div className='supplier-supplier-line-chart-graph'>
                                     <SearchEngineChart />
                                 </div>
                             </div>
-                            <div className='supplier-cart-left-bottom-container'>
-                                <div className='supplier-left-bottom-cart-top'>
-                                    <span className='supplier-left-bottom-pert'>{salesSummary[0]?.yearlyData[0]?.orderCount || 0}</span>
+                            <div className='supplier-supplier-cart-left-bottom-container'>
+                                <div className='supplier-supplier-left-bottom-cart-top'>
+                                    <span className='supplier-supplier-left-bottom-pert'>{salesSummary[0]?.yearlyData[0]?.orderCount || 0}</span>
                                 </div>
-                                <div className='supplier-left-bottom-head'>Yearly Sales</div>
-                                <div className='supplier-line-chart-graph'>
+                                <div className='supplier-supplier-left-bottom-head'>Yearly Sales</div>
+                                <div className='supplier-supplier-line-chart-graph'>
                                     <DirectlyChart data={chartData}/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className='cart-right-main-container'>
-                        <div className='map-container'>
+                    <div className='supplier-cart-right-main-container'>
+                        <div className='supplier-map-container'>
                             <WorldMap
                                 color="red"
                                 value-suffix="people"
@@ -173,20 +173,12 @@ const SupplierDashboard = () => {
                                 data={countryData}
                             />
                         </div>
-                        <div className='right-head'>Your Buyer Countries</div>
-                        <div className='right-country-section'>
-                            {/* <div className='country-sect'>
-                                <span className='country-names'>{countryData[0]?.country}</span>
-                                <span className='country-price'>{countryData[0]?.value} USD</span>
-                            </div>
-                            <div className='country-sect'>
-                                <span className='country-name'>{countryData[1]?.country}</span>
-                                <span className='country-price'>{countryData[1]?.value} USD</span>
-                            </div> */}
+                        <div className='supplier-right-head'>Your Buyer Countries</div>
+                        <div className='supplier-right-country-section'>
                             {countryData?.slice(0, 2).map((data, index) => (
-                                <div className="country-sect" key={index}>
-                                    <span className="country-names">{data?.country}</span>
-                                    <span className="country-price">{data?.value} USD</span>
+                                <div className='supplier-country-sect' key={index}>
+                                    <span className='supplier-country-names'>{data?.country}</span>
+                                    <span className='supplier-country-price'>{data?.value} USD</span>
                                 </div>
                             ))}
                         </div>

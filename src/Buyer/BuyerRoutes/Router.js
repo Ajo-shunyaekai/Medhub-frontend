@@ -122,7 +122,7 @@ export function NotificationProvider({ children }) {
       event,
       status: 1,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      user_type: "buyer",
+      usertype: "buyer",
     };
     postRequestWithToken(
       "buyer/update-notification-status",
@@ -205,10 +205,10 @@ export function NotificationProvider({ children }) {
 
 // Routes
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/buyer" replace />,
-  },
+  // {
+  //   path: "/",
+  //   element: <Navigate to="/buyer" replace />,
+  // },
   {
     path: "/buyer/login",
     element: <Login socket={socket} />,

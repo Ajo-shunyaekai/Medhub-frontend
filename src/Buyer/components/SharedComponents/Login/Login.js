@@ -55,7 +55,7 @@ const Login = ({ socket }) => {
             let obj = {
                 email,
                 password,
-                user_type: "Buyer"
+                usertype: "Buyer"
             }
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
