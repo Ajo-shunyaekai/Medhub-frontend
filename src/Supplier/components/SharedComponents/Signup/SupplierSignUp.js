@@ -338,12 +338,9 @@ const SupplierSignUp = ({ socket }) => {
             }
 
             // Validate IFSC code if account number is valid
-            else if (ifscCode) {
-                // if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
-                // errorMessage = 'Invalid IFSC/Sort code format (should be like HDFC0123456)';
-                // } 
-                 if (ifscCode.length > 20) {
-                    errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
+             if (ifscCode) {
+                 if (ifscCode.length > 16) {
+                    errorMessage = 'IFSC/Sort Code should not exceed 16 digits';
                 }
             }
 
@@ -532,7 +529,39 @@ const SupplierSignUp = ({ socket }) => {
         }
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
-        if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
+        // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
+        console.log('ormData.bankdetails',formData.bankdetails)
+        if (!formData.bankdetails) {
+            formErrors.bankdetails = 'Bank Details are Required';
+        } else {
+            const bankDetailsArray = formData.bankdetails.split(',');
+            
+            // Check if we have all three parts
+            if (bankDetailsArray.length !== 3) {
+                formErrors.bankdetails = 'Please provide Bank Name, Account Number, and IFSC Code separated by commas';
+            } else {
+                const [bankName, accountNumber, ifscCode] = bankDetailsArray.map(item => item.trim());
+                
+                // Validate each part
+                if (!bankName) {
+                    formErrors.bankdetails = 'Bank Name is required';
+                }
+                
+                if (!accountNumber || accountNumber.length < 8) {
+                    formErrors.bankdetails = 'Please enter a valid Account Number';
+                }
+                
+                // IFSC validation (11 characters, alphanumeric)
+                // if (!ifscCode || !/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifscCode)) {
+                //     formErrors.bankdetails = 'Please enter a valid IFSC Code (11 characters, starting with 4 letters followed by a 0)';
+                // }
+                if (!ifscCode || ifscCode.length < 12) {
+                    formErrors.bankdetails = 'Please enter a valid IFSC code ';
+                }
+            }
+        }
+      
+
         // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
