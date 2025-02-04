@@ -215,7 +215,7 @@ export function NotificationProvider({ children }) {
       event,
       status: 1,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      usertype: "buyer",
+      user_type: "buyer",
     };
     postRequestWithToken(
       "buyer/update-notification-status",
