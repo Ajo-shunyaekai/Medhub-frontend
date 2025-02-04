@@ -1,4 +1,11 @@
-import React, { useEffect, useState, createContext, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  Suspense,
+  lazy,
+} from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,67 +14,153 @@ import {
   Navigate,
 } from "react-router-dom";
 import { postRequestWithToken } from "../../api/Requests";
-import Sidebar from "../components/SharedComponents/Sidebar/Sidebar";
 import io from "socket.io-client";
-import Layout from "../components/SharedComponents/layout";
-import Login from "../components/SharedComponents/Login/Login";
-import SignUp from "../components/SharedComponents/SignUp/SignUp";
-import Dashboard from "../components/Dashboard/index";
-import Buy from "../components/Buy/index";
-import Inquiry from "../components/Inquiry/index";
-import Order from "../components/Orders/index";
-import MySupplier from "../components/MySuppliers/index";
-import Subscription from "../components/Subscription/index";
-import Invoice from "../components/Invoice/index";
-import Support from "../components/Support/index";
-import BySeller from "../components/Buy/BySupplier/BuySeller";
-import ByProduct from "../components/Buy/ByProduct/BuyProduct";
-import SecondaryMarket from "../components/Buy/SecondaryMarket/Buy2ndMarket";
-import SupplierDetails from "../components/Buy/BySupplier/SupplierDetails";
-import SearchProductDetails from "../components/Buy/ByProduct/SearchProductDetails";
-import SearchMarketProductDetails from "../components/Buy/SecondaryMarket/SearchMarketProductDetails";
-import OnGoingOrder from "../components/Inquiry/Inquiry/OnGoingOrder";
-import PurchasedOrder from "../components/Inquiry/PurchasedOrder/PurchasedOrder";
-import ActiveOrder from "../components/Orders/ActiveOrders/ActiveOrder";
-import CompletedOrders from "../components/Orders/CompletedOrders/CompleteOrder";
-import SubscriptionMembership from "../components/Subscription/SubscriptionMembership";
-import PendingInvoice from "../components/Invoice/Pending/PendingInvoice";
-import PaidInvoice from "../components/Invoice/Paid/CompleteInvoice";
-import ProformaInvoice from "../components/Invoice/Proforma/ProformaInvoice";
-import OnGoingInquiriesList from "../components/Dashboard/DashboardList/OngoingInquiriesList";
-import PurchasedOrdersList from "../components/Dashboard/DashboardList/PurchasedOrdersList";
-import ActiveOrders from "../components/Dashboard/DashboardList/ActiveOrders";
-import CompletedOrder from "../components/Dashboard/DashboardList/CompletedOrders";
-import CompleteInvoicesList from "../components/Dashboard/DashboardList/CompleteInvoicesList";
-import PendingInvoicesList from "../components/Dashboard/DashboardList/PendingInvoicesList";
-import MedicineDetails from "../components/Buy/ByProduct/ProductDetails";
-import MarketProductDetails from "../components/Buy/SecondaryMarket/MarketProductDetails";
-import OnGoingInquiriesDetails from "../components/Inquiry/Inquiry/OnGoingInquiriesDetails";
-import CancelInquiryList from "../components/Inquiry/Inquiry/CancelnquiryList";
-import PurchaseOrderDetails from "../components/Inquiry/PurchasedOrder/PurchasedOrderDetails";
-import CreatePO from "../components/Inquiry/PurchasedOrder/CreatePO";
-import EditCreatePO from "../components/Inquiry/PurchasedOrder/EditCreatePO";
-import OrderDetails from "../components/Orders/OrderDetails/OrderDetails";
-import InvoiceDesign from "../components/Invoice/invoiceDesign";
-import PerformaInvoiceDetails from "../components/Invoice/ProformaInvoiceDetails";
-import SendInquiry from "../components/Buy/SendInquiry/SendInquiry";
-import ThankYou from "../components/Buy/SendInquiry/ThankYou";
-import NotificationList from "../components/SharedComponents/Notification/NotificationList";
-import SupplyProductList from "../components/Buy/BySupplier/SupplyProductList";
-import SupplyOrderList from "../components/Buy/BySupplier/SupplyOrderList";
-import SupplySecondaryList from "../components/Buy/BySupplier/SupplySecondaryList";
-import SupplierCompleted from "../components/supplier/SuplierCompleted";
-import SupplierActive from "../components/supplier/SupplierActive";
-import SupplierPending from "../components/supplier/SupplierPending";
-import Profile from "../components/SharedComponents/Profile/profile";
-import PrivacyPolicy from "../../Policies/PrivcyPolicy";
-import TermsConditions from "../../Policies/Terms&Conditions";
-import ForgotPassword from "../components/SharedComponents/Login/ForgotPassword";
-import EditProfile from "../components/SharedComponents/Profile/EditProfile";
+
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
-import { apiRequests } from "../../api";
-import LogisticsForm from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm";
+import Loader from "../components/SharedComponents/Loader/Loader";
+
+// Lazy-load the components
+const Sidebar = lazy(() =>
+  import("../components/SharedComponents/Sidebar/Sidebar")
+);
+const Layout = lazy(() => import("../components/SharedComponents/layout"));
+const Login = lazy(() => import("../components/SharedComponents/Login/Login"));
+const SignUp = lazy(() =>
+  import("../components/SharedComponents/SignUp/SignUp")
+);
+const Dashboard = lazy(() => import("../components/Dashboard/index"));
+const Buy = lazy(() => import("../components/Buy/index"));
+const Inquiry = lazy(() => import("../components/Inquiry/index"));
+const Order = lazy(() => import("../components/Orders/index"));
+const MySupplier = lazy(() => import("../components/MySuppliers/index"));
+const Subscription = lazy(() => import("../components/Subscription/index"));
+const Invoice = lazy(() => import("../components/Invoice/index"));
+const Support = lazy(() => import("../components/Support/index"));
+const BySeller = lazy(() => import("../components/Buy/BySupplier/BuySeller"));
+const ByProduct = lazy(() => import("../components/Buy/ByProduct/BuyProduct"));
+const SecondaryMarket = lazy(() =>
+  import("../components/Buy/SecondaryMarket/Buy2ndMarket")
+);
+const SupplierDetails = lazy(() =>
+  import("../components/Buy/BySupplier/SupplierDetails")
+);
+const SearchProductDetails = lazy(() =>
+  import("../components/Buy/ByProduct/SearchProductDetails")
+);
+const SearchMarketProductDetails = lazy(() =>
+  import("../components/Buy/SecondaryMarket/SearchMarketProductDetails")
+);
+const OnGoingOrder = lazy(() =>
+  import("../components/Inquiry/Inquiry/OnGoingOrder")
+);
+const PurchasedOrder = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/PurchasedOrder")
+);
+const ActiveOrder = lazy(() =>
+  import("../components/Orders/ActiveOrders/ActiveOrder")
+);
+const CompletedOrders = lazy(() =>
+  import("../components/Orders/CompletedOrders/CompleteOrder")
+);
+const SubscriptionMembership = lazy(() =>
+  import("../components/Subscription/SubscriptionMembership")
+);
+const PendingInvoice = lazy(() =>
+  import("../components/Invoice/Pending/PendingInvoice")
+);
+const PaidInvoice = lazy(() =>
+  import("../components/Invoice/Paid/CompleteInvoice")
+);
+const ProformaInvoice = lazy(() =>
+  import("../components/Invoice/Proforma/ProformaInvoice")
+);
+const OnGoingInquiriesList = lazy(() =>
+  import("../components/Dashboard/DashboardList/OngoingInquiriesList")
+);
+const PurchasedOrdersList = lazy(() =>
+  import("../components/Dashboard/DashboardList/PurchasedOrdersList")
+);
+const ActiveOrders = lazy(() =>
+  import("../components/Dashboard/DashboardList/ActiveOrders")
+);
+const CompletedOrder = lazy(() =>
+  import("../components/Dashboard/DashboardList/CompletedOrders")
+);
+const CompleteInvoicesList = lazy(() =>
+  import("../components/Dashboard/DashboardList/CompleteInvoicesList")
+);
+const PendingInvoicesList = lazy(() =>
+  import("../components/Dashboard/DashboardList/PendingInvoicesList")
+);
+const MedicineDetails = lazy(() =>
+  import("../components/Buy/ByProduct/ProductDetails")
+);
+const MarketProductDetails = lazy(() =>
+  import("../components/Buy/SecondaryMarket/MarketProductDetails")
+);
+const OnGoingInquiriesDetails = lazy(() =>
+  import("../components/Inquiry/Inquiry/OnGoingInquiriesDetails")
+);
+const CancelInquiryList = lazy(() =>
+  import("../components/Inquiry/Inquiry/CancelnquiryList")
+);
+const PurchaseOrderDetails = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/PurchasedOrderDetails")
+);
+const CreatePO = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/CreatePO")
+);
+const EditCreatePO = lazy(() =>
+  import("../components/Inquiry/PurchasedOrder/EditCreatePO")
+);
+const OrderDetails = lazy(() =>
+  import("../components/Orders/OrderDetails/OrderDetails")
+);
+const InvoiceDesign = lazy(() => import("../components/Invoice/invoiceDesign"));
+const PerformaInvoiceDetails = lazy(() =>
+  import("../components/Invoice/ProformaInvoiceDetails")
+);
+const SendInquiry = lazy(() =>
+  import("../components/Buy/SendInquiry/SendInquiry")
+);
+const ThankYou = lazy(() => import("../components/Buy/SendInquiry/ThankYou"));
+const NotificationList = lazy(() =>
+  import("../components/SharedComponents/Notification/NotificationList")
+);
+const SupplyProductList = lazy(() =>
+  import("../components/Buy/BySupplier/SupplyProductList")
+);
+const SupplyOrderList = lazy(() =>
+  import("../components/Buy/BySupplier/SupplyOrderList")
+);
+const SupplySecondaryList = lazy(() =>
+  import("../components/Buy/BySupplier/SupplySecondaryList")
+);
+const SupplierCompleted = lazy(() =>
+  import("../components/supplier/SuplierCompleted")
+);
+const SupplierActive = lazy(() =>
+  import("../components/supplier/SupplierActive")
+);
+const SupplierPending = lazy(() =>
+  import("../components/supplier/SupplierPending")
+);
+const Profile = lazy(() =>
+  import("../components/SharedComponents/Profile/profile")
+);
+const PrivacyPolicy = lazy(() => import("../../Policies/PrivcyPolicy"));
+const TermsConditions = lazy(() => import("../../Policies/Terms&Conditions"));
+const ForgotPassword = lazy(() =>
+  import("../components/SharedComponents/Login/ForgotPassword")
+);
+const EditProfile = lazy(() =>
+  import("../components/SharedComponents/Profile/EditProfile")
+);
+const LogisticsForm = lazy(() =>
+  import("../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm")
+);
+
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -205,252 +298,478 @@ export function NotificationProvider({ children }) {
 
 // Routes
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <Navigate to="/buyer" replace />,
-  // },
+  {
+    path: "/",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Navigate to="/buyer" replace />
+      </Suspense>
+    ),
+  },
   {
     path: "/buyer/login",
-    element: <Login socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Login socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/buyer/forgot-password",
-    element: <ForgotPassword socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ForgotPassword socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/buyer/sign-up",
-    element: <SignUp socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <SignUp socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/buyer/privacy-policy",
-    element: <PrivacyPolicy socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <PrivacyPolicy socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/buyer/terms-and-conditions",
-    element: <TermsConditions socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <TermsConditions socket={socket} />
+      </Suspense>
+    ),
   },
   {
     path: "/buyer",
     element: (
-      <NotificationProvider>
-        <Layout />
-      </NotificationProvider>
+      <Suspense fallback={<Loader />}>
+        <NotificationProvider>
+          <Layout />
+        </NotificationProvider>
+      </Suspense>
     ),
     children: [
       {
         index: true,
-        element: <Dashboard socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Dashboard socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "edit-profile/:id",
-        element: <EditProfile socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditProfile socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "profile/:id",
-        element: <Profile socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Profile socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "ongoing-inquiries-list",
-        element: <OnGoingInquiriesList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OnGoingInquiriesList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "purchased-orders-list",
-        element: <PurchasedOrdersList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PurchasedOrdersList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "active-orders",
-        element: <ActiveOrders socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ActiveOrders socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "completed-order",
-        element: <CompletedOrder socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CompletedOrder socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "complete-invoices-list",
-        element: <CompleteInvoicesList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CompleteInvoicesList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "pending-invoices-list",
-        element: <PendingInvoicesList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PendingInvoicesList socket={socket} />
+          </Suspense>
+        ),
       },
 
       {
         path: "buy",
-        element: <Buy socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Buy socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "by-supplier",
-            element: <BySeller socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BySeller socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "by-product",
-            element: <ByProduct socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ByProduct socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "secondary-market",
-            element: <SecondaryMarket socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SecondaryMarket socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "medicine-details/:medicineId",
-        element: <MedicineDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MedicineDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "market-product-details/:medicineId",
-        element: <MarketProductDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MarketProductDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "supplier-details/:supplierId",
-        element: <SupplierDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SupplierDetails socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "products",
-            element: <SupplyProductList socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SupplyProductList socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "secondary",
-            element: <SupplySecondaryList socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SupplySecondaryList socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "orders",
-            element: <SupplyOrderList socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SupplyOrderList socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
 
       {
         path: "search-product-details/:medicineId",
-        element: <SearchProductDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SearchProductDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "search-market-product-details/:medicineId",
-        element: <SearchMarketProductDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SearchMarketProductDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "send-inquiry",
-        element: <SendInquiry socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SendInquiry socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "inquiry",
-        element: <Inquiry socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Inquiry socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "inquiry",
-            element: <OnGoingOrder socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <OnGoingOrder socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "purchased-order",
-            element: <PurchasedOrder socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PurchasedOrder socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "create-po/:inquiryId",
-        element: <CreatePO socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CreatePO socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "edit-create-po/:purchaseOrderId",
-        element: <EditCreatePO socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditCreatePO socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "cancel-inquiry-list/:inquiryId",
-        element: <CancelInquiryList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CancelInquiryList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "ongoing-inquiries-details/:inquiryId",
-        element: <OnGoingInquiriesDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OnGoingInquiriesDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "purchased-order-details/:purchaseOrderId",
-        element: <PurchaseOrderDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PurchaseOrderDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "order",
-        element: <Order socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Order socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "active-orders",
-            element: <ActiveOrder socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ActiveOrder socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "completed-orders",
-            element: <CompletedOrders socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <CompletedOrders socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "order-details/:orderId",
-        element: <OrderDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderDetails socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "my-supplier",
-        element: <MySupplier socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MySupplier socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "subscription",
-        element: <Subscription socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Subscription socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "subscription-membership",
-        element: <SubscriptionMembership socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SubscriptionMembership socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "invoice",
-        element: <Invoice socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Invoice socket={socket} />
+          </Suspense>
+        ),
         children: [
           {
             path: "pending-invoice",
-            element: <PendingInvoice socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PendingInvoice socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "paid-invoice",
-            element: <PaidInvoice socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PaidInvoice socket={socket} />
+              </Suspense>
+            ),
           },
           {
             path: "proforma-invoice",
-            element: <ProformaInvoice socket={socket} />,
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ProformaInvoice socket={socket} />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "invoice-design/:invoiceId",
-        element: <InvoiceDesign socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InvoiceDesign socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "proforma-invoice-details/:orderId",
-        element: <PerformaInvoiceDetails socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PerformaInvoiceDetails socket={socket} />
+          </Suspense>
+        ),
       },
 
       {
         path: "support",
-        element: <Support socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Support socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "notification-list",
-        element: <NotificationList socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <NotificationList socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "supplier-completed/:supplierId",
-        element: <SupplierCompleted socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SupplierCompleted socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "supplier-active/:supplierId",
-        element: <SupplierActive socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SupplierActive socket={socket} />
+          </Suspense>
+        ),
       },
       {
         path: "supplier-pending/:supplierId",
-        element: <SupplierPending socket={socket} />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SupplierPending socket={socket} />
+          </Suspense>
+        ),
       },
       {
-        path:"logistics-form",
-        element:<LogisticsForm />
-      }
+        path: "logistics-form",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <LogisticsForm socket={socket} />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
     path: "/buyer/thank-you",
-    element: <ThankYou socket={socket} />,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ThankYou socket={socket} />
+      </Suspense>
+    ),
   },
 ]);
 
