@@ -12,6 +12,7 @@ function ProformaDetailsPage() {
     const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
     const [orderDetails, setOrderDetails] = useState()
+    const [bankDetails, setBankDetails] = useState({ bankName: "", accountNo: "", sortCode: "" });
 
     useEffect(() => {
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
@@ -26,6 +27,13 @@ function ProformaDetailsPage() {
         postRequestWithToken('order/supplier-order-details', obj, async (response) => {
             if (response.code === 200) {
                 setOrderDetails(response.result)
+                if (response.result?.supplier?.bank_details) {
+                    const [bankName, accountNo, sortCode] = response.result.supplier.bank_details
+                        .split(",")
+                        .map(item => item.trim());
+    
+                    setBankDetails({ bankName, accountNo, sortCode });
+                }
             } else {
                 console.log('error in purchaseorder/get-po-details api', response);
             }
@@ -194,17 +202,23 @@ function ProformaDetailsPage() {
                                                             <table>
                                                                 <tbody style={{ borderBottom: '1px dotted rgb(153, 160, 172)' }}>
                                                                     <tr>
+                                                                  
                                                                         <td style={{ verticalAlign: 'top', paddingBottom: '20px', width: '42%' }}>
                                                                             <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                             <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                                 <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Bank Name :</p>
-                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.bank_name}</p>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails.bankName}</p>
                                                                             </tr>
                                                                             <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                                 <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.account_number}</p>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails.accountNo}</p>
+                                                                            </tr>
+                                                                            <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
+                                                                                <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails.sortCode}</p>
                                                                             </tr>
                                                                         </td>
+                                                                       
                                                                         <td style={{ width: '550px' }} >
                                                                             <table style={{ width: '100%', borderSpacing: 0, }}>
                                                                                 <tbody>

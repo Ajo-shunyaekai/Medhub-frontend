@@ -286,7 +286,7 @@ const SignUp = ({ socket }) => {
         // Regex patterns
         const alphanumericNoSpaceRegex = /^[a-zA-Z0-9]*$/;
         const yearlyPurchaseValueRegex = /^\d{0,8}$/;
-        const pincodeValueRegex          = /^\d{0,6}$/;
+        const pincodeValueRegex          = /^\d{0,6}$/; //only numbers
       
         // Handle license expiry date validation
         if (name === 'companyLicenseExpiry') {
@@ -405,7 +405,7 @@ const SignUp = ({ socket }) => {
         }
 
         if (name === 'pincode') {
-            if (!pincodeValueRegex.test(value)) {
+            if (!/^[A-Za-z0-9]{0,8}$/.test(value)) {
               setErrors(prevState => ({
                 ...prevState,
                 pincode: ''

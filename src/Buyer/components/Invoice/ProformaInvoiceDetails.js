@@ -12,6 +12,7 @@ function ProformaDetailsPage() {
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
     const [orderDetails, setOrderDetails] = useState()
+    const [bankDetails, setBankDetails] = useState({ bankName: "", accountNo: "", sortCode: "" });
 
     useEffect(() => {
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -26,6 +27,13 @@ function ProformaDetailsPage() {
         postRequestWithToken('order/order-details', obj, async (response) => {
             if (response.code === 200) {
                 setOrderDetails(response.result)
+                if (response.result?.supplier?.bank_details) {
+                    const [bankName, accountNo, sortCode] = response.result.supplier.bank_details
+                        .split(",")
+                        .map(item => item.trim());
+    
+                    setBankDetails({ bankName, accountNo, sortCode });
+                }
             } else {
                 console.log('error in buyer-order-details api', response);
             }
@@ -196,11 +204,15 @@ function ProformaDetailsPage() {
                                                                         <h1 style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', textAlign: 'start' }}>Bank Details :</h1>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Bank Name :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.bank_name}</p>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails?.bankName}</p>
                                                                         </tr>
                                                                         <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
                                                                             <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Account No :</p>
-                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{orderDetails?.account_number}</p>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails?.accountNo}</p>
+                                                                        </tr>
+                                                                        <tr style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', paddingTop: '8px' }}>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500', width: '100px' }}>Sort Code :</p>
+                                                                            <p style={{ fontSize: '14px', fontWeight: '500' }}>{bankDetails?.sortCode}</p>
                                                                         </tr>
                                                                     </td>
                                                                     <td style={{ width: '550px' }} >
