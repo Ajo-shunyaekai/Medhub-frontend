@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./logisticsaddress.module.css";
+import styles from "./supplierlogistics.module.css";
 import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -13,7 +13,7 @@ const initialAddresses = [
     { id: 4, name: "Sanya Mehta", type: "Store", addressLine1: "234 Shopping Plaza", addressLine2: "Park Avenue", country: "India Bangalore 560034", isRegistered: false }
 ];
 
-const LogisticsAddress = () => {
+const SupplierLogisticsAddress = () => {
     const [selectedAddress, setSelectedAddress] = useState(() => {
         return JSON.parse(localStorage.getItem("selectedAddress")) || null;
     });
@@ -37,7 +37,7 @@ const LogisticsAddress = () => {
         <div className={styles.container}>
             <div className={styles.innerHeadSection}>
                 <div className={styles.logisticsHeading}>Address List</div>
-                <Link to='/buyer/add-new-address'>
+                <Link to='/supplier/add-new-address'>
                     <div className={styles.innerButtons}>Add New Address</div>
                 </Link>
             </div>
@@ -63,7 +63,7 @@ const LogisticsAddress = () => {
                                         <div className={styles.actionButtons}>
                                             {/* Show edit button only if the address is selected */}
                                             {selectedAddress === address.id && (
-                                                <Link to="/buyer/edit-new-address">
+                                                <Link to="/supplier/edit-new-address">
                                                     <span className={styles.logisticsAddressButton}>Edit</span>
                                                 </Link>
                                             )}
@@ -107,4 +107,26 @@ const LogisticsAddress = () => {
     );
 };
 
-export default LogisticsAddress;
+export default SupplierLogisticsAddress;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

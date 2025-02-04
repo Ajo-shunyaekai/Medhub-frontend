@@ -139,10 +139,10 @@ const OrderDetails = ({ socket }) => {
     };
 
     return (
-        <div className="buyer-order-details-container">
-            <div className="buyer-order-details-conatiner-heading">
+        <div className="buyers-order-details-container">
+            <div className="buyers-order-details-conatiner-heading">
                 <span>Order ID:  {orderDetails?.order_id || '987456321'}</span>
-                <span className='active-details-medicine-details'>
+                <span className='buyers-active-details-medicine-details'>
                     {orderDetails?.items?.map((item, index) => (
                         <React.Fragment key={item._id || index}>
                             <span> {item.medicine_name} ({item.strength}) </span>
@@ -150,31 +150,31 @@ const OrderDetails = ({ socket }) => {
                         </React.Fragment>
                     ))}
                 </span>
-                <Link className='active-order-details-link-tag' to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
-                    <span className='active-details-purchsed-by'>Sold By: </span><span className='active-details-Buyer-name'>{orderDetails?.supplier?.supplier_name ||
+                <Link className='buyers-active-order-details-link-tag' to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
+                    <span className='buyers-active-details-purchsed-by'>Sold By: </span><span className='buyers-active-details-Buyer-name'>{orderDetails?.supplier?.supplier_name ||
                         'Pharmaceuticals Pvt Ltd'}</span>
                 </Link>
             </div>
-            <div className="buyer-order-details-section">
-                <div className="buyer-order-details-left-section">
-                    <div className="buyer-order-details-top-inner-section">
-                        <div className="buyer-order-details-left-inner-section-container">
-                            <div className="buyer-order-details-left-top-containers">
-                                <div className="buyer-order-details-top-order-cont">
-                                    <div className="buyer-order-details-left-top-main-heading">
+            <div className="buyers-order-details-section">
+                <div className="buyers-order-details-left-section">
+                    <div className="buyers-order-details-top-inner-section">
+                        <div className="buyers-order-details-left-inner-section-container">
+                            <div className="buyers-order-details-left-top-containers">
+                                <div className="buyers-order-details-top-order-cont">
+                                    <div className="buyers-order-details-left-top-main-heading">
                                         Date & Time
                                     </div>
-                                    <div className="buyer-order-details-left-top-main-contents">
+                                    <div className="buyers-order-details-left-top-main-contents">
                                         {moment(orderDetails?.created_at).tz('Asia/Kolkata').format('DD-MM-YYYY HH:mm:ss')}
                                     </div>
                                 </div>
 
 
-                                <div className="buyer-order-details-top-order-cont">
-                                    <div className="buyer-order-details-left-top-main-heading">
+                                <div className="buyers-order-details-top-order-cont">
+                                    <div className="buyers-order-details-left-top-main-heading">
                                         Company Type
                                     </div>
-                                    <div className="buyer-order-details-left-top-main-contents">
+                                    <div className="buyers-order-details-left-top-main-contents">
                                         {orderDetails?.supplier.supplier_type}
                                     </div>
                                 </div>
@@ -182,25 +182,35 @@ const OrderDetails = ({ socket }) => {
 
 
 
-                                <div className="buyer-order-details-top-order-cont">
-                                    <div className="buyer-order-details-left-top-main-heading">
+                                <div className="buyers-order-details-top-order-cont">
+                                    <div className="buyers-order-details-left-top-main-heading">
                                         Order Status
                                     </div>
-                                    <div className="buyer-order-details-left-top-main-contents">
+                                    <div className="buyers-order-details-left-top-main-contents">
                                         {/* {orderDetails?.status?.charAt(0)?.toUpperCase() + orderDetails?.status?.slice(1) } */}
                                         {orderDetails?.status}
                                     </div>
                                 </div>
                                 {
                                     orderDetails?.status === 'Active' ?
+<<<<<<< Updated upstream
                                         <div className="buyer-order-details-top-order-cont">
+=======
+                                        <div className="buyers-order-details-top-order-cont">
+                                            <Link to='/buyer/logistics-form'>
+>>>>>>> Stashed changes
                                             <div
-                                                className="buyer-order-details-left-top-main-heading-button"
-                                                onClick={() => setIsModalOpen(true)}
+                                                className="buyers-order-details-left-top-main-heading-button"
+                                                // onClick={() => setIsModalOpen(true)}
                                             >
                                                 Book Logistics
                                             </div>
+<<<<<<< Updated upstream
                                             <div className="buyer-order-details-left-top-main-contents"></div>
+=======
+                                            <div className="buyers-order-details-left-top-main-contents"></div>
+                                            </Link>
+>>>>>>> Stashed changes
                                         </div> : ''
                                 }
 
@@ -210,7 +220,7 @@ const OrderDetails = ({ socket }) => {
                 </div>
             </div>
             {/* start the assign driver section */}
-            <div className="buyer-order-details-assign-driver-section">
+            <div className="buyers-order-details-assign-driver-section">
                 <AssignDriver orderItems={orderDetails?.items} />
             </div>
             {/* end the assign driver section */}
@@ -220,69 +230,69 @@ const OrderDetails = ({ socket }) => {
             <> */}
 
             {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && (
-                <div className='active-order-details-left-bottom-containers'>
-                    <div className='active-order-details-left-bottom-vehichle'>
-                        <div className='active-order-details-left-bottom-vehicle-head'>Cost</div>
-                        <div className='active-order-details-left-bottom-vehicle-text'>12 USD</div>
+                <div className='buyers-order-details-left-bottom-containers'>
+                    <div className='buyers-order-details-left-bottom-vehichle'>
+                        <div className='buyers-order-details-left-bottom-vehicle-head'>Cost</div>
+                        <div className='buyers-order-details-left-bottom-vehicle-text'>12 USD</div>
                     </div>
-                    <div className='active-order-details-left-bottom-vehichle-no'>
-                        <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
-                        <div className='active-order-details-left-bottom-vehichle-no-text'>8 USD</div>
+                    <div className='buyers-order-details-left-bottom-vehichle-no'>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-head'>Shipment Price</div>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-text'>8 USD</div>
                     </div>
-                    <div className='active-order-details-left-bottom-vehichle-no'>
-                        <div className='active-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
-                        <div className='active-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
+                    <div className='buyers-order-details-left-bottom-vehichle-no'>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-head'>Shipment Time</div>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-text'>12:00 PM</div>
                     </div>
-                    <div className='active-order-details-left-bottom-vehichle-no'>
-                        <div className='active-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
-                        <div className='active-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
+                    <div className='buyers-order-details-left-bottom-vehichle-no'>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-head'>Preferred Time of Pickup</div>
+                        <div className='buyers-order-details-left-bottom-vehichle-no-text'>{orderDetails?.shipment_details?.supplier_details?.prefered_pickup_time}</div>
                     </div>
                 </div>
             )}
             {/* end the main component heading */}
             {/* start the main component heading */}
             {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && (
-                <div className='active-order-details-middle-bottom-containers'>
-                    <div className='active-order-details-left-middle-vehichle-no'>
-                        <div className='active-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
-                        <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.no_of_packages || '5'}</div>
+                <div className='buyers-order-details-middle-bottom-containers'>
+                    <div className='buyers-order-details-left-middle-vehichle-no'>
+                        <div className='buyers-order-details-middle-bottom-vehicle-head'>No. of Packages</div>
+                        <div className='buyers-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.no_of_packages || '5'}</div>
                     </div>
-                    <div className='active-order-details-left-middle-vehichle-no'>
-                        <div className='active-order-details-middle-bottom-vehicle-head'>Total Weight</div>
-                        <div className='active-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight || '4'} Kg</div>
+                    <div className='buyers-order-details-left-middle-vehichle-no'>
+                        <div className='buyers-order-details-middle-bottom-vehicle-head'>Total Weight</div>
+                        <div className='buyers-order-details-middle-bottom-vehicle-text'>{orderDetails?.shipment_details?.shipment_details?.total_weight || '4'} Kg</div>
                     </div>
-                    <div className="buyer-order-details-left-top-containers">
+                    <div className="buyers-order-details-left-top-containers">
                         <Link to={`/buyer/supplier-details/${orderDetails?.supplier_id}`}>
-                            <div className="buyer-order-details-top-order-cont">
-                                <div className="buyer-order-details-left-top-main-heading">
+                            <div className="buyers-order-details-top-order-cont">
+                                <div className="buyers-order-details-left-top-main-heading">
                                     Width
                                 </div>
-                                <div className="buyer-order-details-left-top-main-contents">
+                                <div className="buyers-order-details-left-top-main-contents">
                                     {orderDetails?.shipment_details?.shipment_details?.breadth || '4'} cm
                                 </div>
                             </div>
                         </Link>
-                        <div className="buyer-order-details-top-order-cont">
-                            <div className="buyer-order-details-left-top-main-heading">
+                        <div className="buyers-order-details-top-order-cont">
+                            <div className="buyers-order-details-left-top-main-heading">
                                 Height
                             </div>
-                            <div className="buyer-order-details-left-top-main-contents">
+                            <div className="buyers-order-details-left-top-main-contents">
                                 {orderDetails?.shipment_details?.shipment_details?.height || '4'} cm
                             </div>
                         </div>
-                        <div className="buyer-order-details-top-order-cont">
-                            <div className="buyer-order-details-left-top-main-heading">
+                        <div className="buyers-order-details-top-order-cont">
+                            <div className="buyers-order-details-left-top-main-heading">
                                 Length
                             </div>
-                            <div className="buyer-order-details-left-top-main-contents">
+                            <div className="buyers-order-details-left-top-main-contents">
                                 {orderDetails?.shipment_details?.shipment_details?.length || '4'} cm
                             </div>
                         </div>
-                        <div className="buyer-order-details-top-order-cont">
-                            <div className="buyer-order-details-left-top-main-heading">
+                        <div className="buyers-order-details-top-order-cont">
+                            <div className="buyers-order-details-left-top-main-heading">
                                 Volume
                             </div>
-                            <div className="buyer-order-details-left-top-main-contents">
+                            <div className="buyers-order-details-left-top-main-contents">
                                 {orderDetails?.shipment_details?.shipment_details?.total_volume || '4'} L
                             </div>
                         </div>
@@ -293,19 +303,19 @@ const OrderDetails = ({ socket }) => {
             {/* </>
 
             {/* Start the end section */}
-            <div className="buyer-order-details-payment-container">
+            <div className="buyers-order-details-payment-container">
 
                 {/* {orderDetails?.status === 'Shipment Details Submitted' || orderDetails?.status === 'Completed' && ( */}
-                <div className="buyer-order-details-payment-left-section">
-                    <div className="buyer-order-details-payment-terms-cont">
-                        <div className="buyer-order-details-payment-first-terms-cont">
-                            <div className="buyer-order-details-payment-first-terms-heading">
+                <div className="buyers-order-details-payment-left-section">
+                    <div className="buyers-order-details-payment-terms-cont">
+                        <div className="buyers-order-details-payment-first-terms-cont">
+                            <div className="buyers-order-details-payment-first-terms-heading">
                                 Payment Terms
                             </div>
-                            <div className="buyer-order-details-payment-first-terms-text">
-                                <ul className="buyer-order-details-payment-ul-section">
+                            <div className="buyers-order-details-payment-first-terms-text">
+                                <ul className="buyers-order-details-payment-ul-section">
                                     {orderDetails?.enquiry?.payment_terms?.map((data, i) => (
-                                        <li key={i} className="buyer-order-details-payment-li-section">
+                                        <li key={i} className="buyers-order-details-payment-li-section">
                                             {data}.
                                         </li>
                                     ))}
@@ -315,7 +325,7 @@ const OrderDetails = ({ socket }) => {
                     </div>
                 </div>
                 {/* )} */}
-                <div className='order-details-pickup-sec-container'>
+                <div className='buyers-order-details-pickup-sec-container'>
 
 
                     {/* {orderDetails?.shipment_details && Object.keys(orderDetails?.shipment_details).length > 0 && ( */}
@@ -327,27 +337,27 @@ const OrderDetails = ({ socket }) => {
                         Object.keys(orderDetails.shipment_details.supplier_details).length > 0) ||
                         (orderDetails?.supplier_logistics_data &&
                             Object.keys(orderDetails?.supplier_logistics_data).length > 0) ? (
-                        <div className='active-order-details-payment-right-section'>
-                            <div className='active-order-details-payment-right-section-heading'>Pickup Details</div>
-                            <div className='active-order-details-payment-right-details-row'>
-                                <div className='active-order-details-right-details-row-one'>
-                                    <div className='active-order-details-right-pickupdata'>
-                                        <div className='active-order-details-right-pickdata-head'>Consignor Name</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                        <div className='buyers-order-details-payment-right-section'>
+                            <div className='buyers-order-details-payment-right-section-heading'>Pickup Details</div>
+                            <div className='buyers-order-details-payment-right-details-row'>
+                                <div className='buyers-order-details-right-details-row-one'>
+                                    <div className='buyers-order-details-right-pickupdata'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Consignor Name</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.shipment_details?.supplier_details?.name ||
                                                 orderDetails?.supplier_logistics_data?.full_name}
                                         </div>
                                     </div>
-                                    <div className='active-order-details-right-pickupdata'>
-                                        <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                                    <div className='buyers-order-details-right-pickupdata'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Phone No.</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.shipment_details?.supplier_details?.mobile ||
                                                 orderDetails?.supplier_logistics_data?.mobile_number}
                                         </div>
                                     </div>
-                                    <div className='active-order-details-right-pickupdata-address'>
-                                        <div className='active-order-details-right-pickdata-head'>Address</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                                    <div className='buyers-order-details-right-pickupdata-address'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Address</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.shipment_details?.supplier_details?.address ||
                                                 `${orderDetails?.supplier_logistics_data?.house_name}, ${orderDetails?.supplier_logistics_data?.locality}, 
                          ${orderDetails?.supplier_logistics_data?.city}, ${orderDetails?.supplier_logistics_data?.state}, 
@@ -361,25 +371,25 @@ const OrderDetails = ({ socket }) => {
                     ) : null}
                     {(orderDetails?.logistics_details || orderDetails?.buyer_logistics_data) && (
                         <>
-                            <hr className='active-order-details-right-pickupdata-hr' />
-                            <div className='active-order-details-payment-right-section'>
-                                <div className='active-order-details-payment-right-section-heading'>Drop Details</div>
-                                <div className='active-order-details-right-details-row-one'>
-                                    <div className='active-order-details-right-pickupdata'>
-                                        <div className='active-order-details-right-pickdata-head'>Consignee Name</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                            <hr className='buyers-order-details-right-pickupdata-hr' />
+                            <div className='buyers-order-details-payment-right-section'>
+                                <div className='buyers-order-details-payment-right-section-heading'>Drop Details</div>
+                                <div className='buyers-order-details-right-details-row-one'>
+                                    <div className='buyers-order-details-right-pickupdata'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Consignee Name</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.logistics_details?.drop_location?.name || orderDetails?.buyer_logistics_data?.full_name}
                                         </div>
                                     </div>
-                                    <div className='active-order-details-right-pickupdata'>
-                                        <div className='active-order-details-right-pickdata-head'>Phone No.</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                                    <div className='buyers-order-details-right-pickupdata'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Phone No.</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.logistics_details?.drop_location?.mobile || orderDetails?.buyer_logistics_data?.mobile_number}
                                         </div>
                                     </div>
-                                    <div className='active-order-details-right-pickupdata-address'>
-                                        <div className='active-order-details-right-pickdata-head'>Address</div>
-                                        <div className='active-order-details-right-pickdata-text'>
+                                    <div className='buyers-order-details-right-pickupdata-address'>
+                                        <div className='buyers-order-details-right-pickdata-head'>Address</div>
+                                        <div className='buyers-order-details-right-pickdata-text'>
                                             {orderDetails?.logistics_details?.drop_location?.address || orderDetails?.buyer_logistics_data?.house_name},
                                             {orderDetails?.logistics_details?.drop_location?.country || orderDetails?.buyer_logistics_data?.locality},
                                             {orderDetails?.logistics_details?.drop_location?.state || orderDetails?.buyer_logistics_data?.country},
@@ -397,7 +407,7 @@ const OrderDetails = ({ socket }) => {
             {/* Start the assign driver section */}
             {/* {orderDetails?.coordinators && Object.keys(orderDetails?.coordinators).length > 0 && ( */}
             {orderDetails?.status === "Completed" && (
-                <div className='buyer-order-details-codinator-section-cont'>
+                <div className='buyers-order-details-codinator-section-cont'>
                     <BuyerActiveCodinator productList={orderDetails?.items} />
                 </div>
             )}
@@ -406,7 +416,7 @@ const OrderDetails = ({ socket }) => {
                 orderDetails?.order_status === 'completed' ?
              } */}
             {orderDetails?.invoices && orderDetails?.invoices.length > 0 && (
-                <div className='buyer-order-details-invoice-list-section'>
+                <div className='buyers-order-details-invoice-list-section'>
                     <OrderInvoiceList invoiceData={orderDetails?.invoices} />
                 </div>
             )}

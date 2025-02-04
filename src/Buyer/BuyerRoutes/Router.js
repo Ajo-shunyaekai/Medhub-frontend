@@ -67,6 +67,13 @@ import EditProfile from "../components/SharedComponents/Profile/EditProfile";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
 import { apiRequests } from "../../api";
+<<<<<<< Updated upstream
+=======
+import LogisticsForm from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm";
+import LogisticsAddress from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsAddress"
+import LogisticsAddNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/AddNewAddress";
+import LogisticsEditNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/EditNewAddress";
+>>>>>>> Stashed changes
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
@@ -437,6 +444,25 @@ const router = createBrowserRouter([
         path: "supplier-pending/:supplierId",
         element: <SupplierPending />,
       },
+<<<<<<< Updated upstream
+=======
+      {
+        path:"logistics-form",
+        element:<LogisticsForm />
+      },
+      {
+        path:"add-new-address",
+        element:<LogisticsAddNewAddress/>
+      },
+      {
+        path:"edit-new-address",
+        element:<LogisticsEditNewAddress/>
+      },
+      {
+        path:"logistics-address",
+        element:<LogisticsAddress/>
+      }
+>>>>>>> Stashed changes
     ],
   },
   {

@@ -342,8 +342,8 @@ const SupSidebar = ({ children, dragWindow,
                                                 {notificationList && notificationList.length > 0 ? (
                                                     notificationList.slice(0, 5).map((data, i) => {
                                                         const words = data.message.split(' ');
-                                                        const heading = words.slice(0, 2).join(' ');
-                                                        const content = words.slice(2).join(' ');
+                                                        const heading = words.slice(0, 2).join(' '); // First two words
+                                                        const content = words.slice(2).join(' '); // Remaining text
                                                         return (
                                                             <div
                                                                 className={styles.noti_profile_wrapper}
@@ -359,6 +359,7 @@ const SupSidebar = ({ children, dragWindow,
                                                             >
                                                                 <div className={styles.noti_profile_text}>
                                                                     <div className={styles.noti_profile_section}>
+<<<<<<< Updated upstream
                                                                     <span className={styles.noti_heading}>{heading}</span>
                                                                     <span className={styles.noti_content}>{content}
                                                                     </span>
@@ -366,8 +367,16 @@ const SupSidebar = ({ children, dragWindow,
                                                                     <div className={styles.noti_profile_content}>
                                                                     <span className={styles.noti_time}>11:12 <br/>16-12-2024</span>
                                                                     </div>
+=======
+                                                                        <div className={styles.noti_heading}>
+                                                                            {data.icon && <img src={data.icon} alt="icon" className={styles.noti_icon} />}
+                                                                            <span>{heading}</span>
+                                                                        </div>
+                                                                        <span className={styles.noti_content}>{content}</span>
+                                                                        <span className={styles.noti_time}>4 hours ago</span>
+                                                                    </div>
+>>>>>>> Stashed changes
                                                                 </div>
-                                                              
                                                             </div>
                                                         );
                                                     })
@@ -391,6 +400,7 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                     </div>
                                 )}
+
 
                             </div>
                             <div ref={profileRef}>

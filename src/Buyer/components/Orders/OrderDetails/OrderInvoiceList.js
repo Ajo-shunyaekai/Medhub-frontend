@@ -30,6 +30,7 @@ const OrderInvoiceList = ({invoiceData}) => {
     };
 
     return (
+        <div className='inquiry-invoice-list-main-container'>
         <div className="card-body">
             <div>
                 <div className="table-assign-driver-heading">Invoice List</div>
@@ -107,6 +108,7 @@ const OrderInvoiceList = ({invoiceData}) => {
                     <div>Total Items: {data.length}</div>
                 </div>
             </div>
+        </div>
         </div>
     );
 };

@@ -73,95 +73,95 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className='dashboard-section'>
-                <div className='dashboard-heading'>Dashboard</div>
-                <div className='analystic-button' >
-                    <div className='buttons'>Analytics</div>
+            <div className='buyer-dashboard-section'>
+                <div className='buyer-dashboard-heading'>Dashboard</div>
+                <div className='buyer-analystic-button' >
+                    <div className='buyer-buttons'>Analytics</div>
                 </div>
-                <div className='cart-main-container'>
-                    <div className='cart-left-main-container'>
-                        <div className='cart-left-top-section'>
-                            <div className='cart-top-right-section'>
-                                <div className='top-container'>
+                <div className='buyer-cart-main-container'>
+                    <div className='buyer-cart-left-main-container'>
+                        <div className='buyer-cart-left-top-section'>
+                            <div className='buyer-cart-top-right-section'>
+                                <div className='buyer-top-container'>
                                     <Link to='/buyer/ongoing-inquiries-list'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Ongoing Inquiries</div>
-                                            <div className='top-text'>{orderSummary?.enquiryCount || 0}</div>
+                                        <div className='buyer-top-content-section'>
+                                            <div className='buyer-top-head'>Ongoing Inquiries</div>
+                                            <div className='buyer-top-text'>{orderSummary?.enquiryCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/purchased-orders-list'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Purchased Orders</div>
-                                            <div className='top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
+                                        <div className='buyer-top-content-section'>
+                                            <div className='buyer-top-head'>Purchased Orders</div>
+                                            <div className='buyer-top-text'>{orderSummary?.purchaseOrderCount || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/active-orders'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Active Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</div>
+                                        <div className='buyer-top-content-section'>
+                                            <div className='buyer-top-head'>Active Orders</div>
+                                            <div className='buyer-top-text'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/completed-order'>
-                                        <div className='top-content-section'>
-                                            <div className='top-head'>Completed Orders</div>
-                                            <div className='top-text'>{orderSummary?.orderDetails?.completedCount?.[0]?.count || 0}</div>
+                                        <div className='buyer-top-content-section'>
+                                            <div className='buyer-top-head'>Completed Orders</div>
+                                            <div className='buyer-top-text'>{orderSummary?.orderDetails?.completedCount?.[0]?.count || 0}</div>
                                         </div>
                                     </Link>
 
                                 </div>
-                                <div className='bottom-container'>
+                                <div className='buyer-bottom-container'>
                                     <Link to='/buyer/complete-invoices-list'>
-                                        <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Completed Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
-                                            <div className='bottom-graph'>
+                                        <div className='buyer-bottom-cart-cont'>
+                                            <div className='buyer-bottom-head'>Completed Invoices: <span className='buyer-bottom-text'>{orderSummary?.invoiceDetails?.paidCount || 0}</span></div>
+                                            <div className='buyer-bottom-graph'>
                                                 <ProgressBar />
                                             </div>
                                         </div>
                                     </Link>
                                     <Link to='/buyer/pending-invoices-list'>
-                                        <div className='bottom-cart-cont'>
-                                            <div className='bottom-head'>Pending Invoices: <span className='bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
-                                            <div className='bottom-graph'>
+                                        <div className='buyer-bottom-cart-cont'>
+                                            <div className='buyer-bottom-head'>Pending Invoices: <span className='buyer-bottom-text'>{orderSummary?.invoiceDetails?.pendingCount || 0}</span></div>
+                                            <div className='buyer-bottom-graph'>
                                                 <OrangeBar />
                                             </div>
                                         </div>
                                     </Link>
                                 </div>
                             </div>
-                            <div className='cart-top-left-section'>
-                                <div className='left-head'>Total Purchase</div>
-                                <div className='circular-process'>
+                            <div className='buyer-cart-top-left-section'>
+                                <div className='buyer-left-head'>Total Purchase</div>
+                                <div className='buyer-circular-process'>
                                     <CircularBar totalPurchase={orderSummary?.orderDetails?.totalPurchaseAmount?.[0]?.total_purchase || 0} />
                                 </div>
                             </div>
                         </div>
-                        <div className='cart-left-bottom-section'>
+                        <div className='buyer-cart-left-bottom-section'>
                             <Link to='/buyer/invoice/Proforma-Invoice'>
-                                <div className='cart-left-bottom-container'>
-                                    <div className='left-bottom-cart-top'>
-                                        <span className='left-bottom-pert'>{orderSummary?.enquiryCount?.[0]?.count || 0}</span>
+                                <div className='buyer-cart-left-bottom-container'>
+                                    <div className='buyer-left-bottom-cart-top'>
+                                        <span className='buyer-left-bottom-pert'>{orderSummary?.enquiryCount?.[0]?.count || 0}</span>
                                     </div>
-                                    <div className='left-bottom-head'>Proforma Invoices</div>
-                                    <div className='line-chart-graph'>
+                                    <div className='buyer-left-bottom-head'>Proforma Invoices</div>
+                                    <div className='buyer-line-chart-graph'>
                                         <ConversionChart />
                                     </div>
                                 </div>
                             </Link>
                             <Link to='/buyer/my-supplier'>
-                                <div className='cart-left-bottom-container'>
-                                    <div className='left-bottom-cart-top'>
-                                        <span className='left-bottom-pert'>{orderSummary?.purchaseOrderCount?.[0]?.count || 0}</span>
+                                <div className='buyer-cart-left-bottom-container'>
+                                    <div className='buyer-left-bottom-cart-top'>
+                                        <span className='buyer-left-bottom-pert'>{orderSummary?.purchaseOrderCount?.[0]?.count || 0}</span>
                                     </div>
-                                    <div className='left-bottom-head'>My Supplier</div>
-                                    <div className='line-chart-graph'>
+                                    <div className='buyer-left-bottom-head'>My Supplier</div>
+                                    <div className='buyer-line-chart-graph'>
                                         <SearchEngineChart />
                                     </div>
                                 </div>
                             </Link>
                         </div>
                     </div>
-                    <div className='cart-right-main-container'>
-                        <div className='map-container'>
+                    <div className='buyer-cart-right-main-container'>
+                        <div className='buyer-map-container'>
                             <WorldMap
                                 color="red"
                                 value-suffix="people"
@@ -169,6 +169,7 @@ const Dashboard = () => {
                                 data={countryData}
                             />
                         </div>
+<<<<<<< Updated upstream
                         <div className='right-head'>Your Seller Countries</div>
                         <div className='right-country-section'>
                             {/* <div className='country-sect'>
@@ -179,10 +180,14 @@ const Dashboard = () => {
                                 <span className='country-name'>{countryData?.[1]?.country}</span>
                                 <span className='country-price'>{countryData?.[1]?.value} USD</span>
                             </div> */}
+=======
+                        <div className='buyer-right-head'>Your Seller Countries</div>
+                        <div className='buyer-right-country-section'>
+>>>>>>> Stashed changes
                             {countryData?.slice(0, 2).map((data, index) => (
-                                <div className="country-sect" key={index}>
-                                    <span className="country-names">{data?.country}</span>
-                                    <span className="country-price">{data?.value} USD</span>
+                                <div className='buyer-country-sect' key={index}>
+                                    <span className='buyer-country-names'>{data?.country}</span>
+                                    <span className='buyer-country-price'>{data?.value} USD</span>
                                 </div>
                             ))}
                         </div>
