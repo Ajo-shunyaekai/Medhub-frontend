@@ -95,7 +95,7 @@ const Profile = () => {
     <div className={styles.container}>
       <div className={styles.profileHeadSection}>
         <div className={styles.MainHeading}>Profile</div>
-        <Link
+        {/* <Link
           to={`/supplier/edit-profile/${
             user?._id || sessionStorage.getItem("_id")
           }`}
@@ -103,7 +103,7 @@ const Profile = () => {
           <div className={styles.EditButtonSection}>
             <span className={styles.editButton}>Edit</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
       <div className={styles.profileContainer}>
         <div className={styles.imgSection}>

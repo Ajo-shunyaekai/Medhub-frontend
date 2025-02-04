@@ -52,7 +52,7 @@ const SupplierLogin = ({socket}) => {
             let obj = {
                 email,
                 password,
-                user_type: "Supplier"
+                usertype: "Supplier"
             }
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)

@@ -145,7 +145,7 @@ const SupplierRequestDetails = () => {
         //     return toast('Sales Person is required',{ type: 'error' })
         // }
 
-        if (!salesPersonName) {
+        if (!salesPersonName || salesPersonName === '') {
             return toast('Sales Person is required', { type: 'error' });
         }
 

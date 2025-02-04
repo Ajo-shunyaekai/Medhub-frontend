@@ -200,7 +200,7 @@ export const NotificationProvider = ({ children }) => {
       event,
       status: 1,
       supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-      user_type: "supplier",
+      usertype: "supplier",
     };
     postRequestWithToken(
       "supplier/update-notification-status",

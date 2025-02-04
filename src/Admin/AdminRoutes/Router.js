@@ -350,7 +350,7 @@ export function NotificationProvider({ children }) {
       notification_id: id,
       event,
       status: 1,
-      user_type: "admin",
+      usertype: "admin",
     };
     postRequestWithToken(
       "admin/update-notification-status",

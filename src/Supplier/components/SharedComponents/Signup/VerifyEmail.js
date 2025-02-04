@@ -28,7 +28,7 @@ const VerifyEmail = ({ step, setStep }) => {
         dispatch(setEmailToResetPassword(values.email));
         const payloadData = {
           email: values.email,
-          user_type: "Supplier",
+          usertype: "Supplier",
         };
         console.log("Email submitted:", payloadData);
         const response = await apiRequests.postRequest(
