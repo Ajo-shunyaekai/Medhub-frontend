@@ -34,7 +34,7 @@ const ProductList = () => {
                         <td className='tables-tds'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Price</span>
-                                <span className="table-g-not-name">500 AED</span>
+                                <span className="table-g-not-name">500 USD</span>
                             </div>
                         </td>
                         <td className='tables-tds'>
@@ -73,7 +73,7 @@ const ProductList = () => {
                         <td className='tables-tds'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Price</span>
-                                <span className="table-g-not-name">500 AED</span>
+                                <span className="table-g-not-name">500 USD</span>
                             </div>
                         </td>
                         <td className='tables-tds'>
@@ -112,7 +112,7 @@ const ProductList = () => {
                         <td className='tables-tds'>
                             <div className="table-g-section-content">
                                 <span className="table-g-driver-name">Price</span>
-                                <span className="table-g-not-name">500 AED</span>
+                                <span className="table-g-not-name">500 USD</span>
                             </div>
                         </td>
                         <td className='tables-tds'>

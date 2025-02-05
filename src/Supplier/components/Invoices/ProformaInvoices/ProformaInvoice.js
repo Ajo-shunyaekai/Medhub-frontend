@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../proformainvoice.module.css';
+import '../invoiceDesign.css'
+import '../../SharedComponents/Signup/signup.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
@@ -7,8 +9,11 @@ import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 import { phoneValidationRules, countryCodes } from '../../../../utils/phoneNumberValidation';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import Select, { components } from 'react-select';
+import { Country, State, City } from "country-state-city";
 
 
 const ProformaInvoice = ({socket}) => {
@@ -32,6 +37,12 @@ const ProformaInvoice = ({socket}) => {
     const [dateValue, setDateValue] = useState();
     const [mobileError, setMobileError] = useState('')
     const [errors, setErrors]    = useState({})
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [supplierCountry, setSupplierCountry] = useState(null)
+    const [supplierState, setSupplierState] = useState('')
+    const [supplierCity, setSupplierCity] = useState('')
     const [formData, setFormData] = useState({
         invoiceDate: '',
         invoiceDueDate: '',
@@ -42,11 +53,23 @@ const ProformaInvoice = ({socket}) => {
         depositDue : '',
         supplierName: '',
         supplierAddress: '',
+        supplierLocality: '',
+        supplierLandmark: '',
+        supplierCountry: '',
+        supplierState: '',
+        supplierCity: '',
+        supplierPincode: '',
         supplierEmail: '',
         supplierMobile: '',
         newSupplierMobile: '',
         buyerName: '',
         buyerAddress: '',
+        buyerLocality: '',
+        buyerLandmark: '',
+        buyerCountry: '',
+        buyerState: '',
+        buyerCity: '',
+        buyerPincode: '',
         buyerEmail: '',
         buyerMobile: '',
         newBuyerMobile: '',
@@ -140,6 +163,7 @@ const ProformaInvoice = ({socket}) => {
                     supplierMobile: formattedSupplierMobile,
                     supplierContactPersonMobile: data?.supplier_details[0]?.contact_person_mobile_no,
                     supplierContactPersonCountryCode: data?.supplier_details[0]?.contact_person_country_code,
+                    bankDetails : data?.supplier_details[0]?.bank_details,
                     supplierRegNo: data?.supplier_regNo,
                     buyerId: data?.buyer_details?.buyer_id,
                     buyerName: data?.buyer_name,
@@ -153,11 +177,43 @@ const ProformaInvoice = ({socket}) => {
                     paymentTerms : paymentTermsString
                 }));
                 setOrderItems(data?.order_items)
+                if(data?.buyer_registered_address) {
+                                const { country, state, city } = data?.buyer_registered_address
+                            
+                                const countryObj = Country.getAllCountries().find(c => c.name === country);
+                                setSelectedCountry(countryObj || '');
+                                if (countryObj) {
+                                    const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === state);
+                                    setSelectedState(stateObj || '');
+                                }
+                
+                                if (selectedState && selectedState.isoCode !== "OTHER") {
+                                    const cityObj = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode).find(c => c.name === city);
+                                    setSelectedCity(cityObj || '');
+                                }
+                 }
+
+                 if(data?.supplier_registered_address) {
+                                 const { country, state, city } = data?.supplier_registered_address
+                             
+                                 const countryObj = Country.getAllCountries().find(c => c.name === country);
+                                 setSupplierCountry(countryObj || '');
+                                 if (countryObj) {
+                                     const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === state);
+                                     setSupplierState(stateObj || '');
+                                 }
+                 
+                                 if (supplierState && supplierState.isoCode !== "OTHER") {
+                                     const cityObj = City.getCitiesOfState(supplierState.countryCode, supplierState.isoCode).find(c => c.name === city);
+                                     setSupplierCity(cityObj || '');
+                                 }
+               }
             } else {
                 console.log('error in order list api', response);
             }
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
+
     const resetForm = () => {
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -176,6 +232,7 @@ const ProformaInvoice = ({socket}) => {
         }));
         setDateValue()
     }
+
 console.log(setFormData)
     const handleCancel = () => {
         resetForm()
@@ -306,6 +363,51 @@ console.log(setFormData)
         }
        
 
+    };
+
+    const handleCountryChange = (selectedOption) => {
+        setSupplierCountry(selectedOption);
+        setSupplierState('');
+        setSupplierCity('');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                country: "Country is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, country: "" }));
+            setFormData({ ...formData, supplierCountry: selectedOption?.name });
+        }
+    };
+    
+    const handleStateChange = (selectedOption) => {
+        setSupplierState(selectedOption || '');
+        setSupplierCity('');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                state: "State is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, state: "" }));
+            setFormData({ ...formData, supplierState: selectedOption?.name });
+        }
+    };
+
+    const handleCityChange = (selectedOption) => {
+        setSupplierCity(selectedOption || '');
+
+        if (!selectedOption) {
+            setErrors((prevState) => ({
+                ...prevState,
+                city: "City is required",
+            }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, city: "" }));
+            setFormData({ ...formData, supplierCity: selectedOption?.name });
+        }
     };
 
 
@@ -542,6 +644,104 @@ console.log(setFormData)
                                 />
                             {errors.supplierAddress && <p style={{color: 'red', fontSize: '12px'}}>{errors.supplierAddress}</p>}
                         </div>
+                        {inquiryDetails?.supplier_registered_address && (
+                            <>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Area/Locality/Road Name</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLocality'
+                                placeholder='Enter Area/Locality/Road Name'
+                                value={formData.supplierLocality}
+                                onChange={handleChange}
+                                // readOnly
+                                // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='supplierLandmark'
+                                placeholder='Enter Landmark'
+                                value={formData.supplierLandmark}
+                                onChange={handleChange}
+                                // readOnly
+                                // {...register('buyerEmail', { validate: value => value.trim() !== '' || 'Buyer email is required' })}
+                            />
+                            {errors.supplierLandmark && <p style={{color: 'red'}}>{errors.supplierLandmark}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Country</label>
+                            <Select
+                                options={Country.getAllCountries()}
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={supplierCountry}
+                                onChange={handleCountryChange}
+                                placeholder="Select Country"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>State/Province</label>
+                            <Select
+                                options={
+                                    supplierCountry
+                                        ? [
+                                            ...State.getStatesOfCountry(supplierCountry.isoCode),
+                                            { name: "Other", isoCode: "OTHER" },
+                                        ]
+                                        : []
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={supplierState}
+                                onChange={handleStateChange}
+                                placeholder="Select State"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>City/Town</label>
+                            <Select
+                                options={
+                                    supplierState && supplierState.isoCode !== "OTHER"
+                                        ? [
+                                            ...City.getCitiesOfState(supplierState.countryCode, supplierState.isoCode),
+                                            { name: "Other" },
+                                        ]
+                                        : [{ name: "Other" }]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.name}
+                                value={supplierCity}
+                                onChange={handleCityChange}
+                                placeholder="Select City"
+                                // isDisabled
+                            />
+                            {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='supplierPincode'
+                                placeholder='Enter Pincode'
+                                value={formData.supplierPincode}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
+                        </div>
+                        </>
+                          )} 
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>
@@ -592,6 +792,102 @@ console.log(setFormData)
                                 />
                             {errors.buyerAddress && <p style={{color: 'red', fontSize: '12px'}}>{errors.buyerAddress}</p>}
                         </div>
+                        {inquiryDetails?.buyer_registered_address && (
+                            <>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Area/Locality/Road Name</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLocality'
+                                placeholder='Enter Area/Locality/Road Name'
+                                value={formData.buyerLocality}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerLandmark'
+                                placeholder='Enter Locality'
+                                value={formData.buyerLandmark}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Country</label>
+                            <Select
+                                options={Country.getAllCountries()}
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={selectedCountry}
+                                onChange={handleCountryChange}
+                                placeholder="Select Country"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>State/Province</label>
+                            <Select
+                                options={
+                                    selectedCountry
+                                        ? [
+                                            ...State.getStatesOfCountry(selectedCountry.isoCode),
+                                            { name: "Other", isoCode: "OTHER" },
+                                        ]
+                                        : []
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.isoCode}
+                                value={selectedState}
+                                onChange={handleStateChange}
+                                placeholder="Select State"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>City/Town</label>
+                            <Select
+                                options={
+                                    selectedState && selectedState.isoCode !== "OTHER"
+                                        ? [
+                                            ...City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode),
+                                            { name: "Other" },
+                                        ]
+                                        : [{ name: "Other" }]
+                                }
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.name}
+                                value={selectedCity}
+                                onChange={handleCityChange}
+                                placeholder="Select City"
+                                // isDisabled
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        <div className={styles['create-invoice-div-container']}>
+                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <input
+                                className={styles['create-invoice-div-input']}
+                                type='text'
+                                name='buyerPincode'
+                                placeholder='Enter Pincode'
+                                value={formData.buyerPincode}
+                                onChange={handleChange}
+                                // readOnly
+                            />
+                            {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
+                        </div>
+                        </>
+                        )}
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styles from "./supplierlogistics.module.css"
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
-import { PhoneInput } from "react-international-phone";
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+import "../../SharedComponents/Signup/signup.css"
 const SupplierAddAddress = () => {
     const [addressType, setAddressType] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(null);

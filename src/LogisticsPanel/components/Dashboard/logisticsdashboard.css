@@ -411,18 +411,7 @@ body::first-letter {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif !important;
 }
-#chart-line-2 {
-  width: 400px !important;
-  height: 40px !important;
-}
-#search-engine-chart {
-  width: 130px !important;
-  height: 40px !important;
-}
-#directly-chart {
-  width: 140px !important;
-  height: 32px !important;
-}
+
 /* start the media query section */
 @media screen and (max-width: 1480px) {
   .dashboard-section {
@@ -435,8 +424,8 @@ body::first-letter {
     width: 32vw;
   }
   .bottom-cart-cont {
-    width: 16vw;
-  }
+    width: 15.7vw;
+}
   .cart-top-left-section {
     width: 19vw;
   }

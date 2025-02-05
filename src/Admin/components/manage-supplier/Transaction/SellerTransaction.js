@@ -94,7 +94,7 @@ const SellerTransaction = () => {
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                         <div className='table-text-color'>
-                                           {transaction.total_amount_paid ? `${transaction.total_amount_paid} AED` : null}
+                                           {transaction.total_amount_paid ? `${transaction.total_amount_paid} USD` : null}
                                         </div>
 
                                         </div>

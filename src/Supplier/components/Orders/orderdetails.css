@@ -196,6 +196,103 @@
   font-size: 14px;
    cursor: pointer !important;;
 }
+
+
+.ongoing-enguiries-details-buttons {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+ color: white;
+ padding: 6px 16px;
+ border-radius: 4px;
+ display: flex;
+ align-items: center;
+ column-gap: 8px;
+ font-size: 14px;
+  cursor: pointer !important;;
+}
+.buyer-order-details-left-top-containers {
+  background-color: #fff;
+  border-color: #0000;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px #0000000d;
+  display: flex
+;
+  justify-content: space-between;
+  padding: 24px 22px;
+  row-gap: 8px;
+  width: 100%;
+}
+.buyer-order-details-top-order-cont {
+  display: flex
+;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.active-order-details-invoice-list-section {
+  margin-top: -66px;
+}
+.buyer-order-details-left-top-main-heading {
+  color: #99a0ac;
+  font-size: 12px;
+}
+.buyer-order-details-left-top-main-contents {
+  color: #5e676f !important;
+  cursor: pointer !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15px;
+}
+.active-order-details-middle-bottom-containers{
+ display: flex;
+ width: 100%;
+ gap: 20px;
+}
+.active-order-details-left-middle-vehichle-no{
+ background-color: white;
+   padding: 24px 22px;
+   border-color: transparent;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   border-radius: 4px;
+   row-gap: 10px;
+   width: 46%;
+}
+.active-order-details-middle-bottom-vehicle-head {
+ color: #99a0ac;
+ font-size: 12px;
+}
+.active-order-details-middle-bottom-vehicle-text {
+ font-weight: 500;
+ font-size: 13px;
+ line-height: 15px;
+}
+.inquiry-invoice-list-main-container {
+  background-color: rgb(255, 255, 255) !important;
+  border-color: rgba(0, 0, 0, 0) !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  margin-bottom: 10rem !important;
+  margin-top: 10px !important;
+  padding: 12px !important;
+  width: 100% !important;
+}
+.invoice-details-button-column {
+  background-color: #31c971;
+  height: 26px;
+  width: 34px;
+  align-items: center;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+.invoice-view {
+  width: 18px !important;
+}
 /* start the assign driver table list */
 .active-order-details-assign-driver-section {
   width: 100%;

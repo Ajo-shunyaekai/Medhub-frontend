@@ -108,7 +108,7 @@ const SignUp = ({ socket }) => {
         state: null,
         city: null,
         pincode: '',
-        user_type: 'Buyer'
+        usertype: 'Buyer'
     }
 
    
@@ -369,7 +369,7 @@ const SignUp = ({ socket }) => {
         }
       
         // Rest of your existing validations...
-        if ((name === 'companyName' || name === 'companyEmail' || name === 'email') && value.length > 50) {
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email' | name === 'companyAddress' || name === 'locality' || name === 'landMark') && value.length > 50) {
           setErrors(prevState => ({
             ...prevState,
             [name]: ''
@@ -420,7 +420,8 @@ const SignUp = ({ socket }) => {
             description: 'Description cannot exceed 1000 characters'
           }));
         } 
-        else if ((name === 'contactPersonName' || name === 'salesPersonName' || name === 'designation') && !/^[a-zA-Z\s]*$/.test(value)) {
+        else if ((name === 'contactPersonName' || name === 'salesPersonName' || name === 'designation') 
+            && (!/^[a-zA-Z\s]*$/.test(value) ||  value.length > 50)) {
           setErrors(prevState => ({
             ...prevState,
             [name]: ''
@@ -666,7 +667,7 @@ const SignUp = ({ socket }) => {
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
             formDataToSend.append('activity_code', formData.activityCode);
-            formDataToSend.append('user_type', formData.user_type || 'Buyer');
+            formDataToSend.append('usertype', formData.usertype || 'Buyer');
             // New data fields
             formDataToSend.append('locality', formData.locality);
             formDataToSend.append('land_mark', formData.landMark);
@@ -967,12 +968,12 @@ const SignUp = ({ socket }) => {
                                                
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Pincode(Optional)</label>
+                                                <label className='signup-form-section-label'>Pincode/Postcode(Optional)</label>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="pincode"
-                                                    placeholder="Enter Pincode"
+                                                    placeholder="Enter Pincode/Postcode"
                                                     value={formData.pincode}
                                                     onChange={handleChange}
                                                 />

@@ -8,9 +8,9 @@ const ActiveAssignDriver = ({productList}) => {
     const ordersPerPage = 5; 
     
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR1234567', productName: 'Paracetamol (acetaminophen)', quantity: 200, totalAmount: '500 USD' },
     ];
 
     const data = productList && productList.length > 0 ? productList : activeOrders;
@@ -59,8 +59,8 @@ const ActiveAssignDriver = ({productList}) => {
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Total Amount</span>
                                         <span className="table-g-not-name">
-                                            {/* {order.total_amount || order.item_price} AED */}
-                                            {order.total_amount || order.item_price ? `${order.total_amount || order.item_price} AED` : '-'}
+                                            {/* {order.total_amount || order.item_price} USD */}
+                                            {order.total_amount || order.item_price ? `${order.total_amount || order.item_price} USD` : '-'}
                                             </span>
                                     </div>
                                 </td>

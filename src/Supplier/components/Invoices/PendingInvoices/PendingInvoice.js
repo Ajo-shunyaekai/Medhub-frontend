@@ -100,7 +100,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                                                 </div>
                                             </td>
                                             <td className="flex">
-                                                <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                             </td>
                                             <td className="flex">
                                                 <span className="item-title text-color">{invoice?.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</span>
@@ -128,10 +128,10 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             <>
                                 <tbody>
                                     <tr>
-                                        <td colSpan="6">
-                                            <div className='pending-products-no-orders'>
+                                        <td className='pending-products-no-orders' colSpan="12">
+                                            
                                                 No Pending Invoices
-                                            </div>
+                                           
                                         </td>
                                     </tr>
                                 </tbody>
@@ -141,6 +141,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                     }
                 </table>
             </div>
+            {
+                        invoiceList.length > 0 && (
             <div className='pending-invoice-pagination-conatiner-section'>
                 <div className='pagi-container'>
                     <Pagination
@@ -160,6 +162,7 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                     </div>
                 </div>
             </div>
+                        )}
         </div>
     )
 }

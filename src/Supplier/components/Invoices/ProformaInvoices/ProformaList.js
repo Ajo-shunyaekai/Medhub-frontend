@@ -117,10 +117,10 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                             <>
                                 <tbody>
                                     <tr>
-                                        <td colSpan="6">
-                                            <div className='pending-products-no-orders'>
+                                        <td className='pending-products-no-orders' colSpan="12">
+                                           
                                                 No Proforma Invoices
-                                            </div>
+                                            
                                         </td>
                                     </tr>
                                 </tbody>
@@ -130,6 +130,8 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                     }
                 </table>
             </div>
+            {
+                        invoiceList.length > 0 && (
             <div className='pending-invoice-pagination-conatiner-section'>
                 <div className='pagi-container'>
                     <Pagination
@@ -149,6 +151,7 @@ const ProformaList = ({ invoiceList, currentPage, totalInvoices, invoicesPerPage
                     </div>
                 </div>
             </div>
+                        )}
         </div>
     )
 }

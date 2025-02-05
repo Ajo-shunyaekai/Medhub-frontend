@@ -112,7 +112,7 @@ const PurchasedOrdersList = () => {
                                                 </div>
                                                 <div className='completed-table-row-item completed-table-order-1'>
                                                     {/* Display totalAmount, fall back to order.total_amount if available */}
-                                                    <div className='completed-table-text-color'>{order.total_amount || totalAmount} AED</div>
+                                                    <div className='completed-table-text-color'>{order.total_amount || totalAmount} USD</div>
                                                 </div>
                                                 <div className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
                                                     <Link to={`/buyer/purchased-order-details/${order.purchaseOrder_id}`}>
@@ -126,11 +126,11 @@ const PurchasedOrdersList = () => {
                                     })
                                 ) : (
                                     <>
-                                    <div className='pending-products-no-orders'>
-                                        No Purchase Orders
-                                    </div>
+                                        <div className='pending-products-no-orders'>
+                                            No Purchase Orders
+                                        </div>
 
-                                </>
+                                    </>
                                 )}
                             </tbody>
 
@@ -139,25 +139,27 @@ const PurchasedOrdersList = () => {
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
                         }
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalPoList}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
+                        {poList.length > 0 && (
+                            <div className='completed-pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={ordersPerPage}
+                                    totalItemsCount={totalPoList}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalPoList}
+                                    <div className='completed-pagi-total'>
+                                        Total Items: {totalPoList}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div >
             </div>

@@ -80,7 +80,9 @@ const OrderInvoiceList = ({invoiceData}) => {
                                         <span className="table-g-driver-name">Action</span>
                                         <span className="table-g-not-name"><Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                             <div className='invoice-details-button-column'>
+                                                <div className='invoice-eye-buttons'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
+                                                </div>
                                             </div>
                                         </Link></span>
                                     </div>

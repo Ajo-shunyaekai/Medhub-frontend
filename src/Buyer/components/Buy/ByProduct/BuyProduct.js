@@ -218,7 +218,7 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                         </Link>
                         <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>Unit Price</div>
-                            <div className='byproduct-product-card-second-text'>{medicine.inventory_info?.[0]?.unit_price} AED</div>
+                            <div className='byproduct-product-card-second-text'>{medicine.inventory_info?.[0]?.unit_price} USD</div>
                         </div>
                         <div className='byproduct-product-card-second-section'>
                             <div className='byproduct-product-card-second-head'>Total Quantity</div>

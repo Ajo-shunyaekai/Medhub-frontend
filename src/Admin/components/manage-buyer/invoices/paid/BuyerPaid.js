@@ -51,7 +51,7 @@ const BuyerPaid = ({invoiceList, totalItems, currentPage, listPerPage, handlePag
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>
                                             <div className={styles['invoice-table-text-color']}>
-                                            {invoice.total_payable_amount ? `${invoice.total_payable_amount} AED` : ''}
+                                            {invoice.total_payable_amount ? `${invoice.total_payable_amount} USD` : ''}
                                             </div>
                                         </div>
                                         <div className={`${styles['invoice-table-row-item']} ${styles['invoice-table-order-1']}`}>

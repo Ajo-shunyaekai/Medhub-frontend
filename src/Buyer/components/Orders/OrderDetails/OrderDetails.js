@@ -193,24 +193,21 @@ const OrderDetails = ({ socket }) => {
                                 </div>
                                 {
                                     orderDetails?.status === 'Active' ?
-<<<<<<< Updated upstream
-                                        <div className="buyer-order-details-top-order-cont">
-=======
+
                                         <div className="buyers-order-details-top-order-cont">
                                             <Link to='/buyer/logistics-form'>
->>>>>>> Stashed changes
+
                                             <div
                                                 className="buyers-order-details-left-top-main-heading-button"
                                                 // onClick={() => setIsModalOpen(true)}
                                             >
                                                 Book Logistics
                                             </div>
-<<<<<<< Updated upstream
+
                                             <div className="buyer-order-details-left-top-main-contents"></div>
-=======
-                                            <div className="buyers-order-details-left-top-main-contents"></div>
+
                                             </Link>
->>>>>>> Stashed changes
+
                                         </div> : ''
                                 }
 

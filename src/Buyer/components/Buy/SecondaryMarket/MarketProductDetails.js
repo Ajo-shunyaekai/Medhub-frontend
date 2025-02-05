@@ -253,7 +253,7 @@ const MarketProductDetails = () => {
                                 <div className="buyer-product-details-sec-two-left">
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Unit Price :</div>
-                                        <div className='buyer-product-details-two-right-text'>{details?.unit_price} AED</div>
+                                        <div className='buyer-product-details-two-right-text'>{details?.unit_price} USD</div>
                                     </div>
                                     <div className="buyer-product-details-two">
                                         <div className='buyer-product-details-two-left-text'>Minimum Purchase :</div>
@@ -411,7 +411,7 @@ const MarketProductDetails = () => {
                                 </div>
                                 <div className="buyer-product-range-text">
                                     <div className="buyer-product-range-heading">Unit Price</div>
-                                    <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} AED`} readOnly />
+                                    <input className="buyer-product-range-input" type="text" value={`${selectedDetails.unit_price} USD`} readOnly />
                                 </div>
                                 <div className="buyer-product-range-text">
                                     <div className="buyer-product-range-heading">Est. Delivery Time</div>

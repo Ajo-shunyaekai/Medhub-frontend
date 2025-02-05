@@ -38,7 +38,7 @@ const VerifyOTP = ({ step, setStep }) => {
     try {
       const payloadData = {
         email: emailToResetPassword,
-        user_type: "Supplier", // Make sure you have the correct user_type
+        usertype: "Supplier", // Make sure you have the correct usertype
       };
 
       const response = await apiRequests.postRequest(
@@ -68,7 +68,7 @@ const VerifyOTP = ({ step, setStep }) => {
         const payloadData = {
           otp: values.otp,
           email: emailToResetPassword,
-          user_type: "Supplier",
+          usertype: "Supplier",
         };
         setLoading(true)
         console.log("OTP submitted:", payloadData);

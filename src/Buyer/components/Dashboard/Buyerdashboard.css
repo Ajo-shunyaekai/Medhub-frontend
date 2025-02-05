@@ -7,7 +7,7 @@ body::first-letter {
   user-select: none !important;
   text-transform: uppercase !important;
 }
-.buyer-dashboard-section {
+.buyer-panel-dashboard-section {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
@@ -20,19 +20,19 @@ body::first-letter {
   -ms-overflow-style: none;
   margin: auto;
 }
-.buyer-dashboard-section::-webkit-scrollbar {
+.buyer-panel-dashboard-section::-webkit-scrollbar {
   display: none;
 }
-.buyer-dashboard-heading {
+.buyer-panel-dashboard-heading {
   font-size: 20px;
   font-weight: 600;
   margin-top: 10px;
 }
-.buyer-analystic-button {
+.buyer-panel-analystic-button {
   width: 100%;
   margin-top: -14px;
 }
-.buyer-buttons {
+.buyer-panel-buttons {
   background-color: #f5f5f6;
   font-size: 0.825rem;
   border-color: transparent;
@@ -45,36 +45,36 @@ body::first-letter {
   font-weight: 600;
    cursor: pointer !important;;
 }
-.buyer-buttons:hover {
+.buyer-panel-buttons:hover {
   background-color: #e1e1e4;
   border-color: #dadade;
    cursor: pointer !important;;
 }
 /* style the cart section */
-.buyer-cart-main-container {
+.buyer-panel-cart-main-container {
   width: 100%;
   display: flex;
   justify-content: start;
-  column-gap: 20px;
+  column-gap: 10px;
 }
-.buyer-cart-left-main-container {
+.buyer-panel-cart-left-main-container {
   display: flex;
   justify-content: start;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
 }
-.buyer-cart-left-top-section {
+.buyer-panel-cart-left-top-section {
   width: 100%;
   display: flex;
   justify-content: start;
-  column-gap: 20px;
+  column-gap: 10px;
 }
-.buyer-cart-top-right-section {
+.buyer-panel-cart-top-right-section {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
 }
-.buyer-top-container {
+.buyer-panel-top-container {
   width: 30vw;
   background-color: white;
   padding: 24px 12px;
@@ -85,39 +85,35 @@ body::first-letter {
   column-gap: 6px;
   border-radius: 4px;
 }
-.buyer-top-content-section {
+.buyer-panel-top-content-section {
   display: flex;
   flex-direction: column;
   row-gap: 6px;
    cursor: pointer !important;;
 }
-.buyer-top-head {
+.buyer-panel-top-head {
   color: #99a0ac;
   font-size: 0.825rem;
   line-height: 18px;
 }
-.buyer-pro-text {
+.buyer-panel-pro-text {
   color: #14bae4;
   font-size: 0.825rem;
 }
-.buyer-top-text {
+.buyer-panel-top-text {
   color: #5e676f;
   font-size: 0.825rem;
   font-weight: 600;
 }
-.buyer-bottom-container {
+.buyer-panel-bottom-container {
   display: flex;
   justify-content: space-between;
   width: 30vw;
   column-gap: 10px;
 }
-.buyer-bottom-cart-cont {
+.buyer-panel-bottom-cart-cont {
   background-color: white;
-<<<<<<< Updated upstream
-  width: 15vw;
-=======
   width: 14.7vw;
->>>>>>> Stashed changes
   padding: 28px 20px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -127,21 +123,17 @@ body::first-letter {
   row-gap: 12px;
    cursor: pointer !important;;
 }
-<<<<<<< Updated upstream
-.bottom-head {
-=======
 
-.buyer-bottom-head {
->>>>>>> Stashed changes
+.buyer-panel-bottom-head {
   color: #5e676f !important;
   font-size: 0.825rem;
 }
-.buyer-bottom-text {
+.buyer-panel-bottom-text {
   font-size: 0.825rem;
   color: #448bff;
   font-weight: 600;
 }
-.buyer-cart-top-left-section {
+.buyer-panel-cart-top-left-section {
   width: 17vw;
   background-color: white;
   text-align: center;
@@ -150,17 +142,17 @@ body::first-letter {
   flex-direction: column;
   row-gap: 20px;
 }
-.buyer-left-head {
+.buyer-panel-left-head {
   color: #99a0ac;
   font-size: 0.825rem;
 }
-.buyer-cart-left-bottom-section {
+.buyer-panel-cart-left-bottom-section {
   display: flex;
   justify-content: space-between;
   align-items: start;
 }
-.buyer-cart-left-bottom-container {
-  width: 23.6vw; 
+.buyer-panel-cart-left-bottom-container {
+  width: 23.48vw;
   background-color: white;
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
@@ -168,25 +160,25 @@ body::first-letter {
   flex-direction: column;
   row-gap: 3px;
 }
-.buyer-left-bottom-cart-top {
+.buyer-panel-left-bottom-cart-top {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.buyer-left-bottom-pert {
+.buyer-panel-left-bottom-pert {
   color: #5e676f;
   font-size: 14px;
   font-weight: 600;
 }
-.buyer-left-bottom-plus {
+.buyer-panel-left-bottom-plus {
   color: #99a0ac;
   font-size: 12px;
 }
-.buyer-left-bottom-head {
+.buyer-panel-left-bottom-head {
   font-size: 0.825rem;
   color: #99a0ac !important;
 }
-.buyer-cart-right-main-container {
+.buyer-panel-cart-right-main-container {
   background-color: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-radius: 4px;
@@ -198,11 +190,11 @@ body::first-letter {
   row-gap: 8px;
   padding: 6px 12px;
 }
-.buyer-right-head {
+.buyer-panel-right-head {
   color: #99a0ac;
   font-size: 0.825rem;
 }
-.buyer-right-country-section {
+.buyer-panel-right-country-section {
   margin-top: 6px;
   display: flex;
   justify-content: center;
@@ -211,20 +203,20 @@ body::first-letter {
   column-gap: 42px;
   text-align: center;
 }
-.buyer-country-names {
+.buyer-panel-country-names {
   color: #448bff !important;
   font-size: 0.825rem;
 }
-.buyer-country-sect {
+.buyer-panel-country-sect {
   display: flex;
   flex-direction: column;
   row-gap: 4px;
 }
-.buyer-country-price {
+.buyer-panel-country-price {
   color: #99a0ac;
   font-size: 12px;
 }
-.buyer-country-name {
+.buyer-panel-country-name {
   font-size: 0.825rem;
 }
 .main-bottom-cart-container {
@@ -518,7 +510,7 @@ input[type="checkbox"]:focus + span::before {
   width: 120px !important;
   height: 120px !important;
 }
-.buyer-circular-process {
+.buyer-panel-circular-process {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -533,7 +525,7 @@ input[type="checkbox"]:focus + span::before {
     sans-serif !important;
 }
 #chart-line-2 {
-  width: 400px !important;
+  width: 150px !important;
   height: 40px !important;
 }
 #search-engine-chart {
@@ -546,32 +538,32 @@ input[type="checkbox"]:focus + span::before {
 }
 /* start the media query section */
 @media screen and (max-width: 1480px) {
-  .buyer-dashboard-section {
+  .buyer-panel-dashboard-section {
     max-width: 100%;
   }
-  .buyer-top-container {
+  .buyer-panel-top-container {
     width: 32vw;
   }
-  .buyer-bottom-container {
+  .buyer-panel-bottom-container {
     width: 32vw;
   }
-  .buyer-bottom-cart-cont {
+  .buyer-panel-bottom-cart-cont {
     width: 15.78vw;
   }
-  .buyer-cart-left-bottom-container {
+  .buyer-panel-cart-left-bottom-container {
     width: 25.4vw;
   }
-  .buyer-cart-top-left-section {
+  .buyer-panel-cart-top-left-section {
     width: 19vw;
   }
-  .buyer-cart-right-main-container {
+  .buyer-panel-cart-right-main-container {
     width: 26vw;
   }
  
-  .buyer-bottom-section-left-cont {
+  .buyer-panel-bottom-section-left-cont {
     width: 24vw;
   }
-  .buyer-bottom-section-right-cont {
+  .buyer-panel-bottom-section-right-cont {
     width: 54.6vw;
   }
   .graph-left-container {

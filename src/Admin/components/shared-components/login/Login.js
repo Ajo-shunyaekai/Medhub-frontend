@@ -55,7 +55,7 @@ const Login = ({socket}) => {
                 const obj = {
                     email ,
                     password,
-                    user_type: "Admin"
+                    usertype: "Admin"
                 }
         
              

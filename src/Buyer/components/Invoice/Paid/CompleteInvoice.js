@@ -110,7 +110,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                                         </td>
                                         <td>
                                             <div className="mx-0">
-                                                <span className="item-title text-color">{invoice.total_payable_amount} AED</span>
+                                                <span className="item-title text-color">{invoice.total_payable_amount} USD</span>
                                             </div>
                                         </td>
 
@@ -139,10 +139,10 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                         ) : (
                             <tbody>
                                 <tr>
-                                    <td colSpan="8">
-                                        <div className='pending-products-no-orders'>
+                                    <td colSpan="12" className='pending-products-no-orders'>
+                                       
                                             No Completed Invoices Available
-                                        </div>
+                                        
                                     </td>
                                 </tr>
                             </tbody>

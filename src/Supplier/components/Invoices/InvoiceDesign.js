@@ -151,13 +151,13 @@ function InvoiceDesign() {
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                             </td>
                                                                             <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} AED</p>
+                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.counter_price || item.target_price} USD</p>
                                                                             </td>
                                                                             <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                                 <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
                                                                             </td>
                                                                             <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount} AED </p>
+                                                                                <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount} USD </p>
                                                                             </td>
                                                                         </tr>
                                                                         
@@ -190,7 +190,7 @@ function InvoiceDesign() {
                                                                             <tbody>
                                                                                 {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>200 USD</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax :</p>
@@ -198,11 +198,11 @@ function InvoiceDesign() {
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>VAT @ 20% :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>4400 USD</p>
                                                                                 </tr> */}
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Total Amount Payable   :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{invoiceDetails?.total_payable_amount} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '100px' }}>{invoiceDetails?.total_payable_amount} USD</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>

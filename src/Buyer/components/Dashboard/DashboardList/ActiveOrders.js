@@ -113,7 +113,7 @@ const OngoingOrders = () => {
                                                         <div className='table-text-color-2'>{order?.source_destination?.destination}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
-                                                        <div className='completed-table-text-color ms-4'>{totalQuantity}</div>
+                                                        <div className='completed-table-text-color'>{totalQuantity}</div>
                                                     </div>
                                                     <div className='completed-table-row-item completed-table-order-1'>
                                                         <div className='completed-table-text-color'>{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}</div>
@@ -148,25 +148,28 @@ const OngoingOrders = () => {
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
                         }
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalOrders}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
+                        {orderList.length > 0 && (
+                            <div className='completed-pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={ordersPerPage}
+                                    totalItemsCount={totalOrders}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalOrders}
+                                    <div className='completed-pagi-total'>
+                                        Total Items: {totalOrders}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
+
                     </div>
                 </div >
             </div>

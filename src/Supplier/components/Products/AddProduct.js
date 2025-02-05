@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './addproduct.module.css';
+import '../SharedComponents/Signup/signup.css'
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import ImageAddUploader from './ImageAppUploader';

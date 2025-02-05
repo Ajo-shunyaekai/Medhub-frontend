@@ -93,15 +93,15 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Account Verification: </strong>One Vision Technologies reserves the right to verify account details and suspend or terminate accounts if irregularities are detected, including but not limited to false or outdated information.
+                <strong>Account Verification: </strong> One Vision Technologies reserves the right to verify account details and suspend or terminate accounts if irregularities are detected, including but not limited to false or outdated information.
  
             </p>
             <p>
-                <strong>Updating Details:</strong>Users are required to keep their contact and payment information accurate and current at all times. Failure to comply may result in restricted access or account deactivation.
+                <strong>Updating Details:</strong> Users are required to keep their contact and payment information accurate and current at all times. Failure to comply may result in restricted access or account deactivation.
  
             </p>
             <p>
-                <strong>Accountability for Content: </strong>Users are solely responsible for the legality, accuracy, and appropriateness of the content they upload, share, or distribute on the Platform. Violations may result in suspension, termination, or legal action.
+                <strong>Accountability for Content: </strong> Users are solely responsible for the legality, accuracy, and appropriateness of the content they upload, share, or distribute on the Platform. Violations may result in suspension, termination, or legal action.
  
             </p>
             {/* Fourth Section */}
@@ -117,7 +117,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Harmful or Malicious Software:</strong>Users are not allowed to upload, share, or distribute software or files that contain viruses, malware, or other harmful code intended to disrupt the Platform’s operations or compromise user data.
+                <strong>Harmful or Malicious Software:</strong> Users are not allowed to upload, share, or distribute software or files that contain viruses, malware, or other harmful code intended to disrupt the Platform’s operations or compromise user data.
  
             </p>
             <p>
@@ -138,11 +138,11 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Platform Fees:</strong>Some features or services on the Platform may incur fees, which will be clearly communicated in advance. Users agree to these fees upon using the respective services.
+                <strong>Platform Fees:</strong> Some features or services on the Platform may incur fees, which will be clearly communicated in advance. Users agree to these fees upon using the respective services.
  
             </p>
             <p>
-                <strong>Tax Compliance:</strong>Users are responsible for understanding and fulfilling their tax obligations related to transactions conducted on the Platform, as per their jurisdictional requirements.
+                <strong>Tax Compliance:</strong> Users are responsible for understanding and fulfilling their tax obligations related to transactions conducted on the Platform, as per their jurisdictional requirements.
  
  
             </p>
@@ -160,7 +160,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Amicable Resolution:</strong>Users are encouraged to resolve disputes directly and amicably before seeking external remedies.
+                <strong>Amicable Resolution:</strong> Users are encouraged to resolve disputes directly and amicably before seeking external remedies.
  
             </p>
  
@@ -182,7 +182,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Processing Transactions and Payments:</strong>Your information is used to facilitate secure and efficient payment transactions, ensuring prompt confirmation and delivery of goods and services.
+                <strong>Processing Transactions and Payments:</strong> Your information is used to facilitate secure and efficient payment transactions, ensuring prompt confirmation and delivery of goods and services.
  
  
             </p>
@@ -197,7 +197,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Marketing Communications and Promotions:</strong>With your consent, we may use your data to inform you about offers, updates, and promotions tailored to your interests. You may opt out of marketing communications at any time.
+                <strong>Marketing Communications and Promotions:</strong> With your consent, we may use your data to inform you about offers, updates, and promotions tailored to your interests. You may opt out of marketing communications at any time.
  
             </p>
  
@@ -208,7 +208,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Data Deletion: </strong>Users may request data deletion at any time by contacting connect@medhub.global. Data will be deleted unless retention is required by law.
+                <strong>Data Deletion: </strong> Users may request data deletion at any time by contacting connect@medhub.global. Data will be deleted unless retention is required by law.
  
             </p>
             {/* Eight Section */}
@@ -226,7 +226,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Breaches of These Terms: </strong>Any violations of these Terms by Users, whether intentional or unintentional, that result in damages to One Vision Technologies or other parties.
+                <strong>Breaches of These Terms: </strong> Any violations of these Terms by Users, whether intentional or unintentional, that result in damages to One Vision Technologies or other parties.
             </p>
             <p>
                 <strong>Violations of Applicable Laws:</strong> Any legal non-compliance or regulatory breaches committed by Users during their interaction with the Platform.
@@ -234,12 +234,12 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             </p>
             <p>
-                <strong>Disputes Involving Third Parties:</strong>Claims, disputes, or liabilities involving third-party transactions or interactions initiated through the Platform.
+                <strong>Disputes Involving Third Parties:</strong> Claims, disputes, or liabilities involving third-party transactions or interactions initiated through the Platform.
  
  
             </p>
             <p>
-                <strong>Legal Costs:</strong>Users shall also cover any legal fees incurred by One Vision Technologies in defending such claims.
+                <strong>Legal Costs:</strong> Users shall also cover any legal fees incurred by One Vision Technologies in defending such claims.
  
  
             </p>
@@ -255,7 +255,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             <h2 className={styles.sectionTitle}>11. Third-Party Integrations</h2>
             <p>
-                <strong>Service Use:</strong>The Platform incorporates third-party services (e.g., logistics providers, payment processors). While these integrations enhance functionality, One Vision Technologies does not guarantee their reliability.
+                <strong>Service Use:</strong> The Platform incorporates third-party services (e.g., logistics providers, payment processors). While these integrations enhance functionality, One Vision Technologies does not guarantee their reliability.
  
             </p>
             <p>
@@ -266,7 +266,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             <h2 className={styles.sectionTitle}>12. Governing Law and Dispute Resolution</h2>
             <p>
-                <strong>Jurisdiction: </strong>These Terms are governed by the laws of the UAE.
+                <strong>Jurisdiction: </strong> These Terms are governed by the laws of the UAE.
  
             </p>
             <p>
@@ -278,11 +278,11 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
  
             <h2 className={styles.sectionTitle}>13. Contact Information</h2>
             <p>
-                <strong>One Vision Technologies FZ-LLC</strong>These Terms are governed by the laws of the UAE.
+                <strong>One Vision Technologies FZ-LLC</strong> These Terms are governed by the laws of the UAE.
                 <p>RAKEZ Free Zone, Ras Al Khaimah, United Arab Emirates</p>
             </p>
             <p>
-                <strong>Email:</strong>connect@medhub.global
+                <strong>Email:</strong> connect@medhub.global
             </p>
             <p>
                 By signing up or using the Platform, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.

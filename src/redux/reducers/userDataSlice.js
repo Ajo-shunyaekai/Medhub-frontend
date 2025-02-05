@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
-import { socket, user_type } from "../../constants";
+import { socket, usertype } from "../../constants";
 
 const initialState = {
   user: null,
@@ -54,11 +54,11 @@ export const loginUser = createAsyncThunk(
             response.data.admin_id ||
             response.data.supplier_id;
           socket.emit(
-            user_type == "Buyer"
+            usertype == "Buyer"
               ? "registerBuyer"
-              : user_type == "Admin"
+              : usertype == "Admin"
               ? "registerAdmin"
-              : user_type == "Supplier" && "register",
+              : usertype == "Supplier" && "register",
             userId
           );
         } else if (Notification.permission !== "denied") {
@@ -70,11 +70,11 @@ export const loginUser = createAsyncThunk(
               response.data.admin_id ||
               response.data.supplier_id;
             socket.emit(
-              user_type == "Buyer"
+              usertype == "Buyer"
                 ? "registerBuyer"
-                : user_type == "Admin"
+                : usertype == "Admin"
                 ? "registerAdmin"
-                : user_type == "Supplier" && "register",
+                : usertype == "Supplier" && "register",
               userId
             );
           }
@@ -131,14 +131,14 @@ export const registerUser = createAsyncThunk(
         );
       }
 
-      (user_type == "Supplier" || user_type == "Buyer") &&
+      (usertype == "Supplier" || usertype == "Buyer") &&
         socket.emit(
-          user_type == "Supplier"
+          usertype == "Supplier"
             ? "supplierRegistration"
             : "buyerRegistration",
           {
             adminId: process.env.REACT_APP_ADMIN_ID,
-            message: `New ${user_type} Registration Request `,
+            message: `New ${usertype} Registration Request `,
             link: process.env.REACT_APP_PUBLIC_URL,
             // send other details if needed
           }

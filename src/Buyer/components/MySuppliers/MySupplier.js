@@ -94,26 +94,27 @@ const MySuplier = () => {
                         )}
 
                     </div>
-
-                    <div className='mysupplier-pagination-section-main'>
-                        <div className='pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={itemsPerPage}
-                                totalItemsCount={totalItems}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='pagi-total'>
-                                Total Items: {totalItems}
+                    {mySuppliers.length > 0 && (
+                        <div className='mysupplier-pagination-section-main'>
+                            <div className='pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={itemsPerPage}
+                                    totalItemsCount={totalItems}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
+                                <div className='pagi-total'>
+                                    Total Items: {totalItems}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div >
             )}
         </>

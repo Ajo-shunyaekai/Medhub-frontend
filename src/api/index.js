@@ -26,7 +26,7 @@ export const apiRequests = {
         data: {},
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          access_token:
+          accesstoken:
             sessionStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
@@ -43,7 +43,7 @@ export const apiRequests = {
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
-          user_type:
+          usertype:
             sessionStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
@@ -80,7 +80,7 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          access_token:
+          accesstoken:
             sessionStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
@@ -97,7 +97,7 @@ export const apiRequests = {
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
-          user_type:
+          usertype:
             sessionStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
@@ -134,7 +134,7 @@ export const apiRequests = {
         url: URL,
         data: requestData,
         headers: {
-          access_token:
+          accesstoken:
             sessionStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
@@ -151,7 +151,7 @@ export const apiRequests = {
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "multipart/form-data",
-          user_type:
+          usertype:
             sessionStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
@@ -186,7 +186,7 @@ export const apiRequests = {
           headers: {
             "Content-Type": "application/json",
             authorization: process.env.REACT_APP_Authorization,
-            access_token:
+            accesstoken:
               sessionStorage.getItem("token") ||
               localStorage.getItem("token") ||
               undefined,
@@ -202,7 +202,7 @@ export const apiRequests = {
               sessionStorage.getItem("admin_id") ||
               localStorage.getItem("admin_id") ||
               undefined,
-            user_type:
+            usertype:
               sessionStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id")
                 ? "Buyer"
@@ -246,7 +246,7 @@ export const apiRequests = {
         data: requestData,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          access_token:
+          accesstoken:
             sessionStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
@@ -263,7 +263,7 @@ export const apiRequests = {
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
-          user_type:
+          usertype:
             sessionStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"
@@ -300,7 +300,7 @@ export const apiRequests = {
         url: URL,
         headers: {
           authorization: process.env.REACT_APP_Authorization,
-          access_token:
+          accesstoken:
             sessionStorage.getItem("token") ||
             localStorage.getItem("token") ||
             undefined,
@@ -317,7 +317,7 @@ export const apiRequests = {
             localStorage.getItem("admin_id") ||
             undefined,
           "Content-Type": "application/json",
-          user_type:
+          usertype:
             sessionStorage.getItem("buyer_id") ||
             localStorage.getItem("buyer_id")
               ? "Buyer"

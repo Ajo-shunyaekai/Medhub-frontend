@@ -66,7 +66,7 @@ const InquiryPurchaseOrder = () => {
             status   : status,
             pageNo   : currentPage, 
             pageSize : inquiryPerPage,
-            user_type: 'Buyer'
+            usertype: 'Buyer'
         }
         // postRequestWithToken('buyer/enquiry/enquiry-list', obj, async (response) => {
         //     if (response.code === 200) {

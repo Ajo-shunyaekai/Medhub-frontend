@@ -53,23 +53,23 @@ body {
   width: 100%;
   display: flex;
   justify-content: start;
-  column-gap: 20px;
+  column-gap: 10px;
 }
 .supplier-cart-left-main-container {
   display: flex;
   justify-content: start;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
 }
 .supplier-cart-left-top-section {
   display: flex;
   justify-content: start;
-  column-gap: 20px;
+  column-gap: 10px;
 }
 .supplier-cart-top-right-section {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
 }
 .supplier-top-container {
   width: 30vw;
@@ -107,7 +107,7 @@ body {
 }
 .supplier-bottom-cart-cont {
   background-color: white;
-  width: 15vw;
+  width: 14.72vw;
   padding: 28px 20px;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -142,37 +142,37 @@ body {
   display: flex;
   justify-content: space-between;
 }
-<<<<<<< Updated upstream
-.supplier-cart-left-bottom-container {
-  width: 15.6vw;
-=======
 .supplier-supplier-cart-left-bottom-container {
   width: 15.5vw;
->>>>>>> Stashed changes
   background-color: white;
   border-radius: 4px;
   padding: 25px 16px 6px 16px;
   display: flex;
   flex-direction: column;
   row-gap: 3px;
+  cursor: pointer !important;
 }
 .supplier-supplier-left-bottom-cart-top {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  cursor: pointer !important;
 }
 .supplier-supplier-left-bottom-pert {
   color: #5e676f;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer !important;
 }
 .supplier-supplier-left-bottom-plus {
   color: #99a0ac;
   font-size: 12px;
+  cursor: pointer !important;
 }
 .supplier-supplier-left-bottom-head {
   font-size: 14px;
   color: #5e676f !important;
+  cursor: pointer !important; 
 }
 .supplier-cart-right-main-container {
   background-color: white;
@@ -185,10 +185,12 @@ body {
   align-items: center;
   row-gap: 8px;
   padding: 6px 12px;
+  cursor: pointer !important;
 }
 .supplier-right-head {
   color: #99a0ac;
   font-size: 12px;
+  cursor: pointer !important;
 }
 .supplier-right-country-section {
   margin-top: 6px;
@@ -198,6 +200,7 @@ body {
   width: 100%;
   column-gap: 42px;
   text-align: center;
+  cursor: pointer !important;
 }
 .supplier-country-names {
   color: #448bff !important;
@@ -475,6 +478,7 @@ input[type="checkbox"]:focus + span::before {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer !important;
 }
 /* start the progress bar code */
 .bottom-cont-right-sec-completion {
@@ -510,10 +514,12 @@ input[type="checkbox"]:focus + span::before {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  cursor: pointer !important;
 }
 .dashbaord-uppar-circular-bar {
   width: 120px;
   height: 120px;
+  cursor: pointer !important;
 }
 .CircularProgressbar .CircularProgressbar-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

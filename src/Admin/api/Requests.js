@@ -22,9 +22,9 @@ export const postRequestWithFile = async (URL, requestData, callback) => {
             url     : URL,
             data    : requestData,
             headers : {
-                // "access_token" : sessionStorage.getItem('buyer_token') || localStorage.getItem('buyer_token'),
+                // "accesstoken" : sessionStorage.getItem('buyer_token') || localStorage.getItem('buyer_token'),
                 "Content-Type" : "multipart/form-data",                
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                "usertype" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
                 (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             }
         });
@@ -45,10 +45,10 @@ export const postRequestWithToken = async (URL, requestData, callback) => {
             data    : requestData,
             // withCredentials : true,
             headers : {
-                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
-                // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
+                "accesstoken" : sessionStorage.getItem('token') || localStorage.getItem('token'),
+                // accesstoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiV2VkIEp1bCAxNyAyMDI0IDEzOjIyOjQzIEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsImVtYWlsIjoiYWRtaW5Ac2h1bnlhZWthaS50ZWNoIiwiaWF0IjoxNzIxMjAyNzYzfQ.7KnHj1ywbLqb7B8OzrIuRmScx_gzM8y-7iCi2L3PWLk',
                 "Content-Type" : "application/json",
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                "usertype" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
                 (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             } 
         });
@@ -72,10 +72,10 @@ export const postRequestWithTokenAndFile = async (URL, requestData, callback) =>
             url     : URL,
             data    : requestData,
             headers : {
-                "access_token" : sessionStorage.getItem('token') || localStorage.getItem('token'),
+                "accesstoken" : sessionStorage.getItem('token') || localStorage.getItem('token'),
                 "buyer_id"     :  sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id'),
                 "Content-Type" : "multipart/form-data",                
-                "user_type" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
+                "usertype" : (sessionStorage.getItem('buyer_id') || localStorage.getItem('buyer_id')) ? "Buyer" : 
                 (sessionStorage.getItem('supplier_id') || localStorage.getItem('supplier_id')) ? "Supplier" : (sessionStorage.getItem('admin_id') || localStorage.getItem('admin_id')) ? "Admin" : (sessionStorage.getItem('seller_id') || localStorage.getItem('seller_id')) ? "Seller" : undefined,
             }
         });

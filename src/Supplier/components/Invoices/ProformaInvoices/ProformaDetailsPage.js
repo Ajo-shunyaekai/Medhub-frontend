@@ -73,24 +73,25 @@ function ProformaDetailsPage() {
                             <thead>
                                 <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
-                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>Invoice Number : </p>
-                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_no}</p>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>Invoice Number : </p>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_no}</p>
+                                    </td>
+                                    <td style={{ display: 'flex', justifyContent: 'end',  }}>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>Invoice Date : </p>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_date}</p>
                                     </td>
                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
-                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>Payment Due date : </p>
-                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.payment_due_date}</p>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>Payment Due date : </p>
+                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.payment_due_date}</p>
                                     </td>
                                     {
                                         orderDetails?.deposit_due_date && 
-                                        <td style={{ display: 'flex', justifyContent: 'end' }}>
-                                            <p style={{ fontSize: '16px', fontWeight: '500' }}>Deposit Due date : </p>
-                                            <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.deposit_due_date}</p>
+                                        <td style={{ display: 'flex', justifyContent: 'end',paddingBottom: '10px' }}>
+                                            <p style={{ fontSize: '15px', fontWeight: '500' }}>Deposit Due date : </p>
+                                            <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.deposit_due_date}</p>
                                         </td>
                                     }
-                                    <td style={{ display: 'flex', justifyContent: 'end', paddingBottom: '10px' }}>
-                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>Invoice Generated Date : </p>
-                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_date}</p>
-                                    </td>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,13 +155,13 @@ function ProformaDetailsPage() {
                                                                             <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} AED</p>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} USD</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                                                             <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.unit_tax}%</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} AED </p>
+                                                                            <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} USD </p>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -174,7 +175,7 @@ function ProformaDetailsPage() {
                                                                             <tbody>
                                                                                 {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Subtotal :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{totalAmount.toFixed(2)} USD</p>
                                                                                 </tr>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Tax % :</p>
@@ -182,7 +183,7 @@ function ProformaDetailsPage() {
                                                                                 </tr> */}
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '6px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500', paddingBottom: '10px' }}>Grand Total  :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{totalAmount.toFixed(2)} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', paddingBottom: '10px', width: '150px' }}>{totalAmount.toFixed(2)} USD</p>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -209,7 +210,7 @@ function ProformaDetailsPage() {
                                                                                 <tbody>
                                                                                     <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
-                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '100px' }}>{orderDetails?.deposit_requested} USD</p>
                                                                                     </tr>
                                                                                     {
                                                                                     orderDetails?.deposit_due_date &&
@@ -220,7 +221,7 @@ function ProformaDetailsPage() {
                                                                                 }
                                                                                     {/* <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', paddingTop: '8px' }}>
                                                                                         <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Due :</p>
-                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} AED</p>
+                                                                                        <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_due} USD</p>
                                                                                     </tr> */}
                                                                                 </tbody>
                                                                             </table>
@@ -236,7 +237,7 @@ function ProformaDetailsPage() {
                                                                             <tbody>
                                                                                 <tr style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', columnGap: '10px', marginTop: '8px' }}>
                                                                                     <p style={{ textAlign: 'end', fontSize: '14px', fontWeight: '500' }}>Deposit Requested :</p>
-                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} AED</p>
+                                                                                    <p style={{ textAlign: 'end', fontWeight: '500', fontSize: '14px', width: '150px' }}>{orderDetails?.deposit_requested} USD</p>
                                                                                 </tr>
                                                                                 
                                                                             </tbody>

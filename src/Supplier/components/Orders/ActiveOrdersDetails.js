@@ -96,13 +96,15 @@ const ActiveOrdersDetails = ({ socket }) => {
                                 {
                                     orderDetails?.status === 'Awaiting Details from Supplier' ?
                                         <div className='active-order-details-top-order-cont'>
+                                            <Link to='/supplier/logistics-form'>
                                             <div
                                                 className='active-order-details-left-top-main-heading-button'
-                                                onClick={openModal}
+                                                // onClick={openModal}
                                                 style={{ cursor: 'pointer' }}
                                             >
                                                 Submit Details
                                             </div>
+                                            </Link>
                                         </div> : ''
                                 }
 

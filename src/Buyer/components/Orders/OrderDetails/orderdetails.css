@@ -568,7 +568,21 @@
   align-items: center;
 
 }
-
+.invoice-eye-buttons{
+  background-color: #31c971 !important;
+  display: flex
+;
+  padding: 5px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer !important;
+  width: 40px;
+}
+.invoice-view {
+  font-size: 15px !important;
+  color: #ffffff;
+}
 /* Pending order css */
 .buyers-order-details-payment-pending-container {
   display: flex;

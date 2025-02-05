@@ -11,7 +11,7 @@ const staticItems = [
     medicine_details: { medicine_name: 'Paracetamol' },
     quantity_required: 50,
     unit_price: 10.5,
-    target_price: '15 AED',
+    target_price: '15 USD',
     est_delivery_days: '5 days',
     status: 'Quotation submitted',
     created_at: '2024-09-10T10:00:00Z'
@@ -21,7 +21,7 @@ const staticItems = [
     medicine_details: { medicine_name: 'Ibuprofen' },
     quantity_required: 100,
     unit_price: 12,
-    target_price: '20 AED',
+    target_price: '20 USD',
     est_delivery_days: '3 days',
     status: 'In Progress',
     created_at: '2024-09-09T09:30:00Z'
@@ -82,7 +82,7 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Listed Price</span>
-                  <span className="table-g-not-name">{item.unit_price ? `${item.unit_price} AED` : ''}</span>
+                  <span className="table-g-not-name">{item.unit_price ? `${item.unit_price} USD` : ''}</span>
                 </div>
               </td>
               <td className='tables-td'>
@@ -90,9 +90,9 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
                   <span className="table-g-driver-name">Target Price</span>
                   <span className="table-g-not-name">
                   {item.target_price
-                        ? item.target_price.toLowerCase().includes('aed')
-                            ? item.target_price.replace(/days/i, 'GBP')
-                            : `${item.target_price} AED` 
+                        ? item.target_price.toLowerCase().includes('usd')
+                            ? item.target_price.replace(/days/i, 'USD')
+                            : `${item.target_price} USD` 
                         : '-'}
                   </span>
                 </div>

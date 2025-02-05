@@ -1,642 +1,1229 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, createBrowserRouter, RouterProvider } from "react-router-dom";
-import io from 'socket.io-client';
-import { postRequestWithToken } from '../api/Requests';
-import logo from "../assest/Images/logo.svg"
-import AdmSidebar from "../components/shared-components/sidebar/AdmSidebar"
-import Layout from "../components/shared-components/Layout"
-import Login from "../components/shared-components/login/Login"
-import Dashboard from "../components/dashboard/index"
-import ManageCommission from "../components/manage-commission/index"
-import BuyerRequest from "../components/manage-buyer/buyerrequest/BuyerRequest"
-import ApprovedBuyer from "../components/manage-buyer/buyerrequest/ApprovedBuyer"
-import RejectedBuyer from "../components/manage-buyer/buyerrequest/RejectedBuyer"
-import BuyerRequestDetails from "../components/manage-buyer/buyerrequest/DetailsBuyerRequest"
-import BuyerDetails from "../components/manage-buyer/buyerrequest/BuyerDetails"
-import BuyerInquiry from "../components/manage-buyer/inquiry/index"
-import OngoingInquiry from "../components/manage-buyer/inquiry/Ongoing-Inquiries/BuyerOngoingInquiry"
-import PurchasedOrders from "../components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrder"
-import BuyerInvoice from "../components/manage-buyer/invoices/index"
-import BuyerPaid from "../components/manage-buyer/invoices/paid/BuyerPaid"
-import BuyerPending from "../components/manage-buyer/invoices/pending/BuyerPending"
-import BuyerProforma from "../components/manage-buyer/invoices/proforma/BuyerProforma"
-import BuyerOrder from "../components/manage-buyer/order/index"
-import BuyerActiveOrder from "../components/manage-buyer/order/ActiveOrder/ActiveBuyerOrder"
-import BuyerCompleteOrder from "../components/manage-buyer/order/CompletedOrder/CompletedBuyerOrder"
-import BuyerSupport from "../components/manage-buyer/support/index"
-import BuyerComplaint from '../components/manage-buyer/support/complaint/BuyerComplaint';
-import BuyerFeedback from '../components/manage-buyer/support/feedback/BuyerFeedback';
-import BuyerTransaction from "../components/manage-buyer/transaction/index"
-import BuyerTransactionDetails from "../components/manage-buyer/transaction/BuyerTransactionDetails"
-import OngoingInquiryDetails from "../components/manage-buyer/inquiry/Ongoing-Inquiries/OngoingInquiriesDetails"
-import BuyerPurchasedOrderDetails from "../components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrderDetails"
-import OrderDetails from "../components/manage-buyer/order/OrderDetails"
-import BuyerInvoiceDetails from "../components/manage-buyer/invoices/BuyerInvoiceDetails"
-import BuyerProformaDetails from "../components/manage-buyer/invoices/proforma/BuyerProformaDetails"
-import BuyerComplaintDetails from "../components/manage-buyer/support/complaint/BuyerComplaintDetails"
-import BuyerFeedbackDetails from "../components/manage-buyer/support/feedback/BuyerFeedbackDetails"
-import SellerRequest from "../components/manage-supplier/SupplierRequest/SellerRequest"
-import ApprovedSeller from "../components/manage-supplier/SupplierRequest/ApprovedSeller"
-import RejectedSeller from "../components/manage-supplier/SupplierRequest/RejectedSeller"
-import SellerTransaction from "../components/manage-supplier/Transaction/SellerTransaction"
-import SellerInquiry from "../components/manage-supplier/Inquiry/index"
-import InquiryRequest from "../components/manage-supplier/Inquiry/InquiryRequest/InquiryRequest"
-import SellerPurchasedOrder from "../components/manage-supplier/Inquiry/PurchasedOrder/PurchasedOrder"
-import SellerOrder from "../components/manage-supplier/Order/index"
-import SellerActiveOrder from "../components/manage-supplier/Order/ActiveOrder/ActiveSellerOrder"
-import SellerCompleteOrder from "../components/manage-supplier/Order/CompletedOrder/CompletedSellerOrder"
-import SellerInvoice from "../components/manage-supplier/Invoice/index"
-import SellerPaid from "../components/manage-supplier/Invoice/Paid/PaidInvoice"
-import SellerPending from "../components/manage-supplier/Invoice/Pending/PendingInvoice"
-import SellerProforma from "../components/manage-supplier/Invoice/Proforma/SellerProformaInvoice"
-import SellerSupport from "../components/manage-supplier/Support/index"
-import SellerComplaint from "../components/manage-supplier/Support/Complaint/SellerComplaint"
-import SellerFeedback from "../components/manage-supplier/Support/Feedback/Feedback"
-import SellerRequestDetails from "../components/manage-supplier/SupplierRequest/SupplierRequestDetails"
-import SellerDetails from "../components/manage-supplier/SupplierRequest/SupplierDetails"
-import SellerTransactionDetails from "../components/manage-supplier/Transaction/SellerTransactionDetails"
-import SellerInquiryDetails from "../components/manage-supplier/Inquiry/InquiryRequest/SellerInquiryDetails"
-import SellerPurchasedOrderDetails from "../components/manage-supplier/Inquiry/PurchasedOrder/SellerPurchasedOrderDetails"
-import SellerOrderDetails from "../components/manage-supplier/Order/OrderDetails"
-import SellerInvoiceDetails from "../components/manage-supplier/Invoice/SellerInvoiceDetails"
-import SellerProformaDetails from "../components/manage-supplier/Invoice/Proforma/ProformaInvoiceDetails"
-import SellerComplaintDetails from "../components/manage-supplier/Support/Complaint/SellerComplaintDetails"
-import SellerFeedbackDetails from "../components/manage-supplier/Support/Feedback/SellerFeedbackDetails"
-import TotalRequestList from "../components/dashboard/DashboardList/TotalRequestList"
-import TotalApprovedRequest from "../components/dashboard/DashboardList/TotalApprovedRequest"
-import TotalPO from "../components/dashboard/DashboardList/TotalPO"
-import TotalActiveOrders from "../components/dashboard/DashboardList/TotalActiveOrders"
-import TotalCompletedOrders from "../components/dashboard/DashboardList/TotalCompletedOrder"
-import InquiriesDashList from '../components/dashboard/DashboardList/InquiriesDashList';
-import TotalInquiriesRequest from '../components/dashboard/DashboardList/TotalInquiriesRequest';
-import TotalOngoingInquiries from '../components/dashboard/DashboardList/TotalOngoingInquiries';
-import ProductRequests from "../components/manage-products/ProductRequest/ProductRequests"
-import NewProductRequest from "../components/manage-products/ProductRequest/NewProductRequest"
-import SecondaryProductRequest from "../components/manage-products/ProductRequest/SecondaryProductRequest"
-import ProductUpdateRequest from "../components/manage-products/ProductUpdateRequest/ProductUpdateRequest"
-import NewProductUpdateRequest from "../components/manage-products/ProductUpdateRequest/NewProductUpdateRequest"
-import SecondaryUpdateRequest from "../components/manage-products/ProductUpdateRequest/SecondaryUpdateRequest"
-import ApprovedProducts from "../components/manage-products/ApprovedProducts/ApprovedProduct"
-import ApprovedNewProducts from "../components/manage-products/ApprovedProducts/ApprovedNewProducts"
-import ApprovedSecondaryProducts from "../components/manage-products/ApprovedProducts/ApprovedSecondaryProducts"
-import RejectedProducts from "../components/manage-products/RejectedProducts/RejectedProduct"
-import RejectedNewProducts from "../components/manage-products/RejectedProducts/RejectedNewProduct"
-import RejectedSecondaryProducts from "../components/manage-products/RejectedProducts/RejectedSecondaryProducts"
-import ProductDetails from "../components/manage-products/ProductDetails"
-import ProductRequestDetails from "../components/manage-products/ProductRequestDetails"
-import SecondaryProductRequestDetails from "../components/manage-products/SecondaryProductRequestDetails"
-import EditProductDetails from "../components/manage-products/EditUpdateProductdetails"
-import EditSecondaryDetails from "../components/manage-products/EditUpdateSecondaryDetails"
-import SecondaryProductDetails from "../components/manage-products/SecondaryProductDetails"
-import NotificationList from "../components/shared-components/notification/NotificationList"
-import Profile from "../components/shared-components/Profile/profile"
-import { fetchUserData } from '../../redux/reducers/userDataSlice';
-import { useDispatch } from 'react-redux';
-import BuyerEditProfile from "../components/manage-buyer/support/UpdateProfile/EditProfileList"
-import BuyerEditProfileDetails from "../components/manage-buyer/support/UpdateProfile/EditProfileDetails"
-import SupplierEditProfile from "../components/manage-supplier/Support/UpdateProfile/EditProfileList"
-import SupplierEditProfileDetails from "../components/manage-supplier/Support/UpdateProfile/EditProfileDetails"
+import React, { useState, useEffect, Suspense, lazy } from "react";
+import {
+  useNavigate,
+  useLocation,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import io from "socket.io-client";
+import { postRequestWithToken } from "../api/Requests";
+import logo from "../assest/Images/logo.svg";
+import Loader from "../components/shared-components/Loader/Loader";
+import { fetchUserData } from "../../redux/reducers/userDataSlice";
+import { useDispatch } from "react-redux";
+
+// Lazy-load the components
+const AdmSidebar = lazy(() =>
+  import("../components/shared-components/sidebar/AdmSidebar")
+);
+const Layout = lazy(() => import("../components/shared-components/Layout"));
+const Login = lazy(() => import("../components/shared-components/login/Login"));
+const Dashboard = lazy(() => import("../components/dashboard/index"));
+const ManageCommission = lazy(() =>
+  import("../components/manage-commission/index")
+);
+const BuyerRequest = lazy(() =>
+  import("../components/manage-buyer/buyerrequest/BuyerRequest")
+);
+const ApprovedBuyer = lazy(() =>
+  import("../components/manage-buyer/buyerrequest/ApprovedBuyer")
+);
+const RejectedBuyer = lazy(() =>
+  import("../components/manage-buyer/buyerrequest/RejectedBuyer")
+);
+const BuyerRequestDetails = lazy(() =>
+  import("../components/manage-buyer/buyerrequest/DetailsBuyerRequest")
+);
+const BuyerDetails = lazy(() =>
+  import("../components/manage-buyer/buyerrequest/BuyerDetails")
+);
+const BuyerInquiry = lazy(() =>
+  import("../components/manage-buyer/inquiry/index")
+);
+const OngoingInquiry = lazy(() =>
+  import(
+    "../components/manage-buyer/inquiry/Ongoing-Inquiries/BuyerOngoingInquiry"
+  )
+);
+const PurchasedOrders = lazy(() =>
+  import(
+    "../components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrder"
+  )
+);
+const BuyerInvoice = lazy(() =>
+  import("../components/manage-buyer/invoices/index")
+);
+const BuyerPaid = lazy(() =>
+  import("../components/manage-buyer/invoices/paid/BuyerPaid")
+);
+const BuyerPending = lazy(() =>
+  import("../components/manage-buyer/invoices/pending/BuyerPending")
+);
+const BuyerProforma = lazy(() =>
+  import("../components/manage-buyer/invoices/proforma/BuyerProforma")
+);
+const BuyerOrder = lazy(() => import("../components/manage-buyer/order/index"));
+const BuyerActiveOrder = lazy(() =>
+  import("../components/manage-buyer/order/ActiveOrder/ActiveBuyerOrder")
+);
+const BuyerCompleteOrder = lazy(() =>
+  import("../components/manage-buyer/order/CompletedOrder/CompletedBuyerOrder")
+);
+const BuyerSupport = lazy(() =>
+  import("../components/manage-buyer/support/index")
+);
+const BuyerComplaint = lazy(() =>
+  import("../components/manage-buyer/support/complaint/BuyerComplaint")
+);
+const BuyerFeedback = lazy(() =>
+  import("../components/manage-buyer/support/feedback/BuyerFeedback")
+);
+const BuyerTransaction = lazy(() =>
+  import("../components/manage-buyer/transaction/index")
+);
+const BuyerTransactionDetails = lazy(() =>
+  import("../components/manage-buyer/transaction/BuyerTransactionDetails")
+);
+const OngoingInquiryDetails = lazy(() =>
+  import(
+    "../components/manage-buyer/inquiry/Ongoing-Inquiries/OngoingInquiriesDetails"
+  )
+);
+const BuyerPurchasedOrderDetails = lazy(() =>
+  import(
+    "../components/manage-buyer/inquiry/Purchased-Order/BuyerPurchasedOrderDetails"
+  )
+);
+const OrderDetails = lazy(() =>
+  import("../components/manage-buyer/order/OrderDetails")
+);
+const BuyerInvoiceDetails = lazy(() =>
+  import("../components/manage-buyer/invoices/BuyerInvoiceDetails")
+);
+const BuyerProformaDetails = lazy(() =>
+  import("../components/manage-buyer/invoices/proforma/BuyerProformaDetails")
+);
+const BuyerComplaintDetails = lazy(() =>
+  import("../components/manage-buyer/support/complaint/BuyerComplaintDetails")
+);
+const BuyerFeedbackDetails = lazy(() =>
+  import("../components/manage-buyer/support/feedback/BuyerFeedbackDetails")
+);
+const SellerRequest = lazy(() =>
+  import("../components/manage-supplier/SupplierRequest/SellerRequest")
+);
+const ApprovedSeller = lazy(() =>
+  import("../components/manage-supplier/SupplierRequest/ApprovedSeller")
+);
+const RejectedSeller = lazy(() =>
+  import("../components/manage-supplier/SupplierRequest/RejectedSeller")
+);
+const SellerTransaction = lazy(() =>
+  import("../components/manage-supplier/Transaction/SellerTransaction")
+);
+const SellerInquiry = lazy(() =>
+  import("../components/manage-supplier/Inquiry/index")
+);
+const InquiryRequest = lazy(() =>
+  import("../components/manage-supplier/Inquiry/InquiryRequest/InquiryRequest")
+);
+const SellerPurchasedOrder = lazy(() =>
+  import("../components/manage-supplier/Inquiry/PurchasedOrder/PurchasedOrder")
+);
+const SellerOrder = lazy(() =>
+  import("../components/manage-supplier/Order/index")
+);
+const SellerActiveOrder = lazy(() =>
+  import("../components/manage-supplier/Order/ActiveOrder/ActiveSellerOrder")
+);
+const SellerCompleteOrder = lazy(() =>
+  import(
+    "../components/manage-supplier/Order/CompletedOrder/CompletedSellerOrder"
+  )
+);
+const SellerInvoice = lazy(() =>
+  import("../components/manage-supplier/Invoice/index")
+);
+const SellerPaid = lazy(() =>
+  import("../components/manage-supplier/Invoice/Paid/PaidInvoice")
+);
+const SellerPending = lazy(() =>
+  import("../components/manage-supplier/Invoice/Pending/PendingInvoice")
+);
+const SellerProforma = lazy(() =>
+  import("../components/manage-supplier/Invoice/Proforma/SellerProformaInvoice")
+);
+const SellerSupport = lazy(() =>
+  import("../components/manage-supplier/Support/index")
+);
+const SellerComplaint = lazy(() =>
+  import("../components/manage-supplier/Support/Complaint/SellerComplaint")
+);
+const SellerFeedback = lazy(() =>
+  import("../components/manage-supplier/Support/Feedback/Feedback")
+);
+const SellerRequestDetails = lazy(() =>
+  import("../components/manage-supplier/SupplierRequest/SupplierRequestDetails")
+);
+const SellerDetails = lazy(() =>
+  import("../components/manage-supplier/SupplierRequest/SupplierDetails")
+);
+const SellerTransactionDetails = lazy(() =>
+  import("../components/manage-supplier/Transaction/SellerTransactionDetails")
+);
+const SellerInquiryDetails = lazy(() =>
+  import(
+    "../components/manage-supplier/Inquiry/InquiryRequest/SellerInquiryDetails"
+  )
+);
+const SellerPurchasedOrderDetails = lazy(() =>
+  import(
+    "../components/manage-supplier/Inquiry/PurchasedOrder/SellerPurchasedOrderDetails"
+  )
+);
+const SellerOrderDetails = lazy(() =>
+  import("../components/manage-supplier/Order/OrderDetails")
+);
+const SellerInvoiceDetails = lazy(() =>
+  import("../components/manage-supplier/Invoice/SellerInvoiceDetails")
+);
+const SellerProformaDetails = lazy(() =>
+  import(
+    "../components/manage-supplier/Invoice/Proforma/ProformaInvoiceDetails"
+  )
+);
+const SellerComplaintDetails = lazy(() =>
+  import(
+    "../components/manage-supplier/Support/Complaint/SellerComplaintDetails"
+  )
+);
+const SellerFeedbackDetails = lazy(() =>
+  import("../components/manage-supplier/Support/Feedback/SellerFeedbackDetails")
+);
+const TotalRequestList = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalRequestList")
+);
+const TotalApprovedRequest = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalApprovedRequest")
+);
+const TotalPO = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalPO")
+);
+const TotalActiveOrders = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalActiveOrders")
+);
+const TotalCompletedOrders = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalCompletedOrder")
+);
+const InquiriesDashList = lazy(() =>
+  import("../components/dashboard/DashboardList/InquiriesDashList")
+);
+const TotalInquiriesRequest = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalInquiriesRequest")
+);
+const TotalOngoingInquiries = lazy(() =>
+  import("../components/dashboard/DashboardList/TotalOngoingInquiries")
+);
+const ProductRequests = lazy(() =>
+  import("../components/manage-products/ProductRequest/ProductRequests")
+);
+const NewProductRequest = lazy(() =>
+  import("../components/manage-products/ProductRequest/NewProductRequest")
+);
+const SecondaryProductRequest = lazy(() =>
+  import("../components/manage-products/ProductRequest/SecondaryProductRequest")
+);
+const ProductUpdateRequest = lazy(() =>
+  import(
+    "../components/manage-products/ProductUpdateRequest/ProductUpdateRequest"
+  )
+);
+const NewProductUpdateRequest = lazy(() =>
+  import(
+    "../components/manage-products/ProductUpdateRequest/NewProductUpdateRequest"
+  )
+);
+const SecondaryUpdateRequest = lazy(() =>
+  import(
+    "../components/manage-products/ProductUpdateRequest/SecondaryUpdateRequest"
+  )
+);
+const ApprovedProducts = lazy(() =>
+  import("../components/manage-products/ApprovedProducts/ApprovedProduct")
+);
+const ApprovedNewProducts = lazy(() =>
+  import("../components/manage-products/ApprovedProducts/ApprovedNewProducts")
+);
+const ApprovedSecondaryProducts = lazy(() =>
+  import(
+    "../components/manage-products/ApprovedProducts/ApprovedSecondaryProducts"
+  )
+);
+const RejectedProducts = lazy(() =>
+  import("../components/manage-products/RejectedProducts/RejectedProduct")
+);
+const RejectedNewProducts = lazy(() =>
+  import("../components/manage-products/RejectedProducts/RejectedNewProduct")
+);
+const RejectedSecondaryProducts = lazy(() =>
+  import(
+    "../components/manage-products/RejectedProducts/RejectedSecondaryProducts"
+  )
+);
+const ProductDetails = lazy(() =>
+  import("../components/manage-products/ProductDetails")
+);
+const ProductRequestDetails = lazy(() =>
+  import("../components/manage-products/ProductRequestDetails")
+);
+const SecondaryProductRequestDetails = lazy(() =>
+  import("../components/manage-products/SecondaryProductRequestDetails")
+);
+const EditProductDetails = lazy(() =>
+  import("../components/manage-products/EditUpdateProductdetails")
+);
+const EditSecondaryDetails = lazy(() =>
+  import("../components/manage-products/EditUpdateSecondaryDetails")
+);
+const SecondaryProductDetails = lazy(() =>
+  import("../components/manage-products/SecondaryProductDetails")
+);
+const NotificationList = lazy(() =>
+  import("../components/shared-components/notification/NotificationList")
+);
+const Profile = lazy(() =>
+  import("../components/shared-components/Profile/profile")
+);
+const BuyerEditProfile = lazy(() =>
+  import("../components/manage-buyer/support/UpdateProfile/EditProfileList")
+);
+const BuyerEditProfileDetails = lazy(() =>
+  import("../components/manage-buyer/support/UpdateProfile/EditProfileDetails")
+);
+const SupplierEditProfile = lazy(() =>
+  import("../components/manage-supplier/Support/UpdateProfile/EditProfileList")
+);
+const SupplierEditProfileDetails = lazy(() =>
+  import(
+    "../components/manage-supplier/Support/UpdateProfile/EditProfileDetails"
+  )
+);
+
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 export function NotificationProvider({ children }) {
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
-    const adminIdSessionStorage = sessionStorage.getItem("admin_id");
-    const adminIdLocalStorage = localStorage.getItem("admin_id");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const adminIdSessionStorage = sessionStorage.getItem("admin_id");
+  const adminIdLocalStorage = localStorage.getItem("admin_id");
 
-    const [notificationList, setNotificationList] = useState([]);
-    const [count, setCount] = useState();
-    const [refresh, setRefresh] = useState(false);
+  const [notificationList, setNotificationList] = useState([]);
+  const [count, setCount] = useState();
+  const [refresh, setRefresh] = useState(false);
 
-    // Notification logic
-    const showNotification = (title, options, url) => {
-        if (Notification.permission === 'granted') {
-            const notification = new Notification(title, options);
-            notification.onclick = () => {
-                window.focus();
-                window.location.href = url;
-            };
-        }
+  // Notification logic
+  const showNotification = (title, options, url) => {
+    if (Notification.permission === "granted") {
+      const notification = new Notification(title, options);
+      notification.onclick = () => {
+        window.focus();
+        window.location.href = url;
+      };
+    }
+  };
+
+  const fetchNotifications = () => {
+    const obj = { admin_id: adminIdSessionStorage || adminIdLocalStorage };
+    postRequestWithToken("admin/get-notification-list", obj, (response) => {
+      if (response.code === 200) {
+        setNotificationList(response.result.data);
+        setCount(response.result.totalItems);
+      } else {
+        console.log("Error in fetching notifications");
+      }
+    });
+  };
+
+  const handleClick = (id, event) => {
+    const obj = {
+      admin_id: adminIdSessionStorage || adminIdLocalStorage,
+      notification_id: id,
+      event,
+      status: 1,
+      usertype: "admin",
     };
-
-    const fetchNotifications = () => {
-        const obj = { admin_id: adminIdSessionStorage || adminIdLocalStorage };
-        postRequestWithToken('admin/get-notification-list', obj, (response) => {
-            if (response.code === 200) {
-                setNotificationList(response.result.data);
-                setCount(response.result.totalItems);
-            } else {
-                console.log('Error in fetching notifications');
-            }
-        });
-    };
-
-    const handleClick = (id, event) => {
-        const obj = {
-            admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            notification_id: id,
-            event,
-            status: 1,
-            user_type: 'admin'
-        };
-        postRequestWithToken('admin/update-notification-status', obj, (response) => {
-            if (response.code === 200) {
-                setRefresh(true);
-            } else {
-                console.log('Error in updating notification status');
-            }
-        });
-    };
-
-    useEffect(() => {
-        if (adminIdSessionStorage || adminIdLocalStorage) {
-
-            const adminId = adminIdSessionStorage || adminIdLocalStorage;
-            socket.emit('registerAdmin', adminId);
-
-
-
-            fetchNotifications();
-
-            socket.on('buyerRegistered', (message) => {
-                const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-                showNotification('New Buyer Registration Request', {
-                    body: message,
-                    icon: logo,
-                }, link);
-                fetchNotifications();
-            });
-
-            socket.on('supplierRegistered', (message) => {
-                const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-                showNotification('New Supplier Registration Request', {
-                    body: message,
-                    icon: logo,
-                }, link);
-                fetchNotifications();
-            });
-
-            socket.on('medicineRequest', (message) => {
-                const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-                showNotification('New Medicine Approval Request', {
-                    body: message,
-                    icon: logo,
-                }, link);
-                fetchNotifications();
-            });
-
-            socket.on('newMedicineEditRequest', (message) => {
-                const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-                showNotification('New Medicine Edit Approval Request', {
-                    body: message,
-                    icon: logo,
-                }, link);
-                fetchNotifications();
-            });
-
-            socket.on('secondaryMedicineEditRequest', (message) => {
-                const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
-                showNotification('New Secondary Medicine Edit Approval Request', {
-                    body: message,
-                    icon: logo,
-                }, link);
-                fetchNotifications();
-            });
-
-            return () => {
-                socket.off('buyerRegistered');
-                socket.off('supplierRegistered');
-                socket.off('medicineRequest');
-                socket.off('newMedicineEditRequest');
-                socket.off('secondaryMedicineEditRequest');
-            };
+    postRequestWithToken(
+      "admin/update-notification-status",
+      obj,
+      (response) => {
+        if (response.code === 200) {
+          setRefresh(true);
+        } else {
+          console.log("Error in updating notification status");
         }
-    }, [refresh, adminIdSessionStorage, adminIdLocalStorage]);
-
-    useEffect(() => {
-        if (!adminIdSessionStorage && !adminIdLocalStorage) {
-            navigate("/admin/login");
-        }
-    }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
-
-    useEffect(()=>{
-        sessionStorage.getItem('_id') && dispatch(fetchUserData(sessionStorage.getItem('_id')))
-    },[sessionStorage.getItem('_id')])
-
-    return (
-        <AdmSidebar
-            notificationList={notificationList}
-            count={count}
-            handleClick={handleClick}>
-            {children}
-        </AdmSidebar>
+      }
     );
+  };
+
+  useEffect(() => {
+    if (adminIdSessionStorage || adminIdLocalStorage) {
+      const adminId = adminIdSessionStorage || adminIdLocalStorage;
+      socket.emit("registerAdmin", adminId);
+
+      fetchNotifications();
+
+      socket.on("buyerRegistered", (message) => {
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification(
+          "New Buyer Registration Request",
+          {
+            body: message,
+            icon: logo,
+          },
+          link
+        );
+        fetchNotifications();
+      });
+
+      socket.on("supplierRegistered", (message) => {
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification(
+          "New Supplier Registration Request",
+          {
+            body: message,
+            icon: logo,
+          },
+          link
+        );
+        fetchNotifications();
+      });
+
+      socket.on("medicineRequest", (message) => {
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification(
+          "New Medicine Approval Request",
+          {
+            body: message,
+            icon: logo,
+          },
+          link
+        );
+        fetchNotifications();
+      });
+
+      socket.on("newMedicineEditRequest", (message) => {
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification(
+          "New Medicine Edit Approval Request",
+          {
+            body: message,
+            icon: logo,
+          },
+          link
+        );
+        fetchNotifications();
+      });
+
+      socket.on("secondaryMedicineEditRequest", (message) => {
+        const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
+        showNotification(
+          "New Secondary Medicine Edit Approval Request",
+          {
+            body: message,
+            icon: logo,
+          },
+          link
+        );
+        fetchNotifications();
+      });
+
+      return () => {
+        socket.off("buyerRegistered");
+        socket.off("supplierRegistered");
+        socket.off("medicineRequest");
+        socket.off("newMedicineEditRequest");
+        socket.off("secondaryMedicineEditRequest");
+      };
+    }
+  }, [refresh, adminIdSessionStorage, adminIdLocalStorage]);
+
+  useEffect(() => {
+    if (!adminIdSessionStorage && !adminIdLocalStorage) {
+      navigate("/admin/login");
+    }
+  }, [adminIdSessionStorage, adminIdLocalStorage, navigate]);
+
+  useEffect(() => {
+    sessionStorage.getItem("_id") &&
+      dispatch(fetchUserData(sessionStorage.getItem("_id")));
+  }, [sessionStorage.getItem("_id")]);
+
+  return (
+    <AdmSidebar
+      notificationList={notificationList}
+      count={count}
+      handleClick={handleClick}
+    >
+      {children}
+    </AdmSidebar>
+  );
 }
 const router = createBrowserRouter([
-    {
-        path: "/admin/login",
-        element: <Login socket={socket} />,
-    },
-    {
-        path: "/admin/",
+  {
+    path: "/admin/login",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Login socket={socket} />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/admin/",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <NotificationProvider>
+          <Layout />
+        </NotificationProvider>
+      </Suspense>
+    ),
+    children: [
+      {
+        index: true,
         element: (
-            <NotificationProvider>
-                <Layout />
-            </NotificationProvider>
+          <Suspense fallback={<Loader />}>
+            <Dashboard socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "total-request-list",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TotalRequestList socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "inquiries-section",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InquiriesDashList socket={socket} />
+          </Suspense>
         ),
         children: [
-            {
-                index: true,
-                element: <Dashboard />,
-            },
-            {
-                path: "total-request-list",
-                element: <TotalRequestList />
-            },
-            {
-                path: "inquiries-section",
-                element: <InquiriesDashList />,
-                children: [
-                    {
-                        path: "request",
-                        element: <TotalInquiriesRequest />
-                    },
-                    {
-                        path: "ongoing",
-                        element: <TotalOngoingInquiries />
-                    },
-
-                ]
-            },
-            {
-                path: "profile",
-                element: <Profile />
-            },
-            {
-                path: "notification-list",
-                element: <NotificationList />
-            },
-            {
-                path: "total-approved-request",
-                element: <TotalApprovedRequest />
-            },
-            {
-                path: "total-PO",
-                element: <TotalPO />
-            },
-            {
-                path: "total-active-orders",
-                element: <TotalActiveOrders />
-            },
-            {
-                path: "total-completed-order",
-                element: <TotalCompletedOrders />
-            },
-            {
-                path: "manage-commission",
-                element: <ManageCommission />
-            },
-            {
-                path: "buyer-request",
-                element: <BuyerRequest />
-            },
-            {
-                path: "approved-buyer",
-                element: <ApprovedBuyer />
-            },
-            {
-                path: "rejected-buyer",
-                element: <RejectedBuyer />
-            },
-            {
-                path: "buyer-request-details/:buyerId",
-                element: <BuyerRequestDetails />
-            },
-            {
-                path: "buyer-details/:buyerId",
-                element: <BuyerDetails />
-            },
-            {
-                path: "buyer-inquiry",
-                element: <BuyerInquiry />,
-                children: [
-                    {
-                        path: "ongoing-inquiry",
-                        element: <OngoingInquiry />
-                    },
-                    {
-                        path: "purchased-order",
-                        element: <PurchasedOrders />
-                    },
-
-                ]
-            },
-            {
-                path: "buyer-invoice",
-                element: <BuyerInvoice />,
-                children: [
-                    {
-                        path: "paid",
-                        element: <BuyerPaid />
-                    },
-                    {
-                        path: "pending",
-                        element: <BuyerPending />
-                    },
-                    {
-                        path: "proforma",
-                        element: <BuyerProforma />
-                    },
-
-                ]
-            },
-            {
-                path: "buyer-order",
-                element: <BuyerOrder />,
-                children: [
-                    {
-                        path: "active",
-                        element: <BuyerActiveOrder />
-                    },
-                    {
-                        path: "complete",
-                        element: <BuyerCompleteOrder />
-                    },
-                ]
-            },
-            {
-                path: "buyer-support",
-                element: <BuyerSupport />,
-                children: [
-                    {
-                        path: "complaint",
-                        element: <BuyerComplaint />
-                    },
-                    {
-                        path: "feedback",
-                        element: <BuyerFeedback />
-                    },
-                    {
-                        path: "edit-profile",
-                        element: <BuyerEditProfile />
-                    }
-                ]
-            },
-            {
-                path: "buyer-edit-profile-details",
-                element: <BuyerEditProfileDetails />
-            },
-            {
-                path: "buyer-transaction",
-                element: <BuyerTransaction />,
-            },
-            {
-                path: "buyer-transaction-details/:invoiceId",
-                element: <BuyerTransactionDetails />,
-            },
-            {
-                path: "ongoing-inquiries-details/:inquiryId",
-                element: <OngoingInquiryDetails />,
-            },
-            {
-                path: "buyer-purchased-order-details/:purchaseOrderId",
-                element: <BuyerPurchasedOrderDetails />,
-            },
-            {
-                path: "order-details/:orderId",
-                element: <OrderDetails />,
-            },
-            {
-                path: "buyer-invoice-details/:invoiceId",
-                element: <BuyerInvoiceDetails />,
-            },
-            {
-                path: "buyer-proforma-details/:orderId",
-                element: <BuyerProformaDetails />,
-            },
-            {
-                path: "buyer-complaint-details/:supportId",
-                element: <BuyerComplaintDetails />,
-            },
-            {
-                path: "buyer-feedback-details/:supportId",
-                element: <BuyerFeedbackDetails />,
-            },
-            // start the seller routes
-            {
-                path: "supplier-request",
-                element: <SellerRequest />,
-            },
-            {
-                path: "approved-supplier",
-                element: <ApprovedSeller />,
-            },
-            {
-                path: "rejected-supplier",
-                element: <RejectedSeller />,
-            },
-            {
-                path: "supplier-transaction",
-                element: <SellerTransaction />,
-            },
-            {
-                path: "supplier-inquiry",
-                element: <SellerInquiry />,
-                children: [
-                    {
-                        path: "inquiry-request",
-                        element: <InquiryRequest />
-                    },
-                    {
-                        path: "purchased-order",
-                        element: <SellerPurchasedOrder />
-                    },
-
-                ]
-            },
-            {
-                path: "supplier-order",
-                element: <SellerOrder />,
-                children: [
-                    {
-                        path: "active",
-                        element: <SellerActiveOrder />
-                    },
-                    {
-                        path: "complete",
-                        element: <SellerCompleteOrder />
-                    },
-
-                ]
-            },
-            {
-                path: "supplier-invoice",
-                element: <SellerInvoice />,
-                children: [
-                    {
-                        path: "paid",
-                        element: <SellerPaid />
-                    },
-                    {
-                        path: "pending",
-                        element: <SellerPending />
-                    },
-                    {
-                        path: "proforma",
-                        element: <SellerProforma />
-                    },
-
-                ]
-            },
-            {
-                path: "supplier-support",
-                element: <SellerSupport />,
-                children: [
-                    {
-                        path: "complaint",
-                        element: <SellerComplaint />
-                    },
-                    {
-                        path: "feedback",
-                        element: <SellerFeedback />
-                    },
-                    {
-                        path: "edit-profile",
-                        element: <SupplierEditProfile/>
-                    },
-                ]
-            },
-            {
-path:"supplier-edit-profile-details",
-element:<SupplierEditProfileDetails/>
-            },
-            {
-                path: "supplier-request-details/:supplierId",
-                element: <SellerRequestDetails />,
-            },
-            {
-                path: "supplier-details/:supplierId",
-                element: <SellerDetails />,
-            },
-            {
-                path: "supplier-transaction-details/:invoiceId",
-                element: <SellerTransactionDetails />,
-            },
-            {
-                path: "supplier-inquiry-details/:inquiryId",
-                element: <SellerInquiryDetails />,
-            },
-            {
-                path: "supplier-purchased-order-details/:purchaseOrderId",
-                element: <SellerPurchasedOrderDetails />,
-            },
-            {
-                path: "supplier-order-details/:orderId",
-                element: <SellerOrderDetails />,
-            },
-            {
-                path: "supplier-invoice-details/:invoiceId",
-                element: <SellerInvoiceDetails />,
-            },
-            {
-                path: "proforma-invoice-details/:orderId",
-                element: <SellerProformaDetails />,
-            },
-            {
-                path: "supplier-complaint-details/:supportId",
-                element: <SellerComplaintDetails />,
-            },
-            {
-                path: "supplier-feedback-details/:supportId",
-                element: <SellerFeedbackDetails />,
-            },
-            // start the product request
-            {
-                path: "product-requests",
-                element: <ProductRequests />,
-                children: [
-                    {
-                        path: "newproduct",
-                        element: <NewProductRequest />
-                    },
-                    {
-                        path: "secondary",
-                        element: <SecondaryProductRequest />
-                    },
-                ]
-            },
-            {
-                path: "product-update-requests",
-                element: <ProductUpdateRequest />,
-                children: [
-                    {
-                        path: "newproduct",
-                        element: <NewProductUpdateRequest />
-                    },
-                    {
-                        path: "secondary",
-                        element: <SecondaryUpdateRequest />
-                    },
-                ]
-            },
-            {
-                path: "approved-product",
-                element: <ApprovedProducts />,
-                children: [
-                    {
-                        path: "newproduct",
-                        element: <ApprovedNewProducts />
-                    },
-                    {
-                        path: "secondary",
-                        element: <ApprovedSecondaryProducts />
-                    },
-
-                ]
-            },
-            {
-                path: "rejected-product",
-                element: <RejectedProducts />,
-                children: [
-                    {
-                        path: "newproduct",
-                        element: <RejectedNewProducts />
-                    },
-                    {
-                        path: "secondary",
-                        element: <RejectedSecondaryProducts />
-                    },
-                ]
-            },
-            {
-                path: "product-details/:medicineId",
-                element: <ProductDetails socket={socket} />,
-            },
-            {
-                path: "product-request-details/:medicineId",
-                element: <ProductRequestDetails socket={socket} />,
-            },
-            {
-                path: "secondary-product-request-details/:medicineId",
-                element: <SecondaryProductRequestDetails socket={socket} />,
-            },
-            {
-                path: "edit-product-details/:medicineId",
-                element: <EditProductDetails socket={socket} />,
-            },
-            {
-                path: "edit-secondary-details/:medicineId",
-                element: <EditSecondaryDetails socket={socket} />,
-            },
-            {
-                path: "secondary-product-details/:medicineId",
-                element: <SecondaryProductDetails />,
-            },
+          {
+            path: "request",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <TotalInquiriesRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "ongoing",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <TotalOngoingInquiries socket={socket} />
+              </Suspense>
+            ),
+          },
         ],
-    },
+      },
+      {
+        path: "profile",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Profile socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "notification-list",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <NotificationList socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "total-approved-request",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TotalApprovedRequest socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "total-PO",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TotalPO socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "total-active-orders",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TotalActiveOrders socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "total-completed-order",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TotalCompletedOrders socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "manage-commission",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ManageCommission socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-request",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerRequest socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "approved-buyer",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ApprovedBuyer socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "rejected-buyer",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RejectedBuyer socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-request-details/:buyerId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerRequestDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-details/:buyerId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-inquiry",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerInquiry socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "ongoing-inquiry",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <OngoingInquiry socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "purchased-order",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <PurchasedOrders socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "buyer-invoice",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerInvoice socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "paid",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerPaid socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "pending",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerPending socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "proforma",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerProforma socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "buyer-order",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerOrder socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "active",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerActiveOrder socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "complete",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerCompleteOrder socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "buyer-support",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerSupport socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "complaint",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerComplaint socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "feedback",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerFeedback socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "edit-profile",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <BuyerEditProfile socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "buyer-edit-profile-details/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerEditProfileDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-transaction",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerTransaction socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-transaction-details/:invoiceId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerTransactionDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "ongoing-inquiries-details/:inquiryId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OngoingInquiryDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-purchased-order-details/:purchaseOrderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerPurchasedOrderDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "order-details/:orderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-invoice-details/:invoiceId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerInvoiceDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-proforma-details/:orderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerProformaDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-complaint-details/:supportId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerComplaintDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "buyer-feedback-details/:supportId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BuyerFeedbackDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      // start the seller routes
+      {
+        path: "supplier-request",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerRequest socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "approved-supplier",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ApprovedSeller socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "rejected-supplier",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RejectedSeller socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-transaction",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerTransaction socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-inquiry",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerInquiry socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "inquiry-request",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <InquiryRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "purchased-order",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerPurchasedOrder socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "supplier-order",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerOrder socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "active",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerActiveOrder socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "complete",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerCompleteOrder socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "supplier-invoice",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerInvoice socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "paid",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerPaid socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "pending",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerPending socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "proforma",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerProforma socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "supplier-support",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerSupport socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "complaint",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerComplaint socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "feedback",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SellerFeedback socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "edit-profile",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SupplierEditProfile socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "supplier-edit-profile-details/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SupplierEditProfileDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-request-details/:supplierId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerRequestDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-details/:supplierId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-transaction-details/:invoiceId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerTransactionDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-inquiry-details/:inquiryId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerInquiryDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-purchased-order-details/:purchaseOrderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerPurchasedOrderDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-order-details/:orderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerOrderDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-invoice-details/:invoiceId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerInvoiceDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "proforma-invoice-details/:orderId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerProformaDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-complaint-details/:supportId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerComplaintDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "supplier-feedback-details/:supportId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SellerFeedbackDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      // start the product request
+      {
+        path: "product-requests",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductRequests socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "newproduct",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <NewProductRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "secondary",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SecondaryProductRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "product-update-requests",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductUpdateRequest socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "newproduct",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <NewProductUpdateRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "secondary",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SecondaryUpdateRequest socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "approved-product",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ApprovedProducts socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "newproduct",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ApprovedNewProducts socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "secondary",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <ApprovedSecondaryProducts socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "rejected-product",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <RejectedProducts socket={socket} />
+          </Suspense>
+        ),
+        children: [
+          {
+            path: "newproduct",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RejectedNewProducts socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "secondary",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <RejectedSecondaryProducts socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "product-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "product-request-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ProductRequestDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "secondary-product-request-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SecondaryProductRequestDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "edit-product-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditProductDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "edit-secondary-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditSecondaryDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "secondary-product-details/:medicineId",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SecondaryProductDetails socket={socket} />
+          </Suspense>
+        ),
+      },
+    ],
+  },
 ]);
 function Router() {
-    return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export default Router;

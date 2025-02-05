@@ -139,6 +139,8 @@ const OrderRequest = () => {
                         } 
                             </tbody>
                         </Table>
+                        {
+                            orderList.length > 0 && (
                         <div className='pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -158,6 +160,7 @@ const OrderRequest = () => {
                                 </div>
                             </div>
                         </div>
+                                    )}
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'pending'} /> : ''
                         }

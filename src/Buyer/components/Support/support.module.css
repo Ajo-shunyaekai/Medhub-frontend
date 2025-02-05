@@ -110,6 +110,7 @@
   width: 100%;
   max-width: 100%;
   font-size: 22px;
+  font-weight: 500;
   color: #5e676f;
   text-transform: capitalize;
   padding: 1rem 0px;
@@ -118,6 +119,7 @@
   width: 100%;
   font-size: 14px;
   border: none;
+  font-weight: 500;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;
@@ -129,6 +131,7 @@
   width: 100%;
   font-size: 14px;
   border: none;
+  font-weight: 500;
   padding: 12px 15px;
   border-radius: 4px;
   outline: none;

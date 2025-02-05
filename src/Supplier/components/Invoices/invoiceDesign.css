@@ -8,6 +8,10 @@
   display: flex;
   gap: 20px;
 }
+.react-date-picker__wrapper {
+  border: initial !important;
+  outline: none !important;
+}
 @media (max-width: 768px) {
   .invopice-card-section-design {
     display: flex;

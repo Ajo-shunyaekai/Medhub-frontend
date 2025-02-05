@@ -66,11 +66,12 @@
 }
 .upload-text {
   font-size: 12px;
+  font-weight: 500;
   cursor: pointer !important;
 }
 .uploaded-image {
   max-width: 100%;
-   cursor: pointer !important;;
+   cursor: pointer !important;
 }
 
 

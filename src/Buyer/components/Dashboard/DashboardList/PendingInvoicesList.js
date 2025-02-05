@@ -30,42 +30,42 @@ const PendingInvoicesList = () => {
         {
             "invoice_no": "3654646",
             "order_id": "14785269",
-            "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
-            "status":"Pending",
-           
+            "customer_name": "Sheetal Pharmacy",
+            "amount": "233 USD",
+            "status": "Pending",
+
         },
         {
             "invoice_no": "3654646",
             "order_id": "14785269",
-            "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
-            "status":"Pending",
-           
+            "customer_name": "Sheetal Pharmacy",
+            "amount": "233 USD",
+            "status": "Pending",
+
         },
         {
             "invoice_no": "3654646",
             "order_id": "14785269",
-            "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
-            "status":"Pending",
-           
+            "customer_name": "Sheetal Pharmacy",
+            "amount": "233 USD",
+            "status": "Pending",
+
         },
         {
             "invoice_no": "3654646",
             "order_id": "14785269",
-            "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
-            "status":"Pending",
-           
+            "customer_name": "Sheetal Pharmacy",
+            "amount": "233 USD",
+            "status": "Pending",
+
         },
         {
             "invoice_no": "3654646",
             "order_id": "14785269",
-            "customer_name":"Sheetal Pharmacy",
-            "amount":"233 AED",
-            "status":"Pending",
-           
+            "customer_name": "Sheetal Pharmacy",
+            "amount": "233 USD",
+            "status": "Pending",
+
         },
     ]);
 
@@ -74,9 +74,9 @@ const PendingInvoicesList = () => {
     const [totalInvoices, setTotalInvoices] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [ordersPerPage, setOrdersPerPage] = useState(5)
-    const indexOfLastOrder  = currentPage * ordersPerPage;
+    const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders     = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = activeOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -84,22 +84,22 @@ const PendingInvoicesList = () => {
     const totalPages = Math.ceil(activeOrders.length / ordersPerPage);
 
     useEffect(() => {
-        const fetchData = async ()=>{
+        const fetchData = async () => {
             const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-            const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+            const buyerIdLocalStorage = localStorage.getItem("buyer_id");
 
             if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
+                navigate("/buyer/login");
+                return;
             }
-            setLoading(true); 
+            setLoading(true);
             const obj = {
-                buyer_id  : buyerIdSessionStorage || buyerIdLocalStorage,
-                filterKey : 'pending',
-                page_no   : currentPage, 
-                limit     : ordersPerPage,
+                buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+                filterKey: 'pending',
+                page_no: currentPage,
+                limit: ordersPerPage,
             }
-    
+
             // postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
             //     if (response.code === 200) {
             //         setInvoiceList(response.result.data);
@@ -111,124 +111,126 @@ const PendingInvoicesList = () => {
             // })
             try {
                 const response = await apiRequests.getRequest(`order/get-all-invoice-list?filterKey=${'pending'}&pageNo=${currentPage}&pageSize=${ordersPerPage}`)
-                if(response?.code!==200){
+                if (response?.code !== 200) {
                     console.log('error in invoice list api', response);
                     return
                 }
-                
+
                 setInvoiceList(response.result.data);
                 setTotalInvoices(response.result.totalItems);
             } catch (error) {
                 console.log('Error in get-invoice-list API', error);
-                
+
             } finally {
                 setLoading(false);
             }
         }
         fetchData()
-    },[currentPage])
+    }, [currentPage])
 
     return (
         <>
-         {loading ? (
-                        <Loader />
-                    ) : (
-            <div className='completed-order-main-container'>
-                <div className="completed-order-main-head">Pending Invoices</div>
-                <div className="completed-order-container">
-                    <div className="completed-order-container-right-2">
-                        <Table responsive="xxl" className='completed-order-table-responsive'>
-                            <thead>
-                                <div className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }} >
-                                    < div className='table-row-item table-order-1' >
-                                        <span className='completed-header-text-color' >Invoice No</span>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className='completed-order-main-container'>
+                    <div className="completed-order-main-head">Pending Invoices</div>
+                    <div className="completed-order-container">
+                        <div className="completed-order-container-right-2">
+                            <Table responsive="xxl" className='completed-order-table-responsive'>
+                                <thead>
+                                    <div className='completed-table-row-container m-0' style={{ backgroundColor: 'transparent' }} >
+                                        < div className='table-row-item table-order-1' >
+                                            <span className='completed-header-text-color' >Invoice No</span>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <span className='completed-header-text-color'>Order ID</span>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-2'>
+                                            <span className='completed-header-text-color'>Customer Name</span>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <span className='completed-header-text-color'>Amount</span>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <span className='completed-header-text-color'>Status</span>
+                                        </div>
+                                        <div className='completed-table-row-item completed-table-order-1'>
+                                            <span className='completed-header-text-color'>Action</span>
+                                        </div>
                                     </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Order ID</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-2'>
-                                        <span className='completed-header-text-color'>Customer Name</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Amount</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Status</span>
-                                    </div>
-                                    <div className='completed-table-row-item completed-table-order-1'>
-                                        <span className='completed-header-text-color'>Action</span>
-                                    </div>
-                                </div>
-                            </thead>
+                                </thead>
 
-                            <tbody className='bordered'>
-                            {invoiceList && invoiceList.length > 0 ? (
-                            invoiceList.map((invoice, i) => (
-                                    <div className='completed-table-row-container'>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.invoice_no}</div>
-                                        </div>
+                                <tbody className='bordered'>
+                                    {invoiceList && invoiceList.length > 0 ? (
+                                        invoiceList.map((invoice, i) => (
+                                            <div className='completed-table-row-container'>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{invoice.invoice_no}</div>
+                                                </div>
 
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.order_id}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-table-order-2'>
-                                            <div className='table-text-color'>{invoice.supplier_name}</div>
-                                        </div>  
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.total_payable_amount} AED</div>
-                                        </div>
-                                        <div className='completed-table-row-item completed-table-order-1'>
-                                            <div className='completed-table-text-color'>{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</div>
-                                        </div>
-                                        <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
-                                            <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
-                                                <div className='completed-order-table completed-order-table-view ' onClick={showModal}>
-                                                    <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{invoice.order_id}</div>
                                                 </div>
-                                            </Link>
-                                            <div className='invoice-details-button-column-download'>
-                                                    <CloudDownloadOutlinedIcon className='invoice-view' />
+                                                <div className='completed-table-row-item  completed-table-order-2'>
+                                                    <div className='table-text-color'>{invoice.supplier_name}</div>
                                                 </div>
-                                        </div>
-                                    </div>
-                                       ))
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{invoice.total_payable_amount} USD</div>
+                                                </div>
+                                                <div className='completed-table-row-item completed-table-order-1'>
+                                                    <div className='completed-table-text-color'>{invoice.status?.charAt(0).toUpperCase() + invoice?.status?.slice(1)}</div>
+                                                </div>
+                                                <div className='completed-table-row-item  completed-order-table-btn completed-table-order-1'>
+                                                    <Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
+                                                        <div className='completed-order-table-view ' onClick={showModal}>
+                                                            <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                        </div>
+                                                    </Link>
+                                                    <div className='invoice-details-button-column-download'>
+                                                        <CloudDownloadOutlinedIcon className='invoice-view' />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
                                     ) : (
-                                      
+
                                         <div className='pending-products-no-orders'>
                                             No Pending Invoices Available
                                         </div>
-                                       
-                                    )}
-                            </tbody>
-                        </Table>
 
-                        {
-                            modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
-                        }
-                        <div className='completed-pagi-container'>
-                            <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={ordersPerPage}
-                                totalItemsCount={totalInvoices || invoiceList.length}
-                                pageRangeDisplayed={5}
-                                onChange={handlePageChange}
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                                hideFirstLastPages={true}
-                            />
-                            <div className='completed-pagi-total'>
+                                    )}
+                                </tbody>
+                            </Table>
+
+                            {
+                                modal === true ? <OrderCancel setModal={setModal} orderId={selectedOrderId} activeLink={'active'} /> : ''
+                            }
+                             {invoiceList.length > 0 && (
+                            <div className='completed-pagi-container'>
+                                <Pagination
+                                    activePage={currentPage}
+                                    itemsCountPerPage={ordersPerPage}
+                                    totalItemsCount={totalInvoices || invoiceList.length}
+                                    pageRangeDisplayed={5}
+                                    onChange={handlePageChange}
+                                    itemClass="page-item"
+                                    linkClass="page-link"
+                                    prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                                    nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                                    hideFirstLastPages={true}
+                                />
                                 <div className='completed-pagi-total'>
-                                    Total Items: {totalInvoices || invoiceList.length}
+                                    <div className='completed-pagi-total'>
+                                        Total Items: {totalInvoices || invoiceList.length}
+                                    </div>
                                 </div>
                             </div>
+                             )}
                         </div>
-                    </div>
-                </div >
-            </div>
-           )}
+                    </div >
+                </div>
+            )}
         </>
     )
 }

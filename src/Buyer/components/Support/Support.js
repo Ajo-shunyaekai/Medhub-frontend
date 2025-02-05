@@ -109,7 +109,7 @@ const Support = () => {
             formData.append('order_id', orderId);
             formData.append('feedback', feedback);
             formData.append('support_type', 'feedback');
-            formData.append('user_type', 'buyer');
+            formData.append('usertype', 'buyer');
             Array.from(feedbackImages).forEach(file => formData.append('feedback_image', file))
 
             postRequestWithTokenAndFile('order/submit-order-feedback', formData, async (response) => {
@@ -147,7 +147,7 @@ const Support = () => {
             formData.append('order_id', compOrderId);
             formData.append('complaint', compFeedback);
             formData.append('support_type', 'complaint');
-            formData.append('user_type', 'buyer');
+            formData.append('usertype', 'buyer');
             Array.from(compImages).forEach(file => formData.append('complaint_image', file))
 
             postRequestWithTokenAndFile('order/submit-order-complaint', formData, async (response) => {

@@ -251,6 +251,8 @@ const Sidebar = ({ children, dragWindow,
             order: `/buyer/order-details/${eventId}`,
             purchaseorder: `/buyer/purchased-order-details/${linkId}`,
             invoice: `/buyer/invoice/Pending-Invoice`,
+            "Profile Edit Approved": `/buyer/profile/${sessionStorage.getItem('_id')}`,
+            "Profile Edit Rejected": `/buyer/profile/${sessionStorage.getItem('_id')}`,
         };
 
         const route = eventRoutes[event] || "/buyer/";
@@ -347,10 +349,9 @@ const Sidebar = ({ children, dragWindow,
                                                                             <span className={styles.noti_message_part_bottom}>
                                                                                 {data.message.split(' ').slice(2).join(' ')}
                                                                             </span>
+                                                                            <span className={styles.noti_time}>4 hours ago</span>
                                                                         </div>
-                                                                        <div className={styles.noti_time_section}>
-                                                                            <span className={styles.noti_time}>11:12 <br /> 16-12-2024</span>
-                                                                        </div>
+                                                                       
                                                                     </>
                                                                 ) : (
                                                                     <span>{data.message}</span>
@@ -412,7 +413,7 @@ const Sidebar = ({ children, dragWindow,
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
                                                     <Link
-                                                        to="/buyer/profile"
+                                                        to={`/buyer/profile/${sessionStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                                                     >
                                                         <div className={styles.profile_text}>Profile</div>

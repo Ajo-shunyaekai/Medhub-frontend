@@ -11,11 +11,11 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
 
     // Static data
     const activeOrders = [
-        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 AED' },
-        { productId: 'PR7654321', productName: 'Ibuprofen', quantity: 150, totalAmount: '300 AED' },
-        { productId: 'PR1231231', productName: 'Amoxicillin', quantity: 100, totalAmount: '200 AED' },
-        { productId: 'PR9876543', productName: 'Aspirin', quantity: 250, totalAmount: '450 AED' },
-        { productId: 'PR1112223', productName: 'Cough Syrup', quantity: 120, totalAmount: '180 AED' },
+        { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD' },
+        { productId: 'PR7654321', productName: 'Ibuprofen', quantity: 150, totalAmount: '300 USD' },
+        { productId: 'PR1231231', productName: 'Amoxicillin', quantity: 100, totalAmount: '200 USD' },
+        { productId: 'PR9876543', productName: 'Aspirin', quantity: 250, totalAmount: '450 USD' },
+        { productId: 'PR1112223', productName: 'Cough Syrup', quantity: 120, totalAmount: '180 USD' },
         // Add more items if needed
     ];
 
@@ -91,7 +91,7 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
                                         <span className="table-g-driver-name">Target Price</span>
                                         <span className="table-g-not-name">
                                             {item.price || item.target_price || item.totalAmount
-                                                        ? `${item.price || item.target_price || item.totalAmount} AED`
+                                                        ? `${item.price || item.target_price || item.totalAmount} USD`
                                                         : '-'}
                                         </span>
                                     </div>
@@ -101,9 +101,9 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
                                         <span className="table-g-driver-name">Counter Price</span>
                                         <span className="table-g-not-name">
                                             {item.counter_price
-                                                        ? item.counter_price.toLowerCase().includes('aed')
-                                                            ? item.counter_price.replace(/aed/i, 'AED') 
-                                                            : `${item.counter_price} AED` 
+                                                        ? item.counter_price.toLowerCase().includes('usd')
+                                                            ? item.counter_price.replace(/usd/i, 'USD') 
+                                                            : `${item.counter_price} USD` 
                                                         : '-'}
                                         </span>
                                     </div>
