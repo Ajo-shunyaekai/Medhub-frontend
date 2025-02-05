@@ -116,9 +116,11 @@
   height: 26px;
   justify-content: center;
   width: 34px;
+  cursor: pointer !important;
 }
 .ongoing-section-off {
   width: 18px !important;
+  cursor: pointer !important;
 }
 @media (max-width: 992px){
   .inquiry-purchase-container-right {

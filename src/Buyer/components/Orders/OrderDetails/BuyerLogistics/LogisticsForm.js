@@ -3,12 +3,14 @@ import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
 import styles from "./logistics.module.css";
+import { Link } from "react-router-dom";
 const LogisticsForm = () => {
     const [addressType, setAddressType] = useState("");
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
     const [selectedServices, setSelectedServices] = useState([]);
+    const [selected, setSelected] = useState(true);
     const handleChange = (e) => {
         setAddressType(e.target.value);
     };
@@ -191,9 +193,37 @@ const LogisticsForm = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Start the drop detais section */}
+
+                <div className={styles.cardContainer}>
+                    <div className={styles.cardHeadSection}>
+                        <span className={styles.cardHeading}>Drop Details</span>
+                        <Link to="/buyer/logistics-address">
+                            <span className={styles.cardButton}>Change</span>
+                        </Link>
+                    </div>
+                    {/* <label className={styles.radioContainer}> */}
+                        {/* <input type="radio" checked={selected} onChange={() => { }} /> */}
+
+                        <div className={styles.cardInnerContainer}>
+                            <span className={styles.cardText}>Shivanshi Tripathi
+                                <span className={styles.cardType}>Warehouse</span>
+                            </span>
+                            <span className={styles.cardText}>H No 12 Birlagram Nagda</span>
+                            <span className={styles.cardText}>Near Bal Mandir</span>
+                            <span className={styles.cardText}>India Madhya Pradesh</span>
+                            <span className={styles.cardText}>Nagda 456331</span>
+                        </div>
+                    {/* </label> */}
+                </div>
+                {/* End the drop details section */}
+
                 <div className={styles.formInnerClass}>
                     <div className={styles.addressContainer}>
-                        <div className={styles.innerHeading}>Mode of Transport<span className={styles.labelstamp}>*</span></div>
+                        <div className={styles.innerHeading}>
+                            Mode of Transport<span className={styles.labelstamp}>*</span>
+                        </div>
                         <div className={styles.radioInnerContainer}>
                             <div className={styles.radioGroup}>
                                 <input
@@ -202,49 +232,58 @@ const LogisticsForm = () => {
                                     name="addressType"
                                     value="aircargo"
                                     onChange={handleChange}
-                                    checked={addressType === 'aircargo'}
+                                    checked={addressType === "aircargo"}
                                 />
-                                <label className={styles.radioLabel}><span className={styles.radioSpan}>Air Cargo</span> <span className={styles.radioText}>(Fastest Delivery & High Charges)</span>
+                                <label className={styles.radioLabel}>
+                                    <span className={styles.radioSpan}>Air Cargo</span>{" "}
+                                    <span className={styles.radioText}>
+                                        (Fastest Delivery & High Charges)
+                                    </span>
                                 </label>
                             </div>
                             <div className={styles.radioGroup}>
-
                                 <input
                                     className={styles.radioInput}
                                     type="radio"
                                     name="addressType"
                                     value="seafreight"
                                     onChange={handleChange}
-                                    checked={addressType === 'seafreight'}
+                                    checked={addressType === "seafreight"}
                                 />
-                                <label className={styles.radioLabel}><span className={styles.radioSpan}> Sea Freight</span> <span className={styles.radioText}>(Faster Delivery & Comparatively Low Charges)</span>
+                                <label className={styles.radioLabel}>
+                                    <span className={styles.radioSpan}> Sea Freight</span>{" "}
+                                    <span className={styles.radioText}>
+                                        (Faster Delivery & Comparatively Low Charges)
+                                    </span>
                                 </label>
                             </div>
                             <div className={styles.radioGroup}>
-
                                 <input
                                     className={styles.radioInput}
                                     type="radio"
                                     name="addressType"
                                     value="roadfreight"
                                     onChange={handleChange}
-                                    checked={addressType === 'roadfreight'}
+                                    checked={addressType === "roadfreight"}
                                 />
-                                <label className={styles.radioLabel}><span className={styles.radioSpan}> Road Freight </span> <span className={styles.radioText}>(Delivery & Lower Charges)</span>
-
+                                <label className={styles.radioLabel}>
+                                    <span className={styles.radioSpan}> Road Freight </span>{" "}
+                                    <span className={styles.radioText}>
+                                        (Delivery & Lower Charges)
+                                    </span>
                                 </label>
                             </div>
                             <div className={styles.radioGroup}>
-
                                 <input
                                     className={styles.radioInput}
                                     type="radio"
                                     name="addressType"
                                     value="logistices"
                                     onChange={handleChange}
-                                    checked={addressType === 'logistices'}
+                                    checked={addressType === "logistices"}
                                 />
-                                <label className={styles.formLabel}>Ask the Logistics Partner to Recommend
+                                <label className={styles.formLabel}>
+                                    Ask the Logistics Partner to Recommend
                                 </label>
                             </div>
                         </div>
@@ -288,14 +327,14 @@ const LogisticsForm = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles['logistic-Button-Section']}>
-                    <button type='submit' className={styles['logistic-submit']}>Request Supplier for Further Details</button>
-                    <div className={styles['logistic-cancel']}>Cancel</div>
+                <div className={styles["logistic-Button-Section"]}>
+                    <button type="submit" className={styles["logistic-submit"]}>
+                        Request Supplier for Further Details
+                    </button>
+                    <div className={styles["logistic-cancel"]}>Cancel</div>
                 </div>
             </form>
         </div>
-
-
     );
 };
 

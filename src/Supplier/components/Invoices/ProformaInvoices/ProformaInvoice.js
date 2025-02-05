@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../proformainvoice.module.css';
+import '../invoiceDesign.css'
+import '../../SharedComponents/Signup/signup.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
@@ -7,6 +9,7 @@ import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 import { phoneValidationRules, countryCodes } from '../../../../utils/phoneNumberValidation';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import Select, { components } from 'react-select';

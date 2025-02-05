@@ -128,10 +128,10 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
                             <>
                                 <tbody>
                                     <tr>
-                                        <td colSpan="12">
-                                            <div className='pending-products-no-orders'>
+                                        <td className='pending-products-no-orders' colSpan="12">
+                                            
                                                 No Pending Invoices
-                                            </div>
+                                           
                                         </td>
                                     </tr>
                                 </tbody>

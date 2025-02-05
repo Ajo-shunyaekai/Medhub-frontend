@@ -79,18 +79,20 @@ function ProformaDetailsPage() {
                         <table style={{ fontSize: '12px' }}>
                             <thead>
                                 <tr style={{ borderBottom: '1px dotted #99a0ac' }}>
+                               
                                     <td style={{ display: 'flex', justifyContent: 'end' }}>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>Invoice Number : </p>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_no}</p>
                                     </td>
-                                    <td style={{ display: 'flex', justifyContent: 'end' }}>
+                                    <td style={{ display: 'flex', justifyContent: 'end',  }}>
+                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>Invoice Date : </p>
+                                        <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_date}</p>
+                                    </td>
+                                    <td style={{ display: 'flex', justifyContent: 'end', paddingBottom: '10px' }}>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>Payment Due date : </p>
                                         <p style={{ fontSize: '16px', fontWeight: '500' }}>&nbsp;{orderDetails?.payment_due_date}</p>
                                     </td>
-                                    <td style={{ display: 'flex', justifyContent: 'end', paddingBottom: '10px' }}>
-                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>Invoice Generated Date : </p>
-                                        <p style={{ fontSize: '15px', fontWeight: '500' }}>&nbsp;{orderDetails?.invoice_date}</p>
-                                    </td>
+                                   
                                 </tr>
                             </thead>
                             <tbody>

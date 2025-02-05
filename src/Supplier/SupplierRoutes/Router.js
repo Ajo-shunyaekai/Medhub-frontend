@@ -11,6 +11,10 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 import { postRequestWithToken } from "../api/Requests";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
+import SupplierLogistics from "../components/Orders/SupplierLogistics/SupplierLogistics"
+import SuuplierAddressList from "../components/Orders/SupplierLogistics/SupplierLogisticsAddress"
+import AddNewAddress from "../components/Orders/SupplierLogistics/SupplierAddAddress"
+import EditNewAddress from "../components/Orders/SupplierLogistics/SupplierEditAddress"
  
 // Lazy-load the components
 const SupplierSidebar = lazy(() =>
@@ -693,6 +697,22 @@ const router = createBrowserRouter([
             <EditProfile socket={socket} />
           </Suspense>
         ),
+      },
+      {
+        path:"logistics-form",
+        element:<SupplierLogistics />
+      },
+      {
+        path:"add-new-address",
+        element:<AddNewAddress/>
+      },
+      {
+        path:"edit-new-address",
+        element:<EditNewAddress/>
+      },
+      {
+        path:"logistics-address",
+        element:<SuuplierAddressList/>
       },
     ],
   },

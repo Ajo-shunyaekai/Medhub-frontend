@@ -30,6 +30,7 @@ const OrderInvoiceList = ({invoiceData}) => {
     };
 
     return (
+        <div className='inquiry-invoice-list-main-container'>
         <div className="card-body">
             <div>
                 <div className="table-assign-driver-heading">Invoice List</div>
@@ -79,7 +80,9 @@ const OrderInvoiceList = ({invoiceData}) => {
                                         <span className="table-g-driver-name">Action</span>
                                         <span className="table-g-not-name"><Link to={`/buyer/invoice-design/${invoice.invoice_id}`}>
                                             <div className='invoice-details-button-column'>
+                                                <div className='invoice-eye-buttons'>
                                                 <VisibilityOutlinedIcon className='invoice-view' />
+                                                </div>
                                             </div>
                                         </Link></span>
                                     </div>
@@ -107,6 +110,7 @@ const OrderInvoiceList = ({invoiceData}) => {
                     <div>Total Items: {data.length}</div>
                 </div>
             </div>
+        </div>
         </div>
     );
 };

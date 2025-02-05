@@ -217,6 +217,7 @@ const CompleteInvoicesList = () => {
                         {
                             modal === true ? <OrderCancel setModal={setModal} orderId = {selectedOrderId} activeLink = {'active'} /> : ''
                         }
+                         {invoiceList.length > 0 && (
                         <div className='completed-pagi-container'>
                             <Pagination
                                 activePage={currentPage}
@@ -236,6 +237,7 @@ const CompleteInvoicesList = () => {
                                 </div>
                             </div>
                         </div>
+                         )}
                     </div>
                 </div >
             </div>

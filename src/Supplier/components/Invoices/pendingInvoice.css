@@ -16,7 +16,7 @@
 .table td {
   padding: 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: none !important;
 }
 .table-row {
   border-collapse: separate !important;
@@ -79,6 +79,14 @@
 }
 .invoice-view {
   width: 18px !important;
+}
+.pending-products-no-orders{
+  background-color: #ffffff !important;
+  color: #5e676f !important;
+  padding: 14px 10px !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
 }
 /* Modal class css */
 .modal-handle-close {

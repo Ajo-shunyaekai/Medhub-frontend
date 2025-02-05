@@ -9,49 +9,49 @@ import { apiRequests } from '../../../api';
 const ProductDetails = () => {
 
     const { medicineId } = useParams()
- 
+
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
- 
+
     const hasInventoryInfo = medicineDetails && medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0;
- 
+
     // Generate options array based on inventory_info
     const options = hasInventoryInfo ? medicineDetails?.inventory_info.map((item, index) => ({
         value: index,
         label: item.quantity
     })) : [];
- 
+
     // Use state to manage selected option and corresponding details
     const [selectedOption, setSelectedOption] = useState(options[0]);
     const [selectedDetails, setSelectedDetails] = useState(hasInventoryInfo ? medicineDetails?.inventory_info[0] : {});
- 
+
     useEffect(() => {
         if (hasInventoryInfo) {
             setSelectedOption(options[0]);
             setSelectedDetails(medicineDetails?.inventory_info[0]);
         }
     }, [medicineDetails?.inventory_info]);
- 
+
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption);
         setSelectedDetails(medicineDetails?.inventory_info[selectedOption.value]);
     };
- 
+
     useEffect(() => {
         const fetchData = async () => {
             // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
             // const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
- 
+
             // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             // navigate("/supplier/login");
             // return;
             // }
- 
+
             const obj = {
                 medicine_id: medId,
                 // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
- 
+
             // postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             //     if (response.code === 200) {
             //         setMedicineDetails(response.result.data)
@@ -61,7 +61,7 @@ const ProductDetails = () => {
             // })
             try {
                 const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${medId}`, obj)
-                if(response?.code !== 200){
+                if (response?.code !== 200) {
                     return
                 }
                 setMedicineDetails(response.result)
@@ -73,7 +73,7 @@ const ProductDetails = () => {
                 //     }
                 // })
             } catch (error) {
-                console.log('error in medicine list api',error);
+                console.log('error in medicine list api', error);
             }
         }
         fetchData()
@@ -99,10 +99,10 @@ const ProductDetails = () => {
                             {/* {medicineDetails?.edit_status === 1 && ( */}
                             <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
                                 <div className="product-details-sec-one-right">
-                                <button className='product-details-send-btn'>Edit</button>
+                                    <button className='product-details-send-btn'>Edit</button>
                                 </div>
                             </Link>
-                             {/* )}  */}
+                            {/* )}  */}
                         </div>
                     </div>
 
@@ -161,30 +161,33 @@ const ProductDetails = () => {
                                     <div className='product-stockedin-head-country'>Quantity</div>
                                 </div>
                                 <>
-                                {
-                                    medicineDetails?.stockedIn_details?.map((item, index) => (
-                                        <div className='product-stockedin-head-section' key={index}>
-                                            <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
-                                            <div className='product-stockedin-head-qty-name'>
-                                              {item.stocked_quantity} {item.stocked_in_type}
+                                    {
+                                        medicineDetails?.stockedIn_details?.map((item, index) => (
+                                            <div className='product-stockedin-head-section' key={index}>
+                                                <div className='product-stockedin-head-country-name'>{item?.stocked_in_country}</div>
+                                                <div className='product-stockedin-head-qty-name'>
+                                                    {item.stocked_quantity} {item.stocked_in_type}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))
-                                }
+                                        ))
+                                    }
                                 </>
                             </div>
                         </div>
                         {/* end the stocked on container */}
                         <div className='product-details-container'>
-                            <div className="product-details-section-two-img">
-                                {medicineDetails?.medicine_image?.map((image, j) => (
-                                    <div className="product-details-sec-img-left" key={j}>
-                                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`}
-                                            alt={`${image.medicine_name} ${j}`} className="responsive-image" />
-                                    </div>
-
-                                ))}
-                            </div>
+                            {medicineDetails?.medicine_image?.length > 0 ? (
+                                <div className="product-details-section-two-img">
+                                    {medicineDetails.medicine_image.map((image, j) => (
+                                        <div className="product-details-sec-img-left" key={j}>
+                                            <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${image}`}
+                                                alt="Medicine Image" className="responsive-image" />
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No images available</p>
+                            )}
                         </div>
 
                         <div className='product-details-container'>
@@ -199,19 +202,19 @@ const ProductDetails = () => {
                                 medicineDetails?.inventory_info?.map((info, k) => {
                                     return (
                                         <div className="product-range-details">
-                                            <div className="product-range-text"> <input className="product-range-input" type=" text" 
-                                            value={info?.quantity} 
+                                            <div className="product-range-text"> <input className="product-range-input" type=" text"
+                                                value={info?.quantity}
                                             /> </div>
-                                            <div className="product-range-text"><input className="product-range-input" type="text" 
-                                            // value={info?.unit_price}
-                                            value={
-                                                info?.unit_price
-                                                  ? info.unit_price.toLowerCase().includes('usd')
-                                                    ? info.unit_price.replace(/usd/i, 'USD')
-                                                    : `${info.unit_price} USD`
-                                                  : ''
-                                              }
-                                             /> 
+                                            <div className="product-range-text"><input className="product-range-input" type="text"
+                                                // value={info?.unit_price}
+                                                value={
+                                                    info?.unit_price
+                                                        ? info.unit_price.toLowerCase().includes('usd')
+                                                            ? info.unit_price.replace(/usd/i, 'USD')
+                                                            : `${info.unit_price} USD`
+                                                        : ''
+                                                }
+                                            />
                                             </div>
                                             {/* <div className="product-range-text"><input className="product-range-input" 
                                             type="text" 
@@ -226,14 +229,14 @@ const ProductDetails = () => {
                                             /> 
                                             </div> */}
                                             <div className="product-range-text"> <input className="product-range-input" type="text"
-                                            // value={info?.est_delivery_days} 
-                                            value={
-                                                info?.est_delivery_days
-                                                  ? info.est_delivery_days.toLowerCase().includes('days')
-                                                    ? info.est_delivery_days.replace(/days/i, 'Days')
-                                                    : `${info.est_delivery_days} Days`
-                                                  : ''
-                                              }
+                                                // value={info?.est_delivery_days} 
+                                                value={
+                                                    info?.est_delivery_days
+                                                        ? info.est_delivery_days.toLowerCase().includes('days')
+                                                            ? info.est_delivery_days.replace(/days/i, 'Days')
+                                                            : `${info.est_delivery_days} Days`
+                                                        : ''
+                                                }
                                             />
                                             </div>
                                         </div>
@@ -241,7 +244,7 @@ const ProductDetails = () => {
                                 })
                             }
                         </div>
-                        
+
                         <div className='product-details-container'>
                             <div className="product-details-country-section">
                                 <div className="product-details-county">

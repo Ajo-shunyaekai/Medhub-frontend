@@ -349,7 +349,7 @@ const Sidebar = ({ children, dragWindow,
                                                                             <span className={styles.noti_message_part_bottom}>
                                                                                 {data.message.split(' ').slice(2).join(' ')}
                                                                             </span>
-                                                                            <span className={styles.noti_time}>11:12 16-12-2024</span>
+                                                                            <span className={styles.noti_time}>4 hours ago</span>
                                                                         </div>
                                                                        
                                                                     </>

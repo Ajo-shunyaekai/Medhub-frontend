@@ -92,23 +92,25 @@ const OnGoingongoing = ({ inquiryList, totalInquiries, currentPage, inquiryPerPa
             </table>
           </div>
           {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}
-          <div className='pagi-container'>
-            <Pagination
-              activePage={currentPage}
-              itemsCountPerPage={inquiryPerPage}
-              totalItemsCount={totalInquiries}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-              itemClass="page-item"
-              linkClass="page-link"
-              prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-              nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-              hideFirstLastPages={true}
-            />
-            <div className='pagi-total'>
-              Total Items: {totalInquiries}
+          {inquiryList.length > 0 && (
+            <div className='pagi-container'>
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={inquiryPerPage}
+                totalItemsCount={totalInquiries}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+                itemClass="page-item"
+                linkClass="page-link"
+                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                hideFirstLastPages={true}
+              />
+              <div className='pagi-total'>
+                Total Items: {totalInquiries}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>

@@ -14,7 +14,14 @@
   font-weight: 600;
   margin-top: 10px;
 }
-
+.pending-products-no-orders{
+  background-color: #ffffff !important;
+  color: #5e676f !important;
+  padding: 14px 10px !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
 .completed-order-container-right-2 {
   width: 100%;
   max-width: 100%;
@@ -32,9 +39,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-   cursor: pointer !important;;
+   cursor: pointer !important;
 }
-
 .completed-order-table-view:hover {
   background-color: #31c971 !important;
 }
@@ -64,13 +70,15 @@
   gap: 1.5rem;
   height: 60px;
   align-items: center;
-  margin-right: 1rem;
 }
 
 .table > :not(caption) > * > * {
   padding: 1rem 0.5rem !important;
 }
-
+.table-icon {
+  color: rgb(255, 255, 255);
+  width: 18px !important;
+}
 .completed-table-row-container {
   display: flex;
   justify-content: space-between;
@@ -98,11 +106,17 @@
 
 .completed-table-order-1 {
   width: 10%;
+  border: none !important;
+  color: #5e676f !important;
+    font-size: 14px !important;
   background-color: transparent !important;
 }
 
 .completed-table-order-2 {
   width: 28%;
+  border: none !important;
+  color: #5e676f !important;
+  font-size: 14px !important;
   background-color: transparent !important;
 }
 
@@ -152,12 +166,76 @@
   background-color: transparent;
   border-color: rgba(160, 175, 185, 0.15) !important;
 }
+.ongoing-section-orders-button {
+  align-items: center;
+  background: linear-gradient(270deg, rgb(0, 220, 255), rgb(0, 117, 206));
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  column-gap: 8px;
+  display: flex
+;
+  font-size: 11px;
+  padding: 6px 8px;
+  cursor: pointer !important;
+}
+.table > :not(caption) > * > * {
+  padding: 1rem 0.5rem !important;
+  border: none !important;
+}
 
+.table-row-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+}
+
+.header-text-color {
+  color: #99a0ac;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: transparent !important;
+}
+
+.table-text-color {
+  color: #5e676f;
+  font-size: 14px;
+}
+
+.table-text-color-2 {
+  color: #99a0ac;
+  font-size: 14px;
+}
+
+.table-order-1 {
+  width: 10%;
+  background-color: transparent !important;
+}
+
+.table-order-2 {
+  width: 28%;
+  background-color: transparent !important;
+}
+.invoice-details-button-column-download{
+  align-items: center;
+  background-color: #f4c414;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer !important;
+  display: flex
+;
+  height: 26px;
+  justify-content: center;
+  width: 34px;
+}
+.invoice-view {
+  width: 18px !important;
+}
 /* Add media quries from here  */
 
 @media screen and (max-width: 1200px) {
   .table-responsive-xxl {
-    width: 900px !important;
     margin: auto;
   }
 

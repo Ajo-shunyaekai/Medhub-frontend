@@ -11,13 +11,13 @@
   display: none;
 }
 .login-container-logo-section {
-  width: 46%;
+  width: 50%;
   display: flex;
   justify-content: center;
 }
 .login-container-logo-section img {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   height: auto;
 }
 .login-container-form-section {
@@ -61,6 +61,7 @@
   outline: none !important;
   border: none !important;
   margin-bottom: 0px !important;
+  font-weight: 500 !important;
   padding: 12px !important;
   font-size: 13px !important;
   border-color: transparent !important;
@@ -260,7 +261,7 @@
 }
 
 .error-message {
-  color: red; /* Set error message text color to red */
-  font-size: 12px; /* Optional: Set font size */
-  margin-top: 5px; /* Optional: Adjust margin */
+  color: red; 
+  font-size: 12px; 
+  margin-top: 5px; 
 }

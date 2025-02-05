@@ -81,6 +81,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
             </table>
           </div>
           {modal && <ongoingCancel setModal={setModal} ongoing={selectedongoing} />}
+          {poList.length > 0 && (
           <div className='pagi-container'>
             <Pagination
               activePage={currentPage}
@@ -98,6 +99,7 @@ const PurchasedOrder = ({ poList, totalPoList, currentPage, inquiryPerPage, hand
               Total Items: {totalPoList}
             </div>
           </div>
+          )}
         </div>
       </div>
     </>

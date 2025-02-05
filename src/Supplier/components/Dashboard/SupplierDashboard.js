@@ -32,7 +32,7 @@ const SupplierDashboard = () => {
 
         const obj = {
             supplier_id : supplierIdSessionStorage || supplierIdLocalStorage,
-            usertype   : 'supplier'
+            user_type   : 'supplier'
         }
         postRequestWithToken('supplier/orders-buyer-country', obj, async (response) => {
             if (response.code === 200) {

@@ -15,11 +15,13 @@ import {
 } from "react-router-dom";
 import { postRequestWithToken } from "../../api/Requests";
 import io from "socket.io-client";
-
+ 
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
 import Loader from "../components/SharedComponents/Loader/Loader";
-
+import LogisticsAddress from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsAddress"
+import LogisticsAddNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/AddNewAddress";
+import LogisticsEditNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/EditNewAddress";
 // Lazy-load the components
 const Sidebar = lazy(() =>
   import("../components/SharedComponents/Sidebar/Sidebar")
@@ -160,9 +162,9 @@ const EditProfile = lazy(() =>
 const LogisticsForm = lazy(() =>
   import("../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm")
 );
-
+ 
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
-
+ 
 export function NotificationProvider({ children }) {
   const dispatch = useDispatch();
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -175,7 +177,7 @@ export function NotificationProvider({ children }) {
   const location = useLocation();
   const buyerId =
     sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
-
+ 
   const showNotification = (title, options, url) => {
     if (Notification.permission === "granted") {
       const notification = new Notification(title, options);
@@ -185,7 +187,7 @@ export function NotificationProvider({ children }) {
       };
     }
   };
-
+ 
   const fetchNotifications = () => {
     const obj = { buyer_id: buyerId };
     postRequestWithToken("buyer/get-notification-list", obj, (response) => {
@@ -197,7 +199,7 @@ export function NotificationProvider({ children }) {
       }
     });
   };
-
+ 
   const fetchInvoiceCount = () => {
     const obj = { buyer_id: buyerId };
     postRequestWithToken("buyer/get-invoice-count", obj, (response) => {
@@ -208,7 +210,7 @@ export function NotificationProvider({ children }) {
       }
     });
   };
-
+ 
   const handleClick = (id, event) => {
     const obj = {
       notification_id: id,
@@ -231,20 +233,20 @@ export function NotificationProvider({ children }) {
       }
     );
   };
-
+ 
   useEffect(() => {
     if (!buyerId && location.pathname !== "/buyer/sign-up") {
       navigate("/buyer/login");
     }
   }, [buyerId, location.pathname]);
-
+ 
   useEffect(() => {
     if (buyerId) {
       socket.emit("registerBuyer", buyerId);
-
+ 
       fetchNotifications();
       fetchInvoiceCount();
-
+ 
       const notificationEvents = [
         { event: "enquiryQuotation", title: "New Quote Received" },
         { event: "orderCreated", title: "Order Created" },
@@ -258,7 +260,7 @@ export function NotificationProvider({ children }) {
           title: "Profile Edit Request Updated",
         },
       ];
-
+ 
       notificationEvents.forEach(({ event, title }) => {
         socket.on(event, (message) => {
           const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
@@ -270,7 +272,7 @@ export function NotificationProvider({ children }) {
           fetchNotifications();
         });
       });
-
+ 
       return () => {
         notificationEvents.forEach(({ event }) => {
           socket.off(event);
@@ -278,12 +280,12 @@ export function NotificationProvider({ children }) {
       };
     }
   }, [buyerId, refresh]);
-
+ 
   useEffect(() => {
     sessionStorage.getItem("_id") &&
       dispatch(fetchUserData(sessionStorage.getItem("_id")));
   }, [sessionStorage.getItem("_id")]);
-
+ 
   return (
     <Sidebar
       invoiceCount={invoiceCount}
@@ -295,7 +297,7 @@ export function NotificationProvider({ children }) {
     </Sidebar>
   );
 }
-
+ 
 // Routes
 const router = createBrowserRouter([
   {
@@ -428,7 +430,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+ 
       {
         path: "buy",
         element: (
@@ -513,7 +515,7 @@ const router = createBrowserRouter([
           },
         ],
       },
-
+ 
       {
         path: "search-product-details/:medicineId",
         element: (
@@ -712,7 +714,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+ 
       {
         path: "support",
         element: (
@@ -761,6 +763,18 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path:"add-new-address",
+        element:<LogisticsAddNewAddress/>
+      },
+      {
+        path:"edit-new-address",
+        element:<LogisticsEditNewAddress/>
+      },
+      {
+        path:"logistics-address",
+        element:<LogisticsAddress/>
+      }
     ],
   },
   {
@@ -772,9 +786,9 @@ const router = createBrowserRouter([
     ),
   },
 ]);
-
+ 
 function Router() {
   return <RouterProvider router={router} />;
 }
-
+ 
 export default Router;

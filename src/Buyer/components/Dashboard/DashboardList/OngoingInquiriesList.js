@@ -108,12 +108,16 @@ const OngoingInquiriesList = () => {
                                         </td>
                                         <td className='completed-table-row-item completed-order-table-btn completed-table-order-1'>
                                             <Link to={`/buyer/ongoing-inquiries-details/${order.enquiry_id}`}>
+                                            <span className='completed-order-table-view '>
                                                 <RemoveRedEyeOutlinedIcon className="table-icon" />
+                                                </span>
                                             </Link>
                                             {order?.enquiry_status === 'pending' && (
+                                                 <span className='invoice-details-button-column-download'>
                                                 <HighlightOffIcon className="table-icon"
                                                     onClick={() => handleNavigate(order?.enquiry_id)}
                                                 />
+                                                </span>
                                             )}
                                         </td>
                                     </tr>
