@@ -764,7 +764,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"add-new-address",
+        path:"add-new-address/:buyerId",
         element:<LogisticsAddNewAddress/>
       },
       {

@@ -96,7 +96,7 @@ const LogisticsAddress = () => {
     <div className={styles.container}>
       <div className={styles.innerHeadSection}>
         <div className={styles.logisticsHeading}>Address List</div>
-        <Link to="/buyer/add-new-address">
+        <Link to={`/buyer/add-new-address/${buyerId}`}>
           <div className={styles.innerButtons}>Add New Address</div>
         </Link>
       </div>
