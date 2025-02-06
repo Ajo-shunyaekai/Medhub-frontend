@@ -7,16 +7,17 @@ const initialState = {
   addressCount : 0,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
-  addressData: {}
+  addressData: {},
+  updatedAddress: {},
 };
 
 export const fetchAddressListRedux = createAsyncThunk(
   "address/fetchAddressListRedux",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('address/get-all-address-list', values)
-      console.log('response', response)
-      return response.result.data; 
+      const response = await apiRequests.postRequest('address/get-address', {buyer_id: values})
+      console.log('response', response?.address?.userAddress)
+      return response?.address?.userAddress; 
     } catch (error) {
       // Log and pass the error
       console.log("API error:", error);
@@ -48,6 +49,10 @@ export const addressSlice = createSlice({
       state.status = "idle";
       state.error = null;
     },
+    updateLogisticsAddress: (state, action) => {
+      state.updatedAddress = action.payload;
+     
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,7 +61,7 @@ export const addressSlice = createSlice({
       })
       .addCase(fetchAddressListRedux.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.address = action?.payload?.data;
+        state.address = action?.payload;
         state.addressCount = action?.payload?.totalItems;
       })
       .addCase(fetchAddressListRedux.rejected, (state, action) => {
@@ -77,6 +82,6 @@ export const addressSlice = createSlice({
   },
 });
 
-export const { restAddressData } = addressSlice.actions;
+export const { restAddressData, updateLogisticsAddress } = addressSlice.actions;
 
 export default addressSlice.reducer;

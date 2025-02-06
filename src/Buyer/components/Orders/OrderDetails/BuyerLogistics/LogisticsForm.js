@@ -1,341 +1,649 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
 import styles from "./logistics.module.css";
 import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { apiRequests } from "../../../../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+import Loader from "../../../../components/SharedComponents/Loader/Loader";
+import { fetchAddressListRedux } from "../../../../../redux/reducers/addressSlice";
+import { bookLogistics } from "../../../../../redux/reducers/orderSlice";
+
 const LogisticsForm = () => {
-    const [addressType, setAddressType] = useState("");
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
-    const [selectedServices, setSelectedServices] = useState([]);
-    const [selected, setSelected] = useState(true);
-    const handleChange = (e) => {
-        setAddressType(e.target.value);
-    };
-    const handleChanges = (event) => {
-        const { value, checked } = event.target;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { orderId, buyerId } = useParams();
+  const { address, updatedAddress } = useSelector(
+    (state) => state?.addressReducer
+  );
 
-        if (checked) {
-            // Add the service to the state
-            setSelectedServices((prev) => [...prev, value]);
-        } else {
-            // Remove the service from the state
-            setSelectedServices((prev) =>
-                prev.filter((service) => service !== value)
-            );
+  const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
+  const [addressType, setAddressType] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [selected, setSelected] = useState(true);
+
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      mobileNumber: "",
+      companyAddress: "",
+      locality: "",
+      landmark: "",
+      country: null,
+      state: null,
+      city: null,
+      pincode: "",
+      addressType: "",
+      transportMode: "",
+      extraServices: [],
+      useRegisteredAddress: false,
+    },
+    validationSchema: Yup.object().shape({
+      fullName: Yup.string()
+        .min(2, "Name is too short")
+        .max(50, "Name is too long")
+        .required("Full name is required"),
+      mobileNumber: Yup.string()
+        .required("Mobile number is required")
+        .test("is-valid-phone", "Invalid phone number", (value) => {
+          try {
+            const phoneNumber = parsePhoneNumber(value);
+
+            // Validate phone number and return true if it's valid, false if not
+            return phoneNumber && phoneNumber.isValid();
+          } catch (error) {
+            // If parsing fails, mark it as invalid
+            return false;
+          }
+        }),
+      companyAddress: Yup.string().required("Company address is required"),
+      locality: Yup.string().required("Locality/Town is required"),
+      landmark: Yup.string(),
+      country: Yup.mixed().required("Country is required"),
+      state: Yup.mixed(),
+      city: Yup.mixed(),
+      pincode: Yup.string()
+        .matches(/^[0-9]+$/, "Must be only digits")
+        .min(4, "Must be at least 4 digits")
+        .max(10, "Must be at most 10 digits"),
+      addressType: Yup.string().required("Address type is required"),
+      transportMode: Yup.string().required("Mode of transport is required"),
+      extraServices: Yup.array().of(Yup.string()),
+    }),
+    onSubmit: async (values) => {
+      try {
+        console.log("Form submitted:", values);
+        const apiPayload = {
+          order_id: orderId,
+          buyer_id: buyerId,
+          full_name: values?.fullName,
+          mobile_number: values?.mobileNumber,
+          company_reg_address: values?.companyAddress,
+          locality: values?.locality,
+          land_mark: values?.landmark,
+          city: values?.city?.label || values?.city,
+          state: values?.state?.label || values?.state,
+          country: values?.country?.label || values?.country,
+          pincode: values?.pincode,
+          address_type: values?.addressType,
+          mode_of_transport: values?.transportMode,
+          extra_services: values?.extraServices,
+        };
+        // Add your API call here
+        const response = await dispatch(bookLogistics({ obj: apiPayload }));
+      } catch (error) {
+        toast.error("Something went wrong!");
+      }
+    },
+  });
+
+  // Handlers for Select components
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption);
+    setSelectedState(null);
+    setSelectedCity(null);
+    formik.setFieldValue("country", selectedOption);
+  };
+
+  const handleStateChange = (selectedOption) => {
+    setSelectedState(selectedOption);
+    setSelectedCity(null);
+    formik.setFieldValue("state", selectedOption);
+  };
+
+  const handleCityChange = (selectedOption) => {
+    setSelectedCity(selectedOption);
+    formik.setFieldValue("city", selectedOption);
+  };
+
+  const handlePhoneChange = (name, value) => {
+    try {
+      // Parse the phone number
+      const phoneNumber = parsePhoneNumber(value);
+
+      // Validate the phone number
+      if (phoneNumber && phoneNumber.isValid()) {
+        // Format the phone number in E.164 format (international standard)
+        const formattedNumber = phoneNumber.formatInternational();
+
+        // Update the Formik field value for phoneNumber
+        formik.setFieldValue(name, formattedNumber);
+        // Clear any previous error if the phone number is valid
+        formik.setFieldError(name, "");
+      } else {
+        // Set error if phone number is invalid
+        formik.setFieldValue(name, value); // Keep the invalid value
+        formik.setFieldError(name, "Invalid phone number");
+      }
+    } catch (error) {
+      // Handle parsing errors (invalid number format)
+      formik.setFieldValue(name, value); // Keep the invalid value
+      formik.setFieldError(name, "Invalid phone number");
+    }
+  };
+
+  const handleExtraServicesChange = (event) => {
+    const { value, checked } = event.target;
+    const currentServices = formik.values.extraServices;
+
+    if (checked) {
+      formik.setFieldValue("extraServices", [...currentServices, value]);
+    } else {
+      formik.setFieldValue(
+        "extraServices",
+        currentServices.filter((service) => service !== value)
+      );
+    }
+  };
+  console.log("address", address);
+
+  const resetForminlValues = (address) => {
+    const initialCountryValue = address?.[0]?.country
+      ? {
+          value: Country.getAllCountries().find(
+            (country) => country.name === address?.[0]?.country
+          )?.isoCode,
+          label: address?.[0]?.country,
         }
-    };
-    return (
-        <div className={styles.container}>
-            <div className={styles.logisticsHeading}>Book Logistics</div>
+      : null;
 
-            <form className={styles.formLogistics}>
-                <div className={styles.formInnerClass}>
-                    <div className={styles.innerHeading}>Drop Details</div>
-                    <div className={styles.checkboxSection}>
-                        <input type="checkbox" id="termsCheckbox" className={styles.checkboxInput} />
-                        <label htmlFor="termsCheckbox" className={styles.checkboxLabel}>
-                            Same as registered address
-                        </label>
-                    </div>
-                    <div className={styles['inner-container']}>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Full Name<span className={styles.labelstamp}>*</span></label>
+    const initialStateValue = address?.[0]?.state
+      ? {
+          value: State.getStatesOfCountry(
+            address?.[0]?.country || selectedCountry?.value
+          ).find((state) => state.name === address?.[0]?.state)?.isoCode,
+          label: address?.[0]?.state,
+        }
+      : null;
 
-                            <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="Enter your full name"
-                                autoComplete="off"
-                            />
+    const initialCityValue = address?.[0]?.city
+      ? {
+          value: City.getCitiesOfState(
+            address?.[0]?.state || selectedState?.value
+          ).find((city) => city.name === address?.[0]?.city)?.name,
+          label: address?.[0]?.city,
+        }
+      : null;
+    // Use setValues to update Formik form values
+    formik.setValues({
+      ...formik.values,
+      fullName: address?.[0]?.full_name || "",
+      mobileNumber: address?.[0]?.mobile_number || "",
+      companyAddress: address?.[0]?.company_reg_address || "",
+      locality: address?.[0]?.locality || "",
+      landmark: address?.[0]?.land_mark || "",
+      country: address?.[0]?.country || null,
+      state: address?.[0]?.state || null,
+      city: address?.[0]?.city || null,
+      pincode: address?.[0]?.pincode || "",
+      addressType: address?.[0]?.type || "",
+      transportMode: address.transportMode || "",
+      extraServices: address.extraServices || [],
+      useRegisteredAddress: true,
+    });
 
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Mobile Number<span className={styles.labelstamp}>*</span></label>
-                            <PhoneInput
-                                className='signup-form-section-phone-input'
-                                defaultCountry="ae"
-                                name="contact"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Address<span className={styles.labelstamp}>*</span></label>
-                            <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="House No, Building, Street, Area"
-                                autoComplete="off"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Locality/Town<span className={styles.labelstamp}>*</span></label>
-                            <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="Road Name, Area, Colony"
-                                autoComplete="off"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Landmark</label>
-                            <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="Enter Landmark"
-                                autoComplete="off"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Country<span className={styles.labelstamp}>*</span></label>
-                            <Select
-                                options={Country.getAllCountries()}
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.isoCode}
-                                value={selectedCountry}
-                                onChange={(option) => {
-                                    setSelectedCountry(option);
-                                    setSelectedState(null);
-                                    setSelectedCity(null);
-                                }}
-                                placeholder="Select Country"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>State</label>
-                            <Select
-                                options={
-                                    selectedCountry
-                                        ? [
-                                            ...State.getStatesOfCountry(selectedCountry.isoCode),
-                                            { name: "Other", isoCode: "OTHER" },
-                                        ]
-                                        : []
-                                }
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.isoCode}
-                                value={selectedState}
-                                onChange={(option) => {
-                                    setSelectedState(option);
-                                    setSelectedCity(null);
-                                }}
-                                placeholder="Select State"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>City</label>
-                            <Select
-                                options={
-                                    selectedState && selectedState.isoCode !== "OTHER"
-                                        ? [
-                                            ...City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode),
-                                            { name: "Other" },
-                                        ]
-                                        : [{ name: "Other" }]
-                                }
-                                getOptionLabel={(option) => option.name}
-                                getOptionValue={(option) => option.name}
-                                value={selectedCity}
-                                onChange={setSelectedCity}
-                                placeholder="Select City"
-                            />
-                        </div>
-                        <div className={styles.logisticesInputSection}>
-                            <label className={styles.formLabel}>Pincode</label>
-                            <input
-                                className={styles.formInput}
-                                type="text"
-                                placeholder="Enter your pincode"
-                                autoComplete="off"
-                            />
-                        </div>
+    setSelectedCountry(initialCountryValue);
+    setSelectedState(initialStateValue);
+    setSelectedCity(initialCityValue);
+  };
 
-                    </div>
+  const handlSameAsRegisteredAddress = async (event) => {
+    const isChecked = event.target.checked;
+    setIsRegAddressChecked(!isRegAddressChecked);
+    console.log("Function calleds", event.target.checked);
+    try {
+      if (isChecked) {
+        console.log("addressData", address);
+        resetForminlValues(address);
+      } else {
+        formik.setValues({
+          ...formik.values,
+          fullName: "",
+          mobileNumber: "",
+          companyAddress: "",
+          locality: "",
+          landmark: "",
+          country: null,
+          state: null,
+          city: address?.[0]?.city || null,
+          pincode: "",
+          addressType: "",
+          transportMode: "",
+          extraServices: [],
+          useRegisteredAddress: true,
+        });
 
-                    <div className={styles.addressContainer}>
-                        <div className={styles.innerHeading}>Type of Address<span className={styles.labelstamp}>*</span></div>
-                        <div className={styles.radioInnerContainer}>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="warehouse"
-                                    onChange={handleChange}
-                                    checked={addressType === 'warehouse'}
-                                />
-                                <label className={styles.formLabel}>Warehouse</label>
-                            </div>
-                            <div className={styles.radioGroup}>
+        setSelectedCountry(null);
+        setSelectedState(null);
+        setSelectedCity(null);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch user address details.");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+  console.log("ADDRESS", address);
 
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="shop"
-                                    onChange={handleChange}
-                                    checked={addressType === 'shop'}
-                                />
-                                <label className={styles.formLabel}>Shop</label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="other"
-                                    onChange={handleChange}
-                                    checked={addressType === 'other'}
-                                />
-                                <label className={styles.formLabel}>Other</label>
-                            </div>
-                        </div>
-                    </div>
+  useEffect(() => {
+    dispatch(fetchAddressListRedux(buyerId));
+  }, [dispatch]);
+
+  useEffect(() => {
+    updatedAddress
+      ? Object.values(updatedAddress).length > 0
+        ? setDisplayAddress(updatedAddress)
+        : setDisplayAddress(address?.[0] || {})
+      : setDisplayAddress(address?.[0] || {});
+  }, [updatedAddress]);
+
+  console.log("displayAddress", displayAddress);
+  console.log("updatedAddress", updatedAddress);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.logisticsHeading}>Book Logistics</div>
+
+      <form
+        className={styles.formLogistics}
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          // Check if the form is changed and no validation errors
+          if (Object.keys(formik.errors).length === 0) {
+            formik.handleSubmit();
+          } else {
+            // If validation errors exist or no change, show the error message
+            toast.error("Please fill the required fields correctly.");
+          }
+        }}
+      >
+        {address.length === 1 ? (
+          <div className={styles.formInnerClass}>
+            <div className={styles.innerHeading}>Drop Details</div>
+            <div
+              className={styles.checkboxSection}
+              onChange={handlSameAsRegisteredAddress}
+            >
+              <input
+                type="checkbox"
+                id="termsCheckbox"
+                className={styles.checkboxInput}
+              />
+              <label htmlFor="termsCheckbox" className={styles.checkboxLabel}>
+                Same as registered address
+              </label>
+            </div>
+            <div className={styles["inner-container"]}>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>
+                  Full Name<span className={styles.labelstamp}>*</span>
+                </label>
+
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter your full name"
+                  autoComplete="off"
+                  name="fullName"
+                  value={formik.values.fullName}
+                  onChange={formik.handleChange}
+                  disabled={isRegAddressChecked}
+                />
+                {formik.errors.fullName && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.fullName}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>
+                  Mobile Number<span className={styles.labelstamp}>*</span>
+                </label>
+                <PhoneInput
+                  className="signup-form-section-phone-input"
+                  defaultCountry={
+                    Country.getAllCountries()?.filter(
+                      (country) =>
+                        country?.phonecode?.replace("+", "") ===
+                        address?.[0]?.mobile_number?.replace("+", "")
+                    )?.[0]?.isoCode
+                  }
+                  name="mobileNumber"
+                  value={formik.values.mobileNumber}
+                  onChange={(value) => {
+                    handlePhoneChange("mobileNumber", value);
+                    //   setMobile(value);
+                  }}
+                  disabled={isRegAddressChecked}
+                />
+                {formik.errors.mobileNumber && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.mobileNumber}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>
+                  Company Billing Address
+                  <span className={styles.labelstamp}>*</span>
+                </label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Company Billing Address"
+                  autoComplete="off"
+                  name="companyAddress"
+                  value={formik.values.companyAddress}
+                  onChange={formik.handleChange}
+                  disabled={isRegAddressChecked}
+                />
+                {formik.errors.companyAddress && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.companyAddress}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>
+                  Locality/Town<span className={styles.labelstamp}>*</span>
+                </label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Locality/Road Name"
+                  autoComplete="off"
+                  name="locality"
+                  value={formik.values.locality}
+                  onChange={formik.handleChange}
+                  disabled={isRegAddressChecked}
+                />
+                {formik.errors.locality && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.locality}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>Landmark</label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Landmark"
+                  autoComplete="off"
+                  name="landmark"
+                  value={formik.values.landmark}
+                  onChange={formik.handleChange}
+                  disabled={isRegAddressChecked}
+                />
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>
+                  Country<span className={styles.labelstamp}>*</span>
+                </label>
+                <Select
+                  options={[
+                    ...Country.getAllCountries().map((country) => ({
+                      value: country.isoCode,
+                      label: country.name,
+                    })),
+                    { value: "OTHER", label: "Other" },
+                  ]}
+                  value={selectedCountry} // Use selectedCountry here
+                  placeholder="Select Country"
+                  name="country"
+                  onChange={handleCountryChange}
+                  isDisabled={isRegAddressChecked}
+                />
+                {formik.errors.country && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.country}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>State</label>
+                <Select
+                  options={
+                    selectedCountry
+                      ? [
+                          ...State.getStatesOfCountry(
+                            selectedCountry.value
+                          ).map((state) => ({
+                            value: state.isoCode,
+                            label: state.name,
+                          })),
+                          { value: "OTHER", label: "Other" }, // Add "Other" option here
+                        ]
+                      : []
+                  }
+                  value={selectedState}
+                  onChange={handleStateChange}
+                  placeholder="Select State"
+                  isDisabled={isRegAddressChecked}
+                />
+                {formik.errors.state && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.state}
+                  </span>
+                )}
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>City</label>
+                <Select
+                  options={
+                    selectedState
+                      ? [
+                          ...City.getCitiesOfState(
+                            selectedCountry.value,
+                            selectedState.value
+                          ).map((city) => ({
+                            value: city.name,
+                            label: city.name,
+                          })),
+                          { value: "Other", label: "Other" }, // Add "Other" option here
+                        ]
+                      : []
+                  }
+                  value={selectedCity}
+                  placeholder="Select City"
+                  onChange={handleCityChange}
+                  isDisabled={isRegAddressChecked}
+                />
+              </div>
+              <div className={styles.logisticesInputSection}>
+                <label className={styles.formLabel}>Pincode</label>
+                <input
+                  className={styles.formInput}
+                  type="text"
+                  name="pincode"
+                  placeholder="Enter your pincode"
+                  autoComplete="off"
+                  value={formik.values.pincode}
+                  onChange={formik.handleChange}
+                  disabled={isRegAddressChecked}
+                />
+              </div>
+            </div>
+            {!isRegAddressChecked && (
+              <div className={styles.addressContainer}>
+                <div className={styles.innerHeading}>
+                  Type of Address<span className={styles.labelstamp}>*</span>
                 </div>
-
-                {/* Start the drop detais section */}
-
-                <div className={styles.cardContainer}>
-                    <div className={styles.cardHeadSection}>
-                        <span className={styles.cardHeading}>Drop Details</span>
-                        <Link to="/buyer/logistics-address">
-                            <span className={styles.cardButton}>Change</span>
-                        </Link>
+                <div className={styles.radioInnerContainer}>
+                  {[
+                    { value: "Warehouse", label: "Ware House" },
+                    { value: "Shop", label: "Shop" },
+                    { value: "Other", label: "Other" },
+                  ].map((mode) => (
+                    <div key={mode.value} className={styles.radioGroup}>
+                      <input
+                        className={styles.radioInput}
+                        type="radio"
+                        name="addressType"
+                        value={mode.value}
+                        checked={formik.values.addressType === mode.value}
+                        onChange={formik.handleChange}
+                      />
+                      <label className={styles.radioLabel}>
+                        <span className={styles.radioSpan}>{mode.label}</span>
+                      </label>
                     </div>
-                    {/* <label className={styles.radioContainer}> */}
-                        {/* <input type="radio" checked={selected} onChange={() => { }} /> */}
+                  ))}
+                  {formik.errors.addressType && (
+                    <span className={styles.error_message_formik}>
+                      {formik.errors.addressType}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : address.length > 1 ? (
+          <div className={styles.cardContainer}>
+            <div className={styles.cardHeadSection}>
+              <span className={styles.cardHeading}>Drop Details</span>
+              <Link to={`/buyer/logistics-address/${buyerId}`}>
+                <span className={styles.cardButton}>Change</span>
+              </Link>
+            </div>
+            <div className={styles.cardInnerContainer}>
+              <span className={styles.cardText}>
+                Shivanshi Tripathi
+                <span className={styles.cardType}>Warehouse</span>
+              </span>
+              <span className={styles.cardText}>H No 12 Birlagram Nagda</span>
+              <span className={styles.cardText}>Near Bal Mandir</span>
+              <span className={styles.cardText}>India Madhya Pradesh</span>
+              <span className={styles.cardText}>Nagda 456331</span>
+            </div>
+          </div>
+        ) : null}
 
-                        <div className={styles.cardInnerContainer}>
-                            <span className={styles.cardText}>Shivanshi Tripathi
-                                <span className={styles.cardType}>Warehouse</span>
-                            </span>
-                            <span className={styles.cardText}>H No 12 Birlagram Nagda</span>
-                            <span className={styles.cardText}>Near Bal Mandir</span>
-                            <span className={styles.cardText}>India Madhya Pradesh</span>
-                            <span className={styles.cardText}>Nagda 456331</span>
-                        </div>
-                    {/* </label> */}
-                </div>
-                {/* End the drop details section */}
+        <div className={styles.formInnerClass}>
+          <div className={styles.addressContainer}>
+            <div className={styles.innerHeading}>
+              Mode of Transport<span className={styles.labelstamp}>*</span>
+            </div>
 
-                <div className={styles.formInnerClass}>
-                    <div className={styles.addressContainer}>
-                        <div className={styles.innerHeading}>
-                            Mode of Transport<span className={styles.labelstamp}>*</span>
-                        </div>
-                        <div className={styles.radioInnerContainer}>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="aircargo"
-                                    onChange={handleChange}
-                                    checked={addressType === "aircargo"}
-                                />
-                                <label className={styles.radioLabel}>
-                                    <span className={styles.radioSpan}>Air Cargo</span>{" "}
-                                    <span className={styles.radioText}>
-                                        (Fastest Delivery & High Charges)
-                                    </span>
-                                </label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="seafreight"
-                                    onChange={handleChange}
-                                    checked={addressType === "seafreight"}
-                                />
-                                <label className={styles.radioLabel}>
-                                    <span className={styles.radioSpan}> Sea Freight</span>{" "}
-                                    <span className={styles.radioText}>
-                                        (Faster Delivery & Comparatively Low Charges)
-                                    </span>
-                                </label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="roadfreight"
-                                    onChange={handleChange}
-                                    checked={addressType === "roadfreight"}
-                                />
-                                <label className={styles.radioLabel}>
-                                    <span className={styles.radioSpan}> Road Freight </span>{" "}
-                                    <span className={styles.radioText}>
-                                        (Delivery & Lower Charges)
-                                    </span>
-                                </label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="radio"
-                                    name="addressType"
-                                    value="logistices"
-                                    onChange={handleChange}
-                                    checked={addressType === "logistices"}
-                                />
-                                <label className={styles.formLabel}>
-                                    Ask the Logistics Partner to Recommend
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.addressContainer}>
-                        <div className={styles.innerHeading}>Extra Services</div>
-                        <div className={styles.radioInnerContainer}>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="checkbox"
-                                    name="extraService"
-                                    value="doortodoor"
-                                    onChange={handleChanges}
-                                    checked={selectedServices.includes("doortodoor")}
-                                />
-                                <label className={styles.formLabel}>Door to Door</label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="checkbox"
-                                    name="extraService"
-                                    value="PorttoPort"
-                                    onChange={handleChanges}
-                                    checked={selectedServices.includes("PorttoPort")}
-                                />
-                                <label className={styles.formLabel}>Port to Port</label>
-                            </div>
-                            <div className={styles.radioGroup}>
-                                <input
-                                    className={styles.radioInput}
-                                    type="checkbox"
-                                    name="extraService"
-                                    value="customclearance"
-                                    onChange={handleChanges}
-                                    checked={selectedServices.includes("customclearance")}
-                                />
-                                <label className={styles.formLabel}>Custom Clearance</label>
-                            </div>
-                        </div>
-                    </div>
+            <div className={styles.radioInnerContainer}>
+              {[
+                {
+                  value: "Aircargo",
+                  label: "Air Cargo",
+                  description: "(Fastest Delivery & High Charges)",
+                },
+                {
+                  value: "Seafreight",
+                  label: "Sea Freight",
+                  description: "(Faster Delivery & Comparatively Low Charges)",
+                },
+                {
+                  value: "Roadfreight",
+                  label: "Road Freight",
+                  description: "(Delivery & Lower Charges)",
+                },
+                {
+                  value: "Logistices",
+                  label: "Ask the Logistics Partner to Recommend",
+                  description: "",
+                },
+              ].map((mode) => (
+                <div key={mode.value} className={styles.radioGroup}>
+                  <input
+                    className={styles.radioInput}
+                    type="radio"
+                    name="transportMode"
+                    value={mode.value}
+                    checked={formik.values.transportMode === mode.value}
+                    onChange={formik.handleChange}
+                  />
+                  <label className={styles.radioLabel}>
+                    <span className={styles.radioSpan}>{mode.label}</span>
+                    {mode.description && (
+                      <span className={styles.radioText}>
+                        {mode.description}
+                      </span>
+                    )}
+                  </label>
                 </div>
-                <div className={styles["logistic-Button-Section"]}>
-                    <button type="submit" className={styles["logistic-submit"]}>
-                        Request Supplier for Further Details
-                    </button>
-                    <div className={styles["logistic-cancel"]}>Cancel</div>
+              ))}
+              {formik.errors.transportMode && (
+                <span className={styles.error_message_formik}>
+                  {formik.errors.transportMode}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className={styles.addressContainer}>
+            <div className={styles.innerHeading}>Extra Services</div>
+
+            <div className={styles.radioInnerContainer}>
+              {[
+                { value: "Doortodoor", label: "Door to Door" },
+                { value: "PorttoPort", label: "Port to Port" },
+                { value: "Customclearance", label: "Custom Clearance" },
+              ].map((service) => (
+                <div key={service.value} className={styles.radioGroup}>
+                  <input
+                    className={styles.radioInput}
+                    type="checkbox"
+                    name="extraServices"
+                    value={service.value}
+                    checked={formik.values.extraServices.includes(
+                      service.value
+                    )}
+                    onChange={handleExtraServicesChange}
+                  />
+                  <label className={styles.formLabel}>{service.label}</label>
                 </div>
-            </form>
+              ))}
+            </div>
+          </div>
         </div>
-    );
+        <div className={styles["logistic-Button-Section"]}>
+          <button
+            type="submit"
+            className={styles["logistic-submit"]}
+            disabled={formik.isSubmitting}
+          >
+            Request Supplier for Further Details
+          </button>
+          <div className={styles["logistic-cancel"]}>Cancel</div>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default LogisticsForm;

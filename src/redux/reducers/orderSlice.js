@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
+import { toast } from "react-toastify";
 
 const initialState = {
   orders: [],
@@ -35,6 +36,30 @@ export const fetchOrderDataRedux = createAsyncThunk(
       // Log and pass the error
       console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const bookLogistics = createAsyncThunk(
+  "order/bookLogistics",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `order/book-logistics`,
+        { ...values?.obj }
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
     }
   }
 );

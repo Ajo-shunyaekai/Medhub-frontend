@@ -195,7 +195,7 @@ const OrderDetails = ({ socket }) => {
                                     orderDetails?.status === 'Active' ?
 
                                         <div className="buyers-order-details-top-order-cont">
-                                            <Link to='/buyer/logistics-form'>
+                                            <Link to={`/buyer/logistics-form/${orderId}/${orderDetails?.buyer?._id}`}>
 
                                             <div
                                                 className="buyers-order-details-left-top-main-heading-button"
