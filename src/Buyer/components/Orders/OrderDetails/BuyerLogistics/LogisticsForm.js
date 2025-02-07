@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { apiRequests } from "../../../../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import Loader from "../../../../components/SharedComponents/Loader/Loader";
@@ -31,123 +30,8 @@ const LogisticsForm = () => {
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selected, setSelected] = useState(true);
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     fullName: "",
-  //     mobileNumber: "",
-  //     companyAddress: "",
-  //     locality: "",
-  //     landmark: "",
-  //     country: null,
-  //     state: null,
-  //     city: null,
-  //     pincode: "",
-  //     addressType: "",
-  //     transportMode: "",
-  //     extraServices: [],
-  //     useRegisteredAddress: false,
-  //   },
-  //   validationSchema: Yup.object().shape({
-  //     // fullName: Yup.string()
-  //     //   .min(2, "Name is too short")
-  //     //   .max(50, "Name is too long")
-  //     //   .required("Full name is required"),
-  //     // mobileNumber: Yup.string()
-  //     //   .required("Mobile number is required")
-  //     //   .test("is-valid-phone", "Invalid phone number", (value) => {
-  //     //     try {
-  //     //       const phoneNumber = parsePhoneNumber(value);
-
-  //     //       // Validate phone number and return true if it's valid, false if not
-  //     //       return phoneNumber && phoneNumber.isValid();
-  //     //     } catch (error) {
-  //     //       // If parsing fails, mark it as invalid
-  //     //       return false;
-  //     //     }
-  //     //   }),
-  //     // companyAddress: Yup.string().required("Company address is required"),
-  //     // locality: Yup.string().required("Locality/Town is required"),
-  //     // landmark: Yup.string(),
-  //     // country: Yup.mixed().required("Country is required"),
-  //     // state: Yup.mixed(),
-  //     // city: Yup.mixed(),
-  //     // pincode: Yup.string()
-  //     //   .matches(/^[0-9]+$/, "Must be only digits")
-  //     //   .min(4, "Must be at least 4 digits")
-  //     //   .max(10, "Must be at most 10 digits"),
-  //     // addressType: Yup.string().required("Address type is required"),
-  //     // transportMode: Yup.string().required("Mode of transport is required"),
-  //     // extraServices: Yup.array().of(Yup.string()),
-  //     ...(address.length === 1 && {
-  //       fullName: Yup.string()
-  //         .min(2, "Name is too short")
-  //         .max(50, "Name is too long")
-  //         .required("Full name is required"),
-  //       mobileNumber: Yup.string()
-  //         .required("Mobile number is required")
-  //         .test("is-valid-phone", "Invalid phone number", (value) => {
-  //           try {
-  //             const phoneNumber = parsePhoneNumber(value);
-  //             return phoneNumber && phoneNumber.isValid();
-  //           } catch (error) {
-  //             return false;
-  //           }
-  //         }),
-  //       companyAddress: Yup.string().required("Company address is required"),
-  //       locality: Yup.string().required("Locality/Town is required"),
-  //       landmark: Yup.string(),
-  //       country: Yup.mixed().required("Country is required"),
-  //       state: Yup.mixed(),
-  //       city: Yup.mixed(),
-  //       pincode: Yup.string()
-  //         .matches(/^[0-9]+$/, "Must be only digits")
-  //         .min(4, "Must be at least 4 digits")
-  //         .max(10, "Must be at most 10 digits"),
-  //       addressType: Yup.string().required("Address type is required"),
-  //     }),
-  //     // Always validate these fields regardless of address length
-  //     transportMode: Yup.string().required("Mode of transport is required"),
-  //     extraServices: Yup.array().of(Yup.string()),
-    
-  //   }),
-  //   onSubmit: async (values) => {
-  //     try {
-  //       if (address.length > 1) {
-  //         const transportModeError = formik.errors.transportMode;
-  //         if (transportModeError) {
-  //           toast.error("Please select a mode of transport.");
-  //           return;
-  //         }
-  //       console.log("Form submitted:", values);
-  //       const apiPayload = {
-  //         order_id: orderId,
-  //         buyer_id: buyerId,
-  //         full_name: values?.fullName,
-  //         mobile_number: values?.mobileNumber,
-  //         company_reg_address: values?.companyAddress,
-  //         locality: values?.locality,
-  //         land_mark: values?.landmark,
-  //         city: values?.city?.label || values?.city,
-  //         state: values?.state?.label || values?.state,
-  //         country: values?.country?.label || values?.country,
-  //         pincode: values?.pincode,
-  //         address_type: values?.addressType,
-  //         mode_of_transport: values?.transportMode,
-  //         extra_services: values?.extraServices,
-  //       };
-  //       // Add your API call here
-  //       const response = await dispatch(bookLogistics({ obj: apiPayload }));
-  //     }
-  //     } catch (error) {
-  //       toast.error("Something went wrong!");
-  //     }
-  //   },
-  // });
-
-  // Handlers for Select components
   
-
+  
   const formik = useFormik({
     initialValues: {
       fullName: "",
