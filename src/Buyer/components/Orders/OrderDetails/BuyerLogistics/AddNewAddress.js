@@ -68,33 +68,35 @@ const AddNewAddress = () => {
         .min(4, "Must be at least 4 digits")
         .max(10, "Must be at most 10 digits"),
       addressType: Yup.string().required("Address type is required"),
-      transportMode: Yup.string().required("Mode of transport is required"),
-      extraServices: Yup.array().of(Yup.string()),
-     
+      //   transportMode: Yup.string().required("Mode of transport is required"),
+      //   extraServices: Yup.array().of(Yup.string()),
     }),
     onSubmit: async (values) => {
       try {
-        
-          console.log("Form submitted:", values);
-          const apiPayload = {
-            order_id: orderId,
-            buyer_id: buyerId,
-            full_name: values?.fullName,
-            mobile_number: values?.mobileNumber,
-            company_reg_address: values?.companyAddress,
-            locality: values?.locality,
-            land_mark: values?.landmark,
-            city: values?.city?.label || values?.city,
-            state: values?.state?.label || values?.state,
-            country: values?.country?.label || values?.country,
-            pincode: values?.pincode,
-            address_type: values?.addressType,
-            mode_of_transport: values?.transportMode,
-            extra_services: values?.extraServices,
-          };
-          // Add your API call here
-          const response = await dispatch(addAddress({ obj: apiPayload }));
-       
+        console.log("Form submitted:", values);
+        const apiPayload = {
+          // order_id: orderId,
+          buyer_id: buyerId,
+          full_name: values?.fullName,
+          mobile_number: values?.mobileNumber,
+          company_reg_address: values?.companyAddress,
+          locality: values?.locality,
+          land_mark: values?.landmark,
+          city: values?.city?.label || values?.city,
+          state: values?.state?.label || values?.state,
+          country: values?.country?.label || values?.country,
+          pincode: values?.pincode,
+          address_type: values?.addressType,
+          // mode_of_transport: values?.transportMode,
+          // extra_services: values?.extraServices,
+        };
+        const response = await dispatch(addAddress({ obj: apiPayload }));
+        if(response.meta.requestStatus === "fulfilled") {
+          setTimeout(() => {
+              navigate(`/buyer/logistics-address/${buyerId}`)
+            }, 500);
+          }
+
       } catch (error) {
         toast.error("Something went wrong!");
       }
@@ -194,13 +196,7 @@ const AddNewAddress = () => {
               </label>
               <PhoneInput
                 className="signup-form-section-phone-input"
-                defaultCountry={
-                  Country.getAllCountries()?.filter(
-                    (country) =>
-                      country?.phonecode?.replace("+", "") ===
-                      address?.[0]?.mobile_number?.replace("+", "")
-                  )?.[0]?.isoCode
-                }
+                defaultCountry="US"
                 name="mobileNumber"
                 value={formik.values.mobileNumber}
                 onChange={(value) => {
@@ -317,21 +313,39 @@ const AddNewAddress = () => {
             <div className={styles.logisticesInputSection}>
               <label className={styles.formLabel}>City</label>
               <Select
+                // options={
+                //   selectedState && selectedState.value !== "OTHER"
+                //     ? [
+                //         ...City.getCitiesOfState(
+                //           selectedCountry.value, 
+                //           selectedState.value 
+                //         ).map((city) => ({
+                //           name: city.name,
+                //           value: city.name,
+                //         })),
+                //         { name: "Other", value: "Other" }, 
+                //       ]
+                //     : [{ name: "Other", value: "Other" }]
+                // }
+
                 options={
-                  selectedState && selectedState.isoCode !== "OTHER"
-                    ? [
-                        ...City.getCitiesOfState(
-                          selectedState.countryCode,
-                          selectedState.isoCode
-                        ),
-                        { name: "Other" },
-                      ]
-                    : [{ name: "Other" }]
-                }
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.name}
+                                    selectedState
+                                      ? [
+                                          ...City.getCitiesOfState(
+                                            selectedCountry.value,
+                                            selectedState.value
+                                          ).map((city) => ({
+                                            value: city.name,
+                                            label: city.name,
+                                          })),
+                                          { value: "Other", label: "Other" }, // Add "Other" option here
+                                        ]
+                                      : []
+                                  }
+                // getOptionLabel={(option) => option.name}
+                // getOptionValue={(option) => option.value}
                 value={selectedCity}
-                onChange={setSelectedCity}
+                onChange={handleCityChange}
                 placeholder="Select City"
               />
             </div>
@@ -342,6 +356,7 @@ const AddNewAddress = () => {
                 type="text"
                 placeholder="Enter your pincode"
                 autoComplete="off"
+                name="pincode"
                 value={formik.values.pincode}
                 onChange={formik.handleChange}
               />

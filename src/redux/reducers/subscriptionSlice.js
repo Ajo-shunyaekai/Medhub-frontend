@@ -15,7 +15,7 @@ export const fetchAddressListRedux = createAsyncThunk(
   "address/fetchAddressListRedux",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('address/get-address', {buyer_id: values})
+      const response = await apiRequests.postRequest('address/get-address-list', {buyer_id: values})
       console.log('response', response?.address?.userAddress)
       return response?.address?.userAddress; 
     } catch (error) {

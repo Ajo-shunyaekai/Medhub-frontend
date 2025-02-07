@@ -238,13 +238,13 @@ const LogisticsForm = () => {
         }
   
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
-        
-        // if (response.success) {
-        //   toast.success("Logistics request submitted successfully");
-        //   // Add navigation or other success handling if needed
-        // } else {
-        //   toast.error(response.message || "Failed to submit logistics request");
-        // }
+
+           if(response.meta.requestStatus === "fulfilled") {
+            setTimeout(() => {
+                navigate(`/buyer/order-details/${orderId}`)
+              }, 500);
+            }
+
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -714,17 +714,17 @@ const LogisticsForm = () => {
             <div className={styles.radioInnerContainer}>
               {[
                 {
-                  value: "Aircargo",
+                  value: "Air Cargo",
                   label: "Air Cargo",
                   description: "(Fastest Delivery & High Charges)",
                 },
                 {
-                  value: "Seafreight",
+                  value: "Sea Freight",
                   label: "Sea Freight",
                   description: "(Faster Delivery & Comparatively Low Charges)",
                 },
                 {
-                  value: "Roadfreight",
+                  value: "Road Freight",
                   label: "Road Freight",
                   description: "(Delivery & Lower Charges)",
                 },
@@ -765,9 +765,9 @@ const LogisticsForm = () => {
 
             <div className={styles.radioInnerContainer}>
               {[
-                { value: "Doortodoor", label: "Door to Door" },
-                { value: "PorttoPort", label: "Port to Port" },
-                { value: "Customclearance", label: "Custom Clearance" },
+                { value: "Door to Door", label: "Door to Door" },
+                { value: "Port to Port", label: "Port to Port" },
+                { value: "Custom Clearance", label: "Custom Clearance" },
               ].map((service) => (
                 <div key={service.value} className={styles.radioGroup}>
                   <input
