@@ -1,11 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import styles from './logisticsdetails.module.css'
 import ProductList from './LogisticsProductList'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { postRequestWithToken } from '../../../../api/Requests';
+import { toast } from 'react-toastify';
+import { apiRequests } from '../../../../api';
 
 const LogisticsDetails = () => {
+    const { requestId } = useParams();
+    const navigate = useNavigate();
+
+    const partnerIdSessionStorage = sessionStorage.getItem('partner_id');
+    const partnerIdLocalStorage = localStorage.getItem('partner_id');
+
+    const [loading, setLoading] = useState(false);
+    const [activeButton, setActiveButton] = useState('1h');
+    const [requestDetails, setRequestDetails] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+     const fetchData = async () => {
+            if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+                navigate('/buyer/login');
+                return;
+            }
+            const obj = {
+                logistics_id: requestId,
+                buyer_id: partnerIdSessionStorage || partnerIdLocalStorage,
+            };
+            
+            try {
+                const response = await apiRequests.getRequest(`logistics/get-logistics-details/${requestId}`, obj)
+                if (response.code === 200) {
+                    setRequestDetails(response.result);
+                }
+               
+            } catch (error) {
+                console.log('error in order details api');
+            }
+        }
+
+
+
+    useEffect(() => {
+        fetchData()
+    }, [navigate, requestId]);
     return (
         <div className={styles.container}>
-            <div className={styles.MainHead}>Order ID : 123456</div>
+            <div className={styles.MainHead}>Request ID : 123456</div>
             <div className={styles.logisticsSection}>
                 <div className={styles.logisticsCompanySection}>
                     <span className={styles.logisticsCompanyHead}>Supplier Details:</span>

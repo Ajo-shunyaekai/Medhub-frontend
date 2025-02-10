@@ -42,6 +42,10 @@ export const apiRequests = {
             sessionStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
+            partner_id:
+            sessionStorage.getItem("partner_id") ||
+            localStorage.getItem("partner_id") ||
+            undefined,
           "Content-Type": "application/json",
           usertype:
             sessionStorage.getItem("buyer_id") ||
@@ -56,6 +60,9 @@ export const apiRequests = {
               : sessionStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
+              : sessionStorage.getItem("partner_id") ||
+                localStorage.getItem("partner_id")
+              ? "Logistics"
               : undefined,
         },
       });
@@ -110,6 +117,9 @@ export const apiRequests = {
               : sessionStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
+              : sessionStorage.getItem("partner_id") ||
+                localStorage.getItem("partner_id")
+              ? "Logistics"
               : undefined,
         },
       });
@@ -150,6 +160,10 @@ export const apiRequests = {
             sessionStorage.getItem("admin_id") ||
             localStorage.getItem("admin_id") ||
             undefined,
+          partner_id:
+            sessionStorage.getItem("partner_id") ||
+            localStorage.getItem("partner_id") ||
+            undefined,
           "Content-Type": "multipart/form-data",
           usertype:
             sessionStorage.getItem("buyer_id") ||
@@ -164,6 +178,9 @@ export const apiRequests = {
               : sessionStorage.getItem("seller_id") ||
                 localStorage.getItem("seller_id")
               ? "Seller"
+              : sessionStorage.getItem("partner_id") ||
+                localStorage.getItem("partner_id")
+              ? "Logistics"
               : undefined,
         },
       });
@@ -202,6 +219,10 @@ export const apiRequests = {
               sessionStorage.getItem("admin_id") ||
               localStorage.getItem("admin_id") ||
               undefined,
+            partner_id:
+              sessionStorage.getItem("partner_id") ||
+              localStorage.getItem("partner_id") ||
+              undefined,
             usertype:
               sessionStorage.getItem("buyer_id") ||
               localStorage.getItem("buyer_id")
@@ -215,6 +236,9 @@ export const apiRequests = {
                 : sessionStorage.getItem("seller_id") ||
                   localStorage.getItem("seller_id")
                 ? "Seller"
+                : sessionStorage.getItem("partner_id") ||
+                  localStorage.getItem("partner_id")
+                ? "Logistics"
                 : undefined,
           }, // Include the headers
         })

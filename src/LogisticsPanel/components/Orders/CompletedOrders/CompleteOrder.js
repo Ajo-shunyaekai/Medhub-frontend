@@ -9,7 +9,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 
-const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
+const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageChange, activeLink }) => {
 
     const [modal, setModal] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState()
@@ -44,11 +44,9 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                 }
 
                                 {
-                                    orderList && orderList.length > 0 ? (
-                                        orderList?.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item?.quantity || item?.quantity_required);
-                                            }, 0);
+                                    list && list.length > 0 ? (
+                                        list?.map((order, i) => {
+                                            
                                             const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
                                                 <tbody className='order-container-tbody'>
@@ -97,12 +95,12 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                         </div>
                    
                         {
-                            orderList && orderList.length > 0 ? (
+                            list && list.length > 0 ? (
                                 <div className='pagi-container'>
                                     <Pagination
                                         activePage={currentPage}
-                                        itemsCountPerPage={ordersPerPage}
-                                        totalItemsCount={totalOrders}
+                                        itemsCountPerPage={listPerPage}
+                                        totalItemsCount={totallist}
                                         pageRangeDisplayed={5}
                                         onChange={handlePageChange}
                                         itemClass="page-item"
@@ -113,7 +111,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                     />
                                     <div className='pagi-total'>
                                         <div className='pagi-total'>
-                                            Total Items: {totalOrders}
+                                            Total Items: {totallist}
                                         </div>
                                     </div>
                                 </div>
