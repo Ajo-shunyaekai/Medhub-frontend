@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
-import { fetchAddressById, editAddress } from "../../../../../redux/reducers/addressSlice";;
+import { fetchAddressById, editAddress } from "../../../../../redux/reducers/addressSlice";
 
 const EditNewAddress = () => {
   const dispatch = useDispatch();
