@@ -30,8 +30,7 @@ const LogisticsForm = () => {
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selected, setSelected] = useState(true);
-  
-  
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -82,7 +81,7 @@ const LogisticsForm = () => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-        
+
         if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
@@ -120,22 +119,21 @@ const LogisticsForm = () => {
             extra_services: values.extraServices,
           };
         }
-  
+
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
-           if(response.meta.requestStatus === "fulfilled") {
-            setTimeout(() => {
-                navigate(`/buyer/order-details/${orderId}`)
-              }, 500);
-            }
-
+        if (response.meta.requestStatus === "fulfilled") {
+          setTimeout(() => {
+            navigate(`/buyer/order-details/${orderId}`);
+          }, 500);
+        }
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
       }
     },
   });
-  
+
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
@@ -162,7 +160,7 @@ const LogisticsForm = () => {
         formik.setFieldValue(name, formattedNumber);
         formik.setFieldError(name, "");
       } else {
-        formik.setFieldValue(name, value); 
+        formik.setFieldValue(name, value);
         formik.setFieldError(name, "Invalid phone number");
       }
     } catch (error) {
@@ -307,13 +305,26 @@ const LogisticsForm = () => {
         // }}
         onSubmit={(e) => {
           e.preventDefault();
-          
+          formik.setTouched({
+            fullName: true,
+            mobileNumber: true,
+            companyAddress: true,
+            locality: true,
+            landmark: true,
+            country: true,
+            state: true,
+            city: true,
+            pincode: true,
+            addressType: true,
+            transportMode: true,
+            extraServices: true,
+          });
           // Check if transport mode is selected
           if (!formik.values.transportMode) {
             toast.error("Please select a mode of transport");
             return;
           }
-      
+
           if (address?.length > 1) {
             // For existing address, just submit
             formik.handleSubmit();
@@ -357,9 +368,10 @@ const LogisticsForm = () => {
                   name="fullName"
                   value={formik.values.fullName}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.fullName && (
+                {formik.touched.fullName && formik.errors.fullName && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.fullName}
                   </span>
@@ -382,11 +394,11 @@ const LogisticsForm = () => {
                   value={formik.values.mobileNumber}
                   onChange={(value) => {
                     handlePhoneChange("mobileNumber", value);
-                    //   setMobile(value);
                   }}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.mobileNumber && (
+                {formik.touched.mobileNumber && formik.errors.mobileNumber && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.mobileNumber}
                   </span>
@@ -405,13 +417,15 @@ const LogisticsForm = () => {
                   name="companyAddress"
                   value={formik.values.companyAddress}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.companyAddress && (
-                  <span className={styles.error_message_formik}>
-                    {formik.errors.companyAddress}
-                  </span>
-                )}
+                {formik.touched.companyAddress &&
+                  formik.errors.companyAddress && (
+                    <span className={styles.error_message_formik}>
+                      {formik.errors.companyAddress}
+                    </span>
+                  )}
               </div>
               <div className={styles.logisticesInputSection}>
                 <label className={styles.formLabel}>
@@ -425,9 +439,10 @@ const LogisticsForm = () => {
                   name="locality"
                   value={formik.values.locality}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.locality && (
+                {formik.touched.locality && formik.errors.locality && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.locality}
                   </span>
@@ -462,9 +477,10 @@ const LogisticsForm = () => {
                   placeholder="Select Country"
                   name="country"
                   onChange={handleCountryChange}
+                  onBlur={formik.handleBlur}
                   isDisabled={isRegAddressChecked}
                 />
-                {formik.errors.country && (
+                {formik.touched.country && formik.errors.country && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.country}
                   </span>
@@ -553,13 +569,14 @@ const LogisticsForm = () => {
                         value={mode.value}
                         checked={formik.values.addressType === mode.value}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       <label className={styles.radioLabel}>
                         <span className={styles.radioSpan}>{mode.label}</span>
                       </label>
                     </div>
                   ))}
-                  {formik.errors.addressType && (
+                  {formik.touched.addressType && formik.errors.addressType && (
                     <span className={styles.error_message_formik}>
                       {formik.errors.addressType}
                     </span>
@@ -579,11 +596,20 @@ const LogisticsForm = () => {
             <div className={styles.cardInnerContainer}>
               <span className={styles.cardText}>
                 {displayAddress?.full_name}
-                <span className={styles.cardType}>{displayAddress?.type || displayAddress?.address_type}</span>
+                <span className={styles.cardType}>
+                  {displayAddress?.type || displayAddress?.address_type}
+                </span>
               </span>
-              <span className={styles.cardText}>{displayAddress?.company_reg_address}</span>
-              <span className={styles.cardText}>{displayAddress?.locality} {displayAddress?.locality}</span>
-              <span className={styles.cardText}>{displayAddress?.city} {displayAddress?.state} {displayAddress?.country}</span>
+              <span className={styles.cardText}>
+                {displayAddress?.company_reg_address}
+              </span>
+              <span className={styles.cardText}>
+                {displayAddress?.locality} {displayAddress?.locality}
+              </span>
+              <span className={styles.cardText}>
+                {displayAddress?.city} {displayAddress?.state}{" "}
+                {displayAddress?.country}
+              </span>
               <span className={styles.cardText}>{displayAddress?.pincode}</span>
             </div>
           </div>

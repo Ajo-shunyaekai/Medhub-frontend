@@ -91,12 +91,11 @@ const AddNewAddress = () => {
           // extra_services: values?.extraServices,
         };
         const response = await dispatch(addAddress({ obj: apiPayload }));
-        if(response.meta.requestStatus === "fulfilled") {
+        if (response.meta.requestStatus === "fulfilled") {
           setTimeout(() => {
-              navigate(`/buyer/logistics-address/${buyerId}`)
-            }, 500);
-          }
-
+            navigate(`/buyer/logistics-address/${buyerId}`);
+          }, 500);
+        }
       } catch (error) {
         toast.error("Something went wrong!");
       }
@@ -160,7 +159,18 @@ const AddNewAddress = () => {
         className={styles.formLogistics}
         onSubmit={(e) => {
           e.preventDefault();
-
+          formik.setTouched({
+            fullName: true,
+            mobileNumber: true,
+            companyAddress: true,
+            locality: true,
+            landmark: true,
+            country: true,
+            state: true,
+            city: true,
+            pincode: true,
+            addressType: true,
+          });
           if (Object.keys(formik.errors).length === 0) {
             formik.handleSubmit();
           } else {
@@ -183,8 +193,9 @@ const AddNewAddress = () => {
                 name="fullName"
                 value={formik.values.fullName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.fullName && (
+              {formik.touched.fullName && formik.errors.fullName && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.fullName}
                 </span>
@@ -203,8 +214,9 @@ const AddNewAddress = () => {
                   handlePhoneChange("mobileNumber", value);
                   //   setMobile(value);
                 }}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.mobileNumber && (
+              {formik.touched.mobileNumber && formik.errors.mobileNumber && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.mobileNumber}
                 </span>
@@ -223,12 +235,14 @@ const AddNewAddress = () => {
                 name="companyAddress"
                 value={formik.values.companyAddress}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.companyAddress && (
-                <span className={styles.error_message_formik}>
-                  {formik.errors.companyAddress}
-                </span>
-              )}
+              {formik.touched.companyAddress &&
+                formik.errors.companyAddress && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.companyAddress}
+                  </span>
+                )}
             </div>
             <div className={styles.logisticesInputSection}>
               <label className={styles.formLabel}>
@@ -242,8 +256,9 @@ const AddNewAddress = () => {
                 name="locality"
                 value={formik.values.locality}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.locality && (
+              {formik.touched.locality && formik.errors.locality && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.locality}
                 </span>
@@ -277,8 +292,9 @@ const AddNewAddress = () => {
                 placeholder="Select Country"
                 name="country"
                 onChange={handleCountryChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.country && (
+              {formik.touched.country && formik.errors.country && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.country}
                 </span>
@@ -313,37 +329,20 @@ const AddNewAddress = () => {
             <div className={styles.logisticesInputSection}>
               <label className={styles.formLabel}>City</label>
               <Select
-                // options={
-                //   selectedState && selectedState.value !== "OTHER"
-                //     ? [
-                //         ...City.getCitiesOfState(
-                //           selectedCountry.value, 
-                //           selectedState.value 
-                //         ).map((city) => ({
-                //           name: city.name,
-                //           value: city.name,
-                //         })),
-                //         { name: "Other", value: "Other" }, 
-                //       ]
-                //     : [{ name: "Other", value: "Other" }]
-                // }
-
                 options={
-                                    selectedState
-                                      ? [
-                                          ...City.getCitiesOfState(
-                                            selectedCountry.value,
-                                            selectedState.value
-                                          ).map((city) => ({
-                                            value: city.name,
-                                            label: city.name,
-                                          })),
-                                          { value: "Other", label: "Other" }, // Add "Other" option here
-                                        ]
-                                      : []
-                                  }
-                // getOptionLabel={(option) => option.name}
-                // getOptionValue={(option) => option.value}
+                  selectedState
+                    ? [
+                        ...City.getCitiesOfState(
+                          selectedCountry.value,
+                          selectedState.value
+                        ).map((city) => ({
+                          value: city.name,
+                          label: city.name,
+                        })),
+                        { value: "Other", label: "Other" }, // Add "Other" option here
+                      ]
+                    : []
+                }
                 value={selectedCity}
                 onChange={handleCityChange}
                 placeholder="Select City"
@@ -381,13 +380,14 @@ const AddNewAddress = () => {
                     value={mode.value}
                     checked={formik.values.addressType === mode.value}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                   <label className={styles.radioLabel}>
                     <span className={styles.radioSpan}>{mode.label}</span>
                   </label>
                 </div>
               ))}
-              {formik.errors.addressType && (
+              {formik.touched.addressType && formik.errors.addressType && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.addressType}
                 </span>
