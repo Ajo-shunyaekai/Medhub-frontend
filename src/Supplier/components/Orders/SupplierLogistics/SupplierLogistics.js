@@ -16,17 +16,21 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import { fetchAddressListRedux } from "../../../../redux/reducers/addressSlice";
-import { fetchOrderById } from "../../../../redux/reducers/orderSlice";
+import {
+  fetchOrderById,
+  submitPickupDetails,
+} from "../../../../redux/reducers/orderSlice";
 
 const SupplierLogistics = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderId, buyerId } = useParams();
+  const { orderId, supplierId } = useParams();
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
   const { orderData } = useSelector((state) => state?.orderReducer);
   console.log("ORDERDATA", orderData);
+  console.log("supplierId", supplierId);
 
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -54,6 +58,7 @@ const SupplierLogistics = () => {
       billsOfMaterial: [
         {
           productId: "",
+          productName: "",
           quantity: "",
           numberOfPackages: "",
         },
@@ -75,7 +80,7 @@ const SupplierLogistics = () => {
       },
     },
     validationSchema: Yup.object().shape({
-      ...(address.length === 1 && {
+      ...(address?.length === 1 && {
         fullName: Yup.string()
           .min(2, "Name is too short")
           .max(50, "Name is too long")
@@ -104,8 +109,8 @@ const SupplierLogistics = () => {
       }),
       billsOfMaterial: Yup.array().of(
         Yup.object().shape({
-          productId: Yup.string().required("Product name is required"),
-          productName: Yup.string(),
+          productId: Yup.string(),
+          productName: Yup.string().required("Product name is required"),
           quantity: Yup.number()
             .required("Quantity is required")
             .positive("Quantity must be positive")
@@ -116,6 +121,7 @@ const SupplierLogistics = () => {
             .integer("Must be a whole number"),
         })
       ),
+
       packages: Yup.array().of(
         Yup.object().shape({
           weight: Yup.number()
@@ -154,16 +160,20 @@ const SupplierLogistics = () => {
           ),
       }),
     }),
+    // validateOnMount: false,
+    // validateOnBlur: true,
+    // validateOnChange: false,
     onSubmit: async (values) => {
       try {
         console.log("FOrm", values);
         let apiPayload;
 
-        if (address.length > 1) {
+        if (address?.length > 1) {
+          console.log("if");
           // Use displayAddress data when using existing address
           apiPayload = {
             order_id: orderId,
-            buyer_id: buyerId,
+            supplier_id: supplierId,
             full_name: displayAddress?.full_name,
             mobile_number: displayAddress?.mobile_number,
             company_reg_address: displayAddress?.company_reg_address,
@@ -178,6 +188,8 @@ const SupplierLogistics = () => {
             extra_services: values.extraServices,
             bills_of_material: values.billsOfMaterial.map((bill) => ({
               product_id: bill.productId,
+              product_name: bill.productName,
+              quantity: bill.quantity,
               quantity: bill.quantity,
               number_of_packages: bill.numberOfPackages,
             })),
@@ -192,10 +204,11 @@ const SupplierLogistics = () => {
             },
           };
         } else {
+          console.log("else");
           // Use form values when creating new address
           apiPayload = {
             order_id: orderId,
-            buyer_id: buyerId,
+            supplier_id: supplierId,
             full_name: values.fullName,
             mobile_number: values.mobileNumber,
             company_reg_address: values.companyAddress,
@@ -210,6 +223,7 @@ const SupplierLogistics = () => {
             extra_services: values.extraServices,
             bills_of_material: values.billsOfMaterial.map((bill) => ({
               product_id: bill.productId,
+              product_name: bill.productName,
               quantity: bill.quantity,
               number_of_packages: bill.numberOfPackages,
             })),
@@ -224,14 +238,17 @@ const SupplierLogistics = () => {
             },
           };
         }
+        console.log("apiPayload", apiPayload);
 
-        // const response = await dispatch(bookLogistics({ obj: apiPayload }));
+        const response = await dispatch(
+          submitPickupDetails({ obj: apiPayload })
+        );
 
-        // if (response.meta.requestStatus === "fulfilled") {
-        //   setTimeout(() => {
-        //     navigate(`/buyer/order-details/${orderId}`);
-        //   }, 500);
-        // }
+        if (response.meta.requestStatus === "fulfilled") {
+          setTimeout(() => {
+            navigate(`/supplier/active-orders-details/${orderId}`);
+          }, 500);
+        }
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -286,7 +303,6 @@ const SupplierLogistics = () => {
     );
   };
 
-
   // Handle weight and volume input change
   const handleInputChange = (id, field, value) => {
     const updatedPackages = formik.values.packages.map((pkg) =>
@@ -296,12 +312,52 @@ const SupplierLogistics = () => {
   };
 
   // Handle dimension input change
+  // const handleDimensionChange = (id, dimension, value) => {
+  //   const updatedPackages = formik.values.packages.map((pkg) =>
+  //     pkg.id === id
+  //       ? { ...pkg, dimensions: { ...pkg.dimensions, [dimension]: value } }
+  //       : pkg
+  //   );
+  //   formik.setFieldValue("packages", updatedPackages);
+  // };
+
   const handleDimensionChange = (id, dimension, value) => {
-    const updatedPackages = formik.values.packages.map((pkg) =>
-      pkg.id === id
-        ? { ...pkg, dimensions: { ...pkg.dimensions, [dimension]: value } }
-        : pkg
-    );
+    const updatedPackages = formik.values.packages.map((pkg) => {
+      if (pkg.id === id) {
+        // Create new dimensions object with updated dimension
+        const newDimensions = {
+          ...pkg.dimensions,
+          [dimension]: value,
+        };
+
+        // Calculate volume if all dimensions are present and are valid numbers
+        let volume = "";
+        if (
+          newDimensions.length &&
+          newDimensions.width &&
+          newDimensions.height &&
+          !isNaN(newDimensions.length) &&
+          !isNaN(newDimensions.width) &&
+          !isNaN(newDimensions.height)
+        ) {
+          volume = (
+            parseFloat(newDimensions.length) *
+            parseFloat(newDimensions.width) *
+            parseFloat(newDimensions.height)
+          ).toFixed(2);
+        }
+
+        // Return updated package with new dimensions and calculated volume
+        return {
+          ...pkg,
+          dimensions: newDimensions,
+          volume: volume,
+        };
+      }
+      return pkg;
+    });
+
+    // Update both dimensions and volume in formik
     formik.setFieldValue("packages", updatedPackages);
   };
 
@@ -448,10 +504,8 @@ const SupplierLogistics = () => {
     }
   };
 
-  console.log("ADDRESS", address);
-
   useEffect(() => {
-    dispatch(fetchAddressListRedux(buyerId));
+    dispatch(fetchAddressListRedux(supplierId));
     dispatch(fetchOrderById({ id: orderId }));
     setProducts(
       orderData?.items?.map((product) => ({
@@ -462,9 +516,9 @@ const SupplierLogistics = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (updatedAddress && Object.values(updatedAddress).length > 0) {
+    if (updatedAddress && Object.values(updatedAddress)?.length > 0) {
       setDisplayAddress(updatedAddress);
-    } else if (address && address.length > 0) {
+    } else if (address && address?.length > 0) {
       setDisplayAddress(address[0]);
     } else {
       setDisplayAddress({});
@@ -473,6 +527,11 @@ const SupplierLogistics = () => {
 
   console.log("displayAddress", displayAddress);
   console.log("updatedAddress", updatedAddress);
+  console.log("ADDRESS", address);
+  console.log(
+    "rderData?.buyer_logistics_data",
+    orderData?.buyer_logistics_data
+  );
 
   const getSelectedProductDetails = (productId) => {
     return orderData?.items?.find((item) => item.medicine_id === productId);
@@ -482,7 +541,7 @@ const SupplierLogistics = () => {
     <div className={styles.container}>
       <div className={styles.logisticsHeading}>Book Logistics</div>
       {orderData?.buyer_logistics_data &&
-        Object.values(orderData?.buyer_logistics_data).length > 0 && (
+        Object.keys(orderData?.buyer_logistics_data).length > 0 && address?.length === 1 && (
           <div className={styles.logisticsCardContainer}>
             <div className={styles.adresssCardContainer}>
               <div className={styles.logisticsMainHeading}>Drop Details</div>
@@ -533,8 +592,8 @@ const SupplierLogistics = () => {
         )}
 
       {orderData?.buyer_logistics_data &&
-        Object.values(orderData?.buyer_logistics_data).length === 1 &&
-        address.length > 1 && (
+        Object.keys(orderData?.buyer_logistics_data).length > 0 &&
+        address?.length > 1 && (
           <div className={styles.logisticsCardContainer}>
             <div className={styles.adresssCardContainer}>
               <div className={styles.logisticsMainHeading}>Drop Details</div>
@@ -551,9 +610,10 @@ const SupplierLogistics = () => {
                 {orderData?.buyer_logistics_data?.locality}
               </span>
               <span className={styles.addressText}>
-                India, Madhya Pradesh, Nagda 456331
+              {orderData?.buyer_logistics_data?.country},{orderData?.buyer_logistics_data?.state}, {" "}
+              {orderData?.buyer_logistics_data?.city} {orderData?.buyer_logistics_data?.pincode}
               </span>
-              <span className={styles.addressText}>+91 6265699633</span>
+              <span className={styles.addressText}>{orderData?.buyer_logistics_data?.mobile_number}</span>
             </div>
             <div className={styles.adresssCardContainer}>
               <div className={styles.logisticsMainHeading}>
@@ -562,36 +622,44 @@ const SupplierLogistics = () => {
               <div className={styles.transportInnerSection}>
                 <div className={styles.transportHead}>Mode of Transport</div>
                 <div className={styles.transportText}>
-                  Air Cargo (Faster Delivery & High Freight)
+                {orderData?.buyer_logistics_data?.mode_of_transport}
                 </div>
               </div>
-              <div className={styles.transportInnerSection}>
-                <div className={styles.transportHead}>Extra Services</div>
-                <div className={styles.transportText}>
-                  Custom Clearance, Door to Door
-                </div>
-              </div>
+              {orderData?.buyer_logistics_data?.extra_services?.length > 0 && (
+                 <div className={styles.transportInnerSection}>
+                 <div className={styles.transportHead}>Extra Services</div>
+                 <div className={styles.transportText}>
+                 {orderData?.buyer_logistics_data?.extra_services?.join(
+                      ", "
+                    )}
+                 </div>
+               </div>
+              )}
+
+             
             </div>
             <div className={styles.adresssCardContainer}>
               <div className={styles.pickupHeadSection}>
                 <div className={styles.logisticsMainHeading}>
                   Pickup Details
                 </div>
-                <Link to="/supplier/logistics-address">
+                <Link to={`/supplier/logistics-address/${supplierId}`}>
                   <div className={styles.pickupButton}>Change</div>
                 </Link>
               </div>
               <div className={styles.nameContainer}>
-                <span className={styles.addressText}>Shivanshi Tripathi</span>
-                <div className={styles.typeAdresss}>Warehouse</div>
+                <span className={styles.addressText}>{displayAddress?.full_name}</span>
+                <div className={styles.typeAdresss}>{displayAddress?.address_type || displayAddress?.type}</div>
               </div>
               <span className={styles.addressText}>
-                C-12 Birlagram Nagda,Near Bal Mandir
+              {displayAddress?.company_reg_address},{" "}
+              {displayAddress?.locality}
               </span>
               <span className={styles.addressText}>
-                India, Madhya Pradesh, Nagda 456331
+              {displayAddress?.country},{displayAddress?.state}, {" "}
+              {displayAddress?.city} {displayAddress?.pincode}
               </span>
-              <span className={styles.addressText}>+91 6265699633</span>
+              <span className={styles.addressText}>{displayAddress?.mobile_number}</span>
             </div>
           </div>
         )}
@@ -600,8 +668,41 @@ const SupplierLogistics = () => {
         className={styles.formLogistics}
         onSubmit={(e) => {
           e.preventDefault();
+          formik.setTouched({
+            fullName: true,
+            mobileNumber: true,
+            companyAddress: true,
+            locality: true,
+            landmark: true,
+            country: true,
+            state: true,
+            city: true,
+            pincode: true,
+            addressType: true,
+            transportMode: true,
+            extraServices: true,
+            billsOfMaterial: formik.values.billsOfMaterial.map(() => ({
+              productId: true,
+              productName: true,
+              quantity: true,
+              numberOfPackages: true,
+            })),
+            packages: formik.values.packages.map(() => ({
+              weight: true,
+              dimensions: {
+                length: true,
+                width: true,
+                height: true,
+              },
+              volume: true,
+            })),
+            pickupSlot: {
+              date: true,
+              timeSlot: true,
+            },
+          });
 
-          if (address.length > 1) {
+          if (address?.length > 1) {
             formik.handleSubmit();
           } else {
             if (Object.keys(formik.errors).length === 0) {
@@ -613,7 +714,7 @@ const SupplierLogistics = () => {
           }
         }}
       >
-        {address.length === 1 && (
+        {address?.length === 1 && (
           <div className={styles.formInnerClass}>
             <div className={styles.innerHeading}>Pickup Details</div>
             <div
@@ -643,9 +744,10 @@ const SupplierLogistics = () => {
                   name="fullName"
                   value={formik.values.fullName}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.fullName && (
+                {formik.touched.fullName && formik.errors.fullName && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.fullName}
                   </span>
@@ -668,11 +770,11 @@ const SupplierLogistics = () => {
                   value={formik.values.mobileNumber}
                   onChange={(value) => {
                     handlePhoneChange("mobileNumber", value);
-                    //   setMobile(value);
                   }}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.mobileNumber && (
+                {formik.touched.mobileNumber && formik.errors.mobileNumber && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.mobileNumber}
                   </span>
@@ -691,13 +793,15 @@ const SupplierLogistics = () => {
                   name="companyAddress"
                   value={formik.values.companyAddress}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.companyAddress && (
-                  <span className={styles.error_message_formik}>
-                    {formik.errors.companyAddress}
-                  </span>
-                )}
+                {formik.touched.companyAddress &&
+                  formik.errors.companyAddress && (
+                    <span className={styles.error_message_formik}>
+                      {formik.errors.companyAddress}
+                    </span>
+                  )}
               </div>
               <div className={styles.logisticesInputSection}>
                 <label className={styles.formLabel}>
@@ -711,9 +815,10 @@ const SupplierLogistics = () => {
                   name="locality"
                   value={formik.values.locality}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.locality && (
+                {formik.touched.locality && formik.errors.locality && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.locality}
                   </span>
@@ -748,9 +853,10 @@ const SupplierLogistics = () => {
                   placeholder="Select Country"
                   name="country"
                   onChange={handleCountryChange}
+                  onBlur={formik.handleBlur}
                   isDisabled={isRegAddressChecked}
                 />
-                {formik.errors.country && (
+                {formik.touched.country && formik.errors.country && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.country}
                   </span>
@@ -835,13 +941,14 @@ const SupplierLogistics = () => {
                         value={mode.value}
                         checked={formik.values.addressType === mode.value}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       <label className={styles.radioLabel}>
                         <span className={styles.radioSpan}>{mode.label}</span>
                       </label>
                     </div>
                   ))}
-                  {formik.errors.addressType && (
+                  {formik.touched.addressType && formik.errors.addressType && (
                     <span className={styles.error_message_formik}>
                       {formik.errors.addressType}
                     </span>
@@ -876,7 +983,8 @@ const SupplierLogistics = () => {
                   <label className={styles.formLabel}>
                     Product Name<span className={styles.labelstamp}>*</span>
                   </label>
-                  {/* <Select
+
+                  <Select
                     options={productOptions}
                     value={productOptions.find(
                       (p) => p.value === bill.productId
@@ -894,39 +1002,25 @@ const SupplierLogistics = () => {
                         `billsOfMaterial.${index}.quantity`,
                         option.quantity
                       );
-                      formik.validateField(`billsOfMaterial.${index}.productId`);
+                      formik.setFieldTouched(
+                        `billsOfMaterial.${index}.productName`,
+                        false
+                      );
+                      formik.setFieldTouched(
+                        `billsOfMaterial.${index}.quantity`,
+                        false
+                      );
                     }}
-             
+                    onBlur={formik.handleBlur}
                     placeholder="Select the Product"
-                  /> */}
+                  />
 
-<Select
-  options={productOptions}
-  value={productOptions.find((p) => p.value === bill.productId)}
-  onChange={(option) => {
-    formik.setFieldValue(`billsOfMaterial.${index}.productName`, option.label);
-    formik.setFieldValue(`billsOfMaterial.${index}.productId`, option.value);
-    formik.setFieldValue(`billsOfMaterial.${index}.quantity`, option.quantity);
-
-    // Mark productId as touched and trigger validation
-    formik.setTouched({
-      ...formik.touched,
-      billsOfMaterial: formik.touched.billsOfMaterial?.map((item, i) =>
-        i === index ? { ...item, productId: true } : item
-      ) || [],
-    });
-
-    // Trigger form-wide validation
-    formik.validateForm();
-  }}
-  placeholder="Select the Product"
-/>
-
-                  {formik.errors.billsOfMaterial?.[index]?.productId && (
-                    <div className={styles.errorMessage}>
-                      {formik.errors.billsOfMaterial[index].productId}
-                    </div>
-                  )}
+                  {formik.touched.billsOfMaterial?.[index]?.productName &&
+                    formik.errors.billsOfMaterial?.[index]?.productName && (
+                      <div className={styles.errorMessage}>
+                        {formik.errors.billsOfMaterial[index].productName}
+                      </div>
+                    )}
                 </div>
 
                 <div className={styles.logisticInputSection}>
@@ -942,11 +1036,12 @@ const SupplierLogistics = () => {
                     disabled
                     name={`billsOfMaterial.${index}.quantity`}
                   />
-                  {formik.errors.billsOfMaterial?.[index]?.quantity && (
-                    <div className={styles.errorMessage}>
-                      {formik.errors.billsOfMaterial[index].quantity}
-                    </div>
-                  )}
+                  {formik.touched.billsOfMaterial?.[index]?.quantity &&
+                    formik.errors.billsOfMaterial?.[index]?.quantity && (
+                      <div className={styles.errorMessage}>
+                        {formik.errors.billsOfMaterial[index].quantity}
+                      </div>
+                    )}
                 </div>
 
                 <div className={styles.logisticInputSection}>
@@ -967,11 +1062,13 @@ const SupplierLogistics = () => {
                     onBlur={formik.handleBlur}
                     name={`billsOfMaterial.${index}.numberOfPackages`}
                   />
-                  {formik.errors.billsOfMaterial?.[index]?.numberOfPackages && (
-                    <div className={styles.errorMessage}>
-                      {formik.errors.billsOfMaterial[index].numberOfPackages}
-                    </div>
-                  )}
+                  {formik.touched.billsOfMaterial?.[index]?.numberOfPackages &&
+                    formik.errors.billsOfMaterial?.[index]
+                      ?.numberOfPackages && (
+                      <div className={styles.errorMessage}>
+                        {formik.errors.billsOfMaterial[index].numberOfPackages}
+                      </div>
+                    )}
                 </div>
 
                 {formik.values.billsOfMaterial.length > 1 && (
@@ -1007,12 +1104,14 @@ const SupplierLogistics = () => {
                   onChange={(e) =>
                     handleInputChange(pkg.id, "weight", e.target.value)
                   }
+                  onBlur={formik.handleBlur}
                 />
-                {formik.errors.packages?.[index]?.weight && (
-                  <span className="error-text">
-                    {formik.errors.packages[index].weight}
-                  </span>
-                )}
+                {formik.touched.packages?.[index]?.weight &&
+                  formik.errors.packages?.[index]?.weight && (
+                    <span className="error-text">
+                      {formik.errors.packages[index].weight}
+                    </span>
+                  )}
               </div>
 
               <div className={styles.logisticesDimensionSection}>
@@ -1029,12 +1128,14 @@ const SupplierLogistics = () => {
                     onChange={(e) =>
                       handleDimensionChange(pkg.id, "length", e.target.value)
                     }
+                    onBlur={formik.handleBlur}
                   />
-                  {formik.errors.packages?.[index]?.dimensions?.length && (
-                    <span className="error-text">
-                      {formik.errors.packages[index].dimensions.length}
-                    </span>
-                  )}
+                  {formik.touched.packages?.[index]?.dimensions?.length &&
+                    formik.errors.packages?.[index]?.dimensions?.length && (
+                      <span className="error-text">
+                        {formik.errors.packages[index].dimensions.length}
+                      </span>
+                    )}
                   <input
                     className={styles.formDimensions}
                     type="text"
@@ -1044,12 +1145,14 @@ const SupplierLogistics = () => {
                     onChange={(e) =>
                       handleDimensionChange(pkg.id, "width", e.target.value)
                     }
+                    onBlur={formik.handleBlur}
                   />
-                  {formik.errors.packages?.[index]?.dimensions?.width && (
-                    <span className="error-text">
-                      {formik.errors.packages[index].dimensions.width}
-                    </span>
-                  )}
+                  {formik.touched.packages?.[index]?.dimensions?.width &&
+                    formik.errors.packages?.[index]?.dimensions?.width && (
+                      <span className="error-text">
+                        {formik.errors.packages[index].dimensions.width}
+                      </span>
+                    )}
                   <input
                     className={styles.formDimensions}
                     type="text"
@@ -1059,12 +1162,14 @@ const SupplierLogistics = () => {
                     onChange={(e) =>
                       handleDimensionChange(pkg.id, "height", e.target.value)
                     }
+                    onBlur={formik.handleBlur}
                   />
-                  {formik.errors.packages?.[index]?.dimensions?.height && (
-                    <span className="error-text">
-                      {formik.errors.packages[index].dimensions.height}
-                    </span>
-                  )}
+                  {formik.touched.packages?.[index]?.dimensions?.height &&
+                    formik.errors.packages?.[index]?.dimensions?.height && (
+                      <span className="error-text">
+                        {formik.errors.packages[index].dimensions.height}
+                      </span>
+                    )}
                 </div>
               </div>
 
@@ -1074,19 +1179,22 @@ const SupplierLogistics = () => {
                 </label>
                 <input
                   className={styles.formInput}
-                  type="text"
+                  type="number"
                   placeholder="Enter Volume"
                   autoComplete="off"
-                  value={pkg.volume}
-                  onChange={(e) =>
-                    handleInputChange(pkg.id, "volume", e.target.value)
-                  }
+                  value={pkg.volume || ""}
+                  readOnly
+                  // onChange={(e) =>
+                  //   handleInputChange(pkg.id, "volume", e.target.value)
+                  // }
+                  onBlur={formik.handleBlur}
                 />
-                {formik.errors.packages?.[index]?.volume && (
-                  <span className="error-text">
-                    {formik.errors.packages[index].volume}
-                  </span>
-                )}
+                {formik.touched.packages?.[index]?.volume &&
+                  formik.errors.packages?.[index]?.volume && (
+                    <span className="error-text">
+                      {formik.errors.packages[index].volume}
+                    </span>
+                  )}
               </div>
 
               {formik.values.packages.length > 1 && (
@@ -1114,13 +1222,15 @@ const SupplierLogistics = () => {
                 onChange={(date) =>
                   formik.setFieldValue("pickupSlot.date", date)
                 }
+                onBlur={formik.handleBlur}
                 value={formik.values.pickupSlot.date}
               />
-              {formik.errors.pickupSlot?.date && (
-                <div className={styles.error}>
-                  {formik.errors.pickupSlot.date}
-                </div>
-              )}
+              {formik.touched.pickupSlot?.date &&
+                formik.errors.pickupSlot?.date && (
+                  <div className={styles.error}>
+                    {formik.errors.pickupSlot.date}
+                  </div>
+                )}
             </div>
             <div className={styles.logisticesInputSection}>
               <label className={styles.formLabel}>
@@ -1133,15 +1243,17 @@ const SupplierLogistics = () => {
                 onChange={(option) =>
                   formik.setFieldValue("pickupSlot.timeSlot", option?.value)
                 }
+                onBlur={formik.handleBlur}
                 value={quantityOptions.find(
                   (option) => option.value === formik.values.pickupSlot.timeSlot
                 )}
               />
-              {formik.errors.pickupSlot?.timeSlot && (
-                <div className={styles.error}>
-                  {formik.errors.pickupSlot.timeSlot}
-                </div>
-              )}
+              {formik.touched.pickupSlot?.timeSlot &&
+                formik.errors.pickupSlot?.timeSlot && (
+                  <div className={styles.error}>
+                    {formik.errors.pickupSlot.timeSlot}
+                  </div>
+                )}
             </div>
           </div>
         </div>

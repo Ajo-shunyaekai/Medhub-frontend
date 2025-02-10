@@ -79,6 +79,30 @@ export const bookLogistics = createAsyncThunk(
   }
 );
 
+export const submitPickupDetails = createAsyncThunk(
+  "order/submitPickupDetails",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `order/submit-pickup-details`,
+        { ...values?.obj }
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const orderSlice = createSlice({
   name: "order",
   initialState,

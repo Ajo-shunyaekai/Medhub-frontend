@@ -49,7 +49,7 @@ const LogisticsForm = () => {
       useRegisteredAddress: false,
     },
     validationSchema: Yup.object().shape({
-      ...(address.length === 1 && {
+      ...(address?.length === 1 && {
         fullName: Yup.string()
           .min(2, "Name is too short")
           .max(50, "Name is too long")
@@ -83,7 +83,7 @@ const LogisticsForm = () => {
       try {
         let apiPayload;
         
-        if (address.length > 1) {
+        if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
             order_id: orderId,
@@ -280,7 +280,7 @@ const LogisticsForm = () => {
   useEffect(() => {
     if (updatedAddress && Object.values(updatedAddress).length > 0) {
       setDisplayAddress(updatedAddress);
-    } else if (address && address.length > 0) {
+    } else if (address && address?.length > 0) {
       setDisplayAddress(address[0]);
     } else {
       setDisplayAddress({});
@@ -314,7 +314,7 @@ const LogisticsForm = () => {
             return;
           }
       
-          if (address.length > 1) {
+          if (address?.length > 1) {
             // For existing address, just submit
             formik.handleSubmit();
           } else {
@@ -327,7 +327,7 @@ const LogisticsForm = () => {
           }
         }}
       >
-        {address.length === 1 ? (
+        {address?.length === 1 ? (
           <div className={styles.formInnerClass}>
             <div className={styles.innerHeading}>Drop Details</div>
             <div
@@ -568,7 +568,7 @@ const LogisticsForm = () => {
               </div>
             )}
           </div>
-        ) : address.length > 1 ? (
+        ) : address?.length > 1 ? (
           <div className={styles.cardContainer}>
             <div className={styles.cardHeadSection}>
               <span className={styles.cardHeading}>Drop Details</span>
