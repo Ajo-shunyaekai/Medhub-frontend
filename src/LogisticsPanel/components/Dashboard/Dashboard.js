@@ -9,21 +9,21 @@ const Dashboard = () => {
     const [countryData, setCountryData] = useState([]);
     const [orderSummary, setOrderSummary] = useState();
 
-    // useEffect(() => {
-    //     const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
-    //     const partnerIdLocalStorage   = localStorage.getItem("partner_id");
+    useEffect(() => {
+        const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+        const partnerIdLocalStorage   = localStorage.getItem("partner_id");
         
-    //     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-    //         navigate("/logistics/login");
-    //         return;
-    //     }
+        if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+            navigate("/logistics/login");
+            return;
+        }
 
-    //     const obj = {
-    //         partner_id : partnerIdSessionStorage || partnerIdLocalStorage,
-    //         user_type   : 'logistics'
-    //     }
+        const obj = {
+            partner_id : partnerIdSessionStorage || partnerIdLocalStorage,
+            user_type   : 'logistics'
+        }
         
-    // },[])
+    },[])
 
     return (
         <>
