@@ -789,15 +789,15 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"add-new-address/:buyerId",
+        path:"add-new-address/:orderId/:buyerId",
         element:<LogisticsAddNewAddress/>
       },
       {
-        path:"edit-new-address/:buyerId/:addressId",
+        path:"edit-new-address/:orderId/:buyerId/:addressId",
         element:<LogisticsEditNewAddress/>
       },
       {
-        path:"logistics-address/:buyerId",
+        path:"logistics-address/:orderId/:buyerId",
         element:<LogisticsAddress/>
       }
     ],

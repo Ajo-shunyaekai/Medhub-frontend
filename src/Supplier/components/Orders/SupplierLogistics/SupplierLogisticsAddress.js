@@ -90,7 +90,8 @@ const SupplierLogisticsAddress = () => {
     const updatedAdd =
       currentAddresses?.find((add) => add?._id == selectedAddress) || {};
     dispatch(updateLogisticsAddress(updatedAdd));
-    navigate(-1);
+    // navigate(-1);
+    navigate(`/supplier/logistics-form/${orderId}/${supplierId}`)
   };
   console.log("selectedAddress", selectedAddress);
 
@@ -98,7 +99,7 @@ const SupplierLogisticsAddress = () => {
     const updatedAdd =
       currentAddresses?.find((add) => add?._id == selectedAddress) || {};
     dispatch(updateLogisticsAddress(updatedAdd));
-    navigate(`/supplier/edit-new-address/${supplierId}/${selectedAddress}`);
+    navigate(`/supplier/edit-new-address/${orderId}/${supplierId}/${selectedAddress}`);
   };
 
   const handleDeleteAddress = async () => {
@@ -116,13 +117,13 @@ const SupplierLogisticsAddress = () => {
     <div className={styles.container}>
       <div className={styles.innerHeadSection}>
         <div className={styles.logisticsHeading}>Address List</div>
-        <Link to={`/supplier/add-new-address/${supplierId}`}>
+        <Link to={`/supplier/add-new-address/${orderId}/${supplierId}`}>
           <div className={styles.innerButtons}>Add New Address</div>
         </Link>
       </div>
       <div className={styles.logisticAddressContainer}>
         {currentAddresses?.map((address) => (
-          <div key={address.id} className={styles.logisticsAddressSection}>
+          <div key={address.id} className={styles.logisticsAddressSection} onClick={() => setSelectedAddress(address._id)} >
             <div className={styles.logisticsAddressInnerSection}>
               <span className={styles.logisticsAddCheckbox}>
                 <input
@@ -215,7 +216,8 @@ const SupplierLogisticsAddress = () => {
           className={styles["logistic-cancel"]}
           onClick={() => {
             dispatch(updateLogisticsAddress({}));
-            navigate(-1);
+            // navigate(-1);
+            navigate(`/supplier/logistics-form/${orderId}/${supplierId}`)
           }}
         >
           Cancel

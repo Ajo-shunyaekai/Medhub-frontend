@@ -92,7 +92,7 @@ const SupplierAddAddress = () => {
         const response = await dispatch(addAddress({ obj: apiPayload }));
         if (response.meta.requestStatus === "fulfilled") {
           setTimeout(() => {
-            navigate(`/supplier/logistics-address/${supplierId}`);
+            navigate(`/supplier/logistics-address/${orderId}/${supplierId}`);
           }, 500);
         }
       } catch (error) {

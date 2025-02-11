@@ -643,7 +643,7 @@ const SupplierLogistics = () => {
                 <div className={styles.logisticsMainHeading}>
                   Pickup Details
                 </div>
-                <Link to={`/supplier/logistics-address/${supplierId}`}>
+                <Link to={`/supplier/logistics-address/${orderId}/${supplierId}`}>
                   <div className={styles.pickupButton}>Change</div>
                 </Link>
               </div>

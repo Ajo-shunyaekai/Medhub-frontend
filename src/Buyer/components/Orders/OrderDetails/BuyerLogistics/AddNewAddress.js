@@ -93,7 +93,7 @@ const AddNewAddress = () => {
         const response = await dispatch(addAddress({ obj: apiPayload }));
         if (response.meta.requestStatus === "fulfilled") {
           setTimeout(() => {
-            navigate(`/buyer/logistics-address/${buyerId}`);
+            navigate(`/buyer/logistics-address/${orderId}/${buyerId}`);
           }, 500);
         }
       } catch (error) {

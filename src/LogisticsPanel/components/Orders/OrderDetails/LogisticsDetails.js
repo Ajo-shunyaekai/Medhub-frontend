@@ -15,18 +15,20 @@ const LogisticsDetails = () => {
   const partnerIdLocalStorage = localStorage.getItem("partner_id");
 
   const [loading, setLoading] = useState(false);
-  const [activeButton, setActiveButton] = useState("1h");
   const [requestDetails, setRequestDetails] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+   const handleAccept = () => {
+
+   }
 
   const fetchData = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-      navigate("/buyer/login");
+      navigate("/logistics/login");
       return;
     }
     const obj = {
-      logistics_id: requestId,
-      buyer_id: partnerIdSessionStorage || partnerIdLocalStorage,
+      logistics_id : requestId,
+      buyer_id     : partnerIdSessionStorage || partnerIdLocalStorage,
     };
 
     try {
@@ -122,7 +124,12 @@ const LogisticsDetails = () => {
         </div>
       </div>
       {/* Start the table product details name */}
-      <ProductList />
+      <ProductList
+        productList={
+          requestDetails?.orderDetails?.supplier_logistics_data
+            ?.bill_of_material?.products
+        }
+      />
       {/* End the table product details name */}
       {/* start the logistics section */}
       <div className={styles.logisticsSection}>
@@ -162,11 +169,20 @@ const LogisticsDetails = () => {
           <div className={styles.logisticsAddSec}>
             <div className={styles.logisticsAddContainer}>
               <span className={styles.logisticsAddHead}>Mode of Transport</span>
-              <span className={styles.logisticsAddText}>{requestDetails?.orderDetails?.buyer_logistics_data?.mode_of_transport}</span>
+              <span className={styles.logisticsAddText}>
+                {
+                  requestDetails?.orderDetails?.buyer_logistics_data
+                    ?.mode_of_transport
+                }
+              </span>
             </div>
             <div className={styles.logisticsAddContainer}>
               <span className={styles.logisticsAddHead}>Extra Services</span>
-              <span className={styles.logisticsAddText}>{requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(', ')}</span>
+              <span className={styles.logisticsAddText}>
+                {requestDetails?.orderDetails?.buyer_logistics_data?.extra_services?.join(
+                  ", "
+                )}
+              </span>
             </div>
           </div>
         </div>
@@ -174,20 +190,22 @@ const LogisticsDetails = () => {
           <div className={styles.logisticsCompanySection}>
             <span className={styles.logisticsCompanyHead}>Pickup Details</span>
             <span className={styles.logisticsText}>
-            {
-                requestDetails?.orderDetails?.supplier_logistics_data
-                  ?.full_name
-              }{" "}
-              <span className={styles.logisticsAddress}>{requestDetails?.orderDetails?.supplier_logistics_data?.address_type}</span>
+              {requestDetails?.orderDetails?.supplier_logistics_data?.full_name}{" "}
+              <span className={styles.logisticsAddress}>
+                {
+                  requestDetails?.orderDetails?.supplier_logistics_data
+                    ?.address_type
+                }
+              </span>
             </span>
             <span className={styles.logisticsText}>
-            {
+              {
                 requestDetails?.orderDetails?.buyer_logistics_data
                   ?.mobile_number
               }
             </span>
             <span className={styles.logisticsText}>
-            {
+              {
                 requestDetails?.orderDetails?.buyer_logistics_data
                   ?.company_reg_address
               }{" "}
@@ -195,7 +213,7 @@ const LogisticsDetails = () => {
               {requestDetails?.orderDetails?.buyer_logistics_data?.land_mark}
             </span>
             <span className={styles.logisticsText}>
-            {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
+              {requestDetails?.orderDetails?.buyer_logistics_data?.city}{" "}
               {requestDetails?.orderDetails?.buyer_logistics_data?.state}{" "}
               {requestDetails?.orderDetails?.buyer_logistics_data?.country}{" "}
               {requestDetails?.orderDetails?.buyer_logistics_data?.pincode}
@@ -207,17 +225,25 @@ const LogisticsDetails = () => {
                 Preferred Date of Pickup
               </span>
               <span className={styles.logisticsAddText}>
-
-              {requestDetails?.orderDetails?.supplier_logistics_data?.pickup_date 
-    ? moment(requestDetails.orderDetails.supplier_logistics_data.pickup_date).format("DD-MM-YYYY") 
-    : "N/A"}
-                </span>
+                {requestDetails?.orderDetails?.supplier_logistics_data
+                  ?.pickup_date
+                  ? moment(
+                      requestDetails.orderDetails.supplier_logistics_data
+                        .pickup_date
+                    ).format("DD-MM-YYYY")
+                  : "N/A"}
+              </span>
             </div>
             <div className={styles.logisticsAddContainer}>
               <span className={styles.logisticsAddHead}>
                 Preferred Time of Pickup
               </span>
-              <span className={styles.logisticsAddText}>{requestDetails?.orderDetails?.supplier_logistics_data?.pickup_time}</span>
+              <span className={styles.logisticsAddText}>
+                {
+                  requestDetails?.orderDetails?.supplier_logistics_data
+                    ?.pickup_time
+                }
+              </span>
             </div>
           </div>
         </div>
@@ -227,7 +253,46 @@ const LogisticsDetails = () => {
       {/* start the package details */}
       <div className={styles.packageMainContainer}>
         <div className={styles.packageMainHeading}>Package Details</div>
-        <div className={styles.packageConatiner}>
+        {requestDetails?.orderDetails?.supplier_logistics_data?.package_information?.package_details?.map(
+          (packageDetail, index) => (
+            <div key={index} className={styles.packageConatiner}>
+              <div className={styles.packageWeight}>
+                <div className={styles.logisticsAddHead}>Package Weight</div>
+                <span className={styles.logisticsAddText}>
+                  {packageDetail?.weight || "N/A"}
+                </span>
+              </div>
+              <div className={styles.packageDimension}>
+                <div className={styles.packageDimensionSEction}>
+                  <div className={styles.logisticsAddHead}>Height</div>
+                  <span className={styles.logisticsAddText}>
+                    {packageDetail?.dimensions?.height || "N/A"}
+                  </span>
+                </div>
+                <div className={styles.packageDimensionSEction}>
+                  <div className={styles.logisticsAddHead}>Width</div>
+                  <span className={styles.logisticsAddText}>
+                    {packageDetail?.dimensions?.width || "N/A"}
+                  </span>
+                </div>
+                <div className={styles.packageDimensionSEction}>
+                  <div className={styles.logisticsAddHead}>Length</div>
+                  <span className={styles.logisticsAddText}>
+                    {packageDetail?.dimensions?.length || "N/A"}
+                  </span>
+                </div>
+              </div>
+              <div className={styles.packageWeight}>
+                <div className={styles.logisticsAddHead}>Total Volume</div>
+                <span className={styles.logisticsAddText}>
+                  {packageDetail?.dimensions?.volume || "N/A"}
+                </span>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* <div className={styles.packageConatiner}>
           <div className={styles.packageWeight}>
             <div className={styles.logisticsAddHead}>Package Weight</div>
             <span className={styles.logisticsAddText}>500</span>
@@ -250,12 +315,14 @@ const LogisticsDetails = () => {
             <div className={styles.logisticsAddHead}>Total Volume</div>
             <span className={styles.logisticsAddText}>1500</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* start the logistics section */}
       <div className={styles.logisticsButtonContainer}>
-        <button className={styles.logisticsAccept}>Accept </button>
+        <button className={styles.logisticsAccept} onClick={handleAccept}>
+          Accept{" "}
+        </button>
         <buttton className={styles.logisticsCancel}>Cancel</buttton>
       </div>
       {/* end the package details */}
