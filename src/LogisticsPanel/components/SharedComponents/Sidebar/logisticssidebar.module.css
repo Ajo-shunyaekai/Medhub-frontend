@@ -172,7 +172,7 @@ body{
   flex-direction: column;
 }
 .noti_message_part_top{
-  color:#448bff !important ;
+  color:#282f86!important ;
 }
 .noti_time{
   text-align: center;
@@ -202,7 +202,7 @@ body{
 }
 
 .noti_see_all_btn {
-  color: #448bff;
+  color: #282f86;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer !important;
@@ -335,7 +335,7 @@ body{
 }
 
 .sidebar_text:hover {
-  color: #448bff;
+  color: #282f86;
   /* background-color: #e1e1e4;
   padding: 0px 0px 0px 6px !important; */
 }

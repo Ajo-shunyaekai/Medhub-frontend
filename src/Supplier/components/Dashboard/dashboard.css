@@ -122,7 +122,7 @@ body {
 }
 .supplier-bottom-text {
   font-size: 14px;
-  color: #448bff;
+  color: #282f86;
   font-weight: 600;
 }
 .supplier-cart-top-left-section {
@@ -203,7 +203,7 @@ body {
   cursor: pointer !important;
 }
 .supplier-country-names {
-  color: #448bff !important;
+  color: #282f86!important;
   font-size: 14px;
 }
 .supplier-country-sect {
@@ -412,7 +412,7 @@ input[type="checkbox"]:focus + span::before {
 }
 .graph-toggle-button .btn.active {
   color: #ffffff !important;
-  background-color: #448bff;
+  background-color: #282f86;
   font-size: 12px;
   outline: none !important;
   border: none !important;

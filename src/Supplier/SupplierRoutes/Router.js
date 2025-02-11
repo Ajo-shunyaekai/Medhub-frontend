@@ -131,12 +131,12 @@ const BuyerPendingList = lazy(() =>
 const NotificationList = lazy(() =>
   import("../components/SharedComponents/Notification/NotificationList")
 );
-const Subscription = lazy(() => import("../components/Subscription/index"));
+const Subscription = lazy(() => import("../components/Subscription/Subscription"));
+const TransactionHistory = lazy(() => import("../components/Subscription/TransactionHistory"));
+const Plan = lazy(() => import("../components/Subscription/Plan"));
+const SubscriptionInvoiceDetails = lazy(() => import("../components/Subscription/SubscriptionInvoiceDetails.js"));
 const Profile = lazy(() =>
   import("../components/SharedComponents/Profile/profile")
-);
-const SubscriptionMembership = lazy(() =>
-  import("../components/Subscription/SubscriptionMembership")
 );
 const PrivacyPolicy = lazy(() => import("../../Policies/PrivcyPolicy"));
 const TermsConditions = lazy(() => import("../../Policies/Terms&Conditions"));
@@ -665,12 +665,30 @@ const router = createBrowserRouter([
             <Subscription socket={socket} />
           </Suspense>
         ),
+        children: [
+          {
+            path: "transaction-history",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <TransactionHistory socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "current-plan",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Plan socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
-        path: "subscription-membership",
+        path: "subscription-invoice-details",
         element: (
           <Suspense fallback={<Loader />}>
-            <SubscriptionMembership socket={socket} />
+            <SubscriptionInvoiceDetails socket={socket} />
           </Suspense>
         ),
       },

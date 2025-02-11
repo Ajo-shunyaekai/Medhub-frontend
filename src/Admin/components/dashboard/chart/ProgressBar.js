@@ -31,7 +31,7 @@ const ProgressBar = ({ bgcolor, progress, height }) => {
 const App = () => {
     return (
         <div className="App">
-            <ProgressBar bgcolor="linear-gradient(45deg, #448bff, #44e9ff)" progress={65} height={6} />
+            <ProgressBar bgcolor="linear-gradient(45deg, #282f86, #44e9ff)" progress={65} height={6} />
         </div>
     );
 };

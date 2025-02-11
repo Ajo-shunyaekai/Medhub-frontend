@@ -36,11 +36,17 @@ const Buy = lazy(() => import("../components/Buy/index"));
 const Inquiry = lazy(() => import("../components/Inquiry/index"));
 const Order = lazy(() => import("../components/Orders/index"));
 const MySupplier = lazy(() => import("../components/MySuppliers/index"));
-const Subscription = lazy(() => import("../components/Subscription/index"));
+
 const Invoice = lazy(() => import("../components/Invoice/index"));
 const Support = lazy(() => import("../components/Support/index"));
 const BySeller = lazy(() => import("../components/Buy/BySupplier/BuySeller"));
 const ByProduct = lazy(() => import("../components/Buy/ByProduct/BuyProduct"));
+
+const Subscription = lazy(() => import("../components/Subscription/Subscription.js"));
+const CurrentPlan = lazy(() => import("../components/Subscription/Plan.js"));
+const TransactionHistory = lazy(() => import("../components/Subscription/TransactionHistory.js"));
+
+
 const SecondaryMarket = lazy(() =>
   import("../components/Buy/SecondaryMarket/Buy2ndMarket")
 );
@@ -64,9 +70,6 @@ const ActiveOrder = lazy(() =>
 );
 const CompletedOrders = lazy(() =>
   import("../components/Orders/CompletedOrders/CompleteOrder")
-);
-const SubscriptionMembership = lazy(() =>
-  import("../components/Subscription/SubscriptionMembership")
 );
 const PendingInvoice = lazy(() =>
   import("../components/Invoice/Pending/PendingInvoice")
@@ -162,7 +165,9 @@ const EditProfile = lazy(() =>
 const LogisticsForm = lazy(() =>
   import("../components/Orders/OrderDetails/BuyerLogistics/LogisticsForm")
 );
- 
+const SubscriptionInvoiceDetails = lazy(() =>
+  import("../components/Subscription/SubscriptionInvoiceDetails.js")
+);
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
 export function NotificationProvider({ children }) {
@@ -648,6 +653,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      // Start the subscription section
       {
         path: "subscription",
         element: (
@@ -655,15 +661,34 @@ const router = createBrowserRouter([
             <Subscription socket={socket} />
           </Suspense>
         ),
-      },
+        children: [
+          {
+            path: "current-plan",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <CurrentPlan socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "transaction-history",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <TransactionHistory socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
+      },  
       {
-        path: "subscription-membership",
+        path: "subscription-invoice-details",
         element: (
           <Suspense fallback={<Loader />}>
-            <SubscriptionMembership socket={socket} />
+            <SubscriptionInvoiceDetails socket={socket} />
           </Suspense>
         ),
       },
+      // End the subscription section
       {
         path: "invoice",
         element: (

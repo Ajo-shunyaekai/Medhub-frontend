@@ -164,7 +164,7 @@ const SupSidebar = ({ children, dragWindow,
     const DrawerList = (
         <Box sx={{ width: 200 }} role="presentation" onClick={toggleDrawer(true)} >
             <Link to="/supplier/dashboard" className={styles.sidebar_text} activeclassname={styles.active}>
-                <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
+                <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
             </Link>
  
@@ -466,7 +466,7 @@ const SupSidebar = ({ children, dragWindow,
                     }
                         className={styles.sidebar} >
                         <Link to="/supplier/" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF' }} /></div>
+                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
                         {/* start the dropdown container */}

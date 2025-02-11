@@ -11,71 +11,41 @@ const FaqSupport = () => {
 
                 < Accordion >
                     <Accordion.Item eventKey="0" className="faq-cover">
-                        <Accordion.Header className="faq-heading"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,</Accordion.Header>
+                        <Accordion.Header className="faq-heading"> What is MedHub Global?</Accordion.Header>
                         <Accordion.Body>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
+                            MedHub Global is a healthcare procurement platform that automates the procurement process, integrating logistics and providing real-time updates to enhance operational efficiency.
                         </Accordion.Body>
                     </Accordion.Item>
 
 
 
                     <Accordion.Item eventKey="1" className="faq-cover">
-                        <Accordion.Header className="faq-heading"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,</Accordion.Header>
+                        <Accordion.Header className="faq-heading">How does MedHub Global benefit suppliers?</Accordion.Header>
                         <Accordion.Body className="faq-content" >
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
+                            Suppliers can expand their market reach by connecting with a global network of verified buyers, including hospitals, private clinics, chemists, and government authorities. The platform also offers features like distress sales for surplus items and invoice factoring for faster payments.
                         </Accordion.Body>
                     </Accordion.Item>
 
                     <Accordion.Item eventKey="2" className="faq-cover">
-                        <Accordion.Header className="faq-heading"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,</Accordion.Header>
+                        <Accordion.Header className="faq-heading">How does MedHub Global benefit buyers?</Accordion.Header>
                         <Accordion.Body className="faq-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
+                            Buyers gain access to a global network of vetted distributors and manufacturers, ensuring consistent quality and reliability. The platform's AI-powered insights help in cost management by analyzing pricing trends, and integrated logistics solutions minimize supply chain disruptions.
                         </Accordion.Body>
                     </Accordion.Item>
 
                     <Accordion.Item eventKey="3" className="faq-cover">
-                        <Accordion.Header className="faq-heading"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,</Accordion.Header>
+                        <Accordion.Header className="faq-heading"> What features does MedHub Global offer?</Accordion.Header>
                         <Accordion.Body className="faq-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
+                            MedHub Global offers procurement process automation, integrated logistics support, invoice factoring, and a secondary marketplace for distress sales. These features aim to streamline procurement operations and enhance efficiency.
                         </Accordion.Body>
                     </Accordion.Item>
 
-                    <Accordion.Item eventKey="4" className="faq-cover">
-                        <Accordion.Header className="faq-heading"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,</Accordion.Header>
+                    {/* <Accordion.Item eventKey="4" className="faq-cover">
+                        <Accordion.Header className="faq-heading">How can I get started with MedHub Global?</Accordion.Header>
                         <Accordion.Body className="faq-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
+                            You can request a demo or choose a subscription plan that suits your needs by visiting the MedHub Global website. They offer both monthly and yearly plans with various benefits.
                         </Accordion.Body>
-                    </Accordion.Item>
+                    </Accordion.Item> */}
                 </ Accordion>
             </div>
         </>

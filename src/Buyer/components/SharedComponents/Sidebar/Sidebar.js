@@ -157,7 +157,7 @@ const Sidebar = ({ children, dragWindow,
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(true)} >
             <Link to="/buyer/" className={styles.sidebar_text} activeclassname={styles.active}>
-                <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
+                <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86', fontSize: '20px' }} /></div>
                 <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
             </Link>
 
@@ -476,7 +476,7 @@ const Sidebar = ({ children, dragWindow,
                     }
                         className={styles.sidebar} >
                         <Link to="/buyer/" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
+                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
 

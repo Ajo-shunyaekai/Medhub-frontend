@@ -134,7 +134,7 @@
 
 .page-link {
   display: inline-block;
-  color: #007bff;
+  color: #282f86;
   background-color: #fff;
   border: 1px solid #dee2e6;
   transition: color 0.15s;
@@ -149,7 +149,7 @@
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #007bff;
+  background-color: #282f86;
 }
 
 .page-item.disabled .page-link {
