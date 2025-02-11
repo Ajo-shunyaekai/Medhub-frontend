@@ -16,9 +16,38 @@ const LogisticsDetails = () => {
 
   const [loading, setLoading] = useState(false);
   const [requestDetails, setRequestDetails] = useState();
+  const [pickupDate, setPickupDate] = useState(null)
+  const [pickupTime, setPickupTime] = useState(null)
 
-   const handleAccept = () => {
+   const handleAccept = async() => {
+      if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+        navigate("/logistics/login");
+        return;
+      }
+      setLoading(true)
+      const obj = {
+        logisticsId : requestId,
+        orderId : requestDetails?.orderId,
+        partner_id   : partnerIdSessionStorage || partnerIdLocalStorage,
+        pickup_date : pickupDate,
+        pickup_time : pickupTime
+      };
 
+      try {
+        const response = await apiRequests.postRequest(
+          `logistics/update-logistics-details`,
+          obj
+        );
+        if (response.code === 200) {
+          setTimeout(() => {
+            navigate("/logistics/order");
+            setLoading(true)
+        }, 500);
+        }
+      } catch (error) {
+        setLoading(false)
+        console.log("error in update-logistics-details api");
+      }
    }
 
   const fetchData = async () => {
@@ -28,7 +57,7 @@ const LogisticsDetails = () => {
     }
     const obj = {
       logistics_id : requestId,
-      buyer_id     : partnerIdSessionStorage || partnerIdLocalStorage,
+      partner_id   : partnerIdSessionStorage || partnerIdLocalStorage,
     };
 
     try {
@@ -38,6 +67,12 @@ const LogisticsDetails = () => {
       );
       if (response.code === 200) {
         setRequestDetails(response.result);
+        setPickupDate(response?.result?.orderDetails?.supplier_logistics_data?.pickup_date? 
+          moment(
+            response?.result?.orderDetails.supplier_logistics_data
+                .pickup_date
+            ).format("DD-MM-YYYY") : null)
+        setPickupTime(response?.result?.orderDetails?.supplier_logistics_data?.pickup_time)
       }
     } catch (error) {
       console.log("error in order details api");
@@ -118,7 +153,7 @@ const LogisticsDetails = () => {
             <span className={styles.logisticsInnerHead}>Phone No:</span>
             <span className={styles.logisticsInnerText}>
               {requestDetails?.buyerDetails?.contact_person_country_code}{" "}
-              {requestDetails?.supplierDetails?.contact_person_mobile}
+              {requestDetails?.buyerDetails?.contact_person_mobile}
             </span>
           </div>
         </div>
@@ -138,12 +173,12 @@ const LogisticsDetails = () => {
             <span className={styles.logisticsCompanyHead}>Drop Details</span>
             <span className={styles.logisticsText}>
               {requestDetails?.orderDetails?.buyer_logistics_data?.full_name}{" "}
-              <span className={styles.logisticsAddress}>
+              {/* <span className={styles.logisticsAddress}>
                 {
                   requestDetails?.orderDetails?.buyer_logistics_data
                     ?.address_type
                 }
-              </span>
+              </span> */}
             </span>
             <span className={styles.logisticsText}>
               {
@@ -191,12 +226,12 @@ const LogisticsDetails = () => {
             <span className={styles.logisticsCompanyHead}>Pickup Details</span>
             <span className={styles.logisticsText}>
               {requestDetails?.orderDetails?.supplier_logistics_data?.full_name}{" "}
-              <span className={styles.logisticsAddress}>
+              {/* <span className={styles.logisticsAddress}>
                 {
                   requestDetails?.orderDetails?.supplier_logistics_data
                     ?.address_type
                 }
-              </span>
+              </span> */}
             </span>
             <span className={styles.logisticsText}>
               {
@@ -225,13 +260,7 @@ const LogisticsDetails = () => {
                 Preferred Date of Pickup
               </span>
               <span className={styles.logisticsAddText}>
-                {requestDetails?.orderDetails?.supplier_logistics_data
-                  ?.pickup_date
-                  ? moment(
-                      requestDetails.orderDetails.supplier_logistics_data
-                        .pickup_date
-                    ).format("DD-MM-YYYY")
-                  : "N/A"}
+                {pickupDate}
               </span>
             </div>
             <div className={styles.logisticsAddContainer}>
@@ -240,8 +269,7 @@ const LogisticsDetails = () => {
               </span>
               <span className={styles.logisticsAddText}>
                 {
-                  requestDetails?.orderDetails?.supplier_logistics_data
-                    ?.pickup_time
+                  pickupTime
                 }
               </span>
             </div>
@@ -320,8 +348,13 @@ const LogisticsDetails = () => {
 
       {/* start the logistics section */}
       <div className={styles.logisticsButtonContainer}>
-        <button className={styles.logisticsAccept} onClick={handleAccept}>
-          Accept{" "}
+        <button className={styles.logisticsAccept} 
+        onClick={handleAccept}>
+         {loading ? (
+                                <div className='loading-spinner'></div>
+                            ) : (
+                                'Accept'
+                            )}
         </button>
         <buttton className={styles.logisticsCancel}>Cancel</buttton>
       </div>

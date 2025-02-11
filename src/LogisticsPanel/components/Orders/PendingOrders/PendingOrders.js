@@ -67,7 +67,7 @@ const PendingOrder= ({ list, totalList, currentPage, listPerPage, handlePageChan
                                                             <div className="order-section-heading">{order.supplierDetails?.[0]?.supplier_name}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading"> {order.buyerDetails?.[0]?.buyer_name}</div>
+                                                            <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
                                                         </td>
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">
