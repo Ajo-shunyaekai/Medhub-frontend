@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from "react";
 import '../buy.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
@@ -53,11 +53,22 @@ const BuySeller = ({active}) => {
     const handleCountry = (country) => {
         setFilterCountry(country)
     }
- 
+    const dropdownRef = useRef(null);
     const toggleDropdown = (dropdown) => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
     };
- 
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setOpenDropdown(null); // Close the dropdown if click is outside
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     useEffect(() => {
         const fetchData = async ()=>{
             try {
@@ -76,20 +87,7 @@ const BuySeller = ({active}) => {
                         filterCountry,
                         pageNo : currentPage,
                         pageSize : itemsPerPage
-                    }
-        
-                    // postRequestWithToken('buyer/supplier-list', obj, async (response) => {
-                    //     if (response.code === 200) {
-                    //         setSupplierList(response.result.suppliers)
-                    //         setTotalItems(response.result.totalItems)
-                    //     } else {
-                    //         toast(response.message, {type:'error'})
-                    //     console.log('error in supplier list api',response);
-                    //     }
-                    //     setLoading(false);
-                    // })
- 
-                   
+                    }               
                     const response = await apiRequests.getRequest(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}`, obj);
                     if (response?.code !== 200) {
                         toast(response.message, {type:'error'})
@@ -99,16 +97,6 @@ const BuySeller = ({active}) => {
  
                     setSupplierList(response.result.data)
                     setTotalItems(response.result.totalItems)
-                    // postRequestWithToken(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}`, obj, async (response) => {
-                    //     if (response.code == 200) {
-                    //         setSupplierList(response.result.data)
-                    //         setTotalItems(response.result.totalItems)
-                    //     } else {
-                    //         toast(response.message, {type:'error'})
-                    //     console.log('error in supplier list api',response);
-                    //     }
-                    // })
-                    
                 }
             } catch (error) {
                 console.log(`Error : ${error}`)
@@ -159,7 +147,7 @@ const BuySeller = ({active}) => {
                 </div>
             </div>
             {/* start the filter section code */}
-            <div className='buy-seller-filter-container'>
+            <div className='buy-seller-filter-container' ref={dropdownRef}>
                 <ul className='buy-seller-filter-ul'>
                     <li className='buy-seller-filter-drop' onClick={() => toggleDropdown('form')}>
                         Form {openDropdown === 'form' ? <FaAngleUp /> : <FaAngleDown />}
@@ -182,7 +170,7 @@ const BuySeller = ({active}) => {
                     <li className='buy-seller-filter-drop' onClick={() => toggleDropdown('countryOfOrigin')}>
                         Country of Origin {openDropdown === 'countryOfOrigin' ? <FaAngleUp /> : <FaAngleDown />}
                         {openDropdown === 'countryOfOrigin' && (
-                            <ul className='buy-seller-inner-dropdown'>
+                            <ul className='buy-seller-inner-country-dropdown'>
                                 {/* <li>Country 1</li>
                                 <li>Country 2</li> */}
                                 {countryOrigin?.map((country, i) => (

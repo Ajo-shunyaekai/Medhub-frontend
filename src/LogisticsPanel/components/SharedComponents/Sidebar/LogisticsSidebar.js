@@ -293,8 +293,10 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                     isIcon ? <div style={{ width: isOpen ? "200px" : "50px" }
                     }
                         className={styles.sidebar} >
+
                         <Link to="/logistics/" className={styles.sidebar_text} activeclassname={styles.active}>
                             <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
+
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
                         <Link to="/logistics/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>

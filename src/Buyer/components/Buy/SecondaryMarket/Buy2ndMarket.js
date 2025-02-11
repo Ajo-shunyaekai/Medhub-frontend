@@ -120,15 +120,14 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                      <Loader />
                 ) : (
             <div className='byproduct-product-main-section-container'>
-            <div className='byproduct-seller-main-heading'>Lorem Ipsum is simply dummy text</div>
+            {/* <div className='byproduct-seller-main-heading'>Lorem Ipsum is simply dummy text</div> */}
                 <div className='byproduct-seller-pharma-card'>
                     <div className='byproduct-seller-card' onClick={() => handleCategoryFilter('Generics')}>
                         <div className='byproduct-seller-card-img'>
                             <img className='byproduct-seller-img-one' src={Generics} />
                         </div>
                         <div className='byproduct-seller-card-head'>Generics</div>
-                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
-                            commonly used in the graphic,</div>
+                        <div className='byproduct-seller-card-content'>10+ generic categories and 20+ finished dosage formulations</div>
                         <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
@@ -138,8 +137,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                             <img className='byproduct-seller-img-two' src={Orignals} />
                         </div>
                         <div className='byproduct-seller-card-head'>Originals</div>
-                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
-                            commonly used in the graphic,</div>
+                        <div className='byproduct-seller-card-content'>10+ products</div>
                         <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
@@ -149,8 +147,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                             <img className='byproduct-seller-img-three' src={Biosimilars} />
                         </div>
                         <div className='byproduct-seller-card-head'>Biosimilars</div>
-                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
-                            commonly used in the graphic,</div>
+                        <div className='byproduct-seller-card-content'>40+ products</div>
                         <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
@@ -160,8 +157,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                             <img className='byproduct-seller-img-four' src={MedicalDevices} />
                         </div>
                         <div className='byproduct-seller-card-head'>Medical Devices</div>
-                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
-                            commonly used in the graphic,</div>
+                        <div className='byproduct-seller-card-content'>80+ products</div>
                         <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>
@@ -171,8 +167,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                             <img className='byproduct-seller-img-five' src={Nutraceutical} />
                         </div>
                         <div className='byproduct-seller-card-head'>Nutraceutical</div>
-                        <div className='byproduct-seller-card-content'>Lorem ipsum is placeholder text
-                            commonly used in the graphic,</div>
+                        <div className='byproduct-seller-card-content'>120+ products</div>
                         <div className='byproduct-seller-arrow-img'>
                             <img src={Arrow} />
                         </div>

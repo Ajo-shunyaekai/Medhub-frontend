@@ -184,7 +184,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
         activeclassname={styles.active}
       >
         <div className={styles.icon}>
-          <HomeOutlinedIcon style={{ color: "#448BFF", fontSize: "20px" }} />
+          <HomeOutlinedIcon style={{ color: "#282f86", fontSize: "20px" }} />
         </div>
         <div
           style={{ display: isOpen ? "block" : "none" }}
@@ -544,7 +544,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
         {isIcon ? (
           <div style={{ width: isOpen ? "200px" : "50px" }} className={styles.sidebar}>
             <Link to="/admin" className={styles.sidebar_text} activeclassname={styles.active}>
-              <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
+              <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86', fontSize: '20px' }} /></div>
               <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
             </Link>
 
