@@ -13,6 +13,7 @@ import Successful from './SubscriptionPlan/PayementSucsessful'
 import Failed from './SubscriptionPlan/PaymentFailure'
 import Invoice from './SubscriptionPlan/Invoice/invoice'
 
+
 const activekey = () => {
     var res          = window.location.pathname;
     var baseUrl      = ''; 
@@ -58,6 +59,7 @@ const renderSidebar = () => {
     else if (activekey().includes('subscription')) {
         return <SubscriptionPlan/>;
     }
+
     else if (activekey().includes('successful')) {
         return <Successful/>;
     }
@@ -68,6 +70,7 @@ const renderSidebar = () => {
     else if (activekey().includes('invoice')) {
         return <Invoice/>;
     }
+
     return null;
 };
 

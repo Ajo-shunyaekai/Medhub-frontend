@@ -10,6 +10,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import {
   fetchAddressListRedux,
   updateLogisticsAddress,
+  deleteAddress
 } from "../../../../../redux/reducers/addressSlice";
 
 const initialAddresses = [
@@ -92,17 +93,33 @@ const LogisticsAddress = () => {
   };
   console.log("selectedAddress", selectedAddress);
 
+  const handleEdit = () => {
+    const updatedAdd =
+      currentAddresses?.find((add) => add?._id == selectedAddress) || {};
+    dispatch(updateLogisticsAddress(updatedAdd));
+    navigate(`/buyer/edit-new-address/${buyerId}/${selectedAddress}`)
+  }
+
+  const handleDeleteAddress = async() => {
+      const deleteApi = await dispatch(deleteAddress({ addressId:selectedAddress, userId: buyerId }))
+      console.log('deleteApi',deleteApi)
+
+      if(deleteApi.meta.requestStatus === "fulfilled") {
+        dispatch(fetchAddressListRedux(buyerId));
+      }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.innerHeadSection}>
         <div className={styles.logisticsHeading}>Address List</div>
-        <Link to="/buyer/add-new-address">
+        <Link to={`/buyer/add-new-address/${buyerId}`}>
           <div className={styles.innerButtons}>Add New Address</div>
         </Link>
       </div>
       <div className={styles.logisticAddressContainer}>
-        {currentAddresses.map((address) => (
-          <div key={address.id} className={styles.logisticsAddressSection}>
+        {currentAddresses?.map((address) => (
+          <div key={address._id} className={styles.logisticsAddressSection}>
             <div className={styles.logisticsAddressInnerSection}>
               <span className={styles.logisticsAddCheckbox}>
                 <input
@@ -110,7 +127,6 @@ const LogisticsAddress = () => {
                   name="address"
                   checked={selectedAddress === address._id}
                   onChange={() => setSelectedAddress(address._id)}
-                  // onChange={() => handleChangeAddress(address)}
                 />
               </span>
               <div className={styles.pickupInnerContainer}>
@@ -118,25 +134,29 @@ const LogisticsAddress = () => {
                   <span className={styles.logisticsAddressHead}>
                     {address.isRegistered ? "Registered Address" : "Address"}
                   </span>
-                  {/* Delete button always visible for non-registered addresses */}
-                  {!address.isRegistered && (
-                    <div className={styles.actionButtons}>
-                      {/* Show edit button only if the address is selected */}
-                      {selectedAddress === address.id && (
-                        <Link to="/buyer/edit-new-address">
-                          <span className={styles.logisticsAddressButton}>
+
+                  {/* Show Edit & Delete buttons only if the address is selected and not "Registered" */}
+                  {selectedAddress === address._id &&
+                    address.type !== "Registered" &&
+                    address.address_type !== "Registered" && (
+                      <div className={styles.actionButtons}>
+                          <span className={styles.logisticsAddressButton} 
+                          onClick={handleEdit}
+                          >
                             Edit
                           </span>
-                        </Link>
-                      )}
-                      {/* Delete button always visible for non-registered addresses */}
-                      <RiDeleteBin5Line className={styles.deleteIcon} />
-                    </div>
-                  )}
+                        <RiDeleteBin5Line className={styles.deleteIcon} 
+                          onClick={handleDeleteAddress}
+                        />
+                      </div>
+                    )}
                 </div>
+
                 <span className={styles.pickupText}>
                   {address.full_name}{" "}
-                  <span className={styles.pickupAdd}>{address.type}</span>
+                  <span className={styles.pickupAdd}>
+                    {address.type || address.address_type}
+                  </span>
                 </span>
                 <span className={styles.pickupText}>
                   {address.company_reg_address}, {address.locality},{" "}

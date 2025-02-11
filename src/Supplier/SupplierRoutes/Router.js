@@ -717,19 +717,19 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"logistics-form",
+        path:"logistics-form/:orderId/:supplierId",
         element:<SupplierLogistics />
       },
       {
-        path:"add-new-address",
+        path:"add-new-address/:supplierId",
         element:<AddNewAddress/>
       },
       {
-        path:"edit-new-address",
+        path:"edit-new-address/:supplierId/:addressId",
         element:<EditNewAddress/>
       },
       {
-        path:"logistics-address",
+        path:"logistics-address/:supplierId",
         element:<SuuplierAddressList/>
       },
     ],

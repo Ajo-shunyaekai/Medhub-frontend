@@ -9,7 +9,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 
-const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
+const PendingOrder= ({ list, totalList, currentPage, listPerPage, handlePageChange, activeLink }) => {
 
     const [show, setShow] = useState(false);
 
@@ -38,8 +38,8 @@ const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                 {
                                     <thead className='order-container-thead'>
                                         <tr className='order-container-tr'>
-                                            <th className="order-container-th"> <div className="order-container-head"> Date & Time</div></th>
-                                            <th className="order-container-th"><div className="order-container-head"> Order ID</div></th>
+                                            <th className="order-container-th"> <div className="order-container-head"> Date</div></th>
+                                            <th className="order-container-th"><div className="order-container-head"> Request ID</div></th>
                                             <th className="order-container-ths"><div className="order-container-heads">Supplier Name</div></th>
                                             <th className="order-container-th"><div className="order-container-heads">Buyer Name</div></th>
                                             <th className="order-container-th"><div className="order-container-head">Status</div></th>
@@ -49,12 +49,10 @@ const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                 }
 
                                 {
-                                    orderList && orderList.length > 0 ? (
-                                        orderList?.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item.quantity_required || item.quantity);
-                                            }, 0);
-                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
+                                    list && list.length > 0 ? (
+                                        list?.map((order, i) => {
+                                           
+                                            const orderedDate = moment(order.created_at).format("DD/MM/YYYY");
                                             return (
                                                 <tbody className='order-container-tbody'>
                                                     <tr className="order-section-tr">
@@ -63,22 +61,22 @@ const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                                             <div className="order-section-heading">{orderedDate}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_id}</div>
+                                                            <div className="order-section-heading">{order.logistics_id}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order.supplier?.supplier_name}</div>
+                                                            <div className="order-section-heading">{order.supplierDetails?.[0]?.supplier_name}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading"> PureMed Pharmaceuticals</div>
+                                                            <div className="order-section-heading"> {order.buyerDetails?.[0]?.buyer_name}</div>
                                                         </td>
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">
-                                                                {order?.status}
+                                                                {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}
                                                             </div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>
-                                                                <Link to={`/logistics/logistics-details`}>
+                                                                <Link to={`/logistics/logistics-details/${order.logistics_id}`}>
                                                                     <div className='order-section-view'>
                                                                         <RemoveRedEyeOutlinedIcon className='order-section-eye' />
                                                                     </div>
@@ -102,12 +100,12 @@ const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                             </table>
                         </div>
                         {
-                            orderList && orderList.length > 0 ? (
+                            list && list.length > 0 ? (
                                 <div className='pagi-container'>
                                     <Pagination
                                         activePage={currentPage}
-                                        itemsCountPerPage={ordersPerPage}
-                                        totalItemsCount={totalOrders}
+                                        itemsCountPerPage={listPerPage}
+                                        totalItemsCount={totalList}
                                         pageRangeDisplayed={5}
                                         onChange={handlePageChange}
                                         itemClass="page-item"
@@ -118,7 +116,7 @@ const PendingOrder= ({ orderList, totalOrders, currentPage, ordersPerPage, handl
                                     />
                                     <div className='pagi-total'>
                                         <div className='pagi-total'>
-                                            Total Items: {totalOrders}
+                                            Total Items: {totalList}
                                         </div>
                                     </div>
                                 </div>

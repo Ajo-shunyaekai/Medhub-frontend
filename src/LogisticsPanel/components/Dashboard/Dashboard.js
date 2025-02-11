@@ -5,8 +5,26 @@ import "./logisticsdashboard.css";
 import CircularBar from "./chart/CircularBar";
 
 const Dashboard = () => {
+    const navigate = useNavigate()
     const [countryData, setCountryData] = useState([]);
     const [orderSummary, setOrderSummary] = useState();
+
+    useEffect(() => {
+        const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+        const partnerIdLocalStorage   = localStorage.getItem("partner_id");
+        
+        if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+            navigate("/logistics/login");
+            return;
+        }
+
+        const obj = {
+            partner_id : partnerIdSessionStorage || partnerIdLocalStorage,
+            user_type   : 'logistics'
+        }
+        
+    },[])
+
     return (
         <>
             <div className="logistics-dashboard-section">

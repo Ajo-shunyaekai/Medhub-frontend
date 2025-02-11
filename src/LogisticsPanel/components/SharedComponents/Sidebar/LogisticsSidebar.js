@@ -107,7 +107,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
         setIsProfileOpen(!isProfileOpen);
         localStorage.clear()
         sessionStorage.clear()
-        navigate('/buyer/login')
+        navigate('/logistics/login')
     }
  // ======================
     const [sidebarWidth, setSidebarWidth] = useState(0);
@@ -148,7 +148,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
             <div className={styles.nav_container}>
                 <div className={styles.nav_wrapper}>
                     <div className={styles.nav_img}>
-                        <Link to='/buyer/'>
+                        <Link to='/logistics/'>
                             <img src={DeliverLogo} alt="Deliver Logo" />
                         </Link>
                     </div>
@@ -293,8 +293,10 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                     isIcon ? <div style={{ width: isOpen ? "200px" : "50px" }
                     }
                         className={styles.sidebar} >
-                        <Link to="/logistics/dashboard" className={styles.sidebar_text} activeclassname={styles.active}>
-                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86', fontSize: '20px' }} /></div>
+
+                        <Link to="/logistics/" className={styles.sidebar_text} activeclassname={styles.active}>
+                            <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#448BFF', fontSize: '20px' }} /></div>
+
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
                         <Link to="/logistics/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>

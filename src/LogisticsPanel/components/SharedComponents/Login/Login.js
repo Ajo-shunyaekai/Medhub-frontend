@@ -27,9 +27,10 @@ const Login = ({socket}) => {
             newErrors.password = 'Password is Required';
         } else if (!/(?=.*[A-Z])/.test(password)) {
             newErrors.password = 'Password must contain at least one uppercase letter';
-        } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
-            newErrors.password = 'Password must contain at least one special character';
-        }
+        } 
+        // else if (!/(?=.*[!@#$%^&*])/.test(password)) {
+        //     newErrors.password = 'Password must contain at least one special character';
+        // }
 
         return newErrors;
     };
@@ -51,7 +52,7 @@ const Login = ({socket}) => {
                 const obj = {
                     email ,
                     password,
-                    usertype: "logistics"
+                    usertype: "Logistics"
                 }
         
              
@@ -72,22 +73,22 @@ const Login = ({socket}) => {
                             navigate("/logistics");
                         }, 1000);
     
-                        if ('Notification' in window) {
-                            if (Notification.permission === 'granted') {
-                                const userId = response.data?.admin_id;
-                                socket.emit('registerAdmin', userId);
-                            } else if (Notification.permission !== 'denied') {
-                                const permission = await Notification.requestPermission();
-                                if (permission === 'granted') {
-                                    const userId = response.data?.admin_id;
-                                    socket.emit('registerAdmin', userId);
-                                }
-                            }
-                        } else {
-                            setLoading(false)
-                            toast(response.message, { type: "error" });
-                            console.log('error in admin/login api',response);
-                        }
+                        // if ('Notification' in window) {
+                        //     if (Notification.permission === 'granted') {
+                        //         const userId = response.data?.admin_id;
+                        //         socket.emit('registerAdmin', userId);
+                        //     } else if (Notification.permission !== 'denied') {
+                        //         const permission = await Notification.requestPermission();
+                        //         if (permission === 'granted') {
+                        //             const userId = response.data?.admin_id;
+                        //             socket.emit('registerAdmin', userId);
+                        //         }
+                        //     }
+                        // } else {
+                        //     setLoading(false)
+                        //     toast(response.message, { type: "error" });
+                        //     console.log('error in logistics/login api',response);
+                        // }
                     }
                 } catch (error) {
                     console.log(error)
@@ -179,7 +180,7 @@ const Login = ({socket}) => {
                         </div>
                         {errors.password && <span className="login-errors">{errors.password}</span>}
                     </div>
-                    <Link to='/logistics/dashboard'>
+                    {/* <Link to='/logistics/dashboard'> */}
                     <div className='login-form-main-buttons'>
                         <button type='submit' 
                         className='login-form-main-login'
@@ -193,7 +194,7 @@ const Login = ({socket}) => {
                             )}
                         </button>
                     </div>
-                    </Link>
+                    {/* </Link> */}
                 </form>
             </div>
         </div>
