@@ -400,7 +400,7 @@ const SupplierSignUp = ({ socket }) => {
         // else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
         //     setErrors(prevState => ({ ...prevState, pincode: '' }));
         // } 
-        else if (name === 'pincode' && !/^[A-Za-z0-9]{0,8}$/.test(value)) {
+        else if (name === 'pincode' && !/^[A-Za-z0-9-]{0,8}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, pincode: '' }));
         }
         else {
@@ -875,7 +875,7 @@ const SupplierSignUp = ({ socket }) => {
                                                 {errors.locality && <div className='signup__errors'>{errors.locality}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Landmark(Optional)</label>
+                                                <label className='signup-form-section-label'>Landmark</label>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
@@ -937,7 +937,7 @@ const SupplierSignUp = ({ socket }) => {
 
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Pincode/Postcode(Optional)</label>
+                                                <label className='signup-form-section-label'>Pincode/Postcode</label>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"

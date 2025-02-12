@@ -661,7 +661,7 @@ console.log(setFormData)
                             {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <label className={styles['create-invoice-div-label']}>Landmark</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
@@ -728,7 +728,7 @@ console.log(setFormData)
                             {/* {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>} */}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <label className={styles['create-invoice-div-label']}>Pincode</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
@@ -808,7 +808,7 @@ console.log(setFormData)
                             {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Landmark(Optional)</label>
+                            <label className={styles['create-invoice-div-label']}>Landmark</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
@@ -874,7 +874,7 @@ console.log(setFormData)
                             {errors.buyerEmail && <p style={{color: 'red'}}>{errors.buyerEmail}</p>}
                         </div>
                         <div className={styles['create-invoice-div-container']}>
-                            <label className={styles['create-invoice-div-label']}>Pincode(Optional)</label>
+                            <label className={styles['create-invoice-div-label']}>Pincode</label>
                             <input
                                 className={styles['create-invoice-div-input']}
                                 type='text'
