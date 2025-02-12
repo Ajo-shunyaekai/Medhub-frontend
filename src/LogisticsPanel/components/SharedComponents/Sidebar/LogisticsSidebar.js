@@ -31,7 +31,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
     const NotificationDropdown = () => {
         setIsNotificationOpen(!isNotificationOpen);
         setIsProfileOpen(false); // Close profile dropdown if open
-        handleClick(); // for notification status update
+        // handleClick(); 
     };
 
     const ProfileDropdown = () => {

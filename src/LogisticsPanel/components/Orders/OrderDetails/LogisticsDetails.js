@@ -16,39 +16,44 @@ const LogisticsDetails = () => {
 
   const [loading, setLoading] = useState(false);
   const [requestDetails, setRequestDetails] = useState();
-  const [pickupDate, setPickupDate] = useState(null)
-  const [pickupTime, setPickupTime] = useState(null)
+  const [pickupDate, setPickupDate] = useState(null);
+  const [pickupTime, setPickupTime] = useState(null);
 
-   const handleAccept = async() => {
-      if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
-        navigate("/logistics/login");
-        return;
-      }
-      setLoading(true)
-      const obj = {
-        logisticsId : requestId,
-        orderId : requestDetails?.orderId,
-        partner_id   : partnerIdSessionStorage || partnerIdLocalStorage,
-        pickup_date : pickupDate,
-        pickup_time : pickupTime
-      };
+  const handleAccept = async () => {
+    if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+      navigate("/logistics/login");
+      return;
+    }
+    setLoading(true);
+    const obj = {
+      logisticsId: requestId,
+      orderId: requestDetails?.orderId,
+      partner_id: partnerIdSessionStorage || partnerIdLocalStorage,
+      pickup_date: pickupDate,
+      pickup_time: pickupTime,
+    };
 
-      try {
-        const response = await apiRequests.postRequest(
-          `logistics/update-logistics-details`,
-          obj
-        );
-        if (response.code === 200) {
-          setTimeout(() => {
-            navigate("/logistics/order");
-            setLoading(true)
+    try {
+      const response = await apiRequests.postRequest(
+        `logistics/update-logistics-details`,
+        obj
+      );
+      if (response.code === 200) {
+        setTimeout(() => {
+          navigate("/logistics/order");
+          setLoading(true);
         }, 500);
-        }
-      } catch (error) {
-        setLoading(false)
-        console.log("error in update-logistics-details api");
       }
-   }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log("error in update-logistics-details api");
+    }
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
+  };
 
   const fetchData = async () => {
     if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
@@ -56,8 +61,8 @@ const LogisticsDetails = () => {
       return;
     }
     const obj = {
-      logistics_id : requestId,
-      partner_id   : partnerIdSessionStorage || partnerIdLocalStorage,
+      logistics_id: requestId,
+      partner_id: partnerIdSessionStorage || partnerIdLocalStorage,
     };
 
     try {
@@ -67,12 +72,17 @@ const LogisticsDetails = () => {
       );
       if (response.code === 200) {
         setRequestDetails(response.result);
-        setPickupDate(response?.result?.orderDetails?.supplier_logistics_data?.pickup_date? 
-          moment(
-            response?.result?.orderDetails.supplier_logistics_data
-                .pickup_date
-            ).format("DD-MM-YYYY") : null)
-        setPickupTime(response?.result?.orderDetails?.supplier_logistics_data?.pickup_time)
+        setPickupDate(
+          response?.result?.orderDetails?.supplier_logistics_data?.pickup_date
+            ? moment(
+                response?.result?.orderDetails.supplier_logistics_data
+                  .pickup_date
+              ).format("DD-MM-YYYY")
+            : null
+        );
+        setPickupTime(
+          response?.result?.orderDetails?.supplier_logistics_data?.pickup_time
+        );
       }
     } catch (error) {
       console.log("error in order details api");
@@ -259,19 +269,13 @@ const LogisticsDetails = () => {
               <span className={styles.logisticsAddHead}>
                 Preferred Date of Pickup
               </span>
-              <span className={styles.logisticsAddText}>
-                {pickupDate}
-              </span>
+              <span className={styles.logisticsAddText}>{pickupDate}</span>
             </div>
             <div className={styles.logisticsAddContainer}>
               <span className={styles.logisticsAddHead}>
                 Preferred Time of Pickup
               </span>
-              <span className={styles.logisticsAddText}>
-                {
-                  pickupTime
-                }
-              </span>
+              <span className={styles.logisticsAddText}>{pickupTime}</span>
             </div>
           </div>
         </div>
@@ -347,17 +351,17 @@ const LogisticsDetails = () => {
       </div>
 
       {/* start the logistics section */}
-      <div className={styles.logisticsButtonContainer}>
-        <button className={styles.logisticsAccept} 
-        onClick={handleAccept}>
-         {loading ? (
-                                <div className='loading-spinner'></div>
-                            ) : (
-                                'Accept'
-                            )}
-        </button>
-        <buttton className={styles.logisticsCancel}>Cancel</buttton>
-      </div>
+      {requestDetails?.status === "pending" && (
+        <div className={styles.logisticsButtonContainer}>
+          <button className={styles.logisticsAccept} onClick={handleAccept}>
+            {loading ? <div className="loading-spinner"></div> : "Accept"}
+          </button>
+          <buttton className={styles.logisticsCancel} onClick={handleCancel}>
+            Cancel
+          </buttton>
+        </div>
+      )}
+
       {/* end the package details */}
     </div>
   );
