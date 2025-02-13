@@ -10,7 +10,18 @@ const PaymentFailure = lazy(() => import("./PaymentFailure"));
 const ThankYou= lazy(() => import("./SubscriptionThankYou"));
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 const router = createBrowserRouter([
+  // {
+  //   path: "/subscription/:userType/:userId",
+  //   element: (
+  //     <Suspense fallback={<Loader />}>
+  //       <SubscriptionPage socket={socket} />
+  //     </Suspense>
+  //   ),
+  // },
   {
+<<<<<<<<< Temporary merge branch 1
+    path: "/subscription",
+=========
     path: "/subscription/:userType/:userId/select-plan",
     element: (
       <Suspense fallback={<Loader />}>
