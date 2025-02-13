@@ -89,7 +89,8 @@ const LogisticsAddress = () => {
     const updatedAdd =
       currentAddresses?.find((add) => add?._id == selectedAddress) || {};
     dispatch(updateLogisticsAddress(updatedAdd));
-    navigate(-1);
+    // navigate(-1);
+    navigate(`/buyer/logistics-form/${orderId}/${buyerId}`)
   };
   console.log("selectedAddress", selectedAddress);
 
@@ -97,7 +98,7 @@ const LogisticsAddress = () => {
     const updatedAdd =
       currentAddresses?.find((add) => add?._id == selectedAddress) || {};
     dispatch(updateLogisticsAddress(updatedAdd));
-    navigate(`/buyer/edit-new-address/${buyerId}/${selectedAddress}`)
+    navigate(`/buyer/edit-new-address/${orderId}/${buyerId}/${selectedAddress}`)
   }
 
   const handleDeleteAddress = async() => {
@@ -113,13 +114,14 @@ const LogisticsAddress = () => {
     <div className={styles.container}>
       <div className={styles.innerHeadSection}>
         <div className={styles.logisticsHeading}>Address List</div>
-        <Link to={`/buyer/add-new-address/${buyerId}`}>
+        <Link to={`/buyer/add-new-address/${orderId}/${buyerId}`}>
           <div className={styles.innerButtons}>Add New Address</div>
         </Link>
       </div>
       <div className={styles.logisticAddressContainer}>
         {currentAddresses?.map((address) => (
-          <div key={address._id} className={styles.logisticsAddressSection}>
+          <div key={address._id} className={styles.logisticsAddressSection} 
+          onClick={() => setSelectedAddress(address._id)}>
             <div className={styles.logisticsAddressInnerSection}>
               <span className={styles.logisticsAddCheckbox}>
                 <input
@@ -205,7 +207,8 @@ const LogisticsAddress = () => {
           className={styles["logistic-cancel"]}
           onClick={() => {
             dispatch(updateLogisticsAddress({}));
-            navigate(-1);
+            // navigate(-1);
+            navigate(`/buyer/logistics-form/${orderId}/${buyerId}`)
           }}
         >
           Cancel

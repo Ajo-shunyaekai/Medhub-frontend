@@ -55,21 +55,21 @@ const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageCh
                                                             <div className="order-section-heading">{orderedDate}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_id}</div>
+                                                            <div className="order-section-heading">{order.logistics_id}</div>
                                                         </td>
                                                         
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order.supplier?.supplier_name}</div>
+                                                            <div className="order-section-heading">{order.supplierDetails?.[0]?.supplier_name}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">Pharmaceuticals</div>
+                                                            <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order?.order_status.charAt(0).toUpperCase() + order?.order_status.slice(1)}</div>
+                                                            <div className="order-section-heading">{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}</div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>
-                                                                <Link to={`/logistics/logistics-details`}>
+                                                                <Link to={`/logistics/logistics-details/${order.logistics_id}`}>
                                                                     <div className='order-section-view'>
                                                                         <RemoveRedEyeOutlinedIcon className='order-section-eye' />
                                                                     </div>

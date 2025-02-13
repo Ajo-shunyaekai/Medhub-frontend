@@ -721,15 +721,15 @@ const router = createBrowserRouter([
         element:<SupplierLogistics />
       },
       {
-        path:"add-new-address/:supplierId",
+        path:"add-new-address/:orderId/:supplierId",
         element:<AddNewAddress/>
       },
       {
-        path:"edit-new-address/:supplierId/:addressId",
+        path:"edit-new-address/:orderId/:supplierId/:addressId",
         element:<EditNewAddress/>
       },
       {
-        path:"logistics-address/:supplierId",
+        path:"logistics-address/:orderId/:supplierId",
         element:<SuuplierAddressList/>
       },
     ],

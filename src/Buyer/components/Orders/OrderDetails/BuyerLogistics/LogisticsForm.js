@@ -23,13 +23,10 @@ const LogisticsForm = () => {
   );
 
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
-  const [addressType, setAddressType] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [selected, setSelected] = useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -119,7 +116,7 @@ const LogisticsForm = () => {
             extra_services: values.extraServices,
           };
         }
-
+console.log('apiPayload',apiPayload)
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
         if (response.meta.requestStatus === "fulfilled") {
@@ -589,7 +586,7 @@ const LogisticsForm = () => {
           <div className={styles.cardContainer}>
             <div className={styles.cardHeadSection}>
               <span className={styles.cardHeading}>Drop Details</span>
-              <Link to={`/buyer/logistics-address/${buyerId}`}>
+              <Link to={`/buyer/logistics-address/${orderId}/${buyerId}`}>
                 <span className={styles.cardButton}>Change</span>
               </Link>
             </div>
@@ -621,7 +618,7 @@ const LogisticsForm = () => {
               Mode of Transport<span className={styles.labelstamp}>*</span>
             </div>
 
-            <div className={styles.radioInnerContainer}>
+            <div className={styles.radioInnerContainer} >
               {[
                 {
                   value: "Air Cargo",
@@ -639,12 +636,14 @@ const LogisticsForm = () => {
                   description: "(Delivery & Lower Charges)",
                 },
                 {
-                  value: "Logistices",
+                  value: "Ask Logistics Partner",
                   label: "Ask the Logistics Partner to Recommend",
                   description: "",
                 },
               ].map((mode) => (
-                <div key={mode.value} className={styles.radioGroup}>
+                <div key={mode.value} className={styles.radioGroup} 
+                onClick={() => formik.setFieldValue("transportMode", mode.value)}
+                >
                   <input
                     className={styles.radioInput}
                     type="radio"
@@ -679,7 +678,17 @@ const LogisticsForm = () => {
                 { value: "Port to Port", label: "Port to Port" },
                 { value: "Custom Clearance", label: "Custom Clearance" },
               ].map((service) => (
-                <div key={service.value} className={styles.radioGroup}>
+                <div key={service.value} className={styles.radioGroup}
+                onClick={() => {
+                  const currentServices = formik.values.extraServices;
+                  const isSelected = currentServices.includes(service.value);
+                  const updatedServices = isSelected
+                    ? currentServices.filter((s) => s !== service.value) // Remove if already selected
+                    : [...currentServices, service.value]; // Add if not selected
+        
+                  formik.setFieldValue("extraServices", updatedServices);
+                }}
+                >
                   <input
                     className={styles.radioInput}
                     type="checkbox"
