@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import InvoicePDF from "./invoice/InvoicePDF";
+import InvoicePDF from "./SubscriptionInvoice/InvoicePDF";
 import { pdf } from "@react-pdf/renderer"; // Import the pdf function from @react-pdf/renderer
 
 const PaymentSuccessful = () => {
