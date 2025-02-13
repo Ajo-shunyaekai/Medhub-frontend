@@ -19,6 +19,9 @@ const AddNewAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+  const { address, updatedAddress } = useSelector(
+    (state) => state?.addressReducer
+  );
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };
@@ -70,31 +73,28 @@ const AddNewAddress = () => {
       addressType: Yup.string().required("Address type is required"),
       transportMode: Yup.string().required("Mode of transport is required"),
       extraServices: Yup.array().of(Yup.string()),
-     
     }),
     onSubmit: async (values) => {
       try {
-        
-          console.log("Form submitted:", values);
-          const apiPayload = {
-            order_id: orderId,
-            buyer_id: buyerId,
-            full_name: values?.fullName,
-            mobile_number: values?.mobileNumber,
-            company_reg_address: values?.companyAddress,
-            locality: values?.locality,
-            land_mark: values?.landmark,
-            city: values?.city?.label || values?.city,
-            state: values?.state?.label || values?.state,
-            country: values?.country?.label || values?.country,
-            pincode: values?.pincode,
-            address_type: values?.addressType,
-            mode_of_transport: values?.transportMode,
-            extra_services: values?.extraServices,
-          };
-          // Add your API call here
-          const response = await dispatch(addAddress({ obj: apiPayload }));
-       
+        console.log("Form submitted:", values);
+        const apiPayload = {
+          order_id: orderId,
+          buyer_id: buyerId,
+          full_name: values?.fullName,
+          mobile_number: values?.mobileNumber,
+          company_reg_address: values?.companyAddress,
+          locality: values?.locality,
+          land_mark: values?.landmark,
+          city: values?.city?.label || values?.city,
+          state: values?.state?.label || values?.state,
+          country: values?.country?.label || values?.country,
+          pincode: values?.pincode,
+          address_type: values?.addressType,
+          mode_of_transport: values?.transportMode,
+          extra_services: values?.extraServices,
+        };
+        // Add your API call here
+        const response = await dispatch(addAddress({ obj: apiPayload }));
       } catch (error) {
         toast.error("Something went wrong!");
       }

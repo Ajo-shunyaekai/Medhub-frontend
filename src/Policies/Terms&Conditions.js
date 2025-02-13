@@ -29,10 +29,10 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Terms and Conditions</h1>
-            <p>Welcome to MedHub Global, a brand of One Vision Technologies FZ-LLC (Ras Al Khaimah)!</p>
+            <p>Welcome to Medhub Global, a brand of One Vision Technologies FZ-LLC (Ras Al Khaimah)!</p>
             <p>
                 These terms and conditions ("Terms") govern your access to and use of our platform
-                ("Platform"), including all features, functionalities, and services offered through MedHub
+                ("Platform"), including all features, functionalities, and services offered through Medhub
                 Global. By signing up, accessing, or using the Platform, you agree to comply with and be
                 bound by these Terms. If you do not agree to these Terms, please do not use the Platform.
             </p>
@@ -41,7 +41,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
             <h2 className={styles.sectionTitle}>1. Definitions</h2>
             <ul className={styles.list}>
                 <li>
-                    <strong>Platform:</strong> The Platform refers to the MedHub Global online marketplace,
+                    <strong>Platform:</strong> The Platform refers to the Medhub Global online marketplace,
                     encompassing the website, mobile applications, and any related services offered by One
                     Vision Technologies.
                 </li>
@@ -60,7 +60,7 @@ const TermsAndConditions = ({showTnC, setShowTnC, isChecked, setIsChecked}) => {
                 </li>
                 <li>
                     <strong>One Vision Technologies:</strong> This refers to One Vision Technologies FZ-LLC,
-                    the entity managing and operating the MedHub Global Platform, registered in the RAKEZ
+                    the entity managing and operating the Medhub Global Platform, registered in the RAKEZ
                     Free Zone, Ras Al Khaimah, United Arab Emirates.
                 </li>
             </ul>

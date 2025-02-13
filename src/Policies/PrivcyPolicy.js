@@ -10,10 +10,10 @@ const PrivacyPolicy = ({ isOpen, onClose }) => {
                 &times;
             </button>
             <h1 className={styles.title}>Privacy Policy</h1>
-            <p>Welcome to <strong>MedHub Global!</strong> MedHub Global, operated by One Vision Technologies FZ-LLC (Ras Al Khaimah), respects your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, store, and protect your information when you interact with our website or platform.</p>
+            <p>Welcome to <strong>Medhub Global!</strong> Medhub Global, operated by One Vision Technologies FZ-LLC (Ras Al Khaimah), respects your privacy and is committed to protecting your personal data. This Privacy Policy outlines how we collect, use, store, and protect your information when you interact with our website or platform.</p>
 
             <h2 className={styles.sectionTitle}>1. Scope of This Policy</h2>
-            <p>This Privacy Policy applies to all users of the MedHub Global website, platform, and associated services. By accessing or using our services, you agree to the collection and use of information in accordance with this Policy.</p>
+            <p>This Privacy Policy applies to all users of the Medhub Global website, platform, and associated services. By accessing or using our services, you agree to the collection and use of information in accordance with this Policy.</p>
 
             <h2 className={styles.sectionTitle}>2. Information We Collect</h2>
             <p>We may collect the following categories of information:</p>
@@ -136,7 +136,7 @@ const PrivacyPolicy = ({ isOpen, onClose }) => {
                 Email: <a href="mailto:connect@medhub.global">connect@medhub.global</a>
             </address>
 
-            <p>By using MedHub Global, you acknowledge that you have read, understood, and agreed to this Privacy Policy. If you do not agree, please discontinue use of the platform.</p>
+            <p>By using Medhub Global, you acknowledge that you have read, understood, and agreed to this Privacy Policy. If you do not agree, please discontinue use of the platform.</p>
         </div>
         </div>
     );

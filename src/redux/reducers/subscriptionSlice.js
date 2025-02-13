@@ -3,21 +3,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 
 const initialState = {
-  address: [],
-  addressCount : 0,
-  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
-  addressData: {},
-  updatedAddress: {},
+  user: {},
+  subscriptionSelected: {},
+  subscriptionDetails: {},
+  subscribedPlanDetails: {},
 };
 
-export const fetchAddressListRedux = createAsyncThunk(
-  "address/fetchAddressListRedux",
-  async (values, { rejectWithValue }) => {
+export const fetchUserData = createAsyncThunk(
+  "subscription/fetchUserData",
+  async (obj, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('address/get-address', {buyer_id: values})
-      console.log('response', response?.address?.userAddress)
-      return response?.address?.userAddress; 
+      const response = await apiRequests?.getRequest2({
+        url: `/auth/${obj?.id}`,
+        userType: obj?.type,
+      });
+
+      const { data } = await response;
+      return data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
       console.log("API error:", error);
@@ -26,12 +28,78 @@ export const fetchAddressListRedux = createAsyncThunk(
   }
 );
 
-export const fetchAddressDataRedux = createAsyncThunk(
-  "medicine/fetchAddressDataRedux",
-  async (url, { rejectWithValue }) => {
+export const fetchCurrentSubscription = createAsyncThunk(
+  "subscription/fetchCurrentSubscription",
+  async (obj, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(url)
-      return response.result 
+      const response = await apiRequests?.getRequest2({
+        url: `${process.env.REACT_APP_API_URL}subscription/${obj?.id}`,
+        userType: obj?.type,
+      });
+
+      const { data } = await response;
+      return data; // Return the actual user data or fallback
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const createSubscriptionSession = createAsyncThunk(
+  "subscription/createSubscriptionSession",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.getRequest2({
+        url: `${process.env.REACT_APP_API_URL}subscription/create-subscription`,
+        userType: obj?.userType,
+        obj,
+      });
+
+      if (response?.data) {
+        window.location.href = response?.data?.url;
+      }
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const saveSubscriptionPayment = createAsyncThunk(
+  "subscription/saveSubscriptionPayment",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.getRequest2({
+        url: `${process.env.REACT_APP_API_URL}subscription/save-payment`,
+        userType: obj?.userType,
+        obj,
+      });
+      console.log(
+        "Response of saveSubscriptionPayment",
+        response?.data?.subscriptionDetails
+      );
+      return response?.data?.subscriptionDetails;
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const sendSubscriptionPaymentEmail = createAsyncThunk(
+  "subscription/sendSubscriptionPaymentEmail",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.getRequest2({
+        url: `${process.env.REACT_APP_API_URL}subscription/send-confimation-mail`,
+        userType: obj?.userType,
+        obj: obj?.formData,
+        contentType: "multipart/form-data",
+      });
     } catch (error) {
       // Log and pass the error
       console.log("API error:", error);
@@ -41,47 +109,60 @@ export const fetchAddressDataRedux = createAsyncThunk(
 );
 
 export const subscriptionSlice = createSlice({
-  name: "address",
+  name: "subscription",
   initialState,
   reducers: {
-    restAddressData: (state) => {
-      state.address = [];
-      state.status = "idle";
-      state.error = null;
-    },
-    updateLogisticsAddress: (state, action) => {
-      state.updatedAddress = action.payload;
-     
+    updateSubscriptionSelected: (state, action) => {
+      state.subscriptionSelected = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAddressListRedux.pending, (state) => {
+      .addCase(fetchUserData.pending, (state) => {
         state.status = "loading";
+        state.loading = true;
       })
-      .addCase(fetchAddressListRedux.fulfilled, (state, action) => {
+      .addCase(fetchUserData.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.address = action?.payload;
-        state.addressCount = action?.payload?.totalItems;
+        state.loading = false;
+        state.user = action?.payload;
       })
-      .addCase(fetchAddressListRedux.rejected, (state, action) => {
+      .addCase(fetchUserData.rejected, (state, action) => {
         state.status = "failed";
+        state.loading = false;
         state.error = action.payload;
       })
-      .addCase(fetchAddressDataRedux.pending, (state) => {
+      .addCase(fetchCurrentSubscription.pending, (state) => {
         state.status = "loading";
+        state.loading = true;
       })
-      .addCase(fetchAddressDataRedux.fulfilled, (state, action) => {
+      .addCase(fetchCurrentSubscription.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.addressData = action?.payload;
+        state.loading = false;
+        state.subscribedPlanDetails = action?.payload;
       })
-      .addCase(fetchAddressDataRedux.rejected, (state, action) => {
+      .addCase(fetchCurrentSubscription.rejected, (state, action) => {
         state.status = "failed";
+        state.loading = false;
         state.error = action.payload;
       })
+      .addCase(saveSubscriptionPayment.pending, (state) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(saveSubscriptionPayment.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.loading = false;
+        state.subscriptionDetails = action?.payload;
+      })
+      .addCase(saveSubscriptionPayment.rejected, (state, action) => {
+        state.status = "failed";
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { restAddressData, updateLogisticsAddress } = subscriptionSlice.actions;
+export const { updateSubscriptionSelected } = subscriptionSlice.actions;
 
 export default subscriptionSlice.reducer;

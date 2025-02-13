@@ -73,7 +73,37 @@ export const apiRequests = {
     }
   },
 
-  postRequest: async (URL, requestData={} ) => {
+  getRequest2: async ({
+    url = "",
+    userType = undefined,
+    obj = {},
+    contentType = "application/json",
+  }) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: url,
+        data: obj,
+        headers: {
+          "Content-Type": contentType,
+          usertype: userType == "buyer" ? "Buyer" : "Supplier" || undefined,
+        },
+      });
+
+      if (response.status == 401) {
+        sessionStorage.clear();
+        return;
+      }
+      return response.data;
+    } catch (err) {
+      return {
+        code: err?.response?.status || 500,
+        message: err?.response?.data?.message,
+      };
+    }
+  },
+
+  postRequest: async (URL, requestData = {}) => {
     try {
       const response = await axios({
         method: "POST",
