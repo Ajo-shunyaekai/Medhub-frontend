@@ -21,7 +21,8 @@ const router = createBrowserRouter([
   //   ),
   // },
   {
-    path: "/subscription",
+
+    path: "/subscription/:userType/:userId/select-plan",
     element: (
       <Suspense fallback={<Loader />}>
         <SubscriptionPage socket={socket} />
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/subscription/successful",
+    path: "/subscription/:userType/:userId/successful",
     element: (
       <Suspense fallback={<Loader />}>
         <PaymentSuccessful socket={socket} />
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/subscription/failure",
+    path: "/subscription/:userType/:userId/failure",
     element: (
       <Suspense fallback={<Loader />}>
         <PaymentFailure socket={socket} />

@@ -19,6 +19,9 @@ const AddNewAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+  const { address, updatedAddress } = useSelector(
+    (state) => state?.addressReducer
+  );
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };
@@ -93,7 +96,7 @@ const AddNewAddress = () => {
         const response = await dispatch(addAddress({ obj: apiPayload }));
         if (response.meta.requestStatus === "fulfilled") {
           setTimeout(() => {
-            navigate(`/buyer/logistics-address/${buyerId}`);
+            navigate(`/buyer/logistics-address/${orderId}/${buyerId}`);
           }, 500);
         }
       } catch (error) {

@@ -15,7 +15,7 @@ import { fetchAddressById, editAddress } from "../../../../../redux/reducers/add
 const EditNewAddress = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { buyerId, addressId } = useParams();
+  const { orderId, buyerId, addressId } = useParams();
   const { addressToUpdate } = useSelector(
     (state) => state?.addressReducer
   );
@@ -98,7 +98,7 @@ const EditNewAddress = () => {
        const response = await dispatch(editAddress({ obj: apiPayload }));
        if(response.meta.requestStatus === "fulfilled") {
         setTimeout(() => {
-            navigate(`/buyer/logistics-address/${buyerId}`)
+            navigate(`/buyer/logistics-address/${orderId}/${buyerId}`)
           }, 500);
         }
        

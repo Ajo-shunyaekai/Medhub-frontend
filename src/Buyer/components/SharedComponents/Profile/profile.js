@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";
 import Loader from "../Loader/Loader";
+
 const Profile = () => {
   const { user } = useSelector((state) => state?.userReducer);
   const dispatch = useDispatch();

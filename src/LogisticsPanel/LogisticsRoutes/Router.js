@@ -132,7 +132,6 @@ const router = createBrowserRouter([
         path: "logistics-details/:requestId",
         element: (
           <Suspense fallback={<Loader />}>
-            {/* <Navigate to="/buyer" replace /> */}
             <LogisticsDetails/>
           </Suspense>
         ),
