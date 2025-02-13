@@ -4,7 +4,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import styles from './logisticsdetails.module.css';
 
-const LogisticsProductList = ({ orderItems }) => {
+const LogisticsProductList = ({ productList }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 3;
 
@@ -14,11 +14,11 @@ const LogisticsProductList = ({ orderItems }) => {
     { productId: 'PR1234567', productName: 'Paracetamol', quantity: 200, totalAmount: '500 USD', est_delivery_days: '10 Days' },
   ];
 
-  const data = orderItems && orderItems.length > 0 ? orderItems : activeOrders;
+  const data = productList && productList.length > 0 ? productList : activeOrders;
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = data.slice(indexOfFirstOrder, indexOfLastOrder);
+  const products = data.slice(indexOfFirstOrder, indexOfLastOrder);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -34,41 +34,37 @@ const LogisticsProductList = ({ orderItems }) => {
               <th className={styles.th}>Product ID</th>
               <th className={styles.th}>Product Name</th>
               <th className={styles.th}>Quantity</th>
-              <th className={styles.th}>Total Price</th>
+              {/* <th className={styles.th}>Total Price</th> */}
               <th className={styles.th}>No. of Packages</th>
             </tr>
           </thead>
           <tbody>
-            {currentOrders.map((item, index) => (
+            {products?.map((item, index) => (
               <tr className={styles.tr} key={index}>
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
-                    <span>{item.medicine_id || item.productId}</span>
+                    <span>{item.product_id}</span>
                   </div>
                 </td>
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
-                    <span>{item.medicine_name || item.productName}</span>
+                    <span>{item.product_name}</span>
                   </div>
                 </td>
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
-                    <span>{item.quantity_required || item.quantity}</span>
+                    <span>{item.quantity}</span>
                   </div>
                 </td>
-                <td className={styles.td}>
+                {/* <td className={styles.td}>
                   <div className={styles.tableContent}>
                     <span>{item.total_amount || item.item_price} USD</span>
                   </div>
-                </td>
+                </td> */}
                 <td className={styles.td}>
                   <div className={styles.tableContent}>
                     <span>
-                      {item.est_delivery_days
-                        ? item.est_delivery_days.toLowerCase().includes('days')
-                          ? item.est_delivery_days.replace(/days/i, 'Days')
-                          : `${item.est_delivery_days} Days`
-                        : '10 Days'}
+                      {item.no_of_packages}
                     </span>
                   </div>
                 </td>

@@ -71,14 +71,14 @@ const AddNewAddress = () => {
         .min(4, "Must be at least 4 digits")
         .max(10, "Must be at most 10 digits"),
       addressType: Yup.string().required("Address type is required"),
-      transportMode: Yup.string().required("Mode of transport is required"),
-      extraServices: Yup.array().of(Yup.string()),
+      //   transportMode: Yup.string().required("Mode of transport is required"),
+      //   extraServices: Yup.array().of(Yup.string()),
     }),
     onSubmit: async (values) => {
       try {
         console.log("Form submitted:", values);
         const apiPayload = {
-          order_id: orderId,
+          // order_id: orderId,
           buyer_id: buyerId,
           full_name: values?.fullName,
           mobile_number: values?.mobileNumber,
@@ -90,11 +90,15 @@ const AddNewAddress = () => {
           country: values?.country?.label || values?.country,
           pincode: values?.pincode,
           address_type: values?.addressType,
-          mode_of_transport: values?.transportMode,
-          extra_services: values?.extraServices,
+          // mode_of_transport: values?.transportMode,
+          // extra_services: values?.extraServices,
         };
-        // Add your API call here
         const response = await dispatch(addAddress({ obj: apiPayload }));
+        if (response.meta.requestStatus === "fulfilled") {
+          setTimeout(() => {
+            navigate(`/buyer/logistics-address/${orderId}/${buyerId}`);
+          }, 500);
+        }
       } catch (error) {
         toast.error("Something went wrong!");
       }
@@ -158,7 +162,18 @@ const AddNewAddress = () => {
         className={styles.formLogistics}
         onSubmit={(e) => {
           e.preventDefault();
-
+          formik.setTouched({
+            fullName: true,
+            mobileNumber: true,
+            companyAddress: true,
+            locality: true,
+            landmark: true,
+            country: true,
+            state: true,
+            city: true,
+            pincode: true,
+            addressType: true,
+          });
           if (Object.keys(formik.errors).length === 0) {
             formik.handleSubmit();
           } else {
@@ -181,8 +196,9 @@ const AddNewAddress = () => {
                 name="fullName"
                 value={formik.values.fullName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.fullName && (
+              {formik.touched.fullName && formik.errors.fullName && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.fullName}
                 </span>
@@ -194,21 +210,16 @@ const AddNewAddress = () => {
               </label>
               <PhoneInput
                 className="signup-form-section-phone-input"
-                defaultCountry={
-                  Country.getAllCountries()?.filter(
-                    (country) =>
-                      country?.phonecode?.replace("+", "") ===
-                      address?.[0]?.mobile_number?.replace("+", "")
-                  )?.[0]?.isoCode
-                }
+                defaultCountry="US"
                 name="mobileNumber"
                 value={formik.values.mobileNumber}
                 onChange={(value) => {
                   handlePhoneChange("mobileNumber", value);
                   //   setMobile(value);
                 }}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.mobileNumber && (
+              {formik.touched.mobileNumber && formik.errors.mobileNumber && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.mobileNumber}
                 </span>
@@ -227,12 +238,14 @@ const AddNewAddress = () => {
                 name="companyAddress"
                 value={formik.values.companyAddress}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.companyAddress && (
-                <span className={styles.error_message_formik}>
-                  {formik.errors.companyAddress}
-                </span>
-              )}
+              {formik.touched.companyAddress &&
+                formik.errors.companyAddress && (
+                  <span className={styles.error_message_formik}>
+                    {formik.errors.companyAddress}
+                  </span>
+                )}
             </div>
             <div className={styles.logisticesInputSection}>
               <label className={styles.formLabel}>
@@ -246,8 +259,9 @@ const AddNewAddress = () => {
                 name="locality"
                 value={formik.values.locality}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.locality && (
+              {formik.touched.locality && formik.errors.locality && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.locality}
                 </span>
@@ -281,8 +295,9 @@ const AddNewAddress = () => {
                 placeholder="Select Country"
                 name="country"
                 onChange={handleCountryChange}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.country && (
+              {formik.touched.country && formik.errors.country && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.country}
                 </span>
@@ -318,20 +333,21 @@ const AddNewAddress = () => {
               <label className={styles.formLabel}>City</label>
               <Select
                 options={
-                  selectedState && selectedState.isoCode !== "OTHER"
+                  selectedState
                     ? [
                         ...City.getCitiesOfState(
-                          selectedState.countryCode,
-                          selectedState.isoCode
-                        ),
-                        { name: "Other" },
+                          selectedCountry.value,
+                          selectedState.value
+                        ).map((city) => ({
+                          value: city.name,
+                          label: city.name,
+                        })),
+                        { value: "Other", label: "Other" }, // Add "Other" option here
                       ]
-                    : [{ name: "Other" }]
+                    : []
                 }
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.name}
                 value={selectedCity}
-                onChange={setSelectedCity}
+                onChange={handleCityChange}
                 placeholder="Select City"
               />
             </div>
@@ -342,6 +358,7 @@ const AddNewAddress = () => {
                 type="text"
                 placeholder="Enter your pincode"
                 autoComplete="off"
+                name="pincode"
                 value={formik.values.pincode}
                 onChange={formik.handleChange}
               />
@@ -366,13 +383,14 @@ const AddNewAddress = () => {
                     value={mode.value}
                     checked={formik.values.addressType === mode.value}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                   <label className={styles.radioLabel}>
                     <span className={styles.radioSpan}>{mode.label}</span>
                   </label>
                 </div>
               ))}
-              {formik.errors.addressType && (
+              {formik.touched.addressType && formik.errors.addressType && (
                 <span className={styles.error_message_formik}>
                   {formik.errors.addressType}
                 </span>

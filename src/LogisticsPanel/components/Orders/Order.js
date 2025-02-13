@@ -17,10 +17,10 @@ const Order = () => {
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(true);
-    const [orderList, setOrderList] = useState([])
-    const [totalOrders, setTotalOrders] = useState()
+    const [list, setList] = useState([])
+    const [totalList, setTotalList] = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
+    const listPerPage = 5;
 
 
     const getActiveLinkFromPath = (path) => {
@@ -65,6 +65,41 @@ const Order = () => {
         setCurrentPage(pageNumber);
     };
 
+     const fetchData = async ()=> {
+            const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+            const partnerIdLocalStorage   = localStorage.getItem("partner_id");
+     
+            if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+            navigate("/logistics/login");
+            return;
+            }
+            const obj = {
+                partner_id  : partnerIdSessionStorage || partnerIdLocalStorage,
+                status       : activeLink,
+                page_no      : currentPage, 
+                limit        : listPerPage,
+            }
+     
+          
+            try {
+                const response = await apiRequests.getRequest(`logistics/get-logistics-request-list?status=${activeLink}&pageNo=${currentPage}&pageSize=${listPerPage}`)
+                if (response.code === 200) {
+                    setList(response.result.data)
+                    setTotalList(response.result.totalItems)
+                }
+                
+            } catch (error) {
+                toast(error.message, {type:'error'})
+                console.log('error in order list api',error);
+            } finally{
+                setLoading(false);
+            }
+        }
+
+     useEffect(() => {
+            fetchData()
+        },[activeLink, currentPage])
+
     return (
         <>
 
@@ -103,37 +138,37 @@ const Order = () => {
                             {
                                 activeLink === 'active' ?
                                     <ActiveOrder
-                                        orderList={orderList}
-                                        totalOrders={totalOrders}
+                                        list={list}
+                                        totalList={totalList}
                                         currentPage={currentPage}
-                                        ordersPerPage={ordersPerPage}
+                                        listPerPage={listPerPage}
                                         handlePageChange={handlePageChange}
                                         activeLink={activeLink}
                                     />
                                     : activeLink === 'completed' ?
                                         <CompletedOrder
-                                            orderList={orderList}
-                                            totalOrders={totalOrders}
+                                            list={list}
+                                            totalList={totalList}
                                             currentPage={currentPage}
-                                            ordersPerPage={ordersPerPage}
+                                            listPerPage={listPerPage}
                                             handlePageChange={handlePageChange}
                                             activeLink={activeLink}
                                         /> :
                                         activeLink === 'pending' ?
                                             <PendingOrder
-                                                orderList={orderList}
-                                                totalOrders={totalOrders}
+                                                list={list}
+                                                totalList={totalList}
                                                 currentPage={currentPage}
-                                                ordersPerPage={ordersPerPage}
+                                                listPerPage={listPerPage}
                                                 handlePageChange={handlePageChange}
                                                 activeLink={activeLink}
                                             /> : 
                                             activeLink === 'ongoing' ?
                                             <OngoingOrder
-                                                orderList={orderList}
-                                                totalOrders={totalOrders}
+                                                list={list}
+                                                totalList={totalList}
                                                 currentPage={currentPage}
-                                                ordersPerPage={ordersPerPage}
+                                                listPerPage={listPerPage}
                                                 handlePageChange={handlePageChange}
                                                 activeLink={activeLink}
                                             /> : ''

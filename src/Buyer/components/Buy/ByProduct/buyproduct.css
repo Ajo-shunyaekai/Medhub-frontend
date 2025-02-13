@@ -153,7 +153,6 @@
 .byproduct-seller-pharma-card {
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
   column-gap: 20px;
   row-gap: 20px;

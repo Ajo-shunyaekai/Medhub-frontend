@@ -10,15 +10,31 @@ const initialState = {
   error: null,
   addressData: {},
   updatedAddress: {},
+  addressToUpdate: {}
 };
 
 export const fetchAddressListRedux = createAsyncThunk(
   "address/fetchAddressListRedux",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest('address/get-address', {buyer_id: values})
+      const response = await apiRequests.postRequest('address/get-address-list', {buyer_id: values})
       console.log('response', response?.address?.userAddress)
       return response?.address?.userAddress; 
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchAddressById = createAsyncThunk(
+  "address/fetchAddressById",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.getRequest(`address/get-address/${values?.userId}/${values?.addressId}`,)
+      console.log('response', response?.address)
+      return response?.address
     } catch (error) {
       // Log and pass the error
       console.log("API error:", error);
@@ -65,6 +81,52 @@ export const addAddress = createAsyncThunk(
   }
 );
 
+export const editAddress = createAsyncThunk(
+  "address/editAddress",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequest(
+        `address/edit-address/${values?.obj?.userId}/${values?.obj?.addressId}`,
+        { ...values?.obj, }
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
+export const deleteAddress = createAsyncThunk(
+  "address/deleteAddress",
+  async (values, { rejectWithValue }) => {
+    console.log('VALYES',values )
+    try {
+      const response = await apiRequests?.postRequest(
+        `address/delete-address/${values?.userId}/${values?.addressId}`,
+        { ...values?.obj, }
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const addressSlice = createSlice({
   name: "address",
   initialState,
@@ -76,8 +138,8 @@ export const addressSlice = createSlice({
     },
     updateLogisticsAddress: (state, action) => {
       state.updatedAddress = action.payload;
-     
     },
+   
   },
   extraReducers: (builder) => {
     builder
@@ -90,6 +152,27 @@ export const addressSlice = createSlice({
         state.addressCount = action?.payload?.totalItems;
       })
       .addCase(fetchAddressListRedux.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(fetchAddressById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddressById.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.addressToUpdate = action?.payload;
+      })
+      .addCase(fetchAddressById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(deleteAddress.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteAddress.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(deleteAddress.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

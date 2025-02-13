@@ -1,30 +1,77 @@
-import React from 'react'
-import './subscription.css'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Link } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './subscription.module.css';
+import CurrentPlan from './Plan';
+import TransactionHistory from './TransactionHistory';
 
 const Subscription = () => {
-  return (
-    <div className='membership-main-section'>
-      <div className='membership-main-heading'>Subscription</div>
-      <div className='subscription-card-container'>
-        <div className='subscription-plan-head'>Subscription since October 2024</div>
-        <div className='subscription-plan-section-cont'>
-          <div className='subscription-basic-paln'>Basic Plan</div>
-          <div className='subscription-next-payment'>Next Payment: 30 July 2025</div>
-        </div>
-        {/* <Link to='/supplier/subscription-membership' className='subscription-footer-link'>
-        <div className='subscription-footer-container'>       
-          <div className='subscriprion-footer-head'>Subscription Membership</div>
-          <div className='subscription-footer-icon'>
-            <ChevronRightIcon />
-          </div>         
-        </div>
-        </Link> */}
-      </div>
-    </div>
-  )
-}
+    const location = useLocation();
+    const navigate = useNavigate();
 
-export default Subscription
+    const [loading, setLoading] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    useEffect(() => {
+        const getActiveLinkFromPath = (path) => {
+            switch (path) {
+                case '/supplier/subscription/current-plan':
+                    return 0;
+                case '/supplier/subscription/transaction-history':
+                    return 1;
+                default:
+                    return 0;
+            }
+        };
+
+        const newIndex = getActiveLinkFromPath(location.pathname);
+        setActiveIndex(newIndex);
+    }, [location.pathname]);
+
+    const handleLinkClick = (link) => {
+        switch (link) {
+            case 'current-plan':
+                setActiveIndex(0);
+                navigate('/supplier/subscription/current-plan');
+                break;
+            case 'transaction-history':
+                setActiveIndex(1);
+                navigate('/supplier/subscription/transaction-history');
+                break;
+            default:
+                setActiveIndex(0);
+                navigate('/supplier/subscription/current-plan');
+        }
+    };
+
+    return (
+        <>
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <div className={styles.container}>
+                    <span className={styles.heading}>Subscription</span>
+                    <div className={styles.buttonContainer}>
+                        <div
+                            onClick={() => handleLinkClick('current-plan')}
+                            className={`${styles.Button} ${activeIndex === 0 ? styles.active : ''}`}
+                        >
+                            <span className={styles.subscriptionButton}>Current Plan</span>
+                        </div>
+                        <div
+                            onClick={() => handleLinkClick('transaction-history')}
+                            className={`${styles.Button} ${activeIndex === 1 ? styles.active : ''}`}
+                        >
+                            <span className={styles.subscriptionButton}>Transaction History</span>
+                        </div>
+                    </div>
+                    <div className={styles.innerContainer}>
+                        {activeIndex === 0 && <CurrentPlan />}
+                        {activeIndex === 1 && <TransactionHistory />}
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
+export default Subscription;

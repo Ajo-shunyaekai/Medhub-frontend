@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { apiRequests } from "../../../../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import Loader from "../../../../components/SharedComponents/Loader/Loader";
@@ -24,129 +23,10 @@ const LogisticsForm = () => {
   );
 
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
-  const [addressType, setAddressType] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [isRegAddressChecked, setIsRegAddressChecked] = useState(false);
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [selected, setSelected] = useState(true);
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     fullName: "",
-  //     mobileNumber: "",
-  //     companyAddress: "",
-  //     locality: "",
-  //     landmark: "",
-  //     country: null,
-  //     state: null,
-  //     city: null,
-  //     pincode: "",
-  //     addressType: "",
-  //     transportMode: "",
-  //     extraServices: [],
-  //     useRegisteredAddress: false,
-  //   },
-  //   validationSchema: Yup.object().shape({
-  //     // fullName: Yup.string()
-  //     //   .min(2, "Name is too short")
-  //     //   .max(50, "Name is too long")
-  //     //   .required("Full name is required"),
-  //     // mobileNumber: Yup.string()
-  //     //   .required("Mobile number is required")
-  //     //   .test("is-valid-phone", "Invalid phone number", (value) => {
-  //     //     try {
-  //     //       const phoneNumber = parsePhoneNumber(value);
-
-  //     //       // Validate phone number and return true if it's valid, false if not
-  //     //       return phoneNumber && phoneNumber.isValid();
-  //     //     } catch (error) {
-  //     //       // If parsing fails, mark it as invalid
-  //     //       return false;
-  //     //     }
-  //     //   }),
-  //     // companyAddress: Yup.string().required("Company address is required"),
-  //     // locality: Yup.string().required("Locality/Town is required"),
-  //     // landmark: Yup.string(),
-  //     // country: Yup.mixed().required("Country is required"),
-  //     // state: Yup.mixed(),
-  //     // city: Yup.mixed(),
-  //     // pincode: Yup.string()
-  //     //   .matches(/^[0-9]+$/, "Must be only digits")
-  //     //   .min(4, "Must be at least 4 digits")
-  //     //   .max(10, "Must be at most 10 digits"),
-  //     // addressType: Yup.string().required("Address type is required"),
-  //     // transportMode: Yup.string().required("Mode of transport is required"),
-  //     // extraServices: Yup.array().of(Yup.string()),
-  //     ...(address.length === 1 && {
-  //       fullName: Yup.string()
-  //         .min(2, "Name is too short")
-  //         .max(50, "Name is too long")
-  //         .required("Full name is required"),
-  //       mobileNumber: Yup.string()
-  //         .required("Mobile number is required")
-  //         .test("is-valid-phone", "Invalid phone number", (value) => {
-  //           try {
-  //             const phoneNumber = parsePhoneNumber(value);
-  //             return phoneNumber && phoneNumber.isValid();
-  //           } catch (error) {
-  //             return false;
-  //           }
-  //         }),
-  //       companyAddress: Yup.string().required("Company address is required"),
-  //       locality: Yup.string().required("Locality/Town is required"),
-  //       landmark: Yup.string(),
-  //       country: Yup.mixed().required("Country is required"),
-  //       state: Yup.mixed(),
-  //       city: Yup.mixed(),
-  //       pincode: Yup.string()
-  //         .matches(/^[0-9]+$/, "Must be only digits")
-  //         .min(4, "Must be at least 4 digits")
-  //         .max(10, "Must be at most 10 digits"),
-  //       addressType: Yup.string().required("Address type is required"),
-  //     }),
-  //     // Always validate these fields regardless of address length
-  //     transportMode: Yup.string().required("Mode of transport is required"),
-  //     extraServices: Yup.array().of(Yup.string()),
-    
-  //   }),
-  //   onSubmit: async (values) => {
-  //     try {
-  //       if (address.length > 1) {
-  //         const transportModeError = formik.errors.transportMode;
-  //         if (transportModeError) {
-  //           toast.error("Please select a mode of transport.");
-  //           return;
-  //         }
-  //       console.log("Form submitted:", values);
-  //       const apiPayload = {
-  //         order_id: orderId,
-  //         buyer_id: buyerId,
-  //         full_name: values?.fullName,
-  //         mobile_number: values?.mobileNumber,
-  //         company_reg_address: values?.companyAddress,
-  //         locality: values?.locality,
-  //         land_mark: values?.landmark,
-  //         city: values?.city?.label || values?.city,
-  //         state: values?.state?.label || values?.state,
-  //         country: values?.country?.label || values?.country,
-  //         pincode: values?.pincode,
-  //         address_type: values?.addressType,
-  //         mode_of_transport: values?.transportMode,
-  //         extra_services: values?.extraServices,
-  //       };
-  //       // Add your API call here
-  //       const response = await dispatch(bookLogistics({ obj: apiPayload }));
-  //     }
-  //     } catch (error) {
-  //       toast.error("Something went wrong!");
-  //     }
-  //   },
-  // });
-
-  // Handlers for Select components
-  
 
   const formik = useFormik({
     initialValues: {
@@ -165,7 +45,7 @@ const LogisticsForm = () => {
       useRegisteredAddress: false,
     },
     validationSchema: Yup.object().shape({
-      ...(address.length === 1 && {
+      ...(address?.length === 1 && {
         fullName: Yup.string()
           .min(2, "Name is too short")
           .max(50, "Name is too long")
@@ -198,8 +78,8 @@ const LogisticsForm = () => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-        
-        if (address.length > 1) {
+
+        if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
             order_id: orderId,
@@ -236,22 +116,21 @@ const LogisticsForm = () => {
             extra_services: values.extraServices,
           };
         }
-  
+console.log('apiPayload',apiPayload)
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
-        
-        // if (response.success) {
-        //   toast.success("Logistics request submitted successfully");
-        //   // Add navigation or other success handling if needed
-        // } else {
-        //   toast.error(response.message || "Failed to submit logistics request");
-        // }
+
+        if (response.meta.requestStatus === "fulfilled") {
+          setTimeout(() => {
+            navigate(`/buyer/order-details/${orderId}`);
+          }, 500);
+        }
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
       }
     },
   });
-  
+
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
     setSelectedState(null);
@@ -278,7 +157,7 @@ const LogisticsForm = () => {
         formik.setFieldValue(name, formattedNumber);
         formik.setFieldError(name, "");
       } else {
-        formik.setFieldValue(name, value); 
+        formik.setFieldValue(name, value);
         formik.setFieldError(name, "Invalid phone number");
       }
     } catch (error) {
@@ -396,7 +275,7 @@ const LogisticsForm = () => {
   useEffect(() => {
     if (updatedAddress && Object.values(updatedAddress).length > 0) {
       setDisplayAddress(updatedAddress);
-    } else if (address && address.length > 0) {
+    } else if (address && address?.length > 0) {
       setDisplayAddress(address[0]);
     } else {
       setDisplayAddress({});
@@ -423,14 +302,27 @@ const LogisticsForm = () => {
         // }}
         onSubmit={(e) => {
           e.preventDefault();
-          
+          formik.setTouched({
+            fullName: true,
+            mobileNumber: true,
+            companyAddress: true,
+            locality: true,
+            landmark: true,
+            country: true,
+            state: true,
+            city: true,
+            pincode: true,
+            addressType: true,
+            transportMode: true,
+            extraServices: true,
+          });
           // Check if transport mode is selected
           if (!formik.values.transportMode) {
             toast.error("Please select a mode of transport");
             return;
           }
-      
-          if (address.length > 1) {
+
+          if (address?.length > 1) {
             // For existing address, just submit
             formik.handleSubmit();
           } else {
@@ -443,7 +335,7 @@ const LogisticsForm = () => {
           }
         }}
       >
-        {address.length === 1 ? (
+        {address?.length === 1 ? (
           <div className={styles.formInnerClass}>
             <div className={styles.innerHeading}>Drop Details</div>
             <div
@@ -473,9 +365,10 @@ const LogisticsForm = () => {
                   name="fullName"
                   value={formik.values.fullName}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.fullName && (
+                {formik.touched.fullName && formik.errors.fullName && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.fullName}
                   </span>
@@ -498,11 +391,11 @@ const LogisticsForm = () => {
                   value={formik.values.mobileNumber}
                   onChange={(value) => {
                     handlePhoneChange("mobileNumber", value);
-                    //   setMobile(value);
                   }}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.mobileNumber && (
+                {formik.touched.mobileNumber && formik.errors.mobileNumber && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.mobileNumber}
                   </span>
@@ -521,13 +414,15 @@ const LogisticsForm = () => {
                   name="companyAddress"
                   value={formik.values.companyAddress}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.companyAddress && (
-                  <span className={styles.error_message_formik}>
-                    {formik.errors.companyAddress}
-                  </span>
-                )}
+                {formik.touched.companyAddress &&
+                  formik.errors.companyAddress && (
+                    <span className={styles.error_message_formik}>
+                      {formik.errors.companyAddress}
+                    </span>
+                  )}
               </div>
               <div className={styles.logisticesInputSection}>
                 <label className={styles.formLabel}>
@@ -541,9 +436,10 @@ const LogisticsForm = () => {
                   name="locality"
                   value={formik.values.locality}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   disabled={isRegAddressChecked}
                 />
-                {formik.errors.locality && (
+                {formik.touched.locality && formik.errors.locality && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.locality}
                   </span>
@@ -578,9 +474,10 @@ const LogisticsForm = () => {
                   placeholder="Select Country"
                   name="country"
                   onChange={handleCountryChange}
+                  onBlur={formik.handleBlur}
                   isDisabled={isRegAddressChecked}
                 />
-                {formik.errors.country && (
+                {formik.touched.country && formik.errors.country && (
                   <span className={styles.error_message_formik}>
                     {formik.errors.country}
                   </span>
@@ -669,13 +566,14 @@ const LogisticsForm = () => {
                         value={mode.value}
                         checked={formik.values.addressType === mode.value}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                       <label className={styles.radioLabel}>
                         <span className={styles.radioSpan}>{mode.label}</span>
                       </label>
                     </div>
                   ))}
-                  {formik.errors.addressType && (
+                  {formik.touched.addressType && formik.errors.addressType && (
                     <span className={styles.error_message_formik}>
                       {formik.errors.addressType}
                     </span>
@@ -684,22 +582,31 @@ const LogisticsForm = () => {
               </div>
             )}
           </div>
-        ) : address.length > 1 ? (
+        ) : address?.length > 1 ? (
           <div className={styles.cardContainer}>
             <div className={styles.cardHeadSection}>
               <span className={styles.cardHeading}>Drop Details</span>
-              <Link to={`/buyer/logistics-address/${buyerId}`}>
+              <Link to={`/buyer/logistics-address/${orderId}/${buyerId}`}>
                 <span className={styles.cardButton}>Change</span>
               </Link>
             </div>
             <div className={styles.cardInnerContainer}>
               <span className={styles.cardText}>
                 {displayAddress?.full_name}
-                <span className={styles.cardType}>{displayAddress?.type || displayAddress?.address_type}</span>
+                <span className={styles.cardType}>
+                  {displayAddress?.type || displayAddress?.address_type}
+                </span>
               </span>
-              <span className={styles.cardText}>{displayAddress?.company_reg_address}</span>
-              <span className={styles.cardText}>{displayAddress?.locality} {displayAddress?.locality}</span>
-              <span className={styles.cardText}>{displayAddress?.city} {displayAddress?.state} {displayAddress?.country}</span>
+              <span className={styles.cardText}>
+                {displayAddress?.company_reg_address}
+              </span>
+              <span className={styles.cardText}>
+                {displayAddress?.locality} {displayAddress?.locality}
+              </span>
+              <span className={styles.cardText}>
+                {displayAddress?.city} {displayAddress?.state}{" "}
+                {displayAddress?.country}
+              </span>
               <span className={styles.cardText}>{displayAddress?.pincode}</span>
             </div>
           </div>
@@ -711,30 +618,32 @@ const LogisticsForm = () => {
               Mode of Transport<span className={styles.labelstamp}>*</span>
             </div>
 
-            <div className={styles.radioInnerContainer}>
+            <div className={styles.radioInnerContainer} >
               {[
                 {
-                  value: "Aircargo",
+                  value: "Air Cargo",
                   label: "Air Cargo",
                   description: "(Fastest Delivery & High Charges)",
                 },
                 {
-                  value: "Seafreight",
+                  value: "Sea Freight",
                   label: "Sea Freight",
                   description: "(Faster Delivery & Comparatively Low Charges)",
                 },
                 {
-                  value: "Roadfreight",
+                  value: "Road Freight",
                   label: "Road Freight",
                   description: "(Delivery & Lower Charges)",
                 },
                 {
-                  value: "Logistices",
+                  value: "Ask Logistics Partner",
                   label: "Ask the Logistics Partner to Recommend",
                   description: "",
                 },
               ].map((mode) => (
-                <div key={mode.value} className={styles.radioGroup}>
+                <div key={mode.value} className={styles.radioGroup} 
+                onClick={() => formik.setFieldValue("transportMode", mode.value)}
+                >
                   <input
                     className={styles.radioInput}
                     type="radio"
@@ -765,11 +674,21 @@ const LogisticsForm = () => {
 
             <div className={styles.radioInnerContainer}>
               {[
-                { value: "Doortodoor", label: "Door to Door" },
-                { value: "PorttoPort", label: "Port to Port" },
-                { value: "Customclearance", label: "Custom Clearance" },
+                { value: "Door to Door", label: "Door to Door" },
+                { value: "Port to Port", label: "Port to Port" },
+                { value: "Custom Clearance", label: "Custom Clearance" },
               ].map((service) => (
-                <div key={service.value} className={styles.radioGroup}>
+                <div key={service.value} className={styles.radioGroup}
+                onClick={() => {
+                  const currentServices = formik.values.extraServices;
+                  const isSelected = currentServices.includes(service.value);
+                  const updatedServices = isSelected
+                    ? currentServices.filter((s) => s !== service.value) // Remove if already selected
+                    : [...currentServices, service.value]; // Add if not selected
+        
+                  formik.setFieldValue("extraServices", updatedServices);
+                }}
+                >
                   <input
                     className={styles.radioInput}
                     type="checkbox"

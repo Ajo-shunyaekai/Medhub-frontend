@@ -78,7 +78,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "dashboard",
+        // path: "dashboard",
+        index: true,
         element: (
           <Suspense fallback={<Loader />}>
             <Dashboard />
@@ -128,10 +129,10 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "logistics-details",
+        path: "logistics-details/:requestId",
         element: (
           <Suspense fallback={<Loader />}>
-            <Navigate to="/buyer" replace />
+            <LogisticsDetails/>
           </Suspense>
         ),
       },

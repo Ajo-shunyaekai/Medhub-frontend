@@ -111,7 +111,7 @@ ul {
     cursor:pointer !important;
 }
 .breadcrumbs-head.active {
-  color:#448bff;
+  color:#282f86;
 }
 .breadcrumbs-icon{
   width: 5px;
@@ -345,6 +345,7 @@ ul {
 .buy-seller-filter-drop {
   position: relative;
   top: 0%;
+  cursor: pointer !important;
 }
 
 .buy-seller-inner-dropdown {
@@ -362,11 +363,31 @@ ul {
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
+.buy-seller-inner-country-dropdown{
+  position: absolute;
+  top: 120%;
+  color: #5e676f;
+  font-size: 14px;
+  background-color: #ffffff;
+  width: 180px;
+  height: 200px;
+  overflow: scroll;
+  padding: 14px;
+  padding-left: 14px !important;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.buy-seller-inner-country-dropdown::-webkit-scrollbar{
+  display: none;
+}
 .buy-button-one.active,
 .buy-button-two.active {
   background-color: #e1e1e4;
   border-color: #dadade;
+  color: #282f86;
 }
 
 .buy-seller-pagination-container {

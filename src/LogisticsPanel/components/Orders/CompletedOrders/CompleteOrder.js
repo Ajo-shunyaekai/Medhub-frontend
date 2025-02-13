@@ -9,7 +9,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import moment from 'moment/moment';
 
 
-const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, handlePageChange, activeLink }) => {
+const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageChange, activeLink }) => {
 
     const [modal, setModal] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState()
@@ -44,11 +44,9 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                 }
 
                                 {
-                                    orderList && orderList.length > 0 ? (
-                                        orderList?.map((order, i) => {
-                                            const totalQuantity = order.items.reduce((total, item) => {
-                                                return total + (item?.quantity || item?.quantity_required);
-                                            }, 0);
+                                    list && list.length > 0 ? (
+                                        list?.map((order, i) => {
+                                            
                                             const orderedDate = moment(order.created_at).format("DD/MM/YYYY")
                                             return (
                                                 <tbody className='order-container-tbody'>
@@ -57,21 +55,21 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                                             <div className="order-section-heading">{orderedDate}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order.order_id}</div>
+                                                            <div className="order-section-heading">{order.logistics_id}</div>
                                                         </td>
                                                         
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order.supplier?.supplier_name}</div>
+                                                            <div className="order-section-heading">{order.supplierDetails?.[0]?.supplier_name}</div>
                                                         </td>
                                                         <td className='order-section-tds'>
-                                                            <div className="order-section-heading">Pharmaceuticals</div>
+                                                            <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
                                                         </td>
                                                         <td className='order-section-td'>
-                                                            <div className="order-section-heading">{order?.order_status.charAt(0).toUpperCase() + order?.order_status.slice(1)}</div>
+                                                            <div className="order-section-heading">{order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}</div>
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>
-                                                                <Link to={`/logistics/logistics-details`}>
+                                                                <Link to={`/logistics/logistics-details/${order.logistics_id}`}>
                                                                     <div className='order-section-view'>
                                                                         <RemoveRedEyeOutlinedIcon className='order-section-eye' />
                                                                     </div>
@@ -97,12 +95,12 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                         </div>
                    
                         {
-                            orderList && orderList.length > 0 ? (
+                            list && list.length > 0 ? (
                                 <div className='pagi-container'>
                                     <Pagination
                                         activePage={currentPage}
-                                        itemsCountPerPage={ordersPerPage}
-                                        totalItemsCount={totalOrders}
+                                        itemsCountPerPage={listPerPage}
+                                        totalItemsCount={totallist}
                                         pageRangeDisplayed={5}
                                         onChange={handlePageChange}
                                         itemClass="page-item"
@@ -113,7 +111,7 @@ const CompleteOrder = ({ orderList, totalOrders, currentPage, ordersPerPage, han
                                     />
                                     <div className='pagi-total'>
                                         <div className='pagi-total'>
-                                            Total Items: {totalOrders}
+                                            Total Items: {totallist}
                                         </div>
                                     </div>
                                 </div>

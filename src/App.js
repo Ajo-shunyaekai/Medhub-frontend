@@ -9,6 +9,10 @@ import AdminSidebar from './Admin/AdminRoutes/Router';
 import SupplierSidebar from './Supplier/SupplierRoutes/Router';
 import LogisticsRoutes from './LogisticsPanel/LogisticsRoutes/Router'
 import SubscriptionPlan from './SubscriptionPlan/LandingSubscription'
+import Successful from './SubscriptionPlan/PayementSucsessful'
+import Failed from './SubscriptionPlan/PaymentFailure'
+import Invoice from './SubscriptionPlan/Invoice/invoice'
+
 
 const activekey = () => {
     var res          = window.location.pathname;
@@ -55,6 +59,18 @@ const renderSidebar = () => {
     else if (activekey().includes('subscription')) {
         return <SubscriptionPlan/>;
     }
+
+    else if (activekey().includes('successful')) {
+        return <Successful/>;
+    }
+    else if (activekey().includes('failed')) {
+        return <Failed/>;
+    }
+    
+    else if (activekey().includes('invoice')) {
+        return <Invoice/>;
+    }
+
     return null;
 };
 

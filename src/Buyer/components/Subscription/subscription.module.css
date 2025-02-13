@@ -1,0 +1,244 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.Button {
+  background-color: #ffffff;
+  color: #99a0ac;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer !important;
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.active {
+  background-color: #e1e1e4 !important;
+  color: #282f86 !important;
+}
+
+.subscriptionButton {
+  cursor: pointer !important;
+}
+
+/* Start the cureent plan page deisgn */
+.card {
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in-out;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 12px;
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.cardHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subscriptionHead {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.cancelSubscription {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  font-weight: 500;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 16px;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.plan {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.billingDate {
+  font-size: 14px;
+  font-weight: 500;
+  color: #282f86;
+}
+
+.billingDate span {
+  font-size: 14px;
+}
+
+.benefits {
+  margin-top: 10px;
+}
+
+.benefits h6 {
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.benefits ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0px !important;
+}
+
+.icon {
+  color: #282f86;
+  font-size: 24px;
+}
+
+.benefits li {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.upgrade {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  font-weight: 500;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  border: none !important;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding: 8px 16px;
+  margin-top: 16px;
+}
+
+.invoices {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel {
+  background: #dc3545;
+  color: white;
+}
+
+
+/* End the current plan page design */
+
+/* Style the transaction history details */
+.transactionHistoryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.transactionTable {
+  border-spacing: 0 10px;
+  /* Adds vertical spacing between rows */
+  border-collapse: separate;
+  /* Ensures border-spacing works */
+}
+
+.tr {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  /* Adds space between rows */
+  display: table-row;
+  /* Ensures it behaves as a row */
+}
+
+.th {
+  width: 4%;
+  color: #99a0ac !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  background-color: transparent !important;
+  padding: 1rem 0.5rem !important;
+  border: none !important;
+  color: #5e676f !important;
+}
+
+.td {
+  padding: 1rem 0.5rem !important;
+  border: none !important;
+  font-size: 14px !important;
+  color: #99a0ac !important;
+  font-weight: 500;
+}
+
+.transactionPaginationContainer {
+  display: flex;
+  flex-direction: column;
+}
+.transactionActionButtons{
+  display: flex;
+  align-items: center;
+}
+
+.transactionViewIcon {
+  background-color: #31c971 !important;
+  padding: 2px 8px;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer !important;
+}
+
+.viewIcon {
+  font-size: 20px !important;
+  cursor: pointer !important;
+}
+
+/* End the transaction history details */
