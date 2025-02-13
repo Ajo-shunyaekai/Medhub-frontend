@@ -9,13 +9,13 @@ import {
   fetchUserData,
 } from "../redux/reducers/subscriptionSlice";
 import axios from "axios";
-
+ 
 const SubscriptionPage = () => {
   const dispatch = useDispatch();
   const { userType, userId } = useParams();
   const { user } = useSelector((state) => state?.subscriptionReducer);
   const [activePlan, setActivePlan] = useState(null);
-
+ 
   const subscriptionPlans = [
     {
       type: "Yearly Subscription",
@@ -34,11 +34,11 @@ const SubscriptionPage = () => {
       bgColor: "#37d1dd",
     },
   ];
-
+ 
   const handleCardClick = (plan) => {
     setActivePlan(plan);
   };
-
+ 
   const handlePayment = async (duration, pkg, email) => {
     dispatch(
       createSubscriptionSession({
@@ -50,13 +50,13 @@ const SubscriptionPage = () => {
       })
     );
   };
-
+ 
   useEffect(() => {
     userId &&
       userType &&
       dispatch(fetchUserData({ id: userId, type: userType }));
   }, [userId, userType]);
-
+ 
   useEffect(() => {
     user?.currentSubscription &&
       dispatch(
@@ -66,7 +66,7 @@ const SubscriptionPage = () => {
         })
       );
   }, [user?.currentSubscription]);
-
+ 
   return (
     <>
       {user?.currentSubscription ? (
@@ -163,7 +163,7 @@ const SubscriptionPage = () => {
                     Purchase Now
                   </div>
                 </div>
-
+ 
                 <div
                   className={`${styles.card} ${
                     activePlan === "yearly" ? styles.activeCard : ""
@@ -225,5 +225,5 @@ const SubscriptionPage = () => {
     </>
   );
 };
-
+ 
 export default SubscriptionPage;

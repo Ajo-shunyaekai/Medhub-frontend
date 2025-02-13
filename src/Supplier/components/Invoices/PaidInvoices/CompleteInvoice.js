@@ -159,7 +159,7 @@ const CompleteInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerP
                             hideFirstLastPages={true}
                         />
                         <div className='pagi-total'>
-                            <div>Total Items: {totalInvoices}</div>
+                            <div className='completed-pagi-total'>Total Items: {totalInvoices}</div>
                         </div>
                     </div>
                 </div>

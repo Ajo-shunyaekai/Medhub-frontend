@@ -294,13 +294,14 @@ font-weight: 500;
   position: fixed;
   top: 44px;
 }
-
+/* Start the sidebar section */
 main {
   width: 100%;
+  max-width: 98%;
   height: 100vh;
   padding: 10px 20px;
   background-color: #f9f9fa;
-  transition: transform 0.3s ease;
+  transition: transform 0.3sease;
 }
 
 .sidebar {

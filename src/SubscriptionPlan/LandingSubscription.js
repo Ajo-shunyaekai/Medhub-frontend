@@ -7,12 +7,21 @@ import Loader from "./Loader/Loader";
 const SubscriptionPage = lazy(() => import("./SubscriptionPage"));
 const PaymentSuccessful = lazy(() => import("./PayementSucsessful"));
 const PaymentFailure = lazy(() => import("./PaymentFailure"));
-
+const ThankYou= lazy(() => import("./SubscriptionThankYou"));
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 // Routes
 const router = createBrowserRouter([
+  // {
+  //   path: "/subscription/:userType/:userId",
+  //   element: (
+  //     <Suspense fallback={<Loader />}>
+  //       <SubscriptionPage socket={socket} />
+  //     </Suspense>
+  //   ),
+  // },
   {
+
     path: "/subscription/:userType/:userId/select-plan",
     element: (
       <Suspense fallback={<Loader />}>
@@ -36,6 +45,15 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "/subscription/thank-you",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <ThankYou socket={socket} />
+      </Suspense>
+    ),
+  },
+
 ]);
 
 function Router() {

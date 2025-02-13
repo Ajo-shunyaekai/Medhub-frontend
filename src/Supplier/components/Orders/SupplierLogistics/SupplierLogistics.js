@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Select from "react-select";
+import './logistics.css'
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
