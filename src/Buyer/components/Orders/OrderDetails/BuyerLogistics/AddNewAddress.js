@@ -19,6 +19,9 @@ const AddNewAddress = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+  const { address, updatedAddress } = useSelector(
+    (state) => state?.addressReducer
+  );
   const handleChange = (e) => {
     setAddressType(e.target.value);
   };

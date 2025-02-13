@@ -10,11 +10,12 @@ import inquiryReducer from "./reducers/inquirySlice";
 import medicineReducer from "./reducers/medicineSlice";
 import adminReducer from "./reducers/adminSlice";
 import addressReducer from "./reducers/addressSlice";
-
+import subscriptionReducer from "./reducers/subscriptionSlice";
 
 const rootReducer = combineReducers({
   userReducer,
   addressReducer,
+  subscriptionReducer,
   adminReducer,
   invoiceReducer,
   orderReducer,
