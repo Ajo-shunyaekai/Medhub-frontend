@@ -79,9 +79,15 @@
   padding: 30px 40px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   row-gap: 30px;
   border-radius: 50px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.subscriptionContainer{
+  display: flex;
+      flex-direction: column;
+      row-gap: 30px;
 }
 .activeCard {
     border: 2px solid #282F86 !important;
