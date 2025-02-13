@@ -11,7 +11,6 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import CropFreeOutlinedIcon from '@mui/icons-material/CropFreeOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -247,14 +246,6 @@ const SupSidebar = ({ children, dragWindow,
     }
  
     const updateStatusApi = (id) => {
-        // postRequestWithToken('buyer/update-notification-status', obj, (response) => {
-        //             if (response.code === 200) {
-        //                 // setNotificationList(response.result.data);
-        //                 // setCount(response.result.totalItems || 0)
-        //             } else {
-        //                 console.log('error in order details api');
-        //             }
-        //         });
     }
  
     const handleNavigation = (notificationId, event, eventId, linkId) => {
@@ -469,8 +460,11 @@ const SupSidebar = ({ children, dragWindow,
                             <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
                         </Link>
-                        {/* start the dropdown container */}
-                        <div className={`${styles.dropdown} ${styles.sidebars_section}`}>
+                        <Link to="/supplier/product" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '22px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Products</div>
+                        </Link>
+                        {/* <div className={`${styles.dropdown} ${styles.sidebars_section}`}>
                             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
  
                                 <div className={styles.icon}>
@@ -487,7 +481,7 @@ const SupSidebar = ({ children, dragWindow,
                                 <div className={styles.dropdownContent}>
                                     <Link to="/supplier/product" className={styles.sidebar_text} activeclassname={styles.active}>
                                         <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                                        <div className={styles.sidebar_text}>Add Products</div>
+                                        <div className={styles.sidebar_text}></div>
                                     </Link>
                                     <Link to="/supplier/pending-products-list" className={styles.sidebar_text} activeclassname={styles.active}>
                                         <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
@@ -496,7 +490,7 @@ const SupSidebar = ({ children, dragWindow,
                                 </div>
                             )}
                         </div>
- 
+  */}
                         {/* end the dropdown container */}
  
  
@@ -558,7 +552,7 @@ const SupSidebar = ({ children, dragWindow,
                         </Link>
                     </ div > : ''
                 }
-                <main style={{ marginTop: isSearchVisible ? '30px' : '0' }}>
+                <main>
                     <Outlet />
                 </main>
             </ div >
@@ -571,7 +565,7 @@ const SupSidebar = ({ children, dragWindow,
             </div >
  
         </>
-    );;
+    );
 };
  
 export default SupSidebar;

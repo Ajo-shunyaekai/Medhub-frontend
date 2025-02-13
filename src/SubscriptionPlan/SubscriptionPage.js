@@ -43,6 +43,7 @@ const SubscriptionPage = () => {
               }`}
               onClick={() => handleCardClick("monthly")}
             >
+              <div className={styles.subscriptionContainer}>
               <div className={styles.cardSec}>
                 <div className={styles.cardHead}>
                   <span className={styles.cardMonthly}>
@@ -77,7 +78,10 @@ const SubscriptionPage = () => {
                 Ideal for businesses looking for cost-effective, long-term
                 procurement solutions.
               </span>
+              </div>
+              <div className={styles.subscriptionContainer}>
               <div className={styles.button}>Purchase Now</div>
+              </div>
             </div>
 
             <div
@@ -86,6 +90,7 @@ const SubscriptionPage = () => {
               }`}
               onClick={() => handleCardClick("yearly")}
             >
+               <div className={styles.subscriptionContainer}>
               <div className={styles.cardSec}>
                 <div className={styles.cardHead}>
                   <span className={styles.cardMonthly}>
@@ -114,7 +119,10 @@ const SubscriptionPage = () => {
                 Ideal for buyers and sellers who want flexibility without a
                 long-term commitment.
               </span>
+              </div>
+              <div className={styles.subscriptionContainer}>
               <div className={styles.button}>Purchase Now</div>
+              </div>
             </div>
           </div>
         </div>

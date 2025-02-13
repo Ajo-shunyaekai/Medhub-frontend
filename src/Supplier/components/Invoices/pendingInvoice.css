@@ -195,3 +195,48 @@
   transform: translate(31px, 98px) !important;
   top: -10px;
 }
+/* style the pagination section */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pagi-container{
+  display: flex
+  ;
+      align-items: center;
+      gap: 20px;
+}
+.page-link {
+  display: inline-block;
+  color: #282f86;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  transition: color 0.15s;
+}
+
+.page-link:hover {
+  color: #0056b3;
+  text-decoration: none;
+  background-color: #e9ecef;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #282f86;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  cursor: auto;
+  background-color: transparent;
+  border-color: rgba(160, 175, 185, 0.15) !important;
+}
+.completed-pagi-total {
+  color: #99a0ac;
+  font-size: 14px;
+}
+/* End the pagination section */
