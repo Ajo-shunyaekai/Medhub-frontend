@@ -13,8 +13,8 @@ const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 // Routes
 const router = createBrowserRouter([
   {
-    // path: "/subscription/:userType/:userId/select-plan",
-    path: "/subscription",
+    path: "/subscription/:userType/:userId/select-plan",
+    // path: "/subscription",
     element: (
       <Suspense fallback={<Loader />}>
         <SubscriptionPage socket={socket} />
