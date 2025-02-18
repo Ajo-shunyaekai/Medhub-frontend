@@ -222,7 +222,7 @@ export function NotificationProvider({ children }) {
       event,
       status: 1,
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
-      user_type: "buyer",
+      usertype: "buyer",
     };
     postRequestWithToken(
       "buyer/update-notification-status",
