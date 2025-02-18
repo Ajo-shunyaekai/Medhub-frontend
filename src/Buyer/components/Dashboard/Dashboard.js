@@ -139,7 +139,7 @@ const Dashboard = () => {
                             <Link to='/buyer/invoice/Proforma-Invoice'>
                                 <div className='buyer-panel-cart-left-bottom-container'>
                                     <div className='buyer-panel-left-bottom-cart-top'>
-                                        <span className='buyer-panel-left-bottom-pert'>{orderSummary?.enquiryCount?.[0]?.count || 0}</span>
+                                        <span className='buyer-panel-left-bottom-pert'>{orderSummary?.orderDetails?.activeCount?.[0]?.count || 0}</span>
                                     </div>
                                     <div className='buyer-panel-left-bottom-head'>Proforma Invoices</div>
                                     <div className='buyer-panel-line-chart-graph'>
@@ -150,7 +150,7 @@ const Dashboard = () => {
                             <Link to='/buyer/my-supplier'>
                                 <div className='buyer-panel-cart-left-bottom-container'>
                                     <div className='buyer-panel-left-bottom-cart-top'>
-                                        <span className='buyer-panel-left-bottom-pert'>{orderSummary?.purchaseOrderCount?.[0]?.count || 0}</span>
+                                        <span className='buyer-panel-left-bottom-pert'>{orderSummary?.supplierCount || 0}</span>
                                     </div>
                                     <div className='buyer-panel-left-bottom-head'>My Supplier</div>
                                     <div className='buyer-panel-line-chart-graph'>

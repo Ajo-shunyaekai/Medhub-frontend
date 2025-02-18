@@ -5,6 +5,8 @@ import React, {
   useContext,
   Suspense,
   lazy,
+  useRef, 
+  useCallback
 } from "react";
 import {
   createBrowserRouter,
@@ -22,6 +24,7 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 import LogisticsAddress from "../components/Orders/OrderDetails/BuyerLogistics/LogisticsAddress"
 import LogisticsAddNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/AddNewAddress";
 import LogisticsEditNewAddress from "../components/Orders/OrderDetails/BuyerLogistics/EditNewAddress";
+// import socket from '../../utils/Socket.js'
 // Lazy-load the components
 const Sidebar = lazy(() =>
   import("../components/SharedComponents/Sidebar/Sidebar")
@@ -302,6 +305,8 @@ export function NotificationProvider({ children }) {
     </Sidebar>
   );
 }
+
+
  
 // Routes
 const router = createBrowserRouter([
