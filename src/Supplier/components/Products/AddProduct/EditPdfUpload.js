@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import UploadIcon from '../../assest/images/uplaod.svg';
-import styles from './pdfadd.module.css';
 import CloseIcon from '@mui/icons-material/Close';
+import UploadIcon from '../../../assest/images/uplaod.svg';
+import styles from './pdfadd.module.css';
+
 
 
 const EditPdfUpload = ({ invoiceImage, setInvoiceImage }) => {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './buyerdetails.css'
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import BuyerOrderList from './Buyer/BuyerOrderList';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { postRequestWithToken } from '../../api/Requests';
-import { apiRequests } from '../../../api';
+import './buyerdetails.css'
+import BuyerOrderList from '../Buyer/BuyerOrderList';
+import { postRequestWithToken } from '../../../api/Requests';
+import { apiRequests } from '../../../../api';
 
 const BuyerDetails = () => {
     const { buyerId } = useParams()

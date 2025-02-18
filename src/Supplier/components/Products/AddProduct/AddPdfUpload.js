@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import UploadIcon from '../../assest/images/uplaod.svg';
-import styles from './pdfadd.module.css';
 import CloseIcon from '@mui/icons-material/Close';
-
+import UploadIcon from '../../../assest/images/uplaod.svg';
+import styles from './pdfadd.module.css';
 const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedPdf, setSelectedPdf] = useState(null);
-    const [pdfFile, setPdfFile] = useState(null); // Single PDF file
+    const [pdfFile, setPdfFile] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const fileInputRef = useRef(null);
 
@@ -28,7 +27,7 @@ const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
 
         if (file) {
             const isValidType = file.type === 'application/pdf';
-            const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB limit
+            const isValidSize = file.size <= 5 * 1024 * 1024;
 
             if (!isValidType) {
                 setErrorMessage('Invalid file type. Only PDF is allowed.');
@@ -94,21 +93,6 @@ const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
                         </div>
                     </div>
                 )}
-
-                {/* PDF viewer in popup modal */}
-                {/* {showModal && (
-                    <div className={styles.modal} onClick={toggleModal}>
-                        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                            <div className={styles.modalBody}>
-                                <embed src={selectedPdf} type="application/pdf" width="100%" height="500px" />
-                                <button onClick={toggleModal} className={styles.modalCloseBtn}>
-                                    <CloseIcon />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )} */}
-
                 {errorMessage && (
                     <div className={styles['pdf-error-message']} style={{ color: 'red', fontSize: '12px',paddingTop:"10px" }}>
                         <span>{errorMessage}</span>

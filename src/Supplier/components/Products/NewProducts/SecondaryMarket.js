@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styles from "../product.module.css";
+import React from "react";
+import styles from "./product.module.css";
 import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";

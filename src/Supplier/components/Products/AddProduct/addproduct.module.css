@@ -28,6 +28,7 @@
 
 
 .section {
+  width: 100%;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 26px 30px;
@@ -51,11 +52,10 @@
 }
 
 .productContainer {
-  display: flex
-  ;
+  display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 19.3%;
+      width: 24.1%;
 }
 
 .formLabel {
@@ -72,5 +72,9 @@
   outline: none !important;
   padding: 12px !important;
 }
-
+.documentContainer{
+width: 100%;
+display: flex;
+gap: 10px;
+}
 .error {}

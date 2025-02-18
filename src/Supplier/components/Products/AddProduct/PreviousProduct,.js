@@ -1143,19 +1143,7 @@ const AddProduct = ({socket}) => {
                                 </>
                             )}
 
-                            {/* <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Composition</label>
-                                <input
-                                    className={styles['create-invoice-div-input']}
-                                    type='text'
-                                    name='composition'
-                                    placeholder='Enter Composition'
-                                    autoComplete='off'
-                                    value={formData.composition}
-                                    onChange={handleChange}
-                                />
-                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
-                            </div> */}
+                           
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
                                 <input
