@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './dashboardorders.css';
 import Table from 'react-bootstrap/Table';
@@ -12,6 +12,7 @@ import Loader from '../../SharedComponents/Loader/Loader'
 import { postRequestWithToken } from '../../../../api/Requests';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
+import html2pdf from 'html2pdf.js';
 
 const PendingInvoicesList = () => {
     const navigate = useNavigate()
@@ -83,6 +84,8 @@ const PendingInvoicesList = () => {
     };
     const totalPages = Math.ceil(activeOrders.length / ordersPerPage);
 
+    const iframeRef = useRef(null);
+
     useEffect(() => {
         const fetchData = async () => {
             const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
@@ -127,6 +130,62 @@ const PendingInvoicesList = () => {
         }
         fetchData()
     }, [currentPage])
+
+    const handleDownload = (invoiceId) => {
+        const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
+        if (iframeRef.current) {
+            // Set iframe src
+            iframeRef.current.src = invoiceUrl;
+            
+            // Add a message to tell the iframe we want to download
+            setTimeout(() => {
+                try {
+                    const iframeWindow = iframeRef.current.contentWindow;
+                    if (iframeWindow) {
+                        // Try to call the download function directly after iframe loads
+                        iframeWindow.postMessage({
+                            type: "DOWNLOAD_INVOICE", 
+                            invoiceId: invoiceId
+                        }, window.location.origin);
+                    }
+                } catch (error) {
+                    console.error("Error communicating with invoice iframe:", error);
+                }
+            }, 500); // Give the iframe a bit more time to load
+        }
+    };
+
+     useEffect(() => {
+            // Listen for messages from the iframe
+            const handleIframeMessage = (event) => {
+                if (event.origin !== window.location.origin) return;
+                
+                if (event.data && event.data.type === "INVOICE_READY") {
+                    const iframeDocument = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
+                    const element = iframeDocument.getElementById('invoice-content');
+                    
+                    if (element) {
+                        const invoiceId = event.data.invoiceId || "unknown";
+                        const options = {
+                            margin: 0.5,
+                            filename: `invoice_${invoiceId}.pdf`,
+                            image: { type: 'jpeg', quality: 1.00 },
+                            html2canvas: { scale: 2 },
+                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+        
+                        html2pdf().from(element).set(options).save();
+                    } else {
+                        console.error('Invoice content element not found in iframe');
+                    }
+                }
+            };
+        
+            window.addEventListener('message', handleIframeMessage);
+            return () => {
+                window.removeEventListener('message', handleIframeMessage);
+            };
+        }, []);
 
     return (
         <>
@@ -187,9 +246,10 @@ const PendingInvoicesList = () => {
                                                             <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                         </div>
                                                     </Link>
-                                                    <div className='invoice-details-button-column-download'>
+                                                    <div className='invoice-details-button-column-download' onClick={() => handleDownload(invoice.invoice_id)}>
                                                         <CloudDownloadOutlinedIcon className='invoice-view' />
                                                     </div>
+                                                    <iframe ref={iframeRef} style={{ display: 'none' }} title="invoice-download-iframe"></iframe>
                                                 </div>
                                             </div>
                                         ))

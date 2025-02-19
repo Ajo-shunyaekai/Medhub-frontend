@@ -30,44 +30,101 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
 
     const iframeRef = useRef(null);
 
+    // const handleDownload = (invoiceId) => {
+    //     const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
+    //     if (iframeRef.current) {
+
+    //         iframeRef.current.src = invoiceUrl;
+    //     }
+    // };
+
     const handleDownload = (invoiceId) => {
         const invoiceUrl = `/buyer/invoice-design/${invoiceId}`;
         if (iframeRef.current) {
-
+            // Set iframe src
             iframeRef.current.src = invoiceUrl;
+            
+            // Add a message to tell the iframe we want to download
+            setTimeout(() => {
+                try {
+                    const iframeWindow = iframeRef.current.contentWindow;
+                    if (iframeWindow) {
+                        // Try to call the download function directly after iframe loads
+                        iframeWindow.postMessage({
+                            type: "DOWNLOAD_INVOICE", 
+                            invoiceId: invoiceId
+                        }, window.location.origin);
+                    }
+                } catch (error) {
+                    console.error("Error communicating with invoice iframe:", error);
+                }
+            }, 500); // Give the iframe a bit more time to load
         }
     };
 
+    // useEffect(() => {
+    //     const iframe = iframeRef.current;
+
+    //     if (iframe) {
+    //         const handleIframeLoad = () => {
+    //             setTimeout(() => {
+    //                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    //                 const element = iframeDocument.getElementById('invoice-content');
+    //                 if (element) {
+    //                     const options = {
+    //                         margin: 0.5,
+    //                         filename: `invoice_${iframeDocument.title}.pdf`,
+    //                         image: { type: 'jpeg', quality: 1.00 },
+    //                         html2canvas: { scale: 2 },
+    //                         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    //                     };
+
+    //                     html2pdf().from(element).set(options).save();
+    //                 } else {
+    //                     console.error('Invoice content element not found');
+    //                 }
+    //             }, 500);
+    //         };
+
+    //         iframe.addEventListener('load', handleIframeLoad);
+
+    //         return () => {
+    //             iframe.removeEventListener('load', handleIframeLoad);
+    //         };
+    //     }
+    // }, []);
+
+
     useEffect(() => {
-        const iframe = iframeRef.current;
-
-        if (iframe) {
-            const handleIframeLoad = () => {
-                setTimeout(() => {
-                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                    const element = iframeDocument.getElementById('invoice-content');
-                    if (element) {
-                        const options = {
-                            margin: 0.5,
-                            filename: `invoice_${iframeDocument.title}.pdf`,
-                            image: { type: 'jpeg', quality: 1.00 },
-                            html2canvas: { scale: 2 },
-                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                        };
-
-                        html2pdf().from(element).set(options).save();
-                    } else {
-                        console.error('Invoice content element not found');
-                    }
-                }, 500);
-            };
-
-            iframe.addEventListener('load', handleIframeLoad);
-
-            return () => {
-                iframe.removeEventListener('load', handleIframeLoad);
-            };
-        }
+        // Listen for messages from the iframe
+        const handleIframeMessage = (event) => {
+            if (event.origin !== window.location.origin) return;
+            
+            if (event.data && event.data.type === "INVOICE_READY") {
+                const iframeDocument = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
+                const element = iframeDocument.getElementById('invoice-content');
+                
+                if (element) {
+                    const invoiceId = event.data.invoiceId || "unknown";
+                    const options = {
+                        margin: 0.5,
+                        filename: `invoice_${invoiceId}.pdf`,
+                        image: { type: 'jpeg', quality: 1.00 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+    
+                    html2pdf().from(element).set(options).save();
+                } else {
+                    console.error('Invoice content element not found in iframe');
+                }
+            }
+        };
+    
+        window.addEventListener('message', handleIframeMessage);
+        return () => {
+            window.removeEventListener('message', handleIframeMessage);
+        };
     }, []);
 
     useEffect(() => {
@@ -199,5 +256,8 @@ const PendingInvoice = ({ invoiceList, currentPage, totalInvoices, invoicesPerPa
         </div>
     )
 }
+
+
+
 
 export default PendingInvoice
