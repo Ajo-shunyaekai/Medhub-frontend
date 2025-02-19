@@ -68,6 +68,44 @@ function ProformaDetailsPage() {
         html2pdf().from(element).set(options).save()
     };
 
+    useEffect(() => {
+            // Function to handle messages from parent window
+            const handleMessage = (event) => {
+                // Only accept messages from our own domain
+                if (event.origin !== window.location.origin) return;
+                
+                // Check if this is a download request
+                if (event.data && event.data.type === "DOWNLOAD_INVOICE") {
+                    // Notify parent that invoice is ready
+                    window.parent.postMessage({
+                        type: "INVOICE_READY",
+                        orderId: orderId
+                    }, window.location.origin);
+                    
+                    // You could also trigger download directly
+                    // handleDownload();
+                }
+            };
+            
+            // Listen for messages from parent window
+            window.addEventListener('message', handleMessage);
+            
+            // If we're loaded in an iframe, notify parent that we're ready
+            if (window.self !== window.top) {
+                // We're in an iframe
+                setTimeout(() => {
+                    window.parent.postMessage({
+                        type: "INVOICE_READY", 
+                        orderId: orderId
+                    }, window.location.origin);
+                }, 500);
+            }
+            
+            return () => {
+                window.removeEventListener('message', handleMessage);
+            };
+        }, [orderId])
+
     return (
         <div className='invoice-template-design'>
             <div className='scroll-wrapper'>
