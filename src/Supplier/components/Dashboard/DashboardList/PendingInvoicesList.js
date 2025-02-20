@@ -12,7 +12,8 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
+import { ThreeDots } from "react-loader-spinner";
 
 const PendingInvoicesList = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const PendingInvoicesList = () => {
   };
 
   const [loading, setLoading] = useState(true);
+  const [downloadingInvoiceId, setDownloadingInvoiceId] = useState(null);
   const [invoiceList, setInvoiceList] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,24 +44,24 @@ const PendingInvoicesList = () => {
     const fetchInvoices = async () => {
       const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
       const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-  
+
       if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
         navigate("/supplier/login");
         return;
       }
-  
+
       const filterKey = "pending";
       try {
         const response = await apiRequests.getRequest(
           `order/get-all-invoice-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${invoicesPerPage}`
         );
-  
+
         if (response?.code !== 200) {
           toast(response.message, { type: "error" });
           console.log("Error in invoice list API", response);
           return;
         }
-  
+
         setInvoiceList(response.result.data);
         setTotalInvoices(response.result.totalItems);
       } catch (error) {
@@ -68,68 +70,75 @@ const PendingInvoicesList = () => {
         setLoading(false);
       }
     };
-  
-    fetchInvoices(); 
-  
+
+    fetchInvoices();
   }, [currentPage]);
 
   const handleDownload = (invoiceId) => {
-    console.log('hree')
+    setDownloadingInvoiceId(invoiceId);
     const invoiceUrl = `/supplier/invoice-design/${invoiceId}`;
     if (iframeRef.current) {
-        // Set iframe src
-        iframeRef.current.src = invoiceUrl;
-        
-        // Add a message to tell the iframe we want to download
-        setTimeout(() => {
-            try {
-                const iframeWindow = iframeRef.current.contentWindow;
-                if (iframeWindow) {
-                    // Try to call the download function directly after iframe loads
-                    iframeWindow.postMessage({
-                        type: "DOWNLOAD_INVOICE", 
-                        invoiceId: invoiceId
-                    }, window.location.origin);
-                }
-            } catch (error) {
-                console.error("Error communicating with invoice iframe:", error);
-            }
-        }, 500); // Give the iframe a bit more time to load
-    }
-};
+      // Set iframe src
+      iframeRef.current.src = invoiceUrl;
 
-useEffect(() => {
-            // Listen for messages from the iframe
-            const handleIframeMessage = (event) => {
-                if (event.origin !== window.location.origin) return;
-                
-                if (event.data && event.data.type === "INVOICE_READY") {
-                    const iframeDocument = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
-                    const element = iframeDocument.getElementById('invoice-content');
-                    
-                    if (element) {
-                        const invoiceId = event.data.invoiceId || "unknown";
-                        const options = {
-                            margin: 0.5,
-                            filename: `invoice_${invoiceId}.pdf`,
-                            image: { type: 'jpeg', quality: 1.00 },
-                            html2canvas: { scale: 2 },
-                            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                        };
-        
-                        html2pdf().from(element).set(options).save();
-                    } else {
-                        console.error('Invoice content element not found in iframe');
-                    }
-                }
-            };
-        
-            window.addEventListener('message', handleIframeMessage);
-            return () => {
-                window.removeEventListener('message', handleIframeMessage);
-            };
-        }, []);
-  
+      // Add a message to tell the iframe we want to download
+      setTimeout(() => {
+        try {
+          const iframeWindow = iframeRef.current.contentWindow;
+          if (iframeWindow) {
+            // Try to call the download function directly after iframe loads
+            iframeWindow.postMessage(
+              {
+                type: "DOWNLOAD_INVOICE",
+                invoiceId: invoiceId,
+              },
+              window.location.origin
+            );
+          }
+        } catch (error) {
+          console.error("Error communicating with invoice iframe:", error);
+        }
+      }, 500); // Give the iframe a bit more time to load
+    }
+    setTimeout(() => {
+      setDownloadingInvoiceId(null); // Stop loading state
+    }, 3000);
+  };
+
+  useEffect(() => {
+    // Listen for messages from the iframe
+    const handleIframeMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === "INVOICE_READY") {
+        const iframeDocument =
+          iframeRef.current.contentDocument ||
+          iframeRef.current.contentWindow.document;
+        const element = iframeDocument.getElementById("invoice-content");
+
+        if (element) {
+          const invoiceId = event.data.invoiceId || "unknown";
+          const options = {
+            margin: 0.5,
+            filename: `invoice_${invoiceId}.pdf`,
+            image: { type: "jpeg", quality: 1.0 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+          };
+
+          html2pdf().from(element).set(options).save();
+        } else {
+          console.error("Invoice content element not found in iframe");
+        }
+      }
+    };
+
+    window.addEventListener("message", handleIframeMessage);
+    return () => {
+      window.removeEventListener("message", handleIframeMessage);
+    };
+  }, []);
+
   return (
     <>
       <div className="completed-order-main-container">
@@ -178,7 +187,7 @@ useEffect(() => {
               <tbody className="bordered">
                 {invoiceList && invoiceList?.length > 0 ? (
                   invoiceList.map((invoice, i) => {
-                    const dateToDisplay = invoice?.created_at
+                    const dateToDisplay = invoice?.created_at;
                     return (
                       <div className="completed-table-row-container">
                         <div className="completed-table-row-item completed-table-order-1">
@@ -221,10 +230,30 @@ useEffect(() => {
                               <RemoveRedEyeOutlinedIcon className="table-icon" />
                             </div>
                           </Link>
-                          <div className="invoice-details-button-column-download" onClick={() => handleDownload(invoice?.invoice_id)}>
+                          {/* <div className="invoice-details-button-column-download" onClick={() => handleDownload(invoice?.invoice_id)}>
                             <CloudDownloadOutlinedIcon className="invoice-view" />
+                          </div> */}
+
+                          <div
+                            className="invoice-details-button-column-download"
+                            onClick={() => handleDownload(invoice.invoice_id)}
+                          >
+                            {downloadingInvoiceId === invoice.invoice_id ? (
+                              <ThreeDots
+                                height="20"
+                                width="20"
+                                color="blue"
+                                ariaLabel="loading"
+                              />
+                            ) : (
+                              <CloudDownloadOutlinedIcon className="invoice-view" />
+                            )}
                           </div>
-                          <iframe ref={iframeRef} style={{ display: 'none' }} title="invoice-download-iframe"></iframe>
+                          <iframe
+                            ref={iframeRef}
+                            style={{ display: "none" }}
+                            title="invoice-download-iframe"
+                          ></iframe>
                         </div>
                       </div>
                     );
