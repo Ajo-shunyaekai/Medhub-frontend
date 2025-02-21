@@ -171,7 +171,11 @@ const LogisticsForm = lazy(() =>
 const SubscriptionInvoiceDetails = lazy(() =>
   import("../components/Subscription/SubscriptionInvoiceDetails.js")
 );
-const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+// const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+
+const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
+  autoConnect: false,
+});
  
 export function NotificationProvider({ children }) {
   const dispatch = useDispatch();
@@ -248,46 +252,86 @@ export function NotificationProvider({ children }) {
     }
   }, [buyerId, location.pathname]);
  
+  // useEffect(() => {
+  //   if (buyerId) {
+  //     socket.emit("registerBuyer", buyerId);
+ 
+  //     fetchNotifications();
+  //     fetchInvoiceCount();
+ 
+  //     const notificationEvents = [
+  //       { event: "enquiryQuotation", title: "New Quote Received" },
+  //       { event: "orderCreated", title: "Order Created" },
+  //       {
+  //         event: "shipmentDetailsSubmission",
+  //         title: "Shipment Details Submitted",
+  //       },
+  //       { event: "invoiceCreated", title: "Invoice Created" },
+  //       {
+  //         event: "editProfileRequestUpdated",
+  //         title: "Profile Edit Request Updated",
+  //       },
+  //     ];
+ 
+  //     notificationEvents.forEach(({ event, title }) => {
+  //       socket.on(event, (message) => {
+  //         const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
+  //         showNotification(
+  //           title,
+  //           { body: message, icon: "/path/to/logo.png" },
+  //           link
+  //         );
+  //         fetchNotifications();
+  //       });
+  //     });
+ 
+  //     return () => {
+  //       notificationEvents.forEach(({ event }) => {
+  //         socket.off(event);
+  //       });
+  //     };
+  //   }
+  // }, [buyerId, refresh]);
+
+
   useEffect(() => {
-    if (buyerId) {
-      socket.emit("registerBuyer", buyerId);
- 
-      fetchNotifications();
-      fetchInvoiceCount();
- 
-      const notificationEvents = [
-        { event: "enquiryQuotation", title: "New Quote Received" },
-        { event: "orderCreated", title: "Order Created" },
-        {
-          event: "shipmentDetailsSubmission",
-          title: "Shipment Details Submitted",
-        },
-        { event: "invoiceCreated", title: "Invoice Created" },
-        {
-          event: "editProfileRequestUpdated",
-          title: "Profile Edit Request Updated",
-        },
-      ];
- 
-      notificationEvents.forEach(({ event, title }) => {
-        socket.on(event, (message) => {
-          const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
-          showNotification(
-            title,
-            { body: message, icon: "/path/to/logo.png" },
-            link
-          );
-          fetchNotifications();
-        });
-      });
- 
-      return () => {
-        notificationEvents.forEach(({ event }) => {
-          socket.off(event);
-        });
-      };
+    if (!buyerId) return;
+
+    // Ensure socket is connected only once
+    if (!socket.connected) {
+      socket.connect();
     }
-  }, [buyerId, refresh]);
+
+    socket.emit("registerBuyer", buyerId);
+
+    fetchNotifications();
+    fetchInvoiceCount();
+
+    const notificationEvents = [
+      { event: "enquiryQuotation", title: "New Quote Received" },
+      { event: "orderCreated", title: "Order Created" },
+      { event: "shipmentDetailsSubmission", title: "Shipment Details Submitted" },
+      { event: "invoiceCreated", title: "Invoice Created" },
+      { event: "editProfileRequestUpdated", title: "Profile Edit Request Updated" },
+    ];
+
+    const handleSocketEvent = (title) => (message) => {
+      const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
+      showNotification(title, { body: message, icon: "/path/to/logo.png" }, link);
+      fetchNotifications();
+    };
+
+    notificationEvents.forEach(({ event, title }) => {
+      socket.on(event, handleSocketEvent(title));
+    });
+
+    return () => {
+      socket.disconnect(); 
+      notificationEvents.forEach(({ event }) => {
+        socket.off(event);
+      });
+    };
+  }, [buyerId]);
  
   useEffect(() => {
     sessionStorage.getItem("_id") &&
