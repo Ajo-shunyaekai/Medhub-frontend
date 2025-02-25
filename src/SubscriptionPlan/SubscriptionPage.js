@@ -17,14 +17,7 @@ const SubscriptionPage = () => {
   const [activePlan, setActivePlan] = useState(null);
 
   const subscriptionPlans = [
-    {
-      type: "Yearly Subscription",
-      price: 1188,
-      pkg: "Yearly Subscription",
-      duration: "year",
-      features: ["feature 1", "feature 2"],
-      bgColor: "#d137dd",
-    },
+   
     {
       type: "Monthly Subscription",
       price: 129,
@@ -32,6 +25,14 @@ const SubscriptionPage = () => {
       duration: "month",
       features: ["feature 1", "feature 2"],
       bgColor: "#37d1dd",
+    },
+     {
+      type: "Yearly Subscription",
+      price: 1188,
+      pkg: "Yearly Subscription",
+      duration: "year",
+      features: ["feature 1", "feature 2"],
+      bgColor: "#d137dd",
     },
   ];
 
