@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Select, { components } from 'react-select';
+import { FaUpload } from "react-icons/fa";
 import JoditEditor from 'jodit-react';
 import { useDropzone } from 'react-dropzone';
 import { FiUploadCloud, FiFileText, FiX } from 'react-icons/fi';
@@ -98,7 +99,7 @@ const FileUploadSection = ({ label, fileUpload, tooltip, showLabel = true }) => 
                         >
                             <img src={Information} className={styles.iconTooltip} alt="info" />
                         </span>
-                        <Tooltip className={styles.tooltipSec}id={tooltipId} place="top" effect="solid" />
+                        <Tooltip className={styles.tooltipSec} id={tooltipId} place="top" effect="solid" />
                     </>
                 )}
             </div>
@@ -159,6 +160,12 @@ const AddProduct = ({ placeholder }) => {
     const healthcarePerformanceUpload = useFileUpload();
     const healthCliamUpload = useFileUpload();
     const interoperabilityUpload = useFileUpload();
+    const [open, setOpen] = useState(false);
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
     const handleSelectChange = (option) => {
         setSelectedOption(option);
         if (option.value !== 'other') {
@@ -377,7 +384,10 @@ const AddProduct = ({ placeholder }) => {
     //   End the Dropdown option
     return (
         <div className={styles.container}>
-            <span className={styles.heading}>Products</span>
+            <div className={styles.headContainer}>
+                <span className={styles.heading}>Products</span>
+                <button onClick={() => setOpen(true)} className={styles.bulkButton}>Bulk Upload</button>
+            </div>
             <form className={styles.form}>
                 <div className={styles.section}>
                     <span className={styles.formHead}>General Information</span>
@@ -543,7 +553,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -565,7 +575,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -589,7 +599,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -611,7 +621,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -632,7 +642,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -653,7 +663,7 @@ const AddProduct = ({ placeholder }) => {
                                 >
                                     <img src={Information} className={styles.iconTooltip} alt="information" />
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
 
                             {/* Show text field when "Other" is selected */}
@@ -739,7 +749,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -761,7 +771,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -777,7 +787,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -887,7 +897,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                                 </div>
                                 <span className={styles.error}></span>
                             </div>
@@ -941,7 +951,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -982,7 +992,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                             </div>
 
@@ -1004,7 +1014,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                                 <span className={styles.error}></span>
                             </div>
@@ -1026,7 +1036,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                                 <span className={styles.error}></span>
                             </div>
@@ -1049,7 +1059,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                                 <span className={styles.error}></span>
                             </div>
@@ -1070,7 +1080,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                             </div>
                             <div className={styles.productContainer}>
@@ -1092,7 +1102,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                                 <FileUploadSection label="" fileUpload={medicalPerformanceUpload} tooltip={false} showLabel={false} />
                                 <span className={styles.error}></span>
@@ -1114,7 +1124,7 @@ const AddProduct = ({ placeholder }) => {
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec}id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
                                 </div>
                                 <FileUploadSection label="" fileUpload={medicalSpecificationUpload} tooltip={false} showLabel={false} />
                                 <span className={styles.error}></span>
@@ -1148,7 +1158,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                 </div>
 
@@ -1170,7 +1180,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                 </div>
                                 <div className={styles.productContainer}>
@@ -1191,7 +1201,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1213,7 +1223,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1236,7 +1246,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1257,7 +1267,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1279,7 +1289,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1302,7 +1312,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1335,7 +1345,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1364,7 +1374,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -1394,7 +1404,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -1415,7 +1425,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="pharma-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -1453,7 +1463,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                 </div>
                                 <div className={styles.productContainer}>
@@ -1474,7 +1484,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1496,7 +1506,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1518,7 +1528,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1540,7 +1550,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1560,7 +1570,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1581,7 +1591,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1603,7 +1613,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                 </div >
                                 <div className={styles.productContainer}>
@@ -1625,7 +1635,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1647,7 +1657,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1669,7 +1679,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1692,7 +1702,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1714,7 +1724,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1735,7 +1745,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1756,7 +1766,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1777,7 +1787,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1798,7 +1808,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1830,7 +1840,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1862,7 +1872,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1894,7 +1904,7 @@ const AddProduct = ({ placeholder }) => {
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1923,7 +1933,7 @@ const AddProduct = ({ placeholder }) => {
                                                 >
                                                     <img src={Information} className={styles.iconTooltip} alt="information" />
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                             </div>
                                             {dermatologistTested === "Yes" && (
                                                 <>
@@ -1956,7 +1966,7 @@ const AddProduct = ({ placeholder }) => {
                                                 >
                                                     <img src={Information} className={styles.iconTooltip} alt="information" />
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="pediatrician-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="pediatrician-tooltip" />
                                             </div>
                                             {pediatricianRecommended === "Yes" && (
                                                 <>
@@ -1996,7 +2006,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -2017,7 +2027,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -2045,7 +2055,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="skin-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                         </div>
                                     </div>
                                     <span className={styles.error}></span>
@@ -2082,7 +2092,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -2103,7 +2113,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2123,7 +2133,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2144,7 +2154,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -2167,7 +2177,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2188,7 +2198,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2210,7 +2220,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2234,7 +2244,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2256,7 +2266,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2279,7 +2289,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2312,7 +2322,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2345,7 +2355,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2377,7 +2387,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2405,7 +2415,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -2436,7 +2446,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2458,7 +2468,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2497,7 +2507,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -2518,7 +2528,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2534,7 +2544,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2556,7 +2566,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2579,7 +2589,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2601,7 +2611,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2623,7 +2633,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2651,7 +2661,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -2679,7 +2689,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2708,7 +2718,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -2737,7 +2747,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2765,7 +2775,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2795,7 +2805,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2817,7 +2827,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2839,7 +2849,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2868,7 +2878,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2901,7 +2911,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2920,7 +2930,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2941,7 +2951,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -2962,7 +2972,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -2982,7 +2992,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3003,7 +3013,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3024,7 +3034,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3046,7 +3056,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3071,7 +3081,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3094,7 +3104,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -3115,7 +3125,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -3135,7 +3145,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3156,7 +3166,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3197,7 +3207,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -3218,7 +3228,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -3238,7 +3248,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3263,7 +3273,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -3284,7 +3294,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3339,7 +3349,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <FileUploadSection
                                             label=""
@@ -3367,7 +3377,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <FileUploadSection
                                             label=""
@@ -3413,7 +3423,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -3434,7 +3444,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3456,7 +3466,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3480,7 +3490,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3509,7 +3519,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3538,7 +3548,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3566,7 +3576,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -3601,7 +3611,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -3629,7 +3639,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -3651,7 +3661,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -3673,7 +3683,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3700,7 +3710,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3741,7 +3751,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3763,7 +3773,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3784,7 +3794,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -3805,7 +3815,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -3825,7 +3835,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3862,7 +3872,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -3893,7 +3903,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -3915,7 +3925,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -3936,7 +3946,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                             </div>
 
@@ -3957,7 +3967,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                             </div>
                                         </div>
@@ -3995,7 +4005,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -4016,7 +4026,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4036,7 +4046,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4064,7 +4074,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -4220,7 +4230,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4259,7 +4269,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -4280,7 +4290,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                 </div>
@@ -4307,7 +4317,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -4336,7 +4346,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4358,7 +4368,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4380,7 +4390,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4402,7 +4412,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4423,7 +4433,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4444,7 +4454,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4465,7 +4475,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4486,7 +4496,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4509,7 +4519,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <FileUploadSection
                                                     label=""
@@ -4553,7 +4563,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4575,7 +4585,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4596,7 +4606,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <FileUploadSection
                                             label=""
@@ -4629,7 +4639,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -4668,7 +4678,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -4689,7 +4699,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4709,7 +4719,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4737,7 +4747,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -4777,7 +4787,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -4798,7 +4808,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4818,7 +4828,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4839,7 +4849,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4867,7 +4877,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -4903,7 +4913,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4924,7 +4934,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
 
@@ -4945,7 +4955,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4965,7 +4975,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4987,7 +4997,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5009,7 +5019,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5033,7 +5043,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5057,7 +5067,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5085,7 +5095,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5114,7 +5124,7 @@ const AddProduct = ({ placeholder }) => {
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -5152,7 +5162,7 @@ const AddProduct = ({ placeholder }) => {
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                     </div>
                                 </div>
@@ -5177,7 +5187,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -5198,7 +5208,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -5219,7 +5229,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -5247,7 +5257,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -5270,7 +5280,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -5291,7 +5301,7 @@ const AddProduct = ({ placeholder }) => {
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec}id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                                 </div>
                                                 <FileUploadSection
                                                     label=""
@@ -5393,7 +5403,7 @@ const AddProduct = ({ placeholder }) => {
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec}id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -5401,6 +5411,32 @@ const AddProduct = ({ placeholder }) => {
                 </div>
 
                 {/* End the Additional Information */}
+
+
+                {/* Start button section */}
+                <div className={styles.buttonContainer}>
+                    <button className={styles.buttonCancel}>Cancel</button>
+                    <button className={styles.buttonSubmit}>Submit</button>
+                </div>
+
+                {/* End button section */}
+
+                {open && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h2 className={styles.modalTitle}>Upload File</h2>
+                        <label className={styles.label}>Upload File (PDF, CSV, Excel, DOC)</label>
+                        <div className={styles.fileInputWrapper}>
+                            <FaUpload className={styles.uploadIcon} />
+                            <input type="file" accept=".pdf,.csv,.xls,.xlsx,.doc,.docx" onChange={handleFileChange} className={styles.fileInput} />
+                        </div>
+                        <div className={styles.buttonContainer}>
+                            <button onClick={() => setOpen(false)} className={styles.cancelButton}>Cancel</button>
+                            <button className={styles.uploadButton}>Upload</button>
+                        </div>
+                    </div>
+                </div>
+            )}
             </form >
         </div >
     );
