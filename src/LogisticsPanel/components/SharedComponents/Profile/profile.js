@@ -14,6 +14,13 @@ const Profile = () => {
     const { id } = useParams();
 
      useEffect(() => {
+      const partnerIdSessionStorage = sessionStorage.getItem("partner_id");
+      const partnerIdLocalStorage   = localStorage.getItem("partner_id");
+  
+      if (!partnerIdSessionStorage && !partnerIdLocalStorage) {
+      navigate("/logistics/login");
+      return;
+      }
         (id || sessionStorage?.getItem("_id")) &&
           dispatch(fetchUserData(id || sessionStorage?.getItem("_id")));
       }, [dispatch, id, sessionStorage?.getItem("_id")]);

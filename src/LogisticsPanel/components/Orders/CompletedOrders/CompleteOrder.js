@@ -22,7 +22,7 @@ const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageCh
     return (
         <>
             <div className='order-main-container'>
-                <div className="order-name-2">Completed Orders</div>
+                <div className="order-name-2">Completed Requests</div>
                 <div className="order-container">
 
                     {/* Order Right side table  */}
@@ -84,7 +84,7 @@ const CompleteOrder = ({ list, totallist, currentPage, listPerPage, handlePageCh
                                         (
                                             <>
                                                 <div className='pending-products-no-orders'>
-                                                    No Completed Orders
+                                                    No Completed Requests
                                                 </div>
                                             </>
                                         )

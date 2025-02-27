@@ -105,27 +105,27 @@ const Order = () => {
 
             <div className='order-main-container'>
                 <div className="order-name">
-                    Orders
+                    Logistics Requests
                 </div>
 
                 <div className="order-container">
                     <div className="order-container-left">
                         <div onClick={() => handleLinkClick('pending')} className={activeLink === 'pending' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
-                            <div>Pending Orders</div>
+                            <div>Pending Requests</div>
                         </div>
 
                         <div onClick={() => handleLinkClick('ongoing')} className={activeLink === 'ongoing' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
-                            <div>Ongoing Orders</div>
+                            <div>Ongoing Requests</div>
                         </div>
                         <div onClick={() => handleLinkClick('active')} className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
-                            <div>Active Orders</div>
+                            <div>Active Requests</div>
                         </div>
                         <div onClick={() => handleLinkClick('completed')} className={activeLink === 'completed' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
-                            <div>Completed Orders</div>
+                            <div>Completed Requests</div>
                         </div>
 
 

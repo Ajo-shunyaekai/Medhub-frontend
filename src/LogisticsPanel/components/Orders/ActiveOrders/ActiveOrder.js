@@ -28,7 +28,7 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
     return (
         <>
             <div className='order-main-container'>
-                <div className="order-name-2"> Active Orders</div>
+                <div className="order-name-2"> Active Requests</div>
                 <div className="order-container">
                     {/* Order Right side table  */}
                     <div className="order-container-right-section">
@@ -91,7 +91,7 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
                                         (
                                             <>
                                                 <div className='pending-products-no-orders'>
-                                                    No Active Orders
+                                                    No Active Requests
                                                 </div>
                                             </>
                                         )
