@@ -35,32 +35,143 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.additionalSection{
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20rem;
+}
+.innerProductContainer {
+  width: 100%;
+  /* background-color: #ffffff; */
+  border-radius: 4px;
+  /* padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; */
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
+.innerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
+.innerMonitorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.formHeadSection{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .formHead {
   font-size: 18px;
   font-weight: 600;
 }
-
+.formAddButton{
+  align-items: center;
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex
+;
+  font-size: 14px;
+  margin-right: 18px;
+  padding: 6px 16px;
+}
+.formCloseSection{
+  display: flex
+  ;
+      justify-content: end;
+      align-items: center;
+      cursor: pointer !important;
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%);
+      cursor: pointer !important;
+}
+.formclose{
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  cursor: pointer !important;
+}
 .formSection {
   display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      width: 100%;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+.icon{
+  width: 16px !important;
+  height: 16px !important;
+  cursor: pointer !important;
 }
 
 .productContainer {
   display: flex;
-      flex-direction: column;
+  flex-direction: column;
+  gap: 10px;
+  width: 24.1%;
+}
+.descriptionContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.productInnerContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 20vw;
+}
+
+.formInnerSection {
+  display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      width: 24.1%;
+}
+
+.formCheckboxSection {
+  display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 10px;
+  }
+
+.checkText {
+  font-size: 14px;
+  font-weight: 500;
+  word-break: break-word;
 }
 
 .formLabel {
   font-size: 14px;
-    font-weight: 500;
+  font-weight: 500;
+  word-break: break-word;
 }
 
 .formInput {
@@ -71,10 +182,276 @@
   font-size: 14px !important;
   outline: none !important;
   padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
 }
-.documentContainer{
-width: 100%;
-display: flex;
-gap: 10px;
+.formDate{
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 9px !important;
 }
-.error {}
+.sectionCompliances{
+  display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.compliancesContainer{
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.documentContainer {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 26px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.uploadLabel {
+  font-size: 14px;
+    font-weight: 500;
+    display: flex
+;
+    flex-direction: column;
+    row-gap: 8px;
+    margin-top: 4px;
+}
+
+.formStockContainer{
+  display: flex;
+      flex-direction: column;
+      gap: 12px;
+}
+.customFileInput { 
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 12px !important; 
+}
+
+.error {
+  font-size: 12px;
+  color: red;
+}
+/* Start the Upload Section design */
+.uploadBox {
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
+  display: flex;
+      gap: 12px;
+      cursor: pointer !important;
+}
+
+.uploadBox:hover {
+  border-color: rgb(40, 47, 134);
+}
+
+.uploadIcon {
+  color: #888;
+  cursor: pointer !important;
+}
+
+.uploadText {
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer !important;
+}
+
+.previewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filePreview {
+  position: relative;
+  text-align: center;
+  width: 84px;
+  padding: 8px 4px;
+  background-color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+}
+
+.fileIcon {
+  color: rgb(40, 47, 134);
+}
+.removeIcon{
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  margin-top: 6px;
+  cursor: pointer !important;
+  padding: 1px;
+}
+.fileName {
+  font-size: 10px;
+  line-height: 13px;
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+.removeButton {
+  position: absolute;
+  top: -8px;
+  right: 0px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #5e676f;
+  cursor: pointer !important;
+}
+/* End the Upload Section design */
+
+/* Start the stock quantity section */
+.tooltipSec{
+  font-size: 11px !important;
+}
+.productQuantityContainer {
+  display: flex;
+  align-items: baseline;
+}
+
+.quantitySection {
+  display: flex;
+  align-items: center;
+}
+.quantityButton{
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding: 5px 10px;
+  border-radius: 0 4px 4px 0;
+   cursor: pointer !important;;
+}
+
+.quantityButton.selected {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+   cursor: pointer !important;;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px 16px;
+  position: relative;
+  right: 50px;
+}
+.quantityInput{
+  width: 20vw !important;
+  outline: none !important;
+  border: none !important;
+  background-color: #ffffff !important;
+  color: #5e676f !important; 
+  padding: 10px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.radioForm {
+  display: flex;
+  gap: 14px;
+  position: relative;
+  right: 32px;
+  width: 100%;
+}
+
+.radioForm label {
+  display: flex;
+  align-items: center;
+   cursor: pointer !important;;
+  outline: none !important;
+    border: none !important;
+    background-color: #ffffff !important;
+    padding: 10px !important;
+    font-size: 14px !important;
+    border-radius: 4px !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.radioForm input[type="radio"] {
+  margin-right: 5px;
+}
+
+/* End the stock quantity section */
+
+.tooltipContainer{
+  display: flex;
+  position: relative;
+}
+.infoTooltip {
+  position: absolute;
+  right: 2%;
+  top: 20%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  cursor: pointer !important;
+  z-index: 100000;
+}
+
+.iconTooltip{
+  width: 14px;
+  cursor: pointer !important;
+}
+
+/* Style image preview setion */
+.uploadSection {
+  margin-bottom: 20px;
+}
+
+.previewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filePreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.previewImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.fileName {
+  margin-top: 5px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+/* End image preview section */
