@@ -3,11 +3,12 @@ import styles from './addproduct.module.css';
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import CloseIcon from '@mui/icons-material/Close';
-import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import { postRequest, postRequestWithTokenAndFile } from '../../api/Requests';
+import { postRequest, postRequestWithTokenAndFile } from '../../../api/Requests';
 import { toast } from 'react-toastify';
+import { InputMask } from '@react-input/mask';
 import EditImageUploader from './EditImageUploader';
+import EditPdfUpload from './EditPdfUpload';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -32,9 +33,9 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
             value={value}
         />
     );
-}
+};
 
-const AddProduct = ({socket}) => {
+const EditSecondaryProduct = ({socket}) => {
 
     const { medicineId } = useParams()
     const navigate       = useNavigate()
@@ -44,23 +45,12 @@ const AddProduct = ({socket}) => {
 
     
     const productTypeOptions = [
-        { value: 'new_product', label: 'New Product' },
-        // { value: 'secondary_market', label: 'Secondary Market' }
+        { value: 'secondary_market', label: 'Secondary Market' },
     ];
 
     const formTypesOptions = [
-        // { value: 'tablet', label: 'Tablet' },
-        // { value: 'syrup', label: 'Syrup' }
-        { value: 'liquid', label: 'Liquid' },
         { value: 'tablet', label: 'Tablet' },
-        { value: 'capsule', label: 'Capsule' },
-        { value: 'tropical medicine', label: 'Tropical Medicine' },
-        { value: 'suppositories', label: 'Suppositories' },
-        { value: 'drops', label: 'Drops' },
-        { value: 'inhales', label: 'Inhales' },
-        { value: 'injections', label: 'Injections' },
-        { value: 'implants', label: 'Implants' },
-        { value: 'patches', label: 'Patches' },
+        { value: 'syrup', label: 'Syrup' }
     ];
     const conditionOptions = [
         { value: 'new', label: 'New' },
@@ -83,7 +73,7 @@ const AddProduct = ({socket}) => {
     ];
 
     const [loading, setLoading] = useState(false);
-    const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' });
+    const [productType, setProductType] = useState({ value: 'secondary_market', label: 'Secondary Market' });
     const [formType, setFormType] = useState()
     const [productCategory, setProductCategory] = useState()
     const [countryOfOrigin, setCountryOfOrigin] = useState('')
@@ -95,6 +85,7 @@ const AddProduct = ({socket}) => {
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
     const [stockedInOptions, setStockedInOptions] = useState([])
     const [packageType, setPackageType] = useState('Box');
+    const [condition, setCondition] = useState()
 
   
     const [errors, setErrors] = useState({});
@@ -133,6 +124,9 @@ const AddProduct = ({socket}) => {
     unitPrice: [],
     // totalPrice: [],
     estDeliveryTime: [],
+    unitPrice: '',
+    pdtQuantity: '',
+    condition: ''
     })
     const [formSections, setFormSections] = useState([
         {
@@ -162,23 +156,34 @@ const AddProduct = ({socket}) => {
         });
     }, [medicineImages])
 
+    useEffect(() => {
+        setFormData({
+            ...formData,
+            invoice_image: invoiceImages
+        });
+    }, [invoiceImages])
+
 
     useEffect(() => {
         if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
             const initialSections = medicineDetails?.inventory_info?.map(item => ({
-                strength: '', // Set default or adjust if needed
-                quantity: { value: item.quantity, label: item.quantity }, // Adjust to match your Select options
+                strength: '', 
+                quantity: { value: item.quantity, label: item.quantity }, 
                 typeOfForm: null,
                 productCategory: null,
                 unitPrice: item.unit_price,
                 estDeliveryTime: item.est_delivery_days,
                 // totalPrice: item.total_price,
-                condition: { value: '', label: '' } // Adjust based on available conditions
+                condition: { value: '', label: '' } 
             }));
+            
             setFormSections(initialSections);
 
             setFormData(prev => ({
                 ...prev,
+                pdtQuantity: medicineDetails?.total_quantity,
+                unitPrice: medicineDetails?.unit_price,
+                condition: medicineDetails?.condition,
                     quantity: initialSections.map(section => section.quantity),
                 unitPrice: initialSections.map(section => section.unitPrice),
                 // totalPrice: initialSections.map(section => section.totalPrice),
@@ -193,20 +198,7 @@ const AddProduct = ({socket}) => {
         const countryOptions = countryList().getData();
         setCountries(countryOptions);
     }, []);
-    const handleConditionChange = (index, selected) => {
-        const newFormSections = [...formSections];
-        newFormSections[index].condition = selected;
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [`condition${index}`]: ''
-        }));
-        const conditions = newFormSections.map(section => section.condition);
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            condition: conditions
-        }));
-        setFormSections(newFormSections);
-    };
+   
     
     const handleQuantityChange = (index, selected) => {
         const newFormSections = [...formSections];
@@ -222,6 +214,7 @@ const AddProduct = ({socket}) => {
         }));
         setFormSections(newFormSections);
     };
+    
 
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
@@ -240,8 +233,8 @@ const AddProduct = ({socket}) => {
                     [`${name}${index}`]: ''
                 }));
             }
-        }
-        //  else if (name === 'totalPrice') {
+        } 
+        // else if (name === 'totalPrice') {
         //     // Restrict input to max 8 digits before decimal, and 3 digits after
         //     if (/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
         //         isValid = true;
@@ -309,8 +302,6 @@ const AddProduct = ({socket}) => {
     const addFormSection = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
-
-        // if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity || !section.unitPrice || !section.estDeliveryTime) {
                     newProductValid = false;
@@ -324,7 +315,7 @@ const AddProduct = ({socket}) => {
                     }));
                 }
             });
-            if (newProductValid && productType.label === 'New Product') {
+            if (newProductValid) {
                 setFormSections([
                     ...formSections,
                     {
@@ -340,34 +331,6 @@ const AddProduct = ({socket}) => {
 
                 setErrors({});
             }
-        // } 
-        // else if (productType && productType.label === 'Secondary Market') {
-
-        //     formSections.forEach((section, index) => {
-        //         if (!section.quantityNo || !section.unitPrice || !section.condition) {
-        //             secondaryMarketValue = false;
-        //             setErrors(prevErrors => ({
-        //                 ...prevErrors,
-        //                 [`quantityNo${index}`]: !section.quantityNo ? 'Quantity is Required' : '',
-        //                 [`unitPricee${index}`]: !section.unitPricee ? 'Unit Price is Required' : '',
-        //                 [`condition${index}`]: !section.condition ? 'Condition is Required' : '',
-
-        //             }));
-        //         }
-        //     });
-        //     if (secondaryMarketValue && productType.label === 'Secondary Market') {
-        //         setFormSections([
-        //             ...formSections,
-        //             {
-        //                 id: formSections.length,
-        //                 quantityNo: '',
-        //                 unitPricee: '',
-        //                 condition: ''
-        //             }
-        //         ]);
-        //         setErrors({});
-        //     }
-        // }
     };
 
     const removeFormSection = (index) => {
@@ -388,12 +351,13 @@ const AddProduct = ({socket}) => {
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
     };
-    const [images, setImages] = useState([])
+
     const [defaultFormType, setDefaultFormType] = useState(null);
     const [defaultCategory, setDefaultCategory] = useState(null)
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
     const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
     const [defaultStockedIn, setDefaultStockedIn] = useState([])
+    const [defaultCountryAvailableIn, setDefaultCountryAvailableIn] = useState([])
     const [inventoryInfo, setInventoryInfo] = useState([]);
   
     useEffect(() => {
@@ -426,32 +390,40 @@ const AddProduct = ({socket}) => {
                     shelfLife: result?.shelf_life || '',
                     dossierType: result?.dossier_type || '',
                     dossierStatus: result?.dossier_status || '',
-                    // productCategory: result.medicine_category || '',
                     productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
                     totalQuantity: result?.total_quantity || '',
                     gmpApprovals: result?.gmp_approvals || '',
                     shippingTime: result?.shipping_time || '',
-                    // originCountry: result.country_of_origin || '',
                     originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
                     registeredIn: result?.registered_in || [],
                     stockedIn: result?.stocked_in || [],
                     availableFor: result?.available_for || '',
                     tags: result?.tags?.join(', ') || '',
                     description: result?.description || '',
-                    // product_image: result?.medicine_image || [],
                     invoice_image: [],
-                    purchasedOn: '',
-                    minPurchaseUnit: '',
+                    purchasedOn: result?.purchased_on || '',
+                    minPurchaseUnit: result?.min_purchase_unit || '',
                     countryAvailableIn: result?.country_available_in || [],
                     manufacturerName: result?.manufacturer_name || '',
                     manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
                     manufacturerDescription: result?.manufacturer_description || '',
-                    stockedInData: result?.stockedIn_details || []
+                    stockedInData: result?.stockedIn_details || [],
+                    pdtQuantity: result?.total_quantity,
+                    unitPrice: result?.unit_price,
+                    condition: { label: result?.condition, value: result?.condition } || null,
+                    product_image : result?.medicine_image || []
                 }));
-                setMedicineImages(result?.medicine_image || []);
+                setMedicineImages(result?.medicine_image || [])
+                setInvoiceImages(result?.invoice_image || [])
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
+                // setCondition(result?.condition)
+                setCondition(
+                    result?.condition
+                        ? { label: result?.condition, value: result?.condition }
+                        : null // Default to null if no condition is found
+                );
                
             } else {
                console.log('error in med details api');
@@ -483,6 +455,12 @@ const AddProduct = ({socket}) => {
                 medicineDetails?.stocked_in.includes(option.label)
             );
             setDefaultStockedIn(selectedStockedIn);
+        }
+        if (medicineDetails?.country_available_in) {
+            const countryAvailableIn = countries.filter(option => 
+                medicineDetails?.country_available_in.includes(option.label)
+            );
+            setDefaultCountryAvailableIn(countryAvailableIn);
         }
         if (medicineDetails?.inventory_info) {
             setInventoryInfo(medicineDetails.inventory_info);
@@ -589,14 +567,11 @@ const AddProduct = ({socket}) => {
         if (productType && productType.label === 'New Product') {
             if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         }
-        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
-
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
         if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
         if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
-        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
         if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
         if (formData?.registeredIn?.length === 0) formErrors.registeredIn = 'Registered in is Required';
         if (formData?.stockedIn?.length === 0) formErrors.stockedIn = 'Stocked in is Required';
@@ -606,6 +581,12 @@ const AddProduct = ({socket}) => {
         if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
         if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
 
+        // if (!formData.pdtQuantity) formErrors.pdtQuantity = 'Quantity is Required';
+        if (!formData.unitPrice) formErrors.unitPrice = 'Unit Price is Required';
+        if (!formData.condition) formErrors.condition = 'Condition is Required';
+
+        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
+
         if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
@@ -614,24 +595,12 @@ const AddProduct = ({socket}) => {
                 if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
             });
         } else if (productType && productType.label === 'Secondary Market') {
-            formSections.forEach((section, index) => {
-                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
-                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
-                if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
-            });
         }
-
-        // if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
-
-
         stockedInSections.forEach((section, index) => {
             if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
             if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
             if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
         });
-
-
-
         if (productType && productType.label === 'Secondary Market') {
             if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
             if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
@@ -644,7 +613,7 @@ const AddProduct = ({socket}) => {
     }
 
     const resetForm = () => {
-        setProductType({ value: 'new_product', label: 'New Product' });
+        setProductType({ value: 'secondary_market', label: 'Secondary Market' });
         setFormType('');
         setProductCategory('');
         setCountryOfOrigin('');
@@ -663,10 +632,12 @@ const AddProduct = ({socket}) => {
         setManufacturerCountryOfOrigin('')
         setDefaultRegisteredIn([])
         setDefaultStockedIn([])
+        setDefaultCountryAvailableIn([])
+        setCondition()
         setErrors({});
         setFormData({
             productName: '',
-            productType: { value: 'new_product', label: 'New Product' },
+            productType: { value: 'secondary_market', label: 'Secondary Market' },
             // composition: '',
             strength: '',
             unitTax: '',
@@ -692,7 +663,10 @@ const AddProduct = ({socket}) => {
             manufacturerName: '',
             manufacturerOriginCountry: '',
             manufacturerDescription: '',
-            stockedInData: ''
+            stockedInData: '',
+            unitPrice: '',
+            // pdtQuantity: '',
+            condition: ''
         });
         setFormSections([
             {
@@ -720,15 +694,17 @@ const AddProduct = ({socket}) => {
             return;
         }
         e.preventDefault()
-console.log('FORMDATA',formData);
         if (validateForm()) {
             setLoading(true);
             const newFormData = new FormData()
             const secondaryFormData = new FormData()
-
             const registered = formData.registeredIn?.map(country => {
                 return country ? country.label : '';
             }) || [];
+
+            const quantities = formData.quantity?.map(qty => {
+                return qty ? qty?.label : ''
+            })
 
             const stocked = formData.stockedIn?.map(country => {
                 return country ? country.label : '';
@@ -741,9 +717,7 @@ console.log('FORMDATA',formData);
             }));
             if (productType && productType.label === 'New Product') {
 
-                const quantities = formData.quantity?.map(qty => {
-                    return qty ? qty?.label : ''
-                })
+               
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
                 newFormData.append('medicine_id',  medicineId);
                 newFormData.append('medicine_name', formData.productName);
@@ -756,15 +730,11 @@ console.log('FORMDATA',formData);
                 newFormData.append('dossier_type', formData.dossierType);
                 newFormData.append('dossier_status', formData.dossierStatus);
                 newFormData.append('product_category', formData.productCategory?.label);
-                // newFormData.append('medicine_category', formData.productCategory?.label)
                 newFormData.append('total_quantity', formData.totalQuantity);
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
                 newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                // registered.forEach(item => newFormData.append('registered_in[]', item));
-                // newFormData.append('registered_in[]', formData.registeredIn);
                 formData.registeredIn.forEach(item =>  newFormData.append('registered_in[]', item) )
-                // stocked.forEach(item => newFormData.append('stocked_in[]', item));
                 formData.stockedIn.forEach(item =>  newFormData.append('stocked_in[]', item) )
                 newFormData.append('available_for', formData.availableFor);
                 newFormData.append('tags', formData.tags);
@@ -777,7 +747,6 @@ console.log('FORMDATA',formData);
                 newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
                 newFormData.append('manufacturer_name', formData?.manufacturerName)
                 newFormData.append('manufacturer_description', formData?.manufacturerDescription)
-                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
                 newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
                 postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
@@ -785,12 +754,7 @@ console.log('FORMDATA',formData);
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
-                        socket.emit('editNewMedicine', {
-                            adminId : process.env.REACT_APP_ADMIN_ID,
-                            message : `New Edit Medicine Request `,
-                            link    : process.env.REACT_APP_PUBLIC_URL
-                            // send other details if needed
-                        });
+                        
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
@@ -803,20 +767,22 @@ console.log('FORMDATA',formData);
                 })
 
             } else if (productType && productType.label === 'Secondary Market') {
+                
                 const countryLabels = formData.countryAvailableIn?.map(country => {
-                    return country ? country.label : '';
+                    return country ;
                 }) || [];
 
+                console.log('fIMage', formData.product_image);
                 secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
+                secondaryFormData.append('medicine_id',  medicineId);
                 secondaryFormData.append('medicine_name', formData.productName);
                 secondaryFormData.append('product_type', 'secondary market');
                 secondaryFormData.append('purchased_on', formData.purchasedOn);
-
                 countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
                 secondaryFormData.append('strength', formData.strength);
                 secondaryFormData.append('unit_tax', formData.unitTax);
+                secondaryFormData.append('total_quantity', formData.totalQuantity);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
-
                 // secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
                 secondaryFormData.append('shelf_life', formData.shelfLife);
@@ -826,14 +792,19 @@ console.log('FORMDATA',formData);
                 secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
                 secondaryFormData.append('shipping_time', formData.shippingTime);
                 secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                registered.forEach(item => secondaryFormData.append('registered_in[]', item));
-                stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
+                formData.registeredIn.forEach(item =>  secondaryFormData.append('registered_in[]', item) )
+                formData.stockedIn.forEach(item =>  secondaryFormData.append('stocked_in[]', item) )
                 secondaryFormData.append('available_for', formData.availableFor);
                 secondaryFormData.append('tags', formData.tags);
                 secondaryFormData.append('description', formData.description);
-                secondaryFormData.append('quantity', formData.quantityNo.join(','));
-                secondaryFormData.append('unit_price', formData.unitPricee);
-                secondaryFormData.append('condition', formData.condition[0].value);
+                // secondaryFormData.append('quantity', formData.pdtQuantity);
+                // secondaryFormData.append('unit_price', formData.unitPrice);
+                quantities.forEach(item => secondaryFormData.append('quantity[]', item));
+                formData.unitPrice.forEach(price => secondaryFormData.append('unit_price[]', price));
+                // formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
+                formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
+                secondaryFormData.append('condition', condition?.label);
+                // Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -846,7 +817,12 @@ console.log('FORMDATA',formData);
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
-
+                        socket.emit('editSecondaryMedicine', {
+                            adminId : process.env.REACT_APP_ADMIN_ID,
+                            message : `New Edit Medicine Request `,
+                            link    : process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);
@@ -864,11 +840,9 @@ console.log('FORMDATA',formData);
             console.log('errorrrrr', formData);
         }
     }
-
     const handleCancel = () => {
         resetForm()
     }
-
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -934,6 +908,70 @@ console.log('FORMDATA',formData);
         }
         setErrors(newErrors);
     };
+    
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        let newErrors = { ...errors };
+        let isValid = true;
+    
+        if (name === 'purchasedOn') {
+            // Validate the format dd/mm/yyyy
+            if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                const [day, month, year] = value.split('/').map(Number);
+                const currentYear = new Date().getFullYear();
+    
+                // Helper function to check if a year is a leap year
+                const isLeapYear = (year) => {
+                    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+                };
+    
+                // Days allowed per month
+                const daysInMonth = {
+                    1: 31, // January
+                    2: isLeapYear(year) ? 29 : 28, // February (leap year check)
+                    3: 31, // March
+                    4: 30, // April
+                    5: 31, // May
+                    6: 30, // June
+                    7: 31, // July
+                    8: 31, // August
+                    9: 30, // September
+                    10: 31, // October
+                    11: 30, // November
+                    12: 31, // December
+                };
+    
+                // Validate month (01 to 12)
+                if (month < 1 || month > 12) {
+                    newErrors[name] = 'Invalid month. Please use a month between 01 and 12.';
+                    isValid = false;
+                }
+                // Validate day based on the month and year
+                else if (day < 1 || day > daysInMonth[month]) {
+                    newErrors[name] = `Invalid day. The month ${String(month).padStart(2, '0')} has ${daysInMonth[month]} days.`;
+                    isValid = false;
+                }
+                // Validate year (less than or equal to current year)
+                else if (year > currentYear) {
+                    newErrors[name] = `Invalid year. Year cannot be greater than ${currentYear}.`;
+                    isValid = false;
+                } else {
+                    delete newErrors[name]; // Clear the error if valid
+                    isValid = true;
+                }
+            } else if (value.trim()) {
+                // If the input doesn't match the dd/mm/yyyy format
+                newErrors[name] = 'Invalid date format. Please use dd/mm/yyyy';
+                isValid = false;
+            } else {
+                delete newErrors[name]; // Clear the error if input is empty
+                isValid = true;
+            }
+    
+            setErrors(newErrors);
+        }
+    };
 
     const handlemanufacturerCountryOriginChange = (selected) => {
         setManufacturerCountryOfOrigin(selected)
@@ -959,9 +997,9 @@ console.log('FORMDATA',formData);
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
         setFormData({
             ...formData,
-            countryAvailableIn: selectedOptions
+            countryAvailableIn: selectedLabels
         });
-        setAvailableCountries(selectedOptions)
+        setDefaultCountryAvailableIn(selectedOptions || [])
         setErrors(prevState => ({
             ...prevState,
             countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
@@ -1021,10 +1059,26 @@ console.log('FORMDATA',formData);
             stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
         }));
         const options = selectedOptions.map(option => ({ label: option.label }));
-        // setStockedInOptions(options);
     };
 
- 
+     const handleConditionChange = (selected) => {
+        const selectedValue = selected ? selected.label : ''; 
+        setCondition(selected);
+
+        // setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
+        // if (!selected) {
+        //     setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
+        // } else {
+        //     setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
+        // }
+        setFormData(prevState => ({ ...prevState, condition: selectedValue }));
+    
+        if (!selectedValue) {
+            setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
+        } else {
+            setErrors(prevState => ({ ...prevState, condition: '' }));
+        }
+    };
 
     return (
         <>
@@ -1065,16 +1119,32 @@ console.log('FORMDATA',formData);
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Purchased On</label>
-                                        <input
+                                        <InputMask
                                             className={styles['create-invoice-div-input']}
-                                            type='text'
+                                            type="text"
+                                            mask="dd/mm/yyyy" 
+                                            placeholder='DD/MM/YYYY'
                                             name='purchasedOn'
-                                            placeholder='Enter Purchased on'
+                                            // placeholder='Enter Purchased on'
                                             autoComplete='off'
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
+                                            onBlur={handleBlur} 
+                                            replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
                                         />
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
+                                    </div>
+                                    <div className={styles['create-invoice-div-container']}>
+                                        <label className={styles['create-invoice-div-label']}>Condition</label>
+                                        <Select
+                                            className={styles['create-invoice-div-input-select']}
+                                            value={condition}
+                                            onChange={ handleConditionChange}
+                                            options={conditionOptions}
+                                            placeholder="Select Condition"
+                                        />
+                                        {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
+                                        {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available In</label>
@@ -1082,7 +1152,7 @@ console.log('FORMDATA',formData);
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
                                             onChange={handleAvailableInChange}
-                                            getDropdownButtonLabel={getDropdownButtonLabel}
+                                            value={defaultCountryAvailableIn}
                                         />
                                          {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
@@ -1196,7 +1266,6 @@ console.log('FORMDATA',formData);
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
-                                    // value={productCategory}
                                     value={formData.productCategory}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
@@ -1205,7 +1274,7 @@ console.log('FORMDATA',formData);
                                 />
                                 {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
-                            {productType && productType.value === 'new_product' && (
+                            {/* {productType && productType.value === 'new_product' && ( */}
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Total Quantity</label>
@@ -1221,7 +1290,7 @@ console.log('FORMDATA',formData);
                                         {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
-                            )}
+                            {/* )} */}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
                                 <input
@@ -1255,10 +1324,8 @@ console.log('FORMDATA',formData);
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
-                                    // value={countryOfOrigin}
                                     value={formData.originCountry}
                                     onChange={handleCountryOriginChange}
-                                    
                                 />
                                 {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
@@ -1268,7 +1335,6 @@ console.log('FORMDATA',formData);
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
                                     value={defaultRegisteredIn}
-                                    // onChange={setDefaultRegisteredIn}
                                     onChange={handleRegisteredInChange}
                                 />
                                 {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
@@ -1278,10 +1344,8 @@ console.log('FORMDATA',formData);
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
-                                    // onChange={setDefaultStockedIn}
                                     onChange={handleStockedInChange}
                                     value={defaultStockedIn}
-                                    // getDropdownButtonLabel={getDropdownButtonLabel}
                                 />
                                 {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
                             </div>
@@ -1345,7 +1409,6 @@ console.log('FORMDATA',formData);
                                                     placeholder="Select Stocked in Country"
                                                     name='stockedInCountry'
                                                 />
-                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
                                                 {errors[`stockedInCountry${index}`] && (
                                                     <div className={styles['add-product-errors']} style={{ color: 'red' }}>
                                                         Stocked in Country is Required
@@ -1432,12 +1495,14 @@ console.log('FORMDATA',formData);
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
-                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
+                                    <span className={styles['create-invoice-add-item-button']} 
+                                    onClick={addFormSection}
+                                    >Add More</span>
                                 </div>
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
 
-                                        {productType && productType.value === 'new_product' && (
+                                        {/* {productType && productType.value === 'new_product' && ( */}
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
@@ -1489,19 +1554,22 @@ console.log('FORMDATA',formData);
                                                     {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
                                             </div>
-                                        )}
-                                        {productType && productType.value === 'secondary_market' && (
+                                        {/* )} */}
+
+                                        {/* {productType && productType.value === 'secondary_market' && (
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
                                                     <input
                                                         className={styles['create-invoice-div-input']}
                                                         type='text'
-                                                        name='quantity'
+                                                        name='pdtQuantity'
                                                         placeholder='Enter Quantity'
-                                                        value={section.quantity}
-                                                        onChange={(event) => handleInputChange(index, event)}
+                                                        value={formData.pdtQuantity}
+                                                        onChange={handleChange}
                                                     />
+                                                   
+                                                    {errors.pdtQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.pdtQuantity}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1511,22 +1579,27 @@ console.log('FORMDATA',formData);
                                                         type='text'
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
-                                                        value={section.unitPrice}
-                                                        onChange={(event) => handleInputChange(index, event)}
+                                                        value={formData.unitPrice}
+                                                        onChange={handleChange}
                                                     />
+                                                     
+                                                        {errors.unitPrice && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitPrice}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Condition</label>
                                                     <Select
                                                         className={styles['create-invoice-div-input-select']}
-                                                        value={section.condition}
-                                                        onChange={(selected) => handleConditionChange(index, selected)}
+                                                        value={formData.condition}
+                                                        onChange={handleConditionChange}
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
+                                                    
+                                                    {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
+                                                    
                                                 </div>
                                             </div>
-                                        )}
+                                        )} */}
                                         {formSections.length > 1 && (
                                             <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
                                                 <CloseIcon />
@@ -1592,38 +1665,43 @@ console.log('FORMDATA',formData);
                                     setImage={setMedicineImages}
                                     /> */}
                                     <EditImageUploader
-                                    image={medicineImages}
-                                    setImage={setMedicineImages}
+                                      image={medicineImages}
+                                      setImage={setMedicineImages}
                                     />
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
                                         <div className={styles['create-invoice-upload-purchase']}>
                                             <div className={styles['create-invoice-form-heading']}>Upload Purchase Invoice</div>
-                                            <AddPdfUpload 
-                                            
-                                            />
+                                            {/* <AddPdfUpload
+                                             invoiceImage={invoiceImages}
+                                             setInvoiceImage={setInvoiceImages}
+                                             /> */}
+                                             <EditPdfUpload
+                                             invoiceImage={invoiceImages}
+                                             setInvoiceImage={setInvoiceImages}
+
+                                             />
                                         </div>
                                     </>
                                 )}
-
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                            
-                            <button 
-                            type="submit" 
-                            className={styles['create-invoices-submit']}
-                            disabled={loading}
-                            >
+                           
+                            <button type="submit"
+                             className={styles['create-invoices-submit']}
+                             disabled={loading}
+                             >
                                 {/* Edit Product */}
                                 {loading ? (
                     <div className={styles['loading-spinner']}></div> // Show spinner when loading
                 ) : (
                     'Save'
                 )}
-                            </button>
-                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
+                                </button>
+                                <div className={styles['create-invoices-cancel']} 
+                            onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
 
@@ -1634,4 +1712,4 @@ console.log('FORMDATA',formData);
     );
 };
 
-export default AddProduct;
+export default EditSecondaryProduct;

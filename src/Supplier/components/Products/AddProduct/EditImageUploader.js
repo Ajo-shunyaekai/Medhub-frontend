@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import UploadImage from '../../assest/images/uplaod.svg';
 import CloseIcon from '@mui/icons-material/Close';
+import UploadImage from '../../../assest/images/uplaod.svg';
 import styles from './imageadd.module.css';
 
 const EditImageUploader = ({ image, setImage }) => {

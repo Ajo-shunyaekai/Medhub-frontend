@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styles from './product.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './addproductlist.css';
-import SecondaryMarket from './SecondaryProducts/SecondaryMarket';
-import NewProduct from './NewProducts/NewProduct';
-import { postRequest, postRequestWithToken } from '../../api/Requests';
-import Loader from '../SharedComponents/Loader/Loader';
-import { apiRequests } from '../../../api';
+import styles from './product.module.css';
+import SecondaryMarket from './SecondaryMarket';
+import NewProduct from './NewProduct';
+import { postRequest, postRequestWithToken } from '../../../api/Requests';
+import Loader from '../../SharedComponents/Loader/Loader';
+import { apiRequests } from '../../../../api';
 
 const Product = () => {
     const location = useLocation();
@@ -100,14 +100,6 @@ const Product = () => {
                 }
                 setMedicineList(response.result.data)
                 setTotalItems(response.result.totalItems)
-                // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${medicineType}&medicine_status=${'accepted'}`, obj, async (response) => {
-                //     if (response.code === 200) {
-                //         setMedicineList(response.result.data)
-                //         setTotalItems(response.result.totalItems)
-                //     } else {
-                //         console.log('error in medicine list api',response);
-                //     }
-                // })
             } catch (error) {
                 console.log('error in medicine list api',error);
             } finally{

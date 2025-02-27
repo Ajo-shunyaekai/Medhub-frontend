@@ -3,12 +3,11 @@ import styles from './addproduct.module.css';
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import CloseIcon from '@mui/icons-material/Close';
+import AddPdfUpload from './AddPdfUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import { postRequest, postRequestWithTokenAndFile } from '../../api/Requests';
+import { postRequest, postRequestWithTokenAndFile } from '../../../api/Requests';
 import { toast } from 'react-toastify';
-import { InputMask } from '@react-input/mask';
 import EditImageUploader from './EditImageUploader';
-import EditPdfUpload from './EditPdfUpload';
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -33,24 +32,35 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
             value={value}
         />
     );
-};
+}
 
-const EditSecondaryProduct = ({socket}) => {
+const AddProduct = ({ socket }) => {
 
     const { medicineId } = useParams()
-    const navigate       = useNavigate()
+    const navigate = useNavigate()
 
     const [medicineDetails, setMedicineDetails] = useState()
     const [medId, setMedId] = useState(medicineId)
 
-    
+
     const productTypeOptions = [
-        { value: 'secondary_market', label: 'Secondary Market' },
+        { value: 'new_product', label: 'New Product' },
+        // { value: 'secondary_market', label: 'Secondary Market' }
     ];
 
     const formTypesOptions = [
+        // { value: 'tablet', label: 'Tablet' },
+        // { value: 'syrup', label: 'Syrup' }
+        { value: 'liquid', label: 'Liquid' },
         { value: 'tablet', label: 'Tablet' },
-        { value: 'syrup', label: 'Syrup' }
+        { value: 'capsule', label: 'Capsule' },
+        { value: 'tropical medicine', label: 'Tropical Medicine' },
+        { value: 'suppositories', label: 'Suppositories' },
+        { value: 'drops', label: 'Drops' },
+        { value: 'inhales', label: 'Inhales' },
+        { value: 'injections', label: 'Injections' },
+        { value: 'implants', label: 'Implants' },
+        { value: 'patches', label: 'Patches' },
     ];
     const conditionOptions = [
         { value: 'new', label: 'New' },
@@ -73,7 +83,7 @@ const EditSecondaryProduct = ({socket}) => {
     ];
 
     const [loading, setLoading] = useState(false);
-    const [productType, setProductType] = useState({ value: 'secondary_market', label: 'Secondary Market' });
+    const [productType, setProductType] = useState({ value: 'new_product', label: 'New Product' });
     const [formType, setFormType] = useState()
     const [productCategory, setProductCategory] = useState()
     const [countryOfOrigin, setCountryOfOrigin] = useState('')
@@ -85,9 +95,8 @@ const EditSecondaryProduct = ({socket}) => {
     const [manufacturerCountryOfOrigin, setManufacturerCountryOfOrigin] = useState('')
     const [stockedInOptions, setStockedInOptions] = useState([])
     const [packageType, setPackageType] = useState('Box');
-    const [condition, setCondition] = useState()
 
-  
+
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         productName: '',
@@ -121,12 +130,9 @@ const EditSecondaryProduct = ({socket}) => {
         stockedInData: '',
 
         quantity: [],
-    unitPrice: [],
-    // totalPrice: [],
-    estDeliveryTime: [],
-    unitPrice: '',
-    pdtQuantity: '',
-    condition: ''
+        unitPrice: [],
+        // totalPrice: [],
+        estDeliveryTime: [],
     })
     const [formSections, setFormSections] = useState([
         {
@@ -156,35 +162,24 @@ const EditSecondaryProduct = ({socket}) => {
         });
     }, [medicineImages])
 
-    useEffect(() => {
-        setFormData({
-            ...formData,
-            invoice_image: invoiceImages
-        });
-    }, [invoiceImages])
-
 
     useEffect(() => {
         if (medicineDetails?.inventory_info && medicineDetails?.inventory_info.length > 0) {
             const initialSections = medicineDetails?.inventory_info?.map(item => ({
-                strength: '', 
-                quantity: { value: item.quantity, label: item.quantity }, 
+                strength: '', // Set default or adjust if needed
+                quantity: { value: item.quantity, label: item.quantity }, // Adjust to match your Select options
                 typeOfForm: null,
                 productCategory: null,
                 unitPrice: item.unit_price,
                 estDeliveryTime: item.est_delivery_days,
                 // totalPrice: item.total_price,
-                condition: { value: '', label: '' } 
+                condition: { value: '', label: '' } // Adjust based on available conditions
             }));
-            
             setFormSections(initialSections);
 
             setFormData(prev => ({
                 ...prev,
-                pdtQuantity: medicineDetails?.total_quantity,
-                unitPrice: medicineDetails?.unit_price,
-                condition: medicineDetails?.condition,
-                    quantity: initialSections.map(section => section.quantity),
+                quantity: initialSections.map(section => section.quantity),
                 unitPrice: initialSections.map(section => section.unitPrice),
                 // totalPrice: initialSections.map(section => section.totalPrice),
                 estDeliveryTime: initialSections.map(section => section.estDeliveryTime),
@@ -198,8 +193,21 @@ const EditSecondaryProduct = ({socket}) => {
         const countryOptions = countryList().getData();
         setCountries(countryOptions);
     }, []);
-   
-    
+    const handleConditionChange = (index, selected) => {
+        const newFormSections = [...formSections];
+        newFormSections[index].condition = selected;
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [`condition${index}`]: ''
+        }));
+        const conditions = newFormSections.map(section => section.condition);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            condition: conditions
+        }));
+        setFormSections(newFormSections);
+    };
+
     const handleQuantityChange = (index, selected) => {
         const newFormSections = [...formSections];
         newFormSections[index].quantity = selected;
@@ -214,13 +222,12 @@ const EditSecondaryProduct = ({socket}) => {
         }));
         setFormSections(newFormSections);
     };
-    
 
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
         const newFormSections = [...formSections];
         let isValid = true;
-    
+
         // Validation logic based on the input name
         if (name === 'unitPrice') {
             // Restrict input to max 4 digits before decimal, and 3 digits after
@@ -233,19 +240,8 @@ const EditSecondaryProduct = ({socket}) => {
                     [`${name}${index}`]: ''
                 }));
             }
-        } 
-        // else if (name === 'totalPrice') {
-        //     // Restrict input to max 8 digits before decimal, and 3 digits after
-        //     if (/^\d{0,8}(\.\d{0,3})?$/.test(value)) {
-        //         isValid = true;
-        //     } else {
-        //         isValid = false;
-        //         setErrors(prevErrors => ({
-        //             ...prevErrors,
-        //             [`${name}${index}`]: ''
-        //         }));
-        //     }
-        // } 
+        }
+
         else if (name === 'estDeliveryTime') {
             // Restrict input to 3 digits for delivery time
             if (/^\d{0,3}$/.test(value)) {
@@ -269,23 +265,23 @@ const EditSecondaryProduct = ({socket}) => {
                 }));
             }
         }
-    
+
         // If the input is valid, update the form sections and reset any errors
         if (isValid) {
             newFormSections[index][name] = value;
-    
+
             // Update formData with the newly modified values
             const unitPrices = newFormSections.map(section => section.unitPrice);
             // const totalPrices = newFormSections.map(section => section.totalPrice);
             const estDeliveryTimes = newFormSections.map(section => section.estDeliveryTime);
-    
+
             setFormData(prevFormData => ({
                 ...prevFormData,
                 unitPrice: unitPrices,
                 // totalPrice: totalPrices,
                 estDeliveryTime: estDeliveryTimes,
             }));
-    
+
             // Clear errors for this input
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -295,42 +291,45 @@ const EditSecondaryProduct = ({socket}) => {
             // Prevent the input from updating if invalid
             event.target.value = newFormSections[index][name] || '';
         }
-    
+
         setFormSections(newFormSections);
     };
-    
+
     const addFormSection = () => {
         let newProductValid = true;
         let secondaryMarketValue = true;
-            formSections.forEach((section, index) => {
-                if (!section.quantity || !section.unitPrice || !section.estDeliveryTime) {
-                    newProductValid = false;
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
-                        [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
-                        // [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
-                        [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
 
-                    }));
-                }
-            });
-            if (newProductValid) {
-                setFormSections([
-                    ...formSections,
-                    {
-                        id: formSections.length,
-                        quantity: null,
-                        typeOfForm: null,
-                        // totalPrice: '',
-                        unitPrice: '',
-                        shelfLife: '',
-                        estDeliveryTime: '',
-                    }
-                ]);
+        // if (productType && productType.label === 'New Product') {
+        formSections.forEach((section, index) => {
+            if (!section.quantity || !section.unitPrice || !section.estDeliveryTime) {
+                newProductValid = false;
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    [`quantity${index}`]: !section.quantity ? 'Quantity is Required' : '',
+                    [`unitPrice${index}`]: !section.unitPrice ? 'Unit Price is Required' : '',
+                    // [`totalPrice${index}`]: !section.totalPrice ? 'Total Price is Required' : '',
+                    [`estDeliveryTime${index}`]: !section.estDeliveryTime ? 'Estimated Delivery Time is Required' : '',
 
-                setErrors({});
+                }));
             }
+        });
+        if (newProductValid && productType.label === 'New Product') {
+            setFormSections([
+                ...formSections,
+                {
+                    id: formSections.length,
+                    quantity: null,
+                    typeOfForm: null,
+                    // totalPrice: '',
+                    unitPrice: '',
+                    shelfLife: '',
+                    estDeliveryTime: '',
+                }
+            ]);
+
+            setErrors({});
+        }
+
     };
 
     const removeFormSection = (index) => {
@@ -351,29 +350,28 @@ const EditSecondaryProduct = ({socket}) => {
     const handleProductTypeChange = (selected) => {
         setProductType(selected);
     };
-
+    const [images, setImages] = useState([])
     const [defaultFormType, setDefaultFormType] = useState(null);
     const [defaultCategory, setDefaultCategory] = useState(null)
     const [defaultCountryOfOrigin, setDefaultCountryOfOrigin] = useState(null)
     const [defaultRegisteredIn, setDefaultRegisteredIn] = useState([])
     const [defaultStockedIn, setDefaultStockedIn] = useState([])
-    const [defaultCountryAvailableIn, setDefaultCountryAvailableIn] = useState([])
     const [inventoryInfo, setInventoryInfo] = useState([]);
-  
+
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-        const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
+        const supplierIdLocalStorage = localStorage.getItem("supplier_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
             return;
         }
-        
+
         const obj = {
-            medicine_id : medId,
-            supplier_id : supplierIdSessionStorage || supplierIdLocalStorage 
+            medicine_id: medId,
+            supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
         }
-        
+
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setMedicineDetails(response?.result?.data);
@@ -390,83 +388,69 @@ const EditSecondaryProduct = ({socket}) => {
                     shelfLife: result?.shelf_life || '',
                     dossierType: result?.dossier_type || '',
                     dossierStatus: result?.dossier_status || '',
+
                     productCategory: { label: result?.medicine_category, value: result?.medicine_category } || null,
                     totalQuantity: result?.total_quantity || '',
                     gmpApprovals: result?.gmp_approvals || '',
                     shippingTime: result?.shipping_time || '',
+
                     originCountry: { label: result?.country_of_origin, value: result?.country_of_origin } || null,
                     registeredIn: result?.registered_in || [],
                     stockedIn: result?.stocked_in || [],
                     availableFor: result?.available_for || '',
                     tags: result?.tags?.join(', ') || '',
                     description: result?.description || '',
+
                     invoice_image: [],
-                    purchasedOn: result?.purchased_on || '',
-                    minPurchaseUnit: result?.min_purchase_unit || '',
+                    purchasedOn: '',
+                    minPurchaseUnit: '',
                     countryAvailableIn: result?.country_available_in || [],
                     manufacturerName: result?.manufacturer_name || '',
                     manufacturerOriginCountry: result?.manufacturer_country_of_origin || '',
                     manufacturerDescription: result?.manufacturer_description || '',
-                    stockedInData: result?.stockedIn_details || [],
-                    pdtQuantity: result?.total_quantity,
-                    unitPrice: result?.unit_price,
-                    condition: { label: result?.condition, value: result?.condition } || null,
-                    product_image : result?.medicine_image || []
+                    stockedInData: result?.stockedIn_details || []
                 }));
-                setMedicineImages(result?.medicine_image || [])
-                setInvoiceImages(result?.invoice_image || [])
+                setMedicineImages(result?.medicine_image || []);
                 setProductCategory(result?.medicine_category)
                 setCountryOfOrigin(result?.country_of_origin)
                 setFormType(result?.type_of_form)
-                // setCondition(result?.condition)
-                setCondition(
-                    result?.condition
-                        ? { label: result?.condition, value: result?.condition }
-                        : null // Default to null if no condition is found
-                );
-               
+
             } else {
-               console.log('error in med details api');
+                console.log('error in med details api');
             }
-          })
-    },[])
+        })
+    }, [])
 
     useEffect(() => {
         if (medicineDetails?.type_of_form) {
             const selectedFormType = formTypesOptions.find(option => option.label === medicineDetails?.type_of_form);
             setDefaultFormType(selectedFormType);
         }
-        if(medicineDetails?.medicine_category) {
-            const selectedCategory = productCategoryOptions.find(option => option.label === medicineDetails?.medicine_category )
+        if (medicineDetails?.medicine_category) {
+            const selectedCategory = productCategoryOptions.find(option => option.label === medicineDetails?.medicine_category)
             setDefaultCategory(selectedCategory)
         }
-        if(medicineDetails?.country_of_origin) {
-            const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin )
+        if (medicineDetails?.country_of_origin) {
+            const selectedCountryOrigin = countries.find(option => option.label === medicineDetails?.country_of_origin)
             setDefaultCountryOfOrigin(selectedCountryOrigin)
         }
         if (medicineDetails?.registered_in) {
-            const selectedRegisteredIn = countries.filter(option => 
+            const selectedRegisteredIn = countries.filter(option =>
                 medicineDetails?.registered_in.includes(option.label)
             );
             setDefaultRegisteredIn(selectedRegisteredIn);
         }
         if (medicineDetails?.stocked_in) {
-            const selectedStockedIn = countries.filter(option => 
+            const selectedStockedIn = countries.filter(option =>
                 medicineDetails?.stocked_in.includes(option.label)
             );
             setDefaultStockedIn(selectedStockedIn);
         }
-        if (medicineDetails?.country_available_in) {
-            const countryAvailableIn = countries.filter(option => 
-                medicineDetails?.country_available_in.includes(option.label)
-            );
-            setDefaultCountryAvailableIn(countryAvailableIn);
-        }
         if (medicineDetails?.inventory_info) {
             setInventoryInfo(medicineDetails.inventory_info);
         }
-        if(medicineDetails?.manufacturer_country_of_origin) {
-            const manufacturerCountry = countries.find(option => option.label === medicineDetails?.manufacturer_country_of_origin )
+        if (medicineDetails?.manufacturer_country_of_origin) {
+            const manufacturerCountry = countries.find(option => option.label === medicineDetails?.manufacturer_country_of_origin)
             setManufacturerCountryOfOrigin(manufacturerCountry)
         }
     }, [medicineDetails]);
@@ -567,11 +551,14 @@ const EditSecondaryProduct = ({socket}) => {
         if (productType && productType.label === 'New Product') {
             if (!formData.totalQuantity) formErrors.totalQuantity = 'Total Quantity is Required';
         }
+        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
+
         if (!formData.gmpApprovals) formErrors.gmpApprovals = 'Gmp Approval is Required';
         if (!formData.shippingTime) formErrors.shippingTime = 'Shipping Time is Required';
         if (!formData.availableFor) formErrors.availableFor = 'Available for is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
         if (!formData.description) formErrors.description = 'Description is Required';
+        // if (countryOfOrigin.length >= 0) formErrors.originCountry = 'Country of Origin is Required';
         if (!countryOfOrigin) formErrors.originCountry = 'Country of Origin is Required'
         if (formData?.registeredIn?.length === 0) formErrors.registeredIn = 'Registered in is Required';
         if (formData?.stockedIn?.length === 0) formErrors.stockedIn = 'Stocked in is Required';
@@ -581,12 +568,6 @@ const EditSecondaryProduct = ({socket}) => {
         if (!formData.manufacturerOriginCountry) formErrors.manufacturerOriginCountry = 'Manufacturer Country of Origin is Required';
         if (!formData.manufacturerDescription) formErrors.manufacturerDescription = 'About Manufacturer is Required';
 
-        // if (!formData.pdtQuantity) formErrors.pdtQuantity = 'Quantity is Required';
-        if (!formData.unitPrice) formErrors.unitPrice = 'Unit Price is Required';
-        if (!formData.condition) formErrors.condition = 'Condition is Required';
-
-        if (formData.product_image?.length === 0) formErrors.product_image = 'Medicine Image is Required';
-
         if (productType && productType.label === 'New Product') {
             formSections.forEach((section, index) => {
                 if (!section.quantity) formErrors[`quantity${index}`] = 'Quantity is Required';
@@ -595,12 +576,24 @@ const EditSecondaryProduct = ({socket}) => {
                 if (!section.estDeliveryTime) formErrors[`estDeliveryTime${index}`] = 'Estimated Delivery Time is Required';
             });
         } else if (productType && productType.label === 'Secondary Market') {
+            formSections.forEach((section, index) => {
+                if (!section.quantityNo) formErrors[`quantityNo${index}`] = 'Quantity is Required';
+                if (!section.unitPricee) formErrors[`unitPricee${index}`] = 'Unit Price is Required';
+                if (!section.condition) formErrors[`condition${index}`] = 'Condition is Required';
+            });
         }
+
+        // if (formData.product_image?.length === 0) formErrors.medicineImage = 'Medicine Image is Required';
+
+
         stockedInSections.forEach((section, index) => {
             if (!section.stockedInCountry) formErrors[`stockedInCountry${index}`] = 'Stocked in Country is Required';
             if (!section.stockedInQuantity) formErrors[`stockedInQuantity${index}`] = 'Stocked in Quantity is Required';
             if (!section.stockedInType) formErrors[`stockedInType${index}`] = 'Stocked in Type is Required';
         });
+
+
+
         if (productType && productType.label === 'Secondary Market') {
             if (!availableCountries) formErrors.countryAvailableIn = 'Country Available in is Required';
             if (!formData.purchasedOn) formErrors.purchasedOn = 'Purchased on is Required';
@@ -613,7 +606,7 @@ const EditSecondaryProduct = ({socket}) => {
     }
 
     const resetForm = () => {
-        setProductType({ value: 'secondary_market', label: 'Secondary Market' });
+        setProductType({ value: 'new_product', label: 'New Product' });
         setFormType('');
         setProductCategory('');
         setCountryOfOrigin('');
@@ -632,12 +625,10 @@ const EditSecondaryProduct = ({socket}) => {
         setManufacturerCountryOfOrigin('')
         setDefaultRegisteredIn([])
         setDefaultStockedIn([])
-        setDefaultCountryAvailableIn([])
-        setCondition()
         setErrors({});
         setFormData({
             productName: '',
-            productType: { value: 'secondary_market', label: 'Secondary Market' },
+            productType: { value: 'new_product', label: 'New Product' },
             // composition: '',
             strength: '',
             unitTax: '',
@@ -663,10 +654,7 @@ const EditSecondaryProduct = ({socket}) => {
             manufacturerName: '',
             manufacturerOriginCountry: '',
             manufacturerDescription: '',
-            stockedInData: '',
-            unitPrice: '',
-            // pdtQuantity: '',
-            condition: ''
+            stockedInData: ''
         });
         setFormSections([
             {
@@ -694,17 +682,15 @@ const EditSecondaryProduct = ({socket}) => {
             return;
         }
         e.preventDefault()
+        console.log('FORMDATA', formData);
         if (validateForm()) {
             setLoading(true);
             const newFormData = new FormData()
             const secondaryFormData = new FormData()
+
             const registered = formData.registeredIn?.map(country => {
                 return country ? country.label : '';
             }) || [];
-
-            const quantities = formData.quantity?.map(qty => {
-                return qty ? qty?.label : ''
-            })
 
             const stocked = formData.stockedIn?.map(country => {
                 return country ? country.label : '';
@@ -717,9 +703,11 @@ const EditSecondaryProduct = ({socket}) => {
             }));
             if (productType && productType.label === 'New Product') {
 
-               
+                const quantities = formData.quantity?.map(qty => {
+                    return qty ? qty?.label : ''
+                })
                 newFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-                newFormData.append('medicine_id',  medicineId);
+                newFormData.append('medicine_id', medicineId);
                 newFormData.append('medicine_name', formData.productName);
                 newFormData.append('product_type', 'new');
                 // newFormData.append('composition', formData.composition);
@@ -730,23 +718,27 @@ const EditSecondaryProduct = ({socket}) => {
                 newFormData.append('dossier_type', formData.dossierType);
                 newFormData.append('dossier_status', formData.dossierStatus);
                 newFormData.append('product_category', formData.productCategory?.label);
+
                 newFormData.append('total_quantity', formData.totalQuantity);
                 newFormData.append('gmp_approvals', formData.gmpApprovals);
                 newFormData.append('shipping_time', formData.shippingTime);
                 newFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                formData.registeredIn.forEach(item =>  newFormData.append('registered_in[]', item) )
-                formData.stockedIn.forEach(item =>  newFormData.append('stocked_in[]', item) )
+
+                formData.registeredIn.forEach(item => newFormData.append('registered_in[]', item))
+
+                formData.stockedIn.forEach(item => newFormData.append('stocked_in[]', item))
                 newFormData.append('available_for', formData.availableFor);
                 newFormData.append('tags', formData.tags);
                 newFormData.append('description', formData.description);
                 quantities.forEach(item => newFormData.append('quantity[]', item));
                 formData.unitPrice.forEach(price => newFormData.append('unit_price[]', price));
-                // formData.totalPrice.forEach(price => newFormData.append('total_price[]', price));
+
                 formData.estDeliveryTime.forEach(time => newFormData.append('est_delivery_days[]', time));
                 Array.from(formData.product_image).forEach(file => newFormData.append('product_image', file));
                 newFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
                 newFormData.append('manufacturer_name', formData?.manufacturerName)
                 newFormData.append('manufacturer_description', formData?.manufacturerDescription)
+                // newFormData.append('stocked_in_details', simplifiedStockedInSections)
                 newFormData.append('stocked_in_details', JSON.stringify(simplifiedStockedInSections));
 
                 postRequestWithTokenAndFile('/medicine/edit-medicine', newFormData, async (response) => {
@@ -754,7 +746,12 @@ const EditSecondaryProduct = ({socket}) => {
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
-                        
+                        socket.emit('editNewMedicine', {
+                            adminId: process.env.REACT_APP_ADMIN_ID,
+                            message: `New Edit Medicine Request `,
+                            link: process.env.REACT_APP_PUBLIC_URL
+                            // send other details if needed
+                        });
                         setTimeout(() => {
                             navigate('/supplier/product/newproduct')
                         }, 1000);
@@ -767,22 +764,20 @@ const EditSecondaryProduct = ({socket}) => {
                 })
 
             } else if (productType && productType.label === 'Secondary Market') {
-                
                 const countryLabels = formData.countryAvailableIn?.map(country => {
-                    return country ;
+                    return country ? country.label : '';
                 }) || [];
 
-                console.log('fIMage', formData.product_image);
                 secondaryFormData.append('supplier_id', supplierIdSessionStorage || supplierIdLocalStorage);
-                secondaryFormData.append('medicine_id',  medicineId);
                 secondaryFormData.append('medicine_name', formData.productName);
                 secondaryFormData.append('product_type', 'secondary market');
                 secondaryFormData.append('purchased_on', formData.purchasedOn);
+
                 countryLabels.forEach(item => secondaryFormData.append('country_available_in[]', item));
                 secondaryFormData.append('strength', formData.strength);
                 secondaryFormData.append('unit_tax', formData.unitTax);
-                secondaryFormData.append('total_quantity', formData.totalQuantity);
                 secondaryFormData.append('min_purchase_unit', formData.minPurchaseUnit);
+
                 // secondaryFormData.append('composition', formData.composition);
                 secondaryFormData.append('type_of_form', formData.typeOfForm?.label);
                 secondaryFormData.append('shelf_life', formData.shelfLife);
@@ -792,19 +787,14 @@ const EditSecondaryProduct = ({socket}) => {
                 secondaryFormData.append('gmp_approvals', formData.gmpApprovals);
                 secondaryFormData.append('shipping_time', formData.shippingTime);
                 secondaryFormData.append('country_of_origin', countryOfOrigin?.label || countryOfOrigin);
-                formData.registeredIn.forEach(item =>  secondaryFormData.append('registered_in[]', item) )
-                formData.stockedIn.forEach(item =>  secondaryFormData.append('stocked_in[]', item) )
+                registered.forEach(item => secondaryFormData.append('registered_in[]', item));
+                stocked.forEach(item => secondaryFormData.append('stocked_in[]', item));
                 secondaryFormData.append('available_for', formData.availableFor);
                 secondaryFormData.append('tags', formData.tags);
                 secondaryFormData.append('description', formData.description);
-                // secondaryFormData.append('quantity', formData.pdtQuantity);
-                // secondaryFormData.append('unit_price', formData.unitPrice);
-                quantities.forEach(item => secondaryFormData.append('quantity[]', item));
-                formData.unitPrice.forEach(price => secondaryFormData.append('unit_price[]', price));
-                // formData.totalPrice.forEach(price => secondaryFormData.append('total_price[]', price));
-                formData.estDeliveryTime.forEach(time => secondaryFormData.append('est_delivery_days[]', time));
-                secondaryFormData.append('condition', condition?.label);
-                // Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
+                secondaryFormData.append('quantity', formData.quantityNo.join(','));
+                secondaryFormData.append('unit_price', formData.unitPricee);
+                secondaryFormData.append('condition', formData.condition[0].value);
                 Array.from(formData.product_image).forEach(file => secondaryFormData.append('product_image', file));
                 Array.from(formData.invoice_image).forEach(file => secondaryFormData.append('invoice_image', file));
                 secondaryFormData.append('manufacturer_country_of_origin', manufacturerCountryOfOrigin?.label)
@@ -817,12 +807,7 @@ const EditSecondaryProduct = ({socket}) => {
                         resetForm()
                         setLoading(false);
                         toast(response.message, { type: "success" });
-                        socket.emit('editSecondaryMedicine', {
-                            adminId : process.env.REACT_APP_ADMIN_ID,
-                            message : `New Edit Medicine Request `,
-                            link    : process.env.REACT_APP_PUBLIC_URL
-                            // send other details if needed
-                        });
+
                         setTimeout(() => {
                             navigate('/supplier/product/secondarymarket')
                         }, 1000);
@@ -840,18 +825,20 @@ const EditSecondaryProduct = ({socket}) => {
             console.log('errorrrrr', formData);
         }
     }
+
     const handleCancel = () => {
         resetForm()
     }
+
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         let newErrors = { ...errors };  // Start with existing errors
         let isValid = true;
-    
+
         // Clear the error message for the field being updated
         newErrors[name] = '';
-    
+
         if (name === 'description') {
             if (value.length > 1000) {
                 newErrors.description = 'Description cannot exceed 1000 characters';
@@ -876,7 +863,7 @@ const EditSecondaryProduct = ({socket}) => {
                 isValid = false;
             }
         } else if (name === 'unitTax') {
-            // Regular expression to match up to 2 digits before the decimal and up to 2 digits after the decimal
+
             const regex = /^\d{0,2}(\.\d{0,3})?$/;
 
             if (value.trim() && !regex.test(value)) {
@@ -885,92 +872,19 @@ const EditSecondaryProduct = ({socket}) => {
             } else {
                 newErrors[name] = ''; // Clear error if input is valid
             }
-        }  else if (name === 'shippingTime') {
+        } else if (name === 'shippingTime') {
             // Only check for invalid characters if the value is not empty
             if (value.trim() && !/^\d{1,3}$/.test(value)) {
                 newErrors[name] = '';
                 isValid = false;
             }
 
-            
-        } 
-        // else if (['composition', 'strength', 'shelfLife', 'dossierType', 'gmpApprovals', 'shippingTime', 'availableFor', 'tags', 'manufacturerName', 'manufacturerDescription'].includes(name)) {
-        //     // Validate only if the value is not empty
-        //     if (value.trim() === '') {
-        //         newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
-        //         isValid = false;
-        //     }
-        // }
-    
-        // Update the form data if valid
+
+        }
         if (isValid) {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
         setErrors(newErrors);
-    };
-    
-
-    const handleBlur = (e) => {
-        const { name, value } = e.target;
-        let newErrors = { ...errors };
-        let isValid = true;
-    
-        if (name === 'purchasedOn') {
-            // Validate the format dd/mm/yyyy
-            if (value.trim() && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
-                const [day, month, year] = value.split('/').map(Number);
-                const currentYear = new Date().getFullYear();
-    
-                // Helper function to check if a year is a leap year
-                const isLeapYear = (year) => {
-                    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-                };
-    
-                // Days allowed per month
-                const daysInMonth = {
-                    1: 31, // January
-                    2: isLeapYear(year) ? 29 : 28, // February (leap year check)
-                    3: 31, // March
-                    4: 30, // April
-                    5: 31, // May
-                    6: 30, // June
-                    7: 31, // July
-                    8: 31, // August
-                    9: 30, // September
-                    10: 31, // October
-                    11: 30, // November
-                    12: 31, // December
-                };
-    
-                // Validate month (01 to 12)
-                if (month < 1 || month > 12) {
-                    newErrors[name] = 'Invalid month. Please use a month between 01 and 12.';
-                    isValid = false;
-                }
-                // Validate day based on the month and year
-                else if (day < 1 || day > daysInMonth[month]) {
-                    newErrors[name] = `Invalid day. The month ${String(month).padStart(2, '0')} has ${daysInMonth[month]} days.`;
-                    isValid = false;
-                }
-                // Validate year (less than or equal to current year)
-                else if (year > currentYear) {
-                    newErrors[name] = `Invalid year. Year cannot be greater than ${currentYear}.`;
-                    isValid = false;
-                } else {
-                    delete newErrors[name]; // Clear the error if valid
-                    isValid = true;
-                }
-            } else if (value.trim()) {
-                // If the input doesn't match the dd/mm/yyyy format
-                newErrors[name] = 'Invalid date format. Please use dd/mm/yyyy';
-                isValid = false;
-            } else {
-                delete newErrors[name]; // Clear the error if input is empty
-                isValid = true;
-            }
-    
-            setErrors(newErrors);
-        }
     };
 
     const handlemanufacturerCountryOriginChange = (selected) => {
@@ -997,9 +911,9 @@ const EditSecondaryProduct = ({socket}) => {
         const selectedLabels = selectedOptions?.map(option => option.label) || [];
         setFormData({
             ...formData,
-            countryAvailableIn: selectedLabels
+            countryAvailableIn: selectedOptions
         });
-        setDefaultCountryAvailableIn(selectedOptions || [])
+        setAvailableCountries(selectedOptions)
         setErrors(prevState => ({
             ...prevState,
             countryAvailableIn: selectedLabels.length === 0 ? 'Country available in is Required' : ''
@@ -1059,26 +973,10 @@ const EditSecondaryProduct = ({socket}) => {
             stockedIn: selectedLabels.length === 0 ? 'Stocked in is Required' : ''
         }));
         const options = selectedOptions.map(option => ({ label: option.label }));
+        // setStockedInOptions(options);
     };
 
-     const handleConditionChange = (selected) => {
-        const selectedValue = selected ? selected.label : ''; 
-        setCondition(selected);
 
-        // setFormData(prevState => ({ ...prevState, typeOfForm: selected }));
-        // if (!selected) {
-        //     setErrors(prevState => ({ ...prevState, typeOfForm: 'Type of form is Required' }));
-        // } else {
-        //     setErrors(prevState => ({ ...prevState, typeOfForm: '' }));
-        // }
-        setFormData(prevState => ({ ...prevState, condition: selectedValue }));
-    
-        if (!selectedValue) {
-            setErrors(prevState => ({ ...prevState, condition: 'Condition is required' }));
-        } else {
-            setErrors(prevState => ({ ...prevState, condition: '' }));
-        }
-    };
 
     return (
         <>
@@ -1112,39 +1010,23 @@ const EditSecondaryProduct = ({socket}) => {
                                     options={productTypeOptions}
                                     placeholder="Select Product Type"
                                 />
-                                 {errors.productType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productType}</div>}
+                                {errors.productType && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productType}</div>}
                             </div>
 
                             {productType && productType.value === 'secondary_market' && (
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Purchased On</label>
-                                        <InputMask
+                                        <input
                                             className={styles['create-invoice-div-input']}
-                                            type="text"
-                                            mask="dd/mm/yyyy" 
-                                            placeholder='DD/MM/YYYY'
+                                            type='text'
                                             name='purchasedOn'
-                                            // placeholder='Enter Purchased on'
+                                            placeholder='Enter Purchased on'
                                             autoComplete='off'
                                             value={formData.purchasedOn}
                                             onChange={handleChange}
-                                            onBlur={handleBlur} 
-                                            replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
                                         />
                                         {errors.purchasedOn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.purchasedOn}</div>}
-                                    </div>
-                                    <div className={styles['create-invoice-div-container']}>
-                                        <label className={styles['create-invoice-div-label']}>Condition</label>
-                                        <Select
-                                            className={styles['create-invoice-div-input-select']}
-                                            value={condition}
-                                            onChange={ handleConditionChange}
-                                            options={conditionOptions}
-                                            placeholder="Select Condition"
-                                        />
-                                        {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
-                                        {/* {errors[`condition${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`condition${index}`]}</div>} */}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Country Available In</label>
@@ -1152,9 +1034,9 @@ const EditSecondaryProduct = ({socket}) => {
                                             options={countries}
                                             placeholderButtonLabel="Select Countries"
                                             onChange={handleAvailableInChange}
-                                            value={defaultCountryAvailableIn}
+                                            getDropdownButtonLabel={getDropdownButtonLabel}
                                         />
-                                         {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
+                                        {errors.countryAvailableIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.countryAvailableIn}</div>}
                                     </div>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Minimum Purchase Unit</label>
@@ -1171,19 +1053,7 @@ const EditSecondaryProduct = ({socket}) => {
                                     </div>
                                 </>
                             )}
-                            {/* <div className={styles['create-invoice-div-container']}>
-                                <label className={styles['create-invoice-div-label']}>Composition</label>
-                                <input
-                                    className={styles['create-invoice-div-input']}
-                                    type='text'
-                                    name='composition'
-                                    placeholder='Enter Composition'
-                                    autoComplete='off'
-                                    value={formData.composition}
-                                    onChange={handleChange}
-                                />
-                                {errors.composition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.composition}</div>}
-                            </div> */}
+
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>Strength</label>
                                 <input
@@ -1266,6 +1136,7 @@ const EditSecondaryProduct = ({socket}) => {
                                 <label className={styles['create-invoice-div-label']}>Product Category</label>
                                 <Select
                                     className={styles['create-invoice-div-input-select']}
+                                    // value={productCategory}
                                     value={formData.productCategory}
                                     options={productCategoryOptions}
                                     placeholder="Select Product Category"
@@ -1274,7 +1145,7 @@ const EditSecondaryProduct = ({socket}) => {
                                 />
                                 {errors.productCategory && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.productCategory}</div>}
                             </div>
-                            {/* {productType && productType.value === 'new_product' && ( */}
+                            {productType && productType.value === 'new_product' && (
                                 <>
                                     <div className={styles['create-invoice-div-container']}>
                                         <label className={styles['create-invoice-div-label']}>Total Quantity</label>
@@ -1290,7 +1161,7 @@ const EditSecondaryProduct = ({socket}) => {
                                         {errors.totalQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.totalQuantity}</div>}
                                     </div>
                                 </>
-                            {/* )} */}
+                            )}
                             <div className={styles['create-invoice-div-container']}>
                                 <label className={styles['create-invoice-div-label']}>GMP Approvals</label>
                                 <input
@@ -1324,8 +1195,10 @@ const EditSecondaryProduct = ({socket}) => {
                                     options={countries}
                                     placeholder="Select Country of Origin"
                                     autoComplete='off'
+                                    // value={countryOfOrigin}
                                     value={formData.originCountry}
                                     onChange={handleCountryOriginChange}
+
                                 />
                                 {errors.originCountry && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.originCountry}</div>}
                             </div>
@@ -1335,6 +1208,7 @@ const EditSecondaryProduct = ({socket}) => {
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
                                     value={defaultRegisteredIn}
+                                    // onChange={setDefaultRegisteredIn}
                                     onChange={handleRegisteredInChange}
                                 />
                                 {errors.registeredIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.registeredIn}</div>}
@@ -1344,8 +1218,10 @@ const EditSecondaryProduct = ({socket}) => {
                                 <MultiSelectDropdown
                                     options={countries}
                                     placeholderButtonLabel="Select Countries"
+                                    // onChange={setDefaultStockedIn}
                                     onChange={handleStockedInChange}
                                     value={defaultStockedIn}
+                                // getDropdownButtonLabel={getDropdownButtonLabel}
                                 />
                                 {errors.stockedIn && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.stockedIn}</div>}
                             </div>
@@ -1388,8 +1264,8 @@ const EditSecondaryProduct = ({socket}) => {
                             </div>
                         </div>
 
-                          {/* Start the stocked in section */}
-                          <div className={styles['create-invoice-inner-form-section']}>
+                        {/* Start the stocked in section */}
+                        <div className={styles['create-invoice-inner-form-section']}>
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Stocked in Details</div>
@@ -1409,6 +1285,7 @@ const EditSecondaryProduct = ({socket}) => {
                                                     placeholder="Select Stocked in Country"
                                                     name='stockedInCountry'
                                                 />
+                                                {/* {errors[`stockedInCountry${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`stockedInCountry${index}`]}</div>} */}
                                                 {errors[`stockedInCountry${index}`] && (
                                                     <div className={styles['add-product-errors']} style={{ color: 'red' }}>
                                                         Stocked in Country is Required
@@ -1495,14 +1372,12 @@ const EditSecondaryProduct = ({socket}) => {
                             <div className={styles['create-invoice-section']}>
                                 <div className={styles['create-invoice-add-item-cont']}>
                                     <div className={styles['create-invoice-form-heading']}>Product Inventory</div>
-                                    <span className={styles['create-invoice-add-item-button']} 
-                                    onClick={addFormSection}
-                                    >Add More</span>
+                                    <span className={styles['create-invoice-add-item-button']} onClick={addFormSection}>Add More</span>
                                 </div>
                                 {formSections.map((section, index) => (
                                     <div className={styles['form-item-container']} >
 
-                                        {/* {productType && productType.value === 'new_product' && ( */}
+                                        {productType && productType.value === 'new_product' && (
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
@@ -1528,18 +1403,7 @@ const EditSecondaryProduct = ({socket}) => {
                                                     />
                                                     {errors[`unitPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`unitPrice${index}`]}</div>}
                                                 </div>
-                                                {/* <div className={styles['create-invoice-div-container']}>
-                                                    <label className={styles['create-invoice-div-label']}>Total Price</label>
-                                                    <input
-                                                        className={styles['create-invoice-div-input']}
-                                                        type='text'
-                                                        name='totalPrice'
-                                                        placeholder='Enter Total Price'
-                                                        defaultValue={section.totalPrice}
-                                                        onChange={(event) => handleInputChange(index, event)}
-                                                    />
-                                                     {errors[`totalPrice${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`totalPrice${index}`]}</div>}
-                                                </div> */}
+
 
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Est. Delivery Time</label>
@@ -1554,22 +1418,19 @@ const EditSecondaryProduct = ({socket}) => {
                                                     {errors[`estDeliveryTime${index}`] && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors[`estDeliveryTime${index}`]}</div>}
                                                 </div>
                                             </div>
-                                        {/* )} */}
-
-                                        {/* {productType && productType.value === 'secondary_market' && (
+                                        )}
+                                        {productType && productType.value === 'secondary_market' && (
                                             <div className={styles['create-invoice-new-product-section-containers']}>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Quantity</label>
                                                     <input
                                                         className={styles['create-invoice-div-input']}
                                                         type='text'
-                                                        name='pdtQuantity'
+                                                        name='quantity'
                                                         placeholder='Enter Quantity'
-                                                        value={formData.pdtQuantity}
-                                                        onChange={handleChange}
+                                                        value={section.quantity}
+                                                        onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                   
-                                                    {errors.pdtQuantity && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.pdtQuantity}</div>}
                                                 </div>
 
                                                 <div className={styles['create-invoice-div-container']}>
@@ -1579,27 +1440,22 @@ const EditSecondaryProduct = ({socket}) => {
                                                         type='text'
                                                         name='unitPrice'
                                                         placeholder='Enter Unit Price'
-                                                        value={formData.unitPrice}
-                                                        onChange={handleChange}
+                                                        value={section.unitPrice}
+                                                        onChange={(event) => handleInputChange(index, event)}
                                                     />
-                                                     
-                                                        {errors.unitPrice && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.unitPrice}</div>}
                                                 </div>
                                                 <div className={styles['create-invoice-div-container']}>
                                                     <label className={styles['create-invoice-div-label']}>Condition</label>
                                                     <Select
                                                         className={styles['create-invoice-div-input-select']}
-                                                        value={formData.condition}
-                                                        onChange={handleConditionChange}
+                                                        value={section.condition}
+                                                        onChange={(selected) => handleConditionChange(index, selected)}
                                                         options={conditionOptions}
                                                         placeholder="Select Condition"
                                                     />
-                                                    
-                                                    {errors.condition && <div className={styles['add-product-errors']} style={{ color: 'red' }}>{errors.condition}</div>}
-                                                    
                                                 </div>
                                             </div>
-                                        )} */}
+                                        )}
                                         {formSections.length > 1 && (
                                             <div className={styles['craete-add-cross-icon']} onClick={() => removeFormSection(index)}>
                                                 <CloseIcon />
@@ -1665,43 +1521,38 @@ const EditSecondaryProduct = ({socket}) => {
                                     setImage={setMedicineImages}
                                     /> */}
                                     <EditImageUploader
-                                      image={medicineImages}
-                                      setImage={setMedicineImages}
+                                        image={medicineImages}
+                                        setImage={setMedicineImages}
                                     />
                                 </div>
                                 {productType && productType.value === 'secondary_market' && (
                                     <>
                                         <div className={styles['create-invoice-upload-purchase']}>
                                             <div className={styles['create-invoice-form-heading']}>Upload Purchase Invoice</div>
-                                            {/* <AddPdfUpload
-                                             invoiceImage={invoiceImages}
-                                             setInvoiceImage={setInvoiceImages}
-                                             /> */}
-                                             <EditPdfUpload
-                                             invoiceImage={invoiceImages}
-                                             setInvoiceImage={setInvoiceImages}
+                                            <AddPdfUpload
 
-                                             />
+                                            />
                                         </div>
                                     </>
                                 )}
+
                             </div>
                         </div>
                         <div className={styles['craete-invoices-button']}>
-                           
-                            <button type="submit"
-                             className={styles['create-invoices-submit']}
-                             disabled={loading}
-                             >
+
+                            <button
+                                type="submit"
+                                className={styles['create-invoices-submit']}
+                                disabled={loading}
+                            >
                                 {/* Edit Product */}
                                 {loading ? (
-                    <div className={styles['loading-spinner']}></div> // Show spinner when loading
-                ) : (
-                    'Save'
-                )}
-                                </button>
-                                <div className={styles['create-invoices-cancel']} 
-                            onClick={handleCancel}>Cancel</div>
+                                    <div className={styles['loading-spinner']}></div> // Show spinner when loading
+                                ) : (
+                                    'Save'
+                                )}
+                            </button>
+                            <div className={styles['create-invoices-cancel']} onClick={handleCancel}>Cancel</div>
                         </div>
                     </form>
 
@@ -1712,4 +1563,4 @@ const EditSecondaryProduct = ({socket}) => {
     );
 };
 
-export default EditSecondaryProduct;
+export default AddProduct;

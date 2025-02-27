@@ -57,28 +57,25 @@ const ActiveOrder = lazy(() =>
 const CompleteOrder = lazy(() =>
   import("../components/Orders/CompletedOrders/CompleteOrder")
 );
-const Products = lazy(() => import("../components/Products/Product"));
+const Products = lazy(() => import("../components/Products/NewProducts/Product.js"));
 const NewProducts = lazy(() =>
   import("../components/Products/NewProducts/NewProduct")
 );
 const SecondaryMarket = lazy(() =>
-  import("../components/Products/SecondaryProducts/SecondaryMarket")
+  import("../components/Products/NewProducts/SecondaryMarket.js")
 );
 const Support = lazy(() => import("../components/Support/Support"));
-const AddProduct = lazy(() => import("../components/Products/AddProduct"));
-const PendingProductsList = lazy(() =>
-  import("../components/Products/PendingProducts/PendingProducts")
-);
+const AddProduct = lazy(() => import("../components/Products/AddProduct/AddProduct.js"));
 const ProductDetails = lazy(() =>
-  import("../components/Products/ProductDetails")
+  import("../components/Products/ProductDetails/ProductDetails.js")
 );
 const SecondaryProductDetails = lazy(() =>
-  import("../components/Products/SecondaryProducts/SecondaryProductDetails")
+  import("../components/Products/ProductDetails/SecondaryProductDetails.js")
 );
 const EditSecondaryProduct = lazy(() =>
-  import("../components/Products/EditSecondaryProduct")
+  import("../components/Products/AddProduct/EditSecondaryProduct.js")
 );
-const EditProduct = lazy(() => import("../components/Products/EditAddProduct"));
+const EditProduct = lazy(() => import("../components/Products/AddProduct/EditAddProduct.js"));
 const InquiryRequestDetails = lazy(() =>
   import("../components/Inquiry/InquiryRequest/InquiryRequestDetails")
 );
@@ -100,7 +97,7 @@ const ProformaInvoiceDetails = lazy(() =>
 const CreateInvoice = lazy(() =>
   import("../components/Invoices/CreateInvoice")
 );
-const BuyerDetails = lazy(() => import("../components/Products/BuyerDetails"));
+const BuyerDetails = lazy(() => import("../components/Products/ProductDetails/BuyerDetails.js"));
 const InquiryRequestList = lazy(() =>
   import("../components/Dashboard/DashboardList/InquiryRequestList")
 );
@@ -519,14 +516,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <AddProduct socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "pending-products-list",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <PendingProductsList socket={socket} />
           </Suspense>
         ),
       },

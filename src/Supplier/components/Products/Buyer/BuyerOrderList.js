@@ -1,5 +1,5 @@
 import React from 'react'
-import '../buyerdetails.css'
+import '../ProductDetails/buyerdetails.css'
 import { Link } from 'react-router-dom';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import moment from 'moment/moment';
