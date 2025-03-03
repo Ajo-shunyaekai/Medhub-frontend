@@ -11,7 +11,6 @@ import Loader from "../components/SharedComponents/Loader/Loader";
 import { postRequestWithToken } from "../api/Requests";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
-import SupplierLogistics from "../components/Orders/SupplierLogistics/SupplierLogistics"
 import SuuplierAddressList from "../components/Orders/SupplierLogistics/SupplierLogisticsAddress"
 import AddNewAddress from "../components/Orders/SupplierLogistics/SupplierAddAddress"
 import EditNewAddress from "../components/Orders/SupplierLogistics/SupplierEditAddress"
@@ -140,6 +139,9 @@ const ForgotPassword = lazy(() =>
 const EditProfile = lazy(() =>
   import("../components/SharedComponents/Profile/EditProfile")
 );
+const SupplierLogistics = lazy(() => 
+  import("../components/Orders/SupplierLogistics/SupplierLogistics")
+)
  
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
@@ -697,7 +699,11 @@ const router = createBrowserRouter([
       },
       {
         path:"logistics-form/:orderId/:supplierId",
-        element:<SupplierLogistics socket={socket}/>
+        element:(
+          <Suspense fallback={<Loader />}>
+            <SupplierLogistics socket={socket}/>
+          </Suspense>
+        )
       },
       {
         path:"add-new-address/:orderId/:supplierId",
