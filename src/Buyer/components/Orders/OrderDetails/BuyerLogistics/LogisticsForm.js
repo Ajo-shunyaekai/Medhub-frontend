@@ -17,7 +17,7 @@ import { bookLogistics } from "../../../../../redux/reducers/orderSlice";
 const LogisticsForm = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderId, buyerId } = useParams();
+  const { orderId, buyerId, supplierId } = useParams();
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
@@ -122,12 +122,11 @@ console.log('apiPayload',apiPayload)
         if (response.meta.requestStatus === "fulfilled") {
 
           socket.emit('bookLogistics', {
-            supplierId : buyerId, 
+            supplierId : supplierId, 
             orderId  : orderId,
             // poId : purchaseOrderId,
             message    : `Drop details submitted for ${orderId}`,
             link       : process.env.REACT_APP_PUBLIC_URL
-            // send other details if needed
         });
 
           setTimeout(() => {
