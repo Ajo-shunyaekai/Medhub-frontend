@@ -13,7 +13,7 @@ const productValidationSchema = Yup.object({
   description: Yup.string().required("Product Description is required."),
   manufacturer: Yup.string().required("Manufacturer is required."),
   countryOfOrigin: Yup.string().required("Country of Origin is required."),
-  // upc: Yup.string().nullable(),
+  upc: Yup.string().nullable(),
   model: Yup.string().required("Part/Model Number is required."),
   image: Yup.array()
     .max(4, "You can upload up to 4 images.")
@@ -26,7 +26,7 @@ const productValidationSchema = Yup.object({
           (value) => value && value.size <= 1024 * 1024 * 5
         ) // Max 5MB
     ),
-  // brand: Yup.string().nullable(),
+  brand: Yup.string().nullable(),
   form: Yup.string().required("Type/Form is required."),
   quantity: Yup.number()
     .required("Product Quantity is required.")
@@ -39,21 +39,21 @@ const productValidationSchema = Yup.object({
   packageMaterial: Yup.string().required(
     "Product Packaging Material is required."
   ),
-  // packageMaterialIfOther: Yup.string().nullable(),
+  packageMaterialIfOther: Yup.string().nullable(),
   packageMaterialIfOther: Yup.string().when("packageMaterial", {
     is: "Other",
     then: Yup.string().required(
       "Product Packaging Material Other Name is required.."
     ),
   }),
-  // costPerProduct: Yup.string().nullable(),
-  // sku: Yup.string().nullable(),
+  costPerProduct: Yup.string().nullable(),
+  sku: Yup.string().nullable(),
   stock: Yup.string()
     .oneOf(["In-stock", "Out of Stock", "On-demand"])
     .required("Stck is required."),
-  // stockQuantity: Yup.number().nullable().positive().integer(),
-  // countries: Yup.array().of(Yup.string().required("Country is required")),
-  // date: Yup.string().nullable(),
+  stockQuantity: Yup.number().nullable().positive().integer(),
+  countries: Yup.array().of(Yup.string().required("Country is required")),
+  date: Yup.string().nullable(),
   complianceFile: Yup.array()
     .max(4, "You can upload up to 4 Compliance File.")
     .of(
@@ -75,8 +75,8 @@ const productValidationSchema = Yup.object({
           return value && allowedFormats.includes(value.type);
         })
     ),
-  // storage: Yup.string().nullable(),
-  // other: Yup.string().nullable(),
+  storage: Yup.string().nullable(),
+  other: Yup.string().nullable(),
   guidelinesFile: Yup.array()
     .max(4, "You can upload up to 4 guideline files.")
     .of(
@@ -190,6 +190,24 @@ const productValidationSchema = Yup.object({
     is: "secondary",
     then: Yup.string().required("Purchased On is required."),
   }),
+  performaInvoiceFile: Yup.array()
+    .of(Yup.string().required("Performa Invoice File is required."))
+    .when("market", {
+      is: "secondary",
+      then: Yup.array()
+        .min(1, "At least one Performa Invoice File must be selected.")
+        .max(4, "You can upload up to 4 safety datasheets.")
+        .required("specification files is required.")
+        .of(
+          Yup.mixed()
+            .required("A Performa Invoice File is required")
+            .test(
+              "fileSize",
+              "File too large",
+              (value) => value && value.size <= 1024 * 1024 * 5
+            ) // Max 5MB
+        ),
+    }),
   countryAvailable: Yup.array()
     .of(Yup.string().required("Country is required."))
     .when("market", {
@@ -487,17 +505,17 @@ const productValidationSchema = Yup.object({
       then: Yup.string().required("Drug Class is required."),
     })
     .nullable(),
-  // controlledSubstance: Yup.boolean()
-  //   .when("category", {
-  //     is: (category) =>
-  //       [
-  //         "Pharmaceuticals",
-  //         "SkinHairCosmeticSupplies",
-  //         "VitalHealthAndWellness",
-  //       ].includes(category),
-  //     then: Yup.boolean().nullable(),
-  //   })
-  //   .nullable(),
+  controlledSubstance: Yup.boolean()
+    .when("category", {
+      is: (category) =>
+        [
+          "Pharmaceuticals",
+          "SkinHairCosmeticSupplies",
+          "VitalHealthAndWellness",
+        ].includes(category),
+      then: Yup.boolean().nullable(),
+    })
+    .nullable(),
   otcClassification: Yup.string()
     .when("category", {
       is: (category) =>
@@ -598,29 +616,29 @@ const productValidationSchema = Yup.object({
       then: Yup.string().required("Shelf Life/Expiry is required."),
     })
     .nullable(),
-  // allergens: Yup.string()
-  //   .when("category", {
-  //     is: (category) =>
-  //       [
-  //         "Pharmaceuticals",
-  //         "SkinHairCosmeticSupplies",
-  //         "VitalHealthAndWellness",
-  //       ].includes(category),
-  //     then: Yup.string().nullable(),
-  //   })
-  //   .nullable(),
-  // formulation: Yup.string()
-  //   .when("category", {
-  //     is: (category) =>
-  //       [
-  //         "Pharmaceuticals",
-  //         "SkinHairCosmeticSupplies",
-  //         "VitalHealthAndWellness",
-  //         "DisinfectionAndHygieneSupplies",
-  //       ].includes(category),
-  //     then: Yup.string().nullable(),
-  //   })
-  //   .nullable(),
+  allergens: Yup.string()
+    .when("category", {
+      is: (category) =>
+        [
+          "Pharmaceuticals",
+          "SkinHairCosmeticSupplies",
+          "VitalHealthAndWellness",
+        ].includes(category),
+      then: Yup.string().nullable(),
+    })
+    .nullable(),
+  formulation: Yup.string()
+    .when("category", {
+      is: (category) =>
+        [
+          "Pharmaceuticals",
+          "SkinHairCosmeticSupplies",
+          "VitalHealthAndWellness",
+          "DisinfectionAndHygieneSupplies",
+        ].includes(category),
+      then: Yup.string().nullable(),
+    })
+    .nullable(),
   vegan: Yup.boolean()
     .when("category", {
       is: (category) =>
@@ -641,17 +659,17 @@ const productValidationSchema = Yup.object({
       then: Yup.boolean().nullable(),
     })
     .nullable(),
-  // sideEffectsAndWarnings: Yup.string()
-  //   .when("category", {
-  //     is: (category) =>
-  //       [
-  //         "Pharmaceuticals",
-  //         "SkinHairCosmeticSupplies",
-  //         "VitalHealthAndWellness",
-  //       ].includes(category),
-  //     then: Yup.string().nullable(),
-  //   })
-  //   .nullable(),
+  sideEffectsAndWarnings: Yup.string()
+    .when("category", {
+      is: (category) =>
+        [
+          "Pharmaceuticals",
+          "SkinHairCosmeticSupplies",
+          "VitalHealthAndWellness",
+        ].includes(category),
+      then: Yup.string().nullable(),
+    })
+    .nullable(),
   thickness: Yup.string()
     .when("category", {
       is: (category) =>
@@ -1401,13 +1419,22 @@ const VerifyEmail = ({ step, setStep }) => {
         environmentalImpact: [],
         category: "",
         // supplier_id: "",
-        market: "new",
+        // market related fields (new/secondary)
+        market: "",
         purchasedOn: "",
         countryAvailable: [],
+        performaInvoiceFile: [],
         condition: "",
         minimumPurchaseUnit: "",
         subCategory: "",
         anotherCategory: "",
+        stckedInDetails: [
+          {
+            country: "",
+            quantity: 0,
+            type: "",
+          },
+        ],
         // Common fields of multiple categories
         drugClass: "",
         controlledSubstance: "",
