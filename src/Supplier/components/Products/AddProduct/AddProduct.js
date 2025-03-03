@@ -78,7 +78,7 @@ const useFileUpload = () => {
 
 const FileUploadSection = ({ label, fileUpload, tooltip, showLabel = true }) => {
     const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
-
+    const tooltipContent = tooltip || "Default tooltip text";
     return (
         <div className={styles.compliancesContainer}>
             {showLabel && <label className={styles.formLabel}>{label}</label>}
@@ -87,7 +87,7 @@ const FileUploadSection = ({ label, fileUpload, tooltip, showLabel = true }) => 
                     <input {...fileUpload.getInputProps()} />
                     <FiUploadCloud size={20} className={styles.uploadIcon} />
                     <p className={styles.uploadText}>
-                        {fileUpload.isDragActive ? "Drop the files here..." : "Click here to Upload PDF/DOC/Images"}
+                        {fileUpload.isDragActive ? "Drop the files here..." : "Click here to Upload"}
                     </p>
                 </div>
                 {tooltip && (
@@ -95,11 +95,13 @@ const FileUploadSection = ({ label, fileUpload, tooltip, showLabel = true }) => 
                         <span
                             className={styles.infoTooltip}
                             data-tooltip-id={tooltipId}
-                            data-tooltip-content="Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, FDA, CE, ISO, WHO etc)"
+                            data-tooltip-content={tooltipContent} 
                         >
                             <img src={Information} className={styles.iconTooltip} alt="info" />
                         </span>
-                        <Tooltip className={styles.tooltipSec} id={tooltipId} place="top" effect="solid" />
+                        <Tooltip className={styles.tooltipSec} id={tooltipId} place="top" effect="solid">
+            <div dangerouslySetInnerHTML={{ __html: tooltipContent }} />
+        </Tooltip>
                     </>
                 )}
             </div>
@@ -161,10 +163,10 @@ const AddProduct = ({ placeholder }) => {
     const healthCliamUpload = useFileUpload();
     const interoperabilityUpload = useFileUpload();
     const [open, setOpen] = useState(false);
-    const [file, setFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
+        setSelectedFile(event.target.files[0]);
     };
     const handleSelectChange = (option) => {
         setSelectedOption(option);
@@ -547,13 +549,15 @@ const AddProduct = ({ placeholder }) => {
                                 />
                                 <span
                                     className={styles.infoTooltip}
-                                    data-tooltip-id="sku-tooltip"
-                                    data-tooltip-content="The type of product (e.g., tablet, liquid, cream, ointment, Surgical, Needle Type, Syringe,  Type of monitor, systems, devices, mobility or platforms, wheelchair, walker, cane, crutches, grab bar, scooter etc)."
+                                    data-tooltip-id="product-type"
                                 >
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="product-type">
+                                    The type of product (e.g., tablet, liquid, cream, ointment, Surgical, Needle Type, Syringe,  Type of monitor,<br /> systems,
+                                    devices, mobility or platforms, wheelchair, walker, cane, crutches, grab bar, scooter etc).
+                                </Tooltip>
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -593,13 +597,16 @@ const AddProduct = ({ placeholder }) => {
                                 />
                                 <span
                                     className={styles.infoTooltip}
-                                    data-tooltip-id="sku-tooltip"
-                                    data-tooltip-content="The size or volume of the product (e.g., 50 mL, 100 g, drip chamber (e.g., macro, micro), Length of the needle (e.g., 19 mm, 26 mm )  tape width, adhesive strip size etc."
+                                    data-tooltip-id="product-volumn"
+
                                 >
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="product-volumn">
+                                    The size or volume of the product (e.g., 50 mL, 100 g, drip chamber )
+                                    (e.g., macro, micro),<br /> Length of the needle (e.g., 19 mm, 26 mm )  tape width, adhesive strip size etc.
+                                </Tooltip>
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -636,13 +643,15 @@ const AddProduct = ({ placeholder }) => {
                                 <Select className={styles.formSelect} options={packagingOptions} placeholder='Select Product Packaging Type' />
                                 <span
                                     className={styles.infoTooltip}
-                                    data-tooltip-id="sku-tooltip"
-                                    data-tooltip-content="The type of product packaging (e.g., bottle, tube, jar, pump, blister pack, strip, pouches, soft case, hard case, backpack, case )."
+                                    data-tooltip-id="packaging-type"
+
                                 >
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="packaging-type">
+                                    The type of product packaging (e.g., bottle, tube, jar, pump, blister<br /> pack, strip, pouches, soft case, hard case, backpack, case ).
+                                </Tooltip>
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -961,7 +970,11 @@ const AddProduct = ({ placeholder }) => {
                         <FileUploadSection
                             label="Regulatory Compliance"
                             fileUpload={regulatoryCompliance}
-                            tooltip="Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, FDA, CE, ISO, WHO etc) (e.g., HIPAA for healthcare-related tools or Medicines and Healthcare Products Regulatory Agency (MHRA) governs GMP in the UK and European Medicines Agency (EMA) governs GMP in Europe.)"
+                            tooltip={
+                                "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM,  \n" +
+                                "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                                " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                            }
                         />
                     </div>
 
@@ -1096,13 +1109,15 @@ const AddProduct = ({ placeholder }) => {
                                     />
                                     <span
                                         className={styles.infoTooltip}
-                                        data-tooltip-id="medical-tooltip"
-                                        data-tooltip-content="Results from any internal or external product testing (e.g., nebulizer output, CPAP pressure and airflow testing)."
+                                        data-tooltip-id="testing-tooltip"
+                                        
                                     >
                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                     </span>
-                                    <Tooltip className={styles.tooltipSec} id="medical-tooltip" />
+                                    <Tooltip className={styles.tooltipSec} id="testing-tooltip">
+                                    Results from any internal or external product testing (e.g., nebulizer <br/> output, CPAP pressure and airflow testing).
+                                        </Tooltip>
                                 </div>
                                 <FileUploadSection label="" fileUpload={medicalPerformanceUpload} tooltip={false} showLabel={false} />
                                 <span className={styles.error}></span>
@@ -1195,13 +1210,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="pharma-tooltip"
-                                            data-tooltip-content="The strength or concentration of the medication (e.g., 500 mg, 10 mg/mL,Standard or high-strength)."
+                                            data-tooltip-id="strength-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="strength-tooltip">
+                                        The strength or concentration of the medication (e.g., <br/> 500 mg, 10 mg/mL,Standard or high-strength).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1217,13 +1234,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="pharma-tooltip"
-                                            data-tooltip-content="Classification of the OTC drug by health authorities (e.g., approved for general public use, behind-the-counter)."
+                                            data-tooltip-id="classification-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="classification-tooltip">
+                                        Classification of the OTC drug by health authorities (e.g., <br/> approved for general public use, behind-the-counter).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1283,13 +1302,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="pharma-tooltip"
-                                            data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
+                                            data-tooltip-id="purpose-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="purpose-tooltip">
+                                        Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief, <br/> Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of<br/> tool, Relieves symptoms, promotes healing, or prevents recurrence.)
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1306,13 +1327,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="pharma-tooltip"
-                                            data-tooltip-content="Drugs can be introduced into the body by many routes, such as enteric (oral, peroral, rectal), parenteral (intravascular, intramuscular, subcutaneous, and inhalation administration) or topical (skin and mucosal membranes)"
+                                            data-tooltip-id="administration-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="administration-tooltip">
+                                        Drugs can be introduced into the body by many routes, such as enteric (oral, peroral, rectal), <br/> parenteral (intravascular, intramuscular, subcutaneous, and inhalation<br/> administration) or topical (skin and mucosal membranes)
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1334,18 +1357,20 @@ const AddProduct = ({ placeholder }) => {
                                                 className={styles.checkText}
                                                 htmlFor="controlled-substance"
                                             >
-                                                Whether the drug is a controlled substance
+                                                Whether the drug is a controlled <br/> substance
                                             </label>
                                         </span>
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="pharma-tooltip"
-                                            data-tooltip-content="Whether the drug is a controlled substance (e.g., some OTC drugs are restricted, some are only available behind the counter or on prescription)."
+                                            data-tooltip-id="controlled-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="controlled-tooltip">
+                                        Whether the drug is a controlled substance (e.g., some OTC drugs are restricted,<br/> some are only available behind the counter or on prescription).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1398,13 +1423,15 @@ const AddProduct = ({ placeholder }) => {
                                                 />
                                                 <span
                                                     className={styles.infoTooltip}
-                                                    data-tooltip-id="pharma-tooltip"
-                                                    data-tooltip-content="Common side effects associated with the medication. Known interactions with other drugs or food (eg. Alcohol)"
+                                                    data-tooltip-id="warning-tooltip"
+                                                    data-tooltip-content=""
                                                 >
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec} id="pharma-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="warning-tooltip">
+                                                Common side effects associated with the medication. Known<br/> interactions with other drugs or food (eg. Alcohol)
+                                                    </Tooltip>
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -1478,13 +1505,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="The strength or concentration of the medication (e.g., 500 mg, 10 mg/mL,Standard or high-strength)."
+                                            data-tooltip-id="skin-strength-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-strength-tooltip">
+                                        The strength or concentration of the medication (e.g., <br/> 500 mg, 10 mg/mL,Standard or high-strength).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1564,13 +1593,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="Classification of the OTC drug by health authorities (e.g., approved for general public use, behind-the-counter)."
+                                            data-tooltip-id="skin-otc-tooltip"
+                                           
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="skin-otc-tooltip">
+                                        Classification of the OTC drug by health authorities (e.g., <br/> approved for general public use, behind-the-counter).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div>
@@ -1696,13 +1727,16 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="Drugs can be introduced into the body by many routes, such as enteric (oral, peroral, rectal), parenteral (intravascular, intramuscular, subcutaneous, and inhalation administration) or topical (skin and mucosal membranes)"
+                                            data-tooltip-id="route-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="route-tooltip">
+
+                                        Drugs can be introduced into the body by many routes, such as enteric (oral, peroral,<br/> rectal), parenteral (intravascular, intramuscular, subcutaneous, and inhalation<br/> administration) or topical (skin and mucosal membranes)
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1739,13 +1773,15 @@ const AddProduct = ({ placeholder }) => {
                                         />
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)"
+                                            data-tooltip-id="consentration-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="consentration-tooltip">
+                                        Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are <br/> typically 70-90% concentration for optimal antimicrobial efficacy.<br/> Oxygen concentration level provided by the device (e.g., 95%)
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1828,7 +1864,7 @@ const AddProduct = ({ placeholder }) => {
                                                 className={styles.checkText}
                                                 htmlFor="cosmetic-vegan"
                                             >
-                                                Whether the product is vegan (i.e., no animal-derived
+                                                Whether the product is vegan (i.e. <br/>, no animal-derived
                                                 ingredients).
                                             </label>
                                         </span>
@@ -1860,7 +1896,7 @@ const AddProduct = ({ placeholder }) => {
                                                 className={styles.checkText}
                                                 htmlFor="cosmetic-cruelty-free"
                                             >
-                                                Whether the product is tested on animals or is
+                                                Whether the product is tested on <br/> animals or is
                                                 cruelty-free
                                             </label>
                                         </span>
@@ -1893,18 +1929,20 @@ const AddProduct = ({ placeholder }) => {
                                                 className={styles.checkText}
                                                 htmlFor="cosmetic-controlled-substance"
                                             >
-                                                Whether the drug is a controlled substance
+                                                Whether the drug is a controlled <br/> substance
                                             </label>
                                         </span>
                                         <span
                                             className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="Whether the drug is a controlled substance (e.g., some OTC drugs are restricted, some are only available behind the counter or on prescription)."
+                                            data-tooltip-id="substance-tooltip"
+                                            
                                         >
                                             <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                         </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                        <Tooltip className={styles.tooltipSec} id="substance-tooltip">
+                                        Whether the drug is a controlled substance (e.g., some OTC drugs are restricted,<br/>  some are only available behind the counter or on prescription).
+                                            </Tooltip>
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -2000,13 +2038,15 @@ const AddProduct = ({ placeholder }) => {
                                                 />
                                                 <span
                                                     className={styles.infoTooltip}
-                                                    data-tooltip-id="skin-tooltip"
-                                                    data-tooltip-content="Common side effects associated with the medication. Known interactions with other drugs or food (eg. Alcohol)"
+                                                    data-tooltip-id="effects-tooltip"
+                                                   
                                                 >
                                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                 </span>
-                                                <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
+                                                <Tooltip className={styles.tooltipSec} id="effects-tooltip">
+                                                Common side effects associated with the medication. Known interactions <br/> with other drugs or food (eg. Alcohol)
+                                                    </Tooltip>
                                             </div>
                                             <span className={styles.error}></span>
                                         </div>
@@ -2107,13 +2147,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="The strength or concentration of the medication (e.g., 500 mg, 10 mg/mL,Standard or high-strength)."
+                                                data-tooltip-id="wellness-strength-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-strength-tooltip">
+                                            The strength or concentration of the medication (e.g., 500 mg, 10 <br/> mg/mL,Standard or high-strength).
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2127,13 +2169,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Classification of the OTC drug by health authorities (e.g., approved for general public use, behind-the-counter)."
+                                                data-tooltip-id="wellness-OTC-tooltip"
+                                               
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-OTC-tooltip">
+                                            Classification of the OTC drug by health authorities (e.g., <br/> approved for general public use, behind-the-counter).
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2214,13 +2258,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
+                                                data-tooltip-id="wellness-purpose-tooltip"
+                                               
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-purpose-tooltip">
+                                            Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief, <br/>Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure<br/> or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2238,13 +2284,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Drugs can be introduced into the body by many routes, such as enteric (oral, peroral, rectal), parenteral (intravascular, intramuscular, subcutaneous, and inhalation administration) or topical (skin and mucosal membranes)"
+                                                data-tooltip-id="wellness-drugs-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-drugs-tooltip">
+                                            Drugs can be introduced into the body by many routes, such as enteric (oral, peroral, rectal), parenteral (intravascular, intramuscular, <br/> subcutaneous, and inhalation administration) or topical (skin and mucosal membranes)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2283,13 +2331,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Some proteins contain artificial sweeteners (e.g., sucralose, aspartame), while others use natural sweeteners (e.g., stevia, monk fruit)."
+                                                data-tooltip-id="wellness-sweeteners-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-sweeteners-tooltip">
+                                            Some proteins contain artificial sweeteners (e.g., sucralose, aspartame),<br/> while others use natural sweeteners (e.g., stevia, monk fruit).
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2311,18 +2361,20 @@ const AddProduct = ({ placeholder }) => {
                                                     className={styles.checkText}
                                                     htmlFor="wellness-controlled-substance"
                                                 >
-                                                    Whether the drug is a controlled substance
+                                                    Whether the drug is a controlled <br/> substance
                                                 </label>
                                             </span>
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Whether the drug is a controlled substance (e.g., some OTC drugs are restricted, some are only available behind the counter or on prescription)."
+                                                data-tooltip-id="wellness-substances-tooltip"
+                            
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="wellness-substances-tooltip">
+                                            Whether the drug is a controlled substance (e.g., some OTC drugs are <br/> restricted, some are only available behind the counter or on prescription).
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2343,7 +2395,7 @@ const AddProduct = ({ placeholder }) => {
                                                     className={styles.checkText}
                                                     htmlFor="wellness-vegan"
                                                 >
-                                                    Whether the product is vegan (i.e., no animal-derived
+                                                    Whether the product is vegan (i.e.<br/>, no animal-derived
                                                     ingredients).
                                                 </label>
                                             </span>
@@ -2375,7 +2427,7 @@ const AddProduct = ({ placeholder }) => {
                                                     className={styles.checkText}
                                                     htmlFor="wellness-cruelty-free"
                                                 >
-                                                    Whether the product is tested on animals or is
+                                                    Whether the product is tested on <br/> animals or is
                                                     cruelty-free
                                                 </label>
                                             </span>
@@ -2440,13 +2492,15 @@ const AddProduct = ({ placeholder }) => {
                                                     />
                                                     <span
                                                         className={styles.infoTooltip}
-                                                        data-tooltip-id="wellness-tooltip"
-                                                        data-tooltip-content="Common side effects associated with the medication. Known interactions with other drugs or food (eg. Alcohol)"
+                                                        data-tooltip-id="side-effects-tooltip"
+                                                       
                                                     >
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="side-effects-tooltip">
+                                                    Common side effects associated with the medication. Known <br/> interactions with other drugs or food (eg. Alcohol)
+                                                        </Tooltip>
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -2538,13 +2592,15 @@ const AddProduct = ({ placeholder }) => {
                                             <Chips value={value} onChange={(e) => setValue(e.value)} placeholder={value.length === 0 ? "Press enter to add label" : ""} />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Type of Filteration (e.g., PFE (Particle Filtration Efficiency), BFE (Bacterial Filtration Efficiency), Viral Filtration Efficiency etc)"
+                                                data-tooltip-id="filtration-tooltip"
+                                               
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="filtration-tooltip">
+                                            Type of Filteration (e.g., PFE (Particle Filtration Efficiency), <br/> BFE (Bacterial Filtration Efficiency), Viral Filtration Efficiency etc)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -2650,7 +2706,7 @@ const AddProduct = ({ placeholder }) => {
                                                 />
 
                                                 <label className={styles.checkText} htmlFor="disposal-powered">
-                                                    Whether the gloves are powdered or powder-free.
+                                                    Whether the gloves are powdered <br/> or powder-free.
                                                 </label>
                                             </span>
                                             <span
@@ -2678,7 +2734,7 @@ const AddProduct = ({ placeholder }) => {
                                                 />
 
                                                 <label className={styles.checkText} htmlFor="disposal-texture">
-                                                    Whether the item have texture or smooth
+                                                    Whether the item have texture <br/> or smooth
                                                 </label>
                                             </span>
                                             <span
@@ -2764,7 +2820,7 @@ const AddProduct = ({ placeholder }) => {
                                                         />
 
                                                         <label className={styles.checkText} htmlFor="disposal-sterilized">
-                                                            Whether the item is sterilized or non-sterile.
+                                                            Whether the item is sterilized <br/> or non-sterile.
                                                         </label>
                                                     </span>
                                                     <span
@@ -2867,7 +2923,7 @@ const AddProduct = ({ placeholder }) => {
                                                         />
 
                                                         <label className={styles.checkText} htmlFor="disposal-resistance">
-                                                            Resistance to fluid penetration (e.g., for surgical masks)
+                                                            Resistance to fluid penetration (e.g., <br/> for surgical masks)
                                                         </label>
                                                     </span>
                                                     <span
@@ -2986,13 +3042,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
+                                                data-tooltip-id="diagnostic-purpose-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="diagnostic-purpose-tooltip">
+                                            Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain <br/> relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure <br/> or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3050,13 +3108,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)"
+                                                data-tooltip-id="concen-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="concen-tooltip">
+                                            Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% <br/>concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3242,13 +3302,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)"
+                                                data-tooltip-id="concentrations"
+                                               
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="concentrations">
+                                            Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal <br/> antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3371,13 +3433,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Results from any internal or external product testing (e.g., nebulizer output, CPAP pressure and airflow testing)."
+                                                data-tooltip-id="performance-tooltips"
+                                                data-tooltip-content=""
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="performance-tooltips">
+                                            Results from any internal or external product testing (e.g.,<br/> nebulizer output, CPAP pressure and airflow testing).
+                                                </Tooltip>
                                         </div>
                                         <FileUploadSection
                                             label=""
@@ -3508,7 +3572,7 @@ const AddProduct = ({ placeholder }) => {
                                                 />
 
                                                 <label className={styles.checkText} htmlFor="hospital-powered">
-                                                    Whether the gloves are powdered or powder-free.
+                                                    Whether the gloves are powdered <br/>or powder-free.
                                                 </label>
                                             </span>
                                             <span
@@ -3537,7 +3601,7 @@ const AddProduct = ({ placeholder }) => {
                                                 />
 
                                                 <label className={styles.checkText} htmlFor="hospital-texture">
-                                                    Whether the item have texture or smooth
+                                                    Whether the item have texture <br/> or smooth
                                                 </label>
                                             </span>
                                             <span
@@ -3600,7 +3664,7 @@ const AddProduct = ({ placeholder }) => {
                                                         />
 
                                                         <label className={styles.checkText} htmlFor="hospital-sterilized">
-                                                            Whether the item is sterilized or non-sterile.
+                                                            Whether the item is sterilized <br/>or non-sterile.
                                                         </label>
                                                     </span>
                                                     <span
@@ -3699,7 +3763,7 @@ const AddProduct = ({ placeholder }) => {
 
                                                 />
                                                 <label className={styles.checkText} htmlFor="hospital-resistance">
-                                                    Resistance to fluid penetration (e.g., for surgical masks)
+                                                    Resistance to fluid penetration (e.g., <br/> for surgical masks)
                                                 </label>
                                             </span>
                                             <span
@@ -3745,13 +3809,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="The strength or concentration of the medication (e.g., 500 mg, 10 mg/mL,Standard or high-strength)."
+                                                data-tooltip-id="streng-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="streng-tooltip">
+                                            The strength or concentration of the medication (e.g., <br/> 500 mg, 10 mg/mL,Standard or high-strength).
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -3861,7 +3927,7 @@ const AddProduct = ({ placeholder }) => {
 
                                                         />
                                                         <label className={styles.checkText} htmlFor="orthopedic-sterilized">
-                                                            Whether the item is sterilized or non-sterile.
+                                                            Whether the item is sterilized <br/> or non-sterile.
                                                         </label>
                                                     </span>
                                                     <span
@@ -3961,13 +4027,15 @@ const AddProduct = ({ placeholder }) => {
                                                     />
                                                     <span
                                                         className={styles.infoTooltip}
-                                                        data-tooltip-id="wellness-tooltip"
-                                                        data-tooltip-content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"
+                                                        data-tooltip-id="color-options-tooltip"
+                                                        
                                                     >
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="color-options-tooltip">
+                                                    Available colors (e.g., black, beige, grey, tortoiseshell, <br/> frame color or lense color etc)
+                                                        </Tooltip>
                                                 </div>
                                             </div>
                                         </div>
@@ -4040,13 +4108,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
+                                                data-tooltip-id="target-condition-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="target-condition-tooltip">
+                                            Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention <br/>of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves<br/> symptoms, promotes healing, or prevents recurrence.)
+                                                </Tooltip>
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -4284,13 +4354,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)"
+                                                data-tooltip-id="concentra-tooltip"
+                                                data-tooltip-content=""
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="concentra-tooltip">
+                                            Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% <br/>concentration for optimal antimicrobial efficacy. Oxygen concentration level<br/> provided by the device (e.g., 95%)
+                                                </Tooltip>
                                         </div>
                                     </div>
                                 </div>
@@ -4490,13 +4562,15 @@ const AddProduct = ({ placeholder }) => {
                                                     />
                                                     <span
                                                         className={styles.infoTooltip}
-                                                        data-tooltip-id="wellness-tooltip"
-                                                        data-tooltip-content="The type of support provided by the aid (e.g., two-legged, four-legged walker, or wall-mounted grab bar)."
+                                                        data-tooltip-id="type-support-tooltip"
+                                                        
                                                     >
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="type-support-tooltip">
+                                                    The type of support provided by the aid (e.g., two-legged,<br/> four-legged walker, or wall-mounted grab bar).
+                                                        </Tooltip>
                                                 </div>
                                                 <span className={styles.error}></span>
                                             </div>
@@ -4513,13 +4587,15 @@ const AddProduct = ({ placeholder }) => {
                                                     />
                                                     <span
                                                         className={styles.infoTooltip}
-                                                        data-tooltip-id="wellness-tooltip"
-                                                        data-tooltip-content="Results from any internal or external product testing (e.g., nebulizer output, CPAP pressure and airflow testing)."
+                                                        data-tooltip-id="reports-tooltip"
+                                                        
                                                     >
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="reports-tooltip">
+                                                    Results from any internal or external product testing (e.g.,<br/> nebulizer output, CPAP pressure and airflow testing).
+                                                        </Tooltip>
                                                 </div>
                                                 <FileUploadSection
                                                     label=""
@@ -4546,26 +4622,7 @@ const AddProduct = ({ placeholder }) => {
                             <div className={styles.section}>
                                 <span className={styles.formHead}>Product Identification</span>
                                 <div className={styles.formSection}>
-                                    <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Purpose</label>
-                                        <div className={styles.tooltipContainer}>
-                                            <textarea
-                                                className={styles.formInput}
-                                                name="diagnosticFunctions"
-                                                placeholder="Enter Diagnostic Functions"
-                                                rows="2"
-                                            />
-                                            <span
-                                                className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
-                                            >
-                                                <img src={Information} className={styles.iconTooltip} alt='information' />
-
-                                            </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
-                                        </div>
-                                    </div>
+                                    
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
                                             Composition / Ingredients
@@ -4588,6 +4645,28 @@ const AddProduct = ({ placeholder }) => {
                                             <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
                                         </div>
                                         <span className={styles.error}></span>
+                                    </div>
+                                    <div className={styles.productContainer}>
+                                        <label className={styles.formLabel}>Purpose</label>
+                                        <div className={styles.tooltipContainer}>
+                                            <textarea
+                                                className={styles.formInput}
+                                                name="diagnosticFunctions"
+                                                placeholder="Enter Diagnostic Functions"
+                                                rows="2"
+                                            />
+                                            <span
+                                                className={styles.infoTooltip}
+                                                data-tooltip-id="identification-purpose-tooltip"
+                                                data-tooltip-content=""
+                                            >
+                                                <img src={Information} className={styles.iconTooltip} alt='information' />
+
+                                            </span>
+                                            <Tooltip className={styles.tooltipSec} id="identification-purpose-tooltip">
+                                            Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling<br/> and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)
+                                                </Tooltip>
+                                        </div>
                                     </div>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>Health Claims</label>
@@ -4802,13 +4881,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)"
+                                                data-tooltip-id="contra-tooltips"
+                                               
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="contra-tooltips">
+                                            Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are typically 70-90% concentration <br/> for optimal antimicrobial efficacy. Oxygen concentration level provided by the device (e.g., 95%)
+                                                </Tooltip>
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
@@ -4928,13 +5009,15 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Protein powders often come in a wide variety of flavors like chocolate, vanilla, strawberry, cookies & cream, etc."
+                                                data-tooltip-id="flavour-option-tooltip"
+                                                data-tooltip-content=""
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="flavour-option-tooltip">
+                                            Protein powders often come in a wide variety of flavors like <br/>chocolate, vanilla, strawberry, cookies & cream, etc.
+                                                </Tooltip>
                                         </div>
                                     </div>
 
@@ -4980,27 +5063,7 @@ const AddProduct = ({ placeholder }) => {
                                         <span className={styles.error}></span>
                                     </div>
 
-                                    <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Purpose</label>
-                                        <div className={styles.tooltipContainer}>
-                                            <textarea
-                                                className={styles.formInput}
-                                                name="diagnosticFunctions"
-                                                placeholder="Enter Diagnostic Functions"
-                                                rows="2"
-                                            />
-                                            <span
-                                                className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing.,Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)"
-                                            >
-                                                <img src={Information} className={styles.iconTooltip} alt='information' />
-
-                                            </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
-                                        </div>
-                                        <span className={styles.error}></span>
-                                    </div>
+                                   
 
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>Health Benefit</label>
@@ -5023,7 +5086,29 @@ const AddProduct = ({ placeholder }) => {
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
+                                    <div className={styles.productContainer}>
+                                        <label className={styles.formLabel}>Purpose</label>
+                                        <div className={styles.tooltipContainer}>
+                                            <textarea
+                                                className={styles.formInput}
+                                                name="diagnosticFunctions"
+                                                placeholder="Enter Diagnostic Functions"
+                                                rows="2"
+                                            />
+                                            <span
+                                                className={styles.infoTooltip}
+                                                data-tooltip-id="purpose-well-tooltips"
+                                                data-tooltip-content=""
+                                            >
+                                                <img src={Information} className={styles.iconTooltip} alt='information' />
 
+                                            </span>
+                                            <Tooltip className={styles.tooltipSec} id="purpose-well-tooltips">
+                                            Purpose (e.g., COVID-19 detection, blood glucose monitoring, cholesterol level check,Pain relief,Prevention of infection.,Cooling and soothing., <br/>Moisturizing and healing, procedure or use case of tool, Relieves symptoms, promotes healing, or prevents recurrence.)
+                                                </Tooltip>
+                                        </div>
+                                        <span className={styles.error}></span>
+                                    </div>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
                                             Composition / Ingredients
@@ -5047,7 +5132,7 @@ const AddProduct = ({ placeholder }) => {
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
-
+                                   
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
                                             Additives & Sweeteners
@@ -5061,13 +5146,16 @@ const AddProduct = ({ placeholder }) => {
                                             />
                                             <span
                                                 className={styles.infoTooltip}
-                                                data-tooltip-id="wellness-tooltip"
-                                                data-tooltip-content="Some proteins contain artificial sweeteners (e.g., sucralose, aspartame), while others use natural sweeteners (e.g., stevia, monk fruit)."
+                                                data-tooltip-id="additives-tooltip"
+                                                
                                             >
                                                 <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                             </span>
-                                            <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                            <Tooltip className={styles.tooltipSec} id="additives-tooltip">
+                                            Some proteins contain artificial sweeteners (e.g., sucralose, aspartame),<br/> while others use natural sweeteners (e.g., stevia, monk fruit).
+                                            </Tooltip>
+                                         
                                         </div>
                                         <span className={styles.error}></span>
                                     </div>
@@ -5083,7 +5171,7 @@ const AddProduct = ({ placeholder }) => {
 
                                                 />
                                                 <label className={styles.checkText} htmlFor="nutrition-vegan">
-                                                    Whether the product is vegan (i.e., no animal-derived
+                                                    Whether the product is vegan (i.e. <br/>, no animal-derived
                                                     ingredients).
                                                 </label>
                                             </span>
@@ -5252,13 +5340,16 @@ const AddProduct = ({ placeholder }) => {
                                                     <span
                                                         className={styles.infoTooltip}
                                                         data-tooltip-id="wellness-tooltip"
-                                                        data-tooltip-content="Remote monitoring of vital signs (e.g., heart rate, blood pressure, glucose levels). Real-time data transmission to healthcare providers or mobile apps."
+                                                        data-tooltip-content=""
                                                     >
                                                         <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                                     </span>
-                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip" />
+                                                    <Tooltip className={styles.tooltipSec} id="wellness-tooltip">
+                                                        Remote monitoring of vital signs (e.g., heart rate, blood pressure, glucose levels). <br />Real-time data transmission to healthcare providers or mobile apps.
+                                                    </Tooltip>
                                                 </div>
+
                                                 <span className={styles.error}></span>
                                             </div>
                                             <div className={styles.productInnerContainer}>
@@ -5325,32 +5416,28 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.section}>
                     <span className={styles.formHead}>Health & Safety</span>
                     <div className={styles.formSection}>
-                        <div className={styles.productContainer}>
-                            <FileUploadSection
-                                label="Safety Datasheet"
-                                fileUpload={safetyDatasheetUpload}
-                                tooltip="Specific safety information, instructions or precautions related to product"
-                            />
-                            <span className={styles.error}></span>
-                        </div>
 
-                        <div className={styles.productContainer}>
-                            <FileUploadSection
-                                label="Health Hazard Rating"
-                                fileUpload={healthHazardUpload}
-                                tooltip="Health Hazard Rating Document"
-                            />
-                            <span className={styles.error}></span>
-                        </div>
+                        <FileUploadSection
+                            label="Safety Datasheet"
+                            fileUpload={safetyDatasheetUpload}
+                            tooltip="Specific safety information, instructions or precautions related to product"
+                        />
 
-                        <div className={styles.productContainer}>
-                            <FileUploadSection
-                                label="Environmental Impact"
-                                fileUpload={environmentalImpactUpload}
-                                tooltip="Environment Impact Rating Document"
-                            />
-                            <span className={styles.error}></span>
-                        </div>
+
+                        <FileUploadSection
+                            label="Health Hazard Rating"
+                            fileUpload={healthHazardUpload}
+                            tooltip="Health Hazard Rating Document"
+                        />
+
+
+                        <FileUploadSection
+                            label="Environmental Impact"
+                            fileUpload={environmentalImpactUpload}
+                            tooltip="Environment Impact Rating Document"
+                        />
+
+
                     </div>
                 </div>
 
@@ -5376,14 +5463,14 @@ const AddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
 
-                        <div className={styles.productContainer}>
-                            <FileUploadSection
-                                label="User Guidelines"
-                                fileUpload={userGuidelinesUpload}
-                                tooltip="Specific information, instructions related to product."
-                            />
-                            <span className={styles.error}></span>
-                        </div>
+
+                        <FileUploadSection
+                            label="User Guidelines"
+                            fileUpload={userGuidelinesUpload}
+                            tooltip="Specific information, instructions related to product."
+                        />
+                        <span className={styles.error}></span>
+
 
                         <div className={styles.productContainer}>
                             <label className={styles.formLabel}>Other Information</label>
@@ -5397,13 +5484,15 @@ const AddProduct = ({ placeholder }) => {
                                 />
                                 <span
                                     className={styles.infoTooltip}
-                                    data-tooltip-id="sku-tooltip"
-                                    data-tooltip-content="Any relevant, additional or other information regarding the product (eg. Prescribing Info for Medication or Dosage Info or regarding the shipping of large devices etc.)"
+                                    data-tooltip-id="other-information-tooltip"
+                                    
                                 >
                                     <img src={Information} className={styles.iconTooltip} alt='information' />
 
                                 </span>
-                                <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                                <Tooltip className={styles.tooltipSec} id="other-information-tooltip">
+                                Any relevant, additional or other information regarding the product (eg. Prescribing <br/> Info for Medication or Dosage Info or regarding the shipping of large devices etc.)
+                                    </Tooltip>
                             </div>
                             <span className={styles.error}></span>
                         </div>
@@ -5422,21 +5511,37 @@ const AddProduct = ({ placeholder }) => {
                 {/* End button section */}
 
                 {open && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        <h2 className={styles.modalTitle}>Upload File</h2>
-                        <label className={styles.label}>Upload File (PDF, CSV, Excel, DOC)</label>
-                        <div className={styles.fileInputWrapper}>
-                            <FaUpload className={styles.uploadIcon} />
-                            <input type="file" accept=".pdf,.csv,.xls,.xlsx,.doc,.docx" onChange={handleFileChange} className={styles.fileInput} />
-                        </div>
-                        <div className={styles.buttonContainer}>
-                            <button onClick={() => setOpen(false)} className={styles.cancelButton}>Cancel</button>
-                            <button className={styles.uploadButton}>Upload</button>
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.modalContent}>
+                            {/* Close Button */}
+                            <div className={styles.modalHeadContainer}>
+                                <div className={styles.modalTitle}>Bulk Upload</div>
+                                <button className={styles.closeButton} onClick={() => setOpen(false)}>×</button>
+
+                            </div>
+
+                            <div className={styles.fileInputWrapper}>
+                                <label className={styles.formLabel}>Upload File (PDF, CSV, Excel, DOC)</label>
+                                <div className={styles.modalInnerSection}>
+                                    <FiUploadCloud size={20} className={styles.uploadIcon} />
+                                    <input
+                                        type="file"
+                                        accept=".pdf,.csv,.xls,.xlsx,.doc,.docx"
+                                        onChange={handleFileChange}
+                                        className={styles.fileInput}
+                                    />
+                                    {!selectedFile && <p className={styles.placeholderText}>Upload file</p>}
+                                    {selectedFile && <p className={styles.fileModalName}>{selectedFile.name}</p>}
+                                </div>
+                            </div>
+                            <div className={styles.modalButtonContainer}>
+                                <button onClick={() => setOpen(false)} className={styles.buttonCancel}>Cancel</button>
+                                <button className={styles.buttonSubmit}>Upload</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+
             </form >
         </div >
     );

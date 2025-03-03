@@ -544,7 +544,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "edit-product/:medicineId",
+        path: "edit-product",
         element: (
           <Suspense fallback={<Loader />}>
             <EditProduct socket={socket} />
