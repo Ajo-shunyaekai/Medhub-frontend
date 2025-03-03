@@ -31,25 +31,13 @@ const OrderDetails = ({ socket }) => {
             order_id: orderId,
             buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         };
-        // postRequestWithToken('buyer/order/order-details', obj, (response) => {
-        //     if (response.code === 200) {
-        //         setOrderDetails(response.result);
-        //     } else {
-        //         console.log('error in order details api');
-        //     }
-        // });
+       
         try {
             const response = await apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
             if (response.code === 200) {
                 setOrderDetails(response.result);
             }
-            // postRequestWithToken(`order/get-specific-order-details/${orderId}`, obj, (response) => {
-            //     if (response.code === 200) {
-            //         setOrderDetails(response.result);
-            //     } else {
-            //         console.log('error in order details api');
-            //     }
-            // });
+           
         } catch (error) {
             console.log('error in order details api');
         }
@@ -195,7 +183,7 @@ const OrderDetails = ({ socket }) => {
                                     orderDetails?.status === 'Active' ?
 
                                         <div className="buyers-order-details-top-order-cont">
-                                            <Link to={`/buyer/logistics-form/${orderId}/${orderDetails?.buyer?._id}/${orderDetails?.supplier_id}`}>
+                                            <Link to={`/buyer/logistics-form/${orderId}/${orderDetails?.buyer?._id}`}>
 
                                             <div
                                                 className="buyers-order-details-left-top-main-heading-button"

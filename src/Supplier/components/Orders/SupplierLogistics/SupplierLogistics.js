@@ -21,8 +21,9 @@ import {
   fetchOrderById,
   submitPickupDetails,
 } from "../../../../redux/reducers/orderSlice";
+import { apiRequests } from "../../../../api";
 
-const SupplierLogistics = () => {
+const SupplierLogistics = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderId, supplierId } = useParams();
@@ -33,6 +34,9 @@ const SupplierLogistics = () => {
   console.log("ORDERDATA", orderData);
   console.log("supplierId", supplierId);
 
+
+
+  const [orderDetails, setOrderDetails] = useState()
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -246,6 +250,14 @@ const SupplierLogistics = () => {
         );
 
         if (response.meta.requestStatus === "fulfilled") {
+          console.log('RESPONSE',response.meta.requestStatus)
+          socket.emit('shipmentDetailsSubmitted', {
+            buyerId : orderDetails?.buyer_id, 
+            orderId  : orderId,
+            // poId : purchaseOrderId,
+            message    : `Pickup details submitted for ${orderId}`,
+            link       : process.env.REACT_APP_PUBLIC_URL
+        });
           setTimeout(() => {
             navigate(`/supplier/active-orders-details/${orderId}`);
           }, 500);
@@ -525,6 +537,33 @@ const SupplierLogistics = () => {
       setDisplayAddress({});
     }
   }, [updatedAddress, address]);
+
+  const fetchData = async () => {
+          const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
+          const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+  
+          if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
+              navigate("/supplier/login");
+              return;
+          }
+  
+          const obj = {
+              order_id: orderId,
+              supplier_id: supplierIdSessionStorage || supplierIdLocalStorage
+          };
+          try {
+              const response = await apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
+              if (response.code === 200) {
+                  setOrderDetails(response.result);
+              }
+          } catch (error) {
+              console.log('error in order details api');
+          }
+      }
+  
+      useEffect(() => {
+          fetchData()
+      }, [orderId]);
 
   console.log("displayAddress", displayAddress);
   console.log("updatedAddress", updatedAddress);

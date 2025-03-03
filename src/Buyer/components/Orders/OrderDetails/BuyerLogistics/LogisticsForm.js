@@ -13,14 +13,19 @@ import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 import Loader from "../../../../components/SharedComponents/Loader/Loader";
 import { fetchAddressListRedux } from "../../../../../redux/reducers/addressSlice";
 import { bookLogistics } from "../../../../../redux/reducers/orderSlice";
+import { apiRequests } from "../../../../../api";
 
 const LogisticsForm = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderId, buyerId, supplierId } = useParams();
+  const { orderId, buyerId } = useParams();
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
+
+  const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+  const buyerIdLocalStorage = localStorage.getItem('buyer_id');
+  const [orderDetails, setOrderDetails] = useState()
 
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -122,7 +127,7 @@ console.log('apiPayload',apiPayload)
         if (response.meta.requestStatus === "fulfilled") {
 
           socket.emit('bookLogistics', {
-            supplierId : supplierId, 
+            supplierId : orderDetails?.supplier_id, 
             orderId  : orderId,
             // poId : purchaseOrderId,
             message    : `Drop details submitted for ${orderId}`,
@@ -276,6 +281,29 @@ console.log('apiPayload',apiPayload)
     }
   };
   console.log("ADDRESS", address);
+
+  const fetchData = async () => {
+          if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+              navigate('/buyer/login');
+              return;
+          }
+          const obj = {
+              order_id: orderId,
+              buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
+          };
+          try {
+              const response = await apiRequests.getRequest(`order/get-specific-order-details/${orderId}`, obj)
+              if (response.code === 200) {
+                  setOrderDetails(response.result);
+              }
+          } catch (error) {
+              console.log('error in order details api');
+          }
+      }
+  
+      useEffect(() => {
+          fetchData()
+      }, [navigate, orderId]);
 
   useEffect(() => {
     dispatch(fetchAddressListRedux(buyerId));

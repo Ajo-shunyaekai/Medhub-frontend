@@ -830,7 +830,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "logistics-form/:orderId/:buyerId/:supplierId",
+        path: "logistics-form/:orderId/:buyerId",
         element: (
           <Suspense fallback={<Loader />}>
             <LogisticsForm socket={socket} />

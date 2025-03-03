@@ -697,7 +697,7 @@ const router = createBrowserRouter([
       },
       {
         path:"logistics-form/:orderId/:supplierId",
-        element:<SupplierLogistics />
+        element:<SupplierLogistics socket={socket}/>
       },
       {
         path:"add-new-address/:orderId/:supplierId",
