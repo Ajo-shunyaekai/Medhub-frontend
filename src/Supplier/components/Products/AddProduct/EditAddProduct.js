@@ -264,6 +264,12 @@ const EditAddProduct = ({ placeholder }) => {
         setInventoryList(updatedList);
     };
     // End the add more functionality
+      //   Start the Dropdown option
+      const Options = [
+        { value: 'new product', label: 'New Product' },
+        { value: 'secondary product', label: 'Secondary Product' },
+
+    ];
 
     const packagingUnits = [
         { value: 'kg', label: 'Kilogram (kg)' },
@@ -279,6 +285,11 @@ const EditAddProduct = ({ placeholder }) => {
         { value: 'ct', label: 'Carat (ct)' },
         { value: 'gr', label: 'Grain (gr)' },
     ];
+    const conditionOptions = [
+        { value: 'new', label: 'New' },
+        { value: 'used', label: 'Used' },
+        { value: 'refurbished', label: 'Refurbished' }
+    ]
     const packagingOptions = [
         { value: 'bottle', label: 'Bottle' },
         { value: 'tube', label: 'Tube' },
@@ -371,7 +382,7 @@ const EditAddProduct = ({ placeholder }) => {
     //   End the Dropdown option
     return (
         <div className={styles.container}>
-                <span className={styles.heading}>Edit New Products</span>
+                <span className={styles.heading}>Edit Products</span>
             <form className={styles.form}>
                 <div className={styles.section}>
                     <span className={styles.formHead}>General Information</span>
@@ -390,12 +401,11 @@ const EditAddProduct = ({ placeholder }) => {
 
                         <div className={styles.productContainer}>
                             <label className={styles.formLabel}>Product Type</label>
-                            <input
-                                className={styles.formInput}
-                                type='text'
-                                name='totalQuantity'
-                                placeholder='Enter Product Type'
-                                autoComplete='off'
+                            <Select
+                                className={styles.formSelect}
+                                options={Options}
+                                placeholder='Select Product Type'
+                                onChange={(selectedOption) => setProductType(selectedOption?.value)}
                             />
                             <span className={styles.error}></span>
                         </div>
@@ -450,6 +460,42 @@ const EditAddProduct = ({ placeholder }) => {
                                 isDisabled={!selectedSubCategory}
                             />
                         </div>
+
+                        {productType === 'secondary product' && (
+                            <>
+                                <div className={styles.productContainer}>
+                                    <label className={styles.formLabel}>Purchase On</label>
+
+                                    <DatePicker
+                                        className={styles.formDate}
+                                        clearIcon={null}
+                                        format="dd/MM/yyyy"
+                                        placeholder='dd/MM/yyyy'
+                                    />
+
+                                </div>
+
+                                <div className={styles.productContainer}>
+                                    <label className={styles.formLabel}>Condition</label>
+                                    <Select className={styles.formSelect} options={conditionOptions}
+                                        placeholder="Select Condition" />
+                                </div>
+
+                                <div className={styles.productContainer}>
+                                    <label className={styles.formLabel}>Country Available In</label>
+                                    <MultiSelectDropdown
+                                        options={countries}
+                                        placeholderButtonLabel="Select Countries"
+
+                                    />
+                                </div>
+
+                                <div className={styles.productContainer}>
+                                    <label className={styles.formLabel}>Minimum Purchase Unit</label>
+                                    <input className={styles.formInput} type='text' placeholder='Enter Minimum Purchase Unit' autoComplete='off' />
+                                </div>
+                            </>
+                        )}
                         <div className={styles.productContainer}>
                             <label className={styles.formLabel}>UPC (Universal Product Code)</label>
                             <input
@@ -882,6 +928,9 @@ const EditAddProduct = ({ placeholder }) => {
                         <span className={styles.formHead}>Upload Documents</span>
                         <div className={styles.formInnerSection}>
                             <FileUploadSection label="Product Image" fileUpload={productImageUpload} tooltip={false} />
+                            {productType === 'secondary product' && (
+                                <FileUploadSection label="Purchase Invoice" fileUpload={purchaseInvoiceUpload} tooltip={false} />
+                            )}
                         </div>
                     </div>
                     <div className={styles.sectionCompliances}>
