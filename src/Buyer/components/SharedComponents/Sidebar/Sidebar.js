@@ -24,6 +24,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import moment from "moment"
 
 
 const Sidebar = ({ children, dragWindow,
@@ -349,7 +350,7 @@ const Sidebar = ({ children, dragWindow,
                                                                             <span className={styles.noti_message_part_bottom}>
                                                                                 {data.message.split(' ').slice(2).join(' ')}
                                                                             </span>
-                                                                            <span className={styles.noti_time}>4 hours ago</span>
+                                                                            <span className={styles.noti_time}>{moment(data.createdAt).fromNow()}</span>
                                                                         </div>
                                                                        
                                                                     </>

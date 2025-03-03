@@ -21,6 +21,7 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
+import moment from "moment"
 // Mobile sidebar
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -355,7 +356,7 @@ const SupSidebar = ({ children, dragWindow,
                                                                     <span className={styles.noti_heading}>{heading}</span>
                                                                     <span className={styles.noti_content}>{content}
                                                                     </span>
-                                                                    <span className={styles.noti_time}>4 hours ago</span>
+                                                                    <span className={styles.noti_time}>{moment(data.createdAt).fromNow()}</span>
                                                                     </div>
                                                                    
                                                                 </div>
