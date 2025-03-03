@@ -72,9 +72,6 @@ const ProductDetails = lazy(() =>
 const SecondaryProductDetails = lazy(() =>
   import("../components/Products/ProductDetails/SecondaryProductDetails.js")
 );
-const EditSecondaryProduct = lazy(() =>
-  import("../components/Products/AddProduct/EditSecondaryProduct.js")
-);
 const EditProduct = lazy(() => import("../components/Products/AddProduct/EditAddProduct.js"));
 const InquiryRequestDetails = lazy(() =>
   import("../components/Inquiry/InquiryRequest/InquiryRequestDetails")
@@ -536,15 +533,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "edit-secondary-product/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <EditSecondaryProduct socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "edit-product/:medicineId",
+        // path: "edit-product/:medicineId",
+        path: "edit-product",
         element: (
           <Suspense fallback={<Loader />}>
             <EditProduct socket={socket} />

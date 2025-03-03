@@ -14,10 +14,10 @@ import Loader from "../../../../components/SharedComponents/Loader/Loader";
 import { fetchAddressListRedux } from "../../../../../redux/reducers/addressSlice";
 import { bookLogistics } from "../../../../../redux/reducers/orderSlice";
 
-const LogisticsForm = () => {
+const LogisticsForm = ({socket}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderId, buyerId } = useParams();
+  const { orderId, buyerId, supplierId } = useParams();
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
@@ -120,6 +120,15 @@ console.log('apiPayload',apiPayload)
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
         if (response.meta.requestStatus === "fulfilled") {
+
+          socket.emit('bookLogistics', {
+            supplierId : supplierId, 
+            orderId  : orderId,
+            // poId : purchaseOrderId,
+            message    : `Drop details submitted for ${orderId}`,
+            link       : process.env.REACT_APP_PUBLIC_URL
+        });
+
           setTimeout(() => {
             navigate(`/buyer/order-details/${orderId}`);
           }, 500);
