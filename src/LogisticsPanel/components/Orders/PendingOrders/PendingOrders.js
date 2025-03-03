@@ -11,11 +11,7 @@ import moment from 'moment/moment';
 
 const PendingOrder= ({ list, totalList, currentPage, listPerPage, handlePageChange, activeLink }) => {
 
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
+    const [show, setShow] = useState(false)
     const [modal, setModal] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -23,7 +19,6 @@ const PendingOrder= ({ list, totalList, currentPage, listPerPage, handlePageChan
         setSelectedOrderId(orderId)
         setModal(!modal)
     }
-
 
     return (
         <>
@@ -95,7 +90,6 @@ const PendingOrder= ({ list, totalList, currentPage, listPerPage, handlePageChan
                                                 </div>
                                             </>
                                         )
-
                                 }
                             </table>
                         </div>
