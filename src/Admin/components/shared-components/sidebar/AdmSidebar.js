@@ -20,6 +20,7 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 import Box from "@mui/material/Box";
 import Badge from '@mui/material/Badge';
 import Drawer from "@mui/material/Drawer";
+import moment from "moment";
 
 
 const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick }) => {
@@ -448,7 +449,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                                   <span className={styles.noti_head_content}>
                                     {content.length > 100 ? `${content.slice(0, 100)}...` : content}
                                   </span>
-                                  <span className={styles.noti_profile}> 11:12  12-10-2025</span>
+                                  <span className={styles.noti_profile}> {moment(data.createdAt).fromNow()}</span>
                                 </div>
                               </div>
                             );

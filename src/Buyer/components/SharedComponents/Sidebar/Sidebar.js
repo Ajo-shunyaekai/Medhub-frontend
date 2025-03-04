@@ -24,7 +24,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import moment from "moment"
+import moment from "moment";
 
 
 const Sidebar = ({ children, dragWindow,
