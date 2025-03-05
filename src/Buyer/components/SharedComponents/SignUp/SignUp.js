@@ -4,12 +4,12 @@ import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import { Tooltip, TooltipProvider } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import Information from '../../../assest/images/infomation.svg'
+import Information from '../../../assets/images/infomation.svg'
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import './signup.css'
-import logo from '../../../assest/images/navibluelogo.svg'
+import logo from '../../../assets/images/navibluelogo.svg'
 import SuccessModal from './SuccessModal';
 import ImageUploaders from './ImageUploader';
 import { parsePhoneNumberFromString, isValidNumber } from 'libphonenumber-js';

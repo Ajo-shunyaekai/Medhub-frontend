@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
-import '../../../assest/style/detailsrequest.css';
+import '../../../assets/style/detailsrequest.css';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { Tooltip as ReactTooltip } from "react-tooltip";

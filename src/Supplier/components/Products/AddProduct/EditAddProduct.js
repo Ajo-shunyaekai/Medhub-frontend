@@ -11,7 +11,7 @@ import 'react-calendar/dist/Calendar.css';
 import { Tooltip, TooltipProvider } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { Chips } from 'primereact/chips';
-import Information from '../../../assest/images/infomation.svg'
+import Information from '../../../assets/images/infomation.svg'
 import './addproduct.css'
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client'; 
-import logo from '../assest/signup.svg';
+import logo from '../assets/signup.svg';
 import AdmSidebar from '../components/AdmSidebar.js';
 import AdminDashboard from '../components/AdminDashboard';
 import LineChart from '../components/chart/LineChart';

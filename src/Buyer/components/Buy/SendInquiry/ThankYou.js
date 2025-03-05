@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Successful from '../../../assest/images/successful.svg';
+import Successful from '../../../assets/images/successful.svg';
 import './thankyou.css';
 
 const ThankYou = () => {

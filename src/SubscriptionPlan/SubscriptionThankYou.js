@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./thankyou.module.css";
-import MedhubLogo from "./assest/navibluelogo.svg";
+import MedhubLogo from "./assets/navibluelogo.svg";
 
 const SubscriptionThankYou = () => {
     return (

@@ -63,7 +63,7 @@ const InvoicePDF = ({ user, subscriptionDetails }) => (
     <Page size="A4" style={styles.page}>
       <View style={styles.container}>
         <Image
-          src={require("../assest/navibluelogo.png")}
+          src={require("../assets/navibluelogo.png")}
           style={styles.logo}
         />
         <View style={styles.header}>

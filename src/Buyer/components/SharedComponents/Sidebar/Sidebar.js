@@ -4,9 +4,9 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Link, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css'
-import order_list from '../../../assest/images/dashboard/order_list.svg'
-import DeliverLogo from '../../../assest/images/navibluelogo.svg';
-import invoice from '../../../assest/images/invoice.svg'
+import order_list from '../../../assets/images/dashboard/order_list.svg'
+import DeliverLogo from '../../../assets/images/navibluelogo.svg';
+import invoice from '../../../assets/images/invoice.svg'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Badge from '@mui/material/Badge';

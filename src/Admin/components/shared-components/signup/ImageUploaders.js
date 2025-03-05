@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import UploadImage from '../../assest/uplaod.svg';
-import CrossIcon from '../../assest/Icon.svg';
+import UploadImage from '../../assets/uplaod.svg';
+import CrossIcon from '../../assets/Icon.svg';
 import styles from '../../style/signupimage.module.css';
-import PDFIcon from '../../assest/pdf-icon.svg';
+import PDFIcon from '../../assets/pdf-icon.svg';
 
 const ImageUploaders = ({ onUploadStatusChange }) => {
     const [filePreviews, setFilePreviews] = useState([]);

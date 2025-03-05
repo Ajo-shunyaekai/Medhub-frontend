@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import CustomModal from './CustomModal';
-import UploadImage from '../../../assest/images/uplaod.svg';
-import CrossIcon from '../../../assest/images/Icon.svg';
+import UploadImage from '../../../assets/images/uplaod.svg';
+import CrossIcon from '../../../assets/images/Icon.svg';
 import styles from './imageuploader.module.css';
 
 const ImageUploader = ({onUploadStatusChange}) => {

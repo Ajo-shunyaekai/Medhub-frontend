@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './order.css';
-import order_list from '../../assest/images/dashboard/order_list.svg'
+import order_list from '../../assets/images/dashboard/order_list.svg'
 import ActiveOrder from './ActiveOrders/ActiveOrder';
 import CompletedOrder from './CompletedOrders/CompleteOrder';
 import PendingOrder from './PendingOrders/PendingOrders'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './buy.css';
-import Right from "../../assest/images/right-arrow.svg";
+import Right from "../../assets/images/right-arrow.svg";
 import BuySeller from './BySupplier/BuySeller';
 import BuyProduct from './ByProduct/BuyProduct';
 import Buy2ndMarket from './SecondaryMarket/Buy2ndMarket';

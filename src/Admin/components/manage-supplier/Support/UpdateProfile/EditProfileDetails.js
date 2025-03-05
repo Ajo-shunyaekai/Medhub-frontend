@@ -4,8 +4,8 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsCalendar2Date } from "react-icons/bs";
-import CompanyType from "../../../../assest/Images/companytype.svg";
-import CompanyName from "../../../../assest/Images/companyname.svg";
+import CompanyType from "../../../../assets/Images/companytype.svg";
+import CompanyName from "../../../../assets/Images/companyname.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

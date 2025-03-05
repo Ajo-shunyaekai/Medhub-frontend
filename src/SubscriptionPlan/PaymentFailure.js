@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./payment.module.css";
-import Failure from "./assest/failure.svg";
+import Failure from "./assets/failure.svg";
 import { useNavigate, useParams } from "react-router-dom";
 
 const PaymentFailure = () => {

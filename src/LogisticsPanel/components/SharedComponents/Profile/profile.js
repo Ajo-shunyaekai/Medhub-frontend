@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import { MdOutlineAttachEmail } from "react-icons/md";
-import Image from "../../../assest/images/man.png"
+import Image from "../../../assets/images/man.png"
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../../redux/reducers/userDataSlice";

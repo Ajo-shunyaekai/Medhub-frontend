@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../../../assest/style/sellerfeedback.css'
+import '../../../../assets/style/sellerfeedback.css'
 import 'react-responsive-modal/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';

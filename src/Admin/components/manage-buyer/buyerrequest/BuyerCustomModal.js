@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../assest/style/suppliermodal.module.css';
+import styles from '../../../assets/style/suppliermodal.module.css';
 
 const BuyerCustomModal = ({ onClose }) => {
   return (

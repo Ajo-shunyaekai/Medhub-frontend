@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import UploadImage from '../../../assest/images/uplaod.svg';
-import CrossIcon from '../../../assest/images/Icon.svg';
-import PDFIcon from '../../../assest/images/pdf-icon.svg';
+import UploadImage from '../../../assets/images/uplaod.svg';
+import CrossIcon from '../../../assets/images/Icon.svg';
+import PDFIcon from '../../../assets/images/pdf-icon.svg';
 import styles from './imageuploader.module.css';
 
 const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, filePreviews, setFilePreviews }) => {

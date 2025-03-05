@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./payment.module.css";
-import Success from "./assest/success.svg";
+import Success from "./assets/success.svg";
 import {
   fetchUserData,
   saveSubscriptionPayment,

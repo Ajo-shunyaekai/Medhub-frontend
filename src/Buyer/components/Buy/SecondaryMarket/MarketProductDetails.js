@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../ByProduct/productDetails.css';
 import CountryDetails from '../CountryDetails';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import Invoice from '../assest/invoice.pdf'
+// import Invoice from '../assets/invoice.pdf'
 import Select from 'react-select';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';

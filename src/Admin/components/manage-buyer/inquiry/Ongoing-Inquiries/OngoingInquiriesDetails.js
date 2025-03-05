@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../../../assest/style/ongoinginquiriesdetails.css";
+import "../../../../assets/style/ongoinginquiriesdetails.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from "moment-timezone";
 import { toast } from "react-toastify";
