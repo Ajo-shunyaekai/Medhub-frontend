@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../../../../assest/style/activeorders.module.css';
+import styles from '../../../../assets/style/activeorders.module.css';
 import Table from 'react-bootstrap/Table';
 import Pagination from "react-js-pagination";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';

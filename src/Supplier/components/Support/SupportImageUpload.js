@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Resizer from 'react-image-file-resizer';
-import UploadImage from '../../assest/images/uplaod.svg';
-import CrossIcon from '../../assest/images/Icon.svg';
+import UploadImage from '../../assets/images/uplaod.svg';
+import CrossIcon from '../../assets/images/Icon.svg';
 import styles from './supportimageupload.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 

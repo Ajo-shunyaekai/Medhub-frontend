@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../../../assest/style/sellerinquirydetails.css';
+import '../../../../assets/style/sellerinquirydetails.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import SellerInquiryProductList from './SellerInquiryProductList';

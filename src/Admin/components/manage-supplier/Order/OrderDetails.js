@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../../../assest/style/adminsupplierdetails.css'
-import '../../../assest/style/orderdetails.css'
+import '../../../assets/style/adminsupplierdetails.css'
+import '../../../assets/style/orderdetails.css'
 import AssignDriver from '../../shared-components/details/AssignDriver';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import SellerActiveCodinator from './SellerActiveCodinator';

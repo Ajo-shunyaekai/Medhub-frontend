@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import '../buy.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
-import Search from '../../../assest/images/Buy/search-icon.svg'
-import Verified from '../../../assest/images/verified-icon.svg'
+import Search from '../../../assets/images/Buy/search-icon.svg'
+import Verified from '../../../assets/images/verified-icon.svg'
 import { postRequestWithToken } from '../../../../api/Requests';
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';

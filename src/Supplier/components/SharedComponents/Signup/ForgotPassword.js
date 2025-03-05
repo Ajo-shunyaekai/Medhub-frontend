@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import './forgotpass.css'
-import logo from '../../../assest/images/logo.svg';
+import logo from '../../../assets/images/logo.svg';
 import ChangePassword from './ChangePassword';
 import VerifyOTP from './VerifyOTP';
 import VerifyEmail from './VerifyEmail';

@@ -4,9 +4,9 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css'
-import order_list from '../../../assest/images/dashboard/order_list.svg'
-import DeliverLogo from '../../../assest/images/logo.svg';
-import invoice from '../../../assest/images/invoice.svg'
+import order_list from '../../../assets/images/dashboard/order_list.svg'
+import DeliverLogo from '../../../assets/images/logo.svg';
+import invoice from '../../../assets/images/invoice.svg'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import Badge from '@mui/material/Badge';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';

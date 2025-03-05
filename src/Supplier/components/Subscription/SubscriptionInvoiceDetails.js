@@ -1,7 +1,7 @@
 
 import React from 'react';
 import styles from './subscriptioninvoice.module.css'
-import logo from '../../assest/images/logo.svg';
+import logo from '../../assets/images/logo.svg';
 import html2pdf from 'html2pdf.js';
 
 const SubscriptionInvoiceDetails = ({ title, service, details }) => {

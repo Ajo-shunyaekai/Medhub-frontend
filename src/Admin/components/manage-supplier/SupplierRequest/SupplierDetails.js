@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../../assest/style/detailsrequest.css'
+import '../../../assets/style/detailsrequest.css'
 import { Modal } from 'react-responsive-modal';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';

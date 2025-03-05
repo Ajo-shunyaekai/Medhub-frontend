@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import OtpInput from "react-otp-input";
 import "./login.css";
 import "./forgotpass.css";
-import logo from "../../../assest/images/navibluelogo.svg";
+import logo from "../../../assets/images/navibluelogo.svg";
 import VerifyEmail from "./VerifyEmail";
 import VerifyOTP from "./VerifyOTP";
 import ChangePassword from "./ChangePassword";

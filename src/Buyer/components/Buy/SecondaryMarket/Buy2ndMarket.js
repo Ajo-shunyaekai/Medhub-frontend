@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../ByProduct/buyproduct.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Search from '../../../assest/images/Buy/search-icon.svg'
-import Generics from '../../../assest/images/Buy/generics.svg'
-import Orignals from '../../../assest/images/Buy/orignals.svg'
-import Biosimilars from '../../../assest/images/Buy/biosimilars.svg'
-import MedicalDevices from '../../../assest/images/Buy/medicaldevices.svg'
-import Nutraceutical from '../../../assest/images/Buy/neutraceutical.svg'
-import Arrow from '../../../assest/images/Buy/arrow.svg'
+import Search from '../../../assets/images/Buy/search-icon.svg'
+import Generics from '../../../assets/images/Buy/generics.svg'
+import Orignals from '../../../assets/images/Buy/orignals.svg'
+import Biosimilars from '../../../assets/images/Buy/biosimilars.svg'
+import MedicalDevices from '../../../assets/images/Buy/medicaldevices.svg'
+import Nutraceutical from '../../../assets/images/Buy/neutraceutical.svg'
+import Arrow from '../../../assets/images/Buy/arrow.svg'
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Pagination from 'react-js-pagination';

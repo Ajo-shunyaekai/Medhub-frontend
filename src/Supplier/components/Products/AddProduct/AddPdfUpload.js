@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import UploadIcon from '../../../assest/images/uplaod.svg';
+import UploadIcon from '../../../assets/images/uplaod.svg';
 import styles from './pdfadd.module.css';
 const AddPdfUpload = ({ invoiceImage, setInvoiceImage }) => {
     const [showModal, setShowModal] = useState(false);

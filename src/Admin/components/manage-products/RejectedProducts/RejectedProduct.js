@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../../../assest/style/order.module.css';
+import styles from '../../../assets/style/order.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { postRequestWithToken } from '../../../api/Requests';
 import RejectedNewProduct from './RejectedNewProduct'

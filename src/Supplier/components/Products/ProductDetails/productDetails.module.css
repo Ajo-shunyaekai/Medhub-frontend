@@ -1,0 +1,275 @@
+.container {
+    width: 100%;
+    max-width: 94%;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
+    background-attachment: fixed;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.heading {
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 5px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mainContainer {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 26px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.innerSection {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.InnerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.medicineName {
+    color: #5e676f;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.editButton {
+    background: linear-gradient(270deg, #00dcff, #0075ce);
+    border: none !important;
+    outline: none !important;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 6px 16px;
+}
+
+.mainSection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.medicinesSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.medicineHead {
+    font-size: 14px;
+    font-weight: 500;
+    width: 250px;
+}
+
+.medicineText {
+    color: #99a0ac;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.innerMainSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.innerInventorySection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inventorySection {
+    display: flex;
+    width: 100%;
+}
+
+.inventorySection {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.inventoryContainer {
+    display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+}
+
+.inventoryHead {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.inventoryInput {
+    background-color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    color: #99a0ac;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none !important;
+    padding: 12px !important;
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* Style the manufacturer container */
+.manufacturerMainContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.manufacturerContainer {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.manufacturersection {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.manufacturerDescriptionSection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* End the manufacturer container */
+.productImageSection{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+}
+.imageContainer{
+    width: 20%;
+    height: 160px;
+    overflow: hidden;
+}
+.imageSection{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Start the additional Information Container */
+
+.addtionalContainer{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 26px 30px;
+    margin-bottom: 20rem;
+}
+.additionalSection{
+    display: flex
+;
+    width: 100%;
+    gap: 20px;
+}
+.additionalInnerSection{
+    display: flex
+    ;
+        width: 100%;
+        gap: 10px;
+}
+.additionalUploadSection{
+    display: flex
+;
+    flex-direction: column;
+    gap: 8px;
+}
+.additionalImageSection{
+    display: flex
+    ;
+        flex-wrap: wrap;
+        gap: 10px;
+}
+.additionalImageSec{
+    width: 20%;
+    height: 150px;
+    overflow: hidden;
+    display: flex
+;
+    flex-direction: column;
+    gap: 10px;   
+}
+.additionalInnerImage{
+    width: 24%;
+    height: 150px;
+    overflow: hidden;
+    display: flex
+;
+    flex-direction: column;
+    gap: 10px;
+}
+.additionalImage{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.additionalLink{
+    cursor: pointer !important;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(40, 47, 134) !important;
+}
+/* End the additional information container */
+
+/* Style category section */
+.textareaContainer{
+    display: flex
+    ;
+        flex-direction: column;
+        gap: 10px;
+}
+.textareaSection{
+    display: flex
+;
+    gap: 20px;
+}
+.textareaInnerSection{
+    display: flex
+;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+
+/* End category section */

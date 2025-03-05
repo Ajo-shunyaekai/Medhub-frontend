@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../assest/style/productDetails.css'
+import '../../assets/style/productDetails.css'
 import CountryDetails from '../shared-components/Country/CountryDetails';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { postRequest } from '../../../api/Requests';

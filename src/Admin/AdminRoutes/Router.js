@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 import { postRequestWithToken } from "../api/Requests";
-import logo from "../assest/Images/logo.svg";
+import logo from "../assets/Images/logo.svg";
 import Loader from "../components/shared-components/Loader/Loader";
 import { fetchUserData } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";

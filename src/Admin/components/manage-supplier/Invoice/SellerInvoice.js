@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../../../assest/style/sellersupport.module.css';
+import styles from '../../../assets/style/sellersupport.module.css';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PendingInvoice from './Pending/PendingInvoice'
 import PaidInvoice from './Paid/PaidInvoice' 
