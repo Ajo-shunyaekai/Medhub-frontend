@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import "./secondaryproductdetails.css"
-import Search from '../../../assest/images/Buy/search-icon.svg'
+import Search from '../../../assets/images/Buy/search-icon.svg'
 import SearchMarketDetailsCard from './SearchMarketDetailsCard';
 import SearchFilterSection from '../SearchFilterSection';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import Invoice from '../../../assest/images/invoice.pdf'
+import Invoice from '../../../assets/images/invoice.pdf'
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../../api/Requests';
 import { apiRequests } from '../../../../api';

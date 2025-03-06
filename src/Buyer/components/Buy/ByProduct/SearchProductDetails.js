@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './searchdetails.css';
-import Search from '../../../assest/images/Buy/search-icon.svg'
+import Search from '../../../assets/images/Buy/search-icon.svg'
 import SearchDetailsCard from './SearchDetailsCard';
 import SearchFilterSection from '../SearchFilterSection';
 import { useNavigate, useParams } from 'react-router-dom';

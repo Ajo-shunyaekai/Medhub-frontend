@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import UploadImage from '../../assest/images/uplaod.svg';
+import UploadImage from '../../assets/images/uplaod.svg';
 import styles from './supportimageupload.module.css';
-// import CloseIcon from '../assest/Icon.svg';
-import { ReactComponent as  CloseIcon} from '../../assest/images/Icon.svg';
+// import CloseIcon from '../assets/Icon.svg';
+import { ReactComponent as  CloseIcon} from '../../assets/images/Icon.svg';
 
 const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
     // const [showModal, setShowModal] = useState(false);

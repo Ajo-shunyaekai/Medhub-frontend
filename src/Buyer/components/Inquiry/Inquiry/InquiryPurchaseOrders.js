@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../inquirypurchaseorder.css';
-import order_list from '../../../assest/images/dashboard/order_list.svg';
+import order_list from '../../../assets/images/dashboard/order_list.svg';
 import OnGoingOrder from './OnGoingOrder';
 import PurchasedOrder from '../PurchasedOrder/PurchasedOrder'
 import { postRequestWithToken } from '../../../../api/Requests';

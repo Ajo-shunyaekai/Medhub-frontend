@@ -36,3 +36,6 @@
 .jodit-placeholder {
     z-index: 0 !important;
 }
+.react-date-picker__wrapper {
+    border: none !important;
+}

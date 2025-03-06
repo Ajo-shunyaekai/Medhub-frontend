@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../assest/style/productDetails.css'
+import '../../assets/style/productDetails.css'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Link, useParams } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import UploadImage from '../assest/uplaod.svg';
+import UploadImage from '../assets/uplaod.svg';
 import styles from '../style/createpoimageupload.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 

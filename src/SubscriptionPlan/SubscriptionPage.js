@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./subscription.module.css";
-import MedhubLogo from "./assest/navibluelogo.svg";
+import MedhubLogo from "./assets/navibluelogo.svg";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../../assest/images/navibluelogo.svg'
+import Logo from '../../assets/images/navibluelogo.svg'
 
 const CompanyLogo = () => {
   return <img src={Logo} alt="companyLogo" />;

@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
 import styles from './successmodal.module.css';
-import Success from '../../../assest/images/successful.svg';
+import Success from '../../../assets/images/successful.svg';
 import { Link } from 'react-router-dom';
 // Import PropTypes for type-checking
 

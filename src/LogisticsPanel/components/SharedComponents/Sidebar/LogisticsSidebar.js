@@ -3,7 +3,7 @@ import styles from './logisticssidebar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import 'react-tooltip/dist/react-tooltip.css'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import DeliverLogo from '../../../assest/images/navibluelogo.svg';
+import DeliverLogo from '../../../assets/images/navibluelogo.svg';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Badge from '@mui/material/Badge';
