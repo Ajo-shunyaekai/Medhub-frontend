@@ -1363,7 +1363,7 @@ const AddProduct = ({ placeholder }) => {
     // Add the other fields under EmergencyAndFirstAidSupplies
     productLongevity: Yup.string()
       .when("category", {
-        is: "AlternativeMedicines",
+        is: "EmergencyAndFirstAidSupplies",
         then: Yup.string().required("Product Longevity is required."),
       })
       .nullable(),
@@ -1903,6 +1903,12 @@ const AddProduct = ({ placeholder }) => {
                     name="name"
                     value={values.name}
                     onChange={handleChange}
+                    // onChange={e=>{
+                    //   const {value, name} = e?.target;
+                    //   const textLimit = 15;
+                    //   const valueToUpdate = value?.slice(0,Number(textLimit || 0))
+                    //   setFieldValue(name, valueToUpdate)
+                    // }}
                     onBlur={handleBlur}
                   />
                   {touched.name && errors.name && (
