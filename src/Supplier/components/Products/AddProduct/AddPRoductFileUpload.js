@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import Information from "../../../assest/images/infomation.svg";
+import Information from "../../../assets/images/infomation.svg";
 import styles from "./addproduct.module.css";
 
 // useFileUpload Hook
