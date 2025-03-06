@@ -18,7 +18,7 @@ import "react-calendar/dist/Calendar.css";
 import { Tooltip, TooltipProvider } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { Chips } from "primereact/chips";
-import Information from "../../../assest/images/infomation.svg";
+import Information from "../../../assets/images/infomation.svg";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
@@ -1849,62 +1849,24 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", sessionStorage.getItem("_id"));
-          // Iterate over the stockedInDetails array and append to FormData
-          values.stockedInDetails.forEach((detail, index) => {
-            Object.keys(detail).forEach((key) => {
-              if (key) {
-                formData.append(
-                  `stockedInDetails[${index}][${key}]`, // Corrected template literal
-                  detail[key]
-                );
-              }
-            });
-          });
+          
+          const stockedInDetailsUpdated = JSON.stringify(
+            values?.stockedInDetails?.map(section => ({
+                country: section?.country|| '',
+                quantity: section?.quantity|| '',
+                type: section?.type|| '',
+            }))
+          );
+          const productPricingDetailsUpdated = JSON.stringify(
+            values?.productPricingDetails?.map(section => ({
+                price: section?.price|| '',
+                quantity: section?.quantity|| '',
+                deliveryTime: section?.deliveryTime|| '',
+            }))
+          );
 
-          // Iterate over the productPricingDetails array and append to FormData
-          values.productPricingDetails.forEach((detail, index) => {
-            Object.keys(detail).forEach((key) => {
-              if (key) {
-                formData.append(
-                  `productPricingDetails[${index}][${key}]`, // Corrected template literal
-                  detail[key]
-                );
-              }
-            });
-          });
-          // Check and remove invalid fields before dispatching
-          if (!values.stockedInDetails || values.stockedInDetails.length === 0) {
-            formData.delete("stockedInDetails"); // Remove stockedInDetails from FormData
-          } else {
-            // Add stockedInDetails only if it's valid
-            values.stockedInDetails.forEach((detail, index) => {
-              Object.keys(detail).forEach((key) => {
-                formData.append(
-                  `stockedInDetails[${index}][${key}]`,
-                  detail[key]
-                );
-              });
-            });
-          }
-
-          if (!values.productPricingDetails || values.productPricingDetails.length === 0) {
-            formData.delete("productPricingDetails"); // Remove productPricingDetails from FormData
-          } else {
-            // Add productPricingDetails only if it's valid
-            values.productPricingDetails.forEach((detail, index) => {
-              Object.keys(detail).forEach((key) => {
-                formData.append(
-                  `productPricingDetails[${index}][${key}]`,
-                  detail[key]
-                );
-              });
-            });
-          }
-
-          // Log FormData for debugging (optional)
-          for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
+          formData.append("stockedInDetails",stockedInDetailsUpdated)
+          formData.append("productPricingDetails",productPricingDetailsUpdated)
 
           dispatch(addProduct(formData));
           // setSubmitting(false); // Important to reset form submission state
