@@ -1849,24 +1849,27 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", sessionStorage.getItem("_id"));
-          
+
           const stockedInDetailsUpdated = JSON.stringify(
-            values?.stockedInDetails?.map(section => ({
-                country: section?.country|| '',
-                quantity: section?.quantity|| '',
-                type: section?.type|| '',
+            values?.stockedInDetails?.map((section) => ({
+              country: section?.country || "",
+              quantity: section?.quantity || "",
+              type: section?.type || "",
             }))
           );
           const productPricingDetailsUpdated = JSON.stringify(
-            values?.productPricingDetails?.map(section => ({
-                price: section?.price|| '',
-                quantity: section?.quantity|| '',
-                deliveryTime: section?.deliveryTime|| '',
+            values?.productPricingDetails?.map((section) => ({
+              price: section?.price || "",
+              quantity: section?.quantity || "",
+              deliveryTime: section?.deliveryTime || "",
             }))
           );
 
-          formData.append("stockedInDetails",stockedInDetailsUpdated)
-          formData.append("productPricingDetails",productPricingDetailsUpdated)
+          formData.append("stockedInDetails", stockedInDetailsUpdated);
+          formData.append(
+            "productPricingDetails",
+            productPricingDetailsUpdated
+          );
 
           dispatch(addProduct(formData));
           // setSubmitting(false); // Important to reset form submission state
@@ -2074,6 +2077,10 @@ const AddProduct = ({ placeholder }) => {
                         type="text"
                         placeholder="Enter Minimum Purchase Unit"
                         // autoComplete="off"
+                        name="minimumPurchaseUnit"
+                        value={values.minimumPurchaseUnit}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                       {touched.minimumPurchaseUnit &&
                         errors.minimumPurchaseUnit && (
@@ -2877,6 +2884,9 @@ const AddProduct = ({ placeholder }) => {
                     // fileUpload={productImageUpload}
                     tooltip={false}
                   />
+                  {touched.image && errors.image && (
+                    <span className={styles.error}>{errors.image}</span>
+                  )}
                   {productType === "secondary product" && (
                     <AddProductFileUpload
                       fieldInputName={"purchaseInvoiceFile"}
@@ -2887,6 +2897,13 @@ const AddProduct = ({ placeholder }) => {
                       tooltip={false}
                     />
                   )}
+                  {productType === "secondary product" &&
+                    touched.purchaseInvoiceFile &&
+                    errors.purchaseInvoiceFile && (
+                      <span className={styles.error}>
+                        {errors.purchaseInvoiceFile}
+                      </span>
+                    )}
                 </div>
               </div>
               <div className={styles.sectionCompliances}>
@@ -2934,6 +2951,9 @@ const AddProduct = ({ placeholder }) => {
                     " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
                   }
                 />
+                {touched.complianceFile && errors.complianceFile && (
+                  <span className={styles.error}>{errors.complianceFile}</span>
+                )}
               </div>
             </div>
             {/* End the compliances and certificate */}
