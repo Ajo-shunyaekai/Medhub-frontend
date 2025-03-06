@@ -6,6 +6,7 @@ import Doc from '../../../assets/images/doc.png'
 import PDF from '../../../assets/images/pdf.png'
 import Image from '../../../assets/images/product-details/para.webp'
 import Image1 from '../../../assets/images/product-details/paracetamol.png'
+import { Link } from "react-router-dom";
 const ProductDetails = () => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -17,7 +18,9 @@ const ProductDetails = () => {
                 <div className={styles.mainContainer}>
                     <div className={styles.InnerContainer}>
                         <span className={styles.medicineName}>Paracetamol</span>
+                        <Link to='/supplier/edit-product'>
                         <button className={styles.editButton}>Edit</button>
+                        </Link>
                     </div>
                 </div>
 
