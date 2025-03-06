@@ -33,6 +33,7 @@ import {
   fetchProductsList,
   softDeleteProduct,
 } from "../../../../redux/reducers/productSlice";
+import { InputMask } from '@react-input/mask';
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -2505,7 +2506,7 @@ const AddProduct = ({ placeholder }) => {
                     Date of Manufacture
                   </label>
                   <div className={styles.tooltipContainer}>
-                    <input
+                    {/* <input
                       className={styles.formInput}
                       type="text"
                       placeholder="Enter Date of Manufacture"
@@ -2514,7 +2515,18 @@ const AddProduct = ({ placeholder }) => {
                       value={values.date}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                    />
+                    /> */}
+
+                     <InputMask
+                        className={styles.formInput}
+                        type="text"
+                        mask="dd-mm-yyyy"
+                        placeholder="Enter Date of Manufacture"
+                        name="date"
+                        value={values.date}
+                        onChange={handleChange}
+                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
+                      />
                     <span
                       className={styles.infoTooltip}
                       data-tooltip-id="sku-tooltip"
