@@ -68,9 +68,6 @@ const AddProduct = lazy(() => import("../components/Products/AddProduct/AddProdu
 const ProductDetails = lazy(() =>
   import("../components/Products/ProductDetails/ProductDetails.js")
 );
-const SecondaryProductDetails = lazy(() =>
-  import("../components/Products/ProductDetails/SecondaryProductDetails.js")
-);
 const EditProduct = lazy(() => import("../components/Products/AddProduct/EditAddProduct.js"));
 const InquiryRequestDetails = lazy(() =>
   import("../components/Inquiry/InquiryRequest/InquiryRequestDetails")
@@ -524,15 +521,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ProductDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        // path: "secondary-product-details/:medicineId",
-        path: "secondary-product-details",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SecondaryProductDetails socket={socket} />
           </Suspense>
         ),
       },
