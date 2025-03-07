@@ -32,16 +32,17 @@ import {
   fetchProductDetail,
   fetchProductsList,
   softDeleteProduct,
+  addBulkProducts
 } from "../../../../redux/reducers/productSlice";
-import { InputMask } from '@react-input/mask';
-
+import { InputMask } from "@react-input/mask";
+ 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
-
+ 
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -55,7 +56,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
-
+ 
 const AddProduct = ({ placeholder }) => {
   const dispatch = useDispatch();
   const productValidationSchema = Yup.object({
@@ -80,7 +81,7 @@ const AddProduct = ({ placeholder }) => {
       ),
     form: Yup.string().required("Product Type/Form is required."),
     quantity: Yup.number().required("Product Quantity is required."),
-
+ 
     volumn: Yup.string().required("Product Size/Volumn is required."),
     weight: Yup.number().required("Product Weight is required."),
     unit: Yup.string().required("Product Weight Unit is required."),
@@ -297,7 +298,7 @@ const AddProduct = ({ placeholder }) => {
       is: "secondary",
       then: Yup.string().required("Minimum Purchase Unit is required."),
     }),
-
+ 
     // New Fields Validation
     subCategory: Yup.string()
       .required("Sub Category is required.")
@@ -736,11 +737,11 @@ const AddProduct = ({ placeholder }) => {
           )
           .max(4, "You can upload up to 4 Interoperability files.")
           .required("Interoperability files is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ), // Max 5MB
+          // .test(
+          //   "fileSize",
+          //   "File too large",
+          //   (value) => value && value.size <= 1024 * 1024 * 5
+          // ), // Max 5MB
       })
       .nullable(),
     specification: Yup.string()
@@ -1036,7 +1037,7 @@ const AddProduct = ({ placeholder }) => {
     //         "SkinHairCosmeticSupplies",
     //         "DisinfectionAndHygieneSupplies",
     //       ].includes(category),
-
+ 
     //     then: Yup.string().nullable(),
     //   })
     //   .nullable(),
@@ -1046,7 +1047,7 @@ const AddProduct = ({ placeholder }) => {
           ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
             category
           ),
-
+ 
         then: Yup.string().required("Health Benfits is required."),
       })
       .nullable(),
@@ -1363,7 +1364,7 @@ const AddProduct = ({ placeholder }) => {
     // Add the other fields under EmergencyAndFirstAidSupplies
     productLongevity: Yup.string()
       .when("category", {
-        is: "AlternativeMedicines",
+        is: "EmergencyAndFirstAidSupplies",
         then: Yup.string().required("Product Longevity is required."),
       })
       .nullable(),
@@ -1458,24 +1459,51 @@ const AddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+ 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
+ 
   // Start the checked container
-
+ 
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
-
+ 
+  //handle field input
+  const handleInputChange = (e, setFieldValue, textLimit = 15, allowedType = 'all', restrictSpecialForFields = [], allowedSpecialChars = "") => {
+      // const { value, name } = e.target;
+      // const valueToUpdate = value.slice(0, Number(textLimit));
+      // setFieldValue(name, valueToUpdate);
+ 
+      let { value, name } = e.target;
+ 
+    // Apply character limit
+    value = value.slice(0, Number(textLimit));
+ 
+    // Restrict input type
+    if (allowedType === "number") {
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+    } else if (allowedType === "text") {
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+    } else if (allowedType === "all" && restrictSpecialForFields.includes(name)) {
+      // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
+ 
+      const allowedPattern = new RegExp(`[^a-zA-Z0-9\\s${allowedSpecialChars}]`, "g");
+    value = value.replace(allowedPattern, "");
+    }
+ 
+    setFieldValue(name, value);
+  };
+  
+ 
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
-
+ 
   const config = useMemo(
     () => ({
       readonly: false,
@@ -1483,7 +1511,7 @@ const AddProduct = ({ placeholder }) => {
     }),
     [placeholder]
   );
-
+ 
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -1494,16 +1522,16 @@ const AddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
-
+ 
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
-
+ 
   const selectedSchema = getCategorySchema(selectedCategory);
-
+ 
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -1514,7 +1542,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) => cat.name === selectedCategory?.label
@@ -1528,7 +1556,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   //   Start the Dropdown option
   const Options = [
     { value: "new product", label: "New Product" },
@@ -1640,7 +1668,18 @@ const AddProduct = ({ placeholder }) => {
     { value: "No", label: "No" },
   ];
   //   End the Dropdown option
-
+ 
+  const handleBulkUpload = () => {
+    console.log('file', selectedFile)
+    const bulkFormData = new FormData();
+ 
+    bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+    bulkFormData.append("csvfile", selectedFile);
+ 
+    dispatch(addBulkProducts(bulkFormData))
+ 
+  }
+ 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -1829,7 +1868,7 @@ const AddProduct = ({ placeholder }) => {
           // Your custom submit logic here
           // Create a new FormData object
           const formData = new FormData();
-
+ 
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
@@ -1850,25 +1889,28 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", sessionStorage.getItem("_id"));
-
+ 
           const stockedInDetailsUpdated = JSON.stringify(
-            values?.stockedInDetails?.map(section => ({
-              country: section?.country || '',
-              quantity: section?.quantity || '',
-              type: section?.type || '',
+            values?.stockedInDetails?.map((section) => ({
+              country: section?.country || "",
+              quantity: section?.quantity || "",
+              type: section?.type || "",
             }))
           );
           const productPricingDetailsUpdated = JSON.stringify(
-            values?.productPricingDetails?.map(section => ({
-              price: section?.price || '',
-              quantity: section?.quantity || '',
-              deliveryTime: section?.deliveryTime || '',
+            values?.productPricingDetails?.map((section) => ({
+              price: section?.price || "",
+              quantity: section?.quantity || "",
+              deliveryTime: section?.deliveryTime || "",
             }))
           );
-
-          formData.append("stockedInDetails", stockedInDetailsUpdated)
-          formData.append("productPricingDetails", productPricingDetailsUpdated)
-
+ 
+          formData.append("stockedInDetails", stockedInDetailsUpdated);
+          formData.append(
+            "productPricingDetails",
+            productPricingDetailsUpdated
+          );
+ 
           dispatch(addProduct(formData));
           // setSubmitting(false); // Important to reset form submission state
         }}
@@ -1889,7 +1931,9 @@ const AddProduct = ({ placeholder }) => {
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Name<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Product Name<span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1897,16 +1941,19 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="name"
                     value={values.name}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all' ,["name"], "&")}
                     onBlur={handleBlur}
                   />
                   {touched.name && errors.name && (
                     <span className={styles.error}>{errors.name}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Market<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Product Market<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={Options}
@@ -1924,7 +1971,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Category<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Product Category<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={categoryOptions}
@@ -1950,10 +1999,11 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.category}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Sub Category<span className={styles.labelStamp}>*</span>
+                    Product Sub Category
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <Select
                     className={styles.formSelect}
@@ -1976,7 +2026,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.subCategory}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category (Level 3)
@@ -2002,8 +2052,10 @@ const AddProduct = ({ placeholder }) => {
                 {productType === "secondary product" && (
                   <>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purchased On<span className={styles.labelStamp}>*</span></label>
-
+                      <label className={styles.formLabel}>
+                        Purchased On<span className={styles.labelStamp}>*</span>
+                      </label>
+ 
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -2022,9 +2074,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Condition<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Condition<span className={styles.labelStamp}>*</span>
+                      </label>
                       <Select
                         className={styles.formSelect}
                         options={conditionOptions}
@@ -2038,12 +2092,13 @@ const AddProduct = ({ placeholder }) => {
                         <span className={styles.error}>{errors.condition}</span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Country Available In<span className={styles.labelStamp}>*</span>
+                        Country Available In
+                        <span className={styles.labelStamp}>*</span>
                       </label>
-
+ 
                       <MultiSelectDropdown
                         options={countries}
                         placeholderButtonLabel="Select Countries"
@@ -2058,23 +2113,29 @@ const AddProduct = ({ placeholder }) => {
                         }}
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
-
+ 
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
                           {errors.countryAvailable}
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Minimum Purchase Unit<span className={styles.labelStamp}>*</span>
+                        Minimum Purchase Unit
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
                         className={styles.formInput}
                         type="text"
                         placeholder="Enter Minimum Purchase Unit"
-                      // autoComplete="off"
+                        // autoComplete="off"
+                        name="minimumPurchaseUnit"
+                        value={values.minimumPurchaseUnit}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'number')}
+                        onBlur={handleBlur}
                       />
                       {touched.minimumPurchaseUnit &&
                         errors.minimumPurchaseUnit && (
@@ -2085,7 +2146,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </>
                 )}
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     UPC (Universal Product Code)
@@ -2097,14 +2158,18 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="upc"
                     value={values.upc}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all', ['upc'], '-')}
                     onBlur={handleBlur}
                   />
                   <span className={styles.error}></span>
                 </div>
-
+ 
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Part/Model Number<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Part/Model Number
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -2112,7 +2177,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="model"
                     value={values.model}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                     onBlur={handleBlur}
                   />
                   {touched.model && errors.model && (
@@ -2128,22 +2194,27 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="brand"
                     value={values.brand}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 50, 'text')}
                     onBlur={handleBlur}
                   />
                   <span className={styles.error}></span>
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Type/Form<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Product Type/Form
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Product Type/Form"
                       // autoComplete="off"
                       name="form"
                       value={values.form}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 25, 'text')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2170,17 +2241,19 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Total Quantity<span className={styles.labelStamp}>*</span>
+                    Product Total Quantity
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Total Quantity"
                       // autoComplete="off"
                       name="quantity"
                       value={values.quantity}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 8, 'number')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2200,20 +2273,22 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.quantity}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Size/Volumn<span className={styles.labelStamp}>*</span>
+                    Product Size/Volumn
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Size/Volume"
                       // autoComplete="off"
                       name="volumn"
                       value={values.volumn}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 9, 'all', ['volumn'])}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2238,7 +2313,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Weight<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Product Weight<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2247,7 +2324,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="weight"
                       value={values.weight}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all', ['weight'])}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2268,7 +2346,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Units<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Units<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={packagingUnits}
@@ -2284,7 +2364,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Packaging Type<span className={styles.labelStamp}>*</span>
+                    Product Packaging Type
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <Select
@@ -2320,7 +2401,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Packaging Material<span className={styles.labelStamp}>*</span>
+                    Product Packaging Material
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <Select
@@ -2355,7 +2437,7 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                     <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                   </div>
-
+ 
                   {/* Show text field when "Other" is selected */}
                   {selectedOption?.value === "Other" && (
                     <input
@@ -2371,7 +2453,7 @@ const AddProduct = ({ placeholder }) => {
                       }}
                     />
                   )}
-
+ 
                   {/* Display error message if any */}
                   {touched.packageMaterial && errors.packageMaterial && (
                     <span className={styles.error}>
@@ -2386,7 +2468,10 @@ const AddProduct = ({ placeholder }) => {
                     )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Manufacturer Name<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Manufacturer Name
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -2402,10 +2487,11 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.manufacturer}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Manufacturer Contry of Origin<span className={styles.labelStamp}>*</span>
+                    Manufacturer Contry of Origin
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <Select
                     name="originCountry"
@@ -2425,15 +2511,19 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>About Manufacturer<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    About Manufacturer
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <textarea
                     className={styles.formInput}
                     type="text"
-                    placeholder="About Manufacturer"
+                    placeholder="Enter About Manufacturer"
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                   />
                   {touched.aboutManufacturer && errors.aboutManufacturer && (
                     <span className={styles.error}>
@@ -2443,7 +2533,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.descriptionContainer}>
                   <label className={styles.formLabel}>
-                    Product Description<span className={styles.labelStamp}>*</span>
+                    Product Description
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <JoditEditor
                     ref={editor}
@@ -2466,13 +2557,15 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
-
+ 
             {/* Start the Inventory & Packaging */}
             <div className={styles.section}>
               <span className={styles.formHead}>Inventory & Packaging</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>SKU<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    SKU<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2481,7 +2574,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="sku"
                       value={values.sku}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all', ['sku'], '-')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2503,7 +2597,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Date of Manufacture<span className={styles.labelStamp}>*</span>
+                    Date of Manufacture
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     {/* <input
@@ -2516,7 +2611,7 @@ const AddProduct = ({ placeholder }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     /> */}
-
+ 
                     <InputMask
                       className={styles.formInput}
                       type="text"
@@ -2525,7 +2620,9 @@ const AddProduct = ({ placeholder }) => {
                       name="date"
                       value={values.date}
                       onChange={handleChange}
-                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate
+                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                      showMask
+                      separate
                     />
                     <span
                       className={styles.infoTooltip}
@@ -2545,7 +2642,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Stock<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Stock<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <Select
                       className={styles.formSelect}
@@ -2575,7 +2674,10 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Stocked in Country<span className={styles.labelStamp}>*</span></label>
+                  <label className={styles.formLabel}>
+                    Stocked in Country
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <MultiSelectDropdown
                     options={countries}
                     placeholderButtonLabel="Select Countries"
@@ -2610,7 +2712,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
               </div>
-
+ 
               <div className={styles.formStockContainer}>
                 <div className={styles.formHeadSection}>
                   <span className={styles.formHead}>Stocked In Details</span>
@@ -2618,7 +2720,7 @@ const AddProduct = ({ placeholder }) => {
                     className={styles.formAddButton}
                     onClick={() =>
                       (values?.stockedInDetails?.length || 0) <
-                      (values.countries?.length || 0) &&
+                        (values.countries?.length || 0) &&
                       setFieldValue("stockedInDetails", [
                         ...values.stockedInDetails,
                         {
@@ -2638,7 +2740,8 @@ const AddProduct = ({ placeholder }) => {
                     <div key={index} className={styles.formSection}>
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>
-                          Countries where Stock Trades<span className={styles.labelStamp}>*</span>
+                          Countries where Stock Trades
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <Select
                           className={styles.formSelect}
@@ -2656,10 +2759,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                         />
                       </div>
-
+ 
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>
-                          Stock Quantity<span className={styles.labelStamp}>*</span>
+                          Stock Quantity
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.productQuantityContainer}>
                           <div className={styles.quantitySection}>
@@ -2677,7 +2781,7 @@ const AddProduct = ({ placeholder }) => {
                               {stock.type}
                             </button>
                           </div>
-
+ 
                           <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
@@ -2706,7 +2810,7 @@ const AddProduct = ({ placeholder }) => {
                           </div>
                         </div>
                       </div>
-
+ 
                       {values?.stockedInDetails?.length > 1 && (
                         <div
                           className={styles.formCloseSection}
@@ -2731,7 +2835,7 @@ const AddProduct = ({ placeholder }) => {
                             errors.stockedInDetails?.[index]?.country}
                         </span>
                       </div>
-
+ 
                       <div className={styles.productContainer}>
                         <span className={styles.error}>
                           {touched.stockedInDetails?.[index]?.quantity &&
@@ -2743,9 +2847,9 @@ const AddProduct = ({ placeholder }) => {
                 ))}
               </div>
             </div>
-
+ 
             {/* End the Inventory & Packaging */}
-
+ 
             {/* Start the product Inventory */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -2769,7 +2873,9 @@ const AddProduct = ({ placeholder }) => {
               {values?.productPricingDetails?.map((stock, index) => (
                 <div key={`product_${index}`} className={styles.formSection}>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Quantity<span className={styles.labelStamp}>*</span></label>
+                    <label className={styles.formLabel}>
+                      Quantity<span className={styles.labelStamp}>*</span>
+                    </label>
                     <Field name={`productPricingDetails.${index}.quantity`}>
                       {({ field }) => (
                         <Select
@@ -2795,9 +2901,12 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.quantity}
                     </span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Cost Per Product<span className={styles.labelStamp}>*</span></label>
+                    <label className={styles.formLabel}>
+                      Cost Per Product
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
                     <div className={styles.tooltipContainer}>
                       <Field
                         name={`productPricingDetails.${index}.price`}
@@ -2823,10 +2932,11 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.price}
                     </span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
-                      Est. Delivery Time<span className={styles.labelStamp}>*</span>
+                      Est. Delivery Time
+                      <span className={styles.labelStamp}>*</span>
                     </label>
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
@@ -2839,7 +2949,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.deliveryTime}
                     </span>
                   </div>
-
+ 
                   {values?.productPricingDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -2857,7 +2967,7 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.deliveryTime`,
                           ""
                         );
-
+ 
                         // Remove the row from the array
                         const updatedList = values.productPricingDetails.filter(
                           (_, elindex) => elindex !== index
@@ -2873,15 +2983,15 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
-
+ 
             {/* End the product inventory */}
-
-            {/* Start the Compliances and certificate */}
-            <div className={styles.documentContainer}>
+ 
+             {/* Start the Compliances and certificate */}
+             <div className={styles.documentContainer}>
               <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Upload Documents</span>
                 <div className={styles.formInnerSection}>
-                  <AddProductFileUpload
+                <AddProductFileUpload
                     fieldInputName={"image"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
@@ -2893,7 +3003,11 @@ const AddProduct = ({ placeholder }) => {
                       "image/jpg": [],
                     }}
                   />
-                  {productType === "secondary product" && (
+ 
+                  {touched.image && errors.image && (
+                    <span className={styles.error}>{errors.image}</span>
+                  )}
+                 {productType === "secondary product" && (
                     <AddProductFileUpload
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
@@ -2906,6 +3020,13 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1} // Limit to one file
                     />
                   )}
+                  {productType === "secondary product" &&
+                    touched.purchaseInvoiceFile &&
+                    errors.purchaseInvoiceFile && (
+                      <span className={styles.error}>
+                        {errors.purchaseInvoiceFile}
+                      </span>
+                    )}
                 </div>
               </div>
               <div className={styles.sectionCompliances}>
@@ -2919,7 +3040,8 @@ const AddProduct = ({ placeholder }) => {
                       placeholder="Enter Storage Conditions"
                       // autoComplete="off"
                       name="storage"
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 30, 'all')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2953,10 +3075,13 @@ const AddProduct = ({ placeholder }) => {
                     " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
                   }
                 />
+                {touched.complianceFile && errors.complianceFile && (
+                  <span className={styles.error}>{errors.complianceFile}</span>
+                )}
               </div>
             </div>
             {/* End the compliances and certificate */}
-
+ 
             {/* Start the Medical Equipment And Devices */}
             {selectedSchema === "MedicalEquipmentAndDevices" && (
               <div className={styles.section}>
@@ -2972,7 +3097,8 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="interoperability"
                         value={values.interoperability}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -2992,7 +3118,7 @@ const AddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Laser Type</label>
                     <div className={styles.tooltipContainer}>
@@ -3002,7 +3128,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Laser Type"
                         // autoComplete="off"
                         name="laserType"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3032,7 +3159,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Cooling System"
                         // autoComplete="off"
                         name="coolingSystem"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3053,7 +3181,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Spot Size</label>
                     <div className={styles.tooltipContainer}>
@@ -3063,7 +3191,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Spot Size"
                         // autoComplete="off"
                         name="spotSize"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'number')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3095,7 +3224,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="diagnosticFunctions"
                         value={values.diagnosticFunctions}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3126,7 +3256,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="performanceTestingReport"
                         value={values.performanceTestingReport}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3157,7 +3288,9 @@ const AddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
-                    <span className={styles.error}></span>
+                   {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Specification</label>
@@ -3168,7 +3301,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="specification"
                         value={values.specification}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3196,12 +3330,15 @@ const AddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
+                    {touched.specificationFile && errors.specificationFile && (
+                  <span className={styles.error}>{errors.specificationFile}</span>
+                )}
                   </div>
                 </div>
               </div>
             )}
             {/* End the MedicalEquipmentAndDevices */}
-
+ 
             {/* Start the Pharmaceuticals */}
             {selectedSchema === "Pharmaceuticals" && (
               <>
@@ -3211,7 +3348,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Generic Name<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Generic Name<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3220,7 +3359,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3245,9 +3385,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3256,7 +3398,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3280,7 +3423,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3289,7 +3434,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3355,7 +3501,8 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3364,7 +3511,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3398,7 +3546,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3419,7 +3568,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       {/* <span className={styles.error}></span> */}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -3429,7 +3578,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3458,7 +3608,8 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Drug Administration Route<span className={styles.labelStamp}>*</span>
+                        Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3467,7 +3618,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3499,7 +3651,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Controlled Substance
@@ -3553,7 +3705,7 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerProductContainer}>
                     <div className={styles.innerSection}>
                       <span className={styles.formHead}>
@@ -3561,17 +3713,19 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
                             type="text"
-                            placeholder="Enter Shelf Life/Expiry"
+                            placeholder="Enter Shelf Life/Expiry "
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3595,7 +3749,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -3612,7 +3766,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -3647,7 +3802,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -3673,9 +3829,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
-
+ 
             {/* End the Pharmaceuticals */}
-
+ 
             {/* Start the Skin, Hair and Cosmetic Supplies */}
             {selectedSchema === "SkinHairCosmeticSupplies" && (
               <>
@@ -3693,7 +3849,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter SPF"
                           // autoComplete="off"
                           name="spf"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3714,7 +3871,9 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3723,7 +3882,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3758,7 +3918,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3789,7 +3950,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3820,7 +3982,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 5, 'numer')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3889,7 +4052,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3910,7 +4074,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Fragrance</label>
                       <div className={styles.tooltipContainer}>
@@ -3920,7 +4084,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fragrance"
                           value={values.fragrance}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3942,7 +4107,8 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3951,7 +4117,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3976,9 +4143,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Purpose<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -3986,7 +4155,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4007,10 +4177,11 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Target Condition<span className={styles.labelStamp}>*</span>
+                        Target Condition
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4019,7 +4190,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4046,7 +4218,8 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Drug Administration Route<span className={styles.labelStamp}>*</span>
+                        Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4055,7 +4228,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4087,9 +4261,11 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4097,7 +4273,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4129,7 +4306,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4165,7 +4343,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="moisturizers"
                           value={values.moisturizers}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4194,7 +4373,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Filler Type"
                           rows="2"
                           name="fillerType"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4230,7 +4410,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("vegan", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label className={styles.checkText} htmlFor="vegan">
                             Whether the product is vegan (i.e. <br />, no
                             animal-derived ingredients).
@@ -4276,7 +4456,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("crueltyFree", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label
                             className={styles.checkText}
                             htmlFor="crueltyFree"
@@ -4356,7 +4536,7 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerProductContainer}>
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
@@ -4366,7 +4546,8 @@ const AddProduct = ({ placeholder }) => {
                         {/* Dermatologist Tested */}
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Dermatologist Tested<span className={styles.labelStamp}>*</span>
+                            Dermatologist Tested
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <Select
@@ -4426,11 +4607,12 @@ const AddProduct = ({ placeholder }) => {
                               </span>
                             )}
                         </div>
-
+ 
                         {/* Pediatrician Recommended */}
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Pediatrician Recommended<span className={styles.labelStamp}>*</span>
+                            Pediatrician Recommended
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <Select
@@ -4510,7 +4692,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -4543,7 +4726,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -4571,7 +4755,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -4581,7 +4766,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4609,9 +4795,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
-
+ 
             {/* End the Skin, Hair and Cosmetic Supplies */}
-
+ 
             {/* Start the Vital Health and Wellness */}
             {selectedSchema === "VitalHealthAndWellness" && (
               <>
@@ -4621,7 +4807,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Generic Name<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Generic Name<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -4630,7 +4818,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4651,7 +4840,9 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -4660,7 +4851,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4725,7 +4917,10 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Health Benefit<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Health Benefit
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4733,7 +4928,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4758,10 +4954,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4770,7 +4967,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4804,7 +5002,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4825,7 +5024,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -4835,7 +5034,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4863,10 +5063,11 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Drug Administration Route<span className={styles.labelStamp}>*</span>
+                        Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4875,7 +5076,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4906,9 +5108,11 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4916,7 +5120,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4950,7 +5155,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4996,7 +5202,7 @@ const AddProduct = ({ placeholder }) => {
                               handleCheckboxChange("controlledSubstance")
                             }
                           />
-
+ 
                           <label
                             className={styles.checkText}
                             htmlFor="controlledSubstance"
@@ -5025,7 +5231,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Vegan</label>
                       <div className={styles.tooltipContainer}>
@@ -5041,7 +5247,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("vegan", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label className={styles.checkText} htmlFor="vegan">
                             Whether the product is vegan (i.e.
                             <br />, no animal-derived ingredients).
@@ -5087,7 +5293,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("crueltyFree", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label
                             className={styles.checkText}
                             htmlFor="crueltyFree"
@@ -5122,7 +5328,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -5132,7 +5339,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5156,7 +5364,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -5174,7 +5382,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5207,7 +5416,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5234,7 +5444,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Vital Health and Wellness */}
-
+ 
             {/* Start the Medical Consumables and Disposables */}
             {selectedSchema === "MedicalConsumablesAndDisposables" && (
               <>
@@ -5253,7 +5463,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5285,7 +5496,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5344,7 +5556,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -5354,7 +5566,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5385,7 +5598,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5406,7 +5620,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Shape</label>
                       <div className={styles.tooltipContainer}>
@@ -5416,7 +5630,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5437,7 +5652,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Coating</label>
                       <div className={styles.tooltipContainer}>
@@ -5447,7 +5662,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5486,7 +5702,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("powdered", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label
                             className={styles.checkText}
                             htmlFor="powdered"
@@ -5512,7 +5728,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Texture</label>
                       <div className={styles.tooltipContainer}>
@@ -5531,7 +5747,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("texture", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label className={styles.checkText} htmlFor="texture">
                             Whether the item have texture <br /> or smooth
                           </label>
@@ -5560,10 +5776,11 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.formHead}>
                         Storage & Handling
                       </span>
-
+ 
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -5573,7 +5790,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5597,7 +5815,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -5612,7 +5830,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5651,7 +5870,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
-
+ 
                               <label
                                 className={styles.checkText}
                                 htmlFor="sterilized"
@@ -5680,7 +5899,7 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -5696,7 +5915,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="filtrationEfficiency"
                               value={values.filtrationEfficiency}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 4, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5729,7 +5949,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="breathability"
                               value={values.breathability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5762,7 +5983,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="layerCount"
                               value={values.layerCount}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5808,7 +6030,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
-
+ 
                               <label
                                 className={styles.checkText}
                                 htmlFor="fluidResistance"
@@ -5842,7 +6064,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Medical Consumables and Disposables */}
-
+ 
             {/* Start the Laboratory Supplies */}
             {selectedSchema === "LaboratorySupplies" && (
               <>
@@ -5884,7 +6106,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Hazard Classification
@@ -5928,7 +6150,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5948,7 +6171,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Coating</label>
                       <div className={styles.tooltipContainer}>
@@ -5958,7 +6181,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5987,7 +6211,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6023,7 +6248,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="casNumber"
                           value={values.casNumber}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6053,7 +6279,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="grade"
                           value={values.grade}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6074,7 +6301,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -6084,7 +6311,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6124,7 +6352,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="connectivity"
                           value={values.connectivity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6156,7 +6385,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="magnificationRange"
                           value={values.magnificationRange}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6176,7 +6406,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Objective Lenses
@@ -6188,7 +6418,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="objectiveLenses"
                           value={values.objectiveLenses}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6217,7 +6448,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="powerSource"
                           value={values.powerSource}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6247,7 +6479,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="resolution"
                           value={values.resolution}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6273,7 +6506,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Laboratory Supplies */}
-
+ 
             {/* Start the Diagnostic and Monitoring Devices */}
             {selectedSchema === "DiagnosticAndMonitoringDevices" && (
               <>
@@ -6284,7 +6517,8 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Diagnostic Functions<span className={styles.labelStamp}>*</span>
+                        Diagnostic Functions
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -6293,7 +6527,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="diagnosticFunctions"
                           value={values.diagnosticFunctions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6319,7 +6554,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Flow Rate</label>
                       <div className={styles.tooltipContainer}>
@@ -6329,7 +6564,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6358,7 +6594,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6399,7 +6636,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="measurementRange"
                           value={values.measurementRange}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6429,7 +6667,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="noiseLevel"
                           value={values.noiseLevel}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6459,12 +6698,13 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="usageRate"
                         value={values.usageRate}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                         onBlur={handleBlur}
                       />
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Maintenance Notes
@@ -6475,7 +6715,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="maintenanceNotes"
                         value={values.maintenanceNotes}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span className={styles.error}></span>
@@ -6490,12 +6731,16 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="compatibleEquipment"
                         value={values.compatibleEquipment}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Specification<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Specification
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -6503,7 +6748,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="specification"
                           value={values.specification}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6554,7 +6800,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="performanceTestingReport"
                           value={values.performanceTestingReport}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6587,14 +6834,16 @@ const AddProduct = ({ placeholder }) => {
                         tooltip={false}
                         showLabel={false}
                       />
-                      <span className={styles.error}></span>
+                      {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                     </div>
                   </div>
                 </div>
               </>
             )}
             {/* End the Diagnostic and Monitoring Devices */}
-
+ 
             {/* Start the Hospital and Clinic Supplies */}
             {selectedSchema === "HospitalAndClinicSupplies" && (
               <>
@@ -6613,7 +6862,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6645,7 +6895,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6666,7 +6917,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -6676,7 +6927,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6697,7 +6949,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Chemical Resistance
@@ -6708,7 +6960,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6729,7 +6982,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Powdered</label>
                       <div className={styles.tooltipContainer}>
@@ -6748,7 +7001,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("powdered", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label
                             className={styles.checkText}
                             htmlFor="powdered"
@@ -6775,7 +7028,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Texture</label>
                       <div className={styles.tooltipContainer}>
@@ -6794,7 +7047,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("texture", e?.target?.checked);
                             }}
                           />
-
+ 
                           <label className={styles.checkText} htmlFor="texture">
                             Whether the item have texture <br /> or smooth
                           </label>
@@ -6825,7 +7078,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -6835,7 +7089,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6859,7 +7114,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -6884,7 +7139,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
-
+ 
                               <label
                                 className={styles.checkText}
                                 htmlFor="sterilized"
@@ -6914,7 +7169,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
-
+ 
                   <span className={styles.formHead}>Technical Details</span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
@@ -6927,7 +7182,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6947,7 +7203,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Absorbency</label>
                       <div className={styles.tooltipContainer}>
@@ -6958,7 +7214,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="absorbency"
                           value={values.absorbency}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6978,7 +7235,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Elasticity</label>
                       <div className={styles.tooltipContainer}>
@@ -6989,7 +7246,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7066,7 +7324,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Hospital and Clinic Supplies */}
-
+ 
             {/* Start the Orthopedic Supplies */}
             {selectedSchema === "OrthopedicSupplies" && (
               <>
@@ -7076,7 +7334,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -7085,7 +7345,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7155,7 +7416,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7175,10 +7437,11 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Target Condition<span className={styles.labelStamp}>*</span>
+                        Target Condition
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -7187,7 +7450,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7221,7 +7485,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7296,7 +7561,7 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -7310,7 +7575,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="elasticity"
                               value={values.elasticity}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7341,7 +7607,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="absorbency"
                               value={values.absorbency}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7373,7 +7640,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="breathability"
                               value={values.breathability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7393,7 +7661,7 @@ const AddProduct = ({ placeholder }) => {
                             />
                           </div>
                         </div>
-
+ 
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Color Options
@@ -7405,7 +7673,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7435,7 +7704,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Orthopedic Supplies */}
-
+ 
             {/* Start the Dental Products */}
             {selectedSchema === "DentalProducts" && (
               <>
@@ -7456,7 +7725,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7476,7 +7746,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -7486,7 +7756,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7517,7 +7788,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7557,7 +7829,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -7567,7 +7840,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7591,13 +7865,13 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>Usage Rate</label>
-
+ 
                           <input
                             className={styles.formInput}
                             type="text"
@@ -7605,44 +7879,47 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="usageRate"
                             value={values.usageRate}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
-
+ 
                           <span className={styles.error}></span>
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Maintenance Notes
                           </label>
-
+ 
                           <textarea
                             className={styles.formInput}
                             placeholder="Enter Maintenance Notes"
                             rows="2"
                             name="maintenanceNotes"
                             value={values.maintenanceNotes}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
-
+ 
                           <span className={styles.error}></span>
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Compatible Equipment
                           </label>
-
+ 
                           <textarea
                             className={styles.formInput}
                             placeholder="Enter Compatible Equipment"
                             rows="2"
                             name="compatibleEquipment"
                             value={values.compatibleEquipment}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
-
+ 
                           <span className={styles.error}></span>
                         </div>
                       </div>
@@ -7652,7 +7929,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Dental Products */}
-
+ 
             {/* Start the Eye Care Supplies */}
             {selectedSchema === "EyeCareSupplies" && (
               <>
@@ -7663,7 +7940,7 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Frame</label>
-
+ 
                       <Select
                         className={styles.formSelect}
                         options={frameOptions}
@@ -7675,10 +7952,10 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens</label>
-
+ 
                       <Select
                         className={styles.formSelect}
                         options={lensOptions}
@@ -7692,7 +7969,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens Material</label>
-
+ 
                       <Select
                         className={styles.formSelect}
                         options={lensmaterialOptions}
@@ -7703,7 +7980,7 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-
+ 
                       <span className={styles.error}></span>
                     </div>
                   </div>
@@ -7711,7 +7988,7 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Diameter</label>
-
+ 
                       <input
                         className={styles.formInput}
                         type="text"
@@ -7719,40 +7996,43 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="diameter"
                         value={values.diameter}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'all')}
                         onBlur={handleBlur}
                       />
-
+ 
                       <span className={styles.error}></span>
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens Power</label>
-
+ 
                       <textarea
                         className={styles.formInput}
                         placeholder="Enter Lens Power"
                         rows="2"
                         name="lensPower"
                         value={values.lensPower}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Base Curve</label>
-
+ 
                       <textarea
                         className={styles.formInput}
                         placeholder="Enter Base Curve"
                         rows="2"
                         name="baseCurve"
                         value={values.baseCurve}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Color Options</label>
                       <div className={styles.tooltipContainer}>
@@ -7762,7 +8042,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="colorOptions"
                           value={values.colorOptions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7788,9 +8069,9 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Eye Care Supplies */}
-
+ 
             {/* Start the Home Healthcare Products */}
-
+ 
             {selectedSchema === "HomeHealthcareProducts" && (
               <>
                 <div className={styles.section}>
@@ -7807,7 +8088,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7827,7 +8109,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -7837,7 +8119,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7872,7 +8155,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -7882,7 +8166,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7906,7 +8191,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -7922,7 +8207,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="maxWeightCapacity"
                               value={values.maxWeightCapacity}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7953,7 +8239,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="gripType"
                               value={values.gripType}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'text')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7986,7 +8273,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batteryType"
                               value={values.batteryType}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8019,7 +8307,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batterySize"
                               value={values.batterySize}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8051,7 +8340,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8083,7 +8373,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="foldability"
                               value={values.foldability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8115,7 +8406,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="lockingMechanism"
                               value={values.lockingMechanism}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8147,7 +8439,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="typeOfSupport"
                               value={values.typeOfSupport}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8183,7 +8476,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="performanceTestingReport"
                               value={values.performanceTestingReport}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8215,7 +8509,9 @@ const AddProduct = ({ placeholder }) => {
                             tooltip={false}
                             showLabel={false}
                           />
-                          <span className={styles.error}></span>
+                          {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                         </div>
                       </div>
                     </div>
@@ -8224,7 +8520,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Home Healthcare Products */}
-
+ 
             {/* Start the Alternative Medicines */}
             {selectedSchema === "AlternativeMedicines" && (
               <>
@@ -8235,7 +8531,8 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8244,7 +8541,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8278,7 +8576,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8314,7 +8613,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthClaims"
                           value={values.healthClaims}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8342,6 +8642,9 @@ const AddProduct = ({ placeholder }) => {
                         tooltip={false}
                         showLabel={false}
                       />
+                                      {touched.healthClaimsFile && errors.healthClaimsFile && (
+                  <span className={styles.error}>{errors.healthClaimsFile}</span>
+                )}
                     </div>
                   </div>
                   <div className={styles.innerProductContainer}>
@@ -8351,7 +8654,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8361,7 +8665,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8390,7 +8695,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Alternative Medicines */}
-
+ 
             {/* Start the Emergency and First Aid Supplies */}
             {selectedSchema === "EmergencyAndFirstAidSupplies" && (
               <>
@@ -8401,7 +8706,8 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8410,7 +8716,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8435,10 +8742,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Product Longevity<span className={styles.labelStamp}>*</span>
+                        Product Longevity
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8447,7 +8755,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="productLongevity"
                           value={values.productLongevity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8473,7 +8782,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Foldability<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Foldability<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8481,7 +8792,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="foldability"
                           value={values.foldability}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8514,7 +8826,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8524,7 +8837,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8552,9 +8866,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
-
+ 
             {/* End the Emergency and First Aid Supplies */}
-
+ 
             {/* Start the Disinfection and Hygiene Supplies */}
             {selectedSchema === "disinfectionAndHygieneSuppliesSchema" && (
               <>
@@ -8565,7 +8879,8 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8574,7 +8889,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8599,7 +8915,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -8609,7 +8925,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8643,7 +8960,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8673,7 +8991,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fragrance"
                           value={values.fragrance}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8702,7 +9021,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8712,7 +9032,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8741,7 +9062,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Disinfection and Hygiene Supplies */}
-
+ 
             {/* Start the Nutrition and Dietary Products */}
             {selectedSchema === "NutritionAndDietaryProducts" && (
               <>
@@ -8751,7 +9072,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Dairy Free<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Dairy Free<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <Select
                           className={styles.formSelect}
@@ -8784,7 +9107,10 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Flavor Options<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Flavor Options
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8792,7 +9118,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flavorOptions"
                           value={values.flavorOptions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8821,10 +9148,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Amino Acid Profile<span className={styles.labelStamp}>*</span>
+                        Amino Acid Profile
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8833,7 +9161,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="aminoAcidProfile"
                           value={values.aminoAcidProfile}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8859,7 +9188,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Fat Content<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Fat Content<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8867,7 +9198,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fatContent"
                           value={values.fatContent}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8892,9 +9224,12 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Health Benefit<span className={styles.labelStamp}>*</span></label>
+                      <label className={styles.formLabel}>
+                        Health Benefit
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8902,7 +9237,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8936,7 +9272,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8966,7 +9303,8 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Composition/Ingredients<span className={styles.labelStamp}>*</span>
+                        Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8975,7 +9313,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9000,10 +9339,11 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
-
+ 
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Additives & Sweeteners<span className={styles.labelStamp}>*</span>
+                        Additives & Sweeteners
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -9012,7 +9352,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9087,7 +9428,8 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
-                          Shelf Life/Expiry<span className={styles.labelStamp}>*</span>
+                          Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -9097,7 +9439,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9125,9 +9468,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
-
+ 
             {/* End the Nutrition and Dietary Products */}
-
+ 
             {/* Start the Healthcare IT Solutions */}
             {selectedSchema === "HealthcareITSolutions" && (
               <>
@@ -9138,7 +9481,8 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
-                        Scalability Info<span className={styles.labelStamp}>*</span>
+                        Scalability Info
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -9147,7 +9491,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="scalabilityInfo"
                           value={values.scalabilityInfo}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9180,7 +9525,9 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>License<span className={styles.labelStamp}>*</span></label>
+                          <label className={styles.formLabel}>
+                            License<span className={styles.labelStamp}>*</span>
+                          </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
                               className={styles.formInput}
@@ -9188,7 +9535,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="license"
                               value={values.license}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9207,15 +9555,17 @@ const AddProduct = ({ placeholder }) => {
                               id="wellness-tooltip"
                             />
                           </div>
-                          {touched.scalabilityInfo &&
-                            errors.scalabilityInfo && (
+                          {touched.license &&
+                            errors.license && (
                               <span className={styles.error}>
-                                {errors.scalabilityInfo}
+                                {errors.license}
                               </span>
                             )}
                         </div>
                         <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Add-Ons<span className={styles.labelStamp}>*</span></label>
+                          <label className={styles.formLabel}>
+                            Add-Ons<span className={styles.labelStamp}>*</span>
+                          </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
                               className={styles.formInput}
@@ -9223,7 +9573,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="addOns"
                               value={values.addOns}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9250,7 +9601,8 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            User Access<span className={styles.labelStamp}>*</span>
+                            User Access
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9259,7 +9611,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="userAccess"
                               value={values.userAccess}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9286,13 +9639,14 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Key Features<span className={styles.labelStamp}>*</span>
+                            Key Features
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9301,7 +9655,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="keyFeatures"
                               value={values.keyFeatures}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9333,7 +9688,8 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Core Functionalities<span className={styles.labelStamp}>*</span>
+                            Core Functionalities
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9342,7 +9698,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="coreFunctionalities"
                               value={values.coreFunctionalities}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9370,7 +9727,8 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
-                            Interoperability<span className={styles.labelStamp}>*</span>
+                            Interoperability
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9379,7 +9737,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="interoperability"
                               value={values.interoperability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9413,7 +9772,13 @@ const AddProduct = ({ placeholder }) => {
                             tooltip={false}
                             showLabel={false}
                           />
-                          <span className={styles.error}></span>
+ 
+                          {touched.interoperabilityFile &&
+                            errors.interoperabilityFile && (
+                              <span className={styles.error}>
+                                {errors.interoperabilityFile}
+                              </span>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -9422,7 +9787,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Healthcare IT Solutions */}
-
+ 
             {/* Start the Health & Safety */}
             <div className={styles.section}>
               <span className={styles.formHead}>Health & Safety</span>
@@ -9435,7 +9800,7 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={safetyDatasheetUpload}
                   tooltip="Specific safety information, instructions or precautions related to product"
                 />
-
+ 
                 <AddProductFileUpload
                   fieldInputName={"healthHazardRating"}
                   setFieldValue={setFieldValue}
@@ -9444,7 +9809,7 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={healthHazardUpload}
                   tooltip="Health Hazard Rating Document"
                 />
-
+ 
                 <AddProductFileUpload
                   fieldInputName={"environmentalImpact"}
                   setFieldValue={setFieldValue}
@@ -9454,10 +9819,27 @@ const AddProduct = ({ placeholder }) => {
                   tooltip="Environment Impact Rating Document"
                 />
               </div>
+              <div className={styles.formSection}>
+                {touched.safetyDatasheet && errors.safetyDatasheet && (
+                  <span className={styles.error}>{errors.safetyDatasheet}</span>
+                )}
+ 
+                {touched.healthHazardRating && errors.healthHazardRating && (
+                  <span className={styles.error}>
+                    {errors.healthHazardRating}
+                  </span>
+                )}
+ 
+                {touched.environmentalImpact && errors.environmentalImpact && (
+                  <span className={styles.error}>
+                    {errors.environmentalImpact}
+                  </span>
+                )}
+              </div>
             </div>
-
+ 
             {/* End the Health & Safety */}
-
+ 
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
@@ -9471,11 +9853,12 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="warranty"
                     value={values.warranty}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                     onBlur={handleBlur}
                   />
                 </div>
-
+ 
                 <AddProductFileUpload
                   fieldInputName={"guidelinesFile"}
                   setFieldValue={setFieldValue}
@@ -9484,7 +9867,9 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={userGuidelinesUpload}
                   tooltip="Specific information, instructions related to product."
                 />
-
+               {touched.guidelinesFile && errors.guidelinesFile && (
+                  <span className={styles.error}>{errors.guidelinesFile}</span>
+                )}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
                   <div className={styles.tooltipContainer}>
@@ -9495,7 +9880,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="other"
                       value={values.other}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -9518,13 +9904,13 @@ const AddProduct = ({ placeholder }) => {
                       etc.)
                     </Tooltip>
                   </div>
-
+                 
                 </div>
               </div>
             </div>
-
+ 
             {/* End the Additional Information */}
-
+ 
             {/* Start button section */}
             <div className={styles.buttonContainer}>
               <button className={styles.buttonCancel}>Cancel</button>
@@ -9532,10 +9918,15 @@ const AddProduct = ({ placeholder }) => {
                 Submit
               </button>
             </div>
-
+ 
             {/* End button section */}
-
-            {open && (
+ 
+            
+          </Form>
+        )}
+      </Formik>
+ 
+      {open && (
               <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
                   {/* Close Button */}
@@ -9548,7 +9939,7 @@ const AddProduct = ({ placeholder }) => {
                       ×
                     </button>
                   </div>
-
+ 
                   <div className={styles.fileInputWrapper}>
                     <label className={styles.formLabel}>
                       Upload File (PDF, CSV, Excel, DOC)
@@ -9578,16 +9969,13 @@ const AddProduct = ({ placeholder }) => {
                     >
                       Cancel
                     </button>
-                    <button className={styles.buttonSubmit}>Upload</button>
+                    <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Upload</button>
                   </div>
                 </div>
               </div>
             )}
-          </Form>
-        )}
-      </Formik>
     </div>
   );
 };
-
+ 
 export default AddProduct;
