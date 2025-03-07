@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { toast } from "react-toastify";
-
+ 
 const initialState = {
   loading: false,
   products : [],
   productDetail : {},
 };
-
+ 
 export const fetchProductsList = createAsyncThunk(
   "product/fetchProductsList",
   async (url, { rejectWithValue }) => {
@@ -23,7 +23,7 @@ export const fetchProductsList = createAsyncThunk(
     }
   }
 );
-
+ 
 export const fetchProductDetail = createAsyncThunk(
   "product/fetchProductDetail",
   async (url, { rejectWithValue }) => {
@@ -52,7 +52,7 @@ export const softDeleteProduct = createAsyncThunk(
     }
   }
 );
-
+ 
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (values, { rejectWithValue }) => {
@@ -76,7 +76,31 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
-
+ 
+export const editProduct = createAsyncThunk(
+  "product/addProduct",
+  async ({id,values}, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequestWithFile(
+        `product/edit/${id}`,
+        values
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+ 
 export const addBulkProducts = createAsyncThunk(
   "product/addBulkProducts",
   async (values, { rejectWithValue }) => {
@@ -100,7 +124,7 @@ export const addBulkProducts = createAsyncThunk(
     }
   }
 );
-
+ 
 export const productSlice = createSlice({
   name: "admin",
   initialState,
@@ -135,7 +159,7 @@ export const productSlice = createSlice({
       })
   },
 });
-
+ 
 export const { restAdminData } = productSlice.actions;
-
+ 
 export default productSlice.reducer;

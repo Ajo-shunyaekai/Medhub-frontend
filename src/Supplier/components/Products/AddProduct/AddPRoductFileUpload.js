@@ -5,11 +5,11 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from "../../../assets/images/infomation.svg";
 import styles from "./addproduct.module.css";
-
+ 
 // useFileUpload Hook
 const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles = 4) => {
   const [files, setFiles] = useState([]);
-
+ 
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prev) => {
@@ -25,7 +25,7 @@ const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes
     },
     [fieldInputName, setFieldValue, maxFiles]
   );
-
+ 
   const removeFile = (index, event) => {
     if (event) event.stopPropagation();
     setFiles((prev) => {
@@ -35,7 +35,7 @@ const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes
       return updatedFiles;
     });
   };
-
+ 
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
@@ -44,16 +44,16 @@ const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes
     "image/jpeg": [],
     "image/jpg": [],
   };
-
+ 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: acceptTypes || defaultAccept, // Use provided acceptTypes or fallback to default
     multiple: maxFiles > 1, // Allow multiple only if maxFiles > 1
   });
-
+ 
   return { files, getRootProps, getInputProps, isDragActive, removeFile };
 };
-
+ 
 // AddProductFileUpload Component
 const AddProductFileUpload = ({
   setFieldValue,
@@ -67,13 +67,13 @@ const AddProductFileUpload = ({
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
-
+ 
   // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles);
-
+ 
   const isImageOnly = acceptTypes && Object.keys(acceptTypes).every(type => type.startsWith("image/"));
   const isPdfOnly = acceptTypes && Object.keys(acceptTypes).every(type => type === "application/pdf");
-
+ 
   return (
     <div className={styles.compliancesContainer}>
       {showLabel && <label className={styles.formLabel}>{label}</label>}
@@ -111,7 +111,7 @@ const AddProductFileUpload = ({
           </>
         )}
       </div>
-
+ 
       {fileUpload.files.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload.files.map((file, index) => (
@@ -141,5 +141,5 @@ const AddProductFileUpload = ({
     </div>
   );
 };
-
+ 
 export default AddProductFileUpload;

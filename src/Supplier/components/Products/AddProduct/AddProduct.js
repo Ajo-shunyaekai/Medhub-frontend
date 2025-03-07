@@ -35,14 +35,14 @@ import {
   addBulkProducts
 } from "../../../../redux/reducers/productSlice";
 import { InputMask } from "@react-input/mask";
- 
+
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
- 
+
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -56,7 +56,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
- 
+
 const AddProduct = ({ placeholder }) => {
   const dispatch = useDispatch();
   const productValidationSchema = Yup.object({
@@ -81,7 +81,7 @@ const AddProduct = ({ placeholder }) => {
       ),
     form: Yup.string().required("Product Type/Form is required."),
     quantity: Yup.number().required("Product Quantity is required."),
- 
+
     volumn: Yup.string().required("Product Size/Volumn is required."),
     weight: Yup.number().required("Product Weight is required."),
     unit: Yup.string().required("Product Weight Unit is required."),
@@ -298,7 +298,7 @@ const AddProduct = ({ placeholder }) => {
       is: "secondary",
       then: Yup.string().required("Minimum Purchase Unit is required."),
     }),
- 
+
     // New Fields Validation
     subCategory: Yup.string()
       .required("Sub Category is required.")
@@ -1037,7 +1037,7 @@ const AddProduct = ({ placeholder }) => {
     //         "SkinHairCosmeticSupplies",
     //         "DisinfectionAndHygieneSupplies",
     //       ].includes(category),
- 
+
     //     then: Yup.string().nullable(),
     //   })
     //   .nullable(),
@@ -1047,7 +1047,7 @@ const AddProduct = ({ placeholder }) => {
           ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
             category
           ),
- 
+
         then: Yup.string().required("Health Benfits is required."),
       })
       .nullable(),
@@ -1459,31 +1459,31 @@ const AddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
- 
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
- 
+
   // Start the checked container
- 
+
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
- 
+
   //handle field input
   const handleInputChange = (e, setFieldValue, textLimit = 15, allowedType = 'all', restrictSpecialForFields = [], allowedSpecialChars = "") => {
       // const { value, name } = e.target;
       // const valueToUpdate = value.slice(0, Number(textLimit));
       // setFieldValue(name, valueToUpdate);
- 
+
       let { value, name } = e.target;
- 
+
     // Apply character limit
     value = value.slice(0, Number(textLimit));
- 
+
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -1491,19 +1491,19 @@ const AddProduct = ({ placeholder }) => {
       value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
     } else if (allowedType === "all" && restrictSpecialForFields.includes(name)) {
       // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
- 
+
       const allowedPattern = new RegExp(`[^a-zA-Z0-9\\s${allowedSpecialChars}]`, "g");
     value = value.replace(allowedPattern, "");
     }
- 
+
     setFieldValue(name, value);
   };
   
- 
+
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
- 
+
   const config = useMemo(
     () => ({
       readonly: false,
@@ -1511,7 +1511,7 @@ const AddProduct = ({ placeholder }) => {
     }),
     [placeholder]
   );
- 
+
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -1522,16 +1522,16 @@ const AddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
- 
+
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
- 
+
   const selectedSchema = getCategorySchema(selectedCategory);
- 
+
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -1542,7 +1542,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) => cat.name === selectedCategory?.label
@@ -1556,7 +1556,7 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   //   Start the Dropdown option
   const Options = [
     { value: "new product", label: "New Product" },
@@ -1668,18 +1668,18 @@ const AddProduct = ({ placeholder }) => {
     { value: "No", label: "No" },
   ];
   //   End the Dropdown option
- 
+
   const handleBulkUpload = () => {
     console.log('file', selectedFile)
     const bulkFormData = new FormData();
- 
+
     bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
     bulkFormData.append("csvfile", selectedFile);
- 
+
     dispatch(addBulkProducts(bulkFormData))
- 
+
   }
- 
+
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -1868,7 +1868,7 @@ const AddProduct = ({ placeholder }) => {
           // Your custom submit logic here
           // Create a new FormData object
           const formData = new FormData();
- 
+
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
@@ -1889,7 +1889,7 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", sessionStorage.getItem("_id"));
- 
+
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
@@ -1904,13 +1904,13 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
- 
+
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
             "productPricingDetails",
             productPricingDetailsUpdated
           );
- 
+
           dispatch(addProduct(formData));
           // setSubmitting(false); // Important to reset form submission state
         }}
@@ -1949,7 +1949,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.name}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Market<span className={styles.labelStamp}>*</span>
@@ -1999,7 +1999,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.category}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category
@@ -2026,7 +2026,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.subCategory}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category (Level 3)
@@ -2055,7 +2055,7 @@ const AddProduct = ({ placeholder }) => {
                       <label className={styles.formLabel}>
                         Purchased On<span className={styles.labelStamp}>*</span>
                       </label>
- 
+
                       <DatePicker
                         className={styles.formDate}
                         clearIcon={null}
@@ -2074,7 +2074,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Condition<span className={styles.labelStamp}>*</span>
@@ -2092,13 +2092,13 @@ const AddProduct = ({ placeholder }) => {
                         <span className={styles.error}>{errors.condition}</span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country Available In
                         <span className={styles.labelStamp}>*</span>
                       </label>
- 
+
                       <MultiSelectDropdown
                         options={countries}
                         placeholderButtonLabel="Select Countries"
@@ -2113,14 +2113,14 @@ const AddProduct = ({ placeholder }) => {
                         }}
                         onBlur={handleBlur} // Optional: add this if the component has a blur event
                       />
- 
+
                       {touched.countryAvailable && errors.countryAvailable && (
                         <span className={styles.error}>
                           {errors.countryAvailable}
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Minimum Purchase Unit
@@ -2146,7 +2146,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </>
                 )}
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     UPC (Universal Product Code)
@@ -2164,7 +2164,7 @@ const AddProduct = ({ placeholder }) => {
                   />
                   <span className={styles.error}></span>
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Part/Model Number
@@ -2273,7 +2273,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.quantity}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Size/Volumn
@@ -2437,7 +2437,7 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                     <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                   </div>
- 
+
                   {/* Show text field when "Other" is selected */}
                   {selectedOption?.value === "Other" && (
                     <input
@@ -2453,7 +2453,7 @@ const AddProduct = ({ placeholder }) => {
                       }}
                     />
                   )}
- 
+
                   {/* Display error message if any */}
                   {touched.packageMaterial && errors.packageMaterial && (
                     <span className={styles.error}>
@@ -2487,7 +2487,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.manufacturer}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Contry of Origin
@@ -2557,7 +2557,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
- 
+
             {/* Start the Inventory & Packaging */}
             <div className={styles.section}>
               <span className={styles.formHead}>Inventory & Packaging</span>
@@ -2611,7 +2611,7 @@ const AddProduct = ({ placeholder }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     /> */}
- 
+
                     <InputMask
                       className={styles.formInput}
                       type="text"
@@ -2712,7 +2712,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
               </div>
- 
+
               <div className={styles.formStockContainer}>
                 <div className={styles.formHeadSection}>
                   <span className={styles.formHead}>Stocked In Details</span>
@@ -2759,7 +2759,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                         />
                       </div>
- 
+
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>
                           Stock Quantity
@@ -2781,7 +2781,7 @@ const AddProduct = ({ placeholder }) => {
                               {stock.type}
                             </button>
                           </div>
- 
+
                           <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
@@ -2810,7 +2810,7 @@ const AddProduct = ({ placeholder }) => {
                           </div>
                         </div>
                       </div>
- 
+
                       {values?.stockedInDetails?.length > 1 && (
                         <div
                           className={styles.formCloseSection}
@@ -2835,7 +2835,7 @@ const AddProduct = ({ placeholder }) => {
                             errors.stockedInDetails?.[index]?.country}
                         </span>
                       </div>
- 
+
                       <div className={styles.productContainer}>
                         <span className={styles.error}>
                           {touched.stockedInDetails?.[index]?.quantity &&
@@ -2847,9 +2847,9 @@ const AddProduct = ({ placeholder }) => {
                 ))}
               </div>
             </div>
- 
+
             {/* End the Inventory & Packaging */}
- 
+
             {/* Start the product Inventory */}
             <div className={styles.section}>
               <div className={styles.formHeadSection}>
@@ -2901,7 +2901,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.quantity}
                     </span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Cost Per Product
@@ -2932,7 +2932,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.price}
                     </span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Delivery Time
@@ -2949,7 +2949,7 @@ const AddProduct = ({ placeholder }) => {
                         errors.productPricingDetails?.[index]?.deliveryTime}
                     </span>
                   </div>
- 
+
                   {values?.productPricingDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -2967,7 +2967,7 @@ const AddProduct = ({ placeholder }) => {
                           `productPricingDetails.${index}.deliveryTime`,
                           ""
                         );
- 
+
                         // Remove the row from the array
                         const updatedList = values.productPricingDetails.filter(
                           (_, elindex) => elindex !== index
@@ -2983,9 +2983,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
- 
+
             {/* End the product inventory */}
- 
+
              {/* Start the Compliances and certificate */}
              <div className={styles.documentContainer}>
               <div className={styles.sectionCompliances}>
@@ -3003,7 +3003,7 @@ const AddProduct = ({ placeholder }) => {
                       "image/jpg": [],
                     }}
                   />
- 
+
                   {touched.image && errors.image && (
                     <span className={styles.error}>{errors.image}</span>
                   )}
@@ -3081,7 +3081,7 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
             {/* End the compliances and certificate */}
- 
+
             {/* Start the Medical Equipment And Devices */}
             {selectedSchema === "MedicalEquipmentAndDevices" && (
               <div className={styles.section}>
@@ -3118,7 +3118,7 @@ const AddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Laser Type</label>
                     <div className={styles.tooltipContainer}>
@@ -3181,7 +3181,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Spot Size</label>
                     <div className={styles.tooltipContainer}>
@@ -3338,7 +3338,7 @@ const AddProduct = ({ placeholder }) => {
               </div>
             )}
             {/* End the MedicalEquipmentAndDevices */}
- 
+
             {/* Start the Pharmaceuticals */}
             {selectedSchema === "Pharmaceuticals" && (
               <>
@@ -3385,7 +3385,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Class<span className={styles.labelStamp}>*</span>
@@ -3568,7 +3568,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       {/* <span className={styles.error}></span> */}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -3651,7 +3651,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Controlled Substance
@@ -3705,7 +3705,7 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerProductContainer}>
                     <div className={styles.innerSection}>
                       <span className={styles.formHead}>
@@ -3749,7 +3749,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -3829,9 +3829,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
- 
+
             {/* End the Pharmaceuticals */}
- 
+
             {/* Start the Skin, Hair and Cosmetic Supplies */}
             {selectedSchema === "SkinHairCosmeticSupplies" && (
               <>
@@ -4074,7 +4074,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Fragrance</label>
                       <div className={styles.tooltipContainer}>
@@ -4143,7 +4143,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Purpose<span className={styles.labelStamp}>*</span>
@@ -4177,7 +4177,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Target Condition
@@ -4261,7 +4261,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Class<span className={styles.labelStamp}>*</span>
@@ -4410,7 +4410,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("vegan", e?.target?.checked);
                             }}
                           />
- 
+
                           <label className={styles.checkText} htmlFor="vegan">
                             Whether the product is vegan (i.e. <br />, no
                             animal-derived ingredients).
@@ -4456,7 +4456,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("crueltyFree", e?.target?.checked);
                             }}
                           />
- 
+
                           <label
                             className={styles.checkText}
                             htmlFor="crueltyFree"
@@ -4536,7 +4536,7 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerProductContainer}>
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
@@ -4607,7 +4607,7 @@ const AddProduct = ({ placeholder }) => {
                               </span>
                             )}
                         </div>
- 
+
                         {/* Pediatrician Recommended */}
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
@@ -4795,9 +4795,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
- 
+
             {/* End the Skin, Hair and Cosmetic Supplies */}
- 
+
             {/* Start the Vital Health and Wellness */}
             {selectedSchema === "VitalHealthAndWellness" && (
               <>
@@ -4954,7 +4954,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
@@ -5024,7 +5024,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -5063,7 +5063,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
@@ -5108,7 +5108,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Class<span className={styles.labelStamp}>*</span>
@@ -5202,7 +5202,7 @@ const AddProduct = ({ placeholder }) => {
                               handleCheckboxChange("controlledSubstance")
                             }
                           />
- 
+
                           <label
                             className={styles.checkText}
                             htmlFor="controlledSubstance"
@@ -5231,7 +5231,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Vegan</label>
                       <div className={styles.tooltipContainer}>
@@ -5247,7 +5247,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("vegan", e?.target?.checked);
                             }}
                           />
- 
+
                           <label className={styles.checkText} htmlFor="vegan">
                             Whether the product is vegan (i.e.
                             <br />, no animal-derived ingredients).
@@ -5293,7 +5293,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("crueltyFree", e?.target?.checked);
                             }}
                           />
- 
+
                           <label
                             className={styles.checkText}
                             htmlFor="crueltyFree"
@@ -5364,7 +5364,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -5444,7 +5444,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Vital Health and Wellness */}
- 
+
             {/* Start the Medical Consumables and Disposables */}
             {selectedSchema === "MedicalConsumablesAndDisposables" && (
               <>
@@ -5556,7 +5556,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -5620,7 +5620,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Shape</label>
                       <div className={styles.tooltipContainer}>
@@ -5652,7 +5652,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Coating</label>
                       <div className={styles.tooltipContainer}>
@@ -5702,7 +5702,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("powdered", e?.target?.checked);
                             }}
                           />
- 
+
                           <label
                             className={styles.checkText}
                             htmlFor="powdered"
@@ -5728,7 +5728,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Texture</label>
                       <div className={styles.tooltipContainer}>
@@ -5747,7 +5747,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("texture", e?.target?.checked);
                             }}
                           />
- 
+
                           <label className={styles.checkText} htmlFor="texture">
                             Whether the item have texture <br /> or smooth
                           </label>
@@ -5776,7 +5776,7 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.formHead}>
                         Storage & Handling
                       </span>
- 
+
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
@@ -5815,7 +5815,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -5870,7 +5870,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
- 
+
                               <label
                                 className={styles.checkText}
                                 htmlFor="sterilized"
@@ -5899,7 +5899,7 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -6030,7 +6030,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
- 
+
                               <label
                                 className={styles.checkText}
                                 htmlFor="fluidResistance"
@@ -6064,7 +6064,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Medical Consumables and Disposables */}
- 
+
             {/* Start the Laboratory Supplies */}
             {selectedSchema === "LaboratorySupplies" && (
               <>
@@ -6106,7 +6106,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Hazard Classification
@@ -6171,7 +6171,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Coating</label>
                       <div className={styles.tooltipContainer}>
@@ -6301,7 +6301,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -6406,7 +6406,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Objective Lenses
@@ -6506,7 +6506,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Laboratory Supplies */}
- 
+
             {/* Start the Diagnostic and Monitoring Devices */}
             {selectedSchema === "DiagnosticAndMonitoringDevices" && (
               <>
@@ -6554,7 +6554,7 @@ const AddProduct = ({ placeholder }) => {
                           </span>
                         )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Flow Rate</label>
                       <div className={styles.tooltipContainer}>
@@ -6704,7 +6704,7 @@ const AddProduct = ({ placeholder }) => {
                       />
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Maintenance Notes
@@ -6843,7 +6843,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Diagnostic and Monitoring Devices */}
- 
+
             {/* Start the Hospital and Clinic Supplies */}
             {selectedSchema === "HospitalAndClinicSupplies" && (
               <>
@@ -6917,7 +6917,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -6949,7 +6949,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Chemical Resistance
@@ -6982,7 +6982,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Powdered</label>
                       <div className={styles.tooltipContainer}>
@@ -7001,7 +7001,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("powdered", e?.target?.checked);
                             }}
                           />
- 
+
                           <label
                             className={styles.checkText}
                             htmlFor="powdered"
@@ -7028,7 +7028,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                       <span className={styles.error}></span>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Texture</label>
                       <div className={styles.tooltipContainer}>
@@ -7047,7 +7047,7 @@ const AddProduct = ({ placeholder }) => {
                               setFieldValue("texture", e?.target?.checked);
                             }}
                           />
- 
+
                           <label className={styles.checkText} htmlFor="texture">
                             Whether the item have texture <br /> or smooth
                           </label>
@@ -7114,7 +7114,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>
                         Monitoring and Adherence
@@ -7139,7 +7139,7 @@ const AddProduct = ({ placeholder }) => {
                                   );
                                 }}
                               />
- 
+
                               <label
                                 className={styles.checkText}
                                 htmlFor="sterilized"
@@ -7169,7 +7169,7 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <span className={styles.formHead}>Technical Details</span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
@@ -7203,7 +7203,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Absorbency</label>
                       <div className={styles.tooltipContainer}>
@@ -7235,7 +7235,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Elasticity</label>
                       <div className={styles.tooltipContainer}>
@@ -7324,7 +7324,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Hospital and Clinic Supplies */}
- 
+
             {/* Start the Orthopedic Supplies */}
             {selectedSchema === "OrthopedicSupplies" && (
               <>
@@ -7437,7 +7437,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Target Condition
@@ -7561,7 +7561,7 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -7661,7 +7661,7 @@ const AddProduct = ({ placeholder }) => {
                             />
                           </div>
                         </div>
- 
+
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Color Options
@@ -7704,7 +7704,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Orthopedic Supplies */}
- 
+
             {/* Start the Dental Products */}
             {selectedSchema === "DentalProducts" && (
               <>
@@ -7746,7 +7746,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Purpose</label>
                       <div className={styles.tooltipContainer}>
@@ -7865,13 +7865,13 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>Usage Rate</label>
- 
+
                           <input
                             className={styles.formInput}
                             type="text"
@@ -7883,14 +7883,14 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
- 
+
                           <span className={styles.error}></span>
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Maintenance Notes
                           </label>
- 
+
                           <textarea
                             className={styles.formInput}
                             placeholder="Enter Maintenance Notes"
@@ -7901,14 +7901,14 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
- 
+
                           <span className={styles.error}></span>
                         </div>
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Compatible Equipment
                           </label>
- 
+
                           <textarea
                             className={styles.formInput}
                             placeholder="Enter Compatible Equipment"
@@ -7919,7 +7919,7 @@ const AddProduct = ({ placeholder }) => {
                             onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
- 
+
                           <span className={styles.error}></span>
                         </div>
                       </div>
@@ -7929,7 +7929,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Dental Products */}
- 
+
             {/* Start the Eye Care Supplies */}
             {selectedSchema === "EyeCareSupplies" && (
               <>
@@ -7940,7 +7940,7 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Frame</label>
- 
+
                       <Select
                         className={styles.formSelect}
                         options={frameOptions}
@@ -7952,10 +7952,10 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens</label>
- 
+
                       <Select
                         className={styles.formSelect}
                         options={lensOptions}
@@ -7969,7 +7969,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens Material</label>
- 
+
                       <Select
                         className={styles.formSelect}
                         options={lensmaterialOptions}
@@ -7980,7 +7980,7 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
- 
+
                       <span className={styles.error}></span>
                     </div>
                   </div>
@@ -7988,7 +7988,7 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Diameter</label>
- 
+
                       <input
                         className={styles.formInput}
                         type="text"
@@ -8000,12 +8000,12 @@ const AddProduct = ({ placeholder }) => {
                         onChange={(e) => handleInputChange(e, setFieldValue, 4, 'all')}
                         onBlur={handleBlur}
                       />
- 
+
                       <span className={styles.error}></span>
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Lens Power</label>
- 
+
                       <textarea
                         className={styles.formInput}
                         placeholder="Enter Lens Power"
@@ -8017,10 +8017,10 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Base Curve</label>
- 
+
                       <textarea
                         className={styles.formInput}
                         placeholder="Enter Base Curve"
@@ -8032,7 +8032,7 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Color Options</label>
                       <div className={styles.tooltipContainer}>
@@ -8069,9 +8069,9 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Eye Care Supplies */}
- 
+
             {/* Start the Home Healthcare Products */}
- 
+
             {selectedSchema === "HomeHealthcareProducts" && (
               <>
                 <div className={styles.section}>
@@ -8109,7 +8109,7 @@ const AddProduct = ({ placeholder }) => {
                         />
                       </div>
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -8191,7 +8191,7 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </div>
                     </div>
- 
+
                     <div className={styles.innerSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -8520,7 +8520,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Home Healthcare Products */}
- 
+
             {/* Start the Alternative Medicines */}
             {selectedSchema === "AlternativeMedicines" && (
               <>
@@ -8695,7 +8695,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Alternative Medicines */}
- 
+
             {/* Start the Emergency and First Aid Supplies */}
             {selectedSchema === "EmergencyAndFirstAidSupplies" && (
               <>
@@ -8742,7 +8742,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Product Longevity
@@ -8866,9 +8866,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
- 
+
             {/* End the Emergency and First Aid Supplies */}
- 
+
             {/* Start the Disinfection and Hygiene Supplies */}
             {selectedSchema === "disinfectionAndHygieneSuppliesSchema" && (
               <>
@@ -8915,7 +8915,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Concentration</label>
                       <div className={styles.tooltipContainer}>
@@ -9062,7 +9062,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Disinfection and Hygiene Supplies */}
- 
+
             {/* Start the Nutrition and Dietary Products */}
             {selectedSchema === "NutritionAndDietaryProducts" && (
               <>
@@ -9148,7 +9148,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Amino Acid Profile
@@ -9224,7 +9224,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Health Benefit
@@ -9339,7 +9339,7 @@ const AddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     </div>
- 
+
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Additives & Sweeteners
@@ -9468,9 +9468,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </>
             )}
- 
+
             {/* End the Nutrition and Dietary Products */}
- 
+
             {/* Start the Healthcare IT Solutions */}
             {selectedSchema === "HealthcareITSolutions" && (
               <>
@@ -9639,7 +9639,7 @@ const AddProduct = ({ placeholder }) => {
                         </div>
                       </div>
                     </div>
- 
+
                     <div className={styles.innerMonitorSection}>
                       <span className={styles.formHead}>Technical Details</span>
                       <div className={styles.formInnerSection}>
@@ -9772,7 +9772,7 @@ const AddProduct = ({ placeholder }) => {
                             tooltip={false}
                             showLabel={false}
                           />
- 
+
                           {touched.interoperabilityFile &&
                             errors.interoperabilityFile && (
                               <span className={styles.error}>
@@ -9787,7 +9787,7 @@ const AddProduct = ({ placeholder }) => {
               </>
             )}
             {/* End the Healthcare IT Solutions */}
- 
+
             {/* Start the Health & Safety */}
             <div className={styles.section}>
               <span className={styles.formHead}>Health & Safety</span>
@@ -9800,7 +9800,7 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={safetyDatasheetUpload}
                   tooltip="Specific safety information, instructions or precautions related to product"
                 />
- 
+
                 <AddProductFileUpload
                   fieldInputName={"healthHazardRating"}
                   setFieldValue={setFieldValue}
@@ -9809,7 +9809,7 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={healthHazardUpload}
                   tooltip="Health Hazard Rating Document"
                 />
- 
+
                 <AddProductFileUpload
                   fieldInputName={"environmentalImpact"}
                   setFieldValue={setFieldValue}
@@ -9823,13 +9823,13 @@ const AddProduct = ({ placeholder }) => {
                 {touched.safetyDatasheet && errors.safetyDatasheet && (
                   <span className={styles.error}>{errors.safetyDatasheet}</span>
                 )}
- 
+
                 {touched.healthHazardRating && errors.healthHazardRating && (
                   <span className={styles.error}>
                     {errors.healthHazardRating}
                   </span>
                 )}
- 
+
                 {touched.environmentalImpact && errors.environmentalImpact && (
                   <span className={styles.error}>
                     {errors.environmentalImpact}
@@ -9837,9 +9837,9 @@ const AddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
- 
+
             {/* End the Health & Safety */}
- 
+
             {/* Start the Additional Information */}
             <div className={styles.additionalSection}>
               <span className={styles.formHead}>Additional Information</span>
@@ -9858,7 +9858,7 @@ const AddProduct = ({ placeholder }) => {
                     onBlur={handleBlur}
                   />
                 </div>
- 
+
                 <AddProductFileUpload
                   fieldInputName={"guidelinesFile"}
                   setFieldValue={setFieldValue}
@@ -9908,9 +9908,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
             </div>
- 
+
             {/* End the Additional Information */}
- 
+
             {/* Start button section */}
             <div className={styles.buttonContainer}>
               <button className={styles.buttonCancel}>Cancel</button>
@@ -9918,14 +9918,14 @@ const AddProduct = ({ placeholder }) => {
                 Submit
               </button>
             </div>
- 
+
             {/* End button section */}
- 
+
             
           </Form>
         )}
       </Formik>
- 
+
       {open && (
               <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
@@ -9939,7 +9939,7 @@ const AddProduct = ({ placeholder }) => {
                       ×
                     </button>
                   </div>
- 
+
                   <div className={styles.fileInputWrapper}>
                     <label className={styles.formLabel}>
                       Upload File (PDF, CSV, Excel, DOC)
@@ -9977,5 +9977,5 @@ const AddProduct = ({ placeholder }) => {
     </div>
   );
 };
- 
+
 export default AddProduct;
