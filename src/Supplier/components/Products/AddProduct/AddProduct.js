@@ -1473,24 +1473,29 @@ const AddProduct = ({ placeholder }) => {
   };
 
   //handle field input
-  const handleInputChange = (e, setFieldValue, textLimit = 15, allowedType = 'all') => {
-    // const { value, name } = e.target;
-    // const valueToUpdate = value.slice(0, Number(textLimit));
-    // setFieldValue(name, valueToUpdate);
+  const handleInputChange = (e, setFieldValue, textLimit = 15, allowedType = 'all', restrictSpecialForFields = [], allowedSpecialChars = "") => {
+      // const { value, name } = e.target;
+      // const valueToUpdate = value.slice(0, Number(textLimit));
+      // setFieldValue(name, valueToUpdate);
 
-    let { value, name } = e.target;
+      let { value, name } = e.target;
 
-  // Apply character limit
-  value = value.slice(0, Number(textLimit));
+    // Apply character limit
+    value = value.slice(0, Number(textLimit));
 
-  // Restrict input type
-  if (allowedType === "number") {
-    value = value.replace(/[^0-9]/g, ""); // Allow only numbers
-  } else if (allowedType === "text") {
-    value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
-  }
+    // Restrict input type
+    if (allowedType === "number") {
+      value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+    } else if (allowedType === "text") {
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+    } else if (allowedType === "all" && restrictSpecialForFields.includes(name)) {
+      // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
 
-  setFieldValue(name, value);
+      const allowedPattern = new RegExp(`[^a-zA-Z0-9\\s${allowedSpecialChars}]`, "g");
+    value = value.replace(allowedPattern, "");
+    }
+
+    setFieldValue(name, value);
   };
   
 
@@ -1925,7 +1930,7 @@ const AddProduct = ({ placeholder }) => {
                     name="name"
                     value={values.name}
                     // onChange={handleChange}
-                    onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all' ,["name"], "&")}
                     onBlur={handleBlur}
                   />
                   {touched.name && errors.name && (
@@ -2142,7 +2147,7 @@ const AddProduct = ({ placeholder }) => {
                     name="upc"
                     value={values.upc}
                     // onChange={handleChange}
-                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all', ['upc'], '-')}
                     onBlur={handleBlur}
                   />
                   <span className={styles.error}></span>
@@ -2271,7 +2276,7 @@ const AddProduct = ({ placeholder }) => {
                       name="volumn"
                       value={values.volumn}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'number')}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 9, 'all', ['volumn'])}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2308,7 +2313,7 @@ const AddProduct = ({ placeholder }) => {
                       name="weight"
                       value={values.weight}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'number')}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all', ['weight'])}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2558,7 +2563,7 @@ const AddProduct = ({ placeholder }) => {
                       name="sku"
                       value={values.sku}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all', ['sku'], '-')}
                       onBlur={handleBlur}
                     />
                     <span
