@@ -388,7 +388,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.formHead}>General Information</span>
                     <div className={styles.formSection}>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Name</label>
+                            <label className={styles.formLabel}>Product Name<span className={styles.labelStamp}>*</span></label>
                             <input
                                 className={styles.formInput}
                                 type='text'
@@ -400,7 +400,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </div>
 
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Type</label>
+                            <label className={styles.formLabel}>Product Type<span className={styles.labelStamp}>*</span></label>
                             <Select
                                 className={styles.formSelect}
                                 options={Options}
@@ -410,7 +410,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Category</label>
+                            <label className={styles.formLabel}>Product Category<span className={styles.labelStamp}>*</span></label>
                             <Select
                                 className={styles.formSelect}
                                 options={categoryOptions}
@@ -425,7 +425,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </div>
 
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Sub Category</label>
+                            <label className={styles.formLabel}>Product Sub Category<span className={styles.labelStamp}>*</span></label>
                             <Select
                                 className={styles.formSelect}
                                 options={
@@ -464,7 +464,7 @@ const EditAddProduct = ({ placeholder }) => {
                         {productType === 'secondary product' && (
                             <>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Purchase On</label>
+                                    <label className={styles.formLabel}>Purchase On<span className={styles.labelStamp}>*</span></label>
 
                                     <DatePicker
                                         className={styles.formDate}
@@ -476,13 +476,13 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div>
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Condition</label>
+                                    <label className={styles.formLabel}>Condition<span className={styles.labelStamp}>*</span></label>
                                     <Select className={styles.formSelect} options={conditionOptions}
                                         placeholder="Select Condition" />
                                 </div>
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Country Available In</label>
+                                    <label className={styles.formLabel}>Country Available In<span className={styles.labelStamp}>*</span></label>
                                     <MultiSelectDropdown
                                         options={countries}
                                         placeholderButtonLabel="Select Countries"
@@ -491,7 +491,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div>
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Minimum Purchase Unit</label>
+                                    <label className={styles.formLabel}>Minimum Purchase Unit<span className={styles.labelStamp}>*</span></label>
                                     <input className={styles.formInput} type='text' placeholder='Enter Minimum Purchase Unit' autoComplete='off' />
                                 </div>
                             </>
@@ -509,7 +509,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </div>
 
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Part/Model Number</label>
+                            <label className={styles.formLabel}>Part/Model Number<span className={styles.labelStamp}>*</span></label>
                             <input
                                 className={styles.formInput}
                                 type='text'
@@ -531,7 +531,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Type/Form</label>
+                            <label className={styles.formLabel}>Product Type/Form<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -555,7 +555,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Total Quantity</label>
+                            <label className={styles.formLabel}>Product Total Quantity<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -579,7 +579,7 @@ const EditAddProduct = ({ placeholder }) => {
 
 
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Size/Volumn</label>
+                            <label className={styles.formLabel}>Product Size/Volumn<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -604,7 +604,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Weight</label>
+                            <label className={styles.formLabel}>Product Weight<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -626,12 +626,12 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Units</label>
+                            <label className={styles.formLabel}>Units<span className={styles.labelStamp}>*</span></label>
                             <Select className={styles.formSelect} options={packagingUnits} placeholder='Select Units' />
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Packaging Type</label>
+                            <label className={styles.formLabel}>Product Packaging Type<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <Select className={styles.formSelect} options={packagingOptions} placeholder='Select Product Packaging Type' />
                                 <span
@@ -649,7 +649,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Product Packaging Material</label>
+                            <label className={styles.formLabel}>Product Packaging Material<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <Select
                                     className={styles.formSelect}
@@ -682,7 +682,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Manufacturer Name</label>
+                            <label className={styles.formLabel}>Manufacturer Name<span className={styles.labelStamp}>*</span></label>
                             <input
                                 className={styles.formInput}
                                 type='text'
@@ -694,7 +694,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </div>
 
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Manufacturer Contry of Origin</label>
+                            <label className={styles.formLabel}>Manufacturer Contry of Origin<span className={styles.labelStamp}>*</span></label>
                             <Select
                                 name='originCountry'
                                 options={countries}
@@ -704,7 +704,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>About Manufacturer</label>
+                            <label className={styles.formLabel}>About Manufacturer<span className={styles.labelStamp}>*</span></label>
                             <textarea
                                 className={styles.formInput}
                                 type='text'
@@ -715,7 +715,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.descriptionContainer}>
-                            <label className={styles.formLabel}>Product Description</label>
+                            <label className={styles.formLabel}>Product Description<span className={styles.labelStamp}>*</span></label>
                             <JoditEditor
                                 ref={editor}
                                 value={content}
@@ -734,7 +734,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.formHead}>Inventory & Packaging</span>
                     <div className={styles.formSection}>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>SKU</label>
+                            <label className={styles.formLabel}>SKU<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -756,7 +756,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Date of Manufacture</label>
+                            <label className={styles.formLabel}>Date of Manufacture<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <input
                                     className={styles.formInput}
@@ -778,7 +778,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Stock</label>
+                            <label className={styles.formLabel}>Stock<span className={styles.labelStamp}>*</span></label>
                             <div className={styles.tooltipContainer}>
                                 <Select className={styles.formSelect} options={stockOptions} placeholder='Select Stock' />
                                 <span
@@ -794,7 +794,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.error}></span>
                         </div>
                         <div className={styles.productContainer}>
-                            <label className={styles.formLabel}>Stocked in Country</label>
+                            <label className={styles.formLabel}>Stocked in Country<span className={styles.labelStamp}>*</span></label>
                             <MultiSelectDropdown
                                 options={countries}
                                 placeholderButtonLabel="Select Countries"
@@ -812,7 +812,7 @@ const EditAddProduct = ({ placeholder }) => {
                         {stockList.map((stock, index) => (
                             <div key={index} className={styles.formSection}>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Countries where Stock Trades</label>
+                                    <label className={styles.formLabel}>Countries where Stock Trades<span className={styles.labelStamp}>*</span></label>
                                     <Select
                                         className={styles.formSelect}
                                         options={stockQuantityOptions}
@@ -821,7 +821,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     <span className={styles.error}></span>
                                 </div>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Stock Quantity</label>
+                                    <label className={styles.formLabel}>Stock Quantity<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.productQuantityContainer}>
                                         <div className={styles.quantitySection}>
                                             <input
@@ -877,7 +877,7 @@ const EditAddProduct = ({ placeholder }) => {
                     {inventoryList.map((_, index) => (
                         <div key={index} className={styles.formSection}>
                             <div className={styles.productContainer}>
-                                <label className={styles.formLabel}>Quantity</label>
+                                <label className={styles.formLabel}>Quantity<span className={styles.labelStamp}>*</span></label>
                                 <Select
                                     className={styles.formSelect}
                                     options={quantityOptions}
@@ -888,7 +888,7 @@ const EditAddProduct = ({ placeholder }) => {
                             </div>
 
                             <div className={styles.productContainer}>
-                                <label className={styles.formLabel}>Cost Per Product</label>
+                                <label className={styles.formLabel}>Cost Per Product<span className={styles.labelStamp}>*</span></label>
                                 <div className={styles.tooltipContainer}>
                                     <input className={styles.formInput} type="text" placeholder="Enter Cost Per Product" autoComplete="off" />
                                     <span
@@ -905,7 +905,7 @@ const EditAddProduct = ({ placeholder }) => {
                             </div>
 
                             <div className={styles.productContainer}>
-                                <label className={styles.formLabel}>Est. Delivery Time</label>
+                                <label className={styles.formLabel}>Est. Delivery Time<span className={styles.labelStamp}>*</span></label>
                                 <input className={styles.formInput} type="text" placeholder="Enter Est. Delivery Time" autoComplete="off" />
                                 <span className={styles.error}></span>
                             </div>
@@ -1149,7 +1149,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.formHead}>Product Identification</span>
                             <div className={styles.formSection}>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Generic Name</label>
+                                    <label className={styles.formLabel}>Generic Name<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <input
                                             className={styles.formInput}
@@ -1171,7 +1171,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div>
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Drug Class</label>
+                                    <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <input
                                             className={styles.formInput}
@@ -1192,7 +1192,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
                                 </div>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Strength</label>
+                                    <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <input
                                             className={styles.formInput}
@@ -1241,7 +1241,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div>
                                 <div className={styles.productContainer}>
                                     <label className={styles.formLabel}>
-                                        Composition / Ingredients
+                                        Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                     </label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
@@ -1309,7 +1309,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div>
                                 <div className={styles.productContainer}>
                                     <label className={styles.formLabel}>
-                                        Drug Administration Route
+                                        Drug Administration Route<span className={styles.labelStamp}>*</span>
                                     </label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
@@ -1374,7 +1374,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     <span className={styles.formHead}>Storage & Handling</span>
                                     <div className={styles.productInnerContainer}>
                                         <label className={styles.formLabel}>
-                                            Shelf Life / Expiry
+                                            Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <input
@@ -1487,7 +1487,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
                                 </div>
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Strength</label>
+                                    <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <input
                                             className={styles.formInput}
@@ -1642,7 +1642,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div >
                                 <div className={styles.productContainer}>
                                     <label className={styles.formLabel}>
-                                        Composition / Ingredients
+                                        Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                     </label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
@@ -1665,7 +1665,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div >
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Purpose</label>
+                                    <label className={styles.formLabel}>Purpose<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
                                             className={styles.formInput}
@@ -1687,7 +1687,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div >
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Target Condition</label>
+                                    <label className={styles.formLabel}>Target Condition<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
                                             className={styles.formInput}
@@ -1709,7 +1709,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div >
                                 <div className={styles.productContainer}>
                                     <label className={styles.formLabel}>
-                                        Drug Administration Route
+                                        Drug Administration Route<span className={styles.labelStamp}>*</span>
                                     </label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
@@ -1735,7 +1735,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 </div >
 
                                 <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Drug Class</label>
+                                    <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
                                     <div className={styles.tooltipContainer}>
                                         <textarea
                                             className={styles.formInput}
@@ -1775,27 +1775,6 @@ const EditAddProduct = ({ placeholder }) => {
                                         <Tooltip className={styles.tooltipSec} id="consentration-tooltip">
                                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v) ,Alcohol-based disinfectants are <br/> typically 70-90% concentration for optimal antimicrobial efficacy.<br/> Oxygen concentration level provided by the device (e.g., 95%)
                                             </Tooltip>
-                                    </div>
-                                    <span className={styles.error}></span>
-                                </div >
-                                <div className={styles.productContainer}>
-                                    <label className={styles.formLabel}>Purpose</label>
-                                    <div className={styles.tooltipContainer}>
-                                        <textarea
-                                            className={styles.formInput}
-                                            name="diagnosticFunctions"
-                                            placeholder="Enter Diagnostic Functions"
-                                            rows="2"
-                                        />
-                                        <span
-                                            className={styles.infoTooltip}
-                                            data-tooltip-id="skin-tooltip"
-                                            data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                                        >
-                                            <img src={Information} className={styles.iconTooltip} alt='information' />
-
-                                        </span>
-                                        <Tooltip className={styles.tooltipSec} id="skin-tooltip" />
                                     </div>
                                     <span className={styles.error}></span>
                                 </div >
@@ -1949,7 +1928,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     <div className={styles.formInnerSection}>
                                         {/* Dermatologist Tested */}
                                         <div className={styles.productInnerContainer}>
-                                            <label className={styles.formLabel}>Dermatologist Tested</label>
+                                            <label className={styles.formLabel}>Dermatologist Tested<span className={styles.labelStamp}>*</span></label>
                                             <div className={styles.tooltipContainer}>
                                                 <Select
                                                     className={styles.formSelect}
@@ -1982,7 +1961,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                         {/* Pediatrician Recommended */}
                                         <div className={styles.productInnerContainer}>
-                                            <label className={styles.formLabel}>Pediatrician Recommended</label>
+                                            <label className={styles.formLabel}>Pediatrician Recommended<span className={styles.labelStamp}>*</span></label>
                                             <div className={styles.tooltipContainer}>
                                                 <Select
                                                     className={styles.formSelect}
@@ -2070,7 +2049,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     <span className={styles.formHead}>Storage & Handling</span>
                                     <div className={styles.productInnerContainer}>
                                         <label className={styles.formLabel}>
-                                            Shelf Life / Expiry
+                                            Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <input
@@ -2108,7 +2087,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <span className={styles.formHead}>Product Identification</span>
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Generic Name</label>
+                                        <label className={styles.formLabel}>Generic Name<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <input
                                                 className={styles.formInput}
@@ -2129,7 +2108,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Strength</label>
+                                        <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <input
                                                 className={styles.formInput}
@@ -2175,7 +2154,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.error}></span>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Health Benefit</label>
+                                        <label className={styles.formLabel}>Health Benefit<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -2197,7 +2176,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Composition / Ingredients
+                                            Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -2266,7 +2245,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Drug Administration Route
+                                            Drug Administration Route<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -2291,7 +2270,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
 
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Drug Class</label>
+                                        <label className={styles.formLabel}>Drug Class<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -2442,7 +2421,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -2749,7 +2728,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -3243,7 +3222,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Diagnostic Functions
+                                            Diagnostic Functions<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -3388,7 +3367,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.error}></span>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Specification</label>
+                                        <label className={styles.formLabel}>Specification<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -3615,7 +3594,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -3791,7 +3770,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <span className={styles.formHead}>Product Identification</span>
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Strength</label>
+                                        <label className={styles.formLabel}>Strength<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <input
                                                 className={styles.formInput}
@@ -3858,7 +3837,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
 
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Target Condition</label>
+                                        <label className={styles.formLabel}>Target Condition<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -4119,7 +4098,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -4364,7 +4343,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -4639,7 +4618,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Composition / Ingredients
+                                            Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -4692,7 +4671,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -4732,7 +4711,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Composition / Ingredients
+                                            Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -4754,7 +4733,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
 
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Product Longevity</label>
+                                        <label className={styles.formLabel}>Product Longevity<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -4774,7 +4753,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Foldability</label>
+                                        <label className={styles.formLabel}>Foldability<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -4800,7 +4779,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -4841,7 +4820,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Composition / Ingredients
+                                            Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -4932,7 +4911,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -4971,7 +4950,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <span className={styles.formHead}>Product Identification</span>
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Dairy Free</label>
+                                        <label className={styles.formLabel}>Dairy Free<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <Select
                                                 className={styles.formSelect}
@@ -4991,7 +4970,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.error}></span>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Flavor Options</label>
+                                        <label className={styles.formLabel}>Flavor Options<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -5014,7 +4993,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
 
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Amino Acid Profile</label>
+                                        <label className={styles.formLabel}>Amino Acid Profile<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -5034,7 +5013,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         </div>
                                     </div>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Fat Content</label>
+                                        <label className={styles.formLabel}>Fat Content<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -5080,7 +5059,7 @@ const EditAddProduct = ({ placeholder }) => {
                                     </div>
 
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Health Benefit</label>
+                                        <label className={styles.formLabel}>Health Benefit<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -5103,7 +5082,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Composition / Ingredients
+                                            Composition / Ingredients<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -5127,7 +5106,7 @@ const EditAddProduct = ({ placeholder }) => {
 
                                     <div className={styles.productContainer}>
                                         <label className={styles.formLabel}>
-                                            Additives & Sweeteners
+                                            Additives & Sweeteners<span className={styles.labelStamp}>*</span>
                                         </label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
@@ -5186,7 +5165,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Storage & Handling</span>
                                         <div className={styles.productInnerContainer}>
                                             <label className={styles.formLabel}>
-                                                Shelf Life / Expiry
+                                                Shelf Life / Expiry<span className={styles.labelStamp}>*</span>
                                             </label>
                                             <div className={styles.tooltipContainer}>
                                                 <input
@@ -5226,7 +5205,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <span className={styles.formHead}>Product Identification</span>
                                 <div className={styles.formSection}>
                                     <div className={styles.productContainer}>
-                                        <label className={styles.formLabel}>Scalability Info</label>
+                                        <label className={styles.formLabel}>Scalability Info<span className={styles.labelStamp}>*</span></label>
                                         <div className={styles.tooltipContainer}>
                                             <textarea
                                                 className={styles.formInput}
@@ -5251,7 +5230,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <span className={styles.formHead}>Additional Information</span>
                                         <div className={styles.formInnerSection}>
                                             <div className={styles.productInnerContainer}>
-                                                <label className={styles.formLabel}>License</label>
+                                                <label className={styles.formLabel}>License<span className={styles.labelStamp}>*</span></label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
                                                         className={styles.formInput}
@@ -5272,7 +5251,7 @@ const EditAddProduct = ({ placeholder }) => {
                                                 <span className={styles.error}></span>
                                             </div>
                                             <div className={styles.productInnerContainer}>
-                                                <label className={styles.formLabel}>Add-Ons</label>
+                                                <label className={styles.formLabel}>Add-Ons<span className={styles.labelStamp}>*</span></label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
                                                         className={styles.formInput}
@@ -5293,7 +5272,7 @@ const EditAddProduct = ({ placeholder }) => {
                                                 <span className={styles.error}></span>
                                             </div>
                                             <div className={styles.productInnerContainer}>
-                                                <label className={styles.formLabel}>User Access</label>
+                                                <label className={styles.formLabel}>User Access<span className={styles.labelStamp}>*</span></label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
                                                         className={styles.formInput}
@@ -5321,7 +5300,7 @@ const EditAddProduct = ({ placeholder }) => {
                                         <div className={styles.formInnerSection}>
 
                                             <div className={styles.productInnerContainer}>
-                                                <label className={styles.formLabel}>Key Features</label>
+                                                <label className={styles.formLabel}>Key Features<span className={styles.labelStamp}>*</span></label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
                                                         className={styles.formInput}
@@ -5346,7 +5325,7 @@ const EditAddProduct = ({ placeholder }) => {
                                             </div>
                                             <div className={styles.productInnerContainer}>
                                                 <label className={styles.formLabel}>
-                                                    Core Functionalities
+                                                    Core Functionalities<span className={styles.labelStamp}>*</span>
                                                 </label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
@@ -5368,7 +5347,7 @@ const EditAddProduct = ({ placeholder }) => {
                                                 <span className={styles.error}></span>
                                             </div>
                                             <div className={styles.productInnerContainer}>
-                                                <label className={styles.formLabel}>Interoperability</label>
+                                                <label className={styles.formLabel}>Interoperability<span className={styles.labelStamp}>*</span></label>
                                                 <div className={styles.tooltipContainer}>
                                                     <textarea
                                                         className={styles.formInput}

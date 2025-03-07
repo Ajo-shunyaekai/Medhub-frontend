@@ -6,7 +6,7 @@ const categoriesData = [
     subCategories: [
       {
         name: "Diagnostic Tools",
-        anotherCategories: ["Imaging Tools ", "Blood Testing Tools", "Other"],
+        anotherCategories: ["Imaging Tools", "Blood Testing Tools", "Other"],
       },
       {
         name: "Imaging Equipment",
@@ -85,21 +85,21 @@ const categoriesData = [
           "Infrared Thermometers",
           "Thermocouples",
           "Carbon Monoxide Detectors",
-          "Air Quality Monitors ",
+          "Air Quality Monitors",
           "Gas Leak Detectors",
           "Weather Stations",
           "Humidity and Temperature Sensors",
-          "Network Traffic Monitors ",
-          "Server Monitoring Tools ",
+          "Network Traffic Monitors",
+          "Server Monitoring Tools",
           "Endpoint Security Monitors",
           "Vehicle Diagnostic Monitors (OBD-II Scanners)",
           "Tire Pressure Monitoring Systems (TPMS)",
           "Dash Cameras with Monitoring Features",
-          "Smart Home Monitoring Systems ",
+          "Smart Home Monitoring Systems",
           "Baby Monitors",
           "Smart Thermostats",
           "Fitness Trackers",
-          "Smartwatches ",
+          "Smartwatches",
           "Sleep Monitors",
           "CCTV Systems",
           "Alarm Monitoring Systems",
@@ -317,7 +317,7 @@ const categoriesData = [
           "Cholesterol-Lowering Drugs",
           "Antidepressants",
           "Antipsychotics",
-          "Anxiolytics ",
+          "Anxiolytics",
           "Sedatives",
           "Antiepileptics",
           "Stimulants",
@@ -446,9 +446,9 @@ const categoriesData = [
         name: "Generic Drugs",
         anotherCategories: [
           "Antihypertensives",
-          "Generic for ACE Inhibitors ",
+          "Generic for ACE Inhibitors",
           "Generic for Beta-Blockers",
-          "Generic for Calcium Channel Blockers ",
+          "Generic for Calcium Channel Blockers",
           "Generic for Diuretics",
           "Generic for Atorvastatin (e.g., Lipitor)",
           "Generic for Simvastatin (e.g., Zocor)",
@@ -574,7 +574,7 @@ const categoriesData = [
           "Moisturizers",
           "Creams",
           "Lotions",
-          "Gels ",
+          "Gels",
           "Ointments",
           "Hyaluronic Acid Serums",
           "Peptide Serums",
@@ -675,7 +675,7 @@ const categoriesData = [
           "Foot moisturization",
           "Proper footwear",
           "Washing and caring for the genital area",
-          "Menstrual hygiene products ",
+          "Menstrual hygiene products",
           "Urinary hygiene (wiping front to back)",
           "Use of deodorants/antiperspirants",
           "Body sprays/perfumes",
@@ -696,7 +696,7 @@ const categoriesData = [
           "Introducing solids (starting around 6 months)",
           "Bottle sterilization and feeding accessories",
           "Burping after feeding",
-          "Regular baby baths ",
+          "Regular baby baths",
           "Gentle baby shampoo and soap",
           "Nail care (trimming baby’s nails)",
           "Gentle skin moisturizing",
@@ -1129,7 +1129,7 @@ const categoriesData = [
           "Glucometers",
           "Test Strips",
           "Lancets",
-          "Continuous Glucose Monitors ",
+          "Continuous Glucose Monitors",
           "Blood Sample Kits",
           "Glucose Control Solutions",
           "Others",
@@ -1302,13 +1302,13 @@ const categoriesData = [
       {
         name: "Prosthetics",
         anotherCategories: [
-          "Artificial Limbs ",
+          "Artificial Limbs",
           "Prosthetic Feet",
           "Prosthetic Hands",
           "Myoelectric Prosthetics",
           "Below-Knee Prostheses",
           "Above-Knee Prostheses",
-          "Prosthetic Accessories ",
+          "Prosthetic Accessories",
           "Others",
         ],
       },
@@ -1401,7 +1401,7 @@ const categoriesData = [
           "Toric Lenses",
           "Daily Disposable Lenses",
           "Extended-Wear Lenses",
-          "Contact Lens Solution ",
+          "Contact Lens Solution",
           "Others",
         ],
       },
@@ -1524,7 +1524,7 @@ const categoriesData = [
         ],
       },
       {
-        name: "Ayurvedic ",
+        name: "Ayurvedic",
         anotherCategories: [
           "Herbal Supplements",
           "Ayurvedic Oils and Balms",
@@ -1640,7 +1640,7 @@ const categoriesData = [
         name: "Healthcare Management Software",
         anotherCategories: [
           "Hospital Information Systems",
-          "Electronic Health Records ",
+          "Electronic Health Records",
           "Medical Billing Software",
           "Patient Scheduling Systems",
           "AI-Powered Health Analytics",
@@ -1722,7 +1722,7 @@ const categoriesData = [
     ],
   },
 ];
-
+ 
 const createCategory = (schema, name, subCategories) => ({
   schema,
   name,
@@ -1731,9 +1731,9 @@ const createCategory = (schema, name, subCategories) => ({
     anotherCategories: subCategory.anotherCategories,
   })),
 });
-
+ 
 const categoryArrays = categoriesData.map((category) =>
   createCategory(category.schema, category.name, category.subCategories)
 );
-
+ 
 export default categoryArrays;

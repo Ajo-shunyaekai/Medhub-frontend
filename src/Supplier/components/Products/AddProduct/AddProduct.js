@@ -9467,7 +9467,6 @@ const AddProduct = ({ placeholder }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <span className={styles.error}></span>
                 </div>
 
                 <AddProductFileUpload
@@ -9478,7 +9477,6 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={userGuidelinesUpload}
                   tooltip="Specific information, instructions related to product."
                 />
-                <span className={styles.error}></span>
 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
@@ -9513,7 +9511,7 @@ const AddProduct = ({ placeholder }) => {
                       etc.)
                     </Tooltip>
                   </div>
-                  <span className={styles.error}></span>
+                 
                 </div>
               </div>
             </div>
