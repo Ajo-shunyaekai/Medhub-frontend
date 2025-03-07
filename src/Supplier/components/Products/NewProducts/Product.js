@@ -11,16 +11,16 @@ import { apiRequests } from '../../../../api';
 const Product = () => {
     const location = useLocation();
     const navigate = useNavigate();
- 
+
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
     const [totalItems, setTotalItems] = useState()
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
- 
- 
+
+
     const [medicineType, setMedicineType] = useState(() => {
-        
+
         switch (location.pathname) {
             case '/supplier/product/newproduct':
                 return 'new';
@@ -30,8 +30,8 @@ const Product = () => {
                 return 'new';
         }
     });
-    
- 
+
+
     const getActiveButtonFromPath = (path) => {
         switch (path) {
             case '/supplier/product/newproduct':
@@ -42,9 +42,9 @@ const Product = () => {
                 return 'newproduct';
         }
     };
- 
+
     const activeButton = getActiveButtonFromPath(location.pathname);
- 
+
     const handleButtonClick = (button) => {
         setCurrentPage(1)
         switch (button) {
@@ -60,49 +60,49 @@ const Product = () => {
                 navigate('/supplier/product/newproduct');
         }
     };
- 
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
- 
+
     useEffect(() => {
         const fetchData = async () => {
- 
+
             const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-            const supplierIdLocalStorage   = localStorage.getItem("supplier_id");
-    
+            const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+
             if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            navigate("/supplier/login");
-            return;
+                navigate("/supplier/login");
+                return;
             }
-    
+
             const obj = {
-                supplier_id   : supplierIdSessionStorage || supplierIdLocalStorage ,
-                medicine_type : medicineType,
-                pageNo        : currentPage, 
-                pageSize      : itemsPerPage,
-                status        : 'accepted'
+                supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
+                medicine_type: medicineType,
+                pageNo: currentPage,
+                pageSize: itemsPerPage,
+                status: 'accepted'
             }
-    
+
             postRequestWithToken('medicine/medicine-list', obj, async (response) => {
                 if (response.code === 200) {
                     setMedicineList(response.result.data)
                     setTotalItems(response.result.totalItems)
                 } else {
-                   console.log('error in order list api',response);
+                    console.log('error in order list api', response);
                 }
                 setLoading(false);
             })
             try {
                 const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${medicineType}&medicine_status=${'accepted'}`)
-                if(response?.code !== 200){
-                return
+                if (response?.code !== 200) {
+                    return
                 }
                 setMedicineList(response.result.data)
                 setTotalItems(response.result.totalItems)
             } catch (error) {
-                console.log('error in medicine list api',error);
-            } finally{
+                console.log('error in medicine list api', error);
+            } finally {
                 setLoading(false);
             }
         }
@@ -111,29 +111,29 @@ const Product = () => {
     console.log(medicineList)
     return (
         <>
-            <div className={styles['product-main-conatiners']}>
-                <div className={styles['supprot-heading-text']}>
+            <div className={styles.productContainer}>
+                <div className={styles.productHead}>
                     Add Product
                 </div>
-                <div className={styles['support-add-product-container']}>
-                <div
-                    className={`${styles['support-product-new-product']} ${activeButton === 'newproduct' ? styles.active : ''}`}
-                    onClick={() => handleButtonClick('newproduct')}
-                >
-                    New Product
-                </div>
-                <div
-                    className={`${styles['support-product-secondary-product']} ${activeButton === 'secondarymarket' ? styles.active : ''}`}
-                    onClick={() => handleButtonClick('secondarymarket')}
-                >
-                    Secondary Market
-                </div>
+                <div className={styles.productButtonSection}>
+                    <div
+                        className={`${styles.newProductButton} ${activeButton === 'newproduct' ? styles.active : ''}`}
+                        onClick={() => handleButtonClick('newproduct')}
+                    >
+                        New Product
+                    </div>
+                    <div
+                        className={`${styles.secondaryButton} ${activeButton === 'secondarymarket' ? styles.active : ''}`}
+                        onClick={() => handleButtonClick('secondarymarket')}
+                    >
+                        Secondary Market
+                    </div>
                 </div>
                 {loading ? (
-                     <Loader />
+                    <Loader />
                 ) : (
                     <>
-                        {activeButton === 'newproduct' && 
+                        {activeButton === 'newproduct' &&
                             <NewProduct
                                 productList={medicineList}
                                 totalItems={totalItems}
@@ -141,8 +141,8 @@ const Product = () => {
                                 itemsPerPage={itemsPerPage}
                                 handlePageChange={handlePageChange}
                             />}
-                        {activeButton === 'secondarymarket' && 
-                            <SecondaryMarket 
+                        {activeButton === 'secondarymarket' &&
+                            <SecondaryMarket
                                 productList={medicineList}
                                 totalItems={totalItems}
                                 currentPage={currentPage}
