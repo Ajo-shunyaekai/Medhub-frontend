@@ -9,21 +9,21 @@ import Image1 from "../../../assets/images/product-details/paracetamol.png";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
-
+ 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer);
-
+ 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const pdfUrl = "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-
+ 
   useEffect(() => {
     id && dispatch(fetchProductDetail(`product/${id}`));
   }, [id]);
-
+ 
   console.log("productDetails fromredux", productDetail);
-
+ 
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -36,7 +36,7 @@ const ProductDetails = () => {
             <button className={styles.editButton}>Edit</button>
           </div>
         </div>
-
+ 
         {/* Start Secondar Market section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Secondary Market Information</span>
@@ -60,7 +60,7 @@ const ProductDetails = () => {
                   India, United Arab Emirates
                 </span>
               </div>
-
+ 
               <div className={styles.medicinesSection}>
                 <span className={styles.medicineHead}>
                   Minimum Purchase Unit
@@ -78,7 +78,7 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
@@ -157,7 +157,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-
+ 
               {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
@@ -210,9 +210,9 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* End general information section */}
-
+ 
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -228,7 +228,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
-
+ 
         {/* Start Inventory & Packaging section */}
         <div className={styles.mainContainer}>
           <span className={styles.innerHead}>Inventory & Packaging</span>
@@ -279,12 +279,12 @@ const ProductDetails = () => {
                   <span className={styles.medicineHead}>United Kingdom</span>
                   <span className={styles.medicineTexts}>225 Box</span>
                 </div>
-
+ 
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>China</span>
                   <span className={styles.medicineTexts}>112 Strip</span>
                 </div>
-
+ 
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Pakistan</span>
                   <span className={styles.medicineTexts}>250 Pack</span>
@@ -294,7 +294,7 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* End Inventory & Packaging section */}
-
+ 
         {/* Start the Stocked-in Country section */}
         {productDetail?.inventoryDetails?.stockedInDetails?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -371,7 +371,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
-
+ 
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
         {productDetail?.category == "MedicalEquipmentAndDevices" && (
@@ -527,7 +527,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Medical Equipment and Devices */}
-
+ 
         {/* Pharmaceuticals */}
         {productDetail?.category == "Pharmaceuticals" && (
           <div className={styles.mainContainer}>
@@ -649,7 +649,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Pharmaceuticals */}
-
+ 
         {/* Skin, Hair and Cosmetic Supplies */}
         {productDetail?.category == "SkinHairCosmeticSupplies" && (
           <div className={styles.mainContainer}>
@@ -751,7 +751,7 @@ const ProductDetails = () => {
                   <span className={styles.medicineHead}>Thickness</span>
                   <span className={styles.medicineText}>25235</span>
                 </div>
-
+ 
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Pediatrician Recommended
@@ -956,7 +956,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End Skin, Hair and Cosmetic Supplies */}
-
+ 
         {/* Vital Health and Wellness */}
         {productDetail?.category == "VitalHealthAndWellness" && (
           <div className={styles.mainContainer}>
@@ -1120,9 +1120,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Vital Health and Wellness */}
-
+ 
         {/* Medical Consumables and Disposables */}
         {productDetail?.category == "MedicalConsumablesAndDisposables" && (
           <div className={styles.mainContainer}>
@@ -1248,11 +1248,11 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Medical Consumables and Disposables */}
-
+ 
         {/* Laboratory Supplies */}
-
+ 
         {productDetail?.category == "LaboratorySupplies" && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Laboratory Supplies</span>
@@ -1362,11 +1362,11 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Laboratory Supplies */}
-
+ 
         {/* Diagnostic and Monitoring Devices */}
-
+ 
         {productDetail?.category == "DiagnosticAndMonitoringDevices" && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
@@ -1553,9 +1553,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Diagnostic and Monitoring Devices */}
-
+ 
         {/* Hospital and Clinic Supplies */}
         {productDetail?.category == "HospitalAndClinicSupplies" && (
           <div className={styles.mainContainer}>
@@ -1638,9 +1638,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Hospital and Clinic Supplies */}
-
+ 
         {/* Orthopedic Supplies */}
         {productDetail?.category == "OrthopedicSupplies" && (
           <div className={styles.mainContainer}>
@@ -1738,9 +1738,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Orthopedic Supplies */}
-
+ 
         {/* Dental Products */}
         {productDetail?.category == "DentalProducts" && (
           <div className={styles.mainContainer}>
@@ -1817,11 +1817,11 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Dental Products */}
-
+ 
         {/* Eye Care Supplies */}
-
+ 
         {productDetail?.category == "EyeCareSupplies" && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Eye Care Supplies</span>
@@ -1888,9 +1888,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Eye Care Supplies */}
-
+ 
         {/* Home Healthcare Products */}
         {productDetail?.category == "HomeHealthcareProducts" && (
           <div className={styles.mainContainer}>
@@ -1972,7 +1972,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               </div>
-
+ 
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Flow Rate</span>
@@ -2053,11 +2053,11 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Home Healthcare Products */}
-
+ 
         {/* Alternative Medicines */}
-
+ 
         {productDetail?.category == "AlternativeMedicines" && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Alternative Medicines</span>
@@ -2150,9 +2150,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Alternative Medicines */}
-
+ 
         {/* Emergency and First Aid Supplies */}
         {productDetail?.category == "EmergencyAndFirstAidSupplies" && (
           <div className={styles.mainContainer}>
@@ -2210,9 +2210,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Emergency and First Aid Supplies */}
-
+ 
         {/* Disinfection and Hygiene Supplies */}
         {productDetail?.category == "DisinfectionAndHygieneSupplies" && (
           <div className={styles.mainContainer}>
@@ -2281,9 +2281,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Disinfection and Hygiene Supplies */}
-
+ 
         {/* Nutrition and Dietary Products */}
         {productDetail?.category == "NutritionAndDietaryProducts" && (
           <div className={styles.mainContainer}>
@@ -2403,9 +2403,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Nutrition and Dietary Products */}
-
+ 
         {/* Healthcare IT Solutions */}
         {productDetail?.category == "HealthcareITSolutions" && (
           <div className={styles.mainContainer}>
@@ -2539,9 +2539,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Healthcare IT Solutions */}
-
+ 
         {/* End the category details section */}
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
@@ -2588,7 +2588,7 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
-
+ 
         {/* End Manufacturer section */}
         {/* Start product image section */}
         {productDetail?.general?.image?.length > 0 && (
@@ -2790,7 +2790,7 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* End Compliance & Certification Health & Safety */}
-
+ 
         {/* Start Additional information */}
         <div className={styles.addtionalContainer}>
           <span className={styles.innerHead}>
@@ -2871,7 +2871,7 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* End Additional information */}
         {/* Modal for PDF Preview */}
         <Modal
@@ -2887,7 +2887,7 @@ const ProductDetails = () => {
           >
             <img className={styles.closeImg} src={CloseIcon} alt="clsoeIcon" />
           </div>
-
+ 
           {/* PDF display using iframe */}
           <iframe
             src={pdfUrl}
@@ -2899,5 +2899,5 @@ const ProductDetails = () => {
     </div>
   );
 };
-
+ 
 export default ProductDetails;

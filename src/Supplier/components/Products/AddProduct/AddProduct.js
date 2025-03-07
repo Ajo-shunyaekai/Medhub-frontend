@@ -33,6 +33,7 @@ import {
   fetchProductsList,
   softDeleteProduct,
 } from "../../../../redux/reducers/productSlice";
+import { InputMask } from "@react-input/mask";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -735,11 +736,11 @@ const AddProduct = ({ placeholder }) => {
           )
           .max(4, "You can upload up to 4 Interoperability files.")
           .required("Interoperability files is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ), // Max 5MB
+          // .test(
+          //   "fileSize",
+          //   "File too large",
+          //   (value) => value && value.size <= 1024 * 1024 * 5
+          // ), // Max 5MB
       })
       .nullable(),
     specification: Yup.string()
@@ -1362,7 +1363,7 @@ const AddProduct = ({ placeholder }) => {
     // Add the other fields under EmergencyAndFirstAidSupplies
     productLongevity: Yup.string()
       .when("category", {
-        is: "AlternativeMedicines",
+        is: "EmergencyAndFirstAidSupplies",
         then: Yup.string().required("Product Longevity is required."),
       })
       .nullable(),
@@ -1891,7 +1892,9 @@ const AddProduct = ({ placeholder }) => {
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Name</label>
+                  <label className={styles.formLabel}>
+                    Product Name<span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -1900,6 +1903,12 @@ const AddProduct = ({ placeholder }) => {
                     name="name"
                     value={values.name}
                     onChange={handleChange}
+                    // onChange={e=>{
+                    //   const {value, name} = e?.target;
+                    //   const textLimit = 15;
+                    //   const valueToUpdate = value?.slice(0,Number(textLimit || 0))
+                    //   setFieldValue(name, valueToUpdate)
+                    // }}
                     onBlur={handleBlur}
                   />
                   {touched.name && errors.name && (
@@ -1908,7 +1917,9 @@ const AddProduct = ({ placeholder }) => {
                 </div>
 
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Market</label>
+                  <label className={styles.formLabel}>
+                    Product Market<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={Options}
@@ -1926,7 +1937,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Category</label>
+                  <label className={styles.formLabel}>
+                    Product Category<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={categoryOptions}
@@ -1956,6 +1969,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Sub Category
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <Select
                     className={styles.formSelect}
@@ -2004,7 +2018,9 @@ const AddProduct = ({ placeholder }) => {
                 {productType === "secondary product" && (
                   <>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purchase On</label>
+                      <label className={styles.formLabel}>
+                        Purchased On<span className={styles.labelStamp}>*</span>
+                      </label>
 
                       <DatePicker
                         className={styles.formDate}
@@ -2026,7 +2042,9 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Condition</label>
+                      <label className={styles.formLabel}>
+                        Condition<span className={styles.labelStamp}>*</span>
+                      </label>
                       <Select
                         className={styles.formSelect}
                         options={conditionOptions}
@@ -2044,6 +2062,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Country Available In
+                        <span className={styles.labelStamp}>*</span>
                       </label>
 
                       <MultiSelectDropdown
@@ -2071,6 +2090,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Minimum Purchase Unit
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <input
                         className={styles.formInput}
@@ -2110,7 +2130,10 @@ const AddProduct = ({ placeholder }) => {
                 </div>
 
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Part/Model Number</label>
+                  <label className={styles.formLabel}>
+                    Part/Model Number
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -2140,7 +2163,10 @@ const AddProduct = ({ placeholder }) => {
                   <span className={styles.error}></span>
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Type/Form</label>
+                  <label className={styles.formLabel}>
+                    Product Type/Form
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2177,6 +2203,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Total Quantity
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -2210,6 +2237,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Size/Volumn
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -2244,7 +2272,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Product Weight</label>
+                  <label className={styles.formLabel}>
+                    Product Weight<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2274,7 +2304,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Units</label>
+                  <label className={styles.formLabel}>
+                    Units<span className={styles.labelStamp}>*</span>
+                  </label>
                   <Select
                     className={styles.formSelect}
                     options={packagingUnits}
@@ -2291,6 +2323,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <Select
@@ -2327,6 +2360,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Material
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <Select
@@ -2392,7 +2426,10 @@ const AddProduct = ({ placeholder }) => {
                     )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Manufacturer Name</label>
+                  <label className={styles.formLabel}>
+                    Manufacturer Name
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <input
                     className={styles.formInput}
                     type="text"
@@ -2412,6 +2449,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Contry of Origin
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <Select
                     name="originCountry"
@@ -2431,7 +2469,10 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>About Manufacturer</label>
+                  <label className={styles.formLabel}>
+                    About Manufacturer
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <textarea
                     className={styles.formInput}
                     type="text"
@@ -2450,6 +2491,7 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.descriptionContainer}>
                   <label className={styles.formLabel}>
                     Product Description
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <JoditEditor
                     ref={editor}
@@ -2478,7 +2520,9 @@ const AddProduct = ({ placeholder }) => {
               <span className={styles.formHead}>Inventory & Packaging</span>
               <div className={styles.formSection}>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>SKU</label>
+                  <label className={styles.formLabel}>
+                    SKU<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2510,9 +2554,10 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Date of Manufacture
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
-                    <input
+                    {/* <input
                       className={styles.formInput}
                       type="text"
                       placeholder="Enter Date of Manufacture"
@@ -2521,6 +2566,19 @@ const AddProduct = ({ placeholder }) => {
                       value={values.date}
                       onChange={handleChange}
                       onBlur={handleBlur}
+                    /> */}
+
+                    <InputMask
+                      className={styles.formInput}
+                      type="text"
+                      mask="dd-mm-yyyy"
+                      placeholder="Enter Date of Manufacture"
+                      name="date"
+                      value={values.date}
+                      onChange={handleChange}
+                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                      showMask
+                      separate
                     />
                     <span
                       className={styles.infoTooltip}
@@ -2540,7 +2598,9 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Stock</label>
+                  <label className={styles.formLabel}>
+                    Stock<span className={styles.labelStamp}>*</span>
+                  </label>
                   <div className={styles.tooltipContainer}>
                     <Select
                       className={styles.formSelect}
@@ -2570,7 +2630,10 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Stocked in Country</label>
+                  <label className={styles.formLabel}>
+                    Stocked in Country
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
                   <MultiSelectDropdown
                     options={countries}
                     placeholderButtonLabel="Select Countries"
@@ -2634,6 +2697,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>
                           Countries where Stock Trades
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <Select
                           className={styles.formSelect}
@@ -2655,6 +2719,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>
                           Stock Quantity
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.productQuantityContainer}>
                           <div className={styles.quantitySection}>
@@ -2764,7 +2829,9 @@ const AddProduct = ({ placeholder }) => {
               {values?.productPricingDetails?.map((stock, index) => (
                 <div key={`product_${index}`} className={styles.formSection}>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Quantity</label>
+                    <label className={styles.formLabel}>
+                      Quantity<span className={styles.labelStamp}>*</span>
+                    </label>
                     <Field name={`productPricingDetails.${index}.quantity`}>
                       {({ field }) => (
                         <Select
@@ -2792,7 +2859,10 @@ const AddProduct = ({ placeholder }) => {
                   </div>
 
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Cost Per Product</label>
+                    <label className={styles.formLabel}>
+                      Cost Per Product
+                      <span className={styles.labelStamp}>*</span>
+                    </label>
                     <div className={styles.tooltipContainer}>
                       <Field
                         name={`productPricingDetails.${index}.price`}
@@ -2822,6 +2892,7 @@ const AddProduct = ({ placeholder }) => {
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Est. Delivery Time
+                      <span className={styles.labelStamp}>*</span>
                     </label>
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
@@ -2871,8 +2942,8 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End the product inventory */}
 
-            {/* Start the Compliances and certificate */}
-            <div className={styles.documentContainer}>
+             {/* Start the Compliances and certificate */}
+             <div className={styles.documentContainer}>
               <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Upload Documents</span>
                 <div className={styles.formInnerSection}>
@@ -3158,7 +3229,9 @@ const AddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
-                    <span className={styles.error}></span>
+                   {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Specification</label>
@@ -3197,6 +3270,9 @@ const AddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
+                    {touched.specificationFile && errors.specificationFile && (
+                  <span className={styles.error}>{errors.specificationFile}</span>
+                )}
                   </div>
                 </div>
               </div>
@@ -3212,7 +3288,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Generic Name</label>
+                      <label className={styles.formLabel}>
+                        Generic Name<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3248,7 +3326,9 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class</label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3281,7 +3361,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength</label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3357,6 +3439,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3460,6 +3543,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3563,6 +3647,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -3715,7 +3800,9 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength</label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -3944,6 +4031,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -3979,7 +4067,9 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
+                      <label className={styles.formLabel}>
+                        Purpose<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4012,6 +4102,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Target Condition
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4048,6 +4139,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4090,7 +4182,9 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class</label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4156,38 +4250,6 @@ const AddProduct = ({ placeholder }) => {
                         </Tooltip>
                       </div>
                       <span className={styles.error}></span>
-                    </div>
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Purpose</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Purpose"
-                          rows="2"
-                          name="purpose"
-                          value={values.purpose}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
-                      </div>
-                      {touched.purpose && errors.purpose && (
-                        <span className={styles.error}>{errors.purpose}</span>
-                      )}
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>Moisturizers</label>
@@ -4400,6 +4462,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Dermatologist Tested
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <Select
@@ -4464,6 +4527,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Pediatrician Recommended
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <Select
@@ -4605,6 +4669,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -4654,7 +4719,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Generic Name</label>
+                      <label className={styles.formLabel}>
+                        Generic Name<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -4684,7 +4751,9 @@ const AddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength</label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -4758,7 +4827,10 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}></span>
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Health Benefit</label>
+                      <label className={styles.formLabel}>
+                        Health Benefit
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -4795,6 +4867,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4900,6 +4973,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4941,7 +5015,9 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Drug Class</label>
+                      <label className={styles.formLabel}>
+                        Drug Class<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -5156,6 +5232,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -5597,6 +5674,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -6318,6 +6396,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Diagnostic Functions
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -6528,7 +6607,10 @@ const AddProduct = ({ placeholder }) => {
                       />
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Specification</label>
+                      <label className={styles.formLabel}>
+                        Specification
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -6620,7 +6702,9 @@ const AddProduct = ({ placeholder }) => {
                         tooltip={false}
                         showLabel={false}
                       />
-                      <span className={styles.error}></span>
+                      {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                     </div>
                   </div>
                 </div>
@@ -6859,6 +6943,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -7109,7 +7194,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Strength</label>
+                      <label className={styles.formLabel}>
+                        Strength<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <input
                           className={styles.formInput}
@@ -7212,6 +7299,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Target Condition
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -7591,6 +7679,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -7906,6 +7995,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8248,7 +8338,9 @@ const AddProduct = ({ placeholder }) => {
                             tooltip={false}
                             showLabel={false}
                           />
-                          <span className={styles.error}></span>
+                          {touched.performanceTestingReportFile && errors.performanceTestingReportFile && (
+                  <span className={styles.error}>{errors.performanceTestingReportFile}</span>
+                )}
                         </div>
                       </div>
                     </div>
@@ -8269,6 +8361,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8375,6 +8468,9 @@ const AddProduct = ({ placeholder }) => {
                         tooltip={false}
                         showLabel={false}
                       />
+                                      {touched.healthClaimsFile && errors.healthClaimsFile && (
+                  <span className={styles.error}>{errors.healthClaimsFile}</span>
+                )}
                     </div>
                   </div>
                   <div className={styles.innerProductContainer}>
@@ -8385,6 +8481,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8435,6 +8532,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8472,6 +8570,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Product Longevity
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8506,7 +8605,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Foldability</label>
+                      <label className={styles.formLabel}>
+                        Foldability<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8548,6 +8649,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8599,6 +8701,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8736,6 +8839,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -8784,7 +8888,9 @@ const AddProduct = ({ placeholder }) => {
                   </span>
                   <div className={styles.formSection}>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Dairy Free</label>
+                      <label className={styles.formLabel}>
+                        Dairy Free<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <Select
                           className={styles.formSelect}
@@ -8817,7 +8923,10 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Flavor Options</label>
+                      <label className={styles.formLabel}>
+                        Flavor Options
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8858,6 +8967,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Amino Acid Profile
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -8892,7 +9002,9 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </div>
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Fat Content</label>
+                      <label className={styles.formLabel}>
+                        Fat Content<span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -8927,7 +9039,10 @@ const AddProduct = ({ placeholder }) => {
                     </div>
 
                     <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Health Benefit</label>
+                      <label className={styles.formLabel}>
+                        Health Benefit
+                        <span className={styles.labelStamp}>*</span>
+                      </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
                           className={styles.formInput}
@@ -9000,6 +9115,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -9037,6 +9153,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Additives & Sweeteners
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -9121,6 +9238,7 @@ const AddProduct = ({ placeholder }) => {
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Shelf Life/Expiry
+                          <span className={styles.labelStamp}>*</span>
                         </label>
                         <div className={styles.tooltipContainer}>
                           <input
@@ -9172,6 +9290,7 @@ const AddProduct = ({ placeholder }) => {
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Scalability Info
+                        <span className={styles.labelStamp}>*</span>
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -9213,7 +9332,9 @@ const AddProduct = ({ placeholder }) => {
                       </span>
                       <div className={styles.formInnerSection}>
                         <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>License</label>
+                          <label className={styles.formLabel}>
+                            License<span className={styles.labelStamp}>*</span>
+                          </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
                               className={styles.formInput}
@@ -9240,15 +9361,17 @@ const AddProduct = ({ placeholder }) => {
                               id="wellness-tooltip"
                             />
                           </div>
-                          {touched.scalabilityInfo &&
-                            errors.scalabilityInfo && (
+                          {touched.license &&
+                            errors.license && (
                               <span className={styles.error}>
-                                {errors.scalabilityInfo}
+                                {errors.license}
                               </span>
                             )}
                         </div>
                         <div className={styles.productInnerContainer}>
-                          <label className={styles.formLabel}>Add-Ons</label>
+                          <label className={styles.formLabel}>
+                            Add-Ons<span className={styles.labelStamp}>*</span>
+                          </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
                               className={styles.formInput}
@@ -9284,6 +9407,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             User Access
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9326,6 +9450,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Key Features
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9367,6 +9492,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Core Functionalities
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9404,6 +9530,7 @@ const AddProduct = ({ placeholder }) => {
                         <div className={styles.productInnerContainer}>
                           <label className={styles.formLabel}>
                             Interoperability
+                            <span className={styles.labelStamp}>*</span>
                           </label>
                           <div className={styles.tooltipContainer}>
                             <textarea
@@ -9446,7 +9573,13 @@ const AddProduct = ({ placeholder }) => {
                             tooltip={false}
                             showLabel={false}
                           />
-                          <span className={styles.error}></span>
+
+                          {touched.interoperabilityFile &&
+                            errors.interoperabilityFile && (
+                              <span className={styles.error}>
+                                {errors.interoperabilityFile}
+                              </span>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -9487,6 +9620,23 @@ const AddProduct = ({ placeholder }) => {
                   tooltip="Environment Impact Rating Document"
                 />
               </div>
+              <div className={styles.formSection}>
+                {touched.safetyDatasheet && errors.safetyDatasheet && (
+                  <span className={styles.error}>{errors.safetyDatasheet}</span>
+                )}
+
+                {touched.healthHazardRating && errors.healthHazardRating && (
+                  <span className={styles.error}>
+                    {errors.healthHazardRating}
+                  </span>
+                )}
+
+                {touched.environmentalImpact && errors.environmentalImpact && (
+                  <span className={styles.error}>
+                    {errors.environmentalImpact}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* End the Health & Safety */}
@@ -9518,7 +9668,9 @@ const AddProduct = ({ placeholder }) => {
                   // fileUpload={userGuidelinesUpload}
                   tooltip="Specific information, instructions related to product."
                 />
-                <span className={styles.error}></span>
+               {touched.guidelinesFile && errors.guidelinesFile && (
+                  <span className={styles.error}>{errors.guidelinesFile}</span>
+                )}
 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
