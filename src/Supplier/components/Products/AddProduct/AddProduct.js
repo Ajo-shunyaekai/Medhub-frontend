@@ -3025,7 +3025,6 @@ const AddProduct = ({ placeholder }) => {
                 {touched.complianceFile && errors.complianceFile && (
                   <span className={styles.error}>{errors.complianceFile}</span>
                 )}
-                
               </div>
             </div>
             {/* End the compliances and certificate */}

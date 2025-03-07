@@ -517,7 +517,7 @@ const router = createBrowserRouter([
       },
       {
         // path: "product-details/:medicineId",
-        path: "product-details",
+        path: "product-details/:id",
         element: (
           <Suspense fallback={<Loader />}>
             <ProductDetails socket={socket} />
