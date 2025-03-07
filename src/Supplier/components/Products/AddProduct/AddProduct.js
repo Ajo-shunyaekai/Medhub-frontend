@@ -9657,7 +9657,6 @@ const AddProduct = ({ placeholder }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <span className={styles.error}></span>
                 </div>
 
                 <AddProductFileUpload
@@ -9671,7 +9670,6 @@ const AddProduct = ({ placeholder }) => {
                {touched.guidelinesFile && errors.guidelinesFile && (
                   <span className={styles.error}>{errors.guidelinesFile}</span>
                 )}
-
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
                   <div className={styles.tooltipContainer}>
@@ -9705,7 +9703,7 @@ const AddProduct = ({ placeholder }) => {
                       etc.)
                     </Tooltip>
                   </div>
-                  <span className={styles.error}></span>
+                 
                 </div>
               </div>
             </div>
