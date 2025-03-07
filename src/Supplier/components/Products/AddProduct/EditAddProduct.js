@@ -4959,7 +4959,7 @@ import React, {
                   <span className={styles.formHead}>Upload Documents</span>
                   <div className={styles.formInnerSection}>
                     <AddProductFileUpload
-                      maxfileCount={4 - (formik?.values?.image?.length || 0)}
+                      maxFiles={4 - (formik?.values?.image?.length || 0)}
                       fieldInputName={"imageNew"}
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
@@ -4977,9 +4977,9 @@ import React, {
                     )}
                     {productType === "secondary product" && (
                       <AddProductFileUpload
-                        maxfileCount={
-                          4 - (formik?.values?.purchaseInvoiceFile?.length || 0)
-                        }
+                        // maxFiles={
+                        //   4 - (formik?.values?.purchaseInvoiceFile?.length || 0)
+                        // }
                         fieldInputName={"purchaseInvoiceFileNew"}
                         setFieldValue={formik.setFieldValue}
                         initialValues={formik?.values}
@@ -5037,7 +5037,7 @@ import React, {
                     Compliances & Certification
                   </span>
                   <AddProductFileUpload
-                    maxfileCount={
+                    maxFiles={
                       4 - (formik?.values?.complianceFile?.length || 0)
                     }
                     fieldInputName={"complianceFileNew"}
@@ -5286,7 +5286,7 @@ import React, {
                         </Tooltip>
                       </div>
                       <AddProductFileUpload
-                        maxfileCount={
+                        maxFiles={
                           4 -
                           (formik?.values?.performanceTestingReportFile?.length ||
                             0)
@@ -5343,7 +5343,7 @@ import React, {
                         />
                       </div>
                       <AddProductFileUpload
-                        maxfileCount={
+                        maxFiles={
                           4 - (formik?.values?.specificationFile?.length || 0)
                         }
                         fieldInputName={"specificationFileNew"}
@@ -6816,7 +6816,7 @@ import React, {
                             {dermatologistTested === "Yes" && (
                               <>
                                 <AddProductFileUpload
-                                  maxfileCount={
+                                  maxFiles={
                                     4 -
                                     (formik?.values?.dermatologistTestedFile
                                       ?.length || 0)
@@ -6888,7 +6888,7 @@ import React, {
                             {pediatricianRecommended === "Yes" && (
                               <>
                                 <AddProductFileUpload
-                                  maxfileCount={
+                                  maxFiles={
                                     4 -
                                     (formik?.values?.pediatricianRecommendedFile
                                       ?.length || 0)
@@ -9358,7 +9358,7 @@ import React, {
                             </span>
                           )}
                         <AddProductFileUpload
-                          maxfileCount={
+                          maxFiles={
                             4 - (formik?.values?.specificationFile?.length || 0)
                           }
                           fieldInputName={"specificationFileNew"}
@@ -9420,7 +9420,7 @@ import React, {
                           </Tooltip>
                         </div>
                         <AddProductFileUpload
-                          maxfileCount={
+                          maxFiles={
                             4 -
                             (formik?.values?.performanceTestingReportFile
                               ?.length || 0)
@@ -11384,7 +11384,7 @@ import React, {
                               </Tooltip>
                             </div>
                             <AddProductFileUpload
-                              maxfileCount={
+                              maxFiles={
                                 4 -
                                 (formik?.values?.performanceTestingReportFile
                                   ?.length || 0)
@@ -11547,7 +11547,7 @@ import React, {
                           />
                         </div>
                         <AddProductFileUpload
-                          maxfileCount={
+                          maxFiles={
                             4 - (formik?.values?.healthClaimsFile?.length || 0)
                           }
                           fieldInputName={"healthClaimsFileNew"}
@@ -12888,7 +12888,7 @@ import React, {
                                 </span>
                               )}
                             <AddProductFileUpload
-                              maxfileCount={
+                              maxFiles={
                                 4 -
                                 (formik?.values?.interoperabilityFile?.length ||
                                   0)
@@ -12922,7 +12922,7 @@ import React, {
                 <span className={styles.formHead}>Health & Safety</span>
                 <div className={styles.formSection}>
                   <AddProductFileUpload
-                    maxfileCount={
+                    maxFiles={
                       4 - (formik?.values?.safetyDatasheet?.length || 0)
                     }
                     fieldInputName={"safetyDatasheetNew"}
@@ -12934,7 +12934,7 @@ import React, {
                   />
    
                   <AddProductFileUpload
-                    maxfileCount={
+                    maxFiles={
                       4 - (formik?.values?.healthHazardRating?.length || 0)
                     }
                     fieldInputName={"healthHazardRatingNew"}
@@ -12946,7 +12946,7 @@ import React, {
                   />
    
                   <AddProductFileUpload
-                    maxfileCount={
+                    maxFiles={
                       4 - (formik?.values?.environmentalImpact?.length || 0)
                     }
                     fieldInputName={"environmentalImpactNew"}
@@ -13005,7 +13005,7 @@ import React, {
                   </div>
    
                   <AddProductFileUpload
-                    maxfileCount={
+                    maxFiles={
                       4 - (formik?.values?.guidelinesFile?.length || 0)
                     }
                     fieldInputName={"guidelinesFileNew"}
