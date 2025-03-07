@@ -662,7 +662,11 @@ gap: 10px;
     width: 25vw;
   }
   .productContainer{
-    width: 32.1%;
+    width: 32%;
+  }
+  .formCloseSection {
+    top: 58%;
+    right: -23px;
   }
 } 
 
