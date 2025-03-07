@@ -1850,24 +1850,24 @@ const AddProduct = ({ placeholder }) => {
             }
           });
           formData.append("supplier_id", sessionStorage.getItem("_id"));
-          
+
           const stockedInDetailsUpdated = JSON.stringify(
             values?.stockedInDetails?.map(section => ({
-                country: section?.country|| '',
-                quantity: section?.quantity|| '',
-                type: section?.type|| '',
+              country: section?.country || '',
+              quantity: section?.quantity || '',
+              type: section?.type || '',
             }))
           );
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map(section => ({
-                price: section?.price|| '',
-                quantity: section?.quantity|| '',
-                deliveryTime: section?.deliveryTime|| '',
+              price: section?.price || '',
+              quantity: section?.quantity || '',
+              deliveryTime: section?.deliveryTime || '',
             }))
           );
 
-          formData.append("stockedInDetails",stockedInDetailsUpdated)
-          formData.append("productPricingDetails",productPricingDetailsUpdated)
+          formData.append("stockedInDetails", stockedInDetailsUpdated)
+          formData.append("productPricingDetails", productPricingDetailsUpdated)
 
           dispatch(addProduct(formData));
           // setSubmitting(false); // Important to reset form submission state
@@ -2074,7 +2074,7 @@ const AddProduct = ({ placeholder }) => {
                         className={styles.formInput}
                         type="text"
                         placeholder="Enter Minimum Purchase Unit"
-                        // autoComplete="off"
+                      // autoComplete="off"
                       />
                       {touched.minimumPurchaseUnit &&
                         errors.minimumPurchaseUnit && (
@@ -2517,16 +2517,16 @@ const AddProduct = ({ placeholder }) => {
                       onBlur={handleBlur}
                     /> */}
 
-                     <InputMask
-                        className={styles.formInput}
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="Enter Date of Manufacture"
-                        name="date"
-                        value={values.date}
-                        onChange={handleChange}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate 
-                      />
+                    <InputMask
+                      className={styles.formInput}
+                      type="text"
+                      mask="dd-mm-yyyy"
+                      placeholder="Enter Date of Manufacture"
+                      name="date"
+                      value={values.date}
+                      onChange={handleChange}
+                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }} showMask separate
+                    />
                     <span
                       className={styles.infoTooltip}
                       data-tooltip-id="sku-tooltip"
@@ -2618,7 +2618,7 @@ const AddProduct = ({ placeholder }) => {
                     className={styles.formAddButton}
                     onClick={() =>
                       (values?.stockedInDetails?.length || 0) <
-                        (values.countries?.length || 0) &&
+                      (values.countries?.length || 0) &&
                       setFieldValue("stockedInDetails", [
                         ...values.stockedInDetails,
                         {
@@ -2886,8 +2886,12 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Product Image"
-                    // fileUpload={productImageUpload}
                     tooltip={false}
+                    acceptTypes={{
+                      "image/png": [],
+                      "image/jpeg": [],
+                      "image/jpg": [],
+                    }}
                   />
                   {productType === "secondary product" && (
                     <AddProductFileUpload
@@ -2895,8 +2899,11 @@ const AddProduct = ({ placeholder }) => {
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label="Purchase Invoice"
-                      // fileUpload={purchaseInvoiceUpload}
                       tooltip={false}
+                      acceptTypes={{
+                        "application/pdf": [],
+                      }}
+                      maxFiles={1} // Limit to one file
                     />
                   )}
                 </div>
@@ -9511,7 +9518,7 @@ const AddProduct = ({ placeholder }) => {
                       etc.)
                     </Tooltip>
                   </div>
-                 
+
                 </div>
               </div>
             </div>
