@@ -7,14 +7,14 @@ import Information from "../../../assets/images/infomation.svg";
 import styles from "./addproduct.module.css";
 
 // useFileUpload Hook
-const useFileUpload = (fieldInputName, setFieldValue, initialValues) => {
+const useFileUpload = (fieldInputName, setFieldValue, initialValues, maxfileCount = 4) => {
   const [files, setFiles] = useState([]);
 
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prev) => {
         const totalFiles = [...prev, ...acceptedFiles];
-        if (totalFiles.length > 4) {
+        if (totalFiles.length > maxfileCount) {
           alert("You can only upload a maximum of 4 files.");
           return prev;
         }

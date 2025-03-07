@@ -32,6 +32,7 @@ import {
   fetchProductDetail,
   fetchProductsList,
   softDeleteProduct,
+  addBulkProducts
 } from "../../../../redux/reducers/productSlice";
 import { InputMask } from "@react-input/mask";
 
@@ -1667,6 +1668,17 @@ const AddProduct = ({ placeholder }) => {
     { value: "No", label: "No" },
   ];
   //   End the Dropdown option
+
+  const handleBulkUpload = () => {
+    console.log('file', selectedFile)
+    const bulkFormData = new FormData();
+
+    bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+    bulkFormData.append("csvfile", selectedFile);
+
+    dispatch(addBulkProducts(bulkFormData))
+
+  }
 
   return (
     <div className={styles.container}>
@@ -9909,7 +9921,12 @@ const AddProduct = ({ placeholder }) => {
 
             {/* End button section */}
 
-            {open && (
+            
+          </Form>
+        )}
+      </Formik>
+
+      {open && (
               <div className={styles.modalOverlay}>
                 <div className={styles.modalContent}>
                   {/* Close Button */}
@@ -9952,14 +9969,11 @@ const AddProduct = ({ placeholder }) => {
                     >
                       Cancel
                     </button>
-                    <button className={styles.buttonSubmit}>Upload</button>
+                    <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Upload</button>
                   </div>
                 </div>
               </div>
             )}
-          </Form>
-        )}
-      </Formik>
     </div>
   );
 };
