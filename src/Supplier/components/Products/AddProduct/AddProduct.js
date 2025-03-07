@@ -1472,6 +1472,28 @@ const AddProduct = ({ placeholder }) => {
     }));
   };
 
+  //handle field input
+  const handleInputChange = (e, setFieldValue, textLimit = 15, allowedType = 'all') => {
+    // const { value, name } = e.target;
+    // const valueToUpdate = value.slice(0, Number(textLimit));
+    // setFieldValue(name, valueToUpdate);
+
+    let { value, name } = e.target;
+
+  // Apply character limit
+  value = value.slice(0, Number(textLimit));
+
+  // Restrict input type
+  if (allowedType === "number") {
+    value = value.replace(/[^0-9]/g, ""); // Allow only numbers
+  } else if (allowedType === "text") {
+    value = value.replace(/[^a-zA-Z\s]/g, ""); // Allow only text and spaces
+  }
+
+  setFieldValue(name, value);
+  };
+  
+
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
@@ -1902,13 +1924,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="name"
                     value={values.name}
-                    onChange={handleChange}
-                    // onChange={e=>{
-                    //   const {value, name} = e?.target;
-                    //   const textLimit = 15;
-                    //   const valueToUpdate = value?.slice(0,Number(textLimit || 0))
-                    //   setFieldValue(name, valueToUpdate)
-                    // }}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                     onBlur={handleBlur}
                   />
                   {touched.name && errors.name && (
@@ -2099,7 +2116,8 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="minimumPurchaseUnit"
                         value={values.minimumPurchaseUnit}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'number')}
                         onBlur={handleBlur}
                       />
                       {touched.minimumPurchaseUnit &&
@@ -2123,7 +2141,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="upc"
                     value={values.upc}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                     onBlur={handleBlur}
                   />
                   <span className={styles.error}></span>
@@ -2141,7 +2160,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="model"
                     value={values.model}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                     onBlur={handleBlur}
                   />
                   {touched.model && errors.model && (
@@ -2157,7 +2177,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="brand"
                     value={values.brand}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 50, 'text')}
                     onBlur={handleBlur}
                   />
                   <span className={styles.error}></span>
@@ -2171,11 +2192,12 @@ const AddProduct = ({ placeholder }) => {
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Product Type/Form"
                       // autoComplete="off"
                       name="form"
                       value={values.form}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 25, 'text')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2209,11 +2231,12 @@ const AddProduct = ({ placeholder }) => {
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Total Quantity"
                       // autoComplete="off"
                       name="quantity"
                       value={values.quantity}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 8, 'number')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2243,11 +2266,12 @@ const AddProduct = ({ placeholder }) => {
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Size/Volume"
                       // autoComplete="off"
                       name="volumn"
                       value={values.volumn}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'number')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2283,7 +2307,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="weight"
                       value={values.weight}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'number')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2476,11 +2501,12 @@ const AddProduct = ({ placeholder }) => {
                   <textarea
                     className={styles.formInput}
                     type="text"
-                    placeholder="About Manufacturer"
+                    placeholder="Enter About Manufacturer"
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                   />
                   {touched.aboutManufacturer && errors.aboutManufacturer && (
                     <span className={styles.error}>
@@ -2531,7 +2557,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="sku"
                       value={values.sku}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2947,25 +2974,33 @@ const AddProduct = ({ placeholder }) => {
               <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Upload Documents</span>
                 <div className={styles.formInnerSection}>
-                  <AddProductFileUpload
+                <AddProductFileUpload
                     fieldInputName={"image"}
                     setFieldValue={setFieldValue}
                     initialValues={values}
                     label="Product Image"
-                    // fileUpload={productImageUpload}
                     tooltip={false}
+                    acceptTypes={{
+                      "image/png": [],
+                      "image/jpeg": [],
+                      "image/jpg": [],
+                    }}
                   />
+
                   {touched.image && errors.image && (
                     <span className={styles.error}>{errors.image}</span>
                   )}
-                  {productType === "secondary product" && (
+                 {productType === "secondary product" && (
                     <AddProductFileUpload
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
                       initialValues={values}
                       label="Purchase Invoice"
-                      // fileUpload={purchaseInvoiceUpload}
                       tooltip={false}
+                      acceptTypes={{
+                        "application/pdf": [],
+                      }}
+                      maxFiles={1} // Limit to one file
                     />
                   )}
                   {productType === "secondary product" &&
@@ -2988,7 +3023,8 @@ const AddProduct = ({ placeholder }) => {
                       placeholder="Enter Storage Conditions"
                       // autoComplete="off"
                       name="storage"
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 30, 'all')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -3044,7 +3080,8 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="interoperability"
                         value={values.interoperability}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3074,7 +3111,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Laser Type"
                         // autoComplete="off"
                         name="laserType"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3104,7 +3142,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Cooling System"
                         // autoComplete="off"
                         name="coolingSystem"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3135,7 +3174,8 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="Enter Spot Size"
                         // autoComplete="off"
                         name="spotSize"
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'number')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3167,7 +3207,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="diagnosticFunctions"
                         value={values.diagnosticFunctions}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3198,7 +3239,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="performanceTestingReport"
                         value={values.performanceTestingReport}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3242,7 +3284,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="specification"
                         value={values.specification}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3299,7 +3342,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3337,7 +3381,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3372,7 +3417,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3448,7 +3494,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3482,7 +3529,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3513,7 +3561,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3552,7 +3601,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3653,11 +3703,12 @@ const AddProduct = ({ placeholder }) => {
                           <input
                             className={styles.formInput}
                             type="text"
-                            placeholder="Enter Shelf Life/Expiry"
+                            placeholder="Enter Shelf Life/Expiry "
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3698,7 +3749,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -3733,7 +3785,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -3779,7 +3832,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter SPF"
                           // autoComplete="off"
                           name="spf"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3811,7 +3865,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3846,7 +3901,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3877,7 +3933,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3908,7 +3965,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 5, 'numer')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3977,7 +4035,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4008,7 +4067,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fragrance"
                           value={values.fragrance}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4040,7 +4100,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4077,7 +4138,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4111,7 +4173,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4148,7 +4211,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4192,7 +4256,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4224,7 +4289,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4260,7 +4326,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="moisturizers"
                           value={values.moisturizers}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4289,7 +4356,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Filler Type"
                           rows="2"
                           name="fillerType"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4607,7 +4675,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -4640,7 +4709,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -4679,7 +4749,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4730,7 +4801,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="genericName"
                           value={values.genericName}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4762,7 +4834,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4838,7 +4911,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4876,7 +4950,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4910,7 +4985,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4941,7 +5017,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -4982,7 +5059,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugAdministrationRoute"
                           value={values.drugAdministrationRoute}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5025,7 +5103,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="drugClass"
                           value={values.drugClass}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5059,7 +5138,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5242,7 +5322,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5284,7 +5365,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="sideEffectsAndWarnings"
                               value={values.sideEffectsAndWarnings}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5317,7 +5399,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5363,7 +5446,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5395,7 +5479,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5464,7 +5549,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5495,7 +5581,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5526,7 +5613,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5557,7 +5645,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -5684,7 +5773,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5723,7 +5813,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="allergens"
                               value={values.allergens}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5807,7 +5898,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="filtrationEfficiency"
                               value={values.filtrationEfficiency}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 4, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5840,7 +5932,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="breathability"
                               value={values.breathability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -5873,7 +5966,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="layerCount"
                               value={values.layerCount}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -6039,7 +6133,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="shape"
                           value={values.shape}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6069,7 +6164,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6098,7 +6194,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6134,7 +6231,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="casNumber"
                           value={values.casNumber}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6164,7 +6262,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="grade"
                           value={values.grade}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6195,7 +6294,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6235,7 +6335,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="connectivity"
                           value={values.connectivity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6267,7 +6368,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="magnificationRange"
                           value={values.magnificationRange}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6299,7 +6401,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="objectiveLenses"
                           value={values.objectiveLenses}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6328,7 +6431,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="powerSource"
                           value={values.powerSource}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6358,7 +6462,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="resolution"
                           value={values.resolution}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6405,7 +6510,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="diagnosticFunctions"
                           value={values.diagnosticFunctions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6441,7 +6547,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6470,7 +6577,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6511,7 +6619,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="measurementRange"
                           value={values.measurementRange}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6541,7 +6650,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="noiseLevel"
                           value={values.noiseLevel}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6571,7 +6681,8 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="usageRate"
                         value={values.usageRate}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                         onBlur={handleBlur}
                       />
                       <span className={styles.error}></span>
@@ -6587,7 +6698,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="maintenanceNotes"
                         value={values.maintenanceNotes}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                       <span className={styles.error}></span>
@@ -6602,7 +6714,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="compatibleEquipment"
                         value={values.compatibleEquipment}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
@@ -6618,7 +6731,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="specification"
                           value={values.specification}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6669,7 +6783,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="performanceTestingReport"
                           value={values.performanceTestingReport}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6730,7 +6845,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="thickness"
                           value={values.thickness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6762,7 +6878,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6793,7 +6910,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6825,7 +6943,8 @@ const AddProduct = ({ placeholder }) => {
                           placeholder="Enter Chemical Resistance"
                           rows="2"
                           name="chemicalResistance"
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -6953,7 +7072,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7045,7 +7165,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="adhesiveness"
                           value={values.adhesiveness}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7076,7 +7197,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="absorbency"
                           value={values.absorbency}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7107,7 +7229,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="elasticity"
                           value={values.elasticity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7205,7 +7328,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="strength"
                           value={values.strength}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7275,7 +7399,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7308,7 +7433,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7342,7 +7468,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="coating"
                           value={values.coating}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7431,7 +7558,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="elasticity"
                               value={values.elasticity}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7462,7 +7590,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="absorbency"
                               value={values.absorbency}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7494,7 +7623,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="breathability"
                               value={values.breathability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7526,7 +7656,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -7577,7 +7708,8 @@ const AddProduct = ({ placeholder }) => {
                           // autoComplete="off"
                           name="productMaterial"
                           value={values.productMaterial}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7607,7 +7739,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7638,7 +7771,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="targetCondition"
                           value={values.targetCondition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7689,7 +7823,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7727,7 +7862,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="usageRate"
                             value={values.usageRate}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
 
@@ -7744,7 +7880,8 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="maintenanceNotes"
                             value={values.maintenanceNotes}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
 
@@ -7761,7 +7898,8 @@ const AddProduct = ({ placeholder }) => {
                             rows="2"
                             name="compatibleEquipment"
                             value={values.compatibleEquipment}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                             onBlur={handleBlur}
                           />
 
@@ -7841,7 +7979,8 @@ const AddProduct = ({ placeholder }) => {
                         // autoComplete="off"
                         name="diameter"
                         value={values.diameter}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 4, 'all')}
                         onBlur={handleBlur}
                       />
 
@@ -7856,7 +7995,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="lensPower"
                         value={values.lensPower}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
@@ -7870,7 +8010,8 @@ const AddProduct = ({ placeholder }) => {
                         rows="2"
                         name="baseCurve"
                         value={values.baseCurve}
-                        onChange={handleChange}
+                        // onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                         onBlur={handleBlur}
                       />
                     </div>
@@ -7884,7 +8025,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="colorOptions"
                           value={values.colorOptions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7929,7 +8071,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flowRate"
                           value={values.flowRate}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -7959,7 +8102,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8005,7 +8149,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8045,7 +8190,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="maxWeightCapacity"
                               value={values.maxWeightCapacity}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8076,7 +8222,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="gripType"
                               value={values.gripType}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'text')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8109,7 +8256,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batteryType"
                               value={values.batteryType}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8142,7 +8290,8 @@ const AddProduct = ({ placeholder }) => {
                               // autoComplete="off"
                               name="batterySize"
                               value={values.batterySize}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8174,7 +8323,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="colorOptions"
                               value={values.colorOptions}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8206,7 +8356,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="foldability"
                               value={values.foldability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8238,7 +8389,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="lockingMechanism"
                               value={values.lockingMechanism}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8270,7 +8422,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="typeOfSupport"
                               value={values.typeOfSupport}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8306,7 +8459,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="performanceTestingReport"
                               value={values.performanceTestingReport}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -8370,7 +8524,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8404,7 +8559,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8440,7 +8596,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthClaims"
                           value={values.healthClaims}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8491,7 +8648,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8541,7 +8699,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8579,7 +8738,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="productLongevity"
                           value={values.productLongevity}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8615,7 +8775,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="foldability"
                           value={values.foldability}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8659,7 +8820,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8710,7 +8872,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8745,7 +8908,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="concentration"
                           value={values.concentration}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8779,7 +8943,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="formulation"
                           value={values.formulation}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8809,7 +8974,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fragrance"
                           value={values.fragrance}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8849,7 +9015,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8934,7 +9101,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="flavorOptions"
                           value={values.flavorOptions}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -8976,7 +9144,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="aminoAcidProfile"
                           value={values.aminoAcidProfile}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9012,7 +9181,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="fatContent"
                           value={values.fatContent}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9050,7 +9220,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="healthBenefit"
                           value={values.healthBenefit}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9084,7 +9255,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="purpose"
                           value={values.purpose}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9124,7 +9296,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="composition"
                           value={values.composition}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9162,7 +9335,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="additivesNSweeteners"
                           value={values.additivesNSweeteners}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9248,7 +9422,8 @@ const AddProduct = ({ placeholder }) => {
                             // autoComplete="off"
                             name="expiry"
                             value={values?.expiry}
-                            onChange={handleChange}
+                            // onChange={handleChange}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9299,7 +9474,8 @@ const AddProduct = ({ placeholder }) => {
                           rows="2"
                           name="scalabilityInfo"
                           value={values.scalabilityInfo}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -9342,7 +9518,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="license"
                               value={values.license}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9379,7 +9556,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="addOns"
                               value={values.addOns}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9416,7 +9594,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="userAccess"
                               value={values.userAccess}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9459,7 +9638,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="keyFeatures"
                               value={values.keyFeatures}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9501,7 +9681,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="coreFunctionalities"
                               value={values.coreFunctionalities}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9539,7 +9720,8 @@ const AddProduct = ({ placeholder }) => {
                               rows="2"
                               name="interoperability"
                               value={values.interoperability}
-                              onChange={handleChange}
+                              // onChange={handleChange}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -9654,7 +9836,8 @@ const AddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="warranty"
                     value={values.warranty}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                     onBlur={handleBlur}
                   />
                 </div>
@@ -9680,7 +9863,8 @@ const AddProduct = ({ placeholder }) => {
                       // autoComplete="off"
                       name="other"
                       value={values.other}
-                      onChange={handleChange}
+                      // onChange={handleChange}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                       onBlur={handleBlur}
                     />
                     <span
