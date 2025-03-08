@@ -2132,379 +2132,480 @@ const ProductDetails = () => {
  
         {/* Orthopedic Supplies */}
         {productDetail?.category == "OrthopedicSupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.elasticity || 
+          productDetail?.[productDetail?.category]?.sterilized || 
+          productDetail?.[productDetail?.category]?.absorbency || 
+          productDetail?.[productDetail?.category]?.strength || 
+          productDetail?.[productDetail?.category]?.moistureResistance) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Orthopedic Supplies</span>
+            {productDetail?.[productDetail?.category]?.elasticity || 
+              productDetail?.[productDetail?.category]?.sterilized || 
+              productDetail?.[productDetail?.category]?.absorbency || 
+              productDetail?.[productDetail?.category]?.strength || 
+              productDetail?.[productDetail?.category]?.moistureResistance  && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.elasticity || 
+              productDetail?.[productDetail?.category]?.sterilized || 
+              productDetail?.[productDetail?.category]?.absorbency && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.elasticity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Elasticity</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.elasticity}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.sterilized && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Sterilized</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.absorbency && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Absorbency</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.absorbency}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.strength || 
+              productDetail?.[productDetail?.category]?.moistureResistance && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.strength && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.moistureResistance && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Moisture Resistance
                   </span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.moistureResistance}</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
+            {productDetail?.[productDetail?.category]?.breathability ||
+              productDetail?.[productDetail?.category]?.colorOptions || 
+              productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.targetCondition || 
+              productDetail?.[productDetail?.category]?.coating && (   
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.breathability ||
+              productDetail?.[productDetail?.category]?.colorOptions && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.breathability && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Breathability</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.breathability}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.colorOptions && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Color Options</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.colorOptions}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.targetCondition && (
               <div className={styles.textareaSection}>
+              {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+              )}
+                {productDetail?.[productDetail?.category]?.targetCondition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Target Condition</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.targetCondition}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              { 
+              productDetail?.[productDetail?.category]?.coating && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Coating</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.coating}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Orthopedic Supplies */}
  
         {/* Dental Products */}
         {productDetail?.category == "DentalProducts" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.productMaterial || 
+            productDetail?.[productDetail?.category]?.usageRate || 
+            productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.targetCondition || 
+            productDetail?.[productDetail?.category]?.maintenanceNotesc || 
+            productDetail?.[productDetail?.category]?.compatibleEquipment )&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Dental Products </span>
+            {productDetail?.[productDetail?.category]?.productMaterial || 
+            productDetail?.[productDetail?.category]?.usageRate || 
+            productDetail?.[productDetail?.category]?.expiry && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.productMaterial || 
+              productDetail?.[productDetail?.category]?.usageRate && (
               <div className={styles.mainSection}>
+              {productDetail?.[productDetail?.category]?.productMaterial && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Material</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
                 </div>
+                  )}
+                {productDetail?.[productDetail?.category]?.usageRate && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Usage Rate</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.usageRate}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.expiry && (
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
               </div>
+              )}
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.targetCondition || 
+            productDetail?.[productDetail?.category]?.maintenanceNotesc || 
+            productDetail?.[productDetail?.category]?.compatibleEquipment && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.targetCondition && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.targetCondition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Target Condition</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.targetCondition}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.maintenanceNotes || 
+              productDetail?.[productDetail?.category]?.compatibleEquipment && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.maintenanceNotes && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Maintenance Notes</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.maintenanceNotes}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.compatibleEquipment && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Compatible Equipment
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.compatibleEquipment}
                   </span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+            )}
           </div>
-        )}
+        ))}
  
         {/* End Dental Products */}
  
         {/* Eye Care Supplies */}
  
         {productDetail?.category == "EyeCareSupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.diameter || 
+            productDetail?.[productDetail?.category]?.frame || 
+            productDetail?.[productDetail?.category]?.lens || 
+            productDetail?.[productDetail?.category]?.lensMaterial || 
+            productDetail?.[productDetail?.category]?.lensPower || 
+            productDetail?.[productDetail?.category]?.baseCurve || 
+            productDetail?.[productDetail?.category]?.colorOptions) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Eye Care Supplies</span>
+            {productDetail?.[productDetail?.category]?.diameter || 
+            productDetail?.[productDetail?.category]?.frame || 
+            productDetail?.[productDetail?.category]?.lens || 
+            productDetail?.[productDetail?.category]?.lensMaterial && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.diameter || 
+              productDetail?.[productDetail?.category]?.frame && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.diameter && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Diameter</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.diameter}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.frame && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Frame</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.frame}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.lens || 
+              productDetail?.[productDetail?.category]?.lensMaterial && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.lens && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Lens</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.lens}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.lensMaterial && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Lens Material</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.lensMaterial}</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.lensPower || 
+            productDetail?.[productDetail?.category]?.baseCurve || 
+            productDetail?.[productDetail?.category]?.colorOptions && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.lensPower || 
+              productDetail?.[productDetail?.category]?.baseCurve && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.lensPower && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Lens Power</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.lensPower}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.baseCurve && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Base Curve</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.baseCurve}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.colorOptions && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Color Options</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.colorOptions}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+            )}
           </div>
-        )}
+        ))}
  
         {/* End Eye Care Supplies */}
  
         {/* Home Healthcare Products */}
         {productDetail?.category == "HomeHealthcareProducts" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.maxWeightCapacity || 
+            productDetail?.[productDetail?.category]?.gripType || 
+            productDetail?.[productDetail?.category]?.batteryType || 
+            productDetail?.[productDetail?.category]?.batterySize || 
+            productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.colorOptions || 
+            productDetail?.[productDetail?.category]?.foldability || 
+            productDetail?.[productDetail?.category]?.lockingMechanism || 
+            productDetail?.[productDetail?.category]?.typeOfSupport || 
+            productDetail?.[productDetail?.category]?.flowRate || 
+            productDetail?.[productDetail?.category]?.concentration || 
+            productDetail?.[productDetail?.category]?.performanceTestingReport || 
+            productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Home Healthcare Products</span>
+            {productDetail?.[productDetail?.category]?.maxWeightCapacity || 
+            productDetail?.[productDetail?.category]?.gripType || 
+            productDetail?.[productDetail?.category]?.batteryType || 
+            productDetail?.[productDetail?.category]?.batterySize || 
+            productDetail?.[productDetail?.category]?.expiry && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.maxWeightCapacity || 
+              productDetail?.[productDetail?.category]?.gripType || 
+              productDetail?.[productDetail?.category]?.batteryType && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.maxWeightCapacity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Max Weight Capacity
                   </span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.maxWeightCapacity}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.gripType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Grip Type</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.gripType}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.batteryType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Battery Type</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.batteryType}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.batterySize || 
+              productDetail?.[productDetail?.category]?.expiry && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.batterySize && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Battery Size</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.batterySize}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.colorOptions || 
+            productDetail?.[productDetail?.category]?.foldability || 
+            productDetail?.[productDetail?.category]?.lockingMechanism || 
+            productDetail?.[productDetail?.category]?.typeOfSupport || 
+            productDetail?.[productDetail?.category]?.flowRate || 
+            productDetail?.[productDetail?.category]?.concentration || 
+            productDetail?.[productDetail?.category]?.performanceTestingReport || 
+            productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.colorOptions || 
+              productDetail?.[productDetail?.category]?.foldability && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.colorOptions && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Color Options</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.colorOptions}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.foldability && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Foldability</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.foldability}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.lockingMechanism || 
+              productDetail?.[productDetail?.category]?.typeOfSupport && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.lockingMechanism && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Locking Mechanism</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.lockingMechanism}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.typeOfSupport && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Type of Support</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.typeOfSupport}
                   </span>
                 </div>
+                )}
               </div>
- 
+              )}
+              {productDetail?.[productDetail?.category]?.flowRate || 
+              productDetail?.[productDetail?.category]?.concentration && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.flowRate && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Flow Rate</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.flowRate}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.concentration && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Concentration</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.concentration}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.performanceTestingReport || 
+              productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.performanceTestingReport && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Performance Testing Report
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.performanceTestingReport}
                   </span>
+                  {productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.performanceTestingReportFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -2539,70 +2640,85 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
+                  )}
                 </div>
+                )}
               </div>
+              )}
             </div>
+            )}
           </div>
-        )}
+        ))}
  
         {/* End Home Healthcare Products */}
  
         {/* Alternative Medicines */}
  
         {productDetail?.category == "AlternativeMedicines" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.composition || 
+            productDetail?.[productDetail?.category]?.healthClaims || 
+            productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0 
+          )&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Alternative Medicines</span>
+            {productDetail?.[productDetail?.category]?.expiry && (
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
               </div>
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.healthClaims || 
+              productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0 && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.composition  && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.composition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.healthClaims || 
+              productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0 && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.healthClaims && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Health Claims</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.healthClaims}
                   </span>
+                  {productDetail?.[productDetail?.category]?.healthClaimsFile.length > 0 && (
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.healthClaimsFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -2637,353 +2753,387 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
+                  )}
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Alternative Medicines */}
  
         {/* Emergency and First Aid Supplies */}
         {productDetail?.category == "EmergencyAndFirstAidSupplies" && (
-          // ()&&
-          <div className={styles.mainContainer}>
+          (productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.productLongetivity || 
+              productDetail?.[productDetail?.category]?.foldability) && (
+           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Emergency and First Aid Supplies
             </span>
+            {productDetail?.[productDetail?.category]?.expiry && (
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
               </div>
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.productLongetivity || 
+              productDetail?.[productDetail?.category]?.foldability && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.productLongetivity && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.composition && ( 
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.productLongetivity && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Product Longevity</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.productLongetivity}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.foldability && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Foldability</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.foldability}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Emergency and First Aid Supplies */}
  
         {/* Disinfection and Hygiene Supplies */}
         {productDetail?.category == "DisinfectionAndHygieneSupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.concentration || 
+              productDetail?.[productDetail?.category]?.formulation || 
+              productDetail?.[productDetail?.category]?.fragrance 
+          )&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Disinfection and Hygiene Supplies
             </span>
+            {
+              productDetail?.[productDetail?.category]?.expiry && (
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
               </div>
             </div>
+              )}
+            {productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.concentration || 
+              productDetail?.[productDetail?.category]?.formulation || 
+              productDetail?.[productDetail?.category]?.fragrance && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.concentration && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.composition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.concentration && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Concentration</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.concentration}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.formulation || 
+              productDetail?.[productDetail?.category]?.fragrance && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.formulation && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Formulation</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.formulation}
                   </span>
                 </div>
+                )}
+                {
+              productDetail?.[productDetail?.category]?.fragrance && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Fragrance</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.fragrance}
                   </span>
                 </div>
+              )}
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Disinfection and Hygiene Supplies */}
  
         {/* Nutrition and Dietary Products */}
         {productDetail?.category == "NutritionAndDietaryProducts" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.vegan || 
+            productDetail?.[productDetail?.category]?.diaryFree || 
+            productDetail?.[productDetail?.category]?.flavorOptions || 
+            productDetail?.[productDetail?.category]?.aminoAcidProfile || 
+            productDetail?.[productDetail?.category]?.fatContent || 
+            productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.healthBenefit || 
+            productDetail?.[productDetail?.category]?.composition || 
+            productDetail?.[productDetail?.category]?.additivesNSweeteners ) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Nutrition and Dietary Products
             </span>
+            {productDetail?.[productDetail?.category]?.expiry || 
+            productDetail?.[productDetail?.category]?.vegan || 
+            productDetail?.[productDetail?.category]?.diaryFree && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.vegan && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.vegan && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Vegan</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.diaryFree && (
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Dairy Free</span>
                   <span className={styles.medicineText}>Bottle</span>
                 </div>
               </div>
+              )}
             </div>
+            )}
+            {productDetail?.[productDetail?.category]?.flavorOptions || 
+            productDetail?.[productDetail?.category]?.aminoAcidProfile || 
+            productDetail?.[productDetail?.category]?.fatContent || 
+            productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.healthBenefit || 
+            productDetail?.[productDetail?.category]?.composition || 
+            productDetail?.[productDetail?.category]?.additivesNSweeteners && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.flavorOptions || 
+              productDetail?.[productDetail?.category]?.aminoAcidProfile && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.flavorOptions && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Flavor Options</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.flavorOptions}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.aminoAcidProfile && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Amino Acid Profile
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.aminoAcidProfile}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.fatContent || 
+              productDetail?.[productDetail?.category]?.purpose && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.fatContent && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Fat Content</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.fatContent}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.healthBenefit || 
+              productDetail?.[productDetail?.category]?.composition && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.healthBenefit && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Health Benefit</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.healthBenefit}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.composition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.additivesNSweeteners && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Additives & Sweeteners
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.additivesNSweeteners}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+            )}
           </div>
-        )}
+        ))}
  
         {/* End Nutrition and Dietary Products */}
  
         {/* Healthcare IT Solutions */}
         {productDetail?.category == "HealthcareITSolutions" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.license || 
+          productDetail?.[productDetail?.category]?.scalabilityInfo || 
+          productDetail?.[productDetail?.category]?.addOns || 
+          productDetail?.[productDetail?.category]?.userAccess || 
+          productDetail?.[productDetail?.category]?.keyFeatures || 
+          productDetail?.[productDetail?.category]?.coreFunctionalities || 
+          productDetail?.[productDetail?.category]?.interoperabilityFile || 
+          productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Healthcare IT Solutions</span>
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.license || 
+              productDetail?.[productDetail?.category]?.scalabilityInfo && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.license && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>License</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.license}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.scalabilityInfo && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Scalability Info</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.scalabilityInfo}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.addOns || 
+              productDetail?.[productDetail?.category]?.userAccess && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.addOns && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Add-Ons</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.addOns}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.userAccess && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>User Access</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.userAccess}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.keyFeatures || 
+              productDetail?.[productDetail?.category]?.coreFunctionalities && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.keyFeatures && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Key Features</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.keyFeatures}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.coreFunctionalities && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Core Functionalities
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.coreFunctionalities}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.interoperabilityFile || 
+              productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0 && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.interoperabilityFile && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Interoperability</span>
                   <span className={styles.medicineContent}>
@@ -2994,8 +3144,12 @@ const ProductDetails = () => {
                     lakhs and has 28.863998% paid-up capital which is Rs 288.64
                     lakhs.
                   </span>
+                  {productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0 && (
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.interoperabilityFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -3030,13 +3184,16 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
+                  )}
                 </div>
+                )}
               </div>
+              )}
             </div>
           </div>
-        )}
+        ))}
  
         {/* End Healthcare IT Solutions */}
  
