@@ -3715,7 +3715,10 @@ import React, {
                     <Select
                       className={styles.formSelect}
                       options={categoryOptions}
-                      value={selectedCategory}
+                      // value={selectedCategory}
+                      value={categoryOptions.find(
+                        (option) => option.value === (formik.values.category )
+                    )}
                       onBlur={formik?.handleBlur}
                       onChange={(selectedOption) => {
                         formik.setFieldValue("category", selectedOption?.value);
@@ -3731,6 +3734,17 @@ import React, {
                         setSelectedLevel3Category(null);
                         formik.setFieldValue("anotherCategory", "");
                       }}
+
+                    //   onChange={(selectedOption) => {
+                    //     // Update local state for productType
+                    //     setProductType(selectedOption?.value);
+ 
+                    //     // Update formik field value
+                    //     formik.setFieldValue(
+                    //     "market",
+                    //     selectedOption?.value?.replaceAll(" product", "") // Strip " product" if necessary
+                    //     );
+                    // }}
                       placeholder="Select Category"
                     />
                     {formik.touched.category && formik.errors.category && (
@@ -3752,7 +3766,10 @@ import React, {
                           ? getSubCategories(selectedCategory.label)
                           : []
                       }
-                      value={selectedSubCategory}
+                      // value={selectedSubCategory}
+                      value={selectedSubCategory?.find(
+                        (option) => option.value === (formik.values.category )
+                    )}
                       onBlur={formik?.handleBlur}
                       onChange={(selectedOption) => {
                         setSelectedSubCategory(selectedOption);
