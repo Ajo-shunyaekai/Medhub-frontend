@@ -26,6 +26,7 @@ const ProductDetails = () => {
   }, [id]);
  
   console.log("productDetails fromredux", productDetail);
+  console.log('productDetail?.[productDetail?.category]', productDetail?.[productDetail?.category])
  
   return (
     <div className={styles.container}>
@@ -592,11 +593,23 @@ const ProductDetails = () => {
  
         {/* Pharmaceuticals */}
         {productDetail?.category == "Pharmaceuticals" && (
-          // (productDetail?.[productDetail?.category]?.)&&
+          productDetail?.[productDetail?.category]?.genericName ||
+            productDetail?.[productDetail?.category]?.strength ||
+            productDetail?.[productDetail?.category]?.otcClassification ||
+            productDetail?.[productDetail?.category]?.drugClass ||
+            productDetail?.[productDetail?.category]?.expiry ||
+            productDetail?.[productDetail?.category]?.controlledSubstance ||
+            productDetail?.[productDetail?.category]?.composition ||
+            productDetail?.[productDetail?.category]?.formulation ||
+            productDetail?.[productDetail?.category]?.purpose || 
+            productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+            productDetail?.[productDetail?.category]?.sideEffectsAndWarnings
+          ) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Pharmaceuticals</span>
             {
-              // (productDetail?.[productDetail?.category]?.)&&
+              // (productDetail?.[productDetail?.category]?.genericName || productDetail?.[productDetail?.category]?.strength|| productDetail?.[productDetail?.category]?.otcClassification
+              // )&&
               <div className={styles.innerSection}>
                 {
                   (productDetail?.[productDetail?.category]?.genericName || productDetail?.[productDetail?.category]?.strength|| productDetail?.[productDetail?.category]?.otcClassification )&&
@@ -778,43 +791,113 @@ const ProductDetails = () => {
  
         {/* Skin, Hair and Cosmetic Supplies */}
         {productDetail?.category == "SkinHairCosmeticSupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.spf ||
+          productDetail?.[productDetail?.category]?.vegan ||
+          productDetail?.[productDetail?.category]?.crueltyFree ||
+          productDetail?.[productDetail?.category]?.expiry ||
+          productDetail?.[productDetail?.category]?.elasticity ||
+          productDetail?.[productDetail?.category]?.dermatologistTested ||
+          productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 || 
+          productDetail?.[productDetail?.category]?.strength ||
+          productDetail?.[productDetail?.category]?.controlledSubstance ||
+          productDetail?.[productDetail?.category]?.otcClassification ||
+          productDetail?.[productDetail?.category]?.adhesiveness ||
+          productDetail?.[productDetail?.category]?.thickness ||
+          productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+          productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 || 
+          productDetail?.[productDetail?.category]?.fragrance ||
+          productDetail?.[productDetail?.category]?.formulation ||
+          productDetail?.[productDetail?.category]?.composition ||
+          productDetail?.[productDetail?.category]?.purpose ||
+          productDetail?.[productDetail?.category]?.targetCondition ||
+          productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+          productDetail?.[productDetail?.category]?.drugClass ||
+          productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+          productDetail?.[productDetail?.category]?.allergens ||
+          productDetail?.[productDetail?.category]?.concentration ||
+          productDetail?.[productDetail?.category]?.fillerType ||
+          productDetail?.[productDetail?.category]?.moisturizers)&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Skin, Hair and Cosmetic Supplies{" "}
             </span>
+            {
+              productDetail?.[productDetail?.category]?.spf ||
+              productDetail?.[productDetail?.category]?.vegan ||
+              productDetail?.[productDetail?.category]?.crueltyFree ||
+              productDetail?.[productDetail?.category]?.expiry ||
+              productDetail?.[productDetail?.category]?.elasticity ||
+              productDetail?.[productDetail?.category]?.dermatologistTested ||
+              productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 || 
+              productDetail?.[productDetail?.category]?.strength ||
+              productDetail?.[productDetail?.category]?.controlledSubstance ||
+              productDetail?.[productDetail?.category]?.otcClassification ||
+              productDetail?.[productDetail?.category]?.adhesiveness ||
+              productDetail?.[productDetail?.category]?.thickness ||
+              productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+              productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
             <div className={styles.innerSection}>
+            {
+             productDetail?.[productDetail?.category]?.spf ||
+              productDetail?.[productDetail?.category]?.vegan ||
+              productDetail?.[productDetail?.category]?.crueltyFree ||
+              productDetail?.[productDetail?.category]?.expiry ||
+              productDetail?.[productDetail?.category]?.elasticity ||
+              productDetail?.[productDetail?.category]?.dermatologistTested ||
+              productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.spf && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>SPF</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.spf}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.vegan && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Vegan</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.crueltyFree && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Cruelty-Free</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.crueltyFree}</span>
                 </div>
+                )}
+                {
+                  productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                  )}
+                {
+                  productDetail?.[productDetail?.category]?.elasticity && (
+                
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Elasticity</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.elasticity}</span>
                 </div>
+                  )}
+                { 
+                productDetail?.[productDetail?.category]?.dermatologistTested && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Dermatologist Tested
                   </span>
-                  <span className={styles.medicineText}>Yes</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.dermatologistTested}</span>
                 </div>
+                )}
+                {
+                  productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 && (
                 <div className={styles.medicinesFileSection}>
                   <span className={styles.medicineHead}>Upload File</span>
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.dermatologistTestedFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -849,46 +932,72 @@ const ProductDetails = () => {
                         src={Image}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
+                  )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.strength ||
+              productDetail?.[productDetail?.category]?.controlledSubstance ||
+              productDetail?.[productDetail?.category]?.otcClassification ||
+              productDetail?.[productDetail?.category]?.adhesiveness ||
+              productDetail?.[productDetail?.category]?.thickness ||
+              productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+              productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.strength && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.controlledSubstance && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Controlled Substance
                   </span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.controlledSubstance}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.otcClassification && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     OTC Classification
                   </span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.otcClassification}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.adhesiveness && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Adhesiveness</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.adhesiveness}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.thickness && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Thickness</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness}</span>
                 </div>
- 
+                )}
+                {productDetail?.[productDetail?.category]?.pediatricianRecommended && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Pediatrician Recommended
                   </span>
-                  <span className={styles.medicineText}>Yes</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.pediatricianRecommended}</span>
                 </div>
-                <div className={styles.medicinesFileSection}>
+                )}
+                {
+                  productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
+                    <div className={styles.medicinesFileSection}>
                   <span className={styles.medicineHead}>Upload File</span>
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.pediatricianRecommendedFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -923,72 +1032,72 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
+                )}
+                
               </div>
+              )}
             </div>
+             )}
+
+            {productDetail?.[productDetail?.category]?.fragrance ||
+              productDetail?.[productDetail?.category]?.formulation ||
+              productDetail?.[productDetail?.category]?.composition ||
+              productDetail?.[productDetail?.category]?.purpose ||
+              productDetail?.[productDetail?.category]?.targetCondition ||
+              productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+              productDetail?.[productDetail?.category]?.drugClass ||
+              productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+              productDetail?.[productDetail?.category]?.allergens ||
+              productDetail?.[productDetail?.category]?.concentration ||
+              productDetail?.[productDetail?.category]?.fillerType ||
+              productDetail?.[productDetail?.category]?.moisturizers && (
             <div className={styles.textareaContainer}>
+            {(productDetail?.[productDetail?.category]?.fragrance ||
+                productDetail?.[productDetail?.category]?.formulation) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Fragrance</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.fragrance}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Formulation</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.formulation}
                   </span>
                 </div>
               </div>
+                )}
+              {(productDetail?.[productDetail?.category]?.composition ||
+                productDetail?.[productDetail?.category]?.purpose) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
               </div>
+                )}
+              {(productDetail?.[productDetail?.category]?.targetCondition ||
+                productDetail?.[productDetail?.category]?.drugAdministrationRoute) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Target Condition</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.targetCondition}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
@@ -996,25 +1105,18 @@ const ProductDetails = () => {
                     Drug Administration Route
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.drugAdministrationRoute}
                   </span>
                 </div>
               </div>
+              )}
+              {(productDetail?.[productDetail?.category]?.drugClass ||
+                productDetail?.[productDetail?.category]?.sideEffectsAndWarnings) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Drug Class</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.drugClass}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
@@ -1022,580 +1124,774 @@ const ProductDetails = () => {
                     Side Effects and Warnings
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings}
                   </span>
                 </div>
               </div>
+             )}
+              {(productDetail?.[productDetail?.category]
+                    ?.allergens ||
+                    productDetail?.[productDetail?.category]?.concentration) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Allergens</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]
+                    ?.allergens}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Concentration</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.concentration}
                   </span>
                 </div>
               </div>
+                    )}
+              {(productDetail?.[productDetail?.category]
+                    ?.fillerType ||
+                    productDetail?.[productDetail?.category]?.moisturizers) && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Moisturizers</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.moisturizers}
                   </span>
                 </div>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Filler Type</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]
+                    ?.fillerType}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+            )}
           </div>
-        )}
+        ))}
         {/* End Skin, Hair and Cosmetic Supplies */}
  
         {/* Vital Health and Wellness */}
         {productDetail?.category == "VitalHealthAndWellness" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.genericName || 
+            productDetail?.[productDetail?.category]?.strength || 
+          productDetail?.[productDetail?.category]?.controlledSubstance || 
+          productDetail?.[productDetail?.category]?.otcClassification || 
+          productDetail?.[productDetail?.category]?.expiry || 
+          productDetail?.[productDetail?.category]?.vegan || 
+          productDetail?.[productDetail?.category]?.crueltyFree || 
+          productDetail?.[productDetail?.category]?.healthBenefit || 
+          productDetail?.[productDetail?.category]?.composition || 
+          productDetail?.[productDetail?.category]?.formulation || 
+          productDetail?.[productDetail?.category]?.purpose || 
+          productDetail?.[productDetail?.category]?.drugAdministrationRoute || 
+          productDetail?.[productDetail?.category]?.drugClass || 
+          productDetail?.[productDetail?.category]?.sideEffectsAndWarnings || 
+          productDetail?.[productDetail?.category]?.allergens || 
+          productDetail?.[productDetail?.category]?.additivesNSweeteners
+        ) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Vital Health and Wellness</span>
+            {productDetail?.[productDetail?.category]?.genericName || 
+              productDetail?.[productDetail?.category]?.strength || 
+              productDetail?.[productDetail?.category]?.controlledSubstance || 
+              productDetail?.[productDetail?.category]?.otcClassification || 
+              productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.vegan || 
+              productDetail?.[productDetail?.category]?.crueltyFree && (
             <div className={styles.innerSection}>
+            {productDetail?.[productDetail?.category]?.genericName || 
+              productDetail?.[productDetail?.category]?.strength || 
+              productDetail?.[productDetail?.category]?.controlledSubstance || 
+              productDetail?.[productDetail?.category]?.otcClassification && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.genericName && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Generic Name</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.genericName}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.strength && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Strength</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.controlledSubstance && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Controlled Substance
                   </span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.controlledSubstance}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.otcClassification && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     OTC Classification
                   </span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.otcClassification}</span>
                 </div>
+                )}
               </div>
+             )}
+              {productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.vegan || 
+              productDetail?.[productDetail?.category]?.crueltyFree && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.vegan && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Vegan</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.crueltyFree && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Cruelty-Free</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.crueltyFree}</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
+            {
+              productDetail?.[productDetail?.category]?.healthBenefit || 
+              productDetail?.[productDetail?.category]?.composition || 
+              productDetail?.[productDetail?.category]?.formulation || 
+              productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.drugAdministrationRoute || 
+              productDetail?.[productDetail?.category]?.drugClass || 
+              productDetail?.[productDetail?.category]?.sideEffectsAndWarnings || 
+              productDetail?.[productDetail?.category]?.allergens || 
+              productDetail?.[productDetail?.category]?.additivesNSweeteners && (
+            
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.healthBenefit || 
+              productDetail?.[productDetail?.category]?.composition && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.healthBenefit && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Health Benefit</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.healthBenefit}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.composition && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Composition/Ingredients
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.composition}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.formulation || 
+              productDetail?.[productDetail?.category]?.purpose && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.formulation && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Formulation</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.formulation}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.drugAdministrationRoute || 
+              productDetail?.[productDetail?.category]?.drugClass && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.drugAdministrationRoute && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Drug Administration Route
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.drugAdministrationRoute}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.drugClass && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Drug Class</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                   {productDetail?.[productDetail?.category]?.drugClass}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {
+                productDetail?.[productDetail?.category]?.sideEffectsAndWarnings || 
+                productDetail?.[productDetail?.category]?.allergens && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Side Effects and Warnings
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings}
                   </span>
                 </div>
+                )}
+                {
+                  productDetail?.[productDetail?.category]?.allergens && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Allergens</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.allergens}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.additivesNSweeteners && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Additives & Sweeteners
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.general?.additivesNSweeteners}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Vital Health and Wellness */}
  
         {/* Medical Consumables and Disposables */}
         {productDetail?.category == "MedicalConsumablesAndDisposables" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.thickness ||
+          productDetail?.[productDetail?.category]?.powdered ||
+          productDetail?.[productDetail?.category]?.productMaterial ||
+          productDetail?.[productDetail?.category]?.expiry || 
+          productDetail?.[productDetail?.category]?.texture || 
+          productDetail?.[productDetail?.category]?.sterilized || 
+          productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+          productDetail?.[productDetail?.category]?.breathability ||
+          productDetail?.[productDetail?.category]?.layerCount ||
+          productDetail?.[productDetail?.category]?.fluidResistance || 
+          productDetail?.[productDetail?.category]?.filtrationType || 
+          productDetail?.[productDetail?.category]?.thickness ||
+          productDetail?.[productDetail?.category]?.powdered ||
+          productDetail?.[productDetail?.category]?.productMaterial ||
+          productDetail?.[productDetail?.category]?.expiry || 
+          productDetail?.[productDetail?.category]?.texture || 
+          productDetail?.[productDetail?.category]?.sterilized ||
+          productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+          productDetail?.[productDetail?.category]?.breathability ||
+          productDetail?.[productDetail?.category]?.layerCount ||
+          productDetail?.[productDetail?.category]?.fluidResistance || 
+          productDetail?.[productDetail?.category]?.filtrationType || 
+          productDetail?.[productDetail?.category]?.purpose ||
+          productDetail?.[productDetail?.category]?.chemicalResistance ||
+          productDetail?.[productDetail?.category]?.allergens ||
+          productDetail?.[productDetail?.category]?.coating
+        )&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Medical Consumables and Disposables
             </span>
+            {productDetail?.[productDetail?.category]?.thickness ||
+              productDetail?.[productDetail?.category]?.powdered ||
+              productDetail?.[productDetail?.category]?.productMaterial ||
+              productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.texture || 
+              productDetail?.[productDetail?.category]?.sterilized || 
+              productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+              productDetail?.[productDetail?.category]?.breathability ||
+              productDetail?.[productDetail?.category]?.layerCount ||
+              productDetail?.[productDetail?.category]?.fluidResistance || 
+              productDetail?.[productDetail?.category]?.filtrationType && (
             <div className={styles.innerSection}>
+            {productDetail?.[productDetail?.category]?.thickness ||
+              productDetail?.[productDetail?.category]?.powdered ||
+              productDetail?.[productDetail?.category]?.productMaterial ||
+              productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.texture || 
+              productDetail?.[productDetail?.category]?.sterilized && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.thickness && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Thickness</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness }</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.powdered && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Powdered</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.powdered}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.productMaterial && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Material</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.texture && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Texture</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.texture}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.sterilized && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Sterilized</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+              productDetail?.[productDetail?.category]?.breathability ||
+              productDetail?.[productDetail?.category]?.layerCount ||
+              productDetail?.[productDetail?.category]?.fluidResistance || 
+              productDetail?.[productDetail?.category]?.filtrationType && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.filtrationEfficiency && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Filtration Efficiency
                   </span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{3645}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.breathability && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Breathability</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.breathability}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.layerCount && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Layer Count</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.layerCount}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.fluidResistance && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Fluid Resistance</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.fluidResistance}</span>
                 </div>
+                )}
+                { productDetail?.[productDetail?.category]?.filtrationType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Filtration Type</span>
-                  <span className={styles.medicineText}>25235</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.filtrationType}</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
+            {productDetail?.[productDetail?.category]?.purpose ||
+              productDetail?.[productDetail?.category]?.chemicalResistance ||
+              productDetail?.[productDetail?.category]?.allergens ||
+              productDetail?.[productDetail?.category]?.coating && (
             <div className={styles.textareaContainer}>
+            {productDetail?.[productDetail?.category]?.purpose ||
+              productDetail?.[productDetail?.category]?.chemicalResistance && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.chemicalResistance && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Chemical Resistance
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.chemicalResistance}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.allergens ||
+              productDetail?.[productDetail?.category]?.coating && (
               <div className={styles.textareaSection}>
+              {productDetail?.[productDetail?.category]?.allergens && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Allergens</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.allergens}
                   </span>
                 </div>
+              )}
+                {productDetail?.[productDetail?.category]?.shape && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Shape</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.shape}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.coating && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Coating</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.general?.coating}
                   </span>
                 </div>
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
- 
+        ))}
         {/* End Medical Consumables and Disposables */}
  
         {/* Laboratory Supplies */}
  
         {productDetail?.category == "LaboratorySupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.connectivity || 
+          productDetail?.[productDetail?.category]?.physicalState || 
+          productDetail?.[productDetail?.category]?.hazardClassification || 
+          productDetail?.[productDetail?.category]?.magnificationRange || 
+          productDetail?.[productDetail?.category]?.objectiveLenses || 
+          productDetail?.[productDetail?.category]?.resolution || 
+          productDetail?.[productDetail?.category]?.powerSource || 
+          productDetail?.[productDetail?.category]?.shape || 
+          productDetail?.[productDetail?.category]?.coating || 
+          productDetail?.[productDetail?.category]?.purpose || 
+          productDetail?.[productDetail?.category]?.casNumber || 
+          productDetail?.[productDetail?.category]?.grade || 
+          productDetail?.[productDetail?.category]?.concentration)&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Laboratory Supplies</span>
+            {productDetail?.[productDetail?.category]?.connectivity || 
+              productDetail?.[productDetail?.category]?.physicalState || 
+              productDetail?.[productDetail?.category]?.hazardClassification && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.connectivity || 
+              productDetail?.[productDetail?.category]?.physicalState && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.connectivity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Connectivity</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.connectivity}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.physicalState && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Physical State</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.physicalState}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.hazardClassification && (
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
                     Hazard Classification
                   </span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.hazardClassification}</span>
                 </div>
               </div>
+              )}
             </div>
+              )}
+            {productDetail?.[productDetail?.category]?.magnificationRange || 
+              productDetail?.[productDetail?.category]?.objectiveLenses || 
+              productDetail?.[productDetail?.category]?.resolution || 
+              productDetail?.[productDetail?.category]?.powerSource || 
+              productDetail?.[productDetail?.category]?.shape || 
+              productDetail?.[productDetail?.category]?.coating || 
+              productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.casNumber || 
+              productDetail?.[productDetail?.category]?.grade || 
+              productDetail?.[productDetail?.category]?.concentration && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.magnificationRange || 
+              productDetail?.[productDetail?.category]?.objectiveLenses && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.magnificationRange && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Magnification Range
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.magnificationRange}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.objectiveLenses && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Objective Lenses</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.objectiveLenses}
                   </span>
                 </div>
+                )}
               </div>
+               )}
+              {productDetail?.[productDetail?.category]?.resolution || 
+              productDetail?.[productDetail?.category]?.powerSource && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.powerSource && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Power Source</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.powerSource}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.resolution && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Resolution</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.
+                    {productDetail?.[productDetail?.category]?.resolution}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.shape || 
+              productDetail?.[productDetail?.category]?.coating && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.shape && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Shape</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.shape}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.coating && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Coating</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.coating}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.casNumber && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.casNumber && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>CAS Number</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.casNumber}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.grade || 
+              productDetail?.[productDetail?.category]?.concentration && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.grade && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Grade</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                  {productDetail?.[productDetail?.category]?.grade}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.concentration && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Concentration</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.concentration}
                   </span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
- 
+        ))}
         {/* End Laboratory Supplies */}
  
         {/* Diagnostic and Monitoring Devices */}
  
         {productDetail?.category == "DiagnosticAndMonitoringDevices" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.measurementRange || 
+          productDetail?.[productDetail?.category]?.noiseLevel || 
+          productDetail?.[productDetail?.category]?.usageRate || 
+          productDetail?.[productDetail?.category]?.diagnosticFunctions || 
+          productDetail?.[productDetail?.category]?.flowRate || 
+          productDetail?.[productDetail?.category]?.concentration || 
+          productDetail?.[productDetail?.category]?.maintenanceNotes ||
+          productDetail?.[productDetail?.category]?.compatibleEquipment || 
+          productDetail?.[productDetail?.category]?.specification || 
+          productDetail?.[productDetail?.category]?.specificationFile.length > 0 || 
+          productDetail?.[productDetail?.category]?.performanceTestingReport || 
+          productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Diagnostic and Monitoring Devices
             </span>
+            {productDetail?.[productDetail?.category]?.measurementRange || 
+              productDetail?.[productDetail?.category]?.noiseLevel || 
+              productDetail?.[productDetail?.category]?.usageRate && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.measurementRange || 
+              productDetail?.[productDetail?.category]?.noiseLevel && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.measurementRange && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Measurement Range</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.measurementRange}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.noiseLevel && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Noise Level</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.noiseLevel}</span>
                 </div>
+                )}
               </div>
+              )}
+              {
+              productDetail?.[productDetail?.category]?.usageRate && (
               <div className={styles.mainSection}>
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Usage Rate</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.usageRate}</span>
                 </div>
               </div>
+              )}
             </div>
+              )}
+            {productDetail?.[productDetail?.category]?.diagnosticFunctions || 
+              productDetail?.[productDetail?.category]?.flowRate || 
+              productDetail?.[productDetail?.category]?.concentration || 
+              productDetail?.[productDetail?.category]?.maintenanceNotes ||
+              productDetail?.[productDetail?.category]?.compatibleEquipment || 
+              productDetail?.[productDetail?.category]?.specification || 
+              productDetail?.[productDetail?.category]?.specificationFile.length > 0 || 
+              productDetail?.[productDetail?.category]?.performanceTestingReport || 
+              productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.diagnosticFunctions || 
+              productDetail?.[productDetail?.category]?.flowRate && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.diagnosticFunctions && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Diagnostic Functions
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.diagnosticFunctions}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.flowRate && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Flow Rate</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                   {productDetail?.[productDetail?.category]?.flowRate}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.concentration || 
+              productDetail?.[productDetail?.category]?.maintenanceNotes && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.concentration && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Concentration</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.concentration}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.maintenanceNotes && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Maintenance Notes</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.maintenanceNotes}
                   </span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.compatibleEquipment && (
               <div className={styles.textareaSection}>
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Compatible Equipment
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.compatibleEquipment}
                   </span>
                 </div>
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.specification || 
+              productDetail?.[productDetail?.category]?.specificationFile.length > 0 || 
+              productDetail?.[productDetail?.category]?.performanceTestingReport || 
+              productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.specification && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Specification</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.specification}
                   </span>
+                  {productDetail?.[productDetail?.category]?.specificationFile.length > 0 && (
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+                    <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.specificationFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -1630,19 +1926,25 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
+                  )}
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.performanceTestingReport && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Performance Testing Report
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974.{" "}
+                    {productDetail?.[productDetail?.category]?.performanceTestingReport}
                   </span>
+                  {productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
                   <div className={styles.uploadFileSection}>
-                    <div className={styles.uploadFileContainer}>
+                  <RenderProductFiles
+                    files={productDetail?.[productDetail?.category]?.performanceTestingReportFile}
+                  />
+                    {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -1677,99 +1979,154 @@ const ProductDetails = () => {
                         src={Image1}
                         alt="Image"
                       />
-                    </div>
+                    </div> */}
                   </div>
+                  )}
                 </div>
+                )}
               </div>
+              )}
             </div>
+              )}
           </div>
-        )}
+        ))}
  
         {/* End Diagnostic and Monitoring Devices */}
  
         {/* Hospital and Clinic Supplies */}
         {productDetail?.category == "HospitalAndClinicSupplies" && (
-          // ()&&
+          (productDetail?.[productDetail?.category]?.adhesiveness || 
+          productDetail?.[productDetail?.category]?.absorbency || 
+          productDetail?.[productDetail?.category]?.thickness || 
+          productDetail?.[productDetail?.category]?.powdered || 
+          productDetail?.[productDetail?.category]?.productMaterial || 
+          productDetail?.[productDetail?.category]?.expiry || 
+          productDetail?.[productDetail?.category]?.texture || 
+          productDetail?.[productDetail?.category]?.sterilized || 
+          productDetail?.[productDetail?.category]?.fluidResistance || 
+          productDetail?.[productDetail?.category]?.elasticity || 
+          productDetail?.[productDetail?.category]?.purpose || 
+          productDetail?.[productDetail?.category]?.chemicalResistance)&& (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Hospital and Clinic Supplies
             </span>
+            {productDetail?.[productDetail?.category]?.adhesiveness || 
+              productDetail?.[productDetail?.category]?.absorbency || 
+              productDetail?.[productDetail?.category]?.thickness || 
+              productDetail?.[productDetail?.category]?.powdered || 
+              productDetail?.[productDetail?.category]?.productMaterial || 
+              productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.texture || 
+              productDetail?.[productDetail?.category]?.sterilized || 
+              productDetail?.[productDetail?.category]?.fluidResistance || 
+              productDetail?.[productDetail?.category]?.elasticity && (
             <div className={styles.innerSection}>
+              {productDetail?.[productDetail?.category]?.adhesiveness || 
+              productDetail?.[productDetail?.category]?.absorbency || 
+              productDetail?.[productDetail?.category]?.thickness || 
+              productDetail?.[productDetail?.category]?.powdered || 
+              productDetail?.[productDetail?.category]?.productMaterial && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.adhesiveness && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Adhesiveness</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.adhesiveness}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.absorbency && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Absorbency</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.absorbency}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.thickness && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Thickness</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.powdered && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Powdered</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.powdered}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.productMaterial && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Material</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
                 </div>
+                )}
               </div>
+              )}
+              {productDetail?.[productDetail?.category]?.expiry || 
+              productDetail?.[productDetail?.category]?.texture || 
+              productDetail?.[productDetail?.category]?.sterilized || 
+              productDetail?.[productDetail?.category]?.fluidResistance || 
+              productDetail?.[productDetail?.category]?.elasticity && (
               <div className={styles.mainSection}>
+                {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                  <span className={styles.medicineText}>3645</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.texture && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Texture</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.texture}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.sterilized && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Sterilized</span>
-                  <span className={styles.medicineText}>21312124</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.fluidResistance && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Fluid Resistance</span>
-                  <span className={styles.medicineText}>Bottle</span>
+                  <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.fluidResistance}</span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.elasticity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Elasticity</span>
                   <span className={styles.medicineText}>21312124</span>
                 </div>
+                )}
               </div>
+              )}
             </div>
+            )}
             <div className={styles.textareaContainer}>
+              {productDetail?.[productDetail?.category]?.purpose || 
+              productDetail?.[productDetail?.category]?.chemicalResistance && ( 
               <div className={styles.textareaSection}>
+                {productDetail?.[productDetail?.category]?.purpose && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>Purpose</span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.purpose}
                   </span>
                 </div>
+                )}
+                {productDetail?.[productDetail?.category]?.chemicalResistance && (
                 <div className={styles.textareaInnerSection}>
                   <span className={styles.medicineHead}>
                     Chemical Resistance
                   </span>
                   <span className={styles.medicineContent}>
-                    Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                    company, incorporated on 15 Feb, 1974. It's a private
-                    unlisted company and is classified as'company limited by
-                    shares'. Company's authorized capital stands at Rs 1000.0
-                    lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                    lakhs.
+                    {productDetail?.[productDetail?.category]?.chemicalResistance}
                   </span>
                 </div>
+                )}
               </div>
+              )}
             </div>
           </div>
-        )}
+        ))}
  
         {/* End Hospital and Clinic Supplies */}
  

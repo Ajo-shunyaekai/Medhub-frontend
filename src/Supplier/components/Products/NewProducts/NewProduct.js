@@ -33,7 +33,7 @@ const NewProduct = () => {
     return (
         <>
             <div className={styles.container}>
-                <Link to="/add-product">
+                <Link to="/supplier/add-product">
                     <div className={styles.mainSection}>
                         <span className={styles.head}>Add a Product</span>
                         <div className={styles.imgContainer}>
@@ -52,7 +52,7 @@ const NewProduct = () => {
                                         alt='Product Img'
                                     />
                                 </div>
-                                <Link to={`/product/${product._id}`}>
+                                <Link to={`/supplier/product-details/${product._id}`}>
                                 <div className={styles.cardButton}>
                                     View Details
                                 </div>
