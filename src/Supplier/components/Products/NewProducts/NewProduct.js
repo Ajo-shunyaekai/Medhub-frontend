@@ -98,7 +98,7 @@ const NewProduct = () => {
                         </div>
                 ))
             ) : (
-                <div className={styles.noData}>
+                <div className={styles.noDataSection}>
                     No Data Available
                 </div>
             )}

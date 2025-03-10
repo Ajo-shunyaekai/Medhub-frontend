@@ -107,7 +107,7 @@ cursor: pointer !important;
 .cardImgSection{
   display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 20px;
       justify-content: center;
 }
 .cardImg{
@@ -128,16 +128,18 @@ cursor: pointer !important;
   color: #fff;
   column-gap: 8px;
   cursor: pointer !important;
-  display: flex;
+  display: flex
+;
   font-size: 14px;
-  padding: 6px 10px;
+  padding: 6px 8px;
   border: none;
   outline: none;
+  justify-content: center;
 }
 .cardContentSection{
   display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
 }
 .cardInnerContainer{
   display: flex;
@@ -157,13 +159,29 @@ cursor: pointer !important;
 .cardText{
   color: #99a0ac;
   font-size: 13px;
+  line-height: 20px;
   font-weight: 500;
   width: 60%;
 }
 .paginationSection{
 margin-bottom: 20rem;
 }
-
+.noDataSection{
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  cursor: pointer !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 455px;
+  height: 100%;
+  gap: 10px;
+  font-size: 14px;
+    font-weight: 500;
+}
 /* End Product Card section */
 /* Start the media query */
 @media screen and (max-width: 1630px) {
@@ -171,37 +189,44 @@ margin-bottom: 20rem;
     max-width: 1100px;
   }
   .mainCard{
-    width: 520px;
+    width: 535px;
   }
   .mainSection{
-    width: 520px;
+    width: 535px;
   }
 }
-@media screen and (max-width: 1290px) {
+@media screen and (max-width: 1325px) {
 .productContainer {
-  max-width: 100%;
+  max-width: 914px;
+  border: 1px solid red;
 }
 .mainCard{
-  width: 480px;
+  width: 450px;
 }
 .mainSection{
-  width: 480px;
+  width: 450px;
 }
-.container{
- width: 980px;
+.noDataSection{
+  width: 400px;
+}
+.cardMainHeading{
+  font-size: 20px;
+}
+.cardHead{
+  font-size: 13px;
+}
+.cardButton{
+  font-size: 13px;
 }
 }
 @media screen and (max-width: 1160px) {
   .productContainer {
-    max-width: 100%;
+    max-width: 852px;
   }
   .mainCard{
-    width: 440px;
+    width: 420px;
   }
   .mainSection{
-    width: 440px;
-  }
-  .container{
-   width: 900px;
+    width: 420px;
   }
   }

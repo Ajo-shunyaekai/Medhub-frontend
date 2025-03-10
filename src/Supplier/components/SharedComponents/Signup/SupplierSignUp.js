@@ -129,7 +129,7 @@ const SupplierSignUp = ({ socket }) => {
             setFormData({ ...formData, country: selectedOption });
         }
     };
-    
+
     const handleStateChange = (selectedOption) => {
         setSelectedState(selectedOption || '');
         setSelectedCity('');
@@ -258,11 +258,11 @@ const SupplierSignUp = ({ socket }) => {
             return;
         }
 
-         //bank details validation
+        //bank details validation
         if (name === 'bankdetails') {
             setFormData(prevState => ({
-            ...prevState,
-            [name]: value
+                ...prevState,
+                [name]: value
             }));
 
             const details = value.split(',').map(item => item.trim());
@@ -270,56 +270,56 @@ const SupplierSignUp = ({ socket }) => {
 
             // validation for empty input
             if (!value.trim()) {
-            errorMessage = 'Please enter bank details';
+                errorMessage = 'Please enter bank details';
             }
             // Validate number of fields
             else if (details.length > 3) {
-            errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
+                errorMessage = 'Too many values. Please enter only Bank Name, Account Number, and IFSC Code';
             }
             else {
-            const [bankName = '', accountNumber = '', ifscCode = ''] = details;
+                const [bankName = '', accountNumber = '', ifscCode = ''] = details;
 
-            // Validate bank name
-            if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
-                errorMessage = 'Bank name should only contain letters and spaces';
-            }
-
-            // Validate account number if bank name is valid
-            else if (accountNumber) {
-                if (!/^\d*$/.test(accountNumber)) {
-                errorMessage = 'Account number should only contain digits';
-                } else if (accountNumber.length > 0 && accountNumber.length < 8) {
-                errorMessage = 'Account number should be at least 8 digits';
-                } else if (accountNumber.length > 20) {
-                errorMessage = 'Account number should not exceed 20 digits';
+                // Validate bank name
+                if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
+                    errorMessage = 'Bank name should only contain letters and spaces';
                 }
-            }
 
-            // Validate IFSC code if account number is valid
-             if (ifscCode) {
-                 if (ifscCode.length > 16) {
-                    errorMessage = 'IFSC/Sort Code should not exceed 16 digits';
+                // Validate account number if bank name is valid
+                else if (accountNumber) {
+                    if (!/^\d*$/.test(accountNumber)) {
+                        errorMessage = 'Account number should only contain digits';
+                    } else if (accountNumber.length > 0 && accountNumber.length < 8) {
+                        errorMessage = 'Account number should be at least 8 digits';
+                    } else if (accountNumber.length > 20) {
+                        errorMessage = 'Account number should not exceed 20 digits';
+                    }
                 }
-            }
 
-            // If all fields are present, verify complete format
-            if (details.length === 3 && !errorMessage) {
-                if (!bankName) errorMessage = 'Please enter bank name';
-                else if (!accountNumber) errorMessage = 'Please enter account number';
-                else if (!ifscCode) errorMessage = 'Please enter IFSC code';
-            }
+                // Validate IFSC code if account number is valid
+                if (ifscCode) {
+                    if (ifscCode.length > 16) {
+                        errorMessage = 'IFSC/Sort Code should not exceed 16 digits';
+                    }
+                }
+
+                // If all fields are present, verify complete format
+                if (details.length === 3 && !errorMessage) {
+                    if (!bankName) errorMessage = 'Please enter bank name';
+                    else if (!accountNumber) errorMessage = 'Please enter account number';
+                    else if (!ifscCode) errorMessage = 'Please enter IFSC code';
+                }
             }
 
             setErrors(prevState => ({
-            ...prevState,
-            bankdetails: errorMessage
+                ...prevState,
+                bankdetails: errorMessage
             }));
 
             return;
         }
 
         // Existing validations
-        if ((name === 'companyName' || name === 'companyEmail' || name === 'email' || name === 'companyAddress' 
+        if ((name === 'companyName' || name === 'companyEmail' || name === 'email' || name === 'companyAddress'
             || name === 'locality' || name === 'landMark') && value.length > 50) {
             setErrors((prevState) => ({
                 ...prevState,
@@ -328,7 +328,7 @@ const SupplierSignUp = ({ socket }) => {
             return;
         }
 
-        if((name === 'tags' || name === 'activityCode')&& value.length > 60) {
+        if ((name === 'tags' || name === 'activityCode') && value.length > 60) {
             setErrors((prevState) => ({
                 ...prevState,
                 [name]: ``,
@@ -349,12 +349,12 @@ const SupplierSignUp = ({ socket }) => {
 
         if (name === 'description' && value.length > 1000) {
             setErrors(prevState => ({ ...prevState, description: 'Description cannot exceed 1000 characters' }));
-        }  else if ((name === 'contactPersonName' || name === 'designation' || name === 'salesPersonName') && 
-                    (!/^[a-zA-Z\s]*$/.test(value) ||  value.length > 50)) {
+        } else if ((name === 'contactPersonName' || name === 'designation' || name === 'salesPersonName') &&
+            (!/^[a-zA-Z\s]*$/.test(value) || value.length > 50)) {
             setErrors(prevState => ({ ...prevState, designation: '' }));
         } else if (name === 'delivertime' && !/^\d{0,3}$/.test(value)) {
             setErrors(prevState => ({ ...prevState, delivertime: '' }));
-        } 
+        }
         // else if(name === 'pincode' && !/^\d{0,6}$/.test(value)) {
         //     setErrors(prevState => ({ ...prevState, pincode: '' }));
         // } 
@@ -362,8 +362,8 @@ const SupplierSignUp = ({ socket }) => {
             setErrors(prevState => ({ ...prevState, pincode: '' }));
         }
         else {
-          setFormData(prevState => ({ ...prevState, [name]: value }));
-          setErrors(prevState => ({ ...prevState, [name]: '' }));
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+            setErrors(prevState => ({ ...prevState, [name]: '' }));
         }
     };
 
@@ -488,27 +488,27 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
-        console.log('ormData.bankdetails',formData.bankdetails)
+        console.log('ormData.bankdetails', formData.bankdetails)
         if (!formData.bankdetails) {
             formErrors.bankdetails = 'Bank Details are Required';
         } else {
             const bankDetailsArray = formData.bankdetails.split(',');
-            
+
             // Check if we have all three parts
             if (bankDetailsArray.length !== 3) {
                 formErrors.bankdetails = 'Please provide Bank Name, Account Number, and IFSC Code separated by commas';
             } else {
                 const [bankName, accountNumber, ifscCode] = bankDetailsArray.map(item => item.trim());
-                
+
                 // Validate each part
                 if (!bankName) {
                     formErrors.bankdetails = 'Bank Name is required';
                 }
-                
+
                 if (!accountNumber || accountNumber.length < 8) {
                     formErrors.bankdetails = 'Please enter a valid Account Number';
                 }
-                
+
                 // IFSC validation (11 characters, alphanumeric)
                 // if (!ifscCode || !/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifscCode)) {
                 //     formErrors.bankdetails = 'Please enter a valid IFSC Code (11 characters, starting with 4 letters followed by a 0)';
@@ -518,7 +518,7 @@ const SupplierSignUp = ({ socket }) => {
                 }
             }
         }
-      
+
 
         // if (!formData.delivertime) formErrors.delivertime = 'Estimated Delivery Time is Required';
         if (!formData.tags) formErrors.tags = 'Tags are Required';
@@ -760,14 +760,24 @@ const SupplierSignUp = ({ socket }) => {
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Company Name<span className='labelstamp'>*</span></label>
-                                                <input
-                                                    className='signup-form-section-input'
-                                                    type="text"
-                                                    name="companyName"
-                                                    placeholder="Enter Company Name"
-                                                    value={formData.companyName}
-                                                    onChange={handleChange}
-                                                />
+                                                <div className='signup-tooltip-class'>
+                                                    <input
+                                                        className='signup-form-section-input'
+                                                        type="text"
+                                                        name="companyName"
+                                                        placeholder="Enter Company Name"
+                                                        value={formData.companyName}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <span
+                                                        className="email-info-icon"
+                                                        data-tooltip-id="company-name-tooltip"
+                                                        data-tooltip-content="Provide your legal entity name, matching with the company registration certificate."
+                                                    >
+                                                        <img src={Information} className='tooltip-icons' alt='information' />
+                                                    </span>
+                                                    <Tooltip id="company-name-tooltip" />
+                                                </div>
                                                 {errors.companyName && <div className='signup__errors'>{errors.companyName}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
@@ -1040,7 +1050,7 @@ const SupplierSignUp = ({ socket }) => {
                                                              IFSC Code,
                                                             (comma seperated)
                                                             "
-                                                            
+
                                                     >
                                                         <img src={Information} className='tooltip-icons' alt='information' />
                                                     </span>
