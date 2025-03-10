@@ -49,11 +49,11 @@ const NewProduct = () => {
                 <div className={styles.cardImg}>
                   <img
                     className={styles.productImg}
-                    src={product.general.image.length > 0 ? product.general.image[0] : ProductImage}
+                    src={product.general.image.lengßßth > 0 ? product.general.image[0] : ProductImage}
                     alt='Product Img'
                   />
                 </div>
-                <Link to={`/product/${product._id}`}>
+                <Link to={`/supplier/product-details/${product._id}`}>
                   <div className={styles.cardButton}>
                     View Details
                   </div>
