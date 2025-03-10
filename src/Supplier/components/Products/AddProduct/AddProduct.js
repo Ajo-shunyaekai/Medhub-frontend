@@ -2288,7 +2288,7 @@ const AddProduct = ({ placeholder }) => {
                       name="volumn"
                       value={values.volumn}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 9, 'all', ['volumn'])}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 9, 'all', ['volumn'], '.')}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2325,7 +2325,7 @@ const AddProduct = ({ placeholder }) => {
                       name="weight"
                       value={values.weight}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all', ['weight'])}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 9, 'number', ['weight'])}
                       onBlur={handleBlur}
                     />
                     <span
@@ -2773,6 +2773,7 @@ const AddProduct = ({ placeholder }) => {
                               placeholder={stock.placeholder}
                               // autoComplete="off"
                               type="number"
+                              
                             />
                             <button
                               type="button"

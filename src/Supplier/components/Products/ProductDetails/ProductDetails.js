@@ -6,6 +6,7 @@ import Doc from "../../../assets/images/doc.png";
 import PDF from "../../../assets/images/pdf.png";
 import Image from "../../../assets/images/product-details/para.webp";
 import Image1 from "../../../assets/images/product-details/paracetamol.png";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
@@ -21,9 +22,16 @@ const ProductDetails = () => {
     `${process.env.REACT_APP_SERVER_URL}/uploads/products/${productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0]}` ||
     "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
  
+  // useEffect(() => {
+  //   id && dispatch(fetchProductDetail(`product/${id}`));
+  // }, [id]);
+
   useEffect(() => {
-    id && dispatch(fetchProductDetail(`product/${id}`));
+    if (id) {
+      dispatch(fetchProductDetail(`product/${id}`));
+    }
   }, [id]);
+  
  
   console.log("productDetails fromredux", productDetail);
   console.log('productDetail?.[productDetail?.category]', productDetail?.[productDetail?.category])
@@ -37,7 +45,7 @@ const ProductDetails = () => {
             <span className={styles.medicineName}>
               {productDetail?.general?.name}
             </span>
-            <button className={styles.editButton}>Edit</button>
+            <Link to={`/supplier/edit-product/${id}`} className={styles.editButton}>Edit</Link>
           </div>
         </div>
  
