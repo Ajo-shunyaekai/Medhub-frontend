@@ -3565,6 +3565,8 @@ const EditAddProduct = ({ placeholder }) => {
         keyFeatures: categoryDetails?.keyFeatures || "",
         coreFunctionalities: categoryDetails?.coreFunctionalities || "",
       });
+      console.log('HEALTH HAZARD', formik.values?.healthHazardRating)
+      console.log('HEALTH HAZARD', formik.values?.healthHazardRatingNew)
     }
   }, [productDetail]);  // Add formik to the dependency array
  
