@@ -28,20 +28,32 @@ const ProductDetails = () => {
     }
   }, [id]);
 
-
   console.log("productDetails fromredux", productDetail);
-  console.log('productDetail?.[productDetail?.category]', productDetail?.[productDetail?.category])
+  console.log(
+    "productDetail?.[productDetail?.category]",
+    productDetail?.[productDetail?.category]
+  );
+
+  const getCategoryData = (property) => {
+    if (!productDetail?.category) return null;
+    return productDetail[productDetail.category]?.[property];
+  };
 
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
       <div className={styles.section}>
-        <div className={styles.mainFContainer}>
+        <div className={styles.mainContainer}>
           <div className={styles.InnerContainer}>
             <span className={styles.medicineName}>
               {productDetail?.general?.name}
             </span>
-            <Link to={`/supplier/edit-product/${id}`} className={styles.editButton}>Edit</Link>
+            <Link
+              to={`/supplier/edit-product/${id}`}
+              className={styles.editButton}
+            >
+              Edit
+            </Link>
           </div>
         </div>
 
@@ -175,17 +187,9 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-              {productDetail?.general?.model && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Part/Model Number</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.model}
-                  </span>
-                </div>
-              )}
               {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Product Total Quantity</span>
+                  <span className={styles.medicineHead}>Product Quantity</span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.quantity}
                   </span>
@@ -201,6 +205,16 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
+
+              {productDetail?.general?.model && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Part/Model Number</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.model}
+                  </span>
+                </div>
+              )}
+
             </div>
             <div className={styles.mainSection}>
               {productDetail?.[productDetail?.category]?.subCategory && (
@@ -213,7 +227,6 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-
               {productDetail?.general?.upc && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>UPC</span>
@@ -222,7 +235,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
-               {productDetail?.general?.brand && (
+              {productDetail?.general?.brand && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Brand Name</span>
                   <span className={styles.medicineText}>
@@ -588,65 +601,109 @@ const ProductDetails = () => {
         {/* End Medical Equipment and Devices */}
 
         {/* Pharmaceuticals */}
-        {productDetail?.category == "Pharmaceuticals" && (
-          productDetail?.[productDetail?.category]?.genericName ||
-          productDetail?.[productDetail?.category]?.strength ||
-          productDetail?.[productDetail?.category]?.otcClassification ||
-          productDetail?.[productDetail?.category]?.drugClass ||
-          productDetail?.[productDetail?.category]?.expiry ||
-          productDetail?.[productDetail?.category]?.controlledSubstance ||
-          productDetail?.[productDetail?.category]?.composition ||
-          productDetail?.[productDetail?.category]?.formulation ||
-          productDetail?.[productDetail?.category]?.purpose ||
-          productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-          productDetail?.[productDetail?.category]?.sideEffectsAndWarnings
-        ) && (
+        {productDetail?.category == "Pharmaceuticals" &&
+          // productDetail?.[productDetail?.category]?.genericName ||
+          //   productDetail?.[productDetail?.category]?.strength ||
+          //   productDetail?.[productDetail?.category]?.otcClassification ||
+          //   productDetail?.[productDetail?.category]?.drugClass ||
+          //   productDetail?.[productDetail?.category]?.expiry ||
+          //   productDetail?.[productDetail?.category]?.controlledSubstance ||
+          //   productDetail?.[productDetail?.category]?.composition ||
+          //   productDetail?.[productDetail?.category]?.formulation ||
+          //   productDetail?.[productDetail?.category]?.purpose ||
+          //   productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+          //   productDetail?.[productDetail?.category]?.sideEffectsAndWarnings
+          (getCategoryData("genericName") ||
+            getCategoryData("strength") ||
+            getCategoryData("otcClassification") ||
+            getCategoryData("drugClass") ||
+            getCategoryData("expiry") ||
+            getCategoryData("controlledSubstance") ||
+            getCategoryData("composition") ||
+            getCategoryData("formulation") ||
+            getCategoryData("purpose") ||
+            getCategoryData("drugAdministrationRoute") ||
+            getCategoryData("sideEffectsAndWarnings")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Pharmaceuticals</span>
               {
                 // (productDetail?.[productDetail?.category]?.genericName || productDetail?.[productDetail?.category]?.strength|| productDetail?.[productDetail?.category]?.otcClassification
                 // )&&
                 <div className={styles.innerSection}>
-                  {
-                    (productDetail?.[productDetail?.category]?.genericName || productDetail?.[productDetail?.category]?.strength || productDetail?.[productDetail?.category]?.otcClassification) &&
-                    <div className={styles.mainSection}>
-                      {
-                        (productDetail?.[productDetail?.category]?.genericName) && (
+                  {// productDetail?.[productDetail?.category]?.genericName ||
+                    // productDetail?.[productDetail?.category]?.strength||
+                    // productDetail?.[productDetail?.category]?.otcClassification
+                    (getCategoryData("genericName") ||
+                      getCategoryData("strength") ||
+                      getCategoryData("expiry") ||
+                      getCategoryData("otcClassification")) && (
+                      <div className={styles.mainSection}>
+                        {productDetail?.[productDetail?.category]
+                          ?.genericName && (
+                            <div className={styles.medicinesSection}>
+                              <span className={styles.medicineHead}>
+                                Generic Name
+                              </span>
+                              <span className={styles.medicineText}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.genericName
+                                }
+                              </span>
+                            </div>
+                          )}
+                        {productDetail?.[productDetail?.category]?.strength && (
                           <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>
-                              Generic Name
+                            <span className={styles.medicineHead}>Strength</span>
+                            <span className={styles.medicineText}>
+                              {productDetail?.[productDetail?.category]?.strength}
                             </span>
-                            <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.genericName}</span>
                           </div>
                         )}
-                      {
-                        (productDetail?.[productDetail?.category]?.strength) &&
-                        <div className={styles.medicinesSection}>
-                          <span className={styles.medicineHead}>Strength</span>
-                          <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
-                        </div>
-                      }
-                      {
-                        (productDetail?.[productDetail?.category]?.otcClassification) &&
-                        <div className={styles.medicinesSection}>
-                          <span className={styles.medicineHead}>
-                            OTC Classification
-                          </span>
-                          <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.otcClassification}</span>
-                        </div>
-                      }
-                    </div>
-                  }
-                  {(productDetail?.[productDetail?.category]?.drugClass ||
-                    productDetail?.[productDetail?.category]
-                      ?.controlledSubstance ||
-                    productDetail?.[productDetail?.category]?.expiry) && (
+                        {productDetail?.[productDetail?.category]
+                          ?.otcClassification && (
+                            <div className={styles.medicinesSection}>
+                              <span className={styles.medicineHead}>
+                                OTC Classification
+                              </span>
+                              <span className={styles.medicineText}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.otcClassification
+                                }
+                              </span>
+                            </div>
+                          )}
+                           {productDetail?.[productDetail?.category]?.expiry && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Shelf Life/Expiry
+                            </span>
+                            <span className={styles.medicineText}>
+                              {productDetail?.[productDetail?.category]?.expiry}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  {// productDetail?.[productDetail?.category]?.drugClass ||
+                    // productDetail?.[productDetail?.category]
+                    //   ?.controlledSubstance ||
+                    // productDetail?.[productDetail?.category]?.expiry
+                    (getCategoryData("drugClass") ||
+                      
+                      getCategoryData("controlledSubstance")) && (
                       <div className={styles.mainSection}>
                         {productDetail?.[productDetail?.category]?.drugClass && (
                           <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>Drug Class</span>
+                            <span className={styles.medicineHead}>
+                              Drug Class
+                            </span>
                             <span className={styles.medicineText}>
-                              {productDetail?.[productDetail?.category]?.drugClass}
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.drugClass
+                              }
                             </span>
                           </div>
                         )}
@@ -664,32 +721,905 @@ const ProductDetails = () => {
                               </span>
                             </div>
                           )}
-                        {productDetail?.[productDetail?.category]?.expiry && (
-                          <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>
-                              Shelf Life/Expiry
-                            </span>
-                            <span className={styles.medicineText}>
-                              {productDetail?.[productDetail?.category]?.expiry}
-                            </span>
-                          </div>
-                        )}
+                       
                       </div>
                     )}
                 </div>
               }
-              {productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.formulation ||
-                productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]
-                  ?.drugAdministrationRoute ||
-                ((productDetail?.[productDetail?.category]
-                  ?.sideEffectsAndWarnings ||
-                  productDetail?.[productDetail?.category]?.allergens) && (
+              {
+                // productDetail?.[productDetail?.category]?.composition ||
+                //   productDetail?.[productDetail?.category]?.formulation ||
+                //   productDetail?.[productDetail?.category]?.purpose ||
+                //   productDetail?.[productDetail?.category]
+                //     ?.drugAdministrationRoute ||
+                //   ((productDetail?.[productDetail?.category]
+                //     ?.sideEffectsAndWarnings ||
+                //     productDetail?.[productDetail?.category]?.allergens
+                //   )
+                getCategoryData("composition") ||
+                getCategoryData("formulation") ||
+                getCategoryData("purpose") ||
+                getCategoryData("drugAdministrationRoute") ||
+                getCategoryData("sideEffectsAndWarnings") ||
+                (getCategoryData("allergens") && (
+                  <div className={styles.textareaContainer}>
+                    {// productDetail?.[productDetail?.category]?.composition ||
+                      // productDetail?.[productDetail?.category]?.formulation
+                      (getCategoryData("composition") ||
+                        getCategoryData("formulation")) && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.composition && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Composition/Ingredients
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.composition
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.formulation && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Formulation
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.formulation
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      )}
+                    {// productDetail?.[productDetail?.category]?.purpose ||
+                      // productDetail?.[productDetail?.category]
+                      //   ?.drugAdministrationRoute
+                      (getCategoryData("purpose") ||
+                        getCategoryData("drugAdministrationRoute")) && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.drugAdministrationRoute && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Drug Administration Route
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.drugAdministrationRoute
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      )}
+                    {// productDetail?.[productDetail?.category]
+                      // ?.sideEffectsAndWarnings ||
+                      // productDetail?.[productDetail?.category]?.allergens
+                      (getCategoryData("sideEffectsAndWarnings") ||
+                        getCategoryData("allergens")) && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.sideEffectsAndWarnings && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Side Effects and Warnings
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.sideEffectsAndWarnings
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.allergens && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Allergens
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.allergens
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      )}
+                  </div>
+                ))
+              }
+            </div>
+          )}
+        {/* End Pharmaceuticals */}
+
+        {/* Skin, Hair and Cosmetic Supplies */}
+        {productDetail?.category == "SkinHairCosmeticSupplies" &&
+          //   productDetail?.[productDetail?.category]?.spf ||
+          // productDetail?.[productDetail?.category]?.vegan ||
+          // productDetail?.[productDetail?.category]?.crueltyFree ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.elasticity ||
+          // productDetail?.[productDetail?.category]?.dermatologistTested ||
+          // productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 ||
+          // productDetail?.[productDetail?.category]?.strength ||
+          // productDetail?.[productDetail?.category]?.controlledSubstance ||
+          // productDetail?.[productDetail?.category]?.otcClassification ||
+          // productDetail?.[productDetail?.category]?.adhesiveness ||
+          // productDetail?.[productDetail?.category]?.thickness ||
+          // productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+          // productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 ||
+          // productDetail?.[productDetail?.category]?.fragrance ||
+          // productDetail?.[productDetail?.category]?.formulation ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.targetCondition ||
+          // productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+          // productDetail?.[productDetail?.category]?.drugClass ||
+          // productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+          // productDetail?.[productDetail?.category]?.allergens ||
+          // productDetail?.[productDetail?.category]?.concentration ||
+          // productDetail?.[productDetail?.category]?.fillerType ||
+          // productDetail?.[productDetail?.category]?.moisturizers)
+          (getCategoryData("spf") ||
+            getCategoryData("vegan") ||
+            getCategoryData("crueltyFree") ||
+            getCategoryData("expiry") ||
+            getCategoryData("elasticity") ||
+            getCategoryData("dermatologistTested") ||
+            getCategoryData("dermatologistTestedFile")?.length > 0 ||
+            getCategoryData("strength") ||
+            getCategoryData("controlledSubstance") ||
+            getCategoryData("otcClassification") ||
+            getCategoryData("adhesiveness") ||
+            getCategoryData("thickness") ||
+            getCategoryData("pediatricianRecommended") ||
+            getCategoryData("pediatricianRecommendedFile")?.length > 0 ||
+            getCategoryData("fragrance") ||
+            getCategoryData("formulation") ||
+            getCategoryData("composition") ||
+            getCategoryData("purpose") ||
+            getCategoryData("targetCondition") ||
+            getCategoryData("drugAdministrationRoute") ||
+            getCategoryData("drugClass") ||
+            getCategoryData("sideEffectsAndWarnings") ||
+            getCategoryData("allergens") ||
+            getCategoryData("concentration") ||
+            getCategoryData("fillerType") ||
+            (getCategoryData("moisturizers") && (
+              <div className={styles.mainContainer}>
+                <span className={styles.innerHead}>
+                  Skin, Hair and Cosmetic Supplies{" "}
+                </span>
+                {
+                  // productDetail?.[productDetail?.category]?.spf ||
+                  // productDetail?.[productDetail?.category]?.vegan ||
+                  // productDetail?.[productDetail?.category]?.crueltyFree ||
+                  // productDetail?.[productDetail?.category]?.expiry ||
+                  // productDetail?.[productDetail?.category]?.elasticity ||
+                  // productDetail?.[productDetail?.category]?.dermatologistTested ||
+                  // productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 ||
+                  // productDetail?.[productDetail?.category]?.strength ||
+                  // productDetail?.[productDetail?.category]?.controlledSubstance ||
+                  // productDetail?.[productDetail?.category]?.otcClassification ||
+                  // productDetail?.[productDetail?.category]?.adhesiveness ||
+                  // productDetail?.[productDetail?.category]?.thickness ||
+                  // productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+                  // productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0
+                  getCategoryData("spf") ||
+                  getCategoryData("vegan") ||
+                  getCategoryData("crueltyFree") ||
+                  getCategoryData("expiry") ||
+                  getCategoryData("elasticity") ||
+                  getCategoryData("dermatologistTested") ||
+                  getCategoryData("dermatologistTestedFile")?.length > 0 ||
+                  getCategoryData("strength") ||
+                  getCategoryData("controlledSubstance") ||
+                  getCategoryData("otcClassification") ||
+                  getCategoryData("adhesiveness") ||
+                  getCategoryData("thickness") ||
+                  getCategoryData("pediatricianRecommended") ||
+                  (getCategoryData("pediatricianRecommendedFile")?.length && (
+                    <div className={styles.innerSection}>
+                      {
+                        //  productDetail?.[productDetail?.category]?.spf ||
+                        //   productDetail?.[productDetail?.category]?.vegan ||
+                        //   productDetail?.[productDetail?.category]?.crueltyFree ||
+                        //   productDetail?.[productDetail?.category]?.expiry ||
+                        //   productDetail?.[productDetail?.category]?.elasticity ||
+                        //   productDetail?.[productDetail?.category]?.dermatologistTested ||
+                        //   productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0
+                        getCategoryData("spf") ||
+                        getCategoryData("vegan") ||
+                        getCategoryData("crueltyFree") ||
+                        getCategoryData("expiry") ||
+                        getCategoryData("elasticity") ||
+                        getCategoryData("dermatologistTested") ||
+                        (getCategoryData("dermatologistTestedFile")
+                          ?.length > 0 && (
+                            <div className={styles.mainSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.spf && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      SPF
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.spf
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.vegan && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Vegan
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.vegan
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.crueltyFree && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Cruelty-Free
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.crueltyFree
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.expiry && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Shelf Life/Expiry
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.expiry
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.elasticity && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Elasticity
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.elasticity
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.dermatologistTested && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Dermatologist Tested
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.dermatologistTested
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.dermatologistTestedFile?.length > 0 && (
+                                  <div className={styles.medicinesFileSection}>
+                                    <span className={styles.medicineHead}>
+                                      Upload File
+                                    </span>
+                                    <div className={styles.uploadFileSection}>
+                                      <RenderProductFiles
+                                        files={
+                                          productDetail?.[
+                                            productDetail?.category
+                                          ]?.dermatologistTestedFile
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                            </div>
+                          ))
+                      }
+                      {
+                        // productDetail?.[productDetail?.category]?.strength ||
+                        // productDetail?.[productDetail?.category]?.controlledSubstance ||
+                        // productDetail?.[productDetail?.category]?.otcClassification ||
+                        // productDetail?.[productDetail?.category]?.adhesiveness ||
+                        // productDetail?.[productDetail?.category]?.thickness ||
+                        // productDetail?.[productDetail?.category]?.pediatricianRecommended ||
+                        // productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0
+                        getCategoryData("strength") ||
+                        getCategoryData("controlledSubstance") ||
+                        getCategoryData("otcClassification") ||
+                        getCategoryData("adhesiveness") ||
+                        getCategoryData("thickness") ||
+                        getCategoryData("pediatricianRecommended") ||
+                        (getCategoryData("pediatricianRecommendedFile")
+                          ?.length > 0 && (
+                            <div className={styles.mainSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.strength && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Strength
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.strength
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.controlledSubstance && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Controlled Substance
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.controlledSubstance
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.otcClassification && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      OTC Classification
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.otcClassification
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.adhesiveness && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Adhesiveness
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.adhesiveness
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.thickness && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Thickness
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.thickness
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.pediatricianRecommended && (
+                                  <div className={styles.medicinesSection}>
+                                    <span className={styles.medicineHead}>
+                                      Pediatrician Recommended
+                                    </span>
+                                    <span className={styles.medicineText}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.pediatricianRecommended
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.pediatricianRecommendedFile?.length > 0 && (
+                                  <div className={styles.medicinesFileSection}>
+                                    <span className={styles.medicineHead}>
+                                      Upload File
+                                    </span>
+                                    <div className={styles.uploadFileSection}>
+                                      <RenderProductFiles
+                                        files={
+                                          productDetail?.[
+                                            productDetail?.category
+                                          ]?.pediatricianRecommendedFile
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                            </div>
+                          ))
+                      }
+                    </div>
+                  ))
+                }
+
+                {
+                  // productDetail?.[productDetail?.category]?.fragrance ||
+                  //   productDetail?.[productDetail?.category]?.formulation ||
+                  //   productDetail?.[productDetail?.category]?.composition ||
+                  //   productDetail?.[productDetail?.category]?.purpose ||
+                  //   productDetail?.[productDetail?.category]?.targetCondition ||
+                  //   productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+                  //   productDetail?.[productDetail?.category]?.drugClass ||
+                  //   productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+                  //   productDetail?.[productDetail?.category]?.allergens ||
+                  //   productDetail?.[productDetail?.category]?.concentration ||
+                  //   productDetail?.[productDetail?.category]?.fillerType ||
+                  //   productDetail?.[productDetail?.category]?.moisturizers
+                  getCategoryData("fragrance") ||
+                  getCategoryData("formulation") ||
+                  getCategoryData("composition") ||
+                  getCategoryData("purpose") ||
+                  getCategoryData("targetCondition") ||
+                  getCategoryData("drugAdministrationRoute") ||
+                  getCategoryData("drugClass") ||
+                  getCategoryData("sideEffectsAndWarnings") ||
+                  getCategoryData("allergens") ||
+                  getCategoryData("concentration") ||
+                  getCategoryData("fillerType") ||
+                  (getCategoryData("moisturizers") && (
                     <div className={styles.textareaContainer}>
-                      {(productDetail?.[productDetail?.category]?.composition ||
-                        productDetail?.[productDetail?.category]?.formulation) && (
+                      {// productDetail?.[productDetail?.category]?.fragrance ||
+                        //   productDetail?.[productDetail?.category]?.formulation
+                        (getCategoryData("fragrance") ||
+                          getCategoryData("formulation")) && (
                           <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Fragrance
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.fragrance
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Formulation
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.formulation
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      {// productDetail?.[productDetail?.category]?.composition ||
+                        // productDetail?.[productDetail?.category]?.purpose
+                        (getCategoryData("composition") ||
+                          getCategoryData("purpose")) && (
+                          <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Composition/Ingredients
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.composition
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Purpose
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.purpose
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      {// productDetail?.[productDetail?.category]?.targetCondition ||
+                        // productDetail?.[productDetail?.category]?.drugAdministrationRoute
+                        (getCategoryData("targetCondition") ||
+                          getCategoryData("drugAdministrationRoute")) && (
+                          <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Target Condition
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.targetCondition
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Drug Administration Route
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.drugAdministrationRoute
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      {// productDetail?.[productDetail?.category]?.drugClass ||
+                        // productDetail?.[productDetail?.category]?.sideEffectsAndWarnings
+                        (getCategoryData("drugClass") ||
+                          getCategoryData("sideEffectsAndWarnings")) && (
+                          <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Drug Class
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.drugClass
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Side Effects and Warnings
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.sideEffectsAndWarnings
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      {// productDetail?.[productDetail?.category]
+                        //     ?.allergens ||
+                        //     productDetail?.[productDetail?.category]?.concentration
+                        (getCategoryData("allergens") ||
+                          getCategoryData("concentration")) && (
+                          <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Allergens
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.allergens
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Concentration
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.concentration
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      {// productDetail?.[productDetail?.category]
+                        //     ?.fillerType ||
+                        //     productDetail?.[productDetail?.category]?.moisturizers
+                        (getCategoryData("fillerType") ||
+                          getCategoryData("moisturizers")) && (
+                          <div className={styles.textareaSection}>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Moisturizers
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.moisturizers
+                                }
+                              </span>
+                            </div>
+                            <div className={styles.textareaInnerSection}>
+                              <span className={styles.medicineHead}>
+                                Filler Type
+                              </span>
+                              <span className={styles.medicineContent}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.fillerType
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                    </div>
+                  ))
+                }
+              </div>
+            )))}
+        {/* End Skin, Hair and Cosmetic Supplies */}
+
+        {/* Vital Health and Wellness */}
+        {productDetail?.category == "VitalHealthAndWellness" &&
+          //   productDetail?.[productDetail?.category]?.genericName ||
+          //   productDetail?.[productDetail?.category]?.strength ||
+          // productDetail?.[productDetail?.category]?.controlledSubstance ||
+          // productDetail?.[productDetail?.category]?.otcClassification ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.vegan ||
+          // productDetail?.[productDetail?.category]?.crueltyFree ||
+          // productDetail?.[productDetail?.category]?.healthBenefit ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+          // productDetail?.[productDetail?.category]?.drugClass ||
+          // productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+          // productDetail?.[productDetail?.category]?.allergens ||
+          // productDetail?.[productDetail?.category]?.additivesNSweeteners
+          (getCategoryData("genericName") ||
+            getCategoryData("strength") ||
+            getCategoryData("controlledSubstance") ||
+            getCategoryData("otcClassification") ||
+            getCategoryData("expiry") ||
+            getCategoryData("vegan") ||
+            getCategoryData("crueltyFree") ||
+            getCategoryData("healthBenefit") ||
+            getCategoryData("composition") ||
+            getCategoryData("purpose") ||
+            getCategoryData("drugAdministrationRoute") ||
+            getCategoryData("drugClass") ||
+            getCategoryData("sideEffectsAndWarnings") ||
+            getCategoryData("allergens") ||
+            getCategoryData("thickness") ||
+            getCategoryData("powdered") ||
+            getCategoryData("additivesNSweeteners")) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>
+                Vital Health and Wellness
+              </span>
+              {
+                // productDetail?.[productDetail?.category]?.genericName ||
+                //   productDetail?.[productDetail?.category]?.strength ||
+                //   productDetail?.[productDetail?.category]?.controlledSubstance ||
+                //   productDetail?.[productDetail?.category]?.otcClassification ||
+                //   productDetail?.[productDetail?.category]?.expiry ||
+                //   productDetail?.[productDetail?.category]?.vegan ||
+                //   productDetail?.[productDetail?.category]?.crueltyFree
+                getCategoryData("genericName") ||
+                getCategoryData("strength") ||
+                getCategoryData("controlledSubstance") ||
+                getCategoryData("otcClassification") ||
+                getCategoryData("expiry") ||
+                getCategoryData("vegan") ||
+                (getCategoryData("crueltyFree") && (
+                  <div className={styles.innerSection}>
+                    {
+                      // productDetail?.[productDetail?.category]?.genericName ||
+                      //   productDetail?.[productDetail?.category]?.strength ||
+                      //   productDetail?.[productDetail?.category]?.controlledSubstance ||
+                      //   productDetail?.[productDetail?.category]?.otcClassification
+                      getCategoryData("genericName") ||
+                      getCategoryData("strength") ||
+                      getCategoryData("controlledSubstance") ||
+                      (getCategoryData("otcClassification") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.genericName && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Generic Name
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.genericName
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.strength && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Strength
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.strength
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.controlledSubstance && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Controlled Substance
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.controlledSubstance
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.otcClassification && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  OTC Classification
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.otcClassification
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.expiry ||
+                      // productDetail?.[productDetail?.category]?.vegan ||
+                      // productDetail?.[productDetail?.category]?.crueltyFree
+                      getCategoryData("expiry") ||
+                      getCategoryData("vegan") ||
+                      (getCategoryData("crueltyFree") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.expiry && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Shelf Life/Expiry
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.expiry
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.vegan && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Vegan
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.vegan
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.crueltyFree && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Cruelty-Free
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.crueltyFree
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.healthBenefit ||
+                // productDetail?.[productDetail?.category]?.composition ||
+                // productDetail?.[productDetail?.category]?.formulation ||
+                // productDetail?.[productDetail?.category]?.purpose ||
+                // productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
+                // productDetail?.[productDetail?.category]?.drugClass ||
+                // productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
+                // productDetail?.[productDetail?.category]?.allergens ||
+                // productDetail?.[productDetail?.category]?.additivesNSweeteners
+                getCategoryData("healthBenefit") ||
+                getCategoryData("composition") ||
+                getCategoryData("purpose") ||
+                getCategoryData("drugAdministrationRoute") ||
+                getCategoryData("drugClass") ||
+                getCategoryData("sideEffectsAndWarnings") ||
+                getCategoryData("allergens") ||
+                getCategoryData("thickness") ||
+                getCategoryData("powdered") ||
+                (getCategoryData("additivesNSweeteners") && (
+                  <div className={styles.textareaContainer}>
+                    {productDetail?.[productDetail?.category]
+                      ?.healthBenefit ||
+                      (productDetail?.[productDetail?.category]
+                        ?.composition && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.healthBenefit && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Health Benefit
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.healthBenefit
+                                    }
+                                  </span>
+                                </div>
+                              )}
                             {productDetail?.[productDetail?.category]
                               ?.composition && (
                                 <div className={styles.textareaInnerSection}>
@@ -704,34 +1634,46 @@ const ProductDetails = () => {
                                   </span>
                                 </div>
                               )}
-                            {productDetail?.[productDetail?.category]
-                              ?.formulation && (
-                                <div className={styles.textareaInnerSection}>
-                                  <span className={styles.medicineHead}>
-                                    Formulation
-                                  </span>
-                                  <span className={styles.medicineContent}>
-                                    {
-                                      productDetail?.[productDetail?.category]
-                                        ?.formulation
-                                    }
-                                  </span>
-                                </div>
-                              )}
                           </div>
-                        )}
-                      {(productDetail?.[productDetail?.category]?.purpose ||
-                        productDetail?.[productDetail?.category]
-                          ?.drugAdministrationRoute) && (
-                          <div className={styles.textareaSection}>
-                            {productDetail?.[productDetail?.category]?.purpose && (
+                        ))}
+                    {productDetail?.[productDetail?.category]?.formulation ||
+                      (productDetail?.[productDetail?.category]?.purpose && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.formulation && (
                               <div className={styles.textareaInnerSection}>
-                                <span className={styles.medicineHead}>Purpose</span>
+                                <span className={styles.medicineHead}>
+                                  Formulation
+                                </span>
                                 <span className={styles.medicineContent}>
-                                  {productDetail?.[productDetail?.category]?.purpose}
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.formulation
+                                  }
                                 </span>
                               </div>
                             )}
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))}
+                    {productDetail?.[productDetail?.category]
+                      ?.drugAdministrationRoute ||
+                      (productDetail?.[productDetail?.category]
+                        ?.drugClass && (
+                          <div className={styles.textareaSection}>
                             {productDetail?.[productDetail?.category]
                               ?.drugAdministrationRoute && (
                                 <div className={styles.textareaInnerSection}>
@@ -746,11 +1688,26 @@ const ProductDetails = () => {
                                   </span>
                                 </div>
                               )}
+                            {productDetail?.[productDetail?.category]
+                              ?.drugClass && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Drug Class
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.drugClass
+                                    }
+                                  </span>
+                                </div>
+                              )}
                           </div>
-                        )}
-                      {(productDetail?.[productDetail?.category]
-                        ?.sideEffectsAndWarnings ||
-                        productDetail?.[productDetail?.category]?.allergens) && (
+                        ))}
+                    {productDetail?.[productDetail?.category]
+                      ?.sideEffectsAndWarnings ||
+                      (productDetail?.[productDetail?.category]
+                        ?.allergens && (
                           <div className={styles.textareaSection}>
                             {productDetail?.[productDetail?.category]
                               ?.sideEffectsAndWarnings && (
@@ -766,9 +1723,360 @@ const ProductDetails = () => {
                                   </span>
                                 </div>
                               )}
-                            {productDetail?.[productDetail?.category]?.allergens && (
+                            {productDetail?.[productDetail?.category]
+                              ?.allergens && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Allergens
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.allergens
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))}
+                    {productDetail?.[productDetail?.category]
+                      ?.additivesNSweeteners && (
+                        <div className={styles.textareaSection}>
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Additives & Sweeteners
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {productDetail?.general?.additivesNSweeteners}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                ))
+              }
+            </div>
+          )}
+
+        {/* End Vital Health and Wellness */}
+
+        {/* Medical Consumables and Disposables */}
+        {productDetail?.category == "MedicalConsumablesAndDisposables" &&
+          //   productDetail?.[productDetail?.category]?.thickness ||
+          // productDetail?.[productDetail?.category]?.powdered ||
+          // productDetail?.[productDetail?.category]?.productMaterial ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.texture ||
+          // productDetail?.[productDetail?.category]?.sterilized ||
+          // productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+          // productDetail?.[productDetail?.category]?.breathability ||
+          // productDetail?.[productDetail?.category]?.layerCount ||
+          // productDetail?.[productDetail?.category]?.fluidResistance ||
+          // productDetail?.[productDetail?.category]?.filtrationType ||
+          // productDetail?.[productDetail?.category]?.thickness ||
+          // productDetail?.[productDetail?.category]?.powdered ||
+          // productDetail?.[productDetail?.category]?.productMaterial ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.texture ||
+          // productDetail?.[productDetail?.category]?.sterilized ||
+          // productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+          // productDetail?.[productDetail?.category]?.breathability ||
+          // productDetail?.[productDetail?.category]?.layerCount ||
+          // productDetail?.[productDetail?.category]?.fluidResistance ||
+          // productDetail?.[productDetail?.category]?.filtrationType ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.chemicalResistance ||
+          // productDetail?.[productDetail?.category]?.allergens ||
+          // productDetail?.[productDetail?.category]?.coating
+
+          (getCategoryData("thickness") ||
+            getCategoryData("powdered") ||
+            getCategoryData("productMaterial") ||
+            getCategoryData("expiry") ||
+            getCategoryData("texture") ||
+            getCategoryData("sterilized") ||
+            getCategoryData("filtrationEfficiency") ||
+            getCategoryData("breathability") ||
+            getCategoryData("layerCount") ||
+            getCategoryData("fluidResistance") ||
+            getCategoryData("filtrationType") ||
+            getCategoryData("purpose") ||
+            getCategoryData("chemicalResistance") ||
+            getCategoryData("allergens") ||
+            getCategoryData("coating")) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>
+                Medical Consumables and Disposables
+              </span>
+              {
+                // productDetail?.[productDetail?.category]?.thickness ||
+                //   productDetail?.[productDetail?.category]?.powdered ||
+                //   productDetail?.[productDetail?.category]?.productMaterial ||
+                //   productDetail?.[productDetail?.category]?.expiry ||
+                //   productDetail?.[productDetail?.category]?.texture ||
+                //   productDetail?.[productDetail?.category]?.sterilized ||
+                //   productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+                //   productDetail?.[productDetail?.category]?.breathability ||
+                //   productDetail?.[productDetail?.category]?.layerCount ||
+                //   productDetail?.[productDetail?.category]?.fluidResistance ||
+                //   productDetail?.[productDetail?.category]?.filtrationType
+                getCategoryData("thickness") ||
+                getCategoryData("powdered") ||
+                getCategoryData("productMaterial") ||
+                getCategoryData("expiry") ||
+                getCategoryData("texture") ||
+                getCategoryData("sterilized") ||
+                getCategoryData("filtrationEfficiency") ||
+                getCategoryData("breathability") ||
+                getCategoryData("layerCount") ||
+                getCategoryData("fluidResistance") ||
+                (getCategoryData("filtrationType") && (
+                  <div className={styles.innerSection}>
+                    {
+                      // productDetail?.[productDetail?.category]?.thickness ||
+                      //   productDetail?.[productDetail?.category]?.powdered ||
+                      //   productDetail?.[productDetail?.category]?.productMaterial ||
+                      //   productDetail?.[productDetail?.category]?.expiry ||
+                      //   productDetail?.[productDetail?.category]?.texture ||
+                      //   productDetail?.[productDetail?.category]?.sterilized
+                      getCategoryData("thickness") ||
+                      getCategoryData("powdered") ||
+                      getCategoryData("productMaterial") ||
+                      getCategoryData("expiry") ||
+                      getCategoryData("texture") ||
+                      (getCategoryData("sterilized") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.thickness && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Thickness
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.thickness
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.powdered && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Powdered
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.powdered
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.productMaterial && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Product Material
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.productMaterial
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.expiry && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Shelf Life/Expiry
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.expiry
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.texture && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Texture
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.texture
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.sterilized && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Sterilized
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.sterilized
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.filtrationEfficiency ||
+                      // productDetail?.[productDetail?.category]?.breathability ||
+                      // productDetail?.[productDetail?.category]?.layerCount ||
+                      // productDetail?.[productDetail?.category]?.fluidResistance ||
+                      // productDetail?.[productDetail?.category]?.filtrationType
+                      getCategoryData("filtrationEfficiency") ||
+                      getCategoryData("breathability") ||
+                      getCategoryData("layerCount") ||
+                      getCategoryData("fluidResistance") ||
+                      (getCategoryData("filtrationType") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.filtrationEfficiency && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Filtration Efficiency
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {3645}
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.breathability && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Breathability
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.breathability
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.layerCount && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Layer Count
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.layerCount
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.fluidResistance && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Fluid Resistance
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.fluidResistance
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.filtrationType && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Filtration Type
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.filtrationType
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.purpose ||
+                //   productDetail?.[productDetail?.category]?.chemicalResistance ||
+                //   productDetail?.[productDetail?.category]?.allergens ||
+                //   productDetail?.[productDetail?.category]?.coating
+                getCategoryData("purpose") ||
+                getCategoryData("chemicalResistance") ||
+                getCategoryData("allergens") ||
+                (getCategoryData("coating") && (
+                  <div className={styles.textareaContainer}>
+                    {
+                      // productDetail?.[productDetail?.category]?.purpose ||
+                      //   productDetail?.[productDetail?.category]?.chemicalResistance
+                      getCategoryData("purpose") ||
+                      (getCategoryData("chemicalResistance") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
                               <div className={styles.textareaInnerSection}>
-                                <span className={styles.medicineHead}>Allergens</span>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.chemicalResistance && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Chemical Resistance
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.chemicalResistance
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.allergens ||
+                      // productDetail?.[productDetail?.category]?.coating
+                      getCategoryData("allergens") ||
+                      (getCategoryData("shape") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.allergens && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Allergens
+                                </span>
                                 <span className={styles.medicineContent}>
                                   {
                                     productDetail?.[productDetail?.category]
@@ -777,1896 +2085,1796 @@ const ProductDetails = () => {
                                 </span>
                               </div>
                             )}
+                          {productDetail?.[productDetail?.category]
+                            ?.shape && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Shape
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.shape
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.coating
+                      getCategoryData("coating") && (
+                        <div className={styles.textareaSection}>
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Coating
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {productDetail?.general?.coating}
+                            </span>
                           </div>
-                        )}
-                    </div>
-                  ))}
+                        </div>
+                      )
+                    }
+                  </div>
+                ))
+              }
             </div>
           )}
-        {/* End Pharmaceuticals */}
-
-        {/* Skin, Hair and Cosmetic Supplies */}
-        {productDetail?.category == "SkinHairCosmeticSupplies" && (
-          (productDetail?.[productDetail?.category]?.spf ||
-            productDetail?.[productDetail?.category]?.vegan ||
-            productDetail?.[productDetail?.category]?.crueltyFree ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.elasticity ||
-            productDetail?.[productDetail?.category]?.dermatologistTested ||
-            productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 ||
-            productDetail?.[productDetail?.category]?.strength ||
-            productDetail?.[productDetail?.category]?.controlledSubstance ||
-            productDetail?.[productDetail?.category]?.otcClassification ||
-            productDetail?.[productDetail?.category]?.adhesiveness ||
-            productDetail?.[productDetail?.category]?.thickness ||
-            productDetail?.[productDetail?.category]?.pediatricianRecommended ||
-            productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 ||
-            productDetail?.[productDetail?.category]?.fragrance ||
-            productDetail?.[productDetail?.category]?.formulation ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.targetCondition ||
-            productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-            productDetail?.[productDetail?.category]?.drugClass ||
-            productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
-            productDetail?.[productDetail?.category]?.allergens ||
-            productDetail?.[productDetail?.category]?.concentration ||
-            productDetail?.[productDetail?.category]?.fillerType ||
-            productDetail?.[productDetail?.category]?.moisturizers) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>
-                Skin, Hair and Cosmetic Supplies{" "}
-              </span>
-              {
-                productDetail?.[productDetail?.category]?.spf ||
-                productDetail?.[productDetail?.category]?.vegan ||
-                productDetail?.[productDetail?.category]?.crueltyFree ||
-                productDetail?.[productDetail?.category]?.expiry ||
-                productDetail?.[productDetail?.category]?.elasticity ||
-                productDetail?.[productDetail?.category]?.dermatologistTested ||
-                productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 ||
-                productDetail?.[productDetail?.category]?.strength ||
-                productDetail?.[productDetail?.category]?.controlledSubstance ||
-                productDetail?.[productDetail?.category]?.otcClassification ||
-                productDetail?.[productDetail?.category]?.adhesiveness ||
-                productDetail?.[productDetail?.category]?.thickness ||
-                productDetail?.[productDetail?.category]?.pediatricianRecommended ||
-                productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
-                  <div className={styles.innerSection}>
-                    {
-                      productDetail?.[productDetail?.category]?.spf ||
-                      productDetail?.[productDetail?.category]?.vegan ||
-                      productDetail?.[productDetail?.category]?.crueltyFree ||
-                      productDetail?.[productDetail?.category]?.expiry ||
-                      productDetail?.[productDetail?.category]?.elasticity ||
-                      productDetail?.[productDetail?.category]?.dermatologistTested ||
-                      productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.spf && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>SPF</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.spf}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.vegan && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Vegan</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.crueltyFree && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Cruelty-Free</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.crueltyFree}</span>
-                            </div>
-                          )}
-                          {
-                            productDetail?.[productDetail?.category]?.expiry && (
-                              <div className={styles.medicinesSection}>
-                                <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                                <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
-                              </div>
-                            )}
-                          {
-                            productDetail?.[productDetail?.category]?.elasticity && (
-
-                              <div className={styles.medicinesSection}>
-                                <span className={styles.medicineHead}>Elasticity</span>
-                                <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.elasticity}</span>
-                              </div>
-                            )}
-                          {
-                            productDetail?.[productDetail?.category]?.dermatologistTested && (
-                              <div className={styles.medicinesSection}>
-                                <span className={styles.medicineHead}>
-                                  Dermatologist Tested
-                                </span>
-                                <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.dermatologistTested}</span>
-                              </div>
-                            )}
-                          {
-                            productDetail?.[productDetail?.category]?.dermatologistTestedFile?.length > 0 && (
-                              <div className={styles.medicinesFileSection}>
-                                <span className={styles.medicineHead}>Upload File</span>
-                                <div className={styles.uploadFileSection}>
-
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.dermatologistTestedFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div> */}
-                                </div>
-                              </div>
-                            )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.strength ||
-                      productDetail?.[productDetail?.category]?.controlledSubstance ||
-                      productDetail?.[productDetail?.category]?.otcClassification ||
-                      productDetail?.[productDetail?.category]?.adhesiveness ||
-                      productDetail?.[productDetail?.category]?.thickness ||
-                      productDetail?.[productDetail?.category]?.pediatricianRecommended ||
-                      productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.strength && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Strength</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.controlledSubstance && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Controlled Substance
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.controlledSubstance}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.otcClassification && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                OTC Classification
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.otcClassification}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.adhesiveness && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Adhesiveness</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.adhesiveness}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.thickness && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Thickness</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.pediatricianRecommended && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Pediatrician Recommended
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.pediatricianRecommended}</span>
-                            </div>
-                          )}
-                          {
-                            productDetail?.[productDetail?.category]?.pediatricianRecommendedFile?.length > 0 && (
-                              <div className={styles.medicinesFileSection}>
-                                <span className={styles.medicineHead}>Upload File</span>
-                                <div className={styles.uploadFileSection}>
-
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.pediatricianRecommendedFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div> */}
-                                </div>
-                              </div>
-                            )}
-
-                        </div>
-                      )}
-                  </div>
-                )}
-
-              {productDetail?.[productDetail?.category]?.fragrance ||
-                productDetail?.[productDetail?.category]?.formulation ||
-                productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.targetCondition ||
-                productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-                productDetail?.[productDetail?.category]?.drugClass ||
-                productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
-                productDetail?.[productDetail?.category]?.allergens ||
-                productDetail?.[productDetail?.category]?.concentration ||
-                productDetail?.[productDetail?.category]?.fillerType ||
-                productDetail?.[productDetail?.category]?.moisturizers && (
-                  <div className={styles.textareaContainer}>
-                    {(productDetail?.[productDetail?.category]?.fragrance ||
-                      productDetail?.[productDetail?.category]?.formulation) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Fragrance</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.fragrance}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Formulation</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.formulation}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]?.composition ||
-                      productDetail?.[productDetail?.category]?.purpose) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>
-                              Composition/Ingredients
-                            </span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.composition}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Purpose</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.purpose}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]?.targetCondition ||
-                      productDetail?.[productDetail?.category]?.drugAdministrationRoute) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Target Condition</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.targetCondition}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>
-                              Drug Administration Route
-                            </span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.drugAdministrationRoute}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]?.drugClass ||
-                      productDetail?.[productDetail?.category]?.sideEffectsAndWarnings) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Drug Class</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.drugClass}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>
-                              Side Effects and Warnings
-                            </span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]
-                      ?.allergens ||
-                      productDetail?.[productDetail?.category]?.concentration) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Allergens</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]
-                                ?.allergens}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Concentration</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.concentration}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]
-                      ?.fillerType ||
-                      productDetail?.[productDetail?.category]?.moisturizers) && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Moisturizers</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.moisturizers}
-                            </span>
-                          </div>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Filler Type</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]
-                                ?.fillerType}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                  </div>
-                )}
-            </div>
-          ))}
-        {/* End Skin, Hair and Cosmetic Supplies */}
-
-        {/* Vital Health and Wellness */}
-        {productDetail?.category == "VitalHealthAndWellness" && (
-          (productDetail?.[productDetail?.category]?.genericName ||
-            productDetail?.[productDetail?.category]?.strength ||
-            productDetail?.[productDetail?.category]?.controlledSubstance ||
-            productDetail?.[productDetail?.category]?.otcClassification ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.vegan ||
-            productDetail?.[productDetail?.category]?.crueltyFree ||
-            productDetail?.[productDetail?.category]?.healthBenefit ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.formulation ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-            productDetail?.[productDetail?.category]?.drugClass ||
-            productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
-            productDetail?.[productDetail?.category]?.allergens ||
-            productDetail?.[productDetail?.category]?.additivesNSweeteners
-          ) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>Vital Health and Wellness</span>
-              {productDetail?.[productDetail?.category]?.genericName ||
-                productDetail?.[productDetail?.category]?.strength ||
-                productDetail?.[productDetail?.category]?.controlledSubstance ||
-                productDetail?.[productDetail?.category]?.otcClassification ||
-                productDetail?.[productDetail?.category]?.expiry ||
-                productDetail?.[productDetail?.category]?.vegan ||
-                productDetail?.[productDetail?.category]?.crueltyFree && (
-                  <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.genericName ||
-                      productDetail?.[productDetail?.category]?.strength ||
-                      productDetail?.[productDetail?.category]?.controlledSubstance ||
-                      productDetail?.[productDetail?.category]?.otcClassification && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.genericName && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Generic Name</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.genericName}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.strength && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Strength</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.controlledSubstance && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Controlled Substance
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.controlledSubstance}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.otcClassification && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                OTC Classification
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.otcClassification}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.expiry ||
-                      productDetail?.[productDetail?.category]?.vegan ||
-                      productDetail?.[productDetail?.category]?.crueltyFree && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.expiry && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.vegan && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Vegan</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.crueltyFree && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Cruelty-Free</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.crueltyFree}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
-              {
-                productDetail?.[productDetail?.category]?.healthBenefit ||
-                productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.formulation ||
-                productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-                productDetail?.[productDetail?.category]?.drugClass ||
-                productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
-                productDetail?.[productDetail?.category]?.allergens ||
-                productDetail?.[productDetail?.category]?.additivesNSweeteners && (
-
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.healthBenefit ||
-                      productDetail?.[productDetail?.category]?.composition && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.healthBenefit && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Health Benefit</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.healthBenefit}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.composition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Composition/Ingredients
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.composition}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.formulation ||
-                      productDetail?.[productDetail?.category]?.purpose && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.formulation && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Formulation</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.formulation}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.drugAdministrationRoute ||
-                      productDetail?.[productDetail?.category]?.drugClass && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.drugAdministrationRoute && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Drug Administration Route
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.drugAdministrationRoute}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.drugClass && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Drug Class</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.drugClass}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {
-                      productDetail?.[productDetail?.category]?.sideEffectsAndWarnings ||
-                      productDetail?.[productDetail?.category]?.allergens && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Side Effects and Warnings
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.sideEffectsAndWarnings}
-                              </span>
-                            </div>
-                          )}
-                          {
-                            productDetail?.[productDetail?.category]?.allergens && (
-                              <div className={styles.textareaInnerSection}>
-                                <span className={styles.medicineHead}>Allergens</span>
-                                <span className={styles.medicineContent}>
-                                  {productDetail?.[productDetail?.category]?.allergens}
-                                </span>
-                              </div>
-                            )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.additivesNSweeteners && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Additives & Sweeteners
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.general?.additivesNSweeteners}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-            </div>
-          ))}
-
-        {/* End Vital Health and Wellness */}
-
-        {/* Medical Consumables and Disposables */}
-        {productDetail?.category == "MedicalConsumablesAndDisposables" && (
-          (productDetail?.[productDetail?.category]?.thickness ||
-            productDetail?.[productDetail?.category]?.powdered ||
-            productDetail?.[productDetail?.category]?.productMaterial ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.texture ||
-            productDetail?.[productDetail?.category]?.sterilized ||
-            productDetail?.[productDetail?.category]?.filtrationEfficiency ||
-            productDetail?.[productDetail?.category]?.breathability ||
-            productDetail?.[productDetail?.category]?.layerCount ||
-            productDetail?.[productDetail?.category]?.fluidResistance ||
-            productDetail?.[productDetail?.category]?.filtrationType ||
-            productDetail?.[productDetail?.category]?.thickness ||
-            productDetail?.[productDetail?.category]?.powdered ||
-            productDetail?.[productDetail?.category]?.productMaterial ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.texture ||
-            productDetail?.[productDetail?.category]?.sterilized ||
-            productDetail?.[productDetail?.category]?.filtrationEfficiency ||
-            productDetail?.[productDetail?.category]?.breathability ||
-            productDetail?.[productDetail?.category]?.layerCount ||
-            productDetail?.[productDetail?.category]?.fluidResistance ||
-            productDetail?.[productDetail?.category]?.filtrationType ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.chemicalResistance ||
-            productDetail?.[productDetail?.category]?.allergens ||
-            productDetail?.[productDetail?.category]?.coating
-          ) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>
-                Medical Consumables and Disposables
-              </span>
-              {productDetail?.[productDetail?.category]?.thickness ||
-                productDetail?.[productDetail?.category]?.powdered ||
-                productDetail?.[productDetail?.category]?.productMaterial ||
-                productDetail?.[productDetail?.category]?.expiry ||
-                productDetail?.[productDetail?.category]?.texture ||
-                productDetail?.[productDetail?.category]?.sterilized ||
-                productDetail?.[productDetail?.category]?.filtrationEfficiency ||
-                productDetail?.[productDetail?.category]?.breathability ||
-                productDetail?.[productDetail?.category]?.layerCount ||
-                productDetail?.[productDetail?.category]?.fluidResistance ||
-                productDetail?.[productDetail?.category]?.filtrationType && (
-                  <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.thickness ||
-                      productDetail?.[productDetail?.category]?.powdered ||
-                      productDetail?.[productDetail?.category]?.productMaterial ||
-                      productDetail?.[productDetail?.category]?.expiry ||
-                      productDetail?.[productDetail?.category]?.texture ||
-                      productDetail?.[productDetail?.category]?.sterilized && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.thickness && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Thickness</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.powdered && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Powdered</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.powdered}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.productMaterial && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Product Material</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.expiry && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.texture && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Texture</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.texture}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.sterilized && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Sterilized</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.filtrationEfficiency ||
-                      productDetail?.[productDetail?.category]?.breathability ||
-                      productDetail?.[productDetail?.category]?.layerCount ||
-                      productDetail?.[productDetail?.category]?.fluidResistance ||
-                      productDetail?.[productDetail?.category]?.filtrationType && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.filtrationEfficiency && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Filtration Efficiency
-                              </span>
-                              <span className={styles.medicineText}>{3645}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.breathability && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Breathability</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.breathability}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.layerCount && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Layer Count</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.layerCount}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.fluidResistance && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Fluid Resistance</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.fluidResistance}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.filtrationType && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Filtration Type</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.filtrationType}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
-              {productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.chemicalResistance ||
-                productDetail?.[productDetail?.category]?.allergens ||
-                productDetail?.[productDetail?.category]?.coating && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.purpose ||
-                      productDetail?.[productDetail?.category]?.chemicalResistance && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.chemicalResistance && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Chemical Resistance
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.chemicalResistance}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.allergens ||
-                      productDetail?.[productDetail?.category]?.coating && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.allergens && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Allergens</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.allergens}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.shape && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Shape</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.shape}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.coating && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Coating</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.general?.coating}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-            </div>
-          ))}
         {/* End Medical Consumables and Disposables */}
 
         {/* Laboratory Supplies */}
 
-        {productDetail?.category == "LaboratorySupplies" && (
-          (productDetail?.[productDetail?.category]?.connectivity ||
-            productDetail?.[productDetail?.category]?.physicalState ||
-            productDetail?.[productDetail?.category]?.hazardClassification ||
-            productDetail?.[productDetail?.category]?.magnificationRange ||
-            productDetail?.[productDetail?.category]?.objectiveLenses ||
-            productDetail?.[productDetail?.category]?.resolution ||
-            productDetail?.[productDetail?.category]?.powerSource ||
-            productDetail?.[productDetail?.category]?.shape ||
-            productDetail?.[productDetail?.category]?.coating ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.casNumber ||
-            productDetail?.[productDetail?.category]?.grade ||
-            productDetail?.[productDetail?.category]?.concentration) && (
+        {productDetail?.category == "LaboratorySupplies" &&
+          //   productDetail?.[productDetail?.category]?.connectivity ||
+          // productDetail?.[productDetail?.category]?.physicalState ||
+          // productDetail?.[productDetail?.category]?.hazardClassification ||
+          // productDetail?.[productDetail?.category]?.magnificationRange ||
+          // productDetail?.[productDetail?.category]?.objectiveLenses ||
+          // productDetail?.[productDetail?.category]?.resolution ||
+          // productDetail?.[productDetail?.category]?.powerSource ||
+          // productDetail?.[productDetail?.category]?.shape ||
+          // productDetail?.[productDetail?.category]?.coating ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.casNumber ||
+          // productDetail?.[productDetail?.category]?.grade ||
+          // productDetail?.[productDetail?.category]?.concentration
+          (getCategoryData("connectivity") ||
+            getCategoryData("physicalState") ||
+            getCategoryData("hazardClassification") ||
+            getCategoryData("magnificationRange") ||
+            getCategoryData("objectiveLenses") ||
+            getCategoryData("resolution") ||
+            getCategoryData("powerSource") ||
+            getCategoryData("shape") ||
+            getCategoryData("coating") ||
+            getCategoryData("purpose") ||
+            getCategoryData("casNumber") ||
+            getCategoryData("grade") ||
+            getCategoryData("concentration")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Laboratory Supplies</span>
-              {productDetail?.[productDetail?.category]?.connectivity ||
-                productDetail?.[productDetail?.category]?.physicalState ||
-                productDetail?.[productDetail?.category]?.hazardClassification && (
+              {
+                // productDetail?.[productDetail?.category]?.connectivity ||
+                //   productDetail?.[productDetail?.category]?.physicalState ||
+                //   productDetail?.[productDetail?.category]?.hazardClassification
+                getCategoryData("connectivity") ||
+                getCategoryData("physicalState") ||
+                (getCategoryData("hazardClassification") && (
                   <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.connectivity ||
-                      productDetail?.[productDetail?.category]?.physicalState && (
+                    {
+                      // productDetail?.[productDetail?.category]?.connectivity ||
+                      // productDetail?.[productDetail?.category]?.physicalState
+                      getCategoryData("connectivity") ||
+                      (getCategoryData("physicalState") && (
                         <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.connectivity && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Connectivity</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.connectivity}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.physicalState && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Physical State</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.physicalState}</span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.connectivity && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Connectivity
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.connectivity
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.physicalState && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Physical State
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.physicalState
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.hazardClassification && (
-                      <div className={styles.mainSection}>
-                        <div className={styles.medicinesSection}>
-                          <span className={styles.medicineHead}>
-                            Hazard Classification
-                          </span>
-                          <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.hazardClassification}</span>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.hazardClassification
+                      getCategoryData("hazardClassification") && (
+                        <div className={styles.mainSection}>
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Hazard Classification
+                            </span>
+                            <span className={styles.medicineText}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.hazardClassification
+                              }
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )
+                    }
                   </div>
-                )}
-              {productDetail?.[productDetail?.category]?.magnificationRange ||
-                productDetail?.[productDetail?.category]?.objectiveLenses ||
-                productDetail?.[productDetail?.category]?.resolution ||
-                productDetail?.[productDetail?.category]?.powerSource ||
-                productDetail?.[productDetail?.category]?.shape ||
-                productDetail?.[productDetail?.category]?.coating ||
-                productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.casNumber ||
-                productDetail?.[productDetail?.category]?.grade ||
-                productDetail?.[productDetail?.category]?.concentration && (
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.magnificationRange ||
+                //   productDetail?.[productDetail?.category]?.objectiveLenses ||
+                //   productDetail?.[productDetail?.category]?.resolution ||
+                //   productDetail?.[productDetail?.category]?.powerSource ||
+                //   productDetail?.[productDetail?.category]?.shape ||
+                //   productDetail?.[productDetail?.category]?.coating ||
+                //   productDetail?.[productDetail?.category]?.purpose ||
+                //   productDetail?.[productDetail?.category]?.casNumber ||
+                //   productDetail?.[productDetail?.category]?.grade ||
+                //   productDetail?.[productDetail?.category]?.concentration
+                getCategoryData("magnificationRange") ||
+                getCategoryData("objectiveLenses") ||
+                getCategoryData("resolution") ||
+                getCategoryData("powerSource") ||
+                getCategoryData("shape") ||
+                getCategoryData("coating") ||
+                getCategoryData("purpose") ||
+                getCategoryData("casNumber") ||
+                getCategoryData("grade") ||
+                (getCategoryData("concentration") && (
                   <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.magnificationRange ||
-                      productDetail?.[productDetail?.category]?.objectiveLenses && (
+                    {
+                      // productDetail?.[productDetail?.category]?.magnificationRange ||
+                      // productDetail?.[productDetail?.category]?.objectiveLenses
+                      getCategoryData("magnificationRange") ||
+                      (getCategoryData("objectiveLenses") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.magnificationRange && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Magnification Range
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.magnificationRange}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.objectiveLenses && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Objective Lenses</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.objectiveLenses}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.magnificationRange && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Magnification Range
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.magnificationRange
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.objectiveLenses && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Objective Lenses
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.objectiveLenses
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.resolution ||
-                      productDetail?.[productDetail?.category]?.powerSource && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.resolution ||
+                      // productDetail?.[productDetail?.category]?.powerSource
+                      getCategoryData("resolution") ||
+                      (getCategoryData("powerSource") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.powerSource && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Power Source</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.powerSource}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.resolution && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Resolution</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.resolution}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.powerSource && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Power Source
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.powerSource
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.resolution && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Resolution
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.resolution
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.shape ||
-                      productDetail?.[productDetail?.category]?.coating && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.shape ||
+                      // productDetail?.[productDetail?.category]?.coating
+                      getCategoryData("shape") ||
+                      (getCategoryData("coating") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.shape && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Shape</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.shape}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.coating && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Coating</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.coating}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.shape && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Shape
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.shape
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.coating && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Coating
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.coating
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.purpose ||
-                      productDetail?.[productDetail?.category]?.casNumber && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.purpose ||
+                      // productDetail?.[productDetail?.category]?.casNumber
+                      getCategoryData("purpose") ||
+                      (getCategoryData("casNumber") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.casNumber && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>CAS Number</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.casNumber}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.casNumber && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  CAS Number
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.casNumber
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.grade ||
-                      productDetail?.[productDetail?.category]?.concentration && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.grade ||
+                      // productDetail?.[productDetail?.category]?.concentration
+                      getCategoryData("grade") ||
+                      (getCategoryData("concentration") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.grade && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Grade</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.grade}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.concentration && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Concentration</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.concentration}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.grade && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Grade
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.grade
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.concentration && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Concentration
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.concentration
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
+                      ))
+                    }
                   </div>
-                )}
+                ))
+              }
             </div>
-          ))}
+          )}
         {/* End Laboratory Supplies */}
 
         {/* Diagnostic and Monitoring Devices */}
 
-        {productDetail?.category == "DiagnosticAndMonitoringDevices" && (
-          (productDetail?.[productDetail?.category]?.measurementRange ||
-            productDetail?.[productDetail?.category]?.noiseLevel ||
-            productDetail?.[productDetail?.category]?.usageRate ||
-            productDetail?.[productDetail?.category]?.diagnosticFunctions ||
-            productDetail?.[productDetail?.category]?.flowRate ||
-            productDetail?.[productDetail?.category]?.concentration ||
-            productDetail?.[productDetail?.category]?.maintenanceNotes ||
-            productDetail?.[productDetail?.category]?.compatibleEquipment ||
-            productDetail?.[productDetail?.category]?.specification ||
-            productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
-            productDetail?.[productDetail?.category]?.performanceTestingReport ||
-            productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0) && (
+        {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
+          //   productDetail?.[productDetail?.category]?.measurementRange ||
+          // productDetail?.[productDetail?.category]?.noiseLevel ||
+          // productDetail?.[productDetail?.category]?.usageRate ||
+          // productDetail?.[productDetail?.category]?.diagnosticFunctions ||
+          // productDetail?.[productDetail?.category]?.flowRate ||
+          // productDetail?.[productDetail?.category]?.concentration ||
+          // productDetail?.[productDetail?.category]?.maintenanceNotes ||
+          // productDetail?.[productDetail?.category]?.compatibleEquipment ||
+          // productDetail?.[productDetail?.category]?.specification ||
+          // productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
+          // productDetail?.[productDetail?.category]?.performanceTestingReport ||
+          // productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+          (getCategoryData("measurementRange") ||
+            getCategoryData("noiseLevel") ||
+            getCategoryData("usageRate") ||
+            getCategoryData("diagnosticFunctions") ||
+            getCategoryData("flowRate") ||
+            getCategoryData("concentration") ||
+            getCategoryData("maintenanceNotes") ||
+            getCategoryData("compatibleEquipment") ||
+            getCategoryData("specification") ||
+            getCategoryData("specificationFile")?.length ||
+            getCategoryData("performanceTestingReport") ||
+            getCategoryData("performanceTestingReportFile")?.length > 0) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
                 Diagnostic and Monitoring Devices
               </span>
-              {productDetail?.[productDetail?.category]?.measurementRange ||
-                productDetail?.[productDetail?.category]?.noiseLevel ||
-                productDetail?.[productDetail?.category]?.usageRate && (
+              {
+                // productDetail?.[productDetail?.category]?.measurementRange ||
+                //   productDetail?.[productDetail?.category]?.noiseLevel ||
+                //   productDetail?.[productDetail?.category]?.usageRate
+                getCategoryData("measurementRange") ||
+                getCategoryData("noiseLevel") ||
+                (getCategoryData("usageRate") && (
                   <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.measurementRange ||
-                      productDetail?.[productDetail?.category]?.noiseLevel && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.measurementRange && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Measurement Range</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.measurementRange}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.noiseLevel && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Noise Level</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.noiseLevel}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {
-                      productDetail?.[productDetail?.category]?.usageRate && (
-                        <div className={styles.mainSection}>
-                          <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>Usage Rate</span>
-                            <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.usageRate}</span>
-                          </div>
-                        </div>
-                      )}
-                  </div>
-                )}
-              {productDetail?.[productDetail?.category]?.diagnosticFunctions ||
-                productDetail?.[productDetail?.category]?.flowRate ||
-                productDetail?.[productDetail?.category]?.concentration ||
-                productDetail?.[productDetail?.category]?.maintenanceNotes ||
-                productDetail?.[productDetail?.category]?.compatibleEquipment ||
-                productDetail?.[productDetail?.category]?.specification ||
-                productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
-                productDetail?.[productDetail?.category]?.performanceTestingReport ||
-                productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.diagnosticFunctions ||
-                      productDetail?.[productDetail?.category]?.flowRate && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.diagnosticFunctions && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Diagnostic Functions
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.diagnosticFunctions}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.flowRate && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Flow Rate</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.flowRate}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.concentration ||
-                      productDetail?.[productDetail?.category]?.maintenanceNotes && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.concentration && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Concentration</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.concentration}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.maintenanceNotes && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Maintenance Notes</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.maintenanceNotes}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.compatibleEquipment && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Compatible Equipment
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.compatibleEquipment}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                    {productDetail?.[productDetail?.category]?.specification ||
-                      productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
-                      productDetail?.[productDetail?.category]?.performanceTestingReport ||
-                      productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.specification && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Specification</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.specification}
-                              </span>
-                              {productDetail?.[productDetail?.category]?.specificationFile.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.specificationFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div> */}
+                    {productDetail?.[productDetail?.category]
+                      ?.measurementRange ||
+                      (productDetail?.[productDetail?.category]
+                        ?.noiseLevel && (
+                          <div className={styles.mainSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.measurementRange && (
+                                <div className={styles.medicinesSection}>
+                                  <span className={styles.medicineHead}>
+                                    Measurement Range
+                                  </span>
+                                  <span className={styles.medicineText}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.measurementRange
+                                    }
+                                  </span>
                                 </div>
                               )}
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.performanceTestingReport && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Performance Testing Report
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.performanceTestingReport}
-                              </span>
-                              {productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.performanceTestingReportFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div> */}
+                            {productDetail?.[productDetail?.category]
+                              ?.noiseLevel && (
+                                <div className={styles.medicinesSection}>
+                                  <span className={styles.medicineHead}>
+                                    Noise Level
+                                  </span>
+                                  <span className={styles.medicineText}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.noiseLevel
+                                    }
+                                  </span>
                                 </div>
                               )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
-            </div>
-          ))}
-
-        {/* End Diagnostic and Monitoring Devices */}
-
-        {/* Hospital and Clinic Supplies */}
-        {productDetail?.category == "HospitalAndClinicSupplies" && (
-          (productDetail?.[productDetail?.category]?.adhesiveness ||
-            productDetail?.[productDetail?.category]?.absorbency ||
-            productDetail?.[productDetail?.category]?.thickness ||
-            productDetail?.[productDetail?.category]?.powdered ||
-            productDetail?.[productDetail?.category]?.productMaterial ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.texture ||
-            productDetail?.[productDetail?.category]?.sterilized ||
-            productDetail?.[productDetail?.category]?.fluidResistance ||
-            productDetail?.[productDetail?.category]?.elasticity ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.chemicalResistance) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>
-                Hospital and Clinic Supplies
-              </span>
-              {productDetail?.[productDetail?.category]?.adhesiveness ||
-                productDetail?.[productDetail?.category]?.absorbency ||
-                productDetail?.[productDetail?.category]?.thickness ||
-                productDetail?.[productDetail?.category]?.powdered ||
-                productDetail?.[productDetail?.category]?.productMaterial ||
-                productDetail?.[productDetail?.category]?.expiry ||
-                productDetail?.[productDetail?.category]?.texture ||
-                productDetail?.[productDetail?.category]?.sterilized ||
-                productDetail?.[productDetail?.category]?.fluidResistance ||
-                productDetail?.[productDetail?.category]?.elasticity && (
-                  <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.adhesiveness ||
-                      productDetail?.[productDetail?.category]?.absorbency ||
-                      productDetail?.[productDetail?.category]?.thickness ||
-                      productDetail?.[productDetail?.category]?.powdered ||
-                      productDetail?.[productDetail?.category]?.productMaterial && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.adhesiveness && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Adhesiveness</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.adhesiveness}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.absorbency && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Absorbency</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.absorbency}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.thickness && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Thickness</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.thickness}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.powdered && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Powdered</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.powdered}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.productMaterial && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Product Material</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.expiry ||
-                      productDetail?.[productDetail?.category]?.texture ||
-                      productDetail?.[productDetail?.category]?.sterilized ||
-                      productDetail?.[productDetail?.category]?.fluidResistance ||
-                      productDetail?.[productDetail?.category]?.elasticity && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.expiry && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.texture && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Texture</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.texture}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.sterilized && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Sterilized</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.fluidResistance && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Fluid Resistance</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.fluidResistance}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.elasticity && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Elasticity</span>
-                              <span className={styles.medicineText}>21312124</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
-              <div className={styles.textareaContainer}>
-                {productDetail?.[productDetail?.category]?.purpose ||
-                  productDetail?.[productDetail?.category]?.chemicalResistance && (
-                    <div className={styles.textareaSection}>
-                      {productDetail?.[productDetail?.category]?.purpose && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Purpose</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.purpose}
-                          </span>
-                        </div>
-                      )}
-                      {productDetail?.[productDetail?.category]?.chemicalResistance && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Chemical Resistance
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.chemicalResistance}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-              </div>
-            </div>
-          ))}
-
-        {/* End Hospital and Clinic Supplies */}
-
-        {/* Orthopedic Supplies */}
-        {productDetail?.category == "OrthopedicSupplies" && (
-          (productDetail?.[productDetail?.category]?.elasticity ||
-            productDetail?.[productDetail?.category]?.sterilized ||
-            productDetail?.[productDetail?.category]?.absorbency ||
-            productDetail?.[productDetail?.category]?.strength ||
-            productDetail?.[productDetail?.category]?.moistureResistance) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>Orthopedic Supplies</span>
-              {productDetail?.[productDetail?.category]?.elasticity ||
-                productDetail?.[productDetail?.category]?.sterilized ||
-                productDetail?.[productDetail?.category]?.absorbency ||
-                productDetail?.[productDetail?.category]?.strength ||
-                productDetail?.[productDetail?.category]?.moistureResistance && (
-                  <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.elasticity ||
-                      productDetail?.[productDetail?.category]?.sterilized ||
-                      productDetail?.[productDetail?.category]?.absorbency && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.elasticity && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Elasticity</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.elasticity}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.sterilized && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Sterilized</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.sterilized}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.absorbency && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Absorbency</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.absorbency}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.strength ||
-                      productDetail?.[productDetail?.category]?.moistureResistance && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.strength && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Strength</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.strength}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.moistureResistance && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Moisture Resistance
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.moistureResistance}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
-              {productDetail?.[productDetail?.category]?.breathability ||
-                productDetail?.[productDetail?.category]?.colorOptions ||
-                productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.targetCondition ||
-                productDetail?.[productDetail?.category]?.coating && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.breathability ||
-                      productDetail?.[productDetail?.category]?.colorOptions && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.breathability && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Breathability</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.breathability}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.colorOptions && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Color Options</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.colorOptions}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.purpose ||
-                      productDetail?.[productDetail?.category]?.targetCondition && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.targetCondition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Target Condition</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.targetCondition}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {
-                      productDetail?.[productDetail?.category]?.coating && (
-                        <div className={styles.textareaSection}>
-                          <div className={styles.textareaInnerSection}>
-                            <span className={styles.medicineHead}>Coating</span>
-                            <span className={styles.medicineContent}>
-                              {productDetail?.[productDetail?.category]?.coating}
-                            </span>
                           </div>
-                        </div>
-                      )}
-                  </div>
-                )}
-            </div>
-          ))}
-
-        {/* End Orthopedic Supplies */}
-
-        {/* Dental Products */}
-        {productDetail?.category == "DentalProducts" && (
-          (productDetail?.[productDetail?.category]?.productMaterial ||
-            productDetail?.[productDetail?.category]?.usageRate ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.targetCondition ||
-            productDetail?.[productDetail?.category]?.maintenanceNotesc ||
-            productDetail?.[productDetail?.category]?.compatibleEquipment) && (
-            <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>Dental Products </span>
-              {productDetail?.[productDetail?.category]?.productMaterial ||
-                productDetail?.[productDetail?.category]?.usageRate ||
-                productDetail?.[productDetail?.category]?.expiry && (
-                  <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.productMaterial ||
-                      productDetail?.[productDetail?.category]?.usageRate && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.productMaterial && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Product Material</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.productMaterial}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.usageRate && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Usage Rate</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.usageRate}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.expiry && (
+                        ))}
+                    {productDetail?.[productDetail?.category]?.usageRate && (
                       <div className={styles.mainSection}>
                         <div className={styles.medicinesSection}>
-                          <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                          <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
+                          <span className={styles.medicineHead}>
+                            Usage Rate
+                          </span>
+                          <span className={styles.medicineText}>
+                            {
+                              productDetail?.[productDetail?.category]
+                                ?.usageRate
+                            }
+                          </span>
                         </div>
                       </div>
                     )}
                   </div>
-                )}
-              {productDetail?.[productDetail?.category]?.purpose ||
-                productDetail?.[productDetail?.category]?.targetCondition ||
-                productDetail?.[productDetail?.category]?.maintenanceNotesc ||
-                productDetail?.[productDetail?.category]?.compatibleEquipment && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.purpose ||
-                      productDetail?.[productDetail?.category]?.targetCondition && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.targetCondition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Target Condition</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.targetCondition}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.maintenanceNotes ||
-                      productDetail?.[productDetail?.category]?.compatibleEquipment && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.maintenanceNotes && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Maintenance Notes</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.maintenanceNotes}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.compatibleEquipment && (
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.diagnosticFunctions ||
+                //   productDetail?.[productDetail?.category]?.flowRate ||
+                //   productDetail?.[productDetail?.category]?.concentration ||
+                //   productDetail?.[productDetail?.category]?.maintenanceNotes ||
+                //   productDetail?.[productDetail?.category]?.compatibleEquipment ||
+                //   productDetail?.[productDetail?.category]?.specification ||
+                //   productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
+                //   productDetail?.[productDetail?.category]?.performanceTestingReport ||
+                //   productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+                getCategoryData("diagnosticFunctions") ||
+                getCategoryData("flowRate") ||
+                getCategoryData("concentration") ||
+                getCategoryData("maintenanceNotes") ||
+                getCategoryData("compatibleEquipment") ||
+                getCategoryData("specification") ||
+                getCategoryData("specificationFile")?.length ||
+                getCategoryData("performanceTestingReport") ||
+                (getCategoryData("performanceTestingReportFile")?.length >
+                  0 && (
+                    <div className={styles.textareaContainer}>
+                      {
+                        // productDetail?.[productDetail?.category]?.diagnosticFunctions ||
+                        // productDetail?.[productDetail?.category]?.flowRate
+                        getCategoryData("diagnosticFunctions") ||
+                        (getCategoryData("flowRate") && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.diagnosticFunctions && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Diagnostic Functions
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.diagnosticFunctions
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {productDetail?.[productDetail?.category]
+                              ?.flowRate && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Flow Rate
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.flowRate
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))
+                      }
+                      {
+                        // productDetail?.[productDetail?.category]?.concentration ||
+                        // productDetail?.[productDetail?.category]?.maintenanceNotes
+                        getCategoryData("concentration") ||
+                        (getCategoryData("maintenanceNotes") && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.concentration && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Concentration
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.concentration
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {productDetail?.[productDetail?.category]
+                              ?.maintenanceNotes && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Maintenance Notes
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.maintenanceNotes
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))
+                      }
+                      {
+                        // productDetail?.[productDetail?.category]?.compatibleEquipment
+                        getCategoryData("compatibleEquipment") && (
+                          <div className={styles.textareaSection}>
                             <div className={styles.textareaInnerSection}>
                               <span className={styles.medicineHead}>
                                 Compatible Equipment
                               </span>
                               <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.compatibleEquipment}
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.compatibleEquipment
+                                }
                               </span>
                             </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
+                          </div>
+                        )
+                      }
+                      {
+                        // productDetail?.[productDetail?.category]?.specification ||
+                        // productDetail?.[productDetail?.category]?.specificationFile.length > 0 ||
+                        // productDetail?.[productDetail?.category]?.performanceTestingReport ||
+                        // productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+                        getCategoryData("specification") ||
+                        getCategoryData("specificationFile")?.length ||
+                        getCategoryData("performanceTestingReport") ||
+                        (getCategoryData("performanceTestingReportFile")
+                          ?.length > 0 && (
+                            <div className={styles.textareaSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.specification && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Specification
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.specification
+                                      }
+                                    </span>
+                                    {productDetail?.[productDetail?.category]
+                                      ?.specificationFile.length > 0 && (
+                                        <div className={styles.uploadFileSection}>
+                                          <RenderProductFiles
+                                            files={
+                                              productDetail?.[
+                                                productDetail?.category
+                                              ]?.specificationFile
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.performanceTestingReport && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Performance Testing Report
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.performanceTestingReport
+                                      }
+                                    </span>
+                                    {productDetail?.[productDetail?.category]
+                                      ?.performanceTestingReportFile.length >
+                                      0 && (
+                                        <div className={styles.uploadFileSection}>
+                                          <RenderProductFiles
+                                            files={
+                                              productDetail?.[
+                                                productDetail?.category
+                                              ]?.performanceTestingReportFile
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                  </div>
+                                )}
+                            </div>
+                          ))
+                      }
+                    </div>
+                  ))
+              }
             </div>
-          ))}
+          )}
 
-        {/* End Dental Products */}
+        {/* End Diagnostic and Monitoring Devices */}
 
-        {/* Eye Care Supplies */}
-
-        {productDetail?.category == "EyeCareSupplies" && (
-          (productDetail?.[productDetail?.category]?.diameter ||
-            productDetail?.[productDetail?.category]?.frame ||
-            productDetail?.[productDetail?.category]?.lens ||
-            productDetail?.[productDetail?.category]?.lensMaterial ||
-            productDetail?.[productDetail?.category]?.lensPower ||
-            productDetail?.[productDetail?.category]?.baseCurve ||
-            productDetail?.[productDetail?.category]?.colorOptions) && (
+        {/* Hospital and Clinic Supplies */}
+        {productDetail?.category == "HospitalAndClinicSupplies" &&
+          //   productDetail?.[productDetail?.category]?.adhesiveness ||
+          // productDetail?.[productDetail?.category]?.absorbency ||
+          // productDetail?.[productDetail?.category]?.thickness ||
+          // productDetail?.[productDetail?.category]?.powdered ||
+          // productDetail?.[productDetail?.category]?.productMaterial ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.texture ||
+          // productDetail?.[productDetail?.category]?.sterilized ||
+          // productDetail?.[productDetail?.category]?.fluidResistance ||
+          // productDetail?.[productDetail?.category]?.elasticity ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.chemicalResistance
+          (getCategoryData("adhesiveness") ||
+            getCategoryData("absorbency") ||
+            getCategoryData("thickness") ||
+            getCategoryData("powdered") ||
+            getCategoryData("productMaterial") ||
+            getCategoryData("expiry") ||
+            getCategoryData("texture") ||
+            getCategoryData("sterilized") ||
+            getCategoryData("fluidResistance") ||
+            getCategoryData("elasticity") ||
+            getCategoryData("purpose") ||
+            getCategoryData("chemicalResistance")) && (
             <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>Eye Care Supplies</span>
-              {productDetail?.[productDetail?.category]?.diameter ||
-                productDetail?.[productDetail?.category]?.frame ||
-                productDetail?.[productDetail?.category]?.lens ||
-                productDetail?.[productDetail?.category]?.lensMaterial && (
+              <span className={styles.innerHead}>
+                Hospital and Clinic Supplies
+              </span>
+              {
+                // productDetail?.[productDetail?.category]?.adhesiveness ||
+                //   productDetail?.[productDetail?.category]?.absorbency ||
+                //   productDetail?.[productDetail?.category]?.thickness ||
+                //   productDetail?.[productDetail?.category]?.powdered ||
+                //   productDetail?.[productDetail?.category]?.productMaterial ||
+                //   productDetail?.[productDetail?.category]?.expiry ||
+                //   productDetail?.[productDetail?.category]?.texture ||
+                //   productDetail?.[productDetail?.category]?.sterilized ||
+                //   productDetail?.[productDetail?.category]?.fluidResistance ||
+                //   productDetail?.[productDetail?.category]?.elasticity
+                getCategoryData("adhesiveness") ||
+                getCategoryData("absorbency") ||
+                getCategoryData("thickness") ||
+                getCategoryData("powdered") ||
+                getCategoryData("productMaterial") ||
+                getCategoryData("expiry") ||
+                getCategoryData("texture") ||
+                getCategoryData("sterilized") ||
+                getCategoryData("fluidResistance") ||
+                (getCategoryData("elasticity") && (
                   <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.diameter ||
-                      productDetail?.[productDetail?.category]?.frame && (
+                    {
+                      // productDetail?.[productDetail?.category]?.adhesiveness ||
+                      // productDetail?.[productDetail?.category]?.absorbency ||
+                      // productDetail?.[productDetail?.category]?.thickness ||
+                      // productDetail?.[productDetail?.category]?.powdered ||
+                      // productDetail?.[productDetail?.category]?.productMaterial
+                      getCategoryData("adhesiveness") ||
+                      getCategoryData("absorbency") ||
+                      getCategoryData("thickness") ||
+                      getCategoryData("powdered") ||
+                      (getCategoryData("productMaterial") && (
                         <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.diameter && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Diameter</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.diameter}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.frame && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Frame</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.frame}</span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.adhesiveness && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Adhesiveness
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.adhesiveness
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.absorbency && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Absorbency
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.absorbency
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.thickness && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Thickness
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.thickness
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.powdered && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Powdered
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.powdered
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.productMaterial && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Product Material
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.productMaterial
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.lens ||
-                      productDetail?.[productDetail?.category]?.lensMaterial && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.expiry ||
+                      // productDetail?.[productDetail?.category]?.texture ||
+                      // productDetail?.[productDetail?.category]?.sterilized ||
+                      // productDetail?.[productDetail?.category]?.fluidResistance ||
+                      // productDetail?.[productDetail?.category]?.elasticity
+
+                      getCategoryData("expiry") ||
+                      getCategoryData("texture") ||
+                      getCategoryData("sterilized") ||
+                      getCategoryData("fluidResistance") ||
+                      (getCategoryData("elasticity") && (
                         <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.lens && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Lens</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.lens}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.lensMaterial && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Lens Material</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.lensMaterial}</span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.expiry && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Shelf Life/Expiry
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.expiry
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.texture && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Texture
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.texture
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.sterilized && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Sterilized
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.sterilized
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.fluidResistance && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Fluid Resistance
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.fluidResistance
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.elasticity && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Elasticity
+                                </span>
+                                <span className={styles.medicineText}>
+                                  21312124
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
+                      ))
+                    }
                   </div>
-                )}
-              {productDetail?.[productDetail?.category]?.lensPower ||
-                productDetail?.[productDetail?.category]?.baseCurve ||
-                productDetail?.[productDetail?.category]?.colorOptions && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.lensPower ||
-                      productDetail?.[productDetail?.category]?.baseCurve && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.lensPower && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Lens Power</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.lensPower}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.baseCurve && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Base Curve</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.baseCurve}
-                              </span>
-                            </div>
-                          )}
+                ))
+              }
+              <div className={styles.textareaContainer}>
+                {
+                  // productDetail?.[productDetail?.category]?.purpose ||
+                  // productDetail?.[productDetail?.category]?.chemicalResistance
+                  getCategoryData("purpose") ||
+                  (getCategoryData("chemicalResistance") && (
+                    <div className={styles.textareaSection}>
+                      {productDetail?.[productDetail?.category]?.purpose && (
+                        <div className={styles.textareaInnerSection}>
+                          <span className={styles.medicineHead}>Purpose</span>
+                          <span className={styles.medicineContent}>
+                            {
+                              productDetail?.[productDetail?.category]
+                                ?.purpose
+                            }
+                          </span>
                         </div>
                       )}
-                    {productDetail?.[productDetail?.category]?.colorOptions && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Color Options</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.colorOptions}
+                      {productDetail?.[productDetail?.category]
+                        ?.chemicalResistance && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Chemical Resistance
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.chemicalResistance
+                              }
+                            </span>
+                          </div>
+                        )}
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          )}
+
+        {/* End Hospital and Clinic Supplies */}
+
+        {/* Orthopedic Supplies */}
+        {productDetail?.category == "OrthopedicSupplies" &&
+          //   productDetail?.[productDetail?.category]?.elasticity ||
+          // productDetail?.[productDetail?.category]?.sterilized ||
+          // productDetail?.[productDetail?.category]?.absorbency ||
+          // productDetail?.[productDetail?.category]?.strength ||
+          // productDetail?.[productDetail?.category]?.moistureResistance
+          (getCategoryData("elasticity") ||
+            getCategoryData("sterilized") ||
+            getCategoryData("absorbency") ||
+            getCategoryData("strength") ||
+            getCategoryData("moistureResistance")) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Orthopedic Supplies</span>
+              {
+                // productDetail?.[productDetail?.category]?.elasticity ||
+                //   productDetail?.[productDetail?.category]?.sterilized ||
+                //   productDetail?.[productDetail?.category]?.absorbency ||
+                //   productDetail?.[productDetail?.category]?.strength ||
+                //   productDetail?.[productDetail?.category]?.moistureResistance
+                getCategoryData("elasticity") ||
+                getCategoryData("sterilized") ||
+                getCategoryData("absorbency") ||
+                getCategoryData("strength") ||
+                (getCategoryData("moistureResistance") && (
+                  <div className={styles.innerSection}>
+                    {
+                      // productDetail?.[productDetail?.category]?.elasticity ||
+                      // productDetail?.[productDetail?.category]?.sterilized ||
+                      // productDetail?.[productDetail?.category]?.absorbency
+                      getCategoryData("elasticity") ||
+                      getCategoryData("sterilized") ||
+                      (getCategoryData("absorbency") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.elasticity && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Elasticity
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.elasticity
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.sterilized && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Sterilized
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.sterilized
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.absorbency && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Absorbency
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.absorbency
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.strength ||
+                      // productDetail?.[productDetail?.category]?.moistureResistance
+                      getCategoryData("strength") ||
+                      (getCategoryData("moistureResistance") && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.strength && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Strength
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.strength
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.moistureResistance && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Moisture Resistance
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.moistureResistance
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.breathability ||
+                //   productDetail?.[productDetail?.category]?.colorOptions ||
+                //   productDetail?.[productDetail?.category]?.purpose ||
+                //   productDetail?.[productDetail?.category]?.targetCondition ||
+                //   productDetail?.[productDetail?.category]?.coating
+                getCategoryData("breathability") ||
+                getCategoryData("colorOptions") ||
+                getCategoryData("purpose") ||
+                getCategoryData("targetCondition") ||
+                (getCategoryData("coating") && (
+                  <div className={styles.textareaContainer}>
+                    {getCategoryData("breathability") ||
+                      (getCategoryData("colorOptions") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.breathability && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Breathability
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.breathability
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.colorOptions && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Color Options
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.colorOptions
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))}
+                    {
+                      // productDetail?.[productDetail?.category]?.purpose ||
+                      // productDetail?.[productDetail?.category]?.targetCondition
+                      getCategoryData("purpose") ||
+                      (getCategoryData("targetCondition") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.targetCondition && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Target Condition
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.targetCondition
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.coating
+                      getCategoryData("coating") && (
+                        <div className={styles.textareaSection}>
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Coating
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.coating
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    }
+                  </div>
+                ))
+              }
+            </div>
+          )}
+
+        {/* End Orthopedic Supplies */}
+
+        {/* Dental Products */}
+        {productDetail?.category == "DentalProducts" &&
+          // productDetail?.[productDetail?.category]?.productMaterial ||
+          // productDetail?.[productDetail?.category]?.usageRate ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.targetCondition ||
+          // productDetail?.[productDetail?.category]?.maintenanceNotesc ||
+          // productDetail?.[productDetail?.category]?.compatibleEquipment
+          (getCategoryData("productMaterial") ||
+            getCategoryData("usageRate") ||
+            getCategoryData("expiry") ||
+            getCategoryData("purpose") ||
+            getCategoryData("targetCondition") ||
+            getCategoryData("maintenanceNotesc") ||
+            getCategoryData("compatibleEquipment")) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Dental Products </span>
+              {
+                // productDetail?.[productDetail?.category]?.productMaterial ||
+                // productDetail?.[productDetail?.category]?.usageRate ||
+                // productDetail?.[productDetail?.category]?.expiry
+                getCategoryData("productMaterial") ||
+                getCategoryData("usageRate") ||
+                (getCategoryData("expiry") && (
+                  <div className={styles.innerSection}>
+                    {productDetail?.[productDetail?.category]
+                      ?.productMaterial ||
+                      (productDetail?.[productDetail?.category]
+                        ?.usageRate && (
+                          <div className={styles.mainSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.productMaterial && (
+                                <div className={styles.medicinesSection}>
+                                  <span className={styles.medicineHead}>
+                                    Product Material
+                                  </span>
+                                  <span className={styles.medicineText}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.productMaterial
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {productDetail?.[productDetail?.category]
+                              ?.usageRate && (
+                                <div className={styles.medicinesSection}>
+                                  <span className={styles.medicineHead}>
+                                    Usage Rate
+                                  </span>
+                                  <span className={styles.medicineText}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.usageRate
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))}
+                    {productDetail?.[productDetail?.category]?.expiry && (
+                      <div className={styles.mainSection}>
+                        <div className={styles.medicinesSection}>
+                          <span className={styles.medicineHead}>
+                            Shelf Life/Expiry
+                          </span>
+                          <span className={styles.medicineText}>
+                            {productDetail?.[productDetail?.category]?.expiry}
                           </span>
                         </div>
                       </div>
                     )}
                   </div>
-                )}
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.purpose ||
+                // productDetail?.[productDetail?.category]?.targetCondition ||
+                // productDetail?.[productDetail?.category]?.maintenanceNotesc ||
+                // productDetail?.[productDetail?.category]?.compatibleEquipment
+                getCategoryData("purpose") ||
+                getCategoryData("targetCondition") ||
+                getCategoryData("maintenanceNotesc") ||
+                (getCategoryData("compatibleEquipment") && (
+                  <div className={styles.textareaContainer}>
+                    {
+                      // productDetail?.[productDetail?.category]?.purpose ||
+                      // productDetail?.[productDetail?.category]?.targetCondition
+                      getCategoryData("purpose") ||
+                      (getCategoryData("targetCondition") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.purpose && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Purpose
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.purpose
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.targetCondition && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Target Condition
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.targetCondition
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.maintenanceNotes ||
+                      // productDetail?.[productDetail?.category]?.compatibleEquipment
+                      getCategoryData("maintenanceNotes") ||
+                      (getCategoryData("compatibleEquipment") && (
+                        <div className={styles.textareaSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.maintenanceNotes && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Maintenance Notes
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.maintenanceNotes
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.compatibleEquipment && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Compatible Equipment
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.compatibleEquipment
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
             </div>
-          ))}
+          )}
+
+        {/* End Dental Products */}
+
+        {/* Eye Care Supplies */}
+
+        {productDetail?.category == "EyeCareSupplies" &&
+          // productDetail?.[productDetail?.category]?.diameter ||
+          // productDetail?.[productDetail?.category]?.frame ||
+          // productDetail?.[productDetail?.category]?.lens ||
+          // productDetail?.[productDetail?.category]?.lensMaterial ||
+          // productDetail?.[productDetail?.category]?.lensPower ||
+          // productDetail?.[productDetail?.category]?.baseCurve ||
+          // productDetail?.[productDetail?.category]?.colorOptions
+          (getCategoryData("diameter") ||
+            getCategoryData("frame") ||
+            getCategoryData("lens") ||
+            getCategoryData("lensMaterial") ||
+            getCategoryData("lensPower") ||
+            getCategoryData("baseCurve") ||
+            getCategoryData("colorOptions")) && (
+            <div className={styles.mainContainer}>
+              <span className={styles.innerHead}>Eye Care Supplies</span>
+              {
+                // productDetail?.[productDetail?.category]?.diameter ||
+                // productDetail?.[productDetail?.category]?.frame ||
+                // productDetail?.[productDetail?.category]?.lens ||
+                // productDetail?.[productDetail?.category]?.lensMaterial
+                getCategoryData("diameter") ||
+                getCategoryData("frame") ||
+                getCategoryData("lens") ||
+                (getCategoryData("lensMaterial") && (
+                  <div className={styles.innerSection}>
+                    {productDetail?.[productDetail?.category]?.diameter ||
+                      (productDetail?.[productDetail?.category]?.frame && (
+                        <div className={styles.mainSection}>
+                          {productDetail?.[productDetail?.category]
+                            ?.diameter && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Diameter
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.diameter
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.frame && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Frame
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.frame
+                                  }
+                                </span>
+                              </div>
+                            )}
+                        </div>
+                      ))}
+                    {productDetail?.[productDetail?.category]?.lens ||
+                      (productDetail?.[productDetail?.category]
+                        ?.lensMaterial && (
+                          <div className={styles.mainSection}>
+                            {productDetail?.[productDetail?.category]?.lens && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Lens
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.lens
+                                  }
+                                </span>
+                              </div>
+                            )}
+                            {productDetail?.[productDetail?.category]
+                              ?.lensMaterial && (
+                                <div className={styles.medicinesSection}>
+                                  <span className={styles.medicineHead}>
+                                    Lens Material
+                                  </span>
+                                  <span className={styles.medicineText}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.lensMaterial
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))}
+                  </div>
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.lensPower ||
+                // productDetail?.[productDetail?.category]?.baseCurve ||
+                // productDetail?.[productDetail?.category]?.colorOptions
+                getCategoryData("lensPower") ||
+                getCategoryData("baseCurve") ||
+                (getCategoryData("colorOptions") && (
+                  <div className={styles.textareaContainer}>
+                    {productDetail?.[productDetail?.category]?.lensPower ||
+                      (productDetail?.[productDetail?.category]
+                        ?.baseCurve && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.lensPower && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Lens Power
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.lensPower
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {productDetail?.[productDetail?.category]
+                              ?.baseCurve && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Base Curve
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.baseCurve
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))}
+                    {productDetail?.[productDetail?.category]
+                      ?.colorOptions && (
+                        <div className={styles.textareaSection}>
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Color Options
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.colorOptions
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                ))
+              }
+            </div>
+          )}
 
         {/* End Eye Care Supplies */}
 
         {/* Home Healthcare Products */}
-        {productDetail?.category == "HomeHealthcareProducts" && (
-          (productDetail?.[productDetail?.category]?.maxWeightCapacity ||
-            productDetail?.[productDetail?.category]?.gripType ||
-            productDetail?.[productDetail?.category]?.batteryType ||
-            productDetail?.[productDetail?.category]?.batterySize ||
-            productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.colorOptions ||
-            productDetail?.[productDetail?.category]?.foldability ||
-            productDetail?.[productDetail?.category]?.lockingMechanism ||
-            productDetail?.[productDetail?.category]?.typeOfSupport ||
-            productDetail?.[productDetail?.category]?.flowRate ||
-            productDetail?.[productDetail?.category]?.concentration ||
-            productDetail?.[productDetail?.category]?.performanceTestingReport ||
-            productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0) && (
+        {productDetail?.category == "HomeHealthcareProducts" &&
+          // productDetail?.[productDetail?.category]?.maxWeightCapacity ||
+          // productDetail?.[productDetail?.category]?.gripType ||
+          // productDetail?.[productDetail?.category]?.batteryType ||
+          // productDetail?.[productDetail?.category]?.batterySize ||
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.colorOptions ||
+          // productDetail?.[productDetail?.category]?.foldability ||
+          // productDetail?.[productDetail?.category]?.lockingMechanism ||
+          // productDetail?.[productDetail?.category]?.typeOfSupport ||
+          // productDetail?.[productDetail?.category]?.flowRate ||
+          // productDetail?.[productDetail?.category]?.concentration ||
+          // productDetail?.[productDetail?.category]?.performanceTestingReport ||
+          // productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+
+          (getCategoryData("maxWeightCapacity") ||
+            getCategoryData("gripType") ||
+            getCategoryData("batteryType") ||
+            getCategoryData("batterySize") ||
+            getCategoryData("expiry") ||
+            getCategoryData("colorOptions") ||
+            getCategoryData("foldability") ||
+            getCategoryData("lockingMechanism") ||
+            getCategoryData("composition") ||
+            getCategoryData("flowRate") ||
+            getCategoryData("concentration") ||
+            getCategoryData("performanceTestingReport") ||
+            getCategoryData("composition") ||
+            getCategoryData("performanceTestingReportFile").length > 0) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Home Healthcare Products</span>
-              {productDetail?.[productDetail?.category]?.maxWeightCapacity ||
-                productDetail?.[productDetail?.category]?.gripType ||
-                productDetail?.[productDetail?.category]?.batteryType ||
-                productDetail?.[productDetail?.category]?.batterySize ||
-                productDetail?.[productDetail?.category]?.expiry && (
+              {
+                // productDetail?.[productDetail?.category]?.maxWeightCapacity ||
+                // productDetail?.[productDetail?.category]?.gripType ||
+                // productDetail?.[productDetail?.category]?.batteryType ||
+                // productDetail?.[productDetail?.category]?.batterySize ||
+                // productDetail?.[productDetail?.category]?.expiry
+
+                getCategoryData("maxWeightCapacity") ||
+                getCategoryData("gripType") ||
+                getCategoryData("batteryType") ||
+                getCategoryData("batterySize") ||
+                (getCategoryData("composition") && (
                   <div className={styles.innerSection}>
-                    {productDetail?.[productDetail?.category]?.maxWeightCapacity ||
-                      productDetail?.[productDetail?.category]?.gripType ||
-                      productDetail?.[productDetail?.category]?.batteryType && (
+                    {
+                      // productDetail?.[productDetail?.category]?.maxWeightCapacity ||
+                      // productDetail?.[productDetail?.category]?.gripType ||
+                      // productDetail?.[productDetail?.category]?.batteryType
+                      getCategoryData("maxWeightCapacity") ||
+                      getCategoryData("gripType") ||
+                      (getCategoryData("batteryType") && (
                         <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.maxWeightCapacity && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Max Weight Capacity
-                              </span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.maxWeightCapacity}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.gripType && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Grip Type</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.gripType}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.batteryType && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Battery Type</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.batteryType}</span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.maxWeightCapacity && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Max Weight Capacity
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.maxWeightCapacity
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.gripType && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Grip Type
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.gripType
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.batteryType && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Battery Type
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.batteryType
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.batterySize ||
-                      productDetail?.[productDetail?.category]?.expiry && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.batterySize ||
+                      // productDetail?.[productDetail?.category]?.expiry
+                      getCategoryData("batterySize") ||
+                      (getCategoryData("expiry") && (
                         <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]?.batterySize && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Battery Size</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.batterySize}</span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.expiry && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.batterySize && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Battery Size
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.batterySize
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.expiry && (
+                              <div className={styles.medicinesSection}>
+                                <span className={styles.medicineHead}>
+                                  Shelf Life/Expiry
+                                </span>
+                                <span className={styles.medicineText}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.expiry
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
+                      ))
+                    }
                   </div>
-                )}
-              {productDetail?.[productDetail?.category]?.colorOptions ||
-                productDetail?.[productDetail?.category]?.foldability ||
-                productDetail?.[productDetail?.category]?.lockingMechanism ||
-                productDetail?.[productDetail?.category]?.typeOfSupport ||
-                productDetail?.[productDetail?.category]?.flowRate ||
-                productDetail?.[productDetail?.category]?.concentration ||
-                productDetail?.[productDetail?.category]?.performanceTestingReport ||
-                productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
+                ))
+              }
+              {
+                // productDetail?.[productDetail?.category]?.colorOptions ||
+                // productDetail?.[productDetail?.category]?.foldability ||
+                // productDetail?.[productDetail?.category]?.lockingMechanism ||
+                // productDetail?.[productDetail?.category]?.typeOfSupport ||
+                // productDetail?.[productDetail?.category]?.flowRate ||
+                // productDetail?.[productDetail?.category]?.concentration ||
+                // productDetail?.[productDetail?.category]?.performanceTestingReport ||
+                // productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+                getCategoryData("colorOptions") ||
+                getCategoryData("foldability") ||
+                getCategoryData("lockingMechanism") ||
+                getCategoryData("typeOfSupport") ||
+                getCategoryData("flowRate") ||
+                getCategoryData("concentration") ||
+                getCategoryData("performanceTestingReport") ||
+                (getCategoryData("performanceTestingReportFile").length && (
                   <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.colorOptions ||
-                      productDetail?.[productDetail?.category]?.foldability && (
+                    {
+                      // productDetail?.[productDetail?.category]?.colorOptions ||
+                      // productDetail?.[productDetail?.category]?.foldability
+                      getCategoryData("colorOptions") ||
+                      (getCategoryData("foldability") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.colorOptions && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Color Options</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.colorOptions}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.foldability && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Foldability</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.foldability}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.colorOptions && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Color Options
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.colorOptions
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.foldability && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Foldability
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.foldability
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.lockingMechanism ||
-                      productDetail?.[productDetail?.category]?.typeOfSupport && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.lockingMechanism ||
+                      // productDetail?.[productDetail?.category]?.typeOfSupport
+                      getCategoryData("lockingMechanism") ||
+                      (getCategoryData("typeOfSupport") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.lockingMechanism && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Locking Mechanism</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.lockingMechanism}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.typeOfSupport && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Type of Support</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.typeOfSupport}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.lockingMechanism && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Locking Mechanism
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.lockingMechanism
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.typeOfSupport && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Type of Support
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.typeOfSupport
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.flowRate ||
-                      productDetail?.[productDetail?.category]?.concentration && (
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.flowRate ||
+                      // productDetail?.[productDetail?.category]?.concentration
+                      getCategoryData("flowRate") ||
+                      (getCategoryData("concentration") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.flowRate && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Flow Rate</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.flowRate}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.concentration && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Concentration</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.concentration}
-                              </span>
-                            </div>
-                          )}
+                          {productDetail?.[productDetail?.category]
+                            ?.flowRate && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Flow Rate
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.flowRate
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.concentration && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Concentration
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.concentration
+                                  }
+                                </span>
+                              </div>
+                            )}
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.performanceTestingReport ||
-                      productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.performanceTestingReport && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Performance Testing Report
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.performanceTestingReport}
-                              </span>
-                              {productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.performanceTestingReportFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div> */}
+                      ))
+                    }
+                    {
+                      // productDetail?.[productDetail?.category]?.performanceTestingReport ||
+                      // productDetail?.[productDetail?.category]?.performanceTestingReportFile.length > 0
+                      getCategoryData("performanceTestingReport") ||
+                      (getCategoryData("performanceTestingReportFile")
+                        ?.length > 0 && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.performanceTestingReport && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Performance Testing Report
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.performanceTestingReport
+                                    }
+                                  </span>
+                                  {productDetail?.[productDetail?.category]
+                                    ?.performanceTestingReportFile.length >
+                                    0 && (
+                                      <div className={styles.uploadFileSection}>
+                                        <RenderProductFiles
+                                          files={
+                                            productDetail?.[
+                                              productDetail?.category
+                                            ]?.performanceTestingReportFile
+                                          }
+                                        />
+                                      </div>
+                                    )}
                                 </div>
                               )}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                          </div>
+                        ))
+                    }
                   </div>
-                )}
+                ))
+              }
             </div>
-          ))}
+          )}
 
         {/* End Home Healthcare Products */}
 
         {/* Alternative Medicines */}
 
-        {productDetail?.category == "AlternativeMedicines" && (
-          (productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.healthClaims ||
-            productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0
-          ) && (
+        {productDetail?.category == "AlternativeMedicines" &&
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          // productDetail?.[productDetail?.category]?.healthClaims ||
+          // productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0
+          (getCategoryData("expiry") ||
+            getCategoryData("purpose") ||
+            getCategoryData("composition") ||
+            getCategoryData("healthClaims") ||
+            getCategoryData("healthClaimsFiles").length > 0) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Alternative Medicines</span>
               {productDetail?.[productDetail?.category]?.expiry && (
                 <div className={styles.innerSection}>
                   <div className={styles.mainSection}>
                     <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                      <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
+                      <span className={styles.medicineHead}>
+                        Shelf Life/Expiry
+                      </span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.[productDetail?.category]?.expiry}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -2674,416 +3882,575 @@ const ProductDetails = () => {
               {productDetail?.[productDetail?.category]?.purpose ||
                 productDetail?.[productDetail?.category]?.composition ||
                 productDetail?.[productDetail?.category]?.healthClaims ||
-                productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0 && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.purpose ||
-                      productDetail?.[productDetail?.category]?.composition && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
+                (productDetail?.[productDetail?.category]?.healthClaimsFiles
+                  .length > 0 && (
+                    <div className={styles.textareaContainer}>
+                      {productDetail?.[productDetail?.category]?.purpose ||
+                        (productDetail?.[productDetail?.category]
+                          ?.composition && (
+                            <div className={styles.textareaSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.purpose && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Purpose
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.purpose
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.composition && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Composition/Ingredients
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.composition
+                                      }
+                                    </span>
+                                  </div>
+                                )}
                             </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.composition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Composition/Ingredients
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.composition}
-                              </span>
+                          ))}
+                      {productDetail?.[productDetail?.category]?.healthClaims ||
+                        (productDetail?.[productDetail?.category]
+                          ?.healthClaimsFiles.length > 0 && (
+                            <div className={styles.textareaSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.healthClaims && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Health Claims
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.healthClaims
+                                      }
+                                    </span>
+                                    {productDetail?.[productDetail?.category]
+                                      ?.healthClaimsFile.length > 0 && (
+                                        <div className={styles.uploadFileSection}>
+                                          <RenderProductFiles
+                                            files={
+                                              productDetail?.[productDetail?.category]
+                                                ?.healthClaimsFile
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                  </div>
+                                )}
                             </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.healthClaims ||
-                      productDetail?.[productDetail?.category]?.healthClaimsFiles.length > 0 && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.healthClaims && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Health Claims</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.healthClaims}
-                              </span>
-                              {productDetail?.[productDetail?.category]?.healthClaimsFile.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-
-                                  <RenderProductFiles
-                                    files={productDetail?.[productDetail?.category]?.healthClaimsFile}
-                                  />
-                                  {/* <div className={styles.uploadFileContainer}>
-                      <img src={Doc} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
+                          ))}
                     </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image}
-                        alt="Image"
-                      />
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img src={PDF} className={styles.productIcon} alt="Doc" />
-                      <a
-                        className={styles.additionalLink}
-                        href="https://morth.nic.in/sites/default/files/dd12-13_0.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        dd12-13_0.pdf
-                      </a>
-                    </div>
-                    <div className={styles.uploadFileContainer}>
-                      <img
-                        className={styles.uploadImage}
-                        src={Image1}
-                        alt="Image"
-                      />
-                    </div> */}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                  </div>
-                )}
+                  ))}
             </div>
-          ))}
+          )}
 
         {/* End Alternative Medicines */}
 
         {/* Emergency and First Aid Supplies */}
-        {productDetail?.category == "EmergencyAndFirstAidSupplies" && (
-          (productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.productLongetivity ||
-            productDetail?.[productDetail?.category]?.foldability) && (
+        {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          //   productDetail?.[productDetail?.category]?.productLongetivity ||
+          //   productDetail?.[productDetail?.category]?.foldability
+
+          (getCategoryData("expiry") ||
+            getCategoryData("composition") ||
+            getCategoryData("productLongetivity") ||
+            getCategoryData("foldability")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
                 Emergency and First Aid Supplies
               </span>
-              {productDetail?.[productDetail?.category]?.expiry && (
-                <div className={styles.innerSection}>
-                  <div className={styles.mainSection}>
-                    <div className={styles.medicinesSection}>
-                      <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                      <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
+              {
+                // productDetail?.[productDetail?.category]?.expiry
+                getCategoryData("expiry") && (
+                  <div className={styles.innerSection}>
+                    <div className={styles.mainSection}>
+                      <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}>
+                          Shelf Life/Expiry
+                        </span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.[productDetail?.category]?.expiry}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-              {productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.productLongetivity ||
-                productDetail?.[productDetail?.category]?.foldability && (
+                )
+              }
+              {
+                // productDetail?.[productDetail?.category]?.composition ||
+                //   productDetail?.[productDetail?.category]?.productLongetivity ||
+                //   productDetail?.[productDetail?.category]?.foldability
+                getCategoryData("composition") ||
+                getCategoryData("productLongetivity") ||
+                (getCategoryData("foldability") && (
                   <div className={styles.textareaContainer}>
                     {productDetail?.[productDetail?.category]?.composition ||
-                      productDetail?.[productDetail?.category]?.productLongetivity && (
+                      (productDetail?.[productDetail?.category]
+                        ?.productLongetivity && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.composition && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Composition/Ingredients
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.composition
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {
+                              // productDetail?.[productDetail?.category]?.productLongetivity
+                              getCategoryData("productLongetivity") && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Product Longevity
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.productLongetivity
+                                    }
+                                  </span>
+                                </div>
+                              )
+                            }
+                          </div>
+                        ))}
+                    {
+                      // productDetail?.[productDetail?.category]?.foldability
+                      getCategoryData("foldability") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.composition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Composition/Ingredients
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.composition}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.productLongetivity && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Product Longevity</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.productLongetivity}
-                              </span>
-                            </div>
-                          )}
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Foldability
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.foldability
+                              }
+                            </span>
+                          </div>
                         </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.foldability && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Foldability</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.foldability}
-                          </span>
-                        </div>
-                      </div>
-                    )}
+                      )
+                    }
                   </div>
-                )}
+                ))
+              }
             </div>
-          ))}
+          )}
 
         {/* End Emergency and First Aid Supplies */}
 
         {/* Disinfection and Hygiene Supplies */}
-        {productDetail?.category == "DisinfectionAndHygieneSupplies" && (
-          (productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.concentration ||
-            productDetail?.[productDetail?.category]?.formulation ||
-            productDetail?.[productDetail?.category]?.fragrance
-          ) && (
+        {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          //   productDetail?.[productDetail?.category]?.concentration ||
+          //   productDetail?.[productDetail?.category]?.formulation ||
+          //   productDetail?.[productDetail?.category]?.fragrance
+
+          (getCategoryData("expiry") ||
+            getCategoryData("composition") ||
+            getCategoryData("concentration") ||
+            getCategoryData("formulation") ||
+            getCategoryData("fragrance")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
                 Disinfection and Hygiene Supplies
               </span>
               {
-                productDetail?.[productDetail?.category]?.expiry && (
+                // productDetail?.[productDetail?.category]?.expiry
+                getCategoryData("expiry") && (
                   <div className={styles.innerSection}>
                     <div className={styles.mainSection}>
                       <div className={styles.medicinesSection}>
-                        <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                        <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
+                        <span className={styles.medicineHead}>
+                          Shelf Life/Expiry
+                        </span>
+                        <span className={styles.medicineText}>
+                          {productDetail?.[productDetail?.category]?.expiry}
+                        </span>
                       </div>
                     </div>
                   </div>
-                )}
-              {productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.concentration ||
-                productDetail?.[productDetail?.category]?.formulation ||
-                productDetail?.[productDetail?.category]?.fragrance && (
+                )
+              }
+              {
+                // productDetail?.[productDetail?.category]?.composition ||
+                //   productDetail?.[productDetail?.category]?.concentration ||
+                //   productDetail?.[productDetail?.category]?.formulation ||
+                //   productDetail?.[productDetail?.category]?.fragrance
+                getCategoryData("composition") ||
+                getCategoryData("concentration") ||
+                getCategoryData("formulation") ||
+                (getCategoryData("fragrance") && (
                   <div className={styles.textareaContainer}>
                     {productDetail?.[productDetail?.category]?.composition ||
-                      productDetail?.[productDetail?.category]?.concentration && (
+                      (productDetail?.[productDetail?.category]
+                        ?.concentration && (
+                          <div className={styles.textareaSection}>
+                            {
+                              // productDetail?.[productDetail?.category]?.composition
+                              getCategoryData("composition") && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Composition/Ingredients
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.composition
+                                    }
+                                  </span>
+                                </div>
+                              )
+                            }
+                            {
+                              // productDetail?.[productDetail?.category]?.concentration
+                              getCategoryData("composition") && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Concentration
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.concentration
+                                    }
+                                  </span>
+                                </div>
+                              )
+                            }
+                          </div>
+                        ))}
+                    {
+                      // productDetail?.[productDetail?.category]?.formulation ||
+                      // productDetail?.[productDetail?.category]?.fragrance
+                      getCategoryData("formulation") ||
+                      (getCategoryData("fragrance") && (
                         <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.composition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Composition/Ingredients
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.composition}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.concentration && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Concentration</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.concentration}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.formulation ||
-                      productDetail?.[productDetail?.category]?.fragrance && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.formulation && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Formulation</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.formulation}
-                              </span>
-                            </div>
-                          )}
-                          {
-                            productDetail?.[productDetail?.category]?.fragrance && (
+                          {productDetail?.[productDetail?.category]
+                            ?.formulation && (
                               <div className={styles.textareaInnerSection}>
-                                <span className={styles.medicineHead}>Fragrance</span>
+                                <span className={styles.medicineHead}>
+                                  Formulation
+                                </span>
                                 <span className={styles.medicineContent}>
-                                  {productDetail?.[productDetail?.category]?.fragrance}
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.formulation
+                                  }
+                                </span>
+                              </div>
+                            )}
+                          {productDetail?.[productDetail?.category]
+                            ?.fragrance && (
+                              <div className={styles.textareaInnerSection}>
+                                <span className={styles.medicineHead}>
+                                  Fragrance
+                                </span>
+                                <span className={styles.medicineContent}>
+                                  {
+                                    productDetail?.[productDetail?.category]
+                                      ?.fragrance
+                                  }
                                 </span>
                               </div>
                             )}
                         </div>
-                      )}
+                      ))
+                    }
                   </div>
-                )}
+                ))
+              }
             </div>
-          ))}
+          )}
 
         {/* End Disinfection and Hygiene Supplies */}
 
         {/* Nutrition and Dietary Products */}
-        {productDetail?.category == "NutritionAndDietaryProducts" && (
-          (productDetail?.[productDetail?.category]?.expiry ||
-            productDetail?.[productDetail?.category]?.vegan ||
-            productDetail?.[productDetail?.category]?.diaryFree ||
-            productDetail?.[productDetail?.category]?.flavorOptions ||
-            productDetail?.[productDetail?.category]?.aminoAcidProfile ||
-            productDetail?.[productDetail?.category]?.fatContent ||
-            productDetail?.[productDetail?.category]?.purpose ||
-            productDetail?.[productDetail?.category]?.healthBenefit ||
-            productDetail?.[productDetail?.category]?.composition ||
-            productDetail?.[productDetail?.category]?.additivesNSweeteners) && (
+        {productDetail?.category == "NutritionAndDietaryProducts" &&
+          // productDetail?.[productDetail?.category]?.expiry ||
+          // productDetail?.[productDetail?.category]?.vegan ||
+          // productDetail?.[productDetail?.category]?.diaryFree ||
+          // productDetail?.[productDetail?.category]?.flavorOptions ||
+          // productDetail?.[productDetail?.category]?.aminoAcidProfile ||
+          // productDetail?.[productDetail?.category]?.fatContent ||
+          // productDetail?.[productDetail?.category]?.purpose ||
+          // productDetail?.[productDetail?.category]?.healthBenefit ||
+          // productDetail?.[productDetail?.category]?.composition ||
+          // productDetail?.[productDetail?.category]?.additivesNSweeteners
+          (getCategoryData("expiry") ||
+            getCategoryData("vegan") ||
+            getCategoryData("addOns") ||
+            getCategoryData("userAccess") ||
+            getCategoryData("keyFeatures") ||
+            getCategoryData("keyFeatures") ||
+            getCategoryData("coreFunctionalities") ||
+            getCategoryData("coreFunctionalities")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>
                 Nutrition and Dietary Products
               </span>
               {productDetail?.[productDetail?.category]?.expiry ||
                 productDetail?.[productDetail?.category]?.vegan ||
-                productDetail?.[productDetail?.category]?.diaryFree && (
+                (productDetail?.[productDetail?.category]?.diaryFree && (
                   <div className={styles.innerSection}>
                     {productDetail?.[productDetail?.category]?.expiry ||
-                      productDetail?.[productDetail?.category]?.vegan && (
+                      (productDetail?.[productDetail?.category]?.vegan && (
                         <div className={styles.mainSection}>
                           {productDetail?.[productDetail?.category]?.expiry && (
                             <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Shelf Life/Expiry</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.expiry}</span>
+                              <span className={styles.medicineHead}>
+                                Shelf Life/Expiry
+                              </span>
+                              <span className={styles.medicineText}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.expiry
+                                }
+                              </span>
                             </div>
                           )}
                           {productDetail?.[productDetail?.category]?.vegan && (
                             <div className={styles.medicinesSection}>
                               <span className={styles.medicineHead}>Vegan</span>
-                              <span className={styles.medicineText}>{productDetail?.[productDetail?.category]?.vegan}</span>
+                              <span className={styles.medicineText}>
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.vegan
+                                }
+                              </span>
                             </div>
                           )}
                         </div>
-                      )}
+                      ))}
                     {productDetail?.[productDetail?.category]?.diaryFree && (
                       <div className={styles.mainSection}>
                         <div className={styles.medicinesSection}>
-                          <span className={styles.medicineHead}>Dairy Free</span>
+                          <span className={styles.medicineHead}>
+                            Dairy Free
+                          </span>
                           <span className={styles.medicineText}>Bottle</span>
                         </div>
                       </div>
                     )}
                   </div>
-                )}
+                ))}
               {productDetail?.[productDetail?.category]?.flavorOptions ||
                 productDetail?.[productDetail?.category]?.aminoAcidProfile ||
                 productDetail?.[productDetail?.category]?.fatContent ||
                 productDetail?.[productDetail?.category]?.purpose ||
                 productDetail?.[productDetail?.category]?.healthBenefit ||
                 productDetail?.[productDetail?.category]?.composition ||
-                productDetail?.[productDetail?.category]?.additivesNSweeteners && (
-                  <div className={styles.textareaContainer}>
-                    {productDetail?.[productDetail?.category]?.flavorOptions ||
-                      productDetail?.[productDetail?.category]?.aminoAcidProfile && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.flavorOptions && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Flavor Options</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.flavorOptions}
-                              </span>
+                (productDetail?.[productDetail?.category]
+                  ?.additivesNSweeteners && (
+                    <div className={styles.textareaContainer}>
+                      {productDetail?.[productDetail?.category]?.flavorOptions ||
+                        (productDetail?.[productDetail?.category]
+                          ?.aminoAcidProfile && (
+                            <div className={styles.textareaSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.flavorOptions && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Flavor Options
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.flavorOptions
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.aminoAcidProfile && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Amino Acid Profile
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.aminoAcidProfile
+                                      }
+                                    </span>
+                                  </div>
+                                )}
                             </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.aminoAcidProfile && (
+                          ))}
+                      {productDetail?.[productDetail?.category]?.fatContent ||
+                        (productDetail?.[productDetail?.category]?.purpose && (
+                          <div className={styles.textareaSection}>
+                            {productDetail?.[productDetail?.category]
+                              ?.fatContent && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Fat Content
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.fatContent
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                            {productDetail?.[productDetail?.category]
+                              ?.purpose && (
+                                <div className={styles.textareaInnerSection}>
+                                  <span className={styles.medicineHead}>
+                                    Purpose
+                                  </span>
+                                  <span className={styles.medicineContent}>
+                                    {
+                                      productDetail?.[productDetail?.category]
+                                        ?.purpose
+                                    }
+                                  </span>
+                                </div>
+                              )}
+                          </div>
+                        ))}
+                      {productDetail?.[productDetail?.category]?.healthBenefit ||
+                        (productDetail?.[productDetail?.category]
+                          ?.composition && (
+                            <div className={styles.textareaSection}>
+                              {productDetail?.[productDetail?.category]
+                                ?.healthBenefit && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Health Benefit
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.healthBenefit
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                              {productDetail?.[productDetail?.category]
+                                ?.composition && (
+                                  <div className={styles.textareaInnerSection}>
+                                    <span className={styles.medicineHead}>
+                                      Composition/Ingredients
+                                    </span>
+                                    <span className={styles.medicineContent}>
+                                      {
+                                        productDetail?.[productDetail?.category]
+                                          ?.composition
+                                      }
+                                    </span>
+                                  </div>
+                                )}
+                            </div>
+                          ))}
+                      {productDetail?.[productDetail?.category]
+                        ?.additivesNSweeteners && (
+                          <div className={styles.textareaSection}>
                             <div className={styles.textareaInnerSection}>
                               <span className={styles.medicineHead}>
-                                Amino Acid Profile
+                                Additives & Sweeteners
                               </span>
                               <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.aminoAcidProfile}
+                                {
+                                  productDetail?.[productDetail?.category]
+                                    ?.additivesNSweeteners
+                                }
                               </span>
                             </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.fatContent ||
-                      productDetail?.[productDetail?.category]?.purpose && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.fatContent && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Fat Content</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.fatContent}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.purpose && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Purpose</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.purpose}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.healthBenefit ||
-                      productDetail?.[productDetail?.category]?.composition && (
-                        <div className={styles.textareaSection}>
-                          {productDetail?.[productDetail?.category]?.healthBenefit && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>Health Benefit</span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.healthBenefit}
-                              </span>
-                            </div>
-                          )}
-                          {productDetail?.[productDetail?.category]?.composition && (
-                            <div className={styles.textareaInnerSection}>
-                              <span className={styles.medicineHead}>
-                                Composition/Ingredients
-                              </span>
-                              <span className={styles.medicineContent}>
-                                {productDetail?.[productDetail?.category]?.composition}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {productDetail?.[productDetail?.category]?.additivesNSweeteners && (
-                      <div className={styles.textareaSection}>
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Additives & Sweeteners
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.additivesNSweeteners}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
+                          </div>
+                        )}
+                    </div>
+                  ))}
             </div>
-          ))}
+          )}
 
         {/* End Nutrition and Dietary Products */}
 
         {/* Healthcare IT Solutions */}
-        {productDetail?.category == "HealthcareITSolutions" && (
-          (productDetail?.[productDetail?.category]?.license ||
-            productDetail?.[productDetail?.category]?.scalabilityInfo ||
-            productDetail?.[productDetail?.category]?.addOns ||
-            productDetail?.[productDetail?.category]?.userAccess ||
-            productDetail?.[productDetail?.category]?.keyFeatures ||
-            productDetail?.[productDetail?.category]?.coreFunctionalities ||
-            productDetail?.[productDetail?.category]?.interoperabilityFile ||
-            productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0) && (
+        {productDetail?.category == "HealthcareITSolutions" &&
+          // (productDetail?.[productDetail?.category]?.license ||
+          // productDetail?.[productDetail?.category]?.scalabilityInfo ||
+          // productDetail?.[productDetail?.category]?.addOns ||
+          // productDetail?.[productDetail?.category]?.userAccess ||
+          // productDetail?.[productDetail?.category]?.keyFeatures ||
+          // productDetail?.[productDetail?.category]?.coreFunctionalities ||
+          // productDetail?.[productDetail?.category]?.coreFunctionalities ||
+          // productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0)
+          (getCategoryData("license") ||
+            getCategoryData("scalabilityInfo") ||
+            getCategoryData("addOns") ||
+            getCategoryData("userAccess") ||
+            getCategoryData("keyFeatures") ||
+            getCategoryData("keyFeatures") ||
+            getCategoryData("coreFunctionalities") ||
+            getCategoryData("coreFunctionalities")) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Healthcare IT Solutions</span>
               <div className={styles.textareaContainer}>
-                {productDetail?.[productDetail?.category]?.license ||
-                  productDetail?.[productDetail?.category]?.scalabilityInfo && (
+                {getCategoryData("license") ||
+                  (getCategoryData("scalabilityInfo") && (
+                    // productDetail?.[productDetail?.category]?.license ||
+                    // productDetail?.[productDetail?.category]?.scalabilityInfo
                     <div className={styles.textareaSection}>
-                      {productDetail?.[productDetail?.category]?.license && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>License</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.license}
-                          </span>
-                        </div>
-                      )}
-                      {productDetail?.[productDetail?.category]?.scalabilityInfo && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Scalability Info</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.scalabilityInfo}
-                          </span>
-                        </div>
-                      )}
+                      {
+                        // productDetail?.[productDetail?.category]?.license
+                        getCategoryData("license") && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>License</span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.license
+                              }
+                            </span>
+                          </div>
+                        )
+                      }
+                      {
+                        // productDetail?.[productDetail?.category]?.scalabilityInfo
+                        getCategoryData("scalabilityInfo") && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Scalability Info
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.scalabilityInfo
+                              }
+                            </span>
+                          </div>
+                        )
+                      }
                     </div>
-                  )}
-                {productDetail?.[productDetail?.category]?.addOns ||
-                  productDetail?.[productDetail?.category]?.userAccess && (
+                  ))}
+                {
+                  // productDetail?.[productDetail?.category]?.addOns ||
+                  // productDetail?.[productDetail?.category]?.userAccess
+                  getCategoryData("addOns") ||
+                  (getCategoryData("userAccess") && (
                     <div className={styles.textareaSection}>
                       {productDetail?.[productDetail?.category]?.addOns && (
                         <div className={styles.textareaInnerSection}>
@@ -3093,59 +4460,91 @@ const ProductDetails = () => {
                           </span>
                         </div>
                       )}
-                      {productDetail?.[productDetail?.category]?.userAccess && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>User Access</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.userAccess}
-                          </span>
-                        </div>
-                      )}
+                      {productDetail?.[productDetail?.category]
+                        ?.userAccess && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              User Access
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.userAccess
+                              }
+                            </span>
+                          </div>
+                        )}
                     </div>
-                  )}
-                {productDetail?.[productDetail?.category]?.keyFeatures ||
-                  productDetail?.[productDetail?.category]?.coreFunctionalities && (
+                  ))
+                }
+                {
+                  // productDetail?.[productDetail?.category]?.keyFeatures ||
+                  // productDetail?.[productDetail?.category]?.coreFunctionalities
+                  getCategoryData("keyFeatures") ||
+                  (getCategoryData("coreFunctionalities") && (
                     <div className={styles.textareaSection}>
-                      {productDetail?.[productDetail?.category]?.keyFeatures && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Key Features</span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.keyFeatures}
-                          </span>
-                        </div>
-                      )}
-                      {productDetail?.[productDetail?.category]?.coreFunctionalities && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>
-                            Core Functionalities
-                          </span>
-                          <span className={styles.medicineContent}>
-                            {productDetail?.[productDetail?.category]?.coreFunctionalities}
-                          </span>
-                        </div>
-                      )}
+                      {productDetail?.[productDetail?.category]
+                        ?.keyFeatures && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Key Features
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.keyFeatures
+                              }
+                            </span>
+                          </div>
+                        )}
+                      {productDetail?.[productDetail?.category]
+                        ?.coreFunctionalities && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Core Functionalities
+                            </span>
+                            <span className={styles.medicineContent}>
+                              {
+                                productDetail?.[productDetail?.category]
+                                  ?.coreFunctionalities
+                              }
+                            </span>
+                          </div>
+                        )}
                     </div>
-                  )}
-                {productDetail?.[productDetail?.category]?.interoperabilityFile ||
-                  productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0 && (
+                  ))
+                }
+                {
+                  // productDetail?.[productDetail?.category]?.interoperabilityFile ||
+                  // productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0
+                  getCategoryData("interoperabilityFile") ||
+                  (getCategoryData("interoperabilityFile")?.length > 0 && (
                     <div className={styles.textareaSection}>
-                      {productDetail?.[productDetail?.category]?.interoperabilityFile && (
-                        <div className={styles.textareaInnerSection}>
-                          <span className={styles.medicineHead}>Interoperability</span>
-                          <span className={styles.medicineContent}>
-                            Farmson Pharmaceutical Gujarat Private Limited is a Non-govt
-                            company, incorporated on 15 Feb, 1974. It's a private
-                            unlisted company and is classified as'company limited by
-                            shares'. Company's authorized capital stands at Rs 1000.0
-                            lakhs and has 28.863998% paid-up capital which is Rs 288.64
-                            lakhs.
-                          </span>
-                          {productDetail?.[productDetail?.category]?.interoperabilityFile.length > 0 && (
-                            <div className={styles.uploadFileSection}>
-                              <RenderProductFiles
-                                files={productDetail?.[productDetail?.category]?.interoperabilityFile}
-                              />
-                              {/* <div className={styles.uploadFileContainer}>
+                      {productDetail?.[productDetail?.category]
+                        ?.interoperabilityFile && (
+                          <div className={styles.textareaInnerSection}>
+                            <span className={styles.medicineHead}>
+                              Interoperability
+                            </span>
+                            <span className={styles.medicineContent}>
+                              Farmson Pharmaceutical Gujarat Private Limited is
+                              a Non-govt company, incorporated on 15 Feb, 1974.
+                              It's a private unlisted company and is classified
+                              as'company limited by shares'. Company's
+                              authorized capital stands at Rs 1000.0 lakhs and
+                              has 28.863998% paid-up capital which is Rs 288.64
+                              lakhs.
+                            </span>
+                            {productDetail?.[productDetail?.category]
+                              ?.interoperabilityFile.length > 0 && (
+                                <div className={styles.uploadFileSection}>
+                                  <RenderProductFiles
+                                    files={
+                                      productDetail?.[productDetail?.category]
+                                        ?.interoperabilityFile
+                                    }
+                                  />
+                                  {/* <div className={styles.uploadFileContainer}>
                       <img src={Doc} className={styles.productIcon} alt="Doc" />
                       <a
                         className={styles.additionalLink}
@@ -3181,23 +4580,23 @@ const ProductDetails = () => {
                         alt="Image"
                       />
                     </div> */}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                                </div>
+                              )}
+                          </div>
+                        )}
                     </div>
-                  )}
+                  ))
+                }
               </div>
             </div>
-          ))}
+          )}
 
         {/* End Healthcare IT Solutions */}
 
         {/* End the category details section */}
 
-
-           {/* Start product image section */}
-           {productDetail?.general?.image?.length > 0 && (
+        {/* Start product image section */}
+        {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Product Images</span>
             <div className={styles.productImageSection}>
@@ -3234,7 +4633,7 @@ const ProductDetails = () => {
                       Regulatory Compliance
                     </span>
                     <div className={styles.additionalImageSection}>
-                    <RenderProductFiles files={productDetail?.complianceFile} />
+                      <RenderProductFiles files={productDetail?.complianceFile} />
                     </div>
                   </div>
                 )}
@@ -3242,9 +4641,9 @@ const ProductDetails = () => {
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>Safety Datasheet</span>
                     <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.safetyDatasheet}
-                    />
+                      <RenderProductFiles
+                        files={productDetail?.healthNSafety?.safetyDatasheet}
+                      />
                     </div>
                   </div>
                 )}
@@ -3259,9 +4658,9 @@ const ProductDetails = () => {
                       Health Hazard Rating
                     </span>
                     <div className={styles.additionalImageSection}>
-                    <RenderProductFiles
-                      files={productDetail?.healthNSafety?.healthHazardRating}
-                    />
+                      <RenderProductFiles
+                        files={productDetail?.healthNSafety?.healthHazardRating}
+                      />
                     </div>
                   </div>
                 )}
@@ -3272,9 +4671,9 @@ const ProductDetails = () => {
                         Environmental Impact
                       </span>
                       <div className={styles.additionalImageSection}>
-                      <RenderProductFiles
-                        files={productDetail?.healthNSafety?.environmentalImpact}
-                      />
+                        <RenderProductFiles
+                          files={productDetail?.healthNSafety?.environmentalImpact}
+                        />
                       </div>
                     </div>
                   )}
@@ -3328,10 +4727,10 @@ const ProductDetails = () => {
                     <div className={styles.additionalUploadSection}>
                       <span className={styles.medicineHead}>User Guidelines</span>
                       <div className={styles.additionalImageSection}>
-                      <RenderProductFiles
-                        files={productDetail?.additional?.guidelinesFile}
-                      />
-                  </div>
+                        <RenderProductFiles
+                          files={productDetail?.additional?.guidelinesFile}
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -3387,7 +4786,7 @@ const ProductDetails = () => {
           )}
 
         {/* End Manufacturer section */}
-     
+
         {/* Modal for PDF Preview */}
         <Modal
           isOpen={modalIsOpen}
