@@ -33,7 +33,7 @@ const NewProduct = () => {
   return (
     <>
       <div className={styles.container}>
-        <Link to="/add-product">
+        <Link to="/supplier/add-product">
           <div className={styles.mainSection}>
             <span className={styles.head}>Add a Product</span>
             <div className={styles.imgContainer}>
