@@ -129,9 +129,20 @@ import React, {
           Yup.object({
             quantity: Yup.string().required("Quantity is required."),
             price: Yup.number()
+            .typeError('Price must be a number.')
               .required("Price is required.")
-              .positive("Price must be greater than 0"),
-            deliveryTime: Yup.string().required("Delivery Time is required."),
+              .positive("Price must be greater than 0")
+              .test(
+                "decimal-places",
+                "Price can have up to 3 decimal places only.",
+                (value) => {
+                  if (value === undefined || value === null) return true; // Skip validation if empty
+                  return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+                }
+              ),
+            deliveryTime: Yup.string()
+            .matches(/^\d{1,3}$/, "Delivery Time must be a number with up to 3 digits.")
+            .required("Delivery Time is required."),
           })
         )
         .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
@@ -2780,7 +2791,13 @@ import React, {
                                 className={styles.quantityInput}
                                 placeholder={stock.placeholder}
                                 // autoComplete="off"
-                                type="number"
+                                // type="number"
+                                onInput={(e) => {
+                                  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                }}
+                                // onInput={(e) => {
+                                //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                                // }}
                                 
                               />
                               <button
@@ -2922,6 +2939,28 @@ import React, {
                           type="text"
                           placeholder="Enter Cost Per Product"
                           className={styles.formInput}
+                          onInput={(e) => {
+                            let value = e.target.value;
+                            
+                            // Allow only numbers and one decimal point
+                            value = value.replace(/[^0-9.]/g, "");
+                        
+                            // Ensure only one decimal point exists
+                            if (value.split(".").length > 2) {
+                              value = value.slice(0, -1);
+                            }
+                        
+                            // Limit numbers before decimal to 9 digits and after decimal to 3 digits
+                            let parts = value.split(".");
+                            if (parts[0].length > 9) {
+                              parts[0] = parts[0].slice(0, 9);
+                            }
+                            if (parts[1]?.length > 3) {
+                              parts[1] = parts[1].slice(0, 3);
+                            }
+                            
+                            e.target.value = parts.join(".");
+                          }}
                         />
                         <span
                           className={styles.infoTooltip}
@@ -2952,6 +2991,9 @@ import React, {
                         type="text"
                         placeholder="Enter Est. Delivery Time"
                         className={styles.formInput}
+                        onInput={(e) => {
+                          e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                        }}
                       />
                       <span className={styles.error}>
                         {touched.productPricingDetails?.[index]?.deliveryTime &&
@@ -4559,7 +4601,7 @@ import React, {
                               <span className={styles.labelStamp}>*</span>
                             </label>
                             <div className={styles.tooltipContainer}>
-                              <Select
+                              {/* <Select
                                 className={styles.formSelect}
                                 options={dermatologistOptions}
                                 placeholder="Select Dermatologist Tested"
@@ -4573,7 +4615,23 @@ import React, {
                                   setDermatologistTested(selectedOption.value);
                                 }}
                                 onBlur={handleBlur}
+                              /> */}
+
+                              <Select
+                                className={styles.formSelect}
+                                options={dermatologistOptions}
+                                placeholder="Select Dermatologist Tested"
+                                name="dermatologistTested"
+                                value={dermatologistOptions.find(
+                                  (option) => option.value === values.dermatologistTested
+                                )} // Find matching option object
+                                onChange={(selectedOption) => {
+                                  setFieldValue("dermatologistTested", selectedOption?.value);
+                                  setDermatologistTested(selectedOption?.value);
+                                }}
+                                onBlur={handleBlur}
                               />
+
                               <span
                                 className={styles.infoTooltip}
                                 data-tooltip-id="skin-tooltip"
@@ -4624,7 +4682,7 @@ import React, {
                               <span className={styles.labelStamp}>*</span>
                             </label>
                             <div className={styles.tooltipContainer}>
-                              <Select
+                              {/* <Select
                                 className={styles.formSelect}
                                 options={pediatricianOptions}
                                 placeholder="Select Pediatrician Recommended"
@@ -4640,7 +4698,23 @@ import React, {
                                   );
                                 }}
                                 onBlur={handleBlur}
-                              />
+                              /> */}
+
+                                <Select
+                                  className={styles.formSelect}
+                                  options={pediatricianOptions}
+                                  placeholder="Select Pediatrician Recommended"
+                                  name="pediatricianRecommended"
+                                  value={pediatricianOptions.find(
+                                    (option) => option.value === values.pediatricianRecommended
+                                  )} // Ensure it maps to an object
+                                  onChange={(selectedOption) => {
+                                    setFieldValue("pediatricianRecommended", selectedOption?.value);
+                                    setPediatricianRecommended(selectedOption?.value);
+                                  }}
+                                  onBlur={handleBlur}
+                                />
+
                               <span
                                 className={styles.infoTooltip}
                                 data-tooltip-id="pediatrician-tooltip"
@@ -5207,9 +5281,12 @@ import React, {
                               onBlur={handleBlur}
                               name="controlledSubstance"
                               checked={values.controlledSubstance || false}
-                              onChange={() =>
-                                handleCheckboxChange("controlledSubstance")
-                              }
+                             
+                                onChange={(e) => {
+                                  handleCheckboxChange("controlledSubstance", e?.target?.checked);
+                                  setFieldValue("controlledSubstance", e?.target?.checked);
+                                }}
+                              
                             />
   
                             <label
