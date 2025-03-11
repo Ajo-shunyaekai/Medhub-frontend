@@ -1477,8 +1477,8 @@ const EditAddProduct = ({ placeholder }) => {
       guidelinesFile: productDetail?.guidelinesFile || [],
       guidelinesFileNew: productDetail?.guidelinesFileNew || [],
       warranty: productDetail?.warranty || "",
-      safetyDatasheet: productDetail?.safetyDatasheet || [],
-      safetyDatasheetNew: productDetail?.safetyDatasheetNew || [],
+      safetyDatasheet: productDetail?.healthNSafety?.safetyDatasheet || [],
+      safetyDatasheetNew: productDetail?.healthNSafety?.safetyDatasheetNew || [],
       healthHazardRating: productDetail?.healthNSafety?.healthHazardRating || [],
       healthHazardRatingNew: productDetail?.healthNSafety?.healthHazardRatingNew || [],
       environmentalImpact: productDetail?.environmentalImpact || [],
@@ -3416,7 +3416,8 @@ const EditAddProduct = ({ placeholder }) => {
         upc: general?.upc || "",
         model: general?.model || "",
         image: general?.image || [],  // Image field based on general object
-        imageNew: general?.imageNew || [],  // Assuming this exists in your data
+        // imageNew: general?.imageNew || [],  
+        imageNew : [],
         brand: general?.brand || "",
         form: general?.form || "",
         quantity: general?.quantity || "",  // Quantity should be from general
@@ -3565,13 +3566,16 @@ const EditAddProduct = ({ placeholder }) => {
         keyFeatures: categoryDetails?.keyFeatures || "",
         coreFunctionalities: categoryDetails?.coreFunctionalities || "",
       });
-      console.log('HEALTH HAZARD', formik.values?.healthHazardRating)
-      console.log('HEALTH HAZARD', formik.values?.healthHazardRatingNew)
+      
     }
   }, [productDetail]);  // Add formik to the dependency array
  
  
   console.log("interoperability", formik?.values?.interoperability)
+  console.log('TESTING REPORT', formik.values?.performanceTestingReportFile)
+      console.log('TESTING REPORT NEW', formik.values?.performanceTestingReportFileNew)
+      console.log("Formik Values Image:", formik.values.image);
+
  
  
   return (
