@@ -10,25 +10,7 @@ import ADD from '../../../assets/images/plus.svg';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const NewProduct = () => {
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productReducer);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8);
-  const totalItems = products?.length || 0;
-
-  useEffect(() => {
-    dispatch(fetchProductsList('product?market=secondary'));
-  }, [dispatch]);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const indexOfLastProduct = currentPage * itemsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = products?.slice(indexOfFirstProduct, indexOfLastProduct) || [];
+const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
 
   return (
     <>
@@ -42,8 +24,8 @@ const NewProduct = () => {
           </div>
         </Link>
 
-        {currentProducts.length > 0 ? (
-          currentProducts.map((product) => (
+        {products?.length > 0 ? (
+          products?.map((product) => (
             <div key={product._id} className={styles.mainCard}>
               <div className={styles.cardImgSection}>
                 <div className={styles.cardImg}>
@@ -105,7 +87,7 @@ const NewProduct = () => {
         )}
       </div>
 
-      {totalItems > 0 && (
+      {products?.length > 0 && (
         <div className={styles.paginationSection}>
           <div className='pagi-container'>
             <Pagination
