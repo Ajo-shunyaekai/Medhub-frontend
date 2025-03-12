@@ -2214,7 +2214,7 @@ import React, {
                       name="brand"
                       value={values.brand}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 50, 'text')}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 75, 'text')}
                       onBlur={handleBlur}
                     />
                     <span className={styles.error}></span>
@@ -2233,7 +2233,7 @@ import React, {
                         name="form"
                         value={values.form}
                         // onChange={handleChange}
-                        onChange={(e) => handleInputChange(e, setFieldValue, 25, 'text')}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 50, 'text')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -2542,7 +2542,7 @@ import React, {
                       name="aboutManufacturer"
                       onBlur={handleBlur}
                       // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                     />
                     {touched.aboutManufacturer && errors.aboutManufacturer && (
                       <span className={styles.error}>
@@ -3092,7 +3092,7 @@ import React, {
                         // autoComplete="off"
                         name="storage"
                         // onChange={handleChange}
-                        onChange={(e) => handleInputChange(e, setFieldValue, 30, 'all')}
+                        onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                         onBlur={handleBlur}
                       />
                       <span
@@ -3149,7 +3149,7 @@ import React, {
                           name="interoperability"
                           value={values.interoperability}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3180,7 +3180,7 @@ import React, {
                           // autoComplete="off"
                           name="laserType"
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3211,7 +3211,7 @@ import React, {
                           // autoComplete="off"
                           name="coolingSystem"
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3276,7 +3276,7 @@ import React, {
                           name="diagnosticFunctions"
                           value={values.diagnosticFunctions}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3308,7 +3308,7 @@ import React, {
                           name="performanceTestingReport"
                           value={values.performanceTestingReport}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3353,7 +3353,7 @@ import React, {
                           name="specification"
                           value={values.specification}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span
@@ -3411,7 +3411,7 @@ import React, {
                             name="genericName"
                             value={values.genericName}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3450,7 +3450,7 @@ import React, {
                             name="drugClass"
                             value={values.drugClass}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3486,7 +3486,7 @@ import React, {
                             name="strength"
                             value={values.strength}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3563,7 +3563,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3598,7 +3598,7 @@ import React, {
                             name="formulation"
                             value={values.formulation}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3630,7 +3630,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3670,7 +3670,7 @@ import React, {
                             name="drugAdministrationRoute"
                             value={values.drugAdministrationRoute}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3776,7 +3776,7 @@ import React, {
                               name="expiry"
                               value={values?.expiry}
                               // onChange={handleChange}
-                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -3818,7 +3818,7 @@ import React, {
                                 name="sideEffectsAndWarnings"
                                 value={values.sideEffectsAndWarnings}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -3854,7 +3854,7 @@ import React, {
                                 name="allergens"
                                 value={values.allergens}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -3901,7 +3901,7 @@ import React, {
                             // autoComplete="off"
                             name="spf"
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 10, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -3970,7 +3970,7 @@ import React, {
                             name="elasticity"
                             value={values.elasticity}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4002,7 +4002,7 @@ import React, {
                             name="adhesiveness"
                             value={values.adhesiveness}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4104,7 +4104,7 @@ import React, {
                             name="formulation"
                             value={values.formulation}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4136,7 +4136,7 @@ import React, {
                             name="fragrance"
                             value={values.fragrance}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4169,7 +4169,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4207,7 +4207,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4242,7 +4242,7 @@ import React, {
                             name="targetCondition"
                             value={values.targetCondition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4280,7 +4280,7 @@ import React, {
                             name="drugAdministrationRoute"
                             value={values.drugAdministrationRoute}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4325,7 +4325,7 @@ import React, {
                             name="drugClass"
                             value={values.drugClass}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4358,7 +4358,7 @@ import React, {
                             name="concentration"
                             value={values.concentration}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4395,7 +4395,7 @@ import React, {
                             name="moisturizers"
                             value={values.moisturizers}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4425,7 +4425,7 @@ import React, {
                             rows="2"
                             name="fillerType"
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -4776,7 +4776,7 @@ import React, {
                                 name="sideEffectsAndWarnings"
                                 value={values.sideEffectsAndWarnings}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -4810,7 +4810,7 @@ import React, {
                                 name="allergens"
                                 value={values.allergens}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -4850,7 +4850,7 @@ import React, {
                               name="expiry"
                               value={values?.expiry}
                               // onChange={handleChange}
-                              onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                               onBlur={handleBlur}
                             />
                             <span
@@ -4902,7 +4902,7 @@ import React, {
                             name="genericName"
                             value={values.genericName}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5012,7 +5012,7 @@ import React, {
                             name="healthBenefit"
                             value={values.healthBenefit}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5051,7 +5051,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5086,7 +5086,7 @@ import React, {
                             name="formulation"
                             value={values.formulation}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5118,7 +5118,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5160,7 +5160,7 @@ import React, {
                             name="drugAdministrationRoute"
                             value={values.drugAdministrationRoute}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5204,7 +5204,7 @@ import React, {
                             name="drugClass"
                             value={values.drugClass}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5239,7 +5239,7 @@ import React, {
                             name="additivesNSweeteners"
                             value={values.additivesNSweeteners}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5469,7 +5469,7 @@ import React, {
                                 name="sideEffectsAndWarnings"
                                 value={values.sideEffectsAndWarnings}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -5503,7 +5503,7 @@ import React, {
                                 name="allergens"
                                 value={values.allergens}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -5583,7 +5583,7 @@ import React, {
                             name="productMaterial"
                             value={values.productMaterial}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 25, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5653,7 +5653,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5685,7 +5685,7 @@ import React, {
                             rows="2"
                             name="chemicalResistance"
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5717,7 +5717,7 @@ import React, {
                             name="shape"
                             value={values.shape}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5749,7 +5749,7 @@ import React, {
                             name="coating"
                             value={values.coating}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -5917,7 +5917,7 @@ import React, {
                                 name="allergens"
                                 value={values.allergens}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -6036,7 +6036,7 @@ import React, {
                                 name="breathability"
                                 value={values.breathability}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -6268,7 +6268,7 @@ import React, {
                             name="coating"
                             value={values.coating}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6298,7 +6298,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6366,7 +6366,7 @@ import React, {
                             name="grade"
                             value={values.grade}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6398,7 +6398,7 @@ import React, {
                             name="concentration"
                             value={values.concentration}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6439,7 +6439,7 @@ import React, {
                             name="connectivity"
                             value={values.connectivity}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6472,7 +6472,7 @@ import React, {
                             name="magnificationRange"
                             value={values.magnificationRange}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6505,7 +6505,7 @@ import React, {
                             name="objectiveLenses"
                             value={values.objectiveLenses}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6535,7 +6535,7 @@ import React, {
                             name="powerSource"
                             value={values.powerSource}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 500, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6566,7 +6566,7 @@ import React, {
                             name="resolution"
                             value={values.resolution}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6614,7 +6614,7 @@ import React, {
                             name="diagnosticFunctions"
                             value={values.diagnosticFunctions}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6651,7 +6651,7 @@ import React, {
                             name="flowRate"
                             value={values.flowRate}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6681,7 +6681,7 @@ import React, {
                             name="concentration"
                             value={values.concentration}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6723,7 +6723,7 @@ import React, {
                             name="measurementRange"
                             value={values.measurementRange}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6785,7 +6785,7 @@ import React, {
                           name="usageRate"
                           value={values.usageRate}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                           onBlur={handleBlur}
                         />
                         <span className={styles.error}></span>
@@ -6802,7 +6802,7 @@ import React, {
                           name="maintenanceNotes"
                           value={values.maintenanceNotes}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                         <span className={styles.error}></span>
@@ -6818,7 +6818,7 @@ import React, {
                           name="compatibleEquipment"
                           value={values.compatibleEquipment}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -6835,7 +6835,7 @@ import React, {
                             name="specification"
                             value={values.specification}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6887,7 +6887,7 @@ import React, {
                             name="performanceTestingReport"
                             value={values.performanceTestingReport}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6949,7 +6949,7 @@ import React, {
                             name="thickness"
                             value={values.thickness}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7014,7 +7014,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7047,7 +7047,7 @@ import React, {
                             rows="2"
                             name="chemicalResistance"
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7269,7 +7269,7 @@ import React, {
                             name="adhesiveness"
                             value={values.adhesiveness}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7301,7 +7301,7 @@ import React, {
                             name="absorbency"
                             value={values.absorbency}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 50, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7333,7 +7333,7 @@ import React, {
                             name="elasticity"
                             value={values.elasticity}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7503,7 +7503,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7537,7 +7537,7 @@ import React, {
                             name="targetCondition"
                             value={values.targetCondition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7572,7 +7572,7 @@ import React, {
                             name="coating"
                             value={values.coating}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7662,7 +7662,7 @@ import React, {
                                 name="elasticity"
                                 value={values.elasticity}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -7694,7 +7694,7 @@ import React, {
                                 name="absorbency"
                                 value={values.absorbency}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -7727,7 +7727,7 @@ import React, {
                                 name="breathability"
                                 value={values.breathability}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -7760,7 +7760,7 @@ import React, {
                                 name="colorOptions"
                                 value={values.colorOptions}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -7812,7 +7812,7 @@ import React, {
                             name="productMaterial"
                             value={values.productMaterial}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7843,7 +7843,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7875,7 +7875,7 @@ import React, {
                             name="targetCondition"
                             value={values.targetCondition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -7966,7 +7966,7 @@ import React, {
                               name="usageRate"
                               value={values.usageRate}
                               // onChange={handleChange}
-                              onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                               onBlur={handleBlur}
                             />
   
@@ -7984,7 +7984,7 @@ import React, {
                               name="maintenanceNotes"
                               value={values.maintenanceNotes}
                               // onChange={handleChange}
-                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                               onBlur={handleBlur}
                             />
   
@@ -8002,7 +8002,7 @@ import React, {
                               name="compatibleEquipment"
                               value={values.compatibleEquipment}
                               // onChange={handleChange}
-                              onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                              onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                               onBlur={handleBlur}
                             />
   
@@ -8099,7 +8099,7 @@ import React, {
                           name="lensPower"
                           value={values.lensPower}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 5, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 9, 'all')}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -8114,7 +8114,7 @@ import React, {
                           name="baseCurve"
                           value={values.baseCurve}
                           // onChange={handleChange}
-                          onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                          onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                           onBlur={handleBlur}
                         />
                       </div>
@@ -8129,7 +8129,7 @@ import React, {
                             name="colorOptions"
                             value={values.colorOptions}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8175,7 +8175,7 @@ import React, {
                             name="flowRate"
                             value={values.flowRate}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8206,7 +8206,7 @@ import React, {
                             name="concentration"
                             value={values.concentration}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8294,7 +8294,7 @@ import React, {
                                 name="maxWeightCapacity"
                                 value={values.maxWeightCapacity}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8326,7 +8326,7 @@ import React, {
                                 name="gripType"
                                 value={values.gripType}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'text')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'text')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8360,7 +8360,7 @@ import React, {
                                 name="batteryType"
                                 value={values.batteryType}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8394,7 +8394,7 @@ import React, {
                                 name="batterySize"
                                 value={values.batterySize}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8427,7 +8427,7 @@ import React, {
                                 name="colorOptions"
                                 value={values.colorOptions}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8460,7 +8460,7 @@ import React, {
                                 name="foldability"
                                 value={values.foldability}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8493,7 +8493,7 @@ import React, {
                                 name="lockingMechanism"
                                 value={values.lockingMechanism}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8526,7 +8526,7 @@ import React, {
                                 name="typeOfSupport"
                                 value={values.typeOfSupport}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8563,7 +8563,7 @@ import React, {
                                 name="performanceTestingReport"
                                 value={values.performanceTestingReport}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -8628,7 +8628,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8663,7 +8663,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8700,7 +8700,7 @@ import React, {
                             name="healthClaims"
                             value={values.healthClaims}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8803,7 +8803,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8842,7 +8842,7 @@ import React, {
                             name="productLongevity"
                             value={values.productLongevity}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8879,7 +8879,7 @@ import React, {
                             name="foldability"
                             value={values.foldability}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8976,7 +8976,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9012,7 +9012,7 @@ import React, {
                             name="concentration"
                             value={values.concentration}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9047,7 +9047,7 @@ import React, {
                             name="formulation"
                             value={values.formulation}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 100, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9078,7 +9078,7 @@ import React, {
                             name="fragrance"
                             value={values.fragrance}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9205,7 +9205,7 @@ import React, {
                             name="flavorOptions"
                             value={values.flavorOptions}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9248,7 +9248,7 @@ import React, {
                             name="aminoAcidProfile"
                             value={values.aminoAcidProfile}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9285,7 +9285,7 @@ import React, {
                             name="fatContent"
                             value={values.fatContent}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9324,7 +9324,7 @@ import React, {
                             name="healthBenefit"
                             value={values.healthBenefit}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9359,7 +9359,7 @@ import React, {
                             name="purpose"
                             value={values.purpose}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9400,7 +9400,7 @@ import React, {
                             name="composition"
                             value={values.composition}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9439,7 +9439,7 @@ import React, {
                             name="additivesNSweeteners"
                             value={values.additivesNSweeteners}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9578,7 +9578,7 @@ import React, {
                             name="scalabilityInfo"
                             value={values.scalabilityInfo}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -9660,7 +9660,7 @@ import React, {
                                 name="addOns"
                                 value={values.addOns}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -9698,7 +9698,7 @@ import React, {
                                 name="userAccess"
                                 value={values.userAccess}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -9742,7 +9742,7 @@ import React, {
                                 name="keyFeatures"
                                 value={values.keyFeatures}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -9785,7 +9785,7 @@ import React, {
                                 name="coreFunctionalities"
                                 value={values.coreFunctionalities}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
@@ -9824,7 +9824,7 @@ import React, {
                                 name="interoperability"
                                 value={values.interoperability}
                                 // onChange={handleChange}
-                                onChange={(e) => handleInputChange(e, setFieldValue, 1000, 'all')}
+                                onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                                 onBlur={handleBlur}
                               />
                               <span
