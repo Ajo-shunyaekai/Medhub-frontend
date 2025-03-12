@@ -1696,7 +1696,7 @@ import React, {
     return (
       <div className={styles.container}>
         <div className={styles.headContainer}>
-          <span className={styles.heading}>Products</span>
+          <span className={styles.heading}>Add Products</span>
           {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
             Bulk Upload
           </button> */}
