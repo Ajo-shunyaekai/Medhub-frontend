@@ -5273,7 +5273,7 @@ import React, {
                         <label className={styles.formLabel}>
                           Controlled Substance
                         </label>
-                        <div className={styles.tooltipContainer}>
+                        {/* <div className={styles.tooltipContainer}>
                           <span className={styles.formCheckboxSection}>
                             <input
                               type="checkbox"
@@ -5287,6 +5287,48 @@ import React, {
                                   setFieldValue("controlledSubstance", e?.target?.checked);
                                 }}
                               
+                            />
+  
+                            <label
+                              className={styles.checkText}
+                              htmlFor="controlledSubstance"
+                            >
+                              Whether the drug is a controlled <br /> substance
+                            </label>
+                          </span>
+                          <span
+                            className={styles.infoTooltip}
+                            data-tooltip-id="wellness-substances-tooltip"
+                          >
+                            <img
+                              src={Information}
+                              className={styles.iconTooltip}
+                              alt="information"
+                            />
+                          </span>
+                          <Tooltip
+                            className={styles.tooltipSec}
+                            id="wellness-substances-tooltip"
+                          >
+                            Whether the drug is a controlled substance (e.g., some
+                            OTC drugs are <br /> restricted, some are only
+                            available behind the counter or on prescription).
+                          </Tooltip>
+                        </div> */}
+
+<div className={styles.tooltipContainer}>
+                          <span className={styles.formCheckboxSection}>
+                            <input
+                              type="checkbox"
+                              id="controlledSubstance"
+                              name="controlledSubstance"
+                              onBlur={handleBlur}
+                              checked={values?.controlledSubstance || checked["controlledSubstance"] || false}
+                              onChange={(e) => {
+                                handleCheckboxChange("controlledSubstance", e?.target?.checked);
+                                setFieldValue("controlledSubstance", e?.target?.checked);
+                              }}
+                       
                             />
   
                             <label
@@ -5605,43 +5647,45 @@ import React, {
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Filtration Type
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <Chips
-                            value={value.filtrationType}
-                            name="filtrationType"
-                            onBlur={handleBlur}
-                            onChange={(e) => {
-                              setValue(e.value);
-                              setFieldValue("filtrationType", e.value);
-                            }}
-                            placeholder={
-                              value.length === 0 ? "Press enter to add label" : ""
-                            }
+                      <label className={styles.formLabel}>Filtration Type</label>
+                      <div className={styles.tooltipContainer}>
+                        <Chips
+                          value={value.filtrationType || []}
+                          name="filtrationType"
+                          onBlur={handleBlur}
+                          onChange={(e) => {
+                            const newValue = e.value || e.target.value;
+                            setValue((prev) => ({
+                              ...prev,
+                              filtrationType: newValue,
+                            }));
+                            setFieldValue("filtrationType", newValue);
+                          }}
+                          placeholder={
+                            !value.filtrationType || value.filtrationType.length === 0
+                              ? "Press enter to add label"
+                              : ""
+                          }
+                          allowDuplicate={false}
+                          separator=","
+                        />
+                        <span
+                          className={styles.infoTooltip}
+                          data-tooltip-id="filtration-tooltip"
+                        >
+                          <img
+                            src={Information}
+                            className={styles.iconTooltip}
+                            alt="information"
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="filtration-tooltip"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="filtration-tooltip"
-                          >
-                            Type of Filteration (e.g., PFE (Particle Filtration
-                            Efficiency), <br /> BFE (Bacterial Filtration
-                            Efficiency), Viral Filtration Efficiency etc)
-                          </Tooltip>
-                        </div>
-                        <span className={styles.error}></span>
+                        </span>
+                        <Tooltip className={styles.tooltipSec} id="filtration-tooltip">
+                          Type of Filtration (e.g., PFE (Particle Filtration Efficiency), <br /> BFE
+                          (Bacterial Filtration Efficiency), Viral Filtration Efficiency etc)
+                        </Tooltip>
                       </div>
+                      <span className={styles.error}></span>
+                    </div>
   
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>Purpose</label>
@@ -6159,74 +6203,92 @@ import React, {
                       Product Identification
                     </span>
                     <div className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>Physical State</label>
-                        <div className={styles.tooltipContainer}>
-                          <Chips
-                            value={values.physicalState}
-                            placeholder={
-                              value.length === 0 ? "Press enter to add label" : ""
-                            }
-                            name="physicalState"
-                            onBlur={handleBlur}
-                            onChange={(e) => {
-                              setValue(e.value);
-                              setFieldValue("physicalState", e.value);
-                            }}
-                          />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Physical state (e.g., solid, liquid, gas)"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
-                        </div>
-                        <span className={styles.error}></span>
-                      </div>
-  
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Hazard Classification
-                        </label>
-                        <div className={styles.tooltipContainer}>
-                          <Chips
-                            value={values.hazardClassification}
-                            placeholder={
-                              value.length === 0 ? "Press enter to add label" : ""
-                            }
-                            name="hazardClassification"
-                            onBlur={handleBlur}
-                            onChange={(e) => {
-                              setValue(e.value);
-                              setFieldValue("hazardClassification", e.value);
-                            }}
-                          />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Physical state (e.g., solid, liquid, gas)"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
-                        </div>
-                      </div>
+                   
+
+<div className={styles.productContainer}>
+                     <label className={styles.formLabel}>Physical State</label>
+                     <div className={styles.tooltipContainer}>
+                       <Chips
+                         value={values.physicalState || []} // Ensure value is always an array
+                         placeholder={
+                           !values.physicalState || values.physicalState.length === 0
+                             ? "Press enter to add label"
+                             : ""
+                         }
+                         name="physicalState"
+                         onBlur={handleBlur}
+                         onChange={(e) => {
+                           const newValue = e.value || e.target.value; // Handle different event structures
+                           setValue((prev) => ({
+                             ...prev,
+                             physicalState: newValue,
+                           }));
+                           setFieldValue("physicalState", newValue); // For form libraries like Formik
+                         }}
+                         allowDuplicate={false} // Prevent duplicate entries if supported
+                         separator="," // Optional: Define separator for adding values
+                       />
+                       <span
+                         className={styles.infoTooltip}
+                         data-tooltip-id="physical-state-tooltip" // Unique tooltip ID
+                         data-tooltip-content="Physical state (e.g., solid, liquid, gas)"
+                       >
+                         <img
+                           src={Information}
+                           className={styles.iconTooltip}
+                           alt="information"
+                         />
+                       </span>
+                       <Tooltip
+                         className={styles.tooltipSec}
+                         id="physical-state-tooltip" // Match the unique ID
+                       />
+                     </div>
+                     <span className={styles.error}></span>
+                   </div>
+
+                   <div className={styles.productContainer}>
+                     <label className={styles.formLabel}>Hazard Classification</label>
+                     <div className={styles.tooltipContainer}>
+                       <Chips
+                         value={values.hazardClassification || []} // Ensure value is always an array
+                         placeholder={
+                           !values.hazardClassification || values.hazardClassification.length === 0
+                             ? "Press enter to add label"
+                             : ""
+                         }
+                         name="hazardClassification"
+                         onBlur={handleBlur}
+                         onChange={(e) => {
+                           const newValue = e.value || e.target.value; // Handle different event structures
+                           setValue((prev) => ({
+                             ...prev,
+                             hazardClassification: newValue,
+                           }));
+                           setFieldValue("hazardClassification", newValue); // For form libraries like Formik
+                         }}
+                         allowDuplicate={false} // Prevent duplicate entries if supported
+                         separator="," // Optional: Define separator for adding values
+                       />
+                       <span
+                         className={styles.infoTooltip}
+                         data-tooltip-id="hazard-tooltip" // Unique tooltip ID
+                         data-tooltip-content="Hazard Classification (e.g., flammable, toxic, etc)" // Updated content
+                       >
+                         <img
+                           src={Information}
+                           className={styles.iconTooltip}
+                           alt="information"
+                         />
+                       </span>
+                       <Tooltip
+                         className={styles.tooltipSec}
+                         id="hazard-tooltip" // Match the unique ID
+                       />
+                     </div>
+                     <span className={styles.error}></span>
+                   </div>
+
                       <div className={styles.productContainer}>
                         <label className={styles.formLabel}>Shape</label>
                         <div className={styles.tooltipContainer}>
@@ -6237,7 +6299,7 @@ import React, {
                             name="shape"
                             value={values.shape}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6335,7 +6397,7 @@ import React, {
                             name="casNumber"
                             value={values.casNumber}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -6472,7 +6534,7 @@ import React, {
                             name="magnificationRange"
                             value={values.magnificationRange}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
@@ -8175,7 +8237,7 @@ import React, {
                             name="flowRate"
                             value={values.flowRate}
                             // onChange={handleChange}
-                            onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all')}
+                            onChange={(e) => handleInputChange(e, setFieldValue, 2000, 'all')}
                             onBlur={handleBlur}
                           />
                           <span
