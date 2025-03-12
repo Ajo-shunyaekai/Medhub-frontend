@@ -144,7 +144,7 @@ console.log('products',products)
         <>
             <div className={styles.productContainer}>
                 <div className={styles.productHead}>
-                    Add Product
+                    Products
                 </div>
                 <div className={styles.productButtonSection}>
                     <div
