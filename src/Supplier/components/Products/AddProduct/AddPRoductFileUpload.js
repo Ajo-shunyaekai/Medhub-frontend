@@ -141,5 +141,5 @@ const AddProductFileUpload = ({
     </div>
   );
 };
- 
+
 export default AddProductFileUpload;
