@@ -112,7 +112,52 @@ import React, {
       countries: Yup.array()
         .min(1, "At least one country must be selected.")
         .of(Yup.string().required("Country Available is required.")),
-      date: Yup.string().required("Date is required."),
+      // date: Yup.string().required("Date is required."),
+      date: Yup.string()
+      .required("Date is required.")
+      .test(
+        'is-valid-date',
+        'Please enter a valid date',
+        function(value) {
+          if (!value) return false;
+          
+          // Split the date and convert to numbers
+          const parts = value.split('-');
+          if (parts.length !== 3) return false;
+          
+          const day = parseInt(parts[0], 10);
+          const month = parseInt(parts[1], 10);
+          const year = parseInt(parts[2], 10);
+          
+          // Check if date is valid (using Date object)
+          const date = new Date(year, month - 1, day);
+          return (
+            date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day
+          );
+        }
+      )
+      .test(
+        'not-future-date',
+        'Future dates are not allowed',
+        function(value) {
+          if (!value) return true;
+          
+          const parts = value.split('-');
+          if (parts.length !== 3) return true;
+          
+          const day = parseInt(parts[0], 10);
+          const month = parseInt(parts[1], 10);
+          const year = parseInt(parts[2], 10);
+          
+          const enteredDate = new Date(year, month - 1, day);
+          const today = new Date();
+          
+          return enteredDate <= today;
+        }
+      ),
+    
       stockedInDetails: Yup.array()
         .of(
           Yup.object({
@@ -1940,6 +1985,7 @@ import React, {
             handleBlur,
             handleSubmit,
             setFieldValue,
+            setFieldTouched,
             touched,
             errors,
             useFormikContext,
@@ -2496,11 +2542,13 @@ import React, {
                       type="text"
                       placeholder="Enter Manufacturer Name"
                       // autoComplete="off"
+                      name="manufacturer"
                       value={values.manufacturer}
                       onBlur={handleBlur}
-                      onChange={(e) => {
-                        setFieldValue("manufacturer", e.target.value);
-                      }}
+                      // onChange={(e) => {
+                      //   setFieldValue("manufacturer", e.target.value);
+                      // }}
+                      onChange={(e) => handleInputChange(e, setFieldValue, 75, 'all', ['manufacturer'])}
                     />
                     {touched.manufacturer && errors.manufacturer && (
                       <span className={styles.error}>{errors.manufacturer}</span>
@@ -2562,11 +2610,12 @@ import React, {
                       config={config}
                       tabIndex={1}
                       onBlur={(newContent) => {
-                        setContent(newContent);
-                        setFieldValue("description", newContent);
+                        // setContent(newContent);
+                        // setFieldValue("description", newContent);
+                        setFieldValue("description", editor.current.value);
                       }}
                       onChange={(newContent) => {
-                        setContent(newContent);
+                        // setContent(newContent);
                         setFieldValue("description", newContent);
                       }}
                     />
@@ -2631,7 +2680,7 @@ import React, {
                         onBlur={handleBlur}
                       /> */}
   
-                      <InputMask
+                      {/* <InputMask
                         className={styles.formInput}
                         type="text"
                         mask="dd-mm-yyyy"
@@ -2642,7 +2691,25 @@ import React, {
                         replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                         showMask
                         separate
-                      />
+                      /> */}
+
+<InputMask
+  className={styles.formInput}
+  type="text"
+  mask="dd-mm-yyyy"
+  placeholder="Enter Date of Manufacture"
+  name="date"
+  value={values.date}
+  onChange={(e) => {
+    handleChange(e);
+    // Force validation immediately after change
+    setFieldTouched('date', true, true);
+  }}
+  onBlur={handleBlur}
+  replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+  showMask
+  separate
+/>
                       <span
                         className={styles.infoTooltip}
                         data-tooltip-id="sku-tooltip"
