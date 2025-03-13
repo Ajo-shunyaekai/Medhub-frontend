@@ -1,5 +1,5 @@
 import React from 'react';
-import PickupOrder from "./PickupOrders";
+import PickupOrder from "./PickupOrderList/PickupOrders";
 
 const index = () => {
   return (

@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 
 
 
-const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChange, activeLink }) => {
+const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChange, activeLink,page }) => {
 
 
     const [show, setShow] = useState(false);
@@ -40,7 +40,9 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
                                         <th className="order-container-th"><div className="order-container-head"> Date & Time</div></th>
                                         <th className="order-container-th"><div className="order-container-head"> Order ID</div></th>
                                         <th className="order-container-ths"><div className="order-container-heads">Supplier Name</div></th>
-                                        <th className="order-container-th"><div className="order-container-heads">Buyer Name</div></th>
+                                        {page === "pickupOrder" ? ''
+                                            : <th className="order-container-ths"><div className="order-container-heads">Buyer Name</div></th>
+                                        }
                                         <th className="order-container-th"><div className="order-container-head">Status</div></th>
                                         <th className="order-container-th"><div className="order-container-head">Action</div></th>
                                     </tr>
@@ -64,9 +66,11 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
                                                         <td className='order-section-tds'>
                                                             <div className="order-section-heading">{order.supplierDetails?.[0]?.supplier_name}</div>
                                                         </td>
-                                                        <td className='order-section-tds'>
-                                                            <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
-                                                        </td>
+                                                        {page === "pickupOrder" ? '' :
+                                                            <td className='order-section-tds'>
+                                                                <div className="order-section-heading">{order.buyerDetails?.[0]?.buyer_name}</div>
+                                                            </td>
+                                                        }
                                                         <td className='order-section-td'>
                                                             <div className="order-section-heading">
                                                             {order?.status?.charAt(0).toUpperCase() + order?.status?.slice(1)}
@@ -74,11 +78,18 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
                                                         </td>
                                                         <td className='order-section-button-cont'>
                                                             <div className='order-section-button'>
-                                                                <Link to={`/logistics/logistics-details/${order.logistics_id}`}>
-                                                                    <div className='order-section-view'>
-                                                                        <RemoveRedEyeOutlinedIcon className='order-section-eye' />
-                                                                    </div>
-                                                                </Link>
+                                                                {page === 'pickupOrder' ? 
+                                                                    <Link to={`/logistics/pickup-order-details/${order.logistics_id}`}>
+                                                                        <div className='order-section-view'>
+                                                                            <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                                                                        </div>
+                                                                    </Link> :
+                                                                    <Link to={`/logistics/logistics-details/${order.logistics_id}`}>
+                                                                        <div className='order-section-view'>
+                                                                            <RemoveRedEyeOutlinedIcon className='order-section-eye' />
+                                                                        </div>
+                                                                    </Link>
+                                                                }
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -131,4 +142,4 @@ const ActiveOrder = ({ list, totalList, currentPage, listPerPage, handlePageChan
     )
 }
 
-export default ActiveOrder
+export default ActiveOrder;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Inventory from "./Inventory";
+import Inventory from "./InventoryList/Inventory";
 
 const index = () => {
   return (

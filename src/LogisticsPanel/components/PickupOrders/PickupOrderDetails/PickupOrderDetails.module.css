@@ -1,0 +1,293 @@
+.container {
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: auto;
+    max-width: 90%;
+    overflow: scroll;
+    row-gap: 20px;
+    scrollbar-width: none;
+    width: 100%;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.MainHead {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.logisticsSection {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+}
+
+.logisticsCompanySection {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.logisticsCompanyHead {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.logisticsInnerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logisticsInnerHead {
+    color: #5e676f !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.logisticsInnerText {
+    color: #99a0ac;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    text-align: end;
+    white-space: normal;
+    word-break: break-word;
+}
+.logisticsDropContainer{
+    display: flex
+;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 100%;
+}
+.logisticsAddSec{
+display: flex;
+gap: 20px;
+justify-content: start;
+}
+.logisticsAddContainer{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 10px 20px;
+    width: 50%;
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.logisticsAddHead{
+    font-size: 16px;
+    font-weight: 500;
+}
+.logisticsAddText{
+    color: #99a0ac;
+    font-size: 14px;
+}
+.packageMainContainer{
+    display: flex;
+        flex-direction: column;
+        gap: 20px;
+}
+.packageMainHeading{
+    font-size: 20px;
+    font-weight: 600;
+}
+.packageConatiner{
+    display: flex
+    ;
+        gap: 20px;
+        justify-content: start;
+        width: 100%;
+        
+}
+.packageWeight{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 10px 20px;
+    width: 50%;
+    gap: 4px;
+    display: flex
+;
+    flex-direction: column;
+}
+
+.packageDimension{
+    width: 80%;
+    gap: 20px;
+    display: flex
+;
+}
+.packageDimensionSEction{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 10px 20px;
+    width: 100%;
+}
+.logisticsButtonContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 20rem;
+}
+.logisticsAccept{
+    border: none !important;
+    outline: none !important;
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex
+;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer !important;
+}
+.logisticsCancel{
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border: 1px solid #5e676f;
+    color: #5e676f;
+    padding: 6px 22px;
+    border-radius: 4px;
+    display: flex
+;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer !important;
+}
+
+/* style the table secion code */
+.cardBody {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 20px;
+}
+
+.tableHeading {
+    font-size: 20px;
+    font-weight: 600;
+}
+.logisticsText{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tableContainer {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tr {
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px !important;
+}
+
+.th,
+.td {
+    padding: 12px;
+    text-align: left;
+    /* border-bottom: 1px solid #ddd; */
+}
+
+.th {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.productNameCell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.productInitial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.tableContent {
+    display: flex;
+    align-items: center;
+}
+
+.tableContent span {
+    color: #99a0ac;
+    font-size: 14px;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pageItem {
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pageLink {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+}
+
+.pageLink:hover {
+    background-color: #f4f4f4;
+}
+
+.totalItems {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+
+    .th,
+    .td {
+        padding: 8px;
+    }
+
+    .paginationContainer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* end the table section code */

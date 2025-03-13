@@ -12,6 +12,7 @@ const LogisticsDetails  = lazy(() => import("../components/Orders/OrderDetails/L
 const OngoingOrder      = lazy(() => import("../components/Orders/OngoingOrders/OngoingOrders"));
 const Orders            = lazy(() => import("../components/Orders/index"));
 const PickupOrders      = lazy(() => import("../components/PickupOrders/index"));
+const PickupDetails     = lazy(() => import("../components/PickupOrders/PickupOrderDetails/PickupOrderDetails"));
 const PendingOrder      = lazy(() => import("../components/Orders/PendingOrders/PendingOrders"));
 const Profile           = lazy(() => import("../components/SharedComponents/Profile/profile"));
 const Shipment          = lazy(() => import("../components/Shipment/index"));
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path    : "pickup-order",
         element : <PickupOrders />,
+      },
+      {
+        path    : "pickup-order-details/:requestId",
+        element : <PickupDetails />,
       },
       {
         path    : "inventory",
