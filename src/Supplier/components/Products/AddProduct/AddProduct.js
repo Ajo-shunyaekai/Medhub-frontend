@@ -475,6 +475,9 @@ import React, {
               "Trolleys & Storage Units",
               "Examination Tables",
               "Medical Furniture",
+              "First Aid Kits",
+              "Emergency Medical Equipment",
+              "Trauma Care Products"
             ],
             "Invalid Subcategory"
           ),
