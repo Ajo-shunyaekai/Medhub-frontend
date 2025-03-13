@@ -280,25 +280,32 @@ const SupplierSignUp = ({ socket }) => {
                 const [bankName = '', accountNumber = '', ifscCode = ''] = details;
 
                 // Validate bank name
-                if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
-                    errorMessage = 'Bank name should only contain letters and spaces';
-                }
+                // if (bankName && !/^[A-Za-z\s]*$/.test(bankName)) {
+                //     errorMessage = 'Bank name should only contain letters and spaces';
+                // }
+                if (bankName && !/^[A-Za-z\s\-]*$/.test(bankName)) {
+                    errorMessage = 'Bank name should only contain letters, spaces, and hyphens';
+                  }
 
                 // Validate account number if bank name is valid
                 else if (accountNumber) {
-                    if (!/^\d*$/.test(accountNumber)) {
-                        errorMessage = 'Account number should only contain digits';
-                    } else if (accountNumber.length > 0 && accountNumber.length < 8) {
-                        errorMessage = 'Account number should be at least 8 digits';
-                    } else if (accountNumber.length > 20) {
-                        errorMessage = 'Account number should not exceed 20 digits';
+                    // if (!/^\d*$/.test(accountNumber)) {
+                    //     errorMessage = 'Account number should only contain digits';
+                    // } 
+                    if (!/^[A-Za-z0-9\s\-]*$/.test(accountNumber)) {
+                        errorMessage = 'Account number should only contain letters, digits, spaces, and hyphens';
+                      }
+                    else if (accountNumber.length > 0 && accountNumber.length < 6) {
+                        errorMessage = 'Account number should be at least 6 digits';
+                    } else if (accountNumber.length > 30) {
+                        errorMessage = 'Account number should not exceed 30 digits';
                     }
                 }
 
                 // Validate IFSC code if account number is valid
                 if (ifscCode) {
-                    if (ifscCode.length > 16) {
-                        errorMessage = 'IFSC/Sort Code should not exceed 16 digits';
+                    if (ifscCode.length > 20) {
+                        errorMessage = 'IFSC/Sort Code should not exceed 20 digits';
                     }
                 }
 
@@ -513,7 +520,7 @@ const SupplierSignUp = ({ socket }) => {
                 // if (!ifscCode || !/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifscCode)) {
                 //     formErrors.bankdetails = 'Please enter a valid IFSC Code (11 characters, starting with 4 letters followed by a 0)';
                 // }
-                if (!ifscCode || ifscCode.length < 12) {
+                if (!ifscCode || ifscCode.length < 6) {
                     formErrors.bankdetails = 'Please enter a valid IFSC code ';
                 }
             }
