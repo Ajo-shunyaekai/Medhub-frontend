@@ -413,185 +413,112 @@ const ProductDetails = () => {
 
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
-        {productDetail?.category == "MedicalEquipmentAndDevices" &&
-          (productDetail?.[productDetail?.category]?.interoperability ||
-            productDetail?.[productDetail?.category]?.laserType ||
-            productDetail?.[productDetail?.category]?.coolingSystem ||
-            productDetail?.[productDetail?.category]?.spotSize ||
-            productDetail?.[productDetail?.category]?.diagnosticFunctions ||
-            productDetail?.[productDetail?.category]?.specification ||
-            productDetail?.[productDetail?.category]?.specificationFile
-              ?.length > 0 ||
-            productDetail?.[productDetail?.category]
-              ?.performanceTestingReport ||
-            productDetail?.[productDetail?.category]
-              ?.performanceTestingReportFile?.length > 0) && (
+        {productDetail?.category === "MedicalEquipmentAndDevices" && (
+          ([
+            "interoperability", "laserType", "coolingSystem", "spotSize", "diagnosticFunctions", "specification",
+            productDetail?.[productDetail?.category]?.specificationFile?.length > 0 && "specificationFile",
+            "performanceTestingReport",
+            productDetail?.[productDetail?.category]?.performanceTestingReportFile?.length > 0 && "performanceTestingReportFile"
+
+          ].some(getCategoryData)) && (
             <div className={styles.mainContainer}>
-              <span className={styles.innerHead}>
-                Medical Equipment and Devices
-              </span>
-              {(productDetail?.[productDetail?.category]?.interoperability ||
-                productDetail?.[productDetail?.category]?.laserType ||
-                productDetail?.[productDetail?.category]?.coolingSystem ||
-                productDetail?.[productDetail?.category]?.spotSize) && (
-                  <div className={styles.innerSection}>
-                    {(productDetail?.[productDetail?.category]
-                      ?.interoperability ||
-                      productDetail?.[productDetail?.category]?.laserType) && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]
-                            ?.interoperability && (
-                              <div className={styles.medicinesSection}>
-                                <span className={styles.medicineHead}>
-                                  Interoperability
-                                </span>
-                                <span className={styles.medicineText}>
-                                  {
-                                    productDetail?.[productDetail?.category]
-                                      ?.interoperability
-                                  }
-                                </span>
-                              </div>
-                            )}
-                          {productDetail?.[productDetail?.category]?.laserType && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>
-                                Laser Type
-                              </span>
-                              <span className={styles.medicineText}>
-                                {
-                                  productDetail?.[productDetail?.category]
-                                    ?.laserType
-                                }
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    {(productDetail?.[productDetail?.category]?.coolingSystem ||
-                      productDetail?.[productDetail?.category]?.spotSize) && (
-                        <div className={styles.mainSection}>
-                          {productDetail?.[productDetail?.category]
-                            ?.coolingSystem && (
-                              <div className={styles.medicinesSection}>
-                                <span className={styles.medicineHead}>
-                                  Cooling System
-                                </span>
-                                <span className={styles.medicineText}>
-                                  {
-                                    productDetail?.[productDetail?.category]
-                                      ?.coolingSystem
-                                  }
-                                </span>
-                              </div>
-                            )}
-                          {productDetail?.[productDetail?.category]?.spotSize && (
-                            <div className={styles.medicinesSection}>
-                              <span className={styles.medicineHead}>Spot Size</span>
-                              <span className={styles.medicineText}>
-                                {productDetail?.[productDetail?.category]?.spotSize}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
+              <span className={styles.innerHead}>Medical Equipment and Devices</span>
+              <div className={styles.innerSection}>
+
+                {/* Basic Details */}
+                {["interoperability", "laserType"].some(getCategoryData) && (
+                  <div className={styles.mainSection}>
+                    {getCategoryData("interoperability") && (
+                      <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}>Interoperability</span>
+                        <span className={styles.medicineText}>{getCategoryData("interoperability")}</span>
+                      </div>
+                    )}
+                    {getCategoryData("laserType") && (
+                      <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}>Laser Type</span>
+                        <span className={styles.medicineText}>{getCategoryData("laserType")}</span>
+                      </div>
+                    )}
+
+
                   </div>
                 )}
-              <div className={styles.textareaContainer}>
-                {productDetail?.[productDetail?.category]
-                  ?.diagnosticFunctions && (
-                    <div className={styles.textareaSection}>
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Diagnostic Functions
-                        </span>
-                        <span className={styles.medicineContent}>
-                          {
-                            productDetail?.[productDetail?.category]
-                              ?.diagnosticFunctions
-                          }
-                        </span>
+
+                {/* Drug Class & Controlled Substance */}
+                {["coolingSystem", "spotSize"].some(getCategoryData) && (
+                  <div className={styles.mainSection}>
+                    {getCategoryData("coolingSystem") && (
+                      <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}> Cooling System</span>
+                        <span className={styles.medicineText}>{getCategoryData("coolingSystem")}</span>
                       </div>
-                    </div>
-                  )}
-                {(productDetail?.[productDetail?.category]?.specification ||
-                  productDetail?.[productDetail?.category]?.specificationFile
-                    ?.length > 0 ||
-                  productDetail?.[productDetail?.category]
-                    ?.performanceTestingReport ||
-                  productDetail?.[productDetail?.category]
-                    ?.performanceTestingReportFile?.length > 0) && (
-                    <div className={styles.textareaSection}>
-                      {(productDetail?.[productDetail?.category]?.specification ||
-                        productDetail?.[productDetail?.category]
-                          ?.specificationFile?.length > 0) && (
-                          <div className={styles.textareaInnerSection}>
-                            {productDetail?.[productDetail?.category]
-                              ?.specification && (
-                                <span className={styles.medicineHead}>
-                                  Specification
-                                </span>
-                              )}
-                            {productDetail?.[productDetail?.category]
-                              ?.specification && (
-                                <span className={styles.medicineContent}>
-                                  {
-                                    productDetail?.[productDetail?.category]
-                                      ?.specification
-                                  }
-                                </span>
-                              )}
-                            {productDetail?.[productDetail?.category]
-                              ?.specificationFile?.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-                                  <RenderProductFiles
-                                    files={
-                                      productDetail?.[productDetail?.category]
-                                        ?.specificationFile
-                                    }
-                                  />
-                                </div>
-                              )}
-                          </div>
-                        )}
-                      {(productDetail?.[productDetail?.category]
-                        ?.performanceTestingReport ||
-                        productDetail?.[productDetail?.category]
-                          ?.performanceTestingReportFile?.length > 0) && (
-                          <div className={styles.textareaInnerSection}>
-                            {productDetail?.[productDetail?.category]
-                              ?.performanceTestingReport && (
-                                <span className={styles.medicineHead}>
-                                  Performance Testing Report
-                                </span>
-                              )}
-                            {productDetail?.[productDetail?.category]
-                              ?.performanceTestingReport && (
-                                <span className={styles.medicineContent}>
-                                  {
-                                    productDetail?.[productDetail?.category]
-                                      ?.performanceTestingReport
-                                  }
-                                </span>
-                              )}
-                            {productDetail?.[productDetail?.category]
-                              ?.performanceTestingReportFile?.length > 0 && (
-                                <div className={styles.uploadFileSection}>
-                                  <RenderProductFiles
-                                    files={
-                                      productDetail?.[productDetail?.category]
-                                        ?.performanceTestingReportFile
-                                    }
-                                  />
-                                </div>
-                              )}
-                          </div>
-                        )}
-                    </div>
-                  )}
+                    )}
+                    {getCategoryData("spotSize") && (
+                      <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}>Spot Size</span>
+                        <span className={styles.medicineText}>{getCategoryData("spotSize")}</span>
+                      </div>
+                    )}
+
+                  </div>
+                )}
+
               </div>
+
+              {/* Textarea Section */}
+              <div className={styles.textareaContainer}>
+
+                {/* Composition & Formulation */}
+                {["diagnosticFunctions"].some(getCategoryData) && (
+                  <div className={styles.textareaSection}>
+                    {getCategoryData("diagnosticFunctions") && (
+                      <div className={styles.textareaInnerSection}>
+                        <span className={styles.medicineHead}>  Diagnostic Functions</span>
+                        <span className={styles.medicineContent}>{getCategoryData("diagnosticFunctions")}</span>
+                      </div>
+                    )}
+
+                  </div>
+                )}
+                {["specification", "specificationFile", "performanceTestingReport", "performanceTestingReportFile"].some(getCategoryData) && (
+
+                  <div className={styles.textareaSection}>
+                    {getCategoryData("specification") && (
+                      <div className={styles.textareaInnerSection}>
+                        <span className={styles.medicineHead}>Specification</span>
+                        <span className={styles.medicineContent}>{getCategoryData("specification")}</span>
+                        <div className={styles.uploadFileSection}>
+                          <RenderProductFiles
+                            files={
+                              getCategoryData("specificationFile")
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {getCategoryData("performanceTestingReport") && (
+                      <div className={styles.textareaInnerSection}>
+                        <span className={styles.medicineHead}>Performance Testing Report</span>
+                        <span className={styles.medicineContent}>{getCategoryData("performanceTestingReport")}</span>
+
+                        <div className={styles.uploadFileSection}>
+                          <RenderProductFiles
+                            files={
+                              getCategoryData("performanceTestingReportFile")
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+              </div>
+
             </div>
-          )}
+          )
+        )}
         {/* End Medical Equipment and Devices */}
 
         {/* Pharmaceuticals */}
@@ -1195,7 +1122,11 @@ const ProductDetails = () => {
                     {getCategoryData("filtrationType") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}> Filtration Type</span>
-                        <span className={styles.medicineText}>{getCategoryData("filtrationType")}</span>
+                        <span className={styles.medicineText}>
+                          {Array.isArray(getCategoryData("filtrationType"))
+                            ? getCategoryData("filtrationType").join(", ")
+                            : getCategoryData("filtrationType")}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -1273,7 +1204,11 @@ const ProductDetails = () => {
                     {getCategoryData("physicalState") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Physical State</span>
-                        <span className={styles.medicineText}>{getCategoryData("physicalState")}</span>
+                        <span className={styles.medicineText}>
+                          {Array.isArray(getCategoryData("physicalState"))
+                            ? getCategoryData("physicalState").join(", ")
+                            : getCategoryData("physicalState")}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -1284,7 +1219,11 @@ const ProductDetails = () => {
                     {getCategoryData("hazardClassification") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}> Hazard Classification</span>
-                        <span className={styles.medicineText}>{getCategoryData("hazardClassification")}</span>
+                        <span className={styles.medicineText}>
+                          {Array.isArray(getCategoryData("hazardClassification"))
+                            ? getCategoryData("hazardClassification").join(", ")
+                            : getCategoryData("hazardClassification")}
+                        </span>
                       </div>
                     )}
 

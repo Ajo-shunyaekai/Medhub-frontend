@@ -120,7 +120,7 @@ cursor: pointer !important;
 .productImg{
   width: 100%;
   height: 100%;
-  object-fit: none;
+  object-fit: contain;
 }
 .cardButton{
   background: linear-gradient(270deg, #00dcff, #0075ce);
