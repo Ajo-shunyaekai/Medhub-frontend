@@ -357,7 +357,10 @@ const productValidationSchema = Yup.object({
             "Trolleys & Storage Units",
             "Examination Tables",
             "Medical Furniture",
-          ],
+            "First Aid Kits",
+            "Emergency Medical Equipment",
+            "Trauma Care Products"
+          ],
           "Invalid Subcategory for Hospital And Clinic Supplies"
         )
         .required("Subcategory is required for Hospital And Clinic Supplies."),

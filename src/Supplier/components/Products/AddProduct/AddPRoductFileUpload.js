@@ -5,37 +5,35 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from "../../../assets/images/infomation.svg";
 import styles from "./addproduct.module.css";
- 
-// useFileUpload Hook
+
+// useFileUpload Hook (unchanged)
 const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles = 4) => {
   const [files, setFiles] = useState([]);
- 
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prev) => {
-        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
+        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles);
         if (acceptedFiles.length + prev.length > maxFiles) {
           alert(`You can only upload a maximum of ${maxFiles} ${maxFiles === 1 ? "file" : "files"}.`);
-          return prev; // Keep previous files if limit exceeded
+          return prev;
         }
-        // Update Formik state
         setFieldValue(fieldInputName, totalFiles);
         return totalFiles;
       });
     },
     [fieldInputName, setFieldValue, maxFiles]
   );
- 
+
   const removeFile = (index, event) => {
     if (event) event.stopPropagation();
     setFiles((prev) => {
       const updatedFiles = prev.filter((_, i) => i !== index);
-      // Update Formik state
       setFieldValue(fieldInputName, updatedFiles);
       return updatedFiles;
     });
   };
- 
+
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
@@ -44,16 +42,16 @@ const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes
     "image/jpeg": [],
     "image/jpg": [],
   };
- 
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptTypes || defaultAccept, // Use provided acceptTypes or fallback to default
-    multiple: maxFiles > 1, // Allow multiple only if maxFiles > 1
+    accept: acceptTypes || defaultAccept,
+    multiple: maxFiles > 1,
   });
- 
+
   return { files, getRootProps, getInputProps, isDragActive, removeFile };
 };
- 
+
 // AddProductFileUpload Component
 const AddProductFileUpload = ({
   setFieldValue,
@@ -61,24 +59,34 @@ const AddProductFileUpload = ({
   fieldInputName,
   label,
   tooltip,
+  error,
   showLabel = true,
-  acceptTypes, // Control accepted file types
-  maxFiles = 4, // New prop to control maximum number of files
+  acceptTypes,
+  maxFiles = 4,
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
- 
-  // Call the useFileUpload hook with acceptTypes and maxFiles
+
   const fileUpload = useFileUpload(fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles);
- 
+
   const isImageOnly = acceptTypes && Object.keys(acceptTypes).every(type => type.startsWith("image/"));
   const isPdfOnly = acceptTypes && Object.keys(acceptTypes).every(type => type === "application/pdf");
- 
+
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}</label>}
+      {showLabel && (
+        <label className={styles.formLabel}>
+          {label}
+          {/* Add asterisk only for "Purchase Invoice" */}
+          {label === "Purchase Invoice" && <span className={styles.labelStamp}>*</span>}
+        </label>
+      )}
       <div className={styles.tooltipContainer}>
-        <div {...fileUpload.getRootProps({ className: styles.uploadBox })}>
+        <div 
+          {...fileUpload.getRootProps({ 
+            className: `${styles.uploadBox} ${error ? styles.uploadBoxError : ''}` 
+          })}
+        >
           <input {...fileUpload.getInputProps()} />
           <FiUploadCloud size={20} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
@@ -111,7 +119,8 @@ const AddProductFileUpload = ({
           </>
         )}
       </div>
- 
+      {error && <span className={styles.error}>{error}</span>}
+
       {fileUpload.files.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload.files.map((file, index) => (

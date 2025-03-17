@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './product.module.css';
 import './product.css'
 import ProductImage from '../../../assets/images/productImage.png'
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import Pagination from 'react-js-pagination';
-import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import ADD from '../../../assets/images/plus.svg';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
-
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
     return (
         <>
             <div className={styles.container}>
@@ -30,8 +28,12 @@ const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePage
                                 <div className={styles.cardImg}>
                                     <img
                                         className={styles.productImg}
-                                        src={product.general.image.length > 0 ? product.general.image[0] : ProductImage}
-                                        alt='Product Img'
+                                        src={
+                                            product.general.image && product.general.image.length > 0 
+                                              ? `${serverUrl}uploads/products/${product.general.image[0]}` 
+                                              : ProductImage
+                                          }
+                                          alt='Product Img'
                                     />
                                 </div>
                                 <Link to={`/supplier/product-details/${product._id}`}>
