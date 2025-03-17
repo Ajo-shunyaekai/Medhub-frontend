@@ -5,20 +5,15 @@ import styles from './product.module.css';
 import SecondaryMarket from './SecondaryMarket';
 import NewProduct from './NewProduct';
 import { useDispatch, useSelector } from "react-redux";
-import { postRequest, postRequestWithToken } from '../../../api/Requests';
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import Loader from '../../SharedComponents/Loader/Loader';
-import { apiRequests } from '../../../../api';
 
 const Product = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { products } = useSelector((state) => state.productReducer);
-console.log('products',products)
-
     const [loading, setLoading] = useState(true);
-    const [medicineList, setMedicineList] = useState([])
     const [totalItems, setTotalItems] = useState()
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
@@ -69,51 +64,6 @@ console.log('products',products)
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-
-            // const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
-            // const supplierIdLocalStorage = localStorage.getItem("supplier_id");
-
-            // if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
-            //     navigate("/supplier/login");
-            //     return;
-            // }
-
-    //         const obj = {
-    //             supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
-    //             medicine_type: medicineType,
-    //             pageNo: currentPage,
-    //             pageSize: itemsPerPage,
-    //             status: 'accepted'
-    //         }
-
-    //         postRequestWithToken('medicine/medicine-list', obj, async (response) => {
-    //             if (response.code === 200) {
-    //                 setMedicineList(response.result.data)
-    //                 setTotalItems(response.result.totalItems)
-    //             } else {
-    //                 console.log('error in order list api', response);
-    //             }
-    //             // setLoading(false);
-    //         })
-    //         try {
-    //             const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${medicineType}&medicine_status=${'accepted'}`)
-    //             if (response?.code !== 200) {
-    //                 return
-    //             }
-    //             setMedicineList(response.result.data)
-    //             setTotalItems(response.result.totalItems)
-    //         } catch (error) {
-    //             console.log('error in medicine list api', error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     }
-    //     fetchData()
-    // }, [medicineType, currentPage])
-    // console.log(medicineList)
 
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");

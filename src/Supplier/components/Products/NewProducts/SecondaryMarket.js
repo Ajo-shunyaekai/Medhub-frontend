@@ -11,7 +11,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
-
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
   return (
     <>
       <div className={styles.container}>
@@ -31,7 +31,11 @@ const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePage
                 <div className={styles.cardImg}>
                   <img
                     className={styles.productImg}
-                    src={product.general.image.lengßßth > 0 ? product.general.image[0] : ProductImage}
+                    src={
+                      product.general.image && product.general.image.length > 0 
+                        ? `${serverUrl}uploads/products/${product.general.image[0]}` 
+                        : ProductImage
+                    }
                     alt='Product Img'
                   />
                 </div>
