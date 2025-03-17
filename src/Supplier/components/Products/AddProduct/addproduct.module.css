@@ -240,6 +240,7 @@
 .documentContainer {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   width: 100%;
   background-color: #ffffff;
@@ -275,6 +276,7 @@
 
 .error {
   font-size: 12px;
+  margin-top: -6px;
   color: red;
 }
 
@@ -642,5 +644,34 @@ gap: 10px;
 .closeButton:hover {
   color: #000;
 }
-
+.labelStamp{
+  font-size: 16px;
+  color: #ff0000;
+}
 /* End bulk upload section */
+
+
+@media (max-width:1580px){
+  .compliancesContainer {
+    width: 19vw;
+  }
+}
+
+@media (max-width:1400px){
+  .compliancesContainer {
+    width: 25vw;
+  }
+  .productContainer{
+    width: 32%;
+  }
+  .formCloseSection {
+    top: 58%;
+    right: -23px;
+  }
+} 
+
+@media (max-width:1160px){
+  .compliancesContainer {
+    width: 23.8vw;
+  }
+} 

@@ -1,109 +1,114 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './product.module.css';
-import { Link } from 'react-router-dom';
+import './product.css'
+import ProductImage from '../../../assets/images/productImage.png'
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Pagination from 'react-js-pagination';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { fetchProductsList } from "../../../../redux/reducers/productSlice";
+import ADD from '../../../assets/images/plus.svg';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-const NewProduct = ({productList, currentPage, totalItems, itemsPerPage, handlePageChange}) => {
+const NewProduct = ({products, totalItems, currentPage, itemsPerPage, handlePageChange}) => {
 
     return (
         <>
-            <div className={styles['new-product-support-main-section']}>
-                <div className={styles['support-container']}>
-                    <Link to='/supplier/add-product' style={{ marginTop: '-26px' }}>
-                        <div className={styles['support-container-text-add']}>Add a Product</div>
-                        <div className={styles['support-add-card']}>
-                            <div className={styles['support-add-icon-container']}>
-                                <AddOutlinedIcon className={styles['support-add-icon']} />
+            <div className={styles.container}>
+                <Link to="/supplier/add-product">
+                    <div className={styles.mainSection}>
+                        <span className={styles.head}>Add a Product</span>
+                        <div className={styles.imgContainer}>
+                            <img className={styles.productIcon} src={ADD} alt='add' />
+                        </div>
+                    </div>
+                </Link>
+                {products?.length > 0 ? (
+                    products?.map((product) => (
+                    <div key={product._id} className={styles.mainCard}>
+                            <div className={styles.cardImgSection}>
+                                <div className={styles.cardImg}>
+                                    <img
+                                        className={styles.productImg}
+                                        src={product.general.image.length > 0 ? product.general.image[0] : ProductImage}
+                                        alt='Product Img'
+                                    />
+                                </div>
+                                <Link to={`/supplier/product-details/${product._id}`}>
+                                <div className={styles.cardButton}>
+                                    View Details
+                                </div>
+                                </Link>
+                            </div>
+                            <div className={styles.cardContentSection}>
+                            <div className={styles.cardMainHeading}>
+                                        {product.general.name || 'Unnamed Product'}
+                                    </div>
+                                <div className={styles.cardInnerContainer}>
+                                    <span className={styles.cardHead}>Category</span>
+                                    <span className={styles.cardText}>
+                                    {product?.category
+                      ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                      ?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                                    </span>
+                                </div>
+                                <div className={styles.cardInnerContainer}>
+                                    <span className={styles.cardHead}>Sub Category</span>
+                                    <span className={styles.cardText}>
+                                        {product?.[product?.category]?.subCategory || 'N/A'}
+                                    </span>
+                                </div>
+                                <div className={styles.cardInnerContainer}>
+                                    <span className={styles.cardHead}>Part/Model No.</span>
+                                    <span className={styles.cardText}>
+                                        {product.general.model || 'N/A'}
+                                    </span>
+                                </div>
+                                <div className={styles.cardInnerContainer}>
+                                    <span className={styles.cardHead}>Total Quantity</span>
+                                    <span className={styles.cardText}>
+                                        {product.general.quantity || '0'}
+                                    </span>
+                                </div>
+                                <div className={styles.cardInnerContainer}>
+                                    <span className={styles.cardHead}>Stock Status</span>
+                                    <span className={styles.cardText}>
+                                        {product.inventoryDetails?.stock || product.inventory?.stock || 'N/A'}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </Link>
-
-                    {
-                        productList && productList.length > 0 ? (
-                            productList?.map((product, i) => {
-                                const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
-                                return (
-                                    <div className='buy-product-card-section' key={i}>
-                            <div className='buy-product-card-first-section-right'>
-                                <div className='buy-product-card-first-medicine-image'>
-                                    {/* <img src={MedicineOne} alt="Medicine" /> */}
-                                    <img  src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}  alt="Medicine" /> 
-                                </div>
-                                <div className='buy-product-card-first-button-container'>
-                                    <Link to={`/supplier/product-details/${product.medicine_id}`}>
-                                        <div className='buy-product-card-first-send-button'>
-                                            View Details
-                                        </div>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className='buy-product-card-first-section'>
-                                <div className='buy-product-card-first-left'>
-                                    <div className='buy-product-card-first-copmany-name'>{product.medicine_name}</div>
-                                    <div className='buy-product-card-first-copmany-description'>{product?.strength.includes('mg') ? product?.strength : `${product?.strength}mg`}</div>
-                                </div>
-                                <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>Country of Origin</div>
-                                    <div className='buy-product-card-second-text'>{product.country_of_origin}</div>
-                                </div>
-                                <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>Stocked in</div>
-                                    <div className='buy-product-card-second-text'>{product.stocked_in.join(', ')}</div>
-                                </div>
-                                <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>Dossier Type</div>
-                                    <div className='buy-product-card-second-text'>{product.dossier_type}</div>
-                                </div>
-                                <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>Dossier Status</div>
-                                    <div className='buy-product-card-second-text'>{product.dossier_status}</div>
-                                </div>
-                                <div className='buy-product-card-second-section'>
-                                    <div className='buy-product-card-second-head'>GMP Approvals</div>
-                                    <div className='buy-product-card-second-text'>{product.gmp_approvals}</div>
-                                </div>
-                            </div>
-                        </div>
-                                )
-                            })
-                        ) : (
-                            <>
-                            <div className={styles['support-add-card']}>
-                           <span className={styles['support-span']}>No Products Available</span>
-                            </div>
-                            </>
-                            
-                        )
-                    }
+                ))
+            ) : (
+                <div className={styles.noDataSection}>
+                    No Data Available
                 </div>
-                {productList && productList.length > 0 && (
-    <div className={styles['new-product-pagination-section']}>
-        <div className='pagi-container'>
-            <Pagination
-                activePage={currentPage}
-                itemsCountPerPage={itemsPerPage}
-                totalItemsCount={totalItems}
-                pageRangeDisplayed={5}
-                onChange={handlePageChange}
-                itemClass="page-item"
-                linkClass="page-link"
-                prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
-                nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
-                hideFirstLastPages={true}
-            />
-            <div className='pagi-total'>
-                Total Items: {totalItems}
+            )}
             </div>
-        </div>
-    </div>
-)}
 
-            </div>
+            {products?.length > 0 && (
+                <div className={styles.paginationSection}>
+                    <div className='pagi-container'>
+                        <Pagination
+                            activePage={currentPage}
+                            itemsCountPerPage={itemsPerPage}
+                            totalItemsCount={totalItems}
+                            pageRangeDisplayed={5}
+                            onChange={handlePageChange}
+                            itemClass="page-item"
+                            linkClass="page-link"
+                            prevPageText={<KeyboardDoubleArrowLeftIcon style={{ fontSize: '15px' }} />}
+                            nextPageText={<KeyboardDoubleArrowRightIcon style={{ fontSize: '15px' }} />}
+                            hideFirstLastPages={true}
+                        />
+                        <div className='pagi-total'>
+                            Total Items: {totalItems}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
-    )
-}
+    );
+};
 
-export default NewProduct
+export default NewProduct;

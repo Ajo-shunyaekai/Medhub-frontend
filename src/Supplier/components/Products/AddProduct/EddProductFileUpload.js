@@ -5,37 +5,37 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import Information from "../../../assets/images/infomation.svg";
 import styles from "./addproduct.module.css";
- 
+
 // useFileUpload Hook
 const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles = 4) => {
-  const [files, setFiles] = useState([]);
- 
+  const [files, setFiles] = useState(() => {
+    return initialValues && initialValues[fieldInputName] ? initialValues[fieldInputName] : [];
+  });
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prev) => {
-        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
+        const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles);
         if (acceptedFiles.length + prev.length > maxFiles) {
           alert(`You can only upload a maximum of ${maxFiles} ${maxFiles === 1 ? "file" : "files"}.`);
-          return prev; // Keep previous files if limit exceeded
+          return prev;
         }
-        // Update Formik state
-        setFieldValue(fieldInputName, totalFiles);
+        setFieldValue(fieldInputName, totalFiles); // This expects setFieldValue to be defined
         return totalFiles;
       });
     },
     [fieldInputName, setFieldValue, maxFiles]
   );
- 
+
   const removeFile = (index, event) => {
     if (event) event.stopPropagation();
     setFiles((prev) => {
       const updatedFiles = prev.filter((_, i) => i !== index);
-      // Update Formik state
-      setFieldValue(fieldInputName, updatedFiles);
+      setFieldValue(fieldInputName, updatedFiles); // This expects setFieldValue to be defined
       return updatedFiles;
     });
   };
- 
+
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
@@ -44,36 +44,42 @@ const useFileUpload = (fieldInputName, setFieldValue, initialValues, acceptTypes
     "image/jpeg": [],
     "image/jpg": [],
   };
- 
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptTypes || defaultAccept, // Use provided acceptTypes or fallback to default
-    multiple: maxFiles > 1, // Allow multiple only if maxFiles > 1
+    accept: acceptTypes || defaultAccept,
+    multiple: maxFiles > 1,
   });
- 
+
   return { files, getRootProps, getInputProps, isDragActive, removeFile };
 };
- 
-// AddProductFileUpload Component
-const AddProductFileUpload = ({
+
+// EddProductFileUpload Component
+const EddProductFileUpload = ({
   setFieldValue,
   initialValues,
   fieldInputName,
   label,
   tooltip,
   showLabel = true,
-  acceptTypes, // Control accepted file types
-  maxFiles = 4, // New prop to control maximum number of files
+  acceptTypes,
+  maxFiles = 4,
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
- 
-  // Call the useFileUpload hook with acceptTypes and maxFiles
+
   const fileUpload = useFileUpload(fieldInputName, setFieldValue, initialValues, acceptTypes, maxFiles);
- 
+
   const isImageOnly = acceptTypes && Object.keys(acceptTypes).every(type => type.startsWith("image/"));
   const isPdfOnly = acceptTypes && Object.keys(acceptTypes).every(type => type === "application/pdf");
- 
+
+  const getPreviewUrl = (file) => {
+    if (file instanceof File) {
+      return URL.createObjectURL(file);
+    }
+    return file.url || file; // Assuming file is a URL string if not a File object
+  };
+
   return (
     <div className={styles.compliancesContainer}>
       {showLabel && <label className={styles.formLabel}>{label}</label>}
@@ -94,38 +100,29 @@ const AddProductFileUpload = ({
               data-tooltip-id={tooltipId}
               data-tooltip-content={tooltipContent}
             >
-              <img
-                src={Information}
-                className={styles.iconTooltip}
-                alt="info"
-              />
+              <img src={Information} className={styles.iconTooltip} alt="info" />
             </span>
-            <Tooltip
-              className={styles.tooltipSec}
-              id={tooltipId}
-              place="top"
-              effect="solid"
-            >
+            <Tooltip className={styles.tooltipSec} id={tooltipId} place="top" effect="solid">
               <div dangerouslySetInnerHTML={{ __html: tooltipContent }} />
             </Tooltip>
           </>
         )}
       </div>
- 
+
       {fileUpload.files.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload.files.map((file, index) => (
             <div key={index} className={styles.filePreview}>
-              {file.type.startsWith("image/") ? (
+              {(file.type && file.type.startsWith("image/")) || (typeof file === "string" && file.match(/\.(jpeg|jpg|png|gif)$/i)) ? (
                 <img
-                  src={URL.createObjectURL(file)}
-                  alt={file.name}
+                  src={getPreviewUrl(file)}
+                  alt={file.name || `File ${index}`}
                   className={styles.previewImage}
                 />
               ) : (
                 <FiFileText size={25} className={styles.fileIcon} />
               )}
-              <p className={styles.fileName}>{file.name}</p>
+              <p className={styles.fileName}>{file.name || (typeof file === "string" ? file.split('/').pop() : `File ${index}`)}</p>
               <button
                 type="button"
                 className={styles.removeButton}
@@ -142,4 +139,4 @@ const AddProductFileUpload = ({
   );
 };
 
-export default AddProductFileUpload;
+export default EddProductFileUpload;

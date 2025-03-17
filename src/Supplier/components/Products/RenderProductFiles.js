@@ -1,17 +1,18 @@
 import React from "react";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
-
+import styles from './ProductDetails/productdetail.module.css'
+ 
 const extractFileName = (url) => {
   return url.split("/").pop();
 };
-
+ 
 const RenderProductFiles = ({ files }) => {
   return files?.map((file, index) => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+ 
     if (file.endsWith(".pdf")) {
       return (
-        <div key={index} className="buyer-details-pdf-section">
+        <div key={index} className={styles.uploadFileContainer}>
           <FaFilePdf
             size={50}
             color="red"
@@ -21,7 +22,7 @@ const RenderProductFiles = ({ files }) => {
             }
           />
           <div
-            className="pdf-url"
+            className={styles.additionalLink}
             onClick={() =>
               window.open(`${serverUrl}uploads/products/${file}`, "_blank")
             }
@@ -41,9 +42,10 @@ const RenderProductFiles = ({ files }) => {
         ".docx"
       );
       const docxUrl = `${serverUrl}uploads/products/${docxFileName}`;
-
+ 
       return (
-        <div key={index} className="buyer-details-docx-section">
+ 
+        <div key={index} className={styles.uploadFileContainer}>
           <FaFileWord
             size={50}
             color="blue"
@@ -51,7 +53,7 @@ const RenderProductFiles = ({ files }) => {
             onClick={() => window.open(docxUrl, "_blank")}
           />
           <div
-            className="docx-url"
+            className={styles.additionalLink}
             onClick={() => window.open(docxUrl, "_blank")}
           >
             {extractFileName(docxFileName)}
@@ -64,17 +66,17 @@ const RenderProductFiles = ({ files }) => {
           key={index}
           src={`${serverUrl}uploads/products/${file}`}
           alt={"image"}
-          className="buyer-details-document-image"
+          className={styles.uploadImage}
         />
       );
     }
   });
 };
-
+ 
 export default RenderProductFiles;
-
+ 
 {
-  /* <div className={styles.uploadFileContainer}>
+  /* <div >
                 <img src={Doc} className={styles.productIcon} alt="Doc" />
                 <a
                 className={styles.additionalLink}
