@@ -39,14 +39,14 @@ import { useParams } from "react-router-dom";
 import Loader from "../../SharedComponents/Loader/Loader";
 import { toast } from "react-toastify";
 import { Row } from "react-bootstrap";
- 
+
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
- 
+
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -60,7 +60,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
- 
+
 // End Image Container Section
 const EditAddProduct = ({ placeholder }) => {
   const { id } = useParams();
@@ -70,1381 +70,6 @@ const EditAddProduct = ({ placeholder }) => {
   );
   console.log("productDetail", productDetail);
   console.log("name", productDetail?.general?.name);
-  const productValidationSchema = Yup.object({
-    name: Yup.string().required("Product Name is required."),
-    description: Yup.string().required("Product Description is required."),
-    manufacturer: Yup.string().required("Manufacturer Name is required."),
-    aboutManufacturer: Yup.string().required("About Manufacturer is required."),
-    countryOfOrigin: Yup.string().required(
-      "Manufacturer Country of Origin is required."
-    ),
-    model: Yup.string().required("Part/Model Number is required."),
-    image: Yup.array()
-      .max(4, "You can upload up to 4 images.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-      ),
-    form: Yup.string().required("Product Type/Form is required."),
-    quantity: Yup.number().required("Product Quantity is required."),
- 
-    volumn: Yup.string().required("Product Size/Volumn is required."),
-    weight: Yup.number().required("Product Weight is required."),
-    unit: Yup.string().required("Product Weight Unit is required."),
-    packageType: Yup.string().required("Product Packaging Type is required."),
-    packageMaterial: Yup.string().required(
-      "Product Packaging Material is required."
-    ),
-    packageMaterialIfOther: Yup.string()
-      .when("packageMaterial", {
-        is: "Other",
-        then: Yup.string().required("Package Material Name is required."),
-      })
-      .nullable(),
-    packageMaterialIfOther: Yup.string().when("packageMaterial", {
-      is: "Other",
-      then: Yup.string().required(
-        "Product Packaging Material Other Name is required."
-      ),
-    }),
-    // costPerProduct: Yup.string().required("Cost Per Unit is required."),
-    sku: Yup.string().required("SKU is required."),
-    stock: Yup.string()
-      .oneOf(["In-stock", "Out of Stock", "On-demand"])
-      .required("Stock is required."),
-    // stockQuantity: Yup.number().required("Stock Quantity is required."),
-    countries: Yup.array()
-      .min(1, "At least one country must be selected.")
-      .of(Yup.string().required("Country Available is required.")),
-    date: Yup.string().required("Date is required."),
-    stockedInDetails: Yup.array()
-      .of(
-        Yup.object({
-          country: Yup.string().required("Country is required."),
-          quantity: Yup.number()
-            .required("Quantity is required.")
-            .positive("Quantity must be greater than 0"),
-          type: Yup.string().required("Type is required."),
-        })
-      )
-      .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    productPricingDetails: Yup.array()
-      .of(
-        Yup.object({
-          quantity: Yup.string().required("Quantity is required."),
-          price: Yup.number()
-            .required("Price is required.")
-            .positive("Price must be greater than 0"),
-          deliveryTime: Yup.string().required("Delivery Time is required."),
-        })
-      )
-      .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    complianceFile: Yup.array()
-      .max(4, "You can upload up to 4 Compliance File.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    guidelinesFile: Yup.array()
-      .max(4, "You can upload up to 4 guideline files.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    safetyDatasheet: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    healthHazardRating: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          // .test(
-          //   "fileSize",
-          //   "File too large",
-          //   (value) => value && value.size <= 1024 * 1024 * 5
-          // ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    environmentalImpact: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    category: Yup.string()
-      .oneOf([
-        "MedicalEquipmentAndDevices",
-        "Pharmaceuticals",
-        "SkinHairCosmeticSupplies",
-        "VitalHealthAndWellness",
-        "MedicalConsumablesAndDisposables",
-        "LaboratorySupplies",
-        "DiagnosticAndMonitoringDevices",
-        "HospitalAndClinicSupplies",
-        "OrthopedicSupplies",
-        "DentalProducts",
-        "EyeCareSupplies",
-        "HomeHealthcareProducts",
-        "AlternativeMedicines",
-        "EmergencyAndFirstAidSupplies",
-        "DisinfectionAndHygieneSupplies",
-        "NutritionAndDietaryProducts",
-        "HealthcareITSolutions",
-      ])
-      .required("Category is required."),
-    market: Yup.string()
-      .oneOf(["new", "secondary"])
-      .required("Product Market is required."),
-    purchasedOn: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Purchased On is required."),
-    }),
-    purchaseInvoiceFile: Yup.array()
-      .of(Yup.mixed().required("Performa Invoice File is required."))
-      .when("market", {
-        is: "secondary",
-        then: Yup.array()
-          .min(1, "At least one Performa Invoice File must be selected.")
-          .max(4, "You can upload up to 4 safety datasheets.")
-          .required("Purchase Invoice files is required.")
-          .of(
-            Yup.mixed()
-              .required("A Purchase Invoice File is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      }),
-    countryAvailable: Yup.array()
-      .of(Yup.string().required("Country Available is required."))
-      .when("market", {
-        is: "secondary",
-        then: Yup.array().min(1, "At least one country must be selected."),
-      }),
-    condition: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Condition is required."),
-    }),
-    minimumPurchaseUnit: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Minimum Purchase Unit is required."),
-    }),
- 
-    // New Fields Validation
-    subCategory: Yup.string()
-      .required("Sub Category is required.")
-      // For "MedicalEquipmentAndDevices" category
-      .when("category", {
-        is: "MedicalEquipmentAndDevices",
-        then: Yup.string().oneOf(
-          [
-            "Diagnostic Tools",
-            "Imaging Equipment",
-            "Surgical Instruments",
-            "Monitoring Devices",
-            "Mobility Aids",
-            "Respiratory Care",
-            "Elderly Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "Pharmaceuticals" category
-      .when("category", {
-        is: "Pharmaceuticals",
-        then: Yup.string().oneOf(
-          [
-            "Prescription Medications",
-            "Over-the-Counter Medications",
-            "Vaccines",
-            "Generic Drugs",
-            "Specialized Treatments",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "SkinHairCosmeticSupplies" category
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Skin Care",
-            "Hair Care",
-            "Personal Hygiene",
-            "Baby Care",
-            "Anti-aging Solutions",
-            "Skin Graft",
-            "Anti-Scar & Healing Ointments",
-            "Burn Care Solutions",
-            "Dermal Fillers & Injectables",
-            "Laser Treatment Devices",
-            "Chemical Peels",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "VitalHealthAndWellness" category
-      .when("category", {
-        is: "VitalHealthAndWellness",
-        then: Yup.string().oneOf(
-          [
-            "Fitness Monitors",
-            "Herbal & Alternative Medicines",
-            "Immune Boosters",
-            "Vitamins & Supplements",
-            "Weight Management",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "MedicalConsumablesAndDisposables" category
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string().oneOf(
-          [
-            "Bandages, Gauze, & Wound Dressings",
-            "Gloves, Masks, & Protective gear",
-            "Sterilization Products",
-            "Surgical Sutures & Adhesives",
-            "Syringes, IV Sets & Catheters",
-          ],
-          "Invalid Subcategory for Medical Consumables And Disposables"
-        ),
-      })
-      // For "LaboratorySupplies" category
-      .when("category", {
-        is: "LaboratorySupplies",
-        then: Yup.string()
-          .oneOf(
-            [
-              "Test kits",
-              "Microscopes & Lab Equipment",
-              "Chemicals & Reagents",
-              "Lab Consumables",
-            ],
-            "Invalid Subcategory."
-          )
-          .required("Subcategory is required."),
-      })
-      // For "DiagnosticAndMonitoringDevices" category
-      .when("category", {
-        is: "DiagnosticAndMonitoringDevices",
-        then: Yup.string().oneOf(
-          [
-            "Blood Glucose Monitors",
-            "Blood Pressure Monitors",
-            "Oxygen Concentrators",
-            "Wearable Health Devices",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HospitalAndClinicSupplies" category
-      .when("category", {
-        is: "HospitalAndClinicSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Patient Beds & Stretchers",
-            "Trolleys & Storage Units",
-            "Examination Tables",
-            "Medical Furniture",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "OrthopedicSupplies" category
-      .when("category", {
-        is: "OrthopedicSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Orthopedic Braces & Supports",
-            "Splints & Casting Materials",
-            "Prosthetics",
-            "Rehabilitation Equipment",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "DentalProducts" category
-      .when("category", {
-        is: "DentalProducts",
-        then: Yup.string().oneOf(
-          [
-            "Dental Instruments & tools",
-            "Orthodontic Supplies",
-            "Dental Chairs and Accessories",
-            "Dental Consumables",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "EyeCareSupplies" category
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Contact Lenses and Solutions",
-            "Eyewear",
-            "Eyewear Lenses",
-            "Eye Drops and Ointments",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HomeHealthcareProducts" category
-      .when("category", {
-        is: "HomeHealthcareProducts",
-        then: Yup.string().oneOf(
-          [
-            "Mobility Aids",
-            "Respiratory Care",
-            "Patient Monitoring Devices",
-            "Elderly Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "AlternativeMedicines" category
-      .when("category", {
-        is: "AlternativeMedicines",
-        then: Yup.string().oneOf(
-          ["Homeopathy", "Ayurvedic"],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "EmergencyAndFirstAidSupplies" category
-      .when("category", {
-        is: "EmergencyAndFirstAidSupplies",
-        then: Yup.string().oneOf(
-          [
-            "First Aid Kits",
-            "Emergency Medical Equipment",
-            "Trauma Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "DisinfectionAndHygieneSupplies" category
-      .when("category", {
-        is: "DisinfectionAndHygieneSupplies",
-        then: Yup.string().oneOf(
-          ["Hand Sanitizers", "Air Purifiers", "Cleaning Agents"],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "NutritionAndDietaryProducts" category
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().oneOf(
-          [
-            "Protein Powders and Shakes",
-            "Specialized Nutrition",
-            "Meal Replacement Solutions",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HealthcareITSolutions" category
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().oneOf(
-          [
-            "Healthcare Management Software",
-            "Telemedicine Platforms",
-            "Medical Billing Software",
-            "IoT-Enabled Medical Devices",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      .nullable(),
-    anotherCategory: Yup.string().nullable(),
-    // Common fields of multiple categories
-    drugClass: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-          ].includes(category),
-        then: Yup.string().required("Drug Class is required."),
-      })
-      .nullable(),
-    // controlledSubstance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // otcClassification: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.string().oneOf(
-    //       ["Category I", "Category II", "Category III"],
-    //       "Invalid OTC Classification"
-    //     ),
-    //   })
-    //   .nullable(),
-    genericName: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
-        then: Yup.string().required("Generic Name is required."),
-      })
-      .nullable(),
-    strength: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "OrthopedicSupplies",
-          ].includes(category),
-        then: Yup.string().required("Strength is required."),
-      })
-      .nullable(),
-    composition: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "AlternativeMedicines",
-            "EmergencyAndFirstAidSupplies",
-            "DisinfectionAndHygieneSupplies",
-            "NutritionAndDietaryProducts",
-          ].includes(category),
-        then: Yup.string().required("Composition/Ingredients is required."),
-      })
-      .nullable(),
-    purpose: Yup.string()
-      .when("category", {
-        is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
-        then: Yup.string().required("Purpose is required."),
-      })
-      // .when("category", {
-      //   is: (category) =>
-      //     [
-      //       "Pharmaceuticals",
-      //       "VitalHealthAndWellness",
-      //       "MedicalConsumablesAndDisposables",
-      //       "LaboratorySupplies",
-      //       "HospitalAndClinicSupplies",
-      //       "OrthopedicSupplies",
-      //       "DentalProducts",
-      //       "AlternativeMedicines",
-      //       "NutritionAndDietaryProducts",
-      //     ].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .nullable(),
-    drugAdministrationRoute: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-          ].includes(category),
-        then: Yup.string().required("Drug Administration Route is required."),
-      })
-      .nullable(),
-    expiry: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "MedicalConsumablesAndDisposables",
-            "HospitalAndClinicSupplies",
-            // "OrthopedicSupplies",
-            "DentalProducts",
-            "HomeHealthcareProducts",
-            "AlternativeMedicines",
-            "EmergencyAndFirstAidSupplies",
-            "DisinfectionAndHygieneSupplies",
-            "NutritionAndDietaryProducts",
-          ].includes(category),
-        then: Yup.string().required("Shelf Life/Expiry is required."),
-      })
-      .nullable(),
-    // allergens: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "MedicalConsumablesAndDisposables",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // formulation: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // vegan: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "NutritionAndDietaryProducts",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // crueltyFree: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["SkinHairCosmeticSupplies", , "VitalHealthAndWellness"].includes(
-    //         category
-    //       ),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // sideEffectsAndWarnings: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // thickness: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    interoperability: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .when("category", {
-        is: (category) => ["HealthcareITSolutions"].includes(category),
-        then: Yup.string().required("Interoperability is required."),
-      })
-      .nullable(),
-    interoperabilityFile: Yup.array()
-      .when("category", {
-        is: (category) => ["HealthcareITSolutions"].includes(category),
-        then: Yup.array()
-          .min(
-            1,
-            "At least one file is required for the Interoperability file."
-          )
-          .max(4, "You can upload up to 4 Interoperability files.")
-          .required("Interoperability files is required."),
-        // .test(
-        //   "fileSize",
-        //   "File too large",
-        //   (value) => value && value.size <= 1024 * 1024 * 5
-        // ), // Max 5MB
-      })
-      .nullable(),
-    specification: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .when("category", {
-        is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-        then: Yup.string().required("Specification is required."),
-      })
-      .nullable(),
-    specificationFile: Yup.array()
-      .when("category", {
-        is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-        then: Yup.array()
-          .max(4, "You can upload up to 4 specification files.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .when("category", {
-        is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-        then: Yup.array()
-          .min(1, "At least one file is required for the specification file.")
-          .max(4, "You can upload up to 4 specification files.")
-          .required("specification files is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    diagnosticFunctions: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .when("category", {
-        is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-        then: Yup.string().required("Diagnostic Functions is required."),
-      })
-      .nullable(),
-    // performanceTestingReport: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalEquipmentAndDevices",
-    //         "DiagnosticAndMonitoringDevices",
-    //         "HomeHealthcareProducts",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    performanceTestingReportFile: Yup.array()
-      .when("category", {
-        is: (category) =>
-          [
-            "MedicalEquipmentAndDevices",
-            "DiagnosticAndMonitoringDevices",
-            "HomeHealthcareProducts",
-          ].includes(category),
-        then: Yup.array()
-          .max(4, "You can upload up to 4 performance testing files.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    // additivesNSweeteners: Yup.string()
-    //   .when("category", {
-    //     is: (category) => ["VitalHealthAndWellness"].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    additivesNSweeteners: Yup.string()
-      .when("category", {
-        is: (category) => ["NutritionAndDietaryProducts"].includes(category),
-        then: Yup.string().required("Additives & Sweeteners is required."),
-      })
-      .nullable(),
-    // powdered: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // productMaterial: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //         "DentalProducts",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // texture: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // sterilized: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // chemicalResistance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // fluidResistance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // shape: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["MedicalConsumablesAndDisposables", "LaboratorySupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // coating: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "LaboratorySupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // concentration: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "LaboratorySupplies",
-    //         "DiagnosticAndMonitoringDevices",
-    //         "HomeHealthcareProducts",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // measurementRange: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "HomeHealthcareProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // maintenanceNotes: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // compatibleEquipment: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // usageRate: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // adhesiveness: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["SkinHairCosmeticSupplies", "HospitalAndClinicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // absorbency: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["HospitalAndClinicSupplies", "OrthopedicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    targetCondition: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
-        then: Yup.string().required("Target Condition is required."),
-      })
-      // .when("category", {
-      //   is: (category) => ["DentalProducts"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .nullable(),
-    // elasticity: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "HospitalAndClinicSupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // breathability: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["MedicalConsumablesAndDisposables", "OrthopedicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    foldability: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["HomeHealthcareProducts"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
-      .when("category", {
-        is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
-        then: Yup.string().required("Foldability is required."),
-      })
-      .nullable(),
-    // fragrance: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
- 
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    healthBenefit: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
-            category
-          ),
- 
-        then: Yup.string().required("Health Benfits is required."),
-      })
-      .nullable(),
-    // Add the other fields under MedicalEquipmentAndDevices
-    // laserType: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // coolingSystem: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // spotSize: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // Add the other fields under Pharmaceuticals
-    // Add the other fields under SkinHairCosmeticSupplies
-    // spf: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    dermatologistTested: Yup.string()
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string()
-          .required("Dermatologist Tested is required.")
-          .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
-      })
-      .nullable(),
-    dermatologistTestedFile: Yup.array().when("category", {
-      is: "SkinHairCosmeticSupplies", // Check category first
-      then: Yup.array()
-        .when("dermatologistTested", {
-          is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
-          then: Yup.array()
-            .min(
-              1,
-              "At least one file is required for the Dermatologist Tested."
-            )
-            .max(4, "You can upload up to 4 dermatologist tested files.")
-            .required("Dermatologist Tested file is required.")
-            .of(
-              Yup.mixed()
-                .required("A file is required.")
-                .test(
-                  "fileSize",
-                  "File too large",
-                  (value) => value && value.size <= 1024 * 1024 * 5
-                ) // Max 5MB
-            ),
-          otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
-        })
-        .nullable(),
-      otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
-    }),
-    pediatricianRecommended: Yup.string()
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string()
-          .required("Pediatrician Recommended is required.")
-          .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
-      })
-      .nullable(),
-    pediatricianRecommendedFile: Yup.array().when("category", {
-      is: "SkinHairCosmeticSupplies", // Check category first
-      then: Yup.array()
-        .when("pediatricianRecommended", {
-          is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
-          then: Yup.array()
-            .min(
-              1,
-              "At least one file is required for the Pediatrician Recommended."
-            )
-            .max(4, "You can upload up to 4 Pediatrician Recommended files.")
-            .required("Pediatrician Recommended file is required.")
-            .of(
-              Yup.mixed()
-                .required("A file is required.")
-                .test(
-                  "fileSize",
-                  "File too large",
-                  (value) => value && value.size <= 1024 * 1024 * 5
-                ) // Max 5MB
-            ),
-          otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
-        })
-        .nullable(),
-      otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
-    }),
-    // moisturizers: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // fillerType: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // Add the other fields under VitalHealthAndWellness
-    // Add the other fields under MedicalConsumablesAndDisposables
-    filtrationEfficiency: Yup.string()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string(),
-      })
-      .nullable(),
-    layerCount: Yup.string()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string(),
-      })
-      .nullable(),
-    filtrationType: Yup.array()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.array(),
-      })
-      .nullable(),
-    // Add the other fields under LaboratorySupplies
-    // magnificationRange: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // objectiveLenses: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // powerSource: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // resolution: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // connectivity: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // casNumber: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // grade: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // physicalState: Yup.array()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.array(),
-    //   })
-    //   .nullable(),
-    // hazardClassification: Yup.array()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.array(),
-    //   })
-    //   .nullable(),
-    // Add the other fields under DiagnosticAndMonitoringDevices
-    // measurementRange: Yup.string()
-    //   .when("category", {
-    //     is: "DiagnosticAndMonitoringDevices",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // noiseLevel: Yup.string()
-    //   .when("category", {
-    //     is: "DiagnosticAndMonitoringDevices",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // Add the other fields under HospitalAndClinicSupplies
-    // Add the other fields under OrthopedicSupplies
-    moistureResistance: Yup.string()
-      .when("category", {
-        is: "OrthopedicSupplies",
-        then: Yup.string().oneOf(["Yes", "No"], "Invalid Moisture Resistance"),
-      })
-      .nullable(),
-    // Add the other fields under DentalProducts
-    // Add the other fields under EyeCareSupplies
-    // lensPower: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // baseCurve: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // diameter: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    frame: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Metal", "Plastic", "Rimless"],
-          "Invalid Frame"
-        ),
-      })
-      .nullable(),
-    lens: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Single Vision", "Bifocal", "Progressive", "Anti-Reflective"],
-          "Invalid Lens"
-        ),
-      })
-      .nullable(),
-    lensMaterial: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Polycarbonate", "Glass", "Trivex"],
-          "Invalid Lens Material"
-        ),
-      })
-      .nullable(),
-    // Add the other fields under HomeHealthcareProducts
-    // maxWeightCapacity: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // gripType: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // lockingMechanism: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // typeOfSupport: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // batteryType: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // batterySize: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // // Add the other fields under AlternativeMedicines
-    // healthClaims: Yup.string()
-    //   .when("category", {
-    //     is: "AlternativeMedicines",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    healthClaimsFile: Yup.array()
-      .when("category", {
-        is: "AlternativeMedicines",
-        then: Yup.array()
-          .max(4, "You can upload up to 4 Health Claims Files.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    // Add the other fields under EmergencyAndFirstAidSupplies
-    productLongevity: Yup.string()
-      .when("category", {
-        is: "EmergencyAndFirstAidSupplies",
-        then: Yup.string().required("Product Longevity is required."),
-      })
-      .nullable(),
-    // Add the other fields under DisinfectionAndHygieneSupplies
-    // Add the other fields under NutritionAndDietaryProducts
-    flavorOptions: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Flavor Options is required."),
-      })
-      .nullable(),
-    aminoAcidProfile: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Amino Acid Profile is required."),
-      })
-      .nullable(),
-    fatContent: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Fat Content is required."),
-      })
-      .nullable(),
-    dairyFree: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string()
-          .oneOf(["Yes", "No"], "Invalid Dairy Free")
-          .required("Dairy Free is required."),
-      })
-      .nullable(),
-    // Add the other fields under HealthcareITSolutions
-    license: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("License is required."),
-      })
-      .nullable(),
-    scalabilityInfo: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Scalability Info is required."),
-      })
-      .nullable(),
-    addOns: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Add-Ons is required."),
-      })
-      .nullable(),
-    userAccess: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("User Access is required."),
-      })
-      .nullable(),
-    keyFeatures: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Key Features is required."),
-      })
-      .nullable(),
-    coreFunctionalities: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Core Functionalities is required."),
-      })
-      .nullable(),
-  });
   const formik = useFormik({
     initialValues: {
       name: productDetail?.general?.name || "",
@@ -1478,9 +103,12 @@ const EditAddProduct = ({ placeholder }) => {
       guidelinesFileNew: productDetail?.guidelinesFileNew || [],
       warranty: productDetail?.additional?.warranty || "",
       safetyDatasheet: productDetail?.healthNSafety?.safetyDatasheet || [],
-      safetyDatasheetNew: productDetail?.healthNSafety?.safetyDatasheetNew || [],
-      healthHazardRating: productDetail?.healthNSafety?.healthHazardRating || [],
-      healthHazardRatingNew: productDetail?.healthNSafety?.healthHazardRatingNew || [],
+      safetyDatasheetNew:
+        productDetail?.healthNSafety?.safetyDatasheetNew || [],
+      healthHazardRating:
+        productDetail?.healthNSafety?.healthHazardRating || [],
+      healthHazardRatingNew:
+        productDetail?.healthNSafety?.healthHazardRatingNew || [],
       environmentalImpact: productDetail?.environmentalImpact || [],
       environmentalImpactNew: productDetail?.environmentalImpactNew || [],
       category: productDetail?.category || "",
@@ -1494,7 +122,8 @@ const EditAddProduct = ({ placeholder }) => {
       condition: productDetail?.condition || "",
       minimumPurchaseUnit: productDetail?.minimumPurchaseUnit || "",
       subCategory: productDetail?.[productDetail?.category]?.subCategory || "",
-      anotherCategory: productDetail?.[productDetail?.category]?.anotherCategory || "",
+      anotherCategory:
+        productDetail?.[productDetail?.category]?.anotherCategory || "",
       stockedInDetails: productDetail?.stockedInDetails || [
         {
           country: "",
@@ -1702,7 +331,10 @@ const EditAddProduct = ({ placeholder }) => {
         "Manufacturer Country of Origin is required."
       ),
       model: Yup.string().required("Part/Model Number is required."),
-      image: Yup.array()
+      image: Yup.array().max(4, "You can upload up to 4 images.").of(
+        Yup.string().required("A file path is required.") // Since it's now a string
+      ),
+      imageNew: Yup.array()
         .max(4, "You can upload up to 4 images.")
         .of(
           Yup.mixed()
@@ -1710,12 +342,12 @@ const EditAddProduct = ({ placeholder }) => {
             .test(
               "fileSize",
               "File too large",
-              (value) => value && value.size <= 1024 * 1024 * 5
-            ) // Max 5MB
+              (value) => value && value.size <= 1024 * 1024 * 5 // Max 5MB
+            )
         ),
       form: Yup.string().required("Product Type/Form is required."),
       quantity: Yup.number().required("Product Quantity is required."),
- 
+
       volumn: Yup.string().required("Product Size/Volumn is required."),
       weight: Yup.number().required("Product Weight is required."),
       unit: Yup.string().required("Product Weight Unit is required."),
@@ -1770,6 +402,11 @@ const EditAddProduct = ({ placeholder }) => {
       complianceFile: Yup.array()
         .max(4, "You can upload up to 4 Compliance File.")
         .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
+      complianceFileNew: Yup.array()
+        .max(4, "You can upload up to 4 Compliance File.")
+        .of(
           Yup.mixed()
             .required("A file is required.")
             .test(
@@ -1789,6 +426,11 @@ const EditAddProduct = ({ placeholder }) => {
             })
         ),
       guidelinesFile: Yup.array()
+        .max(4, "You can upload up to 4 guideline files.")
+        .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
+      guidelinesFileNew: Yup.array()
         .max(4, "You can upload up to 4 guideline files.")
         .of(
           Yup.mixed()
@@ -1812,6 +454,11 @@ const EditAddProduct = ({ placeholder }) => {
       safetyDatasheet: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
+      safetyDatasheetNew: Yup.array()
+        .max(4, "You can upload up to 4 safety datasheets.")
+        .of(
           Yup.mixed()
             .required("A file is required.")
             .test(
@@ -1833,6 +480,11 @@ const EditAddProduct = ({ placeholder }) => {
       healthHazardRating: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
+      healthHazardRatingNew: Yup.array()
+        .max(4, "You can upload up to 4 safety datasheets.")
+        .of(
           Yup.mixed()
             .required("A file is required.")
             // .test(
@@ -1852,6 +504,11 @@ const EditAddProduct = ({ placeholder }) => {
             })
         ),
       environmentalImpact: Yup.array()
+        .max(4, "You can upload up to 4 safety datasheets.")
+        .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
+      environmentalImpactNew: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
           Yup.mixed()
@@ -1932,7 +589,7 @@ const EditAddProduct = ({ placeholder }) => {
         is: "secondary",
         then: Yup.string().required("Minimum Purchase Unit is required."),
       }),
- 
+
       // New Fields Validation
       subCategory: Yup.string()
         .required("Sub Category is required.")
@@ -2395,6 +1052,27 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.array()
             .max(4, "You can upload up to 4 specification files.")
             .of(
+              Yup.string().required("A file path is required.") // Since it's now a string
+            ),
+        })
+        .when("category", {
+          is: (category) =>
+            ["DiagnosticAndMonitoringDevices"].includes(category),
+          then: Yup.array()
+            .min(1, "At least one file is required for the specification file.")
+            .max(4, "You can upload up to 4 specification files.")
+            .required("specification files is required.")
+            .of(
+              Yup.string().required("A file path is required.") // Since it's now a string
+            ),
+        })
+        .nullable(),
+      specificationFileNew: Yup.array()
+        .when("category", {
+          is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
+          then: Yup.array()
+            .max(4, "You can upload up to 4 specification files.")
+            .of(
               Yup.mixed()
                 .required("A file is required.")
                 .test(
@@ -2455,6 +1133,21 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.array()
             .max(4, "You can upload up to 4 performance testing files.")
             .of(
+              Yup.string().required("A file path is required.") // Since it's now a string
+            ),
+        })
+        .nullable(),
+      performanceTestingReportFileNew: Yup.array()
+        .when("category", {
+          is: (category) =>
+            [
+              "MedicalEquipmentAndDevices",
+              "DiagnosticAndMonitoringDevices",
+              "HomeHealthcareProducts",
+            ].includes(category),
+          then: Yup.array()
+            .max(4, "You can upload up to 4 performance testing files.")
+            .of(
               Yup.mixed()
                 .required("A file is required.")
                 .test(
@@ -2465,167 +1158,12 @@ const EditAddProduct = ({ placeholder }) => {
             ),
         })
         .nullable(),
-      // additivesNSweeteners: Yup.string()
-      //   .when("category", {
-      //     is: (category) => ["VitalHealthAndWellness"].includes(category),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
       additivesNSweeteners: Yup.string()
         .when("category", {
           is: (category) => ["NutritionAndDietaryProducts"].includes(category),
           then: Yup.string().required("Additives & Sweeteners is required."),
         })
         .nullable(),
-      // powdered: Yup.boolean()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //       ].includes(category),
-      //     then: Yup.boolean().nullable(),
-      //   })
-      //   .nullable(),
-      // productMaterial: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //         "DentalProducts",
-      //       ].includes(category),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // texture: Yup.boolean()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //       ].includes(category),
-      //     then: Yup.boolean().nullable(),
-      //   })
-      //   .nullable(),
-      // sterilized: Yup.boolean()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //         "OrthopedicSupplies",
-      //       ].includes(category),
-      //     then: Yup.boolean().nullable(),
-      //   })
-      //   .nullable(),
-      // chemicalResistance: Yup.boolean()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //       ].includes(category),
-      //     then: Yup.boolean().nullable(),
-      //   })
-      //   .nullable(),
-      // fluidResistance: Yup.boolean()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "HospitalAndClinicSupplies",
-      //       ].includes(category),
-      //     then: Yup.boolean().nullable(),
-      //   })
-      //   .nullable(),
-      // shape: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["MedicalConsumablesAndDisposables", "LaboratorySupplies"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // coating: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "MedicalConsumablesAndDisposables",
-      //         "LaboratorySupplies",
-      //         "OrthopedicSupplies",
-      //       ].includes(category),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // concentration: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "SkinHairCosmeticSupplies",
-      //         "LaboratorySupplies",
-      //         "DiagnosticAndMonitoringDevices",
-      //         "HomeHealthcareProducts",
-      //         "DisinfectionAndHygieneSupplies",
-      //       ].includes(category),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // measurementRange: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["DiagnosticAndMonitoringDevices", "HomeHealthcareProducts"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // maintenanceNotes: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // compatibleEquipment: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // usageRate: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // adhesiveness: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["SkinHairCosmeticSupplies", "HospitalAndClinicSupplies"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // absorbency: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["HospitalAndClinicSupplies", "OrthopedicSupplies"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
       targetCondition: Yup.string()
         .when("category", {
           is: (category) =>
@@ -2634,89 +1172,23 @@ const EditAddProduct = ({ placeholder }) => {
             ),
           then: Yup.string().required("Target Condition is required."),
         })
-        // .when("category", {
-        //   is: (category) => ["DentalProducts"].includes(category),
-        //   then: Yup.string().nullable(),
-        // })
         .nullable(),
-      // elasticity: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "SkinHairCosmeticSupplies",
-      //         "HospitalAndClinicSupplies",
-      //         "OrthopedicSupplies",
-      //       ].includes(category),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // breathability: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       ["MedicalConsumablesAndDisposables", "OrthopedicSupplies"].includes(
-      //         category
-      //       ),
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
       foldability: Yup.string()
-        // .when("category", {
-        //   is: (category) => ["HomeHealthcareProducts"].includes(category),
-        //   then: Yup.string().nullable(),
-        // })
         .when("category", {
           is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
           then: Yup.string().required("Foldability is required."),
         })
         .nullable(),
-      // fragrance: Yup.string()
-      //   .when("category", {
-      //     is: (category) =>
-      //       [
-      //         "SkinHairCosmeticSupplies",
-      //         "DisinfectionAndHygieneSupplies",
-      //       ].includes(category),
- 
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
       healthBenefit: Yup.string()
         .when("category", {
           is: (category) =>
             ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
               category
             ),
- 
+
           then: Yup.string().required("Health Benfits is required."),
         })
         .nullable(),
-      // Add the other fields under MedicalEquipmentAndDevices
-      // laserType: Yup.string()
-      //   .when("category", {
-      //     is: "MedicalEquipmentAndDevices",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // coolingSystem: Yup.string()
-      //   .when("category", {
-      //     is: "MedicalEquipmentAndDevices",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // spotSize: Yup.string()
-      //   .when("category", {
-      //     is: "MedicalEquipmentAndDevices",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // Add the other fields under Pharmaceuticals
-      // Add the other fields under SkinHairCosmeticSupplies
-      // spf: Yup.string()
-      //   .when("category", {
-      //     is: "SkinHairCosmeticSupplies",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
       dermatologistTested: Yup.string()
         .when("category", {
           is: "SkinHairCosmeticSupplies",
@@ -2785,20 +1257,6 @@ const EditAddProduct = ({ placeholder }) => {
           .nullable(),
         otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
       }),
-      // moisturizers: Yup.string()
-      //   .when("category", {
-      //     is: "SkinHairCosmeticSupplies",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // fillerType: Yup.string()
-      //   .when("category", {
-      //     is: "SkinHairCosmeticSupplies",
-      //     then: Yup.string().nullable(),
-      //   })
-      //   .nullable(),
-      // Add the other fields under VitalHealthAndWellness
-      // Add the other fields under MedicalConsumablesAndDisposables
       filtrationEfficiency: Yup.string()
         .when("category", {
           is: "MedicalConsumablesAndDisposables",
@@ -2817,76 +1275,6 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.array(),
         })
         .nullable(),
-      // Add the other fields under LaboratorySupplies
-      // magnificationRange: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // objectiveLenses: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // powerSource: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // resolution: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // connectivity: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // casNumber: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // grade: Yup.string()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // physicalState: Yup.array()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.array(),
-      //   })
-      //   .nullable(),
-      // hazardClassification: Yup.array()
-      //   .when("category", {
-      //     is: "LaboratorySupplies",
-      //     then: Yup.array(),
-      //   })
-      //   .nullable(),
-      // Add the other fields under DiagnosticAndMonitoringDevices
-      // measurementRange: Yup.string()
-      //   .when("category", {
-      //     is: "DiagnosticAndMonitoringDevices",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // noiseLevel: Yup.string()
-      //   .when("category", {
-      //     is: "DiagnosticAndMonitoringDevices",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // Add the other fields under HospitalAndClinicSupplies
-      // Add the other fields under OrthopedicSupplies
       moistureResistance: Yup.string()
         .when("category", {
           is: "OrthopedicSupplies",
@@ -2896,26 +1284,6 @@ const EditAddProduct = ({ placeholder }) => {
           ),
         })
         .nullable(),
-      // Add the other fields under DentalProducts
-      // Add the other fields under EyeCareSupplies
-      // lensPower: Yup.string()
-      //   .when("category", {
-      //     is: "EyeCareSupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // baseCurve: Yup.string()
-      //   .when("category", {
-      //     is: "EyeCareSupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // diameter: Yup.string()
-      //   .when("category", {
-      //     is: "EyeCareSupplies",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
       frame: Yup.string()
         .when("category", {
           is: "EyeCareSupplies",
@@ -2943,50 +1311,6 @@ const EditAddProduct = ({ placeholder }) => {
           ),
         })
         .nullable(),
-      // Add the other fields under HomeHealthcareProducts
-      // maxWeightCapacity: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // gripType: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // lockingMechanism: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // typeOfSupport: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // batteryType: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // batterySize: Yup.string()
-      //   .when("category", {
-      //     is: "HomeHealthcareProducts",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
-      // // Add the other fields under AlternativeMedicines
-      // healthClaims: Yup.string()
-      //   .when("category", {
-      //     is: "AlternativeMedicines",
-      //     then: Yup.string(),
-      //   })
-      //   .nullable(),
       healthClaimsFile: Yup.array()
         .when("category", {
           is: "AlternativeMedicines",
@@ -3079,17 +1403,17 @@ const EditAddProduct = ({ placeholder }) => {
     onSubmit: (values) => {
       // Custom submit handler with e.preventDefault()
       console.log("Form submitted with values:", values);
-      // Your custom submit logic here
-      // Create a new FormData object
+
       const formData = new FormData();
- 
+
       // Append fields as usual
       Object.keys(values).forEach((key) => {
         const value = values[key];
-        if (key != "productPricingDetails" || key != "stockedInDetails") {
+        // Fixing condition to check for 'productPricingDetails' and 'stockedInDetails'
+        if (key !== "productPricingDetails" && key !== "stockedInDetails") {
           if (Array.isArray(value)) {
             // Append array items under the same key
-            value.forEach((item, index) => {
+            value.forEach((item) => {
               // If it's a file, append it with its index (to ensure uniqueness)
               if (item instanceof File) {
                 formData.append(key, item); // appends the file
@@ -3097,32 +1421,46 @@ const EditAddProduct = ({ placeholder }) => {
                 formData.append(key, item); // appends non-file array items
               }
             });
-          } else {
-            formData.append(key, value); // Append regular fields
+          } else if (value) {
+            // Append regular fields (non-array)
+            formData.append(key, value);
           }
         }
       });
-      formData.append("supplier_id", sessionStorage.getItem("_id"));
- 
+
+      // Append the supplier ID
+      const supplierId = sessionStorage.getItem("_id");
+      if (supplierId) {
+        formData.append("supplier_id", supplierId);
+      } else {
+        console.error("Supplier ID not found in session storage.");
+      }
+
+      // Prepare and append 'stockedInDetails' and 'productPricingDetails' fields as JSON strings
       const stockedInDetailsUpdated = JSON.stringify(
-        formik?.values?.stockedInDetails?.map((section) => ({
+        values?.stockedInDetails?.map((section) => ({
           country: section?.country || "",
           quantity: section?.quantity || "",
           type: section?.type || "",
         }))
       );
       const productPricingDetailsUpdated = JSON.stringify(
-        formik?.values?.productPricingDetails?.map((section) => ({
+        values?.productPricingDetails?.map((section) => ({
           price: section?.price || "",
           quantity: section?.quantity || "",
           deliveryTime: section?.deliveryTime || "",
         }))
       );
- 
+
       formData.append("stockedInDetails", stockedInDetailsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
- 
+
+      console.log("formData for API:", formData);
+
+      // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData }));
+
+      // Optional: Reset form submission state
       // setSubmitting(false); // Important to reset form submission state
     },
   });
@@ -3151,20 +1489,20 @@ const EditAddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
- 
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
- 
+
   // Start the checked container
- 
+
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
- 
+
   //handle field input
   const handleInputChange = (
     e,
@@ -3177,12 +1515,12 @@ const EditAddProduct = ({ placeholder }) => {
     // const { value, name } = e.target;
     // const valueToUpdate = value.slice(0, Number(textLimit));
     // setFieldValue(name, valueToUpdate);
- 
+
     let { value, name } = e.target;
- 
+
     // Apply character limit
     value = value.slice(0, Number(textLimit));
- 
+
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -3193,29 +1531,29 @@ const EditAddProduct = ({ placeholder }) => {
       restrictSpecialForFields.includes(name)
     ) {
       // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
- 
+
       const allowedPattern = new RegExp(
         `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
         "g"
       );
       value = value.replace(allowedPattern, "");
     }
- 
+
     setFieldValue(name, value);
   };
- 
+
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
- 
+
   const config = useMemo(
     () => ({
       readonly: false,
-      placeholder: placeholder || "Enter Product Description",
+      placeholder: formik?.values?.description || "Enter Product Description",
     }),
-    [placeholder]
+    [formik?.values?.description]
   );
- 
+
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -3226,16 +1564,16 @@ const EditAddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
- 
+
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
- 
+
   const selectedSchema = getCategorySchema(selectedCategory);
- 
+
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -3246,13 +1584,15 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   const getLevel3Categories = (subCategoryName) => {
-    console.log("subCategoryName", subCategoryName)
+    console.log("subCategoryName", subCategoryName);
     const category = categoryArrays.find(
-      (cat) => cat.name === categoryOptions.find(
-        (option) => option?.value === formik?.values?.category
-      )?.label
+      (cat) =>
+        cat.name ===
+        categoryOptions.find(
+          (option) => option?.value === formik?.values?.category
+        )?.label
     );
     return (
       category?.subCategories
@@ -3263,7 +1603,7 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   //   Start the Dropdown option
   const Options = [
     { value: "new product", label: "New Product" },
@@ -3378,24 +1718,24 @@ const EditAddProduct = ({ placeholder }) => {
 
   const formatDateToDDMMYYYY = (dateString) => {
     if (!dateString) return "";
-  
+
     // Try to parse the date from "12 Jan 2025"
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate)) return dateString; // Return original if invalid date
-  
+
     // Format the date as DD-MM-YYYY
     const day = String(parsedDate.getDate()).padStart(2, "0"); // 01-31
     const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // 01-12
     const year = parsedDate.getFullYear();
-  console.log('formatDateToDDMMYYYY', `${day}-${month}-${year}`)
+    console.log("formatDateToDDMMYYYY", `${day}-${month}-${year}`);
     return `${day}-${month}-${year}`;
   };
- 
+
   //   useEffects
   useEffect(() => {
     id && dispatch(fetchProductDetail(`product/${id}`));
   }, [id]);
- 
+
   useEffect(() => {
     if (formik && productDetail) {
       // Destructure the general part of productDetail to simplify access
@@ -3405,8 +1745,8 @@ const EditAddProduct = ({ placeholder }) => {
       const healthNSafety = productDetail?.healthNSafety || {};
       const secondayMarketDetails = productDetail?.secondayMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
- 
-      console.log("categoryDetails", inventoryDetails)
+
+      console.log("categoryDetails", inventoryDetails);
       formik.setValues({
         name: general?.name || "",
         description: general?.description || "",
@@ -3415,23 +1755,23 @@ const EditAddProduct = ({ placeholder }) => {
         countryOfOrigin: general?.countryOfOrigin || "",
         upc: general?.upc || "",
         model: general?.model || "",
-        image: general?.image || [],  // Image field based on general object
-        // imageNew: general?.imageNew || [],  
-        imageNew : [],
+        image: general?.image || [], // Image field based on general object
+        // imageNew: general?.imageNew || [],
+        imageNew: [],
         brand: general?.brand || "",
         form: general?.form || "",
-        quantity: general?.quantity || "",  // Quantity should be from general
+        quantity: general?.quantity || "", // Quantity should be from general
         volumn: general?.volumn || "",
         weight: general?.weight || "",
         unit: general?.unit || "",
         packageType: general?.packageType || "",
         packageMaterial: general?.packageMaterial || "",
         packageMaterialIfOther: general?.packageMaterialIfOther || "",
-        costPerProduct: productDetail?.costPerProduct || "",  // Assuming it exists in your data
-        sku: inventoryDetails?.sku || "",  // Nested access for inventoryDetails
+        costPerProduct: productDetail?.costPerProduct || "", // Assuming it exists in your data
+        sku: inventoryDetails?.sku || "", // Nested access for inventoryDetails
         stock: inventoryDetails?.stock || "",
         stockQuantity: inventoryDetails?.stockQuantity || "",
-        countries: inventoryDetails?.countries || [],  // Assuming countries exists
+        countries: inventoryDetails?.countries || [], // Assuming countries exists
         // date: productDetail?.date || "",
         date: formatDateToDDMMYYYY(inventoryDetails?.date) || "",
         complianceFile: productDetail?.complianceFile || [],
@@ -3459,7 +1799,12 @@ const EditAddProduct = ({ placeholder }) => {
         subCategory: categoryDetails?.subCategory || "",
         anotherCategory: categoryDetails?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
-          { country: "", quantity: "", type: "Box", placeholder: "Enter Box Quantity" },
+          {
+            country: "",
+            quantity: "",
+            type: "Box",
+            placeholder: "Enter Box Quantity",
+          },
         ],
         productPricingDetails: inventoryDetails?.inventoryList || [
           { quantity: "", price: "", deliveryTime: "" },
@@ -3487,9 +1832,12 @@ const EditAddProduct = ({ placeholder }) => {
         specificationFile: categoryDetails?.specificationFile || [],
         specificationFileNew: categoryDetails?.specificationFileNew || [],
         diagnosticFunctions: categoryDetails?.diagnosticFunctions || "",
-        performanceTestingReport: categoryDetails?.performanceTestingReport || "",
-        performanceTestingReportFile: categoryDetails?.performanceTestingReportFile || [],
-        performanceTestingReportFileNew: categoryDetails?.performanceTestingReportFileNew || [],
+        performanceTestingReport:
+          categoryDetails?.performanceTestingReport || "",
+        performanceTestingReportFile:
+          categoryDetails?.performanceTestingReportFile || [],
+        performanceTestingReportFileNew:
+          categoryDetails?.performanceTestingReportFileNew || [],
         additivesNSweeteners: categoryDetails?.additivesNSweeteners || "",
         powdered: categoryDetails?.powdered || false,
         productMaterial: categoryDetails?.productMaterial || "",
@@ -3519,10 +1867,13 @@ const EditAddProduct = ({ placeholder }) => {
         spf: categoryDetails?.spf || "",
         dermatologistTested: categoryDetails?.dermatologistTested || "",
         dermatologistTestedFile: categoryDetails?.dermatologistTestedFile || [],
-        dermatologistTestedFileNew: categoryDetails?.dermatologistTestedFileNew || [],
+        dermatologistTestedFileNew:
+          categoryDetails?.dermatologistTestedFileNew || [],
         pediatricianRecommended: categoryDetails?.pediatricianRecommended || "",
-        pediatricianRecommendedFile: categoryDetails?.pediatricianRecommendedFile || [],
-        pediatricianRecommendedFileNew: categoryDetails?.pediatricianRecommendedFileNew || [],
+        pediatricianRecommendedFile:
+          categoryDetails?.pediatricianRecommendedFile || [],
+        pediatricianRecommendedFileNew:
+          categoryDetails?.pediatricianRecommendedFileNew || [],
         moisturizers: categoryDetails?.moisturizers || "",
         fillerType: categoryDetails?.fillerType || "",
         filtrationEfficiency: categoryDetails?.filtrationEfficiency || "",
@@ -3566,28 +1917,27 @@ const EditAddProduct = ({ placeholder }) => {
         keyFeatures: categoryDetails?.keyFeatures || "",
         coreFunctionalities: categoryDetails?.coreFunctionalities || "",
       });
-      
     }
-  }, [productDetail]);  // Add formik to the dependency array
- 
- 
-  console.log("interoperability", formik?.values?.interoperability)
-  console.log('TESTING REPORT', formik.values?.performanceTestingReportFile)
-      console.log('TESTING REPORT NEW', formik.values?.performanceTestingReportFileNew)
-      console.log("Formik Values Image:", formik.values.image);
+  }, [productDetail]); // Add formik to the dependency array
 
- 
- 
+  console.log("interoperability", formik?.values?.interoperability);
+  console.log("TESTING REPORT", formik.values?.performanceTestingReportFile);
+  console.log(
+    "TESTING REPORT NEW",
+    formik.values?.performanceTestingReportFileNew
+  );
+  console.log("Formik Values Image:", formik.values.image);
+  console.log("Formik Values Image New:", formik.values.imageNew);
+
   return (
     <div className={styles.container}>
- 
       <FormikProvider value={formik}>
         {/* <Row> */}
         <form
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
- 
+
             // Check if the form is changed and no validation errors
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
@@ -3629,7 +1979,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.name}</span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Market<span className={styles?.labelStamp}>*</span>
@@ -3640,12 +1990,16 @@ const EditAddProduct = ({ placeholder }) => {
                   placeholder="Select Product Market"
                   // Ensure that the value reflects the value from formik or the productDetail state
                   value={Options.find(
-                    (option) => option?.value === (formik?.values?.market === "new" ? "new product" : "secondary product")
+                    (option) =>
+                      option?.value ===
+                      (formik?.values?.market === "new"
+                        ? "new product"
+                        : "secondary product")
                   )}
                   onChange={(selectedOption) => {
                     // Update local state for productType
                     setProductType(selectedOption?.value);
- 
+
                     // Update formik field value
                     formik.setFieldValue(
                       "market",
@@ -3653,7 +2007,7 @@ const EditAddProduct = ({ placeholder }) => {
                     );
                   }}
                 />
- 
+
                 {formik.touched.market && formik.errors.market && (
                   <span className={styles.error}>{formik.errors.market}</span>
                 )}
@@ -3691,28 +2045,28 @@ const EditAddProduct = ({ placeholder }) => {
                 <Select
                   className={styles.formSelect}
                   options={categoryOptions}
-                  value={categoryOptions.find(
-                    (option) => option?.value === formik?.values?.category
-                  ) || null}
+                  value={
+                    categoryOptions.find(
+                      (option) => option?.value === formik?.values?.category
+                    ) || null
+                  }
                   onBlur={formik?.handleBlur}
                   onChange={(selectedOption) => {
-                    formik.setFieldValue("category", selectedOption?.value);  // Set formik value
-                    setSelectedCategory(selectedOption);  // Update local state for selected category
-                    setSelectedSubCategory(null);  // Reset subcategory
-                    formik.setFieldValue("subCategory", "");  // Reset subcategory in form
-                    setSelectedLevel3Category(null);  // Reset Level 3 category
-                    formik.setFieldValue("anotherCategory", "");  // Reset Level 3 category in form
+                    formik.setFieldValue("category", selectedOption?.value); // Set formik value
+                    setSelectedCategory(selectedOption); // Update local state for selected category
+                    setSelectedSubCategory(null); // Reset subcategory
+                    formik.setFieldValue("subCategory", ""); // Reset subcategory in form
+                    setSelectedLevel3Category(null); // Reset Level 3 category
+                    formik.setFieldValue("anotherCategory", ""); // Reset Level 3 category in form
                   }}
                   placeholder="Select Category"
                   isDisabled={true}
                 />
                 {formik.touched.category && formik.errors.category && (
-                  <span className={styles.error}>
-                    {formik.errors.category}
-                  </span>
+                  <span className={styles.error}>{formik.errors.category}</span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category
@@ -3740,18 +2094,26 @@ const EditAddProduct = ({ placeholder }) => {
                 <Select
                   className={styles.formSelect}
                   // options={useMemo(() => (selectedCategory ? getSubCategories(selectedCategory?.label) : []))}
-                  options={categoryOptions.find(
-                    (option) => option?.value === formik?.values?.category
-                  ) ? getSubCategories(categoryOptions.find(
-                    (option) => option?.value === formik?.values?.category
-                  )?.label) : []}
-                  value={
-                    getSubCategories(categoryOptions.find(
+                  options={
+                    categoryOptions.find(
                       (option) => option?.value === formik?.values?.category
-                    )?.label)?.find(
+                    )
+                      ? getSubCategories(
+                          categoryOptions.find(
+                            (option) =>
+                              option?.value === formik?.values?.category
+                          )?.label
+                        )
+                      : []
+                  }
+                  value={
+                    getSubCategories(
+                      categoryOptions.find(
+                        (option) => option?.value === formik?.values?.category
+                      )?.label
+                    )?.find(
                       (option) => option?.label === formik?.values?.subCategory
-                    ) ||
-                    null // Ensures that value is set correctly based on formik or local state
+                    ) || null // Ensures that value is set correctly based on formik or local state
                   }
                   onBlur={formik?.handleBlur}
                   onChange={(selectedOption) => {
@@ -3760,16 +2122,16 @@ const EditAddProduct = ({ placeholder }) => {
                     formik.setFieldValue("subCategory", selectedOption?.value); // Update Formik state
                   }}
                   placeholder="Select Sub Category"
-                // isDisabled={true} // Disable when no category is selected
+                  // isDisabled={true} // Disable when no category is selected
                 />
- 
+
                 {formik.touched.subCategory && formik.errors.subCategory && (
                   <span className={styles.error}>
                     {formik.errors.subCategory}
                   </span>
                 )}
               </div>
- 
+
               {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category (Level 3)
@@ -3806,35 +2168,55 @@ const EditAddProduct = ({ placeholder }) => {
                   className={styles.formSelect}
                   onBlur={formik?.handleBlur}
                   options={
-                    getSubCategories(categoryOptions.find(
-                      (option) => option?.value === formik?.values?.category
-                    )?.label)?.find(
+                    getSubCategories(
+                      categoryOptions.find(
+                        (option) => option?.value === formik?.values?.category
+                      )?.label
+                    )?.find(
                       (option) => option?.label === formik?.values?.subCategory
-                    ) ? getLevel3Categories(getSubCategories(categoryOptions.find(
-                      (option) => option?.value === formik?.values?.category
-                    )?.label)?.find(
-                      (option) => option?.label === formik?.values?.subCategory
-                    ).value) : []
+                    )
+                      ? getLevel3Categories(
+                          getSubCategories(
+                            categoryOptions.find(
+                              (option) =>
+                                option?.value === formik?.values?.category
+                            )?.label
+                          )?.find(
+                            (option) =>
+                              option?.label === formik?.values?.subCategory
+                          ).value
+                        )
+                      : []
                   }
                   value={
                     selectedLevel3Category ||
-                    getLevel3Categories(getSubCategories(categoryOptions.find(
-                      (option) => option?.value === formik?.values?.category
-                    )?.label)?.find(
-                      (option) => option?.label === formik?.values?.subCategory
-                    )?.value)?.find(
-                      (option) => option?.value === formik?.values?.anotherCategory
-                    ) || null
+                    getLevel3Categories(
+                      getSubCategories(
+                        categoryOptions.find(
+                          (option) => option?.value === formik?.values?.category
+                        )?.label
+                      )?.find(
+                        (option) =>
+                          option?.label === formik?.values?.subCategory
+                      )?.value
+                    )?.find(
+                      (option) =>
+                        option?.value === formik?.values?.anotherCategory
+                    ) ||
+                    null
                   }
                   onChange={(selectedOption) => {
                     setSelectedLevel3Category(selectedOption);
-                    formik.setFieldValue("anotherCategory", selectedOption?.value);
+                    formik.setFieldValue(
+                      "anotherCategory",
+                      selectedOption?.value
+                    );
                   }}
                   placeholder="Select Level 3 Category"
-                // isDisabled={!selectedSubCategory}
+                  // isDisabled={!selectedSubCategory}
                 />
               </div>
- 
+
               {productType === "secondary product" && (
                 <>
                   <div className={styles.productContainer}>
@@ -3842,7 +2224,7 @@ const EditAddProduct = ({ placeholder }) => {
                       Purchased On
                       <span className={styles?.labelStamp}>*</span>
                     </label>
- 
+
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -3862,7 +2244,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Condition<span className={styles?.labelStamp}>*</span>
@@ -3874,7 +2256,7 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                       // Ensure that the value reflects the value from formik or the productDetail state
                       value={conditionOptions.find(
-                        (option) => option?.value === (formik?.values?.condition)
+                        (option) => option?.value === formik?.values?.condition
                       )}
                       onChange={(selectedOption) => {
                         formik.setFieldValue(
@@ -3889,13 +2271,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </span>
                     )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Country Available In
                       <span className={styles?.labelStamp}>*</span>
                     </label>
- 
+
                     <MultiSelectDropdown
                       options={countries}
                       placeholderButtonLabel="Select Countries"
@@ -3913,7 +2295,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }}
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
- 
+
                     {formik.touched.countryAvailable &&
                       formik.errors.countryAvailable && (
                         <span className={styles.error}>
@@ -3921,7 +2303,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Minimum Purchase Unit
@@ -3936,12 +2318,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.minimumPurchaseUnit}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          4,
-                          "number"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 4, "number")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -3954,7 +2331,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                 </>
               )}
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   UPC (Universal Product Code)
@@ -3981,7 +2358,7 @@ const EditAddProduct = ({ placeholder }) => {
                 />
                 <span className={styles.error}></span>
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Part/Model Number
@@ -4051,11 +2428,10 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                   </span>
                   <Tooltip className={styles.tooltipSec} id="product-type">
-                    The type of product (e.g., tablet, liquid, cream,
-                    ointment, Surgical, Needle Type, Syringe, Type of monitor,
-                    <br /> systems, devices, mobility or platforms,
-                    wheelchair, walker, cane, crutches, grab bar, scooter
-                    etc).
+                    The type of product (e.g., tablet, liquid, cream, ointment,
+                    Surgical, Needle Type, Syringe, Type of monitor,
+                    <br /> systems, devices, mobility or platforms, wheelchair,
+                    walker, cane, crutches, grab bar, scooter etc).
                   </Tooltip>
                 </div>
                 {formik.touched.form && formik.errors.form && (
@@ -4095,12 +2471,10 @@ const EditAddProduct = ({ placeholder }) => {
                   <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                 </div>
                 {formik.touched.quantity && formik.errors.quantity && (
-                  <span className={styles.error}>
-                    {formik.errors.quantity}
-                  </span>
+                  <span className={styles.error}>{formik.errors.quantity}</span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Size/Volumn
@@ -4133,8 +2507,8 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                   </span>
                   <Tooltip className={styles.tooltipSec} id="product-volumn">
-                    The size or volume of the product (e.g., 50 mL, 100 g,
-                    drip chamber ) (e.g., macro, micro),
+                    The size or volume of the product (e.g., 50 mL, 100 g, drip
+                    chamber ) (e.g., macro, micro),
                     <br /> Length of the needle (e.g., 19 mm, 26 mm ) tape
                     width, adhesive strip size etc.
                   </Tooltip>
@@ -4191,7 +2565,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={formik?.handleBlur}
                   // Ensure that the value reflects the value from formik or the productDetail state
                   value={packagingUnits.find(
-                    (option) => option?.value === (formik?.values?.unit)
+                    (option) => option?.value === formik?.values?.unit
                   )}
                   onChange={(selectedOption) => {
                     formik.setFieldValue("unit", selectedOption?.value);
@@ -4214,7 +2588,7 @@ const EditAddProduct = ({ placeholder }) => {
                     onBlur={formik?.handleBlur}
                     // Ensure that the value reflects the value from formik or the productDetail state
                     value={packagingOptions.find(
-                      (option) => option?.value === (formik?.values?.packageType)
+                      (option) => option?.value === formik?.values?.packageType
                     )}
                     onChange={(selectedOption) => {
                       formik.setFieldValue(
@@ -4237,8 +2611,8 @@ const EditAddProduct = ({ placeholder }) => {
                   <Tooltip className={styles.tooltipSec} id="packaging-type">
                     The type of product packaging (e.g., bottle, tube, jar,
                     pump, blister
-                    <br /> pack, strip, pouches, soft case, hard case,
-                    backpack, case ).
+                    <br /> pack, strip, pouches, soft case, hard case, backpack,
+                    case ).
                   </Tooltip>
                 </div>
                 {formik.touched.packageType && formik.errors.packageType && (
@@ -4286,7 +2660,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                   <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                 </div>
- 
+
                 {/* Show text field when "Other" is selected */}
                 {selectedOption?.value === "Other" && (
                   <input
@@ -4305,7 +2679,7 @@ const EditAddProduct = ({ placeholder }) => {
                     }}
                   />
                 )}
- 
+
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
                   formik.errors.packageMaterial && (
@@ -4330,20 +2704,20 @@ const EditAddProduct = ({ placeholder }) => {
                   type="text"
                   placeholder="Enter Manufacturer Name"
                   // autoComplete="off"
+                  name="manufacturer"
                   value={formik?.values?.manufacturer}
                   onBlur={formik?.handleBlur}
                   onChange={(e) => {
                     formik.setFieldValue("manufacturer", e.target.value);
                   }}
                 />
-                {formik.touched.manufacturer &&
-                  formik.errors.manufacturer && (
-                    <span className={styles.error}>
-                      {formik.errors.manufacturer}
-                    </span>
-                  )}
+                {formik.touched.manufacturer && formik.errors.manufacturer && (
+                  <span className={styles.error}>
+                    {formik.errors.manufacturer}
+                  </span>
+                )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Contry of Origin
@@ -4364,16 +2738,23 @@ const EditAddProduct = ({ placeholder }) => {
                   
                 /> */}
 
-<Select
-  name="countryOfOrigin"
-  options={countries}
-  placeholder="Select Country of Origin"
-  value={countries.find((option) => option.label === formik.values.countryOfOrigin) || null}
-  onBlur={formik.handleBlur}
-  onChange={(selectedOption) => {
-    formik.setFieldValue("countryOfOrigin", selectedOption?.label);
-  }}
-/>
+                <Select
+                  name="countryOfOrigin"
+                  options={countries}
+                  placeholder="Select Country of Origin"
+                  value={
+                    countries.find(
+                      (option) => option.label === formik.values.countryOfOrigin
+                    ) || null
+                  }
+                  onBlur={formik.handleBlur}
+                  onChange={(selectedOption) => {
+                    formik.setFieldValue(
+                      "countryOfOrigin",
+                      selectedOption?.label
+                    );
+                  }}
+                />
 
                 {formik.touched.countryOfOrigin &&
                   formik.errors.countryOfOrigin && (
@@ -4434,7 +2815,7 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
- 
+
           {/* Start the Inventory & Packaging */}
           <div className={styles.section}>
             <span className={styles.formHead}>Inventory & Packaging</span>
@@ -4487,10 +2868,6 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <div className={styles.tooltipContainer}>
-               
-
-
- 
                   <InputMask
                     className={styles.formInput}
                     type="text"
@@ -4532,7 +2909,7 @@ const EditAddProduct = ({ placeholder }) => {
                     name="stock"
                     // Ensure that the value reflects the value from formik or the productDetail state
                     value={stockOptions.find(
-                      (option) => option?.value === (formik?.values?.stock)
+                      (option) => option?.value === formik?.values?.stock
                     )}
                     onBlur={formik?.handleBlur}
                     onChange={(selectedOption) =>
@@ -4569,7 +2946,7 @@ const EditAddProduct = ({ placeholder }) => {
                   value={formik.values.countries.map((country) => ({
                     label: country,
                     value: country,
-                  }))} 
+                  }))}
                   onChange={(selectedOptions) => {
                     // Ensure we map selected options correctly
                     const selectedValues = selectedOptions
@@ -4601,7 +2978,7 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
- 
+
             <div className={styles.formStockContainer}>
               <div className={styles.formHeadSection}>
                 <span className={styles.formHead}>Stocked In Details</span>
@@ -4609,7 +2986,7 @@ const EditAddProduct = ({ placeholder }) => {
                   className={styles.formAddButton}
                   onClick={() =>
                     (formik?.values?.stockedInDetails?.length || 0) <
-                    (formik?.values?.countries?.length || 0) &&
+                      (formik?.values?.countries?.length || 0) &&
                     formik.setFieldValue("stockedInDetails", [
                       ...formik?.values?.stockedInDetails,
                       {
@@ -4624,7 +3001,7 @@ const EditAddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
- 
+
               {formik?.values?.stockedInDetails?.map((stock, index) => (
                 <div key={index} className={styles.formSection}>
                   {console.log("inventoryStockedCountries", stock)}
@@ -4660,7 +3037,10 @@ const EditAddProduct = ({ placeholder }) => {
                         .find((option) => option.value === stock?.country)} // Find the selected country
                       onBlur={formik?.handleBlur}
                       onChange={(option) =>
-                        formik.setFieldValue(`stockedInDetails.${index}.country`, option?.value)
+                        formik.setFieldValue(
+                          `stockedInDetails.${index}.country`,
+                          option?.value
+                        )
                       }
                     />
                     <span className={styles.error}>
@@ -4668,7 +3048,7 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.country}
                     </span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Stock Quantity
@@ -4681,10 +3061,13 @@ const EditAddProduct = ({ placeholder }) => {
                           className={styles.quantityInput}
                           placeholder={stock.placeholder}
                           type="number"
-                          value={formik?.values?.stockedInDetails[index]?.quantity || ""}
+                          value={
+                            formik?.values?.stockedInDetails[index]?.quantity ||
+                            ""
+                          }
                           onChange={formik.handleChange}
                         />
- 
+
                         <button
                           type="button"
                           className={`${styles.quantityButton} ${styles.selected}`}
@@ -4692,7 +3075,7 @@ const EditAddProduct = ({ placeholder }) => {
                           {stock.type}
                         </button>
                       </div>
- 
+
                       <div className={styles.radioForm}>
                         {["Box", "Strip", "Pack"].map((type) => (
                           <label key={type}>
@@ -4702,10 +3085,17 @@ const EditAddProduct = ({ placeholder }) => {
                               value={type}
                               checked={stock.type === type}
                               onChange={() => {
-                                const updatedList = [...formik?.values?.stockedInDetails];
+                                const updatedList = [
+                                  ...formik?.values?.stockedInDetails,
+                                ];
                                 updatedList[index].type = type;
-                                updatedList[index].placeholder = `Enter ${type} Quantity`;
-                                formik.setFieldValue("stockedInDetails", updatedList);
+                                updatedList[
+                                  index
+                                ].placeholder = `Enter ${type} Quantity`;
+                                formik.setFieldValue(
+                                  "stockedInDetails",
+                                  updatedList
+                                );
                               }}
                             />
                             <span className={styles.radioText}>{type}</span>
@@ -4718,14 +3108,15 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.quantity}
                     </span>
                   </div>
- 
+
                   {formik?.values?.stockedInDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
-                        const updatedList = formik?.values?.stockedInDetails.filter(
-                          (_, elindex) => elindex !== index
-                        );
+                        const updatedList =
+                          formik?.values?.stockedInDetails.filter(
+                            (_, elindex) => elindex !== index
+                          );
                         formik.setFieldValue("stockedInDetails", updatedList);
                       }}
                     >
@@ -4737,11 +3128,10 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
               ))}
             </div>
- 
           </div>
- 
+
           {/* End the Inventory & Packaging */}
- 
+
           {/* Start the product Inventory */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -5003,114 +3393,133 @@ const EditAddProduct = ({ placeholder }) => {
               name="productPricingDetails"
               render={(arrayHelpers) => (
                 <>
-                  {formik?.values?.productPricingDetails?.map((stock, index) => (
-                    <div key={`product_${index}`} className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Quantity<span className={styles?.labelStamp}>*</span>
-                        </label>
-                        <Field name={`productPricingDetails.${index}.quantity`}>
-                          {({ field }) => (
-                            <Select
-                              {...field}
-                              className={styles.formSelect}
-                              options={quantityOptions}
-                              placeholder="Select Quantity"
-                              value={quantityOptions.find(
-                                (option) => option?.value === stock?.quantity
-                              )}
-                              onBlur={formik.handleBlur}
-                              onChange={(option) =>
-                                formik.setFieldValue(
-                                  `productPricingDetails.${index}.quantity`,
-                                  option?.value
-                                )
-                              }
-                            />
-                          )}
-                        </Field>
-                        <span className={styles.error}>
-                          {formik.touched.productPricingDetails?.[index]?.quantity &&
-                            formik.errors.productPricingDetails?.[index]?.quantity}
-                        </span>
-                      </div>
- 
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Cost Per Product
-                          <span className={styles?.labelStamp}>*</span>
-                        </label>
-                        <div className={styles.tooltipContainer}>
+                  {formik?.values?.productPricingDetails?.map(
+                    (stock, index) => (
+                      <div
+                        key={`product_${index}`}
+                        className={styles.formSection}
+                      >
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Quantity
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
                           <Field
-                            name={`productPricingDetails.${index}.price`}
+                            name={`productPricingDetails.${index}.quantity`}
+                          >
+                            {({ field }) => (
+                              <Select
+                                {...field}
+                                className={styles.formSelect}
+                                options={quantityOptions}
+                                placeholder="Select Quantity"
+                                value={quantityOptions.find(
+                                  (option) => option?.value === stock?.quantity
+                                )}
+                                onBlur={formik.handleBlur}
+                                onChange={(option) =>
+                                  formik.setFieldValue(
+                                    `productPricingDetails.${index}.quantity`,
+                                    option?.value
+                                  )
+                                }
+                              />
+                            )}
+                          </Field>
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.quantity &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.quantity}
+                          </span>
+                        </div>
+
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Cost Per Product
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <div className={styles.tooltipContainer}>
+                            <Field
+                              name={`productPricingDetails.${index}.price`}
+                              type="text"
+                              placeholder="Enter Cost Per Product"
+                              className={styles.formInput}
+                            />
+                            <span
+                              className={styles.infoTooltip}
+                              data-tooltip-id="sku-tooltip"
+                              data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
+                            >
+                              <img
+                                src={Information}
+                                className={styles.iconTooltip}
+                                alt="information"
+                              />
+                            </span>
+                            <Tooltip
+                              className={styles.tooltipSec}
+                              id="sku-tooltip"
+                            />
+                          </div>
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.price &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.price}
+                          </span>
+                        </div>
+
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Est. Delivery Time
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <Field
+                            name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
-                            placeholder="Enter Cost Per Product"
+                            placeholder="Enter Est. Delivery Time"
                             className={styles.formInput}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="sku-tooltip"
-                            data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.deliveryTime &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.deliveryTime}
+                          </span>
+                        </div>
+
+                        {formik?.values?.productPricingDetails?.length > 1 && (
+                          <div
+                            className={styles.formCloseSection}
+                            onClick={() => arrayHelpers.remove(index)}
                           >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
-                        </div>
-                        <span className={styles.error}>
-                          {formik.touched.productPricingDetails?.[index]?.price &&
-                            formik.errors.productPricingDetails?.[index]?.price}
-                        </span>
+                            <span className={styles.formclose}>
+                              <CloseIcon className={styles.icon} />
+                            </span>
+                          </div>
+                        )}
                       </div>
- 
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Est. Delivery Time
-                          <span className={styles?.labelStamp}>*</span>
-                        </label>
-                        <Field
-                          name={`productPricingDetails.${index}.deliveryTime`}
-                          type="text"
-                          placeholder="Enter Est. Delivery Time"
-                          className={styles.formInput}
-                        />
-                        <span className={styles.error}>
-                          {formik.touched.productPricingDetails?.[index]?.deliveryTime &&
-                            formik.errors.productPricingDetails?.[index]?.deliveryTime}
-                        </span>
-                      </div>
- 
-                      {formik?.values?.productPricingDetails?.length > 1 && (
-                        <div
-                          className={styles.formCloseSection}
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                          <span className={styles.formclose}>
-                            <CloseIcon className={styles.icon} />
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    )
+                  )}
                 </>
               )}
             />
- 
           </div>
- 
+
           {/* End the product inventory */}
- 
+
           {/* Start the Compliances and certificate */}
           <div className={styles.documentContainer}>
             <div className={styles.sectionCompliances}>
               <span className={styles.formHead}>Upload Documents</span>
               <div className={styles.formInnerSection}>
                 <AddProductFileUpload
+                  productDetails={productDetail}
                   maxfileCount={4 - (formik?.values?.image?.length || 0)}
                   fieldInputName={"imageNew"}
+                  oldFieldName={"image"}
+                  existingFiles={formik?.values?.image}
                   setFieldValue={formik.setFieldValue}
                   initialValues={formik?.values}
                   label="Product Image"
@@ -5121,16 +3530,27 @@ const EditAddProduct = ({ placeholder }) => {
                     "image/jpg": [],
                   }}
                 />
- 
-                {formik.touched.image && formik.errors.image && (
-                  <span className={styles.error}>{formik.errors.image}</span>
-                )}
+
+                {/* {(formik.touched.image || formik.touched.imageNew) && ( */}
+                <span className={styles.error}>
+                  {(formik.touched.image ||
+                    formik.touched.imageNew ||
+                    formik.errors.image ||
+                    formik.errors.imageNew) && (
+                    <div>{formik.errors.image || formik.errors.imageNew}</div>
+                  )}
+                </span>
+                {/* )} */}
+
                 {productType === "secondary product" && (
                   <AddProductFileUpload
+                    productDetails={productDetail}
                     maxfileCount={
                       4 - (formik?.values?.purchaseInvoiceFile?.length || 0)
                     }
                     fieldInputName={"purchaseInvoiceFileNew"}
+                    oldFieldName={"purchaseInvoiceFile"}
+                    existingFiles={formik?.values?.purchaseInvoiceFile}
                     setFieldValue={formik.setFieldValue}
                     initialValues={formik?.values}
                     label="Purchase Invoice"
@@ -5141,13 +3561,23 @@ const EditAddProduct = ({ placeholder }) => {
                     maxFiles={1} // Limit to one file
                   />
                 )}
-                {productType === "secondary product" &&
-                  formik.touched.purchaseInvoiceFile &&
-                  formik.errors.purchaseInvoiceFile && (
+                {
+                  productType === "secondary product" && (
+                    // (formik.touched.purchaseInvoiceFileNew ||
+                    //   formik.touched.purchaseInvoiceFile) &&
+                    // (formik.errors.purchaseInvoiceFileNew ||
+                    //   formik.errors.purchaseInvoiceFile) && (
                     <span className={styles.error}>
-                      {formik.errors.purchaseInvoiceFile}
+                      {(formik.touched.purchaseInvoiceFileNew ||
+                        formik.touched.purchaseInvoiceFile ||
+                        formik.errors.purchaseInvoiceFileNew ||
+                        formik.errors.purchaseInvoiceFile) &&
+                        (formik.errors.purchaseInvoiceFileNew ||
+                          formik.errors.purchaseInvoiceFile)}
                     </span>
-                  )}
+                  )
+                  // )
+                }
               </div>
             </div>
             <div className={styles.sectionCompliances}>
@@ -5160,7 +3590,6 @@ const EditAddProduct = ({ placeholder }) => {
                     type="text"
                     placeholder="Enter Storage Conditions"
                     // autoComplete="off"
-
                     name="storage"
                     // onChange={formik?.handleChange}
                     value={formik?.values?.storage}
@@ -5189,10 +3618,11 @@ const EditAddProduct = ({ placeholder }) => {
                 Compliances & Certification
               </span>
               <AddProductFileUpload
-                maxfileCount={
-                  4 - (formik?.values?.complianceFile?.length || 0)
-                }
+                productDetails={productDetail}
+                maxfileCount={4 - (formik?.values?.complianceFile?.length || 0)}
                 fieldInputName={"complianceFileNew"}
+                oldFieldName={"complianceFile"}
+                existingFiles={formik?.values?.complianceFile}
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values}
                 label="Regulatory Compliance"
@@ -5203,18 +3633,26 @@ const EditAddProduct = ({ placeholder }) => {
                   " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
                 }
               />
-              {formik.touched.complianceFile &&
-                formik.errors.complianceFile && (
-                  <span className={styles.error}>
-                    {formik.errors.complianceFile}
-                  </span>
-                )}
+              {/* {((formik.touched.complianceFile ||
+                formik.touched.complianceFileNew) ||
+                (formik.errors.complianceFile ||
+                  formik.errors.complianceFileNew)) && ( */}
+              <span className={styles.error}>
+                {((formik.touched.complianceFile ||
+                  formik.touched.complianceFileNew ||
+                  formik.errors.complianceFile ||
+                  formik.errors.complianceFileNew) &&
+                  formik.errors.complianceFile) ||
+                  formik.errors.complianceFileNew}
+              </span>
+              {/* )} */}
             </div>
           </div>
           {/* End the compliances and certificate */}
- 
+
           {/* Start the Medical Equipment And Devices */}
-          {formik?.values?.category?.toLowerCase() === "MedicalEquipmentAndDevices"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "MedicalEquipmentAndDevices"?.toLowerCase() && (
             <div className={styles.section}>
               <span className={styles.formHead}>Technical Details</span>
               <div className={styles.formSection}>
@@ -5251,7 +3689,7 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                   </div>
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Laser Type</label>
                   <div className={styles.tooltipContainer}>
@@ -5261,6 +3699,7 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Enter Laser Type"
                       // autoComplete="off"
                       name="laserType"
+                      value={formik?.values?.laserType}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 50, "all")
@@ -5294,6 +3733,7 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Enter Cooling System"
                       // autoComplete="off"
                       name="coolingSystem"
+                      value={formik?.values?.coolingSystem}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
                         handleInputChange(e, formik.setFieldValue, 50, "all")
@@ -5318,7 +3758,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <span className={styles.error}></span>
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Spot Size</label>
                   <div className={styles.tooltipContainer}>
@@ -5328,14 +3768,10 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Enter Spot Size"
                       // autoComplete="off"
                       name="spotSize"
+                      value={formik?.values?.spotSize}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          4,
-                          "number"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 4, "number")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -5370,12 +3806,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.diagnosticFunctions}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          1000,
-                          "all"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -5409,12 +3840,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.performanceTestingReport}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          1000,
-                          "all"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -5428,22 +3854,27 @@ const EditAddProduct = ({ placeholder }) => {
                         alt="information"
                       />
                     </span>
-                    <Tooltip
-                      className={styles.tooltipSec}
-                      id="testing-tooltip"
-                    >
+                    <Tooltip className={styles.tooltipSec} id="testing-tooltip">
                       Results from any internal or external product testing
-                      (e.g., nebulizer <br /> output, CPAP pressure and
-                      airflow testing).
+                      (e.g., nebulizer <br /> output, CPAP pressure and airflow
+                      testing).
                     </Tooltip>
                   </div>
+                  {console.log(
+                    "formik image files",
+                    formik?.values?.image,
+                    formik?.values?.imageNew
+                  )}
                   <AddProductFileUpload
+                    productDetails={productDetail}
                     maxfileCount={
                       4 -
                       (formik?.values?.performanceTestingReportFile?.length ||
                         0)
                     }
                     fieldInputName={"performanceTestingReportFileNew"}
+                    oldFieldName={"performanceTestingReportFile"}
+                    existingFiles={formik?.values?.performanceTestingReportFile}
                     setFieldValue={formik.setFieldValue}
                     initialValues={formik?.values}
                     label=""
@@ -5451,12 +3882,19 @@ const EditAddProduct = ({ placeholder }) => {
                     tooltip={false}
                     showLabel={false}
                   />
-                  {formik.touched.performanceTestingReportFile &&
-                    formik.errors.performanceTestingReportFile && (
-                      <span className={styles.error}>
-                        {formik.errors.performanceTestingReportFile}
-                      </span>
-                    )}
+                  {/* {((formik.touched.performanceTestingReportFile ||
+                    formik.touched.performanceTestingReportFileNew) ||
+                    (formik.errors.performanceTestingReportFile ||
+                      formik.errors.performanceTestingReportFileNew)) && ( */}
+                  <span className={styles.error}>
+                    {((formik.touched.performanceTestingReportFile ||
+                      formik.touched.performanceTestingReportFileNew ||
+                      formik.errors.performanceTestingReportFile ||
+                      formik.errors.performanceTestingReportFileNew) &&
+                      formik.errors.performanceTestingReportFile) ||
+                      formik.errors.performanceTestingReportFileNew}
+                  </span>
+                  {/* )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Specification</label>
@@ -5469,12 +3907,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.specification}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          1000,
-                          "all"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -5495,10 +3928,13 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                   </div>
                   <AddProductFileUpload
+                    productDetails={productDetail}
                     maxfileCount={
                       4 - (formik?.values?.specificationFile?.length || 0)
                     }
                     fieldInputName={"specificationFileNew"}
+                    oldFieldName={"specificationFile"}
+                    existingFiles={formik?.values?.specificationFile}
                     setFieldValue={formik.setFieldValue}
                     initialValues={formik?.values}
                     label=""
@@ -5506,25 +3942,31 @@ const EditAddProduct = ({ placeholder }) => {
                     tooltip={false}
                     showLabel={false}
                   />
-                  {formik.touched.specificationFile &&
-                    formik.errors.specificationFile && (
-                      <span className={styles.error}>
-                        {formik.errors.specificationFile}
-                      </span>
-                    )}
+                  {/* {((formik.touched.specificationFile ||
+                    formik.touched.specificationFileNew) ||
+                    (formik.errors.specificationFile ||
+                      formik.errors.specificationFileNew)) && ( */}
+                  <span className={styles.error}>
+                    {(formik.touched.specificationFile ||
+                      formik.touched.specificationFileNew ||
+                      formik.errors.specificationFile ||
+                      formik.errors.specificationFileNew) &&
+                      (formik.errors.specificationFile ||
+                        formik.errors.specificationFileNew)}
+                  </span>
+                  {/* )} */}
                 </div>
               </div>
             </div>
           )}
           {/* End the MedicalEquipmentAndDevices */}
- 
+
           {/* Start the Pharmaceuticals */}
-          {formik?.values?.category?.toLowerCase() === "Pharmaceuticals"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "Pharmaceuticals"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -5541,12 +3983,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.genericName}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -5573,7 +4010,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -5588,12 +4025,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.drugClass}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            25,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 25, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -5633,12 +4065,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.strength}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            10,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 10, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -5678,7 +4105,8 @@ const EditAddProduct = ({ placeholder }) => {
                         name="otcClassification"
                         // Ensure that the value reflects the value from formik or the productDetail state
                         value={pharmaOptions.find(
-                          (option) => option?.value === (formik?.values?.otcClassification)
+                          (option) =>
+                            option?.value === formik?.values?.otcClassification
                         )}
                         onChange={(selectedOption) =>
                           formik.setFieldValue(
@@ -5723,12 +4151,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.composition}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            100,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -5766,12 +4189,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.formulation}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -5793,7 +4211,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     {/* <span className={styles.error}></span> */}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -5829,8 +4247,8 @@ const EditAddProduct = ({ placeholder }) => {
                         id="purpose-tooltip"
                       >
                         Purpose (e.g., COVID-19 detection, blood glucose
-                        monitoring, cholesterol level check,Pain relief,{" "}
-                        <br /> Prevention of infection.,Cooling and
+                        monitoring, cholesterol level check,Pain relief, <br />{" "}
+                        Prevention of infection.,Cooling and
                         soothing.,Moisturizing and healing, procedure or use
                         case of
                         <br /> tool, Relieves symptoms, promotes healing, or
@@ -5877,8 +4295,8 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Drugs can be introduced into the body by many routes,
                         such as enteric (oral, peroral, rectal), <br />{" "}
-                        parenteral (intravascular, intramuscular,
-                        subcutaneous, and inhalation
+                        parenteral (intravascular, intramuscular, subcutaneous,
+                        and inhalation
                         <br /> administration) or topical (skin and mucosal
                         membranes)
                       </Tooltip>
@@ -5890,7 +4308,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Controlled Substance
@@ -5902,9 +4320,7 @@ const EditAddProduct = ({ placeholder }) => {
                           id="controlledSubstance"
                           onBlur={formik?.handleBlur}
                           name="controlledSubstance"
-                          checked={
-                            formik?.values?.controlledSubstance || false
-                          }
+                          checked={formik?.values?.controlledSubstance || false}
                           onChange={(e) => {
                             handleCheckboxChange(
                               "controlledSubstance",
@@ -5939,19 +4355,17 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Whether the drug is a controlled substance (e.g., some
                         OTC drugs are restricted,
-                        <br /> some are only available behind the counter or
-                        on prescription).
+                        <br /> some are only available behind the counter or on
+                        prescription).
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
                 </div>
- 
+
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -5999,7 +4413,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -6042,8 +4456,8 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.tooltipSec}
                             id="warning-tooltip"
                           >
-                            Common side effects associated with the
-                            medication. Known
+                            Common side effects associated with the medication.
+                            Known
                             <br /> interactions with other drugs or food (eg.
                             Alcohol)
                           </Tooltip>
@@ -6093,16 +4507,15 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Pharmaceuticals */}
- 
+
           {/* Start the Skin, Hair and Cosmetic Supplies */}
-          {formik?.values?.category?.toLowerCase() === "SkinHairCosmeticSupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "SkinHairCosmeticSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>SPF</label>
@@ -6113,14 +4526,10 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Enter SPF"
                         // autoComplete="off"
                         name="spf"
+                        value={formik?.values?.spf}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            10,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 10, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -6155,12 +4564,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.strength}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -6200,12 +4604,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.elasticity}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -6239,12 +4638,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.adhesiveness}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -6278,12 +4672,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.thickness}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            5,
-                            "numer"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 5, "numer")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -6317,7 +4706,8 @@ const EditAddProduct = ({ placeholder }) => {
                         name="otcClassification"
                         // Ensure that the value reflects the value from formik or the productDetail state
                         value={pharmaOptions.find(
-                          (option) => option?.value === (formik?.values?.otcClassification)
+                          (option) =>
+                            option?.value === formik?.values?.otcClassification
                         )}
                         onChange={(selectedOption) =>
                           formik.setFieldValue(
@@ -6386,7 +4776,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Fragrance</label>
                     <div className={styles.tooltipContainer}>
@@ -6470,7 +4860,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Purpose<span className={styles?.labelStamp}>*</span>
@@ -6511,7 +4901,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -6591,10 +4981,7 @@ const EditAddProduct = ({ placeholder }) => {
                           alt="information"
                         />
                       </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="route-tooltip"
-                      >
+                      <Tooltip className={styles.tooltipSec} id="route-tooltip">
                         Drugs can be introduced into the body by many routes,
                         such as enteric (oral, peroral,
                         <br /> rectal), parenteral (intravascular,
@@ -6610,7 +4997,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -6690,11 +5077,10 @@ const EditAddProduct = ({ placeholder }) => {
                         id="consentration-tooltip"
                       >
                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                        ,Alcohol-based disinfectants are <br /> typically
-                        70-90% concentration for optimal antimicrobial
-                        efficacy.
-                        <br /> Oxygen concentration level provided by the
-                        device (e.g., 95%)
+                        ,Alcohol-based disinfectants are <br /> typically 70-90%
+                        concentration for optimal antimicrobial efficacy.
+                        <br /> Oxygen concentration level provided by the device
+                        (e.g., 95%)
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
@@ -6791,7 +5177,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e. <br />, no
                           animal-derived ingredients).
@@ -6840,13 +5226,13 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
                         >
-                          Whether the product is tested on <br /> animals or
-                          is cruelty-free
+                          Whether the product is tested on <br /> animals or is
+                          cruelty-free
                         </label>
                       </span>
                       <span
@@ -6878,9 +5264,7 @@ const EditAddProduct = ({ placeholder }) => {
                           id="controlledSubstance"
                           onBlur={formik?.handleBlur}
                           name="controlledSubstance"
-                          checked={
-                            formik?.values?.controlledSubstance || false
-                          }
+                          checked={formik?.values?.controlledSubstance || false}
                           onChange={(e) => {
                             handleCheckboxChange(
                               "controlledSubstance",
@@ -6915,14 +5299,14 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Whether the drug is a controlled substance (e.g., some
                         OTC drugs are restricted,
-                        <br /> some are only available behind the counter or
-                        on prescription).
+                        <br /> some are only available behind the counter or on
+                        prescription).
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
                 </div>
- 
+
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
@@ -6976,12 +5360,17 @@ const EditAddProduct = ({ placeholder }) => {
                         {dermatologistTested === "Yes" && (
                           <>
                             <AddProductFileUpload
+                              productDetails={productDetail}
                               maxfileCount={
                                 4 -
                                 (formik?.values?.dermatologistTestedFile
                                   ?.length || 0)
                               }
                               fieldInputName={"dermatologistTestedFileNew"}
+                              oldFieldName={"dermatologistTestedFile"}
+                              existingFiles={
+                                formik?.values?.dermatologistTestedFile
+                              }
                               setFieldValue={formik.setFieldValue}
                               initialValues={formik?.values}
                               label=""
@@ -6991,14 +5380,21 @@ const EditAddProduct = ({ placeholder }) => {
                             />
                           </>
                         )}
-                        {formik.touched.dermatologistTestedFile &&
-                          formik.errors.dermatologistTestedFile && (
-                            <span className={styles.error}>
-                              {formik.errors.dermatologistTestedFile}
-                            </span>
-                          )}
+                        {/* {((formik.touched.dermatologistTestedFile ||
+                          formik.touched.dermatologistTestedFileNew) ||
+                          (formik.errors.dermatologistTestedFile ||
+                            formik.errors.dermatologistTestedFileNew)) && ( */}
+                        <span className={styles.error}>
+                          {(formik.touched.dermatologistTestedFile ||
+                            formik.touched.dermatologistTestedFileNew ||
+                            formik.errors.dermatologistTestedFile ||
+                            formik.errors.dermatologistTestedFileNew) &&
+                            (formik.errors.dermatologistTestedFile ||
+                              formik.errors.dermatologistTestedFileNew)}
+                        </span>
+                        {/* )} */}
                       </div>
- 
+
                       {/* Pediatrician Recommended */}
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
@@ -7017,9 +5413,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 "pediatricianRecommended",
                                 selectedOption?.value
                               );
-                              setPediatricianRecommended(
-                                selectedOption?.value
-                              );
+                              setPediatricianRecommended(selectedOption?.value);
                             }}
                             onBlur={formik?.handleBlur}
                           />
@@ -7048,14 +5442,13 @@ const EditAddProduct = ({ placeholder }) => {
                         {pediatricianRecommended === "Yes" && (
                           <>
                             <AddProductFileUpload
+                              productDetails={productDetail}
                               maxfileCount={
                                 4 -
                                 (formik?.values?.pediatricianRecommendedFile
                                   ?.length || 0)
                               }
-                              fieldInputName={
-                                "pediatricianRecommendedFileNew"
-                              }
+                              fieldInputName={"pediatricianRecommendedFileNew"}
                               setFieldValue={formik.setFieldValue}
                               initialValues={formik?.values}
                               label=""
@@ -7065,12 +5458,19 @@ const EditAddProduct = ({ placeholder }) => {
                             />
                           </>
                         )}
-                        {formik.touched.pediatricianRecommendedFile &&
-                          formik.errors.pediatricianRecommendedFile && (
-                            <span className={styles.error}>
-                              {formik.errors.pediatricianRecommendedFile}
-                            </span>
-                          )}
+                        {/* {((formik.touched.pediatricianRecommendedFileNew ||
+                          formik.touched.pediatricianRecommendedFile) ||
+                          (formik.errors.pediatricianRecommendedFileNew ||
+                            formik.errors.pediatricianRecommendedFile)) && ( */}
+                        <span className={styles.error}>
+                          {formik.touched.pediatricianRecommendedFileNew ||
+                            formik.touched.pediatricianRecommendedFile ||
+                            ((formik.errors.pediatricianRecommendedFileNew ||
+                              formik.errors.pediatricianRecommendedFile) &&
+                              (formik.errors.pediatricianRecommendedFileNew ||
+                                formik.errors.pediatricianRecommendedFile))}
+                        </span>
+                        {/* )} */}
                       </div>
                     </div>
                   </div>
@@ -7115,9 +5515,9 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.tooltipSec}
                             id="effects-tooltip"
                           >
-                            Common side effects associated with the
-                            medication. Known interactions <br /> with other
-                            drugs or food (eg. Alcohol)
+                            Common side effects associated with the medication.
+                            Known interactions <br /> with other drugs or food
+                            (eg. Alcohol)
                           </Tooltip>
                         </div>
                         <span className={styles.error}></span>
@@ -7162,9 +5562,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -7216,16 +5614,15 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Skin, Hair and Cosmetic Supplies */}
- 
+
           {/* Start the Vital Health and Wellness */}
-          {formik?.values?.category?.toLowerCase() === "VitalHealthAndWellness"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "VitalHealthAndWellness"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -7242,12 +5639,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.genericName}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -7282,12 +5674,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.strength}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -7327,7 +5714,8 @@ const EditAddProduct = ({ placeholder }) => {
                         name="otcClassification"
                         // Ensure that the value reflects the value from formik or the productDetail state
                         value={pharmaOptions.find(
-                          (option) => option?.value === (formik?.values?.otcClassification)
+                          (option) =>
+                            option?.value === formik?.values?.otcClassification
                         )}
                         onChange={(selectedOption) =>
                           formik.setFieldValue(
@@ -7404,7 +5792,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Composition/Ingredients
@@ -7419,12 +5807,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.composition}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            500,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 500, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -7489,7 +5872,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -7525,17 +5908,16 @@ const EditAddProduct = ({ placeholder }) => {
                         id="wellness-purpose-tooltip"
                       >
                         Purpose (e.g., COVID-19 detection, blood glucose
-                        monitoring, cholesterol level check,Pain relief,{" "}
-                        <br />
+                        monitoring, cholesterol level check,Pain relief, <br />
                         Prevention of infection.,Cooling and
                         soothing.,Moisturizing and healing, procedure
-                        <br /> or use case of tool, Relieves symptoms,
-                        promotes healing, or prevents recurrence.)
+                        <br /> or use case of tool, Relieves symptoms, promotes
+                        healing, or prevents recurrence.)
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Administration Route
@@ -7575,9 +5957,9 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Drugs can be introduced into the body by many routes,
                         such as enteric (oral, peroral, rectal), parenteral
-                        (intravascular, intramuscular, <br /> subcutaneous,
-                        and inhalation administration) or topical (skin and
-                        mucosal membranes)
+                        (intravascular, intramuscular, <br /> subcutaneous, and
+                        inhalation administration) or topical (skin and mucosal
+                        membranes)
                       </Tooltip>
                     </div>
                     {formik.touched.drugAdministrationRoute &&
@@ -7587,7 +5969,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -7692,14 +6074,12 @@ const EditAddProduct = ({ placeholder }) => {
                           id="controlledSubstance"
                           onBlur={formik?.handleBlur}
                           name="controlledSubstance"
-                          checked={
-                            formik?.values?.controlledSubstance || false
-                          }
+                          checked={formik?.values?.controlledSubstance || false}
                           onChange={() =>
                             handleCheckboxChange("controlledSubstance")
                           }
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="controlledSubstance"
@@ -7722,13 +6102,13 @@ const EditAddProduct = ({ placeholder }) => {
                         id="wellness-substances-tooltip"
                       >
                         Whether the drug is a controlled substance (e.g., some
-                        OTC drugs are <br /> restricted, some are only
-                        available behind the counter or on prescription).
+                        OTC drugs are <br /> restricted, some are only available
+                        behind the counter or on prescription).
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Vegan</label>
                     <div className={styles.tooltipContainer}>
@@ -7746,7 +6126,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e.
                           <br />, no animal-derived ingredients).
@@ -7795,13 +6175,13 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
                         >
-                          Whether the product is tested on <br /> animals or
-                          is cruelty-free
+                          Whether the product is tested on <br /> animals or is
+                          cruelty-free
                         </label>
                       </span>
                       <span
@@ -7825,9 +6205,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -7875,7 +6253,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -7918,9 +6296,9 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.tooltipSec}
                             id="side-effects-tooltip"
                           >
-                            Common side effects associated with the
-                            medication. Known <br /> interactions with other
-                            drugs or food (eg. Alcohol)
+                            Common side effects associated with the medication.
+                            Known <br /> interactions with other drugs or food
+                            (eg. Alcohol)
                           </Tooltip>
                         </div>
                         <span className={styles.error}></span>
@@ -7969,14 +6347,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Vital Health and Wellness */}
- 
+
           {/* Start the Medical Consumables and Disposables */}
-          {formik?.values?.category?.toLowerCase() === "MedicalConsumablesAndDisposables"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "MedicalConsumablesAndDisposables"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Thickness</label>
@@ -8012,9 +6389,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Product Material
-                    </label>
+                    <label className={styles.formLabel}>Product Material</label>
                     <div className={styles.tooltipContainer}>
                       <input
                         className={styles.formInput}
@@ -8025,12 +6400,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.productMaterial}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            25,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 25, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -8053,9 +6423,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Filtration Type
-                    </label>
+                    <label className={styles.formLabel}>Filtration Type</label>
                     <div className={styles.tooltipContainer}>
                       <Chips
                         value={value.filtrationType}
@@ -8090,7 +6458,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -8168,7 +6536,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Shape</label>
                     <div className={styles.tooltipContainer}>
@@ -8207,7 +6575,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -8269,13 +6637,9 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
-                        <label
-                          className={styles.checkText}
-                          htmlFor="powdered"
-                        >
-                          Whether the gloves are powdered <br /> or
-                          powder-free.
+
+                        <label className={styles.checkText} htmlFor="powdered">
+                          Whether the gloves are powdered <br /> or powder-free.
                         </label>
                       </span>
                       <span
@@ -8295,7 +6659,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -8309,17 +6673,11 @@ const EditAddProduct = ({ placeholder }) => {
                             false
                           }
                           onChange={(e) => {
-                            handleCheckboxChange(
-                              "texture",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "texture",
-                              e?.target?.checked
-                            );
+                            handleCheckboxChange("texture", e?.target?.checked);
+                            formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -8345,10 +6703,8 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
- 
+                    <span className={styles.formHead}>Storage & Handling</span>
+
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -8396,7 +6752,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -8458,7 +6814,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -8487,7 +6843,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -8574,9 +6930,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Layer Count
-                        </label>
+                        <label className={styles.formLabel}>Layer Count</label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
@@ -8639,13 +6993,13 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="fluidResistance"
                             >
-                              Resistance to fluid penetration (e.g., <br />{" "}
-                              for surgical masks)
+                              Resistance to fluid penetration (e.g., <br /> for
+                              surgical masks)
                             </label>
                           </span>
                           <span
@@ -8673,14 +7027,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Medical Consumables and Disposables */}
- 
+
           {/* Start the Laboratory Supplies */}
-          {formik?.values?.category?.toLowerCase() === "LaboratorySupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "LaboratorySupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Physical State</label>
@@ -8715,7 +7068,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Hazard Classification
@@ -8730,10 +7083,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                         onChange={(e) => {
                           setValue(e.value);
-                          formik.setFieldValue(
-                            "hazardClassification",
-                            e.value
-                          );
+                          formik.setFieldValue("hazardClassification", e.value);
                         }}
                       />
                       <span
@@ -8764,12 +7114,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.shape}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -8790,7 +7135,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -8802,12 +7147,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.coating}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -8865,9 +7205,9 @@ const EditAddProduct = ({ placeholder }) => {
                         Purpose (e.g., COVID-19 detection, blood glucose
                         monitoring, cholesterol level check,Pain <br />{" "}
                         relief,Prevention of infection.,Cooling and
-                        soothing.,Moisturizing and healing, procedure <br />{" "}
-                        or use case of tool, Relieves symptoms, promotes
-                        healing, or prevents recurrence.)
+                        soothing.,Moisturizing and healing, procedure <br /> or
+                        use case of tool, Relieves symptoms, promotes healing,
+                        or prevents recurrence.)
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
@@ -8883,12 +7223,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.casNumber}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -8948,7 +7283,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -8984,11 +7319,9 @@ const EditAddProduct = ({ placeholder }) => {
                         id="concen-tooltip"
                       >
                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                        ,Alcohol-based disinfectants are typically 70-90%{" "}
-                        <br />
-                        concentration for optimal antimicrobial efficacy.
-                        Oxygen concentration level provided by the device
-                        (e.g., 95%)
+                        ,Alcohol-based disinfectants are typically 70-90% <br />
+                        concentration for optimal antimicrobial efficacy. Oxygen
+                        concentration level provided by the device (e.g., 95%)
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
@@ -9008,12 +7341,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.connectivity}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9048,12 +7376,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.magnificationRange}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9074,11 +7397,9 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Objective Lenses
-                    </label>
+                    <label className={styles.formLabel}>Objective Lenses</label>
                     <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
@@ -9088,12 +7409,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.objectiveLenses}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9125,12 +7441,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.powerSource}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            500,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 500, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9195,14 +7506,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Laboratory Supplies */}
- 
+
           {/* Start the Diagnostic and Monitoring Devices */}
-          {formik?.values?.category?.toLowerCase() === "DiagnosticAndMonitoringDevices"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "DiagnosticAndMonitoringDevices"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -9250,7 +7560,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Flow Rate</label>
                     <div className={styles.tooltipContainer}>
@@ -9262,12 +7572,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.flowRate}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9324,9 +7629,9 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                         ,Alcohol-based disinfectants are typically 70-90%
-                        concentration for optimal <br /> antimicrobial
-                        efficacy. Oxygen concentration level provided by the
-                        device (e.g., 95%)
+                        concentration for optimal <br /> antimicrobial efficacy.
+                        Oxygen concentration level provided by the device (e.g.,
+                        95%)
                       </Tooltip>
                     </div>
                     <span className={styles.error}></span>
@@ -9348,12 +7653,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.measurementRange}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9386,12 +7686,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.noiseLevel}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9430,7 +7725,7 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Maintenance Notes
@@ -9443,12 +7738,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.maintenanceNotes}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          1000,
-                          "all"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -9466,12 +7756,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.compatibleEquipment}
                       // onChange={formik?.handleChange}
                       onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          formik.setFieldValue,
-                          1000,
-                          "all"
-                        )
+                        handleInputChange(e, formik.setFieldValue, 1000, "all")
                       }
                       onBlur={formik?.handleBlur}
                     />
@@ -9522,10 +7807,13 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                     <AddProductFileUpload
+                      productDetails={productDetail}
                       maxfileCount={
                         4 - (formik?.values?.specificationFile?.length || 0)
                       }
                       fieldInputName={"specificationFileNew"}
+                      oldFieldName={"specificationFile"}
+                      existingFiles={formik?.values?.specificationFile}
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
                       label=""
@@ -9533,12 +7821,19 @@ const EditAddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
-                    {formik.touched.specificationFile &&
-                      formik.errors.specificationFile && (
-                        <span className={styles.error}>
-                          {formik.errors.specificationFile}
-                        </span>
-                      )}
+                    {/* {((formik.touched.specificationFileNew ||
+                      formik.touched.specificationFile) ||
+                      (formik.errors.specificationFileNew ||
+                        formik.errors.specificationFile)) && ( */}
+                    <span className={styles.error}>
+                      {((formik.touched.specificationFileNew ||
+                        formik.touched.specificationFile ||
+                        formik.errors.specificationFileNew ||
+                        formik.errors.specificationFile) &&
+                        formik.errors.specificationFileNew) ||
+                        formik.errors.specificationFile}
+                    </span>
+                    {/* )} */}
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -9584,12 +7879,17 @@ const EditAddProduct = ({ placeholder }) => {
                       </Tooltip>
                     </div>
                     <AddProductFileUpload
+                      productDetails={productDetail}
                       maxfileCount={
                         4 -
-                        (formik?.values?.performanceTestingReportFile
-                          ?.length || 0)
+                        (formik?.values?.performanceTestingReportFile?.length ||
+                          0)
                       }
                       fieldInputName={"performanceTestingReportFileNew"}
+                      oldFieldName={"performanceTestingReportFile"}
+                      existingFiles={
+                        formik?.values?.performanceTestingReportFile
+                      }
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
                       label=""
@@ -9597,26 +7897,32 @@ const EditAddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
-                    {formik.touched.performanceTestingReportFile &&
-                      formik.errors.performanceTestingReportFile && (
-                        <span className={styles.error}>
-                          {formik.errors.performanceTestingReportFile}
-                        </span>
-                      )}
+                    {/* {(formik.touched.performanceTestingReportFileNew ||
+                      formik.touched.performanceTestingReportFile) &&
+                      (formik.errors.performanceTestingReportFileNew ||
+                        formik.errors.performanceTestingReportFile) && ( */}
+                    <span className={styles.error}>
+                      {formik.touched.performanceTestingReportFileNew ||
+                        formik.touched.performanceTestingReportFile ||
+                        ((formik.errors.performanceTestingReportFileNew ||
+                          formik.errors.performanceTestingReportFile) &&
+                          formik.errors.performanceTestingReportFileNew) ||
+                        formik.errors.performanceTestingReportFile}
+                    </span>
+                    {/* )} */}
                   </div>
                 </div>
               </div>
             </>
           )}
           {/* End the Diagnostic and Monitoring Devices */}
- 
+
           {/* Start the Hospital and Clinic Supplies */}
-          {formik?.values?.category?.toLowerCase() === "HospitalAndClinicSupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "HospitalAndClinicSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Thickness</label>
@@ -9630,12 +7936,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.thickness}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -9657,9 +7958,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Product Material
-                    </label>
+                    <label className={styles.formLabel}>Product Material</label>
                     <div className={styles.tooltipContainer}>
                       <input
                         className={styles.formInput}
@@ -9697,7 +7996,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -9736,7 +8035,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Chemical Resistance
@@ -9776,7 +8075,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Powdered</label>
                     <div className={styles.tooltipContainer}>
@@ -9800,11 +8099,8 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
-                        <label
-                          className={styles.checkText}
-                          htmlFor="powdered"
-                        >
+
+                        <label className={styles.checkText} htmlFor="powdered">
                           Whether the gloves are powdered <br />
                           or powder-free.
                         </label>
@@ -9827,7 +8123,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -9841,17 +8137,11 @@ const EditAddProduct = ({ placeholder }) => {
                             false
                           }
                           onChange={(e) => {
-                            handleCheckboxChange(
-                              "texture",
-                              e?.target?.checked
-                            );
-                            formik.setFieldValue(
-                              "texture",
-                              e?.target?.checked
-                            );
+                            handleCheckboxChange("texture", e?.target?.checked);
+                            formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -9877,9 +8167,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -9927,7 +8215,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -9952,7 +8240,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -9982,7 +8270,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
- 
+
                 <span className={styles.formHead}>Technical Details</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
@@ -9997,12 +8285,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.adhesiveness}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -10023,7 +8306,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Absorbency</label>
                     <div className={styles.tooltipContainer}>
@@ -10036,12 +8319,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.absorbency}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            50,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 50, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -10062,7 +8340,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Elasticity</label>
                     <div className={styles.tooltipContainer}>
@@ -10075,12 +8353,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.elasticity}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -10103,9 +8376,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Fluid Resistance
-                    </label>
+                    <label className={styles.formLabel}>Fluid Resistance</label>
                     <div className={styles.tooltipContainer}>
                       <span className={styles.formCheckboxSection}>
                         <input
@@ -10158,14 +8429,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Hospital and Clinic Supplies */}
- 
+
           {/* Start the Orthopedic Supplies */}
-          {formik?.values?.category?.toLowerCase() === "OrthopedicSupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "OrthopedicSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -10181,12 +8451,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.strength}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -10226,7 +8491,8 @@ const EditAddProduct = ({ placeholder }) => {
                         name="moistureResistance"
                         // Ensure that the value reflects the value from formik or the productDetail state
                         value={pharmaOptions.find(
-                          (option) => option?.value === (formik?.values?.moistureResistance)
+                          (option) =>
+                            option?.value === formik?.values?.moistureResistance
                         )}
                         onChange={(selectedOption) =>
                           formik.setFieldValue(
@@ -10291,7 +8557,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -10349,12 +8615,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.coating}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            100,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -10430,7 +8691,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -10551,7 +8812,7 @@ const EditAddProduct = ({ placeholder }) => {
                           />
                         </div>
                       </div>
- 
+
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Color Options
@@ -10601,19 +8862,16 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Orthopedic Supplies */}
- 
+
           {/* Start the Dental Products */}
-          {formik?.values?.category?.toLowerCase() === "DentalProducts"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "DentalProducts"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Product Material
-                    </label>
+                    <label className={styles.formLabel}>Product Material</label>
                     <div className={styles.tooltipContainer}>
                       <input
                         className={styles.formInput}
@@ -10650,7 +8908,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -10689,9 +8947,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Target Condition
-                    </label>
+                    <label className={styles.formLabel}>Target Condition</label>
                     <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
@@ -10743,9 +8999,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -10793,13 +9047,13 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>Usage Rate</label>
- 
+
                         <input
                           className={styles.formInput}
                           type="text"
@@ -10818,14 +9072,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Maintenance Notes
                         </label>
- 
+
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Maintenance Notes"
@@ -10843,14 +9097,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Compatible Equipment
                         </label>
- 
+
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Compatible Equipment"
@@ -10868,7 +9122,7 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                     </div>
@@ -10878,18 +9132,17 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Dental Products */}
- 
+
           {/* Start the Eye Care Supplies */}
-          {formik?.values?.category?.toLowerCase() === "EyeCareSupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "EyeCareSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Frame</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={frameOptions}
@@ -10897,7 +9150,7 @@ const EditAddProduct = ({ placeholder }) => {
                       name="frame"
                       // Ensure that the value reflects the value from formik or the productDetail state
                       value={pharmaOptions.find(
-                        (option) => option?.value === (formik?.values?.frame)
+                        (option) => option?.value === formik?.values?.frame
                       )}
                       onChange={(selectedOption) =>
                         formik.setFieldValue("frame", selectedOption?.value)
@@ -10905,10 +9158,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={lensOptions}
@@ -10916,7 +9169,7 @@ const EditAddProduct = ({ placeholder }) => {
                       name="lens"
                       // Ensure that the value reflects the value from formik or the productDetail state
                       value={pharmaOptions.find(
-                        (option) => option?.value === (formik?.values?.lens)
+                        (option) => option?.value === formik?.values?.lens
                       )}
                       onChange={(selectedOption) =>
                         formik.setFieldValue("lens", selectedOption?.value)
@@ -10926,7 +9179,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Material</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={lensmaterialOptions}
@@ -10934,7 +9187,8 @@ const EditAddProduct = ({ placeholder }) => {
                       name="lensMaterial"
                       // Ensure that the value reflects the value from formik or the productDetail state
                       value={pharmaOptions.find(
-                        (option) => option?.value === (formik?.values?.lensMaterial)
+                        (option) =>
+                          option?.value === formik?.values?.lensMaterial
                       )}
                       onChange={(selectedOption) =>
                         formik.setFieldValue(
@@ -10944,7 +9198,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
- 
+
                     <span className={styles.error}></span>
                   </div>
                 </div>
@@ -10952,7 +9206,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Diameter</label>
- 
+
                     <input
                       className={styles.formInput}
                       type="text"
@@ -10966,12 +9220,12 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
- 
+
                     <span className={styles.error}></span>
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Power</label>
- 
+
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Lens Power"
@@ -10985,10 +9239,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Base Curve</label>
- 
+
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Base Curve"
@@ -11002,7 +9256,7 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Color Options</label>
                     <div className={styles.tooltipContainer}>
@@ -11046,15 +9300,14 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Eye Care Supplies */}
- 
+
           {/* Start the Home Healthcare Products */}
- 
-          {formik?.values?.category?.toLowerCase() === "HomeHealthcareProducts"?.toLowerCase() && (
+
+          {formik?.values?.category?.toLowerCase() ===
+            "HomeHealthcareProducts"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Flow Rate</label>
@@ -11067,12 +9320,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.flowRate}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            20,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 20, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -11093,7 +9341,7 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -11130,10 +9378,9 @@ const EditAddProduct = ({ placeholder }) => {
                         id="concentra-tooltip"
                       >
                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                        ,Alcohol-based disinfectants are typically 70-90%{" "}
-                        <br />
-                        concentration for optimal antimicrobial efficacy.
-                        Oxygen concentration level
+                        ,Alcohol-based disinfectants are typically 70-90% <br />
+                        concentration for optimal antimicrobial efficacy. Oxygen
+                        concentration level
                         <br /> provided by the device (e.g., 95%)
                       </Tooltip>
                     </div>
@@ -11141,9 +9388,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -11191,7 +9436,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -11276,9 +9521,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Battery Type
-                        </label>
+                        <label className={styles.formLabel}>Battery Type</label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
@@ -11317,9 +9560,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Battery Size
-                        </label>
+                        <label className={styles.formLabel}>Battery Size</label>
                         <div className={styles.tooltipContainer}>
                           <input
                             className={styles.formInput}
@@ -11398,9 +9639,7 @@ const EditAddProduct = ({ placeholder }) => {
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
-                        <label className={styles.formLabel}>
-                          Foldability
-                        </label>
+                        <label className={styles.formLabel}>Foldability</label>
                         <div className={styles.tooltipContainer}>
                           <textarea
                             className={styles.formInput}
@@ -11564,12 +9803,17 @@ const EditAddProduct = ({ placeholder }) => {
                           </Tooltip>
                         </div>
                         <AddProductFileUpload
+                          productDetails={productDetail}
                           maxfileCount={
                             4 -
                             (formik?.values?.performanceTestingReportFile
                               ?.length || 0)
                           }
                           fieldInputName={"performanceTestingReportFileNew"}
+                          oldFieldName={"performanceTestingReportFile"}
+                          existingFiles={
+                            formik?.values?.performanceTestingReportFile
+                          }
                           setFieldValue={formik.setFieldValue}
                           initialValues={formik?.values}
                           label=""
@@ -11577,12 +9821,19 @@ const EditAddProduct = ({ placeholder }) => {
                           tooltip={false}
                           showLabel={false}
                         />
-                        {formik.touched.performanceTestingReportFile &&
-                          formik.errors.performanceTestingReportFile && (
-                            <span className={styles.error}>
-                              {formik.errors.performanceTestingReportFile}
-                            </span>
-                          )}
+                        {/* {(formik.touched.performanceTestingReportFileNew ||
+                          formik.touched.performanceTestingReportFile) &&
+                          (formik.errors.performanceTestingReportFileNew ||
+                            formik.errors.performanceTestingReportFile) && ( */}
+                        <span className={styles.error}>
+                          {formik.touched.performanceTestingReportFileNew ||
+                            formik.touched.performanceTestingReportFile ||
+                            ((formik.errors.performanceTestingReportFileNew ||
+                              formik.errors.performanceTestingReportFile) &&
+                              formik.errors.performanceTestingReportFileNew) ||
+                            formik.errors.performanceTestingReportFile}
+                        </span>
+                        {/* )} */}
                       </div>
                     </div>
                   </div>
@@ -11591,14 +9842,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Home Healthcare Products */}
- 
+
           {/* Start the Alternative Medicines */}
-          {formik?.values?.category?.toLowerCase() === "AlternativeMedicines"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "AlternativeMedicines"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -11684,9 +9934,9 @@ const EditAddProduct = ({ placeholder }) => {
                         Purpose (e.g., COVID-19 detection, blood glucose
                         monitoring, cholesterol level check,Pain
                         relief,Prevention of infection.,Cooling
-                        <br /> and soothing.,Moisturizing and healing,
-                        procedure or use case of tool, Relieves symptoms,
-                        promotes healing, or prevents recurrence.)
+                        <br /> and soothing.,Moisturizing and healing, procedure
+                        or use case of tool, Relieves symptoms, promotes
+                        healing, or prevents recurrence.)
                       </Tooltip>
                     </div>
                   </div>
@@ -11727,10 +9977,13 @@ const EditAddProduct = ({ placeholder }) => {
                       />
                     </div>
                     <AddProductFileUpload
+                      productDetails={productDetail}
                       maxfileCount={
                         4 - (formik?.values?.healthClaimsFile?.length || 0)
                       }
                       fieldInputName={"healthClaimsFileNew"}
+                      oldFieldName={"healthClaimsFile"}
+                      existingFiles={formik?.values?.healthClaimsFile}
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
                       label=""
@@ -11738,19 +9991,24 @@ const EditAddProduct = ({ placeholder }) => {
                       tooltip={false}
                       showLabel={false}
                     />
-                    {formik.touched.healthClaimsFile &&
-                      formik.errors.healthClaimsFile && (
-                        <span className={styles.error}>
-                          {formik.errors.healthClaimsFile}
-                        </span>
-                      )}
+                    {/* {(formik.touched.healthClaimsFileNew ||
+                      formik.touched.healthClaimsFile) &&
+                      (formik.errors.healthClaimsFileNew ||
+                        formik.errors.healthClaimsFile) && ( */}
+                    <span className={styles.error}>
+                      {formik.touched.healthClaimsFileNew ||
+                        formik.touched.healthClaimsFile ||
+                        ((formik.errors.healthClaimsFileNew ||
+                          formik.errors.healthClaimsFile) &&
+                          formik.errors.healthClaimsFileNew) ||
+                        formik.errors.healthClaimsFile}
+                    </span>
+                    {/* )} */}
                   </div>
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -11803,14 +10061,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Alternative Medicines */}
- 
+
           {/* Start the Emergency and First Aid Supplies */}
-          {formik?.values?.category?.toLowerCase() === "EmergencyAndFirstAidSupplies"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "EmergencyAndFirstAidSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -11858,7 +10115,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Product Longevity
@@ -11919,12 +10176,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.foldability}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            100,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -11954,9 +10206,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -12008,16 +10258,15 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Emergency and First Aid Supplies */}
- 
+
           {/* Start the Disinfection and Hygiene Supplies */}
-          {formik?.values?.category?.toLowerCase() === "disinfectionAndHygieneSuppliesSchema"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "disinfectionAndHygieneSuppliesSchema"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -12065,7 +10314,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -12102,9 +10351,9 @@ const EditAddProduct = ({ placeholder }) => {
                       >
                         Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                         ,Alcohol-based disinfectants are typically 70-90%
-                        concentration <br /> for optimal antimicrobial
-                        efficacy. Oxygen concentration level provided by the
-                        device (e.g., 95%)
+                        concentration <br /> for optimal antimicrobial efficacy.
+                        Oxygen concentration level provided by the device (e.g.,
+                        95%)
                       </Tooltip>
                     </div>
                   </div>
@@ -12119,12 +10368,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.formulation}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(
-                            e,
-                            formik.setFieldValue,
-                            100,
-                            "all"
-                          )
+                          handleInputChange(e, formik.setFieldValue, 100, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />
@@ -12187,9 +10431,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -12242,14 +10484,13 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Disinfection and Hygiene Supplies */}
- 
+
           {/* Start the Nutrition and Dietary Products */}
-          {formik?.values?.category?.toLowerCase() === "NutritionAndDietaryProducts"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "NutritionAndDietaryProducts"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -12263,7 +10504,8 @@ const EditAddProduct = ({ placeholder }) => {
                         name="dairyFree"
                         // Ensure that the value reflects the value from formik or the productDetail state
                         value={pharmaOptions.find(
-                          (option) => option?.value === (formik?.values?.dairyFree)
+                          (option) =>
+                            option?.value === formik?.values?.dairyFree
                         )}
                         onChange={(selectedOption) =>
                           formik.setFieldValue(
@@ -12333,8 +10575,8 @@ const EditAddProduct = ({ placeholder }) => {
                         className={styles.tooltipSec}
                         id="flavour-option-tooltip"
                       >
-                        Protein powders often come in a wide variety of
-                        flavors like <br />
+                        Protein powders often come in a wide variety of flavors
+                        like <br />
                         chocolate, vanilla, strawberry, cookies & cream, etc.
                       </Tooltip>
                     </div>
@@ -12345,7 +10587,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Amino Acid Profile
@@ -12431,14 +10673,13 @@ const EditAddProduct = ({ placeholder }) => {
                         id="wellness-tooltip"
                       />
                     </div>
-                    {formik.touched.fatContent &&
-                      formik.errors.fatContent && (
-                        <span className={styles.error}>
-                          {formik.errors.fatContent}
-                        </span>
-                      )}
+                    {formik.touched.fatContent && formik.errors.fatContent && (
+                      <span className={styles.error}>
+                        {formik.errors.fatContent}
+                      </span>
+                    )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Health Benefit
@@ -12524,8 +10765,8 @@ const EditAddProduct = ({ placeholder }) => {
                         monitoring, cholesterol level check,Pain
                         relief,Prevention of infection.,Cooling and soothing.,{" "}
                         <br />
-                        Moisturizing and healing, procedure or use case of
-                        tool, Relieves symptoms, promotes healing, or prevents
+                        Moisturizing and healing, procedure or use case of tool,
+                        Relieves symptoms, promotes healing, or prevents
                         recurrence.)
                       </Tooltip>
                     </div>
@@ -12576,7 +10817,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Additives & Sweeteners
@@ -12669,9 +10910,7 @@ const EditAddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
-                    <span className={styles.formHead}>
-                      Storage & Handling
-                    </span>
+                    <span className={styles.formHead}>Storage & Handling</span>
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -12723,16 +10962,15 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Nutrition and Dietary Products */}
- 
+
           {/* Start the Healthcare IT Solutions */}
-          {formik?.values?.category?.toLowerCase() === "HealthcareITSolutions"?.toLowerCase() && (
+          {formik?.values?.category?.toLowerCase() ===
+            "HealthcareITSolutions"?.toLowerCase() && (
             <>
               <div className={styles.section}>
-                <span className={styles.formHead}>
-                  Product Identification
-                </span>
+                <span className={styles.formHead}>Product Identification</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -12925,7 +11163,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -12967,10 +11205,10 @@ const EditAddProduct = ({ placeholder }) => {
                             className={styles.tooltipSec}
                             id="wellness-tooltip"
                           >
-                            Remote monitoring of vital signs (e.g., heart
-                            rate, blood pressure, glucose levels). <br />
-                            Real-time data transmission to healthcare
-                            providers or mobile apps.
+                            Remote monitoring of vital signs (e.g., heart rate,
+                            blood pressure, glucose levels). <br />
+                            Real-time data transmission to healthcare providers
+                            or mobile apps.
                           </Tooltip>
                         </div>
                         {formik.touched.keyFeatures &&
@@ -13072,12 +11310,14 @@ const EditAddProduct = ({ placeholder }) => {
                             </span>
                           )}
                         <AddProductFileUpload
+                          productDetails={productDetail}
                           maxfileCount={
                             4 -
-                            (formik?.values?.interoperabilityFile?.length ||
-                              0)
+                            (formik?.values?.interoperabilityFile?.length || 0)
                           }
                           fieldInputName={"interoperabilityFileNew"}
+                          oldFieldName={"interoperabilityFile"}
+                          existingFiles={formik?.values?.interoperabilityFile}
                           setFieldValue={formik.setFieldValue}
                           initialValues={formik?.values}
                           label=""
@@ -13085,13 +11325,20 @@ const EditAddProduct = ({ placeholder }) => {
                           tooltip={false}
                           showLabel={false}
                         />
- 
-                        {formik.touched.interoperabilityFile &&
-                          formik.errors.interoperabilityFile && (
-                            <span className={styles.error}>
-                              {formik.errors.interoperabilityFile}
-                            </span>
-                          )}
+
+                        {/* {(formik.touched.interoperabilityFileNew ||
+                          formik.touched.interoperabilityFile) &&
+                          (formik.errors.interoperabilityFileNew ||
+                            formik.errors.interoperabilityFile) && ( */}
+                        <span className={styles.error}>
+                          {formik.touched.interoperabilityFileNew ||
+                            formik.touched.interoperabilityFile ||
+                            ((formik.errors.interoperabilityFileNew ||
+                              formik.errors.interoperabilityFile) &&
+                              formik.errors.interoperabilityFileNew) ||
+                            formik.errors.interoperabilityFile}
+                        </span>
+                        {/* )} */}
                       </div>
                     </div>
                   </div>
@@ -13100,40 +11347,49 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Healthcare IT Solutions */}
- 
+
           {/* Start the Health & Safety */}
           <div className={styles.section}>
             <span className={styles.formHead}>Health & Safety</span>
             <div className={styles.formSection}>
               <AddProductFileUpload
+                productDetails={productDetail}
                 maxfileCount={
                   4 - (formik?.values?.safetyDatasheet?.length || 0)
                 }
                 fieldInputName={"safetyDatasheetNew"}
+                oldFieldName={"safetyDatasheet"}
+                existingFiles={formik?.values?.safetyDatasheet}
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values?.safetyDatasheet}
                 label="Safety Datasheet"
                 // fileUpload={safetyDatasheetUpload}
                 tooltip="Specific safety information, instructions or precautions related to product"
               />
- 
+
               <AddProductFileUpload
+                productDetails={productDetail}
                 maxfileCount={
                   4 - (formik?.values?.healthHazardRating?.length || 0)
                 }
                 fieldInputName={"healthHazardRatingNew"}
+                oldFieldName={"healthHazardRating"}
+                existingFiles={formik?.values?.healthHazardRating}
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values?.healthHazardRating || []}
                 label="Health Hazard Rating"
                 // fileUpload={healthHazardUpload}
                 tooltip="Health Hazard Rating Document"
               />
- 
+
               <AddProductFileUpload
+                productDetails={productDetail}
                 maxfileCount={
                   4 - (formik?.values?.environmentalImpact?.length || 0)
                 }
                 fieldInputName={"environmentalImpactNew"}
+                oldFieldName={"environmentalImpact"}
+                existingFiles={formik?.values?.environmentalImpact}
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values}
                 label="Environmental Impact"
@@ -13142,31 +11398,52 @@ const EditAddProduct = ({ placeholder }) => {
               />
             </div>
             <div className={styles.formSection}>
-              {formik.touched.safetyDatasheet &&
-                formik.errors.safetyDatasheet && (
-                  <span className={styles.error}>
-                    {formik.errors.safetyDatasheet}
-                  </span>
-                )}
- 
-              {formik.touched.healthHazardRating &&
-                formik.errors.healthHazardRating && (
-                  <span className={styles.error}>
-                    {formik.errors.healthHazardRating}
-                  </span>
-                )}
- 
-              {formik.touched.environmentalImpact &&
-                formik.errors.environmentalImpact && (
-                  <span className={styles.error}>
-                    {formik.errors.environmentalImpact}
-                  </span>
-                )}
+              {/* {(formik.touched.safetyDatasheetNew ||
+                formik.touched.safetyDatasheet) &&
+                (formik.errors.safetyDatasheetNew ||
+                  formik.errors.safetyDatasheet) && ( */}
+              <span className={styles.error}>
+                {formik.touched.safetyDatasheetNew ||
+                  formik.touched.safetyDatasheet ||
+                  ((formik.errors.safetyDatasheetNew ||
+                    formik.errors.safetyDatasheet) &&
+                    formik.errors.safetyDatasheetNew) ||
+                  formik.errors.safetyDatasheet}
+              </span>
+              {/* )} */}
+
+              {/* {(formik.touched.healthHazardRatingNew ||
+                formik.touched.healthHazardRating) &&
+                (formik.errors.healthHazardRatingNew ||
+                  formik.errors.healthHazardRating) && ( */}
+              <span className={styles.error}>
+                {formik.touched.healthHazardRatingNew ||
+                  formik.touched.healthHazardRating ||
+                  ((formik.errors.healthHazardRatingNew ||
+                    formik.errors.healthHazardRating) &&
+                    formik.errors.healthHazardRatingNew) ||
+                  formik.errors.healthHazardRating}
+              </span>
+              {/* )} */}
+
+              {/* {(formik.touched.environmentalImpactNew ||
+                formik.touched.environmentalImpact) &&
+                (formik.errors.environmentalImpactNew ||
+                  formik.errors.environmentalImpact) && ( */}
+              <span className={styles.error}>
+                {formik.touched.environmentalImpactNew ||
+                  formik.touched.environmentalImpact ||
+                  ((formik.errors.environmentalImpactNew ||
+                    formik.errors.environmentalImpact) &&
+                    formik.errors.environmentalImpactNew) ||
+                  formik.errors.environmentalImpact}
+              </span>
+              {/* )} */}
             </div>
           </div>
- 
+
           {/* End the Health & Safety */}
- 
+
           {/* Start the Additional Information */}
           <div className={styles.additionalSection}>
             <span className={styles.formHead}>Additional Information</span>
@@ -13187,24 +11464,32 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
- 
+
               <AddProductFileUpload
-                maxfileCount={
-                  4 - (formik?.values?.guidelinesFile?.length || 0)
-                }
+                productDetails={productDetail}
+                maxfileCount={4 - (formik?.values?.guidelinesFile?.length || 0)}
                 fieldInputName={"guidelinesFileNew"}
+                oldFieldName={"guidelinesFile"}
+                existingFiles={formik?.values?.guidelinesFile}
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values}
                 label="User Guidelines"
                 // fileUpload={userGuidelinesUpload}
                 tooltip="Specific information, instructions related to product."
               />
-              {formik.touched.guidelinesFile &&
-                formik.errors.guidelinesFile && (
-                  <span className={styles.error}>
-                    {formik.errors.guidelinesFile}
-                  </span>
-                )}
+              {/* {(formik.touched.guidelinesFileNew ||
+                formik.touched.guidelinesFile) &&
+                (formik.errors.guidelinesFileNew ||
+                  formik.errors.guidelinesFile) && ( */}
+              <span className={styles.error}>
+                {formik.touched.guidelinesFileNew ||
+                  formik.touched.guidelinesFile ||
+                  ((formik.errors.guidelinesFileNew ||
+                    formik.errors.guidelinesFile) &&
+                    formik.errors.guidelinesFileNew) ||
+                  formik.errors.guidelinesFile}
+              </span>
+              {/* )} */}
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Other Information</label>
                 <div className={styles.tooltipContainer}>
@@ -13235,18 +11520,17 @@ const EditAddProduct = ({ placeholder }) => {
                     className={styles.tooltipSec}
                     id="other-information-tooltip"
                   >
-                    Any relevant, additional or other information regarding
-                    the product (eg. Prescribing <br /> Info for Medication or
-                    Dosage Info or regarding the shipping of large devices
-                    etc)
+                    Any relevant, additional or other information regarding the
+                    product (eg. Prescribing <br /> Info for Medication or
+                    Dosage Info or regarding the shipping of large devices etc)
                   </Tooltip>
                 </div>
               </div>
             </div>
           </div>
- 
+
           {/* End the Additional Information */}
- 
+
           {/* Start button section */}
           <div className={styles.buttonContainer}>
             <button className={styles.buttonCancel}>Cancel</button>
@@ -13254,7 +11538,7 @@ const EditAddProduct = ({ placeholder }) => {
               Submit
             </button>
           </div>
- 
+
           {/* End button section */}
         </form>
         {/* //   </Row> */}
@@ -13262,5 +11546,5 @@ const EditAddProduct = ({ placeholder }) => {
     </div>
   );
 };
- 
+
 export default EditAddProduct;
