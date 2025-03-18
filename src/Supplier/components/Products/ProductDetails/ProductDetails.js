@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react";
-import Modal from "react-modal";
-import CloseIcon from "../../../assets/images/Icon.svg";
 import styles from "./productdetail.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import RenderProductFiles from "../RenderProductFiles";
+import { useState, useEffect } from "react"; // Added missing imports
+import Modal from "react-modal"; // Ensure this is imported
+import CloseIcon from "../../../assets/images/Icon.svg"; // Replace with actual path
+
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const pdfUrl =
-    `${process.env.REACT_APP_SERVER_URL}/uploads/products/${productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0]}` ||
-    "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+  const pdfFile = productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
+  const pdfUrl = pdfFile
+    ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
+  console.log("Constructed PDF URL:", pdfUrl); 
 
   useEffect(() => {
     if (id) {
@@ -22,17 +26,10 @@ const ProductDetails = () => {
     }
   }, [id]);
 
-  console.log("productDetails fromredux", productDetail);
-  console.log(
-    "productDetail?.[productDetail?.category]",
-    productDetail?.[productDetail?.category]
-  );
-
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
-  console.log(getCategoryData)
 
   return (
     <div className={styles.container}>
@@ -127,16 +124,19 @@ const ProductDetails = () => {
                             <span className={styles.medicineHead}>
                               Minimum Purchase Unit
                             </span>
-                            <span className={styles.medicineText}>20000</span>
+                            <span className={styles.medicineText}>{productDetail?.secondayMarketDetails?.minimumPurchaseUnit}</span>
                           </div>
                         )}
                     </div>
                   )}
+
+
                 {productDetail?.secondayMarketDetails?.purchaseInvoiceFile
                   ?.length > 0 && (
                     <div className={styles.mainPurchaseSection}>
+
                       <button
-                        className={styles.PurcahseButton}
+                        className={styles.PurcahseButton} // Add this class in your CSS if needed
                         onClick={() => setModalIsOpen(true)}
                       >
                         View Purchase Invoice
@@ -280,7 +280,7 @@ const ProductDetails = () => {
             <div className={styles.manufacturerDescriptionSection}>
               <span className={styles.medicineHead}>Product Description</span>
               <span
-                className={styles.medicineContent}
+                className={styles.medicineDescriptionContent}
                 dangerouslySetInnerHTML={{
                   __html: productDetail?.general?.description,
                 }}
@@ -2552,15 +2552,20 @@ const ProductDetails = () => {
             className={styles.closeButton}
             onClick={() => setModalIsOpen(false)}
           >
-            <img className={styles.closeImg} src={CloseIcon} alt="clsoeIcon" />
+            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
           </div>
 
-          {/* PDF display using iframe */}
-          <iframe
-            src={pdfUrl}
-            className={styles.pdfIframe}
-            title="Purchase Invoice"
-          ></iframe>
+          {/* PDF display using iframe with error handling */}
+          {pdfFile ? (
+            <iframe
+              src={pdfUrl}
+              className={styles.pdfIframe}
+              title="Purchase Invoice"
+              onError={() => alert("Failed to load PDF. Please check the file path.")}
+            ></iframe>
+          ) : (
+            <p>Error: PDF file not found.</p>
+          )}
         </Modal>
       </div>
     </div>
