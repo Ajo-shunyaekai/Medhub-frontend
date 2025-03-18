@@ -131,7 +131,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                     
                     const marketType = active === 'product' ? 'new' : 'secondary';
                     const response = await dispatch(
-                        fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+                        fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}`)
                     );
                     if (response.meta.requestStatus === 'fulfilled') {
                         console.log('Products fetched successfully:', response.payload);
