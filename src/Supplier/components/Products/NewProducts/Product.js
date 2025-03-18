@@ -68,6 +68,7 @@ const Product = () => {
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage = localStorage.getItem("supplier_id");
+        const supplier_id = sessionStorage.getItem("_id") || localStorage.getItem("_id");
 
         if (!supplierIdSessionStorage && !supplierIdLocalStorage) {
             navigate("/supplier/login");
@@ -77,7 +78,7 @@ const Product = () => {
             
             const marketType = activeButton === 'newproduct' ? 'new' : 'secondary';
             const response = await dispatch(
-                fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+                fetchProductsList(`product?market=${marketType}&supplier_id=${supplier_id}&page_no=${currentPage}&page_size=${itemsPerPage}`)
             );
             if (response.meta.requestStatus === 'fulfilled') {
                 console.log('Products fetched successfully:', response.payload);

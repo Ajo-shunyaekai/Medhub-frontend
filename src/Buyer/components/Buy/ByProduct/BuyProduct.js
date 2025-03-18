@@ -9,15 +9,18 @@ import Nutraceutical from '../../../assets/images/Buy/neutraceutical.svg'
 import Arrow from '../../../assets/images/Buy/arrow.svg'
 import Search from '../../../assets/images/Buy/search-icon.svg'
 import { postRequestWithToken } from '../../../../api/Requests';
+import { useDispatch, useSelector } from "react-redux";
 import Pagination from 'react-js-pagination';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
+import { fetchProductsList } from '../../../../redux/reducers/productSlice';
 
 const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
     
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
@@ -60,6 +63,7 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
     const fetchData = async () => {
         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+       
  
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
         navigate("/buyer/login");
@@ -112,6 +116,34 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
         }
         fetchData()
     },[searchKey, currentPage, filterCategory])
+
+
+//      useEffect(() => {
+//         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+//         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+       
+//         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+//         navigate("/buyer/login");
+//         return;
+//         }
+//         if(active === 'product') {
+//             const fetchData = async () => {
+                
+//                 const marketType = active === 'product' ? 'new' : 'secondary';
+//                 const response = await dispatch(
+//                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+//                 );
+//                 if (response.meta.requestStatus === 'fulfilled') {
+//                     console.log('Products fetched successfully:', response.payload);
+//                     setMedicineList(response.payload.products)
+//                     setTotalitems(response.payload?.totalItems);
+//                     setLoading(false);
+//                 }
+//             };
+//             fetchData();
+//         }
+//         }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
+// console.log('medicineList',medicineList)
     return (
         <>
         {loading ? (
@@ -205,10 +237,10 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
                         </div>
                         </div>
                         <div className='byproduct-product-card-first-section'>
-                            <Link to={`/buyer/search-product-details/${medicine.medicine_id}`}>
+                            <Link to={`/buyer/search-product-details/${medicine?.medicine_id}`}>
                         <div className='byproduct-product-card-first-left'>
-                            <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
-                            <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg`}</div>
+                            <div className='byproduct-product-card-first-copmany-name'>{medicine?.medicine_name}</div>
+                            <div className='byproduct-product-card-first-copmany-description'>{medicine?.strength?.includes('mg') ? medicine.strength : `${medicine.strength}mg`}</div>
                         </div>
                         </Link>
                         <div className='byproduct-product-card-second-section'>
@@ -286,4 +318,5 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
     );
 }
 
-export default BuyProduct;
+export default BuyProduct
+
