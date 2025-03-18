@@ -2951,37 +2951,6 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Part/Model Number"
-                      // autoComplete="off"
-                      name="model"
-                      value={values.model}
-                      // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 20, 'all')}
-                      onBlur={handleBlur}
-                    />
-                    {touched.model && errors.model && (
-                      <span className={styles.error}>{errors.model}</span>
-                    )}
-                  </div>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Brand Name</label>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Brand Name"
-                      // autoComplete="off"
-                      name="brand"
-                      value={values.brand}
-                      // onChange={handleChange}
-                      onChange={(e) => handleInputChange(e, setFieldValue, 75, 'text')}
-                      onBlur={handleBlur}
-                    />
-                    <span className={styles.error}></span>
-
                     <Field name={`productPricingDetails.${index}.quantity`}>
                       {({ field }) => (
                         <Select
@@ -3006,7 +2975,6 @@ const AddProduct = ({ placeholder }) => {
                       {touched.productPricingDetails?.[index]?.quantity &&
                         errors.productPricingDetails?.[index]?.quantity}
                     </span>
-
                   </div>
 
                   <div className={styles.productContainer}>
@@ -6048,7 +6016,8 @@ const AddProduct = ({ placeholder }) => {
                               data-tooltip-id="wellness-tooltip"
                               data-tooltip-content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."
                             >
-                              <img
+                  
+            <img
                                 src={Information}
                                 className={styles.iconTooltip}
                                 alt="information"
