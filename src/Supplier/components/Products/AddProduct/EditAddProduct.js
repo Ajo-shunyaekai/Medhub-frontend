@@ -68,8 +68,6 @@ const EditAddProduct = ({ placeholder }) => {
   const { loading, productDetail } = useSelector(
     (state) => state?.productReducer
   );
-  console.log("productDetail", productDetail);
-  console.log("name", productDetail?.general?.name);
   const formik = useFormik({
     initialValues: {
       name: productDetail?.general?.name || "",
@@ -1455,8 +1453,6 @@ const EditAddProduct = ({ placeholder }) => {
       formData.append("stockedInDetails", stockedInDetailsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
 
-      console.log("formData for API:", formData);
-
       // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData }));
 
@@ -1586,7 +1582,6 @@ const EditAddProduct = ({ placeholder }) => {
   };
 
   const getLevel3Categories = (subCategoryName) => {
-    console.log("subCategoryName", subCategoryName);
     const category = categoryArrays.find(
       (cat) =>
         cat.name ===
@@ -1727,7 +1722,6 @@ const EditAddProduct = ({ placeholder }) => {
     const day = String(parsedDate.getDate()).padStart(2, "0"); // 01-31
     const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // 01-12
     const year = parsedDate.getFullYear();
-    console.log("formatDateToDDMMYYYY", `${day}-${month}-${year}`);
     return `${day}-${month}-${year}`;
   };
 
@@ -1746,7 +1740,6 @@ const EditAddProduct = ({ placeholder }) => {
       const secondayMarketDetails = productDetail?.secondayMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
 
-      console.log("categoryDetails", inventoryDetails);
       formik.setValues({
         name: general?.name || "",
         description: general?.description || "",
@@ -1920,15 +1913,6 @@ const EditAddProduct = ({ placeholder }) => {
     }
   }, [productDetail]); // Add formik to the dependency array
 
-  console.log("interoperability", formik?.values?.interoperability);
-  console.log("TESTING REPORT", formik.values?.performanceTestingReportFile);
-  console.log(
-    "TESTING REPORT NEW",
-    formik.values?.performanceTestingReportFileNew
-  );
-  console.log("Formik Values Image:", formik.values.image);
-  console.log("Formik Values Image New:", formik.values.imageNew);
-
   return (
     <div className={styles.container}>
       <FormikProvider value={formik}>
@@ -2017,31 +2001,6 @@ const EditAddProduct = ({ placeholder }) => {
                   Product Category
                   <span className={styles?.labelStamp}>*</span>
                 </label>
-                {/* <Select
-                  className={styles.formSelect}
-                  options={categoryOptions}
-                  // value={selectedCategory}
-                  // Ensure that the value reflects the value from formik or the productDetail state
-                  value={Options.find(
-                    (option) => option?.value === (formik?.values?.category)
-                  )}
-                  onBlur={formik?.handleBlur}
-                  onChange={(selectedOption) => {
-                    formik.setFieldValue("category", selectedOption?.value);
-                    setSelectedCategory(selectedOption);
-                    // formik.setFieldValue(
-                    //   "category",
-                    //   categoryArrays?.find(
-                    //     (cat) => cat?.name === selectedOption?.label
-                    //   )?.schema || null
-                    // );
-                    setSelectedSubCategory(null);
-                    formik.setFieldValue("subCategory", "");
-                    setSelectedLevel3Category(null);
-                    formik.setFieldValue("anotherCategory", "");
-                  }}
-                  placeholder="Select Category"
-                /> */}
                 <Select
                   className={styles.formSelect}
                   options={categoryOptions}
@@ -2072,28 +2031,8 @@ const EditAddProduct = ({ placeholder }) => {
                   Product Sub Category
                   <span className={styles?.labelStamp}>*</span>
                 </label>
-                {/* <Select
-                  className={styles.formSelect}
-                  options={selectedCategory ? getSubCategories(selectedCategory?.label) : []}
-                  value={
-                    selectedSubCategory ||
-                    getSubCategories(selectedCategory?.label)?.find(
-                      (option) => option?.label === formik?.values?.subCategory
-                    ) ||
-                    null // Ensures that value is set correctly based on formik or local state
-                  }
-                  onBlur={formik?.handleBlur}
-                  onChange={(selectedOption) => {
-                    setSelectedSubCategory(selectedOption); // Set the selectedSubCategory state
-                    setSelectedLevel3Category(null); // Reset Level 3 category when subcategory changes
-                    formik.setFieldValue("subCategory", selectedOption?.value); // Update Formik state
-                  }}
-                  placeholder="Select Sub Category"
-                  isDisabled={!selectedCategory} // Disable when no category is selected
-                /> */}
                 <Select
                   className={styles.formSelect}
-                  // options={useMemo(() => (selectedCategory ? getSubCategories(selectedCategory?.label) : []))}
                   options={
                     categoryOptions.find(
                       (option) => option?.value === formik?.values?.category
@@ -2132,34 +2071,6 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
 
-              {/* <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Product Sub Category (Level 3)
-                </label>
-                <Select
-                  className={styles.formSelect}
-                  onBlur={formik?.handleBlur}
-                  options={
-                    selectedSubCategory
-                      ? getLevel3Categories(selectedSubCategory.value)
-                      : []
-                  }
-                  // value={selectedLevel3Category}
-                  // Ensure that the value reflects the value from formik or the productDetail state
-                  // value={getLevel3Categories(selectedSubCategory.value)?.find(
-                  //   (option) => option?.value === (formik?.values?.anotherCategory)
-                  // ) ||selectedLevel3Category||  null}
-                  onChange={(selectedOption) => {
-                    setSelectedLevel3Category(selectedOption);
-                    formik.setFieldValue(
-                      "anotherCategory",
-                      selectedOption?.value
-                    );
-                  }}
-                  placeholder="Select Level 3 Category"
-                  isDisabled={!selectedSubCategory}
-                />
-              </div> */}
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category (Level 3)
@@ -2283,6 +2194,10 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholderButtonLabel="Select Countries"
                       name="countryAvailable"
                       // value={formik?.values?.countryAvailable} // Bind Formik's state
+                      value={formik.values.countryAvailable.map((country) => ({
+                        label: country,
+                        value: country,
+                      }))}
                       onChange={(selectedOptions) => {
                         // Ensure we map selected options correctly
                         const selectedValues = selectedOptions
@@ -2367,7 +2282,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <input
                   className={styles.formInput}
                   type="text"
-                  placeholder="Enter Dossier Status"
+                  placeholder="Enter Part/Model Number"
                   // autoComplete="off"
                   name="model"
                   value={formik?.values?.model}
@@ -2723,21 +2638,6 @@ const EditAddProduct = ({ placeholder }) => {
                   Manufacturer Contry of Origin
                   <span className={styles?.labelStamp}>*</span>
                 </label>
-                {/* <Select
-                  name="countryOfOrigin"
-                  options={countries}
-                  placeholder="Select Country of Origin"
-                  value={countries.find((option) => option.value === formik.values.countryOfOrigin) || null}
-                  onBlur={formik?.handleBlur}
-                  onChange={(selectedOption) => {
-                    formik.setFieldValue(
-                      "countryOfOrigin",
-                      selectedOption?.label
-                    );
-                  }}
-                  
-                /> */}
-
                 <Select
                   name="countryOfOrigin"
                   options={countries}
@@ -3004,7 +2904,6 @@ const EditAddProduct = ({ placeholder }) => {
 
               {formik?.values?.stockedInDetails?.map((stock, index) => (
                 <div key={index} className={styles.formSection}>
-                  {console.log("inventoryStockedCountries", stock)}
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Countries where Stock Trades
@@ -3860,11 +3759,6 @@ const EditAddProduct = ({ placeholder }) => {
                       testing).
                     </Tooltip>
                   </div>
-                  {console.log(
-                    "formik image files",
-                    formik?.values?.image,
-                    formik?.values?.imageNew
-                  )}
                   <AddProductFileUpload
                     productDetails={productDetail}
                     maxfileCount={

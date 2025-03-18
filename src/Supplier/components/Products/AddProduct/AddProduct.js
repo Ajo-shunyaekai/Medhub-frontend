@@ -2241,7 +2241,7 @@ import React, {
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dossier Status"
+                      placeholder="Enter Part/Model Number"
                       // autoComplete="off"
                       name="model"
                       value={values.model}
