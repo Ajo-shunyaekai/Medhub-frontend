@@ -1,0 +1,112 @@
+import React from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import styles from './addproduct.module.css'; // Optional CSS module
+
+const RichTextEditor = ({
+  value,
+  onChange,
+  onBlur,
+  name,
+  label,
+  error,
+  touched,
+  height = 500,
+}) => {
+  const editorRef = React.useRef(null);
+
+  return (
+    <div className={styles.descriptionContainer}>
+      {label && (
+        <label className={styles.formLabel}>
+          {label}
+          <span className={styles.labelStamp}>*</span>
+        </label>
+      )}
+      <Editor
+        value={value}
+        name={name}
+        apiKey="wvcl8z7mpoz0ed40t8k6s4a86vd4eegy6w7wryudvgrkdufd"
+        onInit={(evt, editor) => (editorRef.current = editor)}
+        init={{
+          height: height,
+          width: '100%',
+          menubar: 'file edit view insert format tools table help',
+          plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'paste', 'code', 'help', 'wordcount',
+            'save', 'emoticons', 'codesample', 'quickbars', 'directionality'
+          ],
+          toolbar: [
+            'undo redo | blocks | bold italic underline strikethrough | forecolor backcolor | ' +
+            'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | ' +
+            'link image media table | removeformat | code preview fullscreen | help',
+            'fontselect fontsizeselect | superscript subscript | charmap emoticons codesample | ltr rtl'
+          ].join(' '),
+          content_style: `
+            body { 
+              font-family: Helvetica, Arial, sans-serif; 
+              font-size: 14px; 
+              margin: 10px; 
+            }
+            img { 
+              max-width: 200px; 
+              height: auto; 
+              display: block; 
+            }
+            .image-wrapper { 
+              display: inline-block; 
+              text-align: center; 
+              margin: 10px 0; 
+            }
+            .image-caption { 
+              font-size: 12px; 
+              color: #666; 
+              margin-top: 5px; 
+            }
+          `,
+          // Disable automatic uploads to avoid conflicts
+          automatic_uploads: false,
+          file_picker_types: 'image file media',
+          file_picker_callback: (callback, value, meta) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : '*/*');
+
+            input.onchange = function () {
+              const file = this.files[0];
+              const fileName = file.name;
+              const reader = new FileReader();
+              reader.onload = () => {
+                // Create a custom HTML structure with the image and filename below it
+                const html = `
+                  <div class="image-wrapper">
+                    <img src="${reader.result}" alt="${fileName}" />
+                    <div class="image-caption">${fileName}</div>
+                  </div>
+                `;
+                callback(html, { title: fileName }); // Insert the custom HTML
+              };
+              reader.readAsDataURL(file);
+            };
+
+            input.click();
+          },
+          statusbar: true,
+          resize: true,
+          placeholder: 'Start typing here...',
+          quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+          toolbar_sticky: true,
+          contextmenu: 'link image table',
+        }}
+        onBlur={onBlur}
+        onEditorChange={onChange}
+      />
+      {touched && error && (
+        <span className={styles.error} style={{ fontSize: "12px" }}>{error}</span>
+      )}
+    </div>
+  );
+};
+
+export default RichTextEditor;

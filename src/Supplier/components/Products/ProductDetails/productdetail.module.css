@@ -147,6 +147,19 @@
     overflow-wrap: break-word;
     width: 100%; 
 }
+.medicineDescriptionContent{
+    color: #99a0ac;
+    font-size: 14px;
+    font-weight: 500;
+    word-wrap: break-word; 
+    white-space: normal;     
+    overflow-wrap: break-word;
+    width: 100%; 
+}
+.medicineDescriptionContent img{
+    width: 180px;
+    height: auto;
+}
 .innerMainSection {
     display: flex;
     flex-direction: column;
