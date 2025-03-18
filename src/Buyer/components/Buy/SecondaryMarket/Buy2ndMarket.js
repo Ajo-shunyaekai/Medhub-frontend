@@ -15,9 +15,12 @@ import { postRequestWithToken } from '../../../../api/Requests';
 import Loader from '../../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../../api';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsList } from '../../../../redux/reducers/productSlice';
 
 const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
     
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([])
@@ -113,6 +116,33 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
         }
         fetchData()
     },[searchKey, currentPage, filterCategory])
+
+
+    //  useEffect(() => {
+    //         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+    //         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+           
+    //         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+    //         navigate("/buyer/login");
+    //         return;
+    //         }
+    //         if(active === 'market') {
+    //             const fetchData = async () => {
+                    
+    //                 const marketType = active === 'product' ? 'new' : 'secondary';
+    //                 const response = await dispatch(
+    //                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+    //                 );
+    //                 if (response.meta.requestStatus === 'fulfilled') {
+    //                     console.log('Products fetched successfully:', response.payload);
+    //                     setMedicineList(response?.payload?.products)
+    //                     setTotalitems(response?.payload?.totalItems);
+    //                     setLoading(false);
+    //                 }
+    //             };
+    //             fetchData();
+    //         }
+    //         }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
    
     return (
         <>
@@ -208,7 +238,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                 <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
                                     <div className='byproduct-product-card-first-left'>
                                         <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
-                                        <div className='byproduct-product-card-first-copmany-description'>{medicine.strength.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>
+                                        <div className='byproduct-product-card-first-copmany-description'>{medicine?.strength?.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>
                                     </div>
                                     </Link>
                                     <div className='byproduct-product-card-second-section'>
@@ -267,3 +297,4 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
 }
 
 export default Buy2ndMarket;
+

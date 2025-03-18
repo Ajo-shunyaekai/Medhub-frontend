@@ -1,15 +1,15 @@
 import React from "react";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import styles from './ProductDetails/productdetail.module.css'
-
+ 
 const extractFileName = (url) => {
   return url.split("/").pop();
 };
-
+ 
 const RenderProductFiles = ({ files }) => {
   return files?.map((file, index) => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+ 
     if (file.endsWith(".pdf")) {
       return (
         <div key={index} className={styles.uploadFileContainer}>
@@ -42,9 +42,9 @@ const RenderProductFiles = ({ files }) => {
         ".docx"
       );
       const docxUrl = `${serverUrl}uploads/products/${docxFileName}`;
-
+ 
       return (
-
+ 
         <div key={index} className={styles.uploadFileContainer}>
           <FaFileWord
             size={50}
@@ -72,9 +72,9 @@ const RenderProductFiles = ({ files }) => {
     }
   });
 };
-
+ 
 export default RenderProductFiles;
-
+ 
 {
   /* <div >
                 <img src={Doc} className={styles.productIcon} alt="Doc" />
