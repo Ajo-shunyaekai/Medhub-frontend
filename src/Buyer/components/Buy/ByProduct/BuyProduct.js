@@ -118,32 +118,32 @@ const BuyProduct = ({active, filterCategory, setFilterCategory}) => {
     },[searchKey, currentPage, filterCategory])
 
 
-    //  useEffect(() => {
-    //     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-    //     const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+//      useEffect(() => {
+//         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+//         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
        
-    //     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-    //     navigate("/buyer/login");
-    //     return;
-    //     }
-    //     if(active === 'product') {
-    //         const fetchData = async () => {
+//         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+//         navigate("/buyer/login");
+//         return;
+//         }
+//         if(active === 'product') {
+//             const fetchData = async () => {
                 
-    //             const marketType = active === 'product' ? 'new' : 'secondary';
-    //             const response = await dispatch(
-    //                 fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
-    //             );
-    //             if (response.meta.requestStatus === 'fulfilled') {
-    //                 console.log('Products fetched successfully:', response.payload);
-    //                 setMedicineList(response.payload.products)
-    //                 setTotalitems(response.payload?.totalItems);
-    //                 setLoading(false);
-    //             }
-    //         };
-    //         fetchData();
-    //     }
-    //     }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
-console.log('medicineList',medicineList)
+//                 const marketType = active === 'product' ? 'new' : 'secondary';
+//                 const response = await dispatch(
+//                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
+//                 );
+//                 if (response.meta.requestStatus === 'fulfilled') {
+//                     console.log('Products fetched successfully:', response.payload);
+//                     setMedicineList(response.payload.products)
+//                     setTotalitems(response.payload?.totalItems);
+//                     setLoading(false);
+//                 }
+//             };
+//             fetchData();
+//         }
+//         }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
+// console.log('medicineList',medicineList)
     return (
         <>
         {loading ? (
@@ -318,5 +318,5 @@ console.log('medicineList',medicineList)
     );
 }
 
-export default BuyProduct;
+export default BuyProduct
 
