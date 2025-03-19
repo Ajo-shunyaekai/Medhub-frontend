@@ -337,22 +337,22 @@ const EditAddProduct = ({ placeholder }) => {
       volumn: Yup.string().required("Product Size/Volumn is required."),
       weight: Yup.number().required("Product Weight is required."),
       unit: Yup.string().required("Product Weight Unit is required."),
-      packageType: Yup.string().required("Product Packaging Type is required."),
-      packageMaterial: Yup.string().required(
-        "Product Packaging Material is required."
-      ),
-      packageMaterialIfOther: Yup.string()
-        .when("packageMaterial", {
-          is: "Other",
-          then: Yup.string().required("Package Material Name is required."),
-        })
-        .nullable(),
-      packageMaterialIfOther: Yup.string().when("packageMaterial", {
-        is: "Other",
-        then: Yup.string().required(
-          "Product Packaging Material Other Name is required."
-        ),
-      }),
+      // packageType: Yup.string().required("Product Packaging Type is required."),
+      // packageMaterial: Yup.string().required(
+      //   "Product Packaging Material is required."
+      // ),
+      // packageMaterialIfOther: Yup.string()
+      //   .when("packageMaterial", {
+      //     is: "Other",
+      //     then: Yup.string().required("Package Material Name is required."),
+      //   })
+      //   .nullable(),
+      // packageMaterialIfOther: Yup.string().when("packageMaterial", {
+      //   is: "Other",
+      //   then: Yup.string().required(
+      //     "Product Packaging Material Other Name is required."
+      //   ),
+      // }),
       // costPerProduct: Yup.string().required("Cost Per Unit is required."),
       sku: Yup.string().required("SKU is required."),
       stock: Yup.string()
@@ -362,18 +362,63 @@ const EditAddProduct = ({ placeholder }) => {
       countries: Yup.array()
         .min(1, "At least one country must be selected.")
         .of(Yup.string().required("Country Available is required.")),
-      date: Yup.string().required("Date is required."),
-      stockedInDetails: Yup.array()
-        .of(
-          Yup.object({
-            country: Yup.string().required("Country is required."),
-            quantity: Yup.number()
-              .required("Quantity is required.")
-              .positive("Quantity must be greater than 0"),
-            type: Yup.string().required("Type is required."),
-          })
+      // date: Yup.string().required("Date is required."),
+      date: Yup.string()
+        // .required("Date is required.")
+        // .test(
+        //   'is-valid-date',
+        //   'Please enter a valid date',
+        //   function (value) {
+        //     if (!value) return false;
+
+        //     // Split the date and convert to numbers
+        //     const parts = value.split('-');
+        //     if (parts.length !== 3) return false;
+
+        //     const day = parseInt(parts[0], 10);
+        //     const month = parseInt(parts[1], 10);
+        //     const year = parseInt(parts[2], 10);
+
+        //     // Check if date is valid (using Date object)
+        //     const date = new Date(year, month - 1, day);
+        //     return (
+        //       date.getFullYear() === year &&
+        //       date.getMonth() === month - 1 &&
+        //       date.getDate() === day
+        //     );
+        //   }
+        // )
+        .test(
+          "not-future-date",
+          "Future dates are not allowed",
+          function (value) {
+            if (!value) return true;
+
+            const parts = value.split("-");
+            if (parts.length !== 3) return true;
+
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10);
+            const year = parseInt(parts[2], 10);
+
+            const enteredDate = new Date(year, month - 1, day);
+            const today = new Date();
+
+            return enteredDate <= today;
+          }
         )
-        .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
+        .nullable(),
+      // stockedInDetails: Yup.array()
+      //   .of(
+      //     Yup.object({
+      //       country: Yup.string().required("Country is required."),
+      //       quantity: Yup.number()
+      //         .required("Quantity is required.")
+      //         .positive("Quantity must be greater than 0"),
+      //       type: Yup.string().required("Type is required."),
+      //     })
+      //   )
+      //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
       productPricingDetails: Yup.array()
         .of(
           Yup.object({
@@ -856,7 +901,7 @@ const EditAddProduct = ({ placeholder }) => {
         .when("category", {
           is: (category) =>
             [
-              "Pharmaceuticals",
+              // "Pharmaceuticals",
               "SkinHairCosmeticSupplies",
               "VitalHealthAndWellness",
             ].includes(category),
@@ -1638,7 +1683,7 @@ const EditAddProduct = ({ placeholder }) => {
         purchaseInvoiceFile: secondayMarketDetails?.purchaseInvoiceFile || [],
         purchaseInvoiceFileNew: secondayMarketDetails?.purchaseInvoiceFileNew || [],
         condition: secondayMarketDetails?.condition || "",
-        minimumPurchaseUnit: secondayMarketDetails?.minimumPurchaseUnit || "",
+        minimumPurchaseUnit: secondayMarketDetails?.minimumPurchaseUnit || "",
         subCategory: categoryDetails?.subCategory || "",
         anotherCategory: categoryDetails?.anotherCategory || "",
         stockedInDetails: inventoryDetails?.stockedInDetails || [
@@ -1972,8 +2017,7 @@ const EditAddProduct = ({ placeholder }) => {
                 />
               </div>
 
-              {/* {productType === "secondary product" && ( */}
-              {formik?.values?.market === "secondary" && (
+              {formik?.values?.market === "secondary" && (
                 <>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -2329,10 +2373,10 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Material
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.tooltipContainer}>
-                  <Select
+                  {/* <Select
                     className={styles.formSelect}
                     options={materialOptions}
                     placeholder="Select Product Packaging Material"
@@ -2351,13 +2395,23 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.setFieldValue("otherMaterial", ""); // Reset other material if option is not "other"
                       }
                     }}
+                  /> */}
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Product Packaging Material"
+                    // autoComplete="off"
+                    name="packageMaterial"
+                    value={formik?.values?.packageMaterial}
+                    onChange={formik?.handleChange}
+                    onBlur={formik?.handleBlur}
                   />
                    <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)."></Tooltip>
                   
                 </div>
 
                 {/* Show text field when "Other" is selected */}
-                {selectedOption?.value === "Other" && (
+                {/* {selectedOption?.value === "Other" && (
                   <input
                     type="text"
                     className={styles.formInput}
@@ -2373,7 +2427,7 @@ const EditAddProduct = ({ placeholder }) => {
                       );
                     }}
                   />
-                )}
+                )} */}
 
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
@@ -2496,9 +2550,9 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           </div>
 
-          {/* Start the Inventory & Packaging */}
+          {/* Start the Inventory */}
           <div className={styles.section}>
-            <span className={styles.formHead}>Inventory & Packaging</span>
+            <span className={styles.formHead}>Inventory</span>
             <div className={styles.formSection}>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -2535,7 +2589,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Date of Manufacture
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.tooltipContainer}>
                   <InputMask
@@ -2657,7 +2711,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Countries where Stock Trades
-                      <span className={styles?.labelStamp}>*</span>
+                      {/* <span className={styles?.labelStamp}>*</span> */}
                     </label>
                     <Select
                       className={styles.formSelect}
@@ -2686,7 +2740,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Stock Quantity
-                      <span className={styles?.labelStamp}>*</span>
+                      {/* <span className={styles?.labelStamp}>*</span> */}
                     </label>
                     <div className={styles.productQuantityContainer}>
                       <div className={styles.quantitySection}>
@@ -2702,15 +2756,15 @@ const EditAddProduct = ({ placeholder }) => {
                           onChange={formik.handleChange}
                         />
 
-                        <button
+                        {/* <button
                           type="button"
                           className={`${styles.quantityButton} ${styles.selected}`}
                         >
                           {stock.type}
-                        </button>
+                        </button> */}
                       </div>
 
-                      <div className={styles.radioForm}>
+                      {/* <div className={styles.radioForm}>
                         {["Box", "Strip", "Pack"].map((type) => (
                           <label key={type}>
                             <input
@@ -2735,7 +2789,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <span className={styles.radioText}>{type}</span>
                           </label>
                         ))}
-                      </div>
+                      </div> */}
                     </div>
                     <span className={styles.error}>
                       {formik.touched.stockedInDetails?.[index]?.quantity &&
@@ -2764,12 +2818,12 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           </div>
 
-          {/* End the Inventory & Packaging */}
+          {/* End the Inventory */}
 
-          {/* Start the product Inventory */}
+          {/* Start the Product Pricing */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
-              <span className={styles.formHead}>Product Inventory</span>
+              <span className={styles.formHead}>Product Pricing</span>
               <span
                 className={styles.formAddButton}
                 onClick={() => {
@@ -2840,7 +2894,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <Field
                               name={`productPricingDetails.${index}.price`}
                               type="text"
-                              placeholder="Enter Cost Per Product"
+                              placeholder="Enter Cost Per Product in USD"
                               className={styles.formInput}
                             />
                             <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
@@ -2890,7 +2944,7 @@ const EditAddProduct = ({ placeholder }) => {
             />
           </div>
 
-          {/* End the product inventory */}
+          {/* End the Product Pricing */}
 
           {/* Start the Compliances and certificate */}
           <div className={styles.documentContainer}>
@@ -3167,6 +3221,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Specification</label>
+                    <span className={styles.labelStamp}>*</span>
                     <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
@@ -3181,6 +3236,11 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                        <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+                       {formik?.touched.specification && formik?.errors.specification && (
+                      <span className={styles.error}>
+                        {formik?.errors.specification}
+                      </span>
+                    )}
                     </div>
                     <AddProductFileUpload
                       productDetails={productDetail}
