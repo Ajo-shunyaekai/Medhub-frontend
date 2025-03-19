@@ -87,7 +87,7 @@
     border: none !important;
     outline: none !important;
     border-radius: 4px;
-    color: #fff;
+    color: #fff !important;
     cursor: pointer !important;
     display: flex;
     align-items: center;
@@ -95,7 +95,9 @@
     font-size: 14px;
     padding: 6px 16px;
 }
-
+.editButton:hover{
+    color: #fff !important;
+}
 .mainSection {
     display: flex;
     flex-direction: column;
