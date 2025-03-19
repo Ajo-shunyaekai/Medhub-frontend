@@ -118,6 +118,7 @@ const AddProductFileUpload = ({
   oldFieldName,
   existingFiles,
   label,
+  error,
   tooltip,
   showLabel = true,
   acceptTypes, // Control accepted file types
@@ -146,7 +147,12 @@ const AddProductFileUpload = ({
  
   return (
     <div className={styles.compliancesContainer}>
-      {showLabel && <label className={styles.formLabel}>{label}</label>}
+     {showLabel && (
+        <label className={styles.formLabel}>
+          {label}
+          {label === "Purchase Invoice" && <span className={styles.labelStamp}>*</span>}
+        </label>
+      )}
       <div className={styles.tooltipContainer}>
         <div {...fileUpload?.getRootProps({ className: styles.uploadBox })}>
           <input {...fileUpload?.getInputProps()} />
@@ -185,62 +191,15 @@ const AddProductFileUpload = ({
           </>
         )}
       </div>
+      {error && <span className={styles.error}>{error}</span>}
       {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
-          {/* {fileUpload?.files?.map((file, index, files) => (
-            <>
-              {console.log("file from map", file)}
-              <div key={index} className={styles.filePreview}>
-                {(
-                  existingFiles?.length == 0
-                    ? file?.type?.startsWith("image/")
-                    : file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "jpeg" ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "png" ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "apng " ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "png" ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "avif " ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "png" ||
-                      file?.split(".")?.[file?.split(".")?.length - 1] ==
-                        "jfif"
-                ) ? (
-                  <img
-                    src={
-                      existingFiles?.length == 0
-                        ? URL.createObjectURL(file)
-                        : `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
-                    }
-                    alt={file?.name}
-                    className={styles.previewImage}
-                  />
-                ) : (
-                  <FiFileText size={25} className={styles.fileIcon} />
-                )}
-                <p className={styles.fileName}>
-                  {existingFiles?.length > 0 ? file : file?.name}
-                </p>
-                <button
-                  type="button"
-                  className={styles.removeButton}
-                  onClick={(event) => fileUpload?.removeFile(index, event)}
-                  title={`Remove ${isImageOnly ? "image" : "file"}`}
-                >
-                  <FiX size={15} className={styles.removeIcon} />
-                </button>
-              </div>
-            </>
-          ))} */}
           {fileUpload?.filesMerged?.map((file, index) => {
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase() // If it's a string (e.g., an existing file path)
-                : file?.name.split(".").pop().toLowerCase(); // If it's a File object
+                ? file.split(".").pop().toLowerCase() 
+                : file?.name.split(".").pop().toLowerCase(); 
  
             const isImage =
               fileExtension === "jpeg" ||
