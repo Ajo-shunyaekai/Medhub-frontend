@@ -4,33 +4,36 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import RenderProductFiles from "../RenderProductFiles";
-import { useState, useEffect } from "react"; // Added missing imports
-import Modal from "react-modal"; // Ensure this is imported
-import CloseIcon from "../../../assets/images/Icon.svg"; // Replace with actual path
- 
+import { useState, useEffect } from "react";
+import Modal from "react-modal"; 
+import CloseIcon from "../../../assets/images/Icon.svg"; 
+Modal.setAppElement("#root");
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { productDetail } = useSelector((state) => state?.productReducer);
+  const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const pdfFile = productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
+  const pdfFile = productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] || 
+                  productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
- 
-  console.log("Constructed PDF URL:", pdfUrl); 
- 
+
+  console.log("Constructed PDF File:", productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] || 
+    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0]);
+  console.log("Constructed PDF URL:", pdfUrl);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
     }
   }, [id]);
- 
+
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
     return productDetail[productDetail.category]?.[property];
   };
- 
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -48,7 +51,7 @@ const ProductDetails = () => {
             </Link>
           </div>
         </div>
- 
+
         {/* Start Secondar Market section */}
         {(productDetail?.secondayMarketDetails?.purchasedOn ||
           productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
@@ -117,7 +120,7 @@ const ProductDetails = () => {
                             </span>
                           </div>
                         )}
- 
+
                       {productDetail?.secondayMarketDetails
                         ?.minimumPurchaseUnit && (
                           <div className={styles.medicinesSection}>
@@ -129,24 +132,22 @@ const ProductDetails = () => {
                         )}
                     </div>
                   )}
- 
- 
-                {productDetail?.secondayMarketDetails?.purchaseInvoiceFile
-                  ?.length > 0 && (
-                    <div className={styles.mainPurchaseSection}>
- 
-                      <button
-                        className={styles.PurcahseButton} // Add this class in your CSS if needed
-                        onClick={() => setModalIsOpen(true)}
-                      >
-                        View Purchase Invoice
-                      </button>
-                    </div>
-                  )}
+
+
+                {productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length > 0 && (
+                  <div className={styles.mainPurchaseSection}>
+                    <button
+                      className={styles.PurcahseButton}
+                      onClick={() => setModalIsOpen(true)}
+                    >
+                      View Purchase Invoice
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
- 
+
         {/* End Secondar Market section */}
         {/* Start general information section */}
         <div className={styles.mainContainer}>
@@ -199,7 +200,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
- 
+
               {productDetail?.general?.model && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Part/Model Number</span>
@@ -208,7 +209,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
- 
+
             </div>
             <div className={styles.mainSection}>
               {productDetail?.[productDetail?.category]?.subCategory && (
@@ -271,9 +272,9 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
- 
+
         {/* End general information section */}
- 
+
         {/* Start product description */}
         {productDetail?.general?.description && (
           <div className={styles.mainContainer}>
@@ -289,7 +290,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product description */}
- 
+
         {/* Start Inventory & Packaging section */}
         {(productDetail?.inventoryDetails?.stockedInDetails?.length > 0 ||
           productDetail?.inventoryDetails?.sku ||
@@ -350,7 +351,7 @@ const ProductDetails = () => {
                           </span>
                           <span className={styles.medicineHeadings}>Quantity</span>
                         </div>
- 
+
                         {productDetail?.inventoryDetails?.stockedInDetails?.map(
                           (ele) => (
                             <div className={styles.medicinesSection}>
@@ -370,7 +371,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Inventory & Packaging section */}
- 
+
         {/* Start the product inventory section */}
         {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -410,7 +411,7 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
- 
+
         {/* Start the category details section */}
         {/* Medical Equipment and Devices */}
         {productDetail?.category === "MedicalEquipmentAndDevices" && (
@@ -419,12 +420,12 @@ const ProductDetails = () => {
             productDetail?.[productDetail?.category]?.specificationFile?.length > 0 && "specificationFile",
             "performanceTestingReport",
             productDetail?.[productDetail?.category]?.performanceTestingReportFile?.length > 0 && "performanceTestingReportFile"
- 
+
           ].some(getCategoryData)) && (
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Medical Equipment and Devices</span>
               <div className={styles.innerSection}>
- 
+
                 {/* Basic Details */}
                 {["interoperability", "laserType"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -440,11 +441,11 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("laserType")}</span>
                       </div>
                     )}
- 
- 
+
+
                   </div>
                 )}
- 
+
                 {/* Drug Class & Controlled Substance */}
                 {["coolingSystem", "spotSize"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -460,15 +461,15 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("spotSize")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
- 
+
               </div>
- 
+
               {/* Textarea Section */}
               <div className={styles.textareaContainer}>
- 
+
                 {/* Composition & Formulation */}
                 {["diagnosticFunctions"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
@@ -478,11 +479,11 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("diagnosticFunctions")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
                 {["specification", "specificationFile", "performanceTestingReport", "performanceTestingReportFile"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("specification") && (
                       <div className={styles.textareaInnerSection}>
@@ -501,7 +502,7 @@ const ProductDetails = () => {
                       <div className={styles.textareaInnerSection}>
                         <span className={styles.medicineHead}>Performance Testing Report</span>
                         <span className={styles.medicineContent}>{getCategoryData("performanceTestingReport")}</span>
- 
+
                         <div className={styles.uploadFileSection}>
                           <RenderProductFiles
                             files={
@@ -513,14 +514,14 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
               </div>
- 
+
             </div>
           )
         )}
         {/* End Medical Equipment and Devices */}
- 
+
         {/* Pharmaceuticals */}
         {productDetail?.category === "Pharmaceuticals" && (
           ([
@@ -531,7 +532,7 @@ const ProductDetails = () => {
             <div className={styles.mainContainer}>
               <span className={styles.innerHead}>Pharmaceuticals</span>
               <div className={styles.innerSection}>
- 
+
                 {/* Basic Details */}
                 {["genericName", "strength", "otcClassification"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -553,10 +554,10 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("otcClassification")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
- 
+
                 {/* Drug Class & Controlled Substance */}
                 {["drugClass", "expiry", "controlledSubstance"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -580,13 +581,13 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
               </div>
- 
+
               {/* Textarea Section */}
               {["composition", "formulation", "purpose", "drugAdministrationRoute", "allergens", "sideEffectsAndWarnings"].some(getCategoryData) && (
                 <div className={styles.textareaContainer}>
- 
+
                   {/* Composition & Formulation */}
                   {["composition", "drugAdministrationRoute"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
@@ -596,7 +597,7 @@ const ProductDetails = () => {
                           <span className={styles.medicineContent}>{getCategoryData("composition")}</span>
                         </div>
                       )}
- 
+
                       {getCategoryData("drugAdministrationRoute") && (
                         <div className={styles.textareaInnerSection}>
                           <span className={styles.medicineHead}>Drug Administration Route</span>
@@ -605,7 +606,7 @@ const ProductDetails = () => {
                       )}
                     </div>
                   )}
- 
+
                   {/* Purpose & Drug Administration */}
                   {["purpose", "formulation"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
@@ -623,7 +624,7 @@ const ProductDetails = () => {
                       )}
                     </div>
                   )}
- 
+
                   {/* Side Effects & Allergens */}
                   {["sideEffectsAndWarnings", "allergens"].some(getCategoryData) && (
                     <div className={styles.textareaSection}>
@@ -647,7 +648,7 @@ const ProductDetails = () => {
           )
         )}
         {/* End Pharmaceuticals */}
- 
+
         {/* Skin, Hair and Cosmetic Supplies */}
         {productDetail?.category === "SkinHairCosmeticSupplies" &&
           [
@@ -688,7 +689,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>Yes</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("elasticity") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Elasticity</span>
@@ -701,7 +702,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("dermatologistTested")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("dermatologistTestedFile") && (
                       <div className={styles.medicinesFileSection}>
                         <span className={styles.medicineHead}>
@@ -758,7 +759,7 @@ const ProductDetails = () => {
                           <span className={styles.medicineText}>{getCategoryData("pediatricianRecommended")}</span>
                         </div>
                       )}
- 
+
                       {getCategoryData("pediatricianRecommendedFile") && (
                         <div className={styles.medicinesFileSection}>
                           <span className={styles.medicineHead}>
@@ -778,9 +779,9 @@ const ProductDetails = () => {
               </div>
               {/* Composition/Formulation/Purpose Section */}
               <div className={styles.textareaContainer}>
- 
+
                 {["composition", "purpose"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("composition") && (
                       <div className={styles.textareaInnerSection}>
@@ -813,7 +814,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["drugClass", "allergens"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("drugClass") && (
                       <div className={styles.textareaInnerSection}>
@@ -846,7 +847,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["sideEffectsAndWarnings", "concentration"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("sideEffectsAndWarnings") && (
                       <div className={styles.textareaInnerSection}>
@@ -863,7 +864,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["fillerType", "moisturizers"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("fillerType") && (
                       <div className={styles.textareaInnerSection}>
@@ -882,11 +883,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
- 
- 
+
+
+
         {/* End Skin, Hair and Cosmetic Supplies */}
- 
+
         {/* Vital Health and Wellness */}
         {productDetail?.category == "VitalHealthAndWellness" &&
           [
@@ -982,11 +983,11 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("composition")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
                 {["formulation", "purpose"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("formulation") && (
                       <div className={styles.textareaInnerSection}>
@@ -1002,10 +1003,10 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
+
+
                 {["sideEffectsAndWarnings", "allergens"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("sideEffectsAndWarnings") && (
                       <div className={styles.textareaInnerSection}>
@@ -1021,9 +1022,9 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["additivesNSweeteners"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("additivesNSweeteners") && (
                       <div className={styles.textareaInnerSection}>
@@ -1036,12 +1037,12 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
- 
+
+
         {/* End Vital Health and Wellness */}
- 
+
         {/* Medical Consumables and Disposables */}
- 
+
         {productDetail?.category == "MedicalConsumablesAndDisposables" &&
           [
             "thickness", "powdered", "productMaterial", "expiry", "texture", "sterilized", "filtrationEfficiency", "breathability", "layerCount",
@@ -1077,7 +1078,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("productMaterial")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("texture") === true && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Texture</span>
@@ -1151,7 +1152,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["allergens", "shape"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("allergens") && (
                       <div className={styles.textareaInnerSection}>
@@ -1175,14 +1176,14 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("coating")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
               </div>
             </div>
           )}
         {/* End Medical Consumables and Disposables */}
- 
+
         {/* Laboratory Supplies */}
         {productDetail?.category == "LaboratorySupplies" &&
           [
@@ -1226,7 +1227,7 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
               </div>
@@ -1249,7 +1250,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["resolution", "powerSource"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("powerSource") && (
                       <div className={styles.textareaInnerSection}>
@@ -1265,10 +1266,10 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
+
+
                 {["shape", "coating"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("shape") && (
                       <div className={styles.textareaInnerSection}>
@@ -1284,9 +1285,9 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["purpose", "casNumber"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("purpose") && (
                       <div className={styles.textareaInnerSection}>
@@ -1302,11 +1303,11 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
- 
+
+
+
                 {["grade", "concentration"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("grade") && (
                       <div className={styles.textareaInnerSection}>
@@ -1325,9 +1326,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Laboratory Supplies */}
- 
+
         {/* Diagnostic and Monitoring Devices */}
         {productDetail?.category == "DiagnosticAndMonitoringDevices" &&
           [
@@ -1364,7 +1365,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("usageRate")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
               </div>
@@ -1387,7 +1388,7 @@ const ProductDetails = () => {
                   </div>
                 )}
                 {["concentration", "maintenanceNotes"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("concentration") && (
                       <div className={styles.textareaInnerSection}>
@@ -1403,10 +1404,10 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
+
+
                 {["compatibleEquipment"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("compatibleEquipment") && (
                       <div className={styles.textareaInnerSection}>
@@ -1416,9 +1417,9 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["specification", "specificationFile", "performanceTestingReport", "performanceTestingReportFile"].some(getCategoryData) && (
- 
+
                   <div className={styles.textareaSection}>
                     {getCategoryData("specification") && (
                       <div className={styles.textareaInnerSection}>
@@ -1437,7 +1438,7 @@ const ProductDetails = () => {
                       <div className={styles.textareaInnerSection}>
                         <span className={styles.medicineHead}>Performance Testing Report</span>
                         <span className={styles.medicineContent}>{getCategoryData("performanceTestingReport")}</span>
- 
+
                         <div className={styles.uploadFileSection}>
                           <RenderProductFiles
                             files={
@@ -1452,14 +1453,14 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
- 
- 
- 
+
+
+
+
         {/* End Diagnostic and Monitoring Devices */}
- 
+
         {/* Hospital and Clinic Supplies */}
- 
+
         {productDetail?.category == "HospitalAndClinicSupplies" &&
           [
             "adhesiveness", "absorbency", "thickness", "powdered", "productMaterial", "expiry", "texture", "sterilized", "fluidResistance", "elasticity"
@@ -1477,7 +1478,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("expiry")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("absorbency") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Absorbency</span>
@@ -1503,7 +1504,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
                 {/* Drug Info Section */}
                 {["adhesiveness", "texture", "sterilized", "fluidResistance", "elasticity"].some(getCategoryData) && (
@@ -1562,11 +1563,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Hospital and Clinic Supplies */}
- 
+
         {/* Orthopedic Supplies */}
- 
+
         {productDetail?.category == "OrthopedicSupplies" &&
           [
             "elasticity", "sterilized", "absorbency", "strength", "moistureResistance", "breathability", "colorOptions", "purpose", "targetCondition", "coating"
@@ -1583,7 +1584,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("strength")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("sterilized") === true && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}> Sterilized</span>
@@ -1596,9 +1597,9 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("absorbency")}</span>
                       </div>
                     )}
- 
+
                   </div>
- 
+
                 )}
                 {/* Drug Info Section */}
                 {["elasticity", "moistureResistance"].some(getCategoryData) && (
@@ -1615,7 +1616,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("moistureResistance")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
               </div>
@@ -1635,7 +1636,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("purpose")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
                 {["breathability", "colorOptions"].some(getCategoryData) && (
@@ -1654,8 +1655,8 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
+
+
                 {["coating"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("coating") && (
@@ -1669,9 +1670,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Orthopedic Supplies */}
- 
+
         {/* Dental Products */}
         {productDetail?.category == "DentalProducts" &&
           [
@@ -1696,12 +1697,12 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
                 {/* Drug Info Section */}
                 {["productMaterial"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
- 
+
                     {getCategoryData("productMaterial") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Product Material</span>
@@ -1729,7 +1730,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["maintenanceNotes", "compatibleEquipment"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("maintenanceNotes") && (
@@ -1749,10 +1750,10 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
- 
+
+
         {/* End Dental Products */}
- 
+
         {/* Eye Care Supplies */}
         {productDetail?.category == "EyeCareSupplies" &&
           [
@@ -1777,7 +1778,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
                 {/* Drug Info Section */}
                 {["lens", "lensMaterial"].some(getCategoryData) && (
@@ -1815,7 +1816,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["colorOptions"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("colorOptions") && (
@@ -1830,7 +1831,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Eye Care Supplies */}
- 
+
         {/* Home Healthcare Products */}
         {productDetail?.category == "HomeHealthcareProducts" &&
           [
@@ -1862,9 +1863,9 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("gripType")}</span>
                       </div>
                     )}
- 
+
                   </div>
- 
+
                 )}
                 {/* Drug Info Section */}
                 {["batterySize", "batteryType"].some(getCategoryData) && (
@@ -1875,7 +1876,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("batterySize")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("batteryType") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}>Battery Type</span>
@@ -1903,7 +1904,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
+
                 {["lockingMechanism", "typeOfSupport"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("lockingMechanism") && (
@@ -1920,8 +1921,8 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
- 
- 
+
+
                 {["flowRate", "concentration"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("flowRate") && (
@@ -1946,7 +1947,7 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("performanceTestingReport")}</span>
                       </div>
                     )}
- 
+
                     {getCategoryData("performanceTestingReportFile") && (
                       <div className={styles.uploadFileSection}>
                         <RenderProductFiles
@@ -1961,9 +1962,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Home Healthcare Products */}
- 
+
         {/* Alternative Medicines */}
         {productDetail?.category == "AlternativeMedicines" &&
           [
@@ -1982,7 +1983,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
@@ -2001,11 +2002,11 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("purpose")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
- 
- 
+
+
                 {["healthClaims", "healthClaimsFiles"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("healthClaims") && (
@@ -2015,7 +2016,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                     {getCategoryData("healthClaimsFiles") && (
- 
+
                       <div className={styles.uploadFileSection}>
                         <RenderProductFiles
                           files={
@@ -2029,11 +2030,11 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Alternative Medicines */}
- 
+
         {/* Emergency and First Aid Supplies */}
- 
+
         {productDetail?.category == "EmergencyAndFirstAidSupplies" &&
           [
             "expiry", "composition", "productLongevity", "foldability"
@@ -2051,7 +2052,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
@@ -2085,9 +2086,9 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Emergency and First Aid Supplies */}
- 
+
         {/* Disinfection and Hygiene Supplies */}
         {productDetail?.category == "DisinfectionAndHygieneSupplies" &&
           [
@@ -2106,7 +2107,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
@@ -2129,7 +2130,7 @@ const ProductDetails = () => {
                 )}
                 {["formulation", "fragrance"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
- 
+
                     {getCategoryData("formulation") && (
                       <div className={styles.textareaInnerSection}>
                         <span className={styles.medicineHead}>Formulation</span>
@@ -2147,10 +2148,10 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
- 
+
+
         {/* End Disinfection and Hygiene Supplies */}
- 
+
         {/* Nutrition and Dietary Products */}
         {productDetail?.category == "NutritionAndDietaryProducts" &&
           [
@@ -2176,7 +2177,7 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
- 
+
                 )}
                 {["dairyFree"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
@@ -2186,9 +2187,9 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("dairyFree")}</span>
                       </div>
                     )}
- 
+
                   </div>
- 
+
                 )}
               </div>
               {/* Composition/Formulation/Purpose Section */}
@@ -2239,10 +2240,10 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("additivesNSweeteners")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
- 
+
                 {["purpose"].some(getCategoryData) && (
                   <div className={styles.textareaSection}>
                     {getCategoryData("purpose") && (
@@ -2251,15 +2252,15 @@ const ProductDetails = () => {
                         <span className={styles.medicineContent}>{getCategoryData("purpose")}</span>
                       </div>
                     )}
- 
+
                   </div>
                 )}
               </div>
             </div>
           )}
- 
+
         {/* End Nutrition and Dietary Products */}
- 
+
         {/* Healthcare IT Solutions */}
         {productDetail?.category == "HealthcareITSolutions" &&
           [
@@ -2336,7 +2337,7 @@ const ProductDetails = () => {
                                 ?.interoperabilityFile
                             }
                           />
- 
+
                         </div>
                       )}
                   </div>
@@ -2345,9 +2346,9 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Healthcare IT Solutions */}
- 
+
         {/* End the category details section */}
- 
+
         {/* Start product image section */}
         {productDetail?.general?.image?.length > 0 && (
           <div className={styles.mainContainer}>
@@ -2434,7 +2435,7 @@ const ProductDetails = () => {
             </div>
           )}
         {/* End Compliance & Certification Health & Safety */}
- 
+
         {/* Start Additional information */}
         {(productDetail?.storage ||
           productDetail?.additional?.other ||
@@ -2490,7 +2491,7 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Additional information */}
         {/* Start Manufacturer section */}
         {(productDetail?.general?.manufacturer ||
@@ -2537,39 +2538,41 @@ const ProductDetails = () => {
               </div>
             </div>
           )}
- 
+
         {/* End Manufacturer section */}
- 
+
         {/* Modal for PDF Preview */}
         <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          contentLabel="Purchase Invoice"
-          className={styles.modal}
-          overlayClassName={styles.overlay}
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Purchase Invoice"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <div
+          className={styles.closeButton}
+          onClick={() => setModalIsOpen(false)}
         >
-          <div
-            className={styles.closeButton}
-            onClick={() => setModalIsOpen(false)}
-          >
-            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-          </div>
- 
-          {/* PDF display using iframe with error handling */}
-          {pdfFile ? (
-            <iframe
-              src={pdfUrl}
-              className={styles.pdfIframe}
-              title="Purchase Invoice"
-              onError={() => alert("Failed to load PDF. Please check the file path.")}
-            ></iframe>
-          ) : (
-            <p>Error: PDF file not found.</p>
-          )}
-        </Modal>
+          <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
+        </div>
+
+        {/* PDF display with loading and error handling */}
+        {pdfFile ? (
+          <iframe
+            src={pdfUrl}
+            className={styles.pdfIframe}
+            title="Purchase Invoice"
+            onError={() =>
+              alert("Failed to load PDF. Please check the file path.")
+            }
+          />
+        ) : (
+          <p>Loading PDF or file not found...</p>
+        )}
+      </Modal>
       </div>
     </div>
   );
 };
- 
+
 export default ProductDetails;
