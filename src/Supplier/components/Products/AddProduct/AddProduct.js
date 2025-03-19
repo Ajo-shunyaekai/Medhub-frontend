@@ -1852,7 +1852,7 @@ const AddProduct = ({ placeholder }) => {
           ],
           complianceAndCertificationFileNDate: [
             {
-              file: {},
+              file: [],
               date: "",
             },
           ],
@@ -1981,7 +1981,7 @@ const AddProduct = ({ placeholder }) => {
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
-            if (key != "productPricingDetails" || key != "stockedInDetails") {
+            if (key != "productPricingDetails" || key != "stockedInDetails" || key != "complianceAndCertificationFileNDate") {
               if (Array.isArray(value)) {
                 // Append array items under the same key
                 value.forEach((item, index) => {
@@ -2013,12 +2013,19 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
+          const complianceAndCertificationFileNDateUpdated = JSON.stringify(
+            values?.complianceAndCertificationFileNDate?.map((section) => ({
+              date: section?.date || "",
+              file: section?.file?.[0] || "",
+            }))
+          );
 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
           formData.append(
             "productPricingDetails",
             productPricingDetailsUpdated
           );
+          formData.append("complianceAndCertificationFileNDate", complianceAndCertificationFileNDateUpdated);
 
           // dispatch(addProduct(formData));
           dispatch(addProduct(formData)).then((response) => {
@@ -3448,7 +3455,7 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue("complianceAndCertificationFileNDate", [
                       ...values.complianceAndCertificationFileNDate,
                       {
-                        file: {},
+                        file: [],
                         date: "",
                       },
                     ]);
