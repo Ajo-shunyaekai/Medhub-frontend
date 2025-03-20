@@ -5,21 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import RenderProductFiles from "../RenderProductFiles";
 import { useState, useEffect } from "react";
-import Modal from "react-modal"; 
-import CloseIcon from "../../../assets/images/Icon.svg"; 
+import Modal from "react-modal";
+import CloseIcon from "../../../assets/images/Icon.svg";
 Modal.setAppElement("#root");
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const pdfFile = productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] || 
-                  productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
+  const pdfFile = productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
+    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
-  console.log("Constructed PDF File:", productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] || 
+  console.log("Constructed PDF File:", productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
     productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0]);
   console.log("Constructed PDF URL:", pdfUrl);
 
@@ -201,52 +201,6 @@ const ProductDetails = () => {
                 </div>
               )}
 
-              {productDetail?.general?.model && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Part/Model Number</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.model}
-                  </span>
-                </div>
-              )}
-
-            </div>
-            <div className={styles.mainSection}>
-              {productDetail?.[productDetail?.category]?.subCategory && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>
-                    Product Sub Category
-                  </span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.[productDetail?.category]?.subCategory}{" "}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.upc && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>UPC</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.upc}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.brand && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Brand Name</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.brand}
-                  </span>
-                </div>
-              )}
-              {productDetail?.general?.weight && (
-                <div className={styles.medicinesSection}>
-                  <span className={styles.medicineHead}>Product Weight</span>
-                  <span className={styles.medicineText}>
-                    {productDetail?.general?.weight}{" "}
-                    {productDetail?.general?.unit}
-                  </span>
-                </div>
-              )}
               {productDetail?.general?.packageType && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>
@@ -269,6 +223,73 @@ const ProductDetails = () => {
                     </span>
                   </div>
                 )}
+
+            </div>
+            <div className={styles.mainSection}>
+              {productDetail?.[productDetail?.category]?.subCategory && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>
+                    Product Sub Category
+                  </span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.[productDetail?.category]?.subCategory}{" "}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.model && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Part/Model Number</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.model}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.weight && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Weight</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.weight}{" "}
+                    {productDetail?.general?.unit}
+                  </span>
+                </div>
+              )}
+
+              {productDetail?.general?.upc && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>UPC</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.upc}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.brand && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Dimension
+                  </span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.brand}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.brand && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Brand Name</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.brand}
+                  </span>
+                </div>
+              )}
+
+              {productDetail?.storage && (
+                <div className={styles.additionalInnerSection}>
+                  <span className={styles.medicineHead}>
+                    Storage Conditions
+                  </span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.storage}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -312,6 +333,33 @@ const ProductDetails = () => {
                             </span>
                           </div>
                         )}
+                        {productDetail?.inventoryDetails?.countries && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>
+                              Stocked in Country
+                            </span>
+                            <span className={styles.medicineText}>
+                              {productDetail.inventoryDetails.countries.map((country, index) => (
+                                <span key={index}>
+                                  {country}
+                                  {index < productDetail.inventoryDetails.countries.length - 1 ? ', ' : ''}
+                                </span>
+                              ))}
+                            </span>
+                          </div>
+                        )}
+
+                      </div>
+
+                      <div className={styles.mainSection}>
+                        {productDetail?.inventoryDetails?.stock && (
+                          <div className={styles.medicinesSection}>
+                            <span className={styles.medicineHead}>Stock</span>
+                            <span className={styles.medicineText}>
+                              {productDetail?.inventoryDetails?.stock}
+                            </span>
+                          </div>
+                        )}
                         {productDetail?.inventoryDetails?.date && (
                           <div className={styles.medicinesSection}>
                             <span className={styles.medicineHead}>
@@ -322,23 +370,8 @@ const ProductDetails = () => {
                             </span>
                           </div>
                         )}
+
                       </div>
-                      {productDetail?.inventoryDetails?.stock && (
-                        <div className={styles.mainSection}>
-                          <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>Stock</span>
-                            <span className={styles.medicineText}>
-                              {productDetail?.inventoryDetails?.stock}
-                            </span>
-                          </div>
-                          <div className={styles.medicinesSection}>
-                            <span className={styles.medicineHead}>
-                              Stocked in Country
-                            </span>
-                            <span className={styles.medicineText}>India</span>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   )}
                 {productDetail?.inventoryDetails?.stockedInDetails?.length >
@@ -471,17 +504,7 @@ const ProductDetails = () => {
               <div className={styles.textareaContainer}>
 
                 {/* Composition & Formulation */}
-                {["diagnosticFunctions"].some(getCategoryData) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("diagnosticFunctions") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>  Diagnostic Functions</span>
-                        <span className={styles.medicineContent}>{getCategoryData("diagnosticFunctions")}</span>
-                      </div>
-                    )}
 
-                  </div>
-                )}
                 {["specification", "specificationFile", "performanceTestingReport", "performanceTestingReportFile"].some(getCategoryData) && (
 
                   <div className={styles.textareaSection}>
@@ -514,7 +537,17 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
+                {["diagnosticFunctions"].some(getCategoryData) && (
+                  <div className={styles.textareaSection}>
+                    {getCategoryData("diagnosticFunctions") && (
+                      <div className={styles.textareaInnerSection}>
+                        <span className={styles.medicineHead}>  Diagnostic Functions</span>
+                        <span className={styles.medicineContent}>{getCategoryData("diagnosticFunctions")}</span>
+                      </div>
+                    )}
 
+                  </div>
+                )}
               </div>
 
             </div>
@@ -663,7 +696,7 @@ const ProductDetails = () => {
               <span className={styles.innerHead}>Skin, Hair and Cosmetic Supplies</span>
               <div className={styles.innerSection}>
                 {/* Generic Info Section */}
-                {["spf", "vegan", "crueltyFree", "expiry", "elasticity", "dermatologistTested", "dermatologistTestedFile"].some(getCategoryData) && (
+                {["spf", "vegan", "crueltyFree", "expiry", "elasticity","fragrance", "dermatologistTested", "dermatologistTestedFile"].some(getCategoryData) && (
                   <div className={styles.mainSection}>
                     {getCategoryData("expiry") && (
                       <div className={styles.medicinesSection}>
@@ -696,6 +729,15 @@ const ProductDetails = () => {
                         <span className={styles.medicineText}>{getCategoryData("elasticity")}</span>
                       </div>
                     )}
+                   
+                    {
+                      getCategoryData("fragrance") &&(
+                        <div className={styles.medicinesSection}>
+                        <span className={styles.medicineHead}>Fragrance</span>
+                        <span className={styles.medicineText}>{getCategoryData("fragrance")}</span>
+                      </div>
+                      )
+                    }
                     {getCategoryData("dermatologistTested") && (
                       <div className={styles.medicinesSection}>
                         <span className={styles.medicineHead}> Dermatologist Tested</span>
@@ -830,22 +872,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                 )}
-                {["fragrance", "formulation"].some(getCategoryData) && (
-                  <div className={styles.textareaSection}>
-                    {getCategoryData("fragrance") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>fragrance</span>
-                        <span className={styles.medicineContent}>{getCategoryData("fragrance")}</span>
-                      </div>
-                    )}
-                    {getCategoryData("formulation") && (
-                      <div className={styles.textareaInnerSection}>
-                        <span className={styles.medicineHead}>Formulation</span>
-                        <span className={styles.medicineContent}>{getCategoryData("formulation")}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+               
                 {["sideEffectsAndWarnings", "concentration"].some(getCategoryData) && (
 
                   <div className={styles.textareaSection}>
@@ -876,6 +903,17 @@ const ProductDetails = () => {
                       <div className={styles.textareaInnerSection}>
                         <span className={styles.medicineHead}>Moisturizers</span>
                         <span className={styles.medicineContent}>{getCategoryData("moisturizers")}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+                 {["formulation"].some(getCategoryData) && (
+                  <div className={styles.textareaSection}>
+                  
+                    {getCategoryData("formulation") && (
+                      <div className={styles.textareaInnerSection}>
+                        <span className={styles.medicineHead}>Formulation</span>
+                        <span className={styles.medicineContent}>{getCategoryData("formulation")}</span>
                       </div>
                     )}
                   </div>
@@ -2372,7 +2410,7 @@ const ProductDetails = () => {
         )}
         {/* End product image section */}
         {/* Start Compliance & Certification Health & Safety */}
-        {(productDetail?.complianceFile?.length > 0 ||
+        {(productDetail?.complianceAndCertificationFileNDate?.length > 0 ||
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
           productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
@@ -2381,13 +2419,18 @@ const ProductDetails = () => {
                 Compliance & Certification And Health & Safety
               </span>
               <div className={styles.innerComplianceSection}>
-                {productDetail?.complianceFile?.length > 0 && (
+                {productDetail?.complianceAndCertificationFileNDate?.length > 0 && (
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>
                       Regulatory Compliance
                     </span>
                     <div className={styles.additionalImageSection}>
-                      <RenderProductFiles files={productDetail?.complianceFile} />
+                      {productDetail.complianceAndCertificationFileNDate.map((item, index) => (
+                        <div className={styles.complianceSection} key={item._id || index}>
+                          <RenderProductFiles files={[item.file]} />
+                          <span className={styles.medicineContent}>{item.date}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -2437,27 +2480,18 @@ const ProductDetails = () => {
         {/* End Compliance & Certification Health & Safety */}
 
         {/* Start Additional information */}
-        {(productDetail?.storage ||
+        {(
           productDetail?.additional?.other ||
           productDetail?.additional?.warranty ||
           productDetail?.additional?.guidelinesFile?.length > 0) && (
             <div className={styles.addtionalContainer}>
               <span className={styles.innerHead}>
-                Storage & Handling And Additional Information{" "}
+                Additional Information{" "}
               </span>
               <div className={styles.manufacturerMainContainer}>
-                {(productDetail?.storage || productDetail?.additional?.other) && (
+                {(productDetail?.additional?.other) && (
                   <div className={styles.additionalSection}>
-                    {productDetail?.storage && (
-                      <div className={styles.additionalInnerSection}>
-                        <span className={styles.medicineHead}>
-                          Storage Conditions
-                        </span>
-                        <span className={styles.medicineText}>
-                          {productDetail?.storage}
-                        </span>
-                      </div>
-                    )}
+
                     {productDetail?.additional?.warranty && (
                       <div className={styles.additionalInnerSection}>
                         <span className={styles.medicineHead}>Warranty</span>
@@ -2466,16 +2500,17 @@ const ProductDetails = () => {
                         </span>
                       </div>
                     )}
+                    {productDetail?.additional?.other && (
+                      <div className={styles.manufacturerDescriptionSection}>
+                        <span className={styles.medicineHead}>Other Information</span>
+                        <span className={styles.medicineContent}>
+                          {productDetail?.additional?.other}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )}
-                {productDetail?.additional?.other && (
-                  <div className={styles.manufacturerDescriptionSection}>
-                    <span className={styles.medicineHead}>Other Information</span>
-                    <span className={styles.medicineContent}>
-                      {productDetail?.additional?.other}
-                    </span>
-                  </div>
-                )}
+
                 {productDetail?.additional?.guidelinesFile?.length > 0 && (
                   <div className={styles.additionalUploadSection}>
                     <div className={styles.additionalUploadSection}>
@@ -2543,33 +2578,33 @@ const ProductDetails = () => {
 
         {/* Modal for PDF Preview */}
         <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Purchase Invoice"
-        className={styles.modal}
-        overlayClassName={styles.overlay}
-      >
-        <div
-          className={styles.closeButton}
-          onClick={() => setModalIsOpen(false)}
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          contentLabel="Purchase Invoice"
+          className={styles.modal}
+          overlayClassName={styles.overlay}
         >
-          <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-        </div>
+          <div
+            className={styles.closeButton}
+            onClick={() => setModalIsOpen(false)}
+          >
+            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
+          </div>
 
-        {/* PDF display with loading and error handling */}
-        {pdfFile ? (
-          <iframe
-            src={pdfUrl}
-            className={styles.pdfIframe}
-            title="Purchase Invoice"
-            onError={() =>
-              alert("Failed to load PDF. Please check the file path.")
-            }
-          />
-        ) : (
-          <p>Loading PDF or file not found...</p>
-        )}
-      </Modal>
+          {/* PDF display with loading and error handling */}
+          {pdfFile ? (
+            <iframe
+              src={pdfUrl}
+              className={styles.pdfIframe}
+              title="Purchase Invoice"
+              onError={() =>
+                alert("Failed to load PDF. Please check the file path.")
+              }
+            />
+          ) : (
+            <p>Loading PDF or file not found...</p>
+          )}
+        </Modal>
       </div>
     </div>
   );

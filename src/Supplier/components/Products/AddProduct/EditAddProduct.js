@@ -9,7 +9,6 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { Chips } from "primereact/chips";
-import Information from "../../../assets/images/infomation.svg";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
@@ -110,7 +109,7 @@ const EditAddProduct = ({ placeholder }) => {
         productDetail?.secondayMarketDetails?.purchaseInvoiceFileNew || [],
       condition: productDetail?.secondayMarketDetails?.condition || "",
       minimumPurchaseUnit:
-        productDetail?.secondayMarketDetails?.minimumPurchaseUnit || "",
+        productDetail?.secondayMarketDetails?.minimumPurchaseUnit || ""
       subCategory: productDetail?.[productDetail?.category]?.subCategory || "",
       anotherCategory:
         productDetail?.[productDetail?.category]?.anotherCategory || "",

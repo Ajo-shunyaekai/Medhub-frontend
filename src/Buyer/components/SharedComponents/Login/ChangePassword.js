@@ -88,14 +88,13 @@ const ChangePassword = ({ step, setStep }) => {
               name="password"
               placeholder="Enter the New Password"
             />
-            <button
-              type="button"
+            <span
               className="toggle-password-visibility"
               onClick={() => togglePasswordVisibility('password')}
               disabled={!document.querySelector('[name="password"]')?.value}
             >
               {passwordVisible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
-            </button>
+            </span>
           </div>
           <ErrorMessage
             name="password"
@@ -117,14 +116,13 @@ const ChangePassword = ({ step, setStep }) => {
               name="confirmPassword"
               placeholder="Re-enter the New Password"
             />
-            <button
-              type="button"
+            <span
               className="toggle-password-visibility"
               onClick={() => togglePasswordVisibility('confirmPassword')}
               disabled={!document.querySelector('[name="confirmPassword"]')?.value}
             >
               {confirmPasswordVisible ? <VisibilityOffIcon/> : <VisibilityIcon/>}
-            </button>
+            </span>
           </div>
           <ErrorMessage
             name="confirmPassword"

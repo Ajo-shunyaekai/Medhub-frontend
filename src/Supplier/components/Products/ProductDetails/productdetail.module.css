@@ -459,6 +459,12 @@ cursor: pointer !important;
  
 
 /* End the modal */
+
+.complianceSection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 @media(max-width:1400px){
     .container {
        max-width: 100%;
