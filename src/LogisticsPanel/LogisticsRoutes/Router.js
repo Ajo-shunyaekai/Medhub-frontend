@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "../components/SharedComponents/Loader/Loader";
 
+const AddVehicle        = lazy(() => import("../components/Vehicle/index"));
 const ActiveOrder       = lazy(() => import("../components/Orders/ActiveOrders/ActiveOrder"));
 const CompleteOrder     = lazy(() => import("../components/Orders/CompletedOrders/CompleteOrder"));
 const Dashboard         = lazy(() => import("../components/Dashboard/index"));
@@ -17,6 +18,7 @@ const PendingOrder      = lazy(() => import("../components/Orders/PendingOrders/
 const Profile           = lazy(() => import("../components/SharedComponents/Profile/profile"));
 const Shipment          = lazy(() => import("../components/Shipment/index"));
 const Tracking          = lazy(() => import("../components/Tracking/index"));
+const VehicleList       = lazy(() => import("../components/Vehicle/VehicleList/VehicleLIst"));
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path    : "inventory",
         element : <Inventory />,
+      },
+      {
+        path    : "add-vehicle",
+        element : <AddVehicle />,
+      },
+      {
+        path    : "vehicle-list",
+        element : <VehicleList />,
       },
       {
         path    : "shipment",

@@ -14,6 +14,8 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import CarCrashOutlinedIcon from '@mui/icons-material/CarCrashOutlined';
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
@@ -312,6 +314,14 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                         <Link to="/logistics/inventory" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><WarehouseOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inventory/Warehouse</div>
+                        </Link>
+                        <Link to="/logistics/add-vehicle" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><AddCircleOutlineOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Vehicle</div>
+                        </Link>
+                        <Link to="/logistics/vehicle-list" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><CarCrashOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Vehicle List</div>
                         </Link>
                         <Link to="/logistics/shipment" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><FlightTakeoffOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>

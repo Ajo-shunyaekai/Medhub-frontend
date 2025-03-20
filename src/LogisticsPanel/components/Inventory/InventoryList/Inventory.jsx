@@ -7,25 +7,25 @@ import Select from "react-select";
 const Inventory = () => {
 
   const warehouse_status_options = [
-    { value: 'active', label: 'Active' },
-    { value: 'in-active', label: 'In-Active' },
+    { value : 'active',     label : 'Active' },
+    { value : 'in-active',  label : 'In-Active' },
   ];
   const product_unit_of_measure_options = [
-    { value: 'envelops', label: 'Envelops' },
-    { value: 'pieces', label: 'Pieces' },
-    { value: 'boxes', label: 'Boxes' },
+    { value : 'envelops',  label : 'Envelops' },
+    { value : 'pieces',    label : 'Pieces' },
+    { value : 'boxes',     label : 'Boxes' },
   ];
   const prefered_transport_options = [
-    { value: 'road', label: 'By-Road' },
-    { value: 'air', label: 'By-Air' },
-    { value: 'water', label: 'By-Water' },
-    { value: 'train', label: 'By-Train' },
+    { value : 'road',   label : 'By-Road' },
+    { value : 'air',    label : 'By-Air' },
+    { value : 'water',  label : 'By-Water' },
+    { value : 'train',  label : 'By-Train' },
   ]
 
   return (
     <>
       <div className={"order-main-container"}>
-        <div className="order-name">Inventory</div>
+        <div className={styles.orderName}>Inventory</div>
         <form>
           <div className={`${styles.section} mt-4`}>
             <span className={styles.formHead}>Warehouse Details</span>

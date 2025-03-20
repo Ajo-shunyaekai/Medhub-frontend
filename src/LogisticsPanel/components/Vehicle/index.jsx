@@ -1,11 +1,11 @@
 import React from "react";
-import Shipment from "./Shipment";
-import styles from "./Shipment.module.css";
+import AddVehicle from "./AddVehicle/AddVehicle";
+import styles from "./AddVehicle/AddVehicle.module.css";
 
 const index = () => {
   return (
     <div className={styles.mainContainer}>
-      <Shipment />
+      <AddVehicle />
     </div>
   );
 };

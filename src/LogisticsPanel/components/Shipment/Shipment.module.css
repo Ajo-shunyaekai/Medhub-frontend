@@ -1,0 +1,16 @@
+.mainContainer {
+  height: 100vh;
+  overflow: scroll;
+}
+
+.mainContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.orderName {
+  padding-top: 5px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #5e676f;
+  text-transform: capitalize;
+}
