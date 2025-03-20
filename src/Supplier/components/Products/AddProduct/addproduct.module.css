@@ -200,6 +200,7 @@
   font-size: 14px;
   font-weight: 500;
   word-break: break-word;
+  line-height: 20px;
 }
 
 .formInput {
@@ -231,7 +232,6 @@
 }
 
 .compliancesContainer {
-  width: 19.8vw;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -398,18 +398,39 @@
 .radioForm input[type="radio"] {
   margin-right: 5px;
 }
-
+.weightContainer{
+  display: flex
+  ;
+      gap: 10px;
+      width: 100%;
+}
+.weightSection{
+  width: 66%;
+  display: flex
+;
+  flex-direction: column;
+  gap:10px;
+}
+.unitSection{
+  width: 40%;
+  display: flex
+;
+  flex-direction: column;
+  gap:10px;
+}
 /* End the stock quantity section */
 
 .tooltipContainer {
   display: flex;
-  position: relative;
+      flex-direction: column;
+      position: relative;
+      gap: 10px;
 }
 
 .infoTooltip {
   position: absolute;
   right: 1%;
-  top: 6%;
+  top: 8%;
   font-size: 14px;
   cursor: pointer !important;
   z-index: 0;
