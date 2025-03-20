@@ -7,10 +7,7 @@ import DatePicker from "react-date-picker";
 import CloseIcon from "@mui/icons-material/Close";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import { Chips } from "primereact/chips";
-import Information from "../../../assets/images/infomation.svg";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
@@ -18,7 +15,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
-import { Editor } from "@tinymce/tinymce-react";
+import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import {
   addProduct,
   addBulkProducts,
@@ -190,28 +187,28 @@ const AddProduct = ({ placeholder }) => {
     complianceAndCertificationFileNDate: Yup.array()
       .of(
         Yup.object({
-          file:Yup.array()
-          .max(1, "You can upload up to 1 Compliance File.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-              .test("fileType", "Unsupported file format", (value) => {
-                const allowedFormats = [
-                  "application/pdf",
-                  "image/jpeg",
-                  "image/png",
-                  "application/msword",
-                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                ];
-                return value && allowedFormats.includes(value.type);
-              })
-          )
-          .nullable(),
+          file: Yup.array()
+            .max(1, "You can upload up to 1 Compliance File.")
+            .of(
+              Yup.mixed()
+                .required("A file is required.")
+                .test(
+                  "fileSize",
+                  "File too large",
+                  (value) => value && value.size <= 1024 * 1024 * 5
+                ) // Max 5MB
+                .test("fileType", "Unsupported file format", (value) => {
+                  const allowedFormats = [
+                    "application/pdf",
+                    "image/jpeg",
+                    "image/png",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  ];
+                  return value && allowedFormats.includes(value.type);
+                })
+            )
+            .nullable(),
         })
       ),
     complianceFile: Yup.array()
@@ -1540,8 +1537,8 @@ const AddProduct = ({ placeholder }) => {
     {
       country: "",
       quantity: "",
-      type: "Box",
-      placeholder: "Enter Box Quantity",
+      type: "",
+      placeholder: "Enter Quantity",
     },
   ]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -2366,23 +2363,12 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="product-type"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="product-type">
-                      The type of product (e.g., tablet, liquid, cream,
+                    <Tooltip content=" The type of product (e.g., tablet, liquid, cream,
                       ointment, Surgical, Needle Type, Syringe, Type of monitor,
-                      <br /> systems, devices, mobility or platforms,
+                      systems, devices, mobility or platforms,
                       wheelchair, walker, cane, crutches, grab bar, scooter
-                      etc).
-                    </Tooltip>
+                      etc)."></Tooltip>
+                    
                   </div>
                   {touched.form && errors.form && (
                     <span className={styles.error}>{errors.form}</span>
@@ -2407,18 +2393,8 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="Add number of tablets in a strip, bottle, or box or number of bottles in a pack"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                     <Tooltip content="Add number of tablets in a strip, bottle, or box or number of bottles in a pack"></Tooltip>
+                   
                   </div>
                   {touched.quantity && errors.quantity && (
                     <span className={styles.error}>{errors.quantity}</span>
@@ -2428,7 +2404,6 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Size/Volumn
-                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -2451,31 +2426,22 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="product-volumn"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="product-volumn">
-                      The size or volume of the product (e.g., 50 mL, 100 g,
+                      <Tooltip content=" The size or volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
-                      <br /> Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc.
-                    </Tooltip>
+                     Length of the needle (e.g., 19 mm, 26 mm ) tape
+                      width, adhesive strip size etc."></Tooltip>
+                    
+                     
+                   
                   </div>
-                  {touched.volumn && errors.volumn && (
+                  {/* {touched.volumn && errors.volumn && (
                     <span className={styles.error}>{errors.volumn}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Dimension
-                    <span className={styles.labelStamp}>*</span>
+                   
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -2498,31 +2464,22 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="product-volumn"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="product-volumn">
-                      The size or volume of the product (e.g., 50 mL, 100 g,
+                      <Tooltip content="The size or volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
-                      <br /> Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc.
-                    </Tooltip>
+                       Length of the needle (e.g., 19 mm, 26 mm ) tape
+                      width, adhesive strip size etc."></Tooltip>
+                    
                   </div>
-                  {touched.dimension && errors.dimension && (
+                  {/* {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Weight<span className={styles.labelStamp}>*</span>
+                    Product Weight & Units<span className={styles.labelStamp}>*</span>
                   </label>
+                  <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2539,27 +2496,14 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="in (g, kg, lbs, l, ml, oz, gal, t)"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                     <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
+                    
                   </div>
                   {touched.weight && errors.weight && (
                     <span className={styles.error}>{errors.weight}</span>
                   )}
-                </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Units<span className={styles.labelStamp}>*</span>
-                  </label>
+                  </div>
+                  <div className={styles.unitSection}>
                   <Select
                     className={styles.formSelect}
                     options={packagingUnits}
@@ -2572,7 +2516,15 @@ const AddProduct = ({ placeholder }) => {
                   {touched.unit && errors.unit && (
                     <span className={styles.error}>{errors.unit}</span>
                   )}
+                  </div>
+                  </div>
                 </div>
+                {/* <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  
+                </div> */}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
@@ -2599,26 +2551,15 @@ const AddProduct = ({ placeholder }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="packaging-type"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="packaging-type">
-                      The type of product packaging (e.g., bottle, tube, jar,
+                     <Tooltip content="The type of product packaging (e.g., bottle, tube, jar,
                       pump, blister
                       <br /> pack, strip, pouches, soft case, hard case,
-                      backpack, case ).
-                    </Tooltip>
+                      backpack, case )."></Tooltip>
+                    
                   </div>
-                  {touched.packageType && errors.packageType && (
+                  {/* {touched.packageType && errors.packageType && (
                     <span className={styles.error}>{errors.packageType}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -2655,18 +2596,8 @@ const AddProduct = ({ placeholder }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                    <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)"></Tooltip>
+                   
                   </div>
 
                   {/* Show text field when "Other" is selected */}
@@ -2686,7 +2617,7 @@ const AddProduct = ({ placeholder }) => {
                   )} */}
 
                   {/* Display error message if any */}
-                  {touched.packageMaterial && errors.packageMaterial && (
+                  {/* {touched.packageMaterial && errors.packageMaterial && (
                     <span className={styles.error}>
                       {errors.packageMaterial}
                     </span>
@@ -2696,8 +2627,70 @@ const AddProduct = ({ placeholder }) => {
                       <span className={styles.error}>
                         {errors.packageMaterialIfOther}
                       </span>
-                    )}
+                    )} */}
                 </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Storage Conditions
+                  </label>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Storage Conditions"
+                      // autoComplete="off"
+                      name="storage"
+                      // onChange={handleChange}
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 75, "all")
+                      }
+                      onBlur={handleBlur}
+                    />
+                      <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
+                   
+                  </div>
+                </div>
+                <div className={styles.productContainer}>
+                  <AddProductFileUpload
+                    fieldInputName={"image"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Product Image"
+                    tooltip={false}
+                    acceptTypes={{
+                      "image/png": [],
+                      "image/jpeg": [],
+                      "image/jpg": [],
+                    }}
+                  />
+
+                  {touched.image && errors.image && (
+                    <span className={styles.error}>{errors.image}</span>
+                  )}
+                </div>
+                {productType === "secondary product" && (
+                  <div className={styles.productContainer}>
+
+                    <AddProductFileUpload
+                      fieldInputName={"purchaseInvoiceFile"}
+                      setFieldValue={setFieldValue}
+                      initialValues={values}
+                      label="Purchase Invoice"
+                      tooltip={false}
+                      acceptTypes={{
+                        "application/pdf": [],
+                      }}
+                      maxFiles={1}
+                      error={
+                        touched.purchaseInvoiceFile &&
+                          errors.purchaseInvoiceFile
+                          ? errors.purchaseInvoiceFile
+                          : null
+                      }
+                    />
+
+                  </div>
+                )}
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Name
@@ -2770,67 +2763,18 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
-                <div className={styles.formInnerSection}>
-                  <AddProductFileUpload
-                    fieldInputName={"image"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Product Image"
-                    tooltip={false}
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                    }}
-                  />
-
-                  {touched.image && errors.image && (
-                    <span className={styles.error}>{errors.image}</span>
-                  )}
-                </div>
-                <div className={styles.formInnerSection}>
-                  {productType === "secondary product" && (
-                    <AddProductFileUpload
-                      fieldInputName={"purchaseInvoiceFile"}
-                      setFieldValue={setFieldValue}
-                      initialValues={values}
-                      label="Purchase Invoice"
-                      tooltip={false}
-                      acceptTypes={{
-                        "application/pdf": [],
-                      }}
-                      maxFiles={1}
-                      error={
-                        touched.purchaseInvoiceFile &&
-                        errors.purchaseInvoiceFile
-                          ? errors.purchaseInvoiceFile
-                          : null
-                      }
-                    />
-                  )}
-                </div>
-                <RichTextEditor
-                  label="Product Description"
-                  name="description"
-                  value={values.description}
-                  onChange={(content) => setFieldValue("description", content)}
-                  onBlur={() => handleBlur({ target: { name: "description" } })}
-                  error={errors.description}
-                  touched={touched.description}
-                  height={300}
-                />
-                <div className={styles.sectionCompliances}>
+                {/* <div className={styles.sectionCompliances}>
                   <span className={styles.formHead}>Storage & Handling</span>
                   <div className={styles.compliancesContainer}>
-                    <label className={styles.formLabel}>Storage Conditions</label>
+                    <label className={styles.formLabel}></label>
                     <div className={styles.tooltipContainer}>
                       <input
                         className={styles.formInput}
                         type="text"
                         placeholder="Enter Storage Conditions"
-                        // autoComplete="off"
+                        autoComplete="off"
                         name="storage"
-                        // onChange={handleChange}
+                        onChange={handleChange}
                         onChange={(e) =>
                           handleInputChange(e, setFieldValue, 75, "all")
                         }
@@ -2850,7 +2794,18 @@ const AddProduct = ({ placeholder }) => {
                       <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <RichTextEditor
+                  label="Product Description"
+                  name="description"
+                  value={values.description}
+                  onChange={(content) => setFieldValue("description", content)}
+                  onBlur={() => handleBlur({ target: { name: "description" } })}
+                  error={errors.description}
+                  touched={touched.description}
+                  height={300}
+                />
+
               </div>
             </div>
 
@@ -2858,48 +2813,6 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.section}>
               <span className={styles.formHead}>Inventory</span>
               <div className={styles.formSection}>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    SKU<span className={styles.labelStamp}>*</span>
-                  </label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter SKU"
-                      // autoComplete="off"
-                      name="sku"
-                      value={values.sku}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          setFieldValue,
-                          20,
-                          "all",
-                          ["sku"],
-                          "-"
-                        )
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="Stock-keeping unit for inventory management"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
-                  </div>
-                  {touched.sku && errors.sku && (
-                    <span className={styles.error}>{errors.sku}</span>
-                  )}
-                </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Date of Manufacture
@@ -2947,23 +2860,46 @@ const AddProduct = ({ placeholder }) => {
                       showMask
                       separate
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="The date when the item was assembled or manufactured. if applicable for in stock"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                       <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
+                  
                   </div>
                   {touched.date && errors.date && (
                     <span className={styles.error}>{errors.date}</span>
                   )}
                 </div>
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    SKU<span className={styles.labelStamp}>*</span>
+                  </label>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter SKU"
+                      // autoComplete="off"
+                      name="sku"
+                      value={values.sku}
+                      // onChange={handleChange}
+                      onChange={(e) =>
+                        handleInputChange(
+                          e,
+                          setFieldValue,
+                          20,
+                          "all",
+                          ["sku"],
+                          "-"
+                        )
+                      }
+                      onBlur={handleBlur}
+                    />
+                     <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
+                    
+                  </div>
+                  {touched.sku && errors.sku && (
+                    <span className={styles.error}>{errors.sku}</span>
+                  )}
+                </div>
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stock<span className={styles.labelStamp}>*</span>
@@ -2979,18 +2915,8 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue("stock", selectedOption.value)
                       }
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="If the product is in stock or out of stock or On-demand"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                     <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
+                   
                   </div>
                   {touched.stock && errors.stock && (
                     <span className={styles.error}>{errors.stock}</span>
@@ -3043,7 +2969,7 @@ const AddProduct = ({ placeholder }) => {
                     className={styles.formAddButton}
                     onClick={() =>
                       (values?.stockedInDetails?.length || 0) <
-                        (values.countries?.length || 0) &&
+                      (values.countries?.length || 0) &&
                       setFieldValue("stockedInDetails", [
                         ...values.stockedInDetails,
                         {
@@ -3093,7 +3019,8 @@ const AddProduct = ({ placeholder }) => {
                             <Field
                               name={`stockedInDetails.${index}.quantity`}
                               className={styles.quantityInput}
-                              placeholder={stock.placeholder}
+                              // placeholder={stock.placeholder}
+                              placeholder="Enter Quantity"
                               // autoComplete="off"
                               // type="number"
                               onInput={(e) => {
@@ -3101,9 +3028,9 @@ const AddProduct = ({ placeholder }) => {
                                   .replace(/\D/g, "")
                                   .slice(0, 6);
                               }}
-                              // onInput={(e) => {
-                              //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
-                              // }}
+                            // onInput={(e) => {
+                            //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                            // }}
                             />
                             {/* <button
                               type="button"
@@ -3267,18 +3194,8 @@ const AddProduct = ({ placeholder }) => {
                           e.target.value = parts.join(".");
                         }}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="sku-tooltip"
-                        data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip className={styles.tooltipSec} id="sku-tooltip" />
+                      <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
+                    
                     </div>
                     <span className={styles.error}>
                       {touched.productPricingDetails?.[index]?.price &&
@@ -3464,7 +3381,7 @@ const AddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
-              {console.log("values?.complianceFile",values?.complianceFile)}
+              {console.log("values?.complianceFile", values?.complianceFile)}
 
               {values?.complianceAndCertificationFileNDate?.map(
                 (ele, index) => (
@@ -3476,19 +3393,16 @@ const AddProduct = ({ placeholder }) => {
                       >
                         {({ field }) => (
                           <ComplianceNCertification
-                            fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
-                            setFieldValue={setFieldValue}
-                            initialValues={values}
-                            label="Regulatory Compliance"
-                            tooltip={
-                              "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
-                              "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                              " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                            }
-                            // Pass the selected file here
-                            selectedFile={ele?.file}
-                            preview={ele?.preview}
-                            fileIndex={index}
+                          fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
+                          setFieldValue={setFieldValue}
+                          initialValues={values}
+                          label="Regulatory Compliance"
+                          tooltip={
+                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                          }
+                          selectedFile={ele?.file}
+                          preview={ele?.preview}
+                          fileIndex={index}
                           />
                         )}
                       </Field>
@@ -3529,21 +3443,7 @@ const AddProduct = ({ placeholder }) => {
                           showMask
                           separate
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="sku-tooltip"
-                          data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="sku-tooltip"
-                        />
+                        
                       </div>
                       <span className={styles.error}>
                         {touched.complianceAndCertificationFileNDate?.[index]
@@ -3556,47 +3456,47 @@ const AddProduct = ({ placeholder }) => {
                     {/* Remove Section */}
                     {values?.complianceAndCertificationFileNDate?.length >
                       1 && (
-                      <div
-                        className={styles.formCloseSection}
-                        onClick={() => {
-                          // Clear form values before removing the row
-                          setFieldValue(
-                            `complianceAndCertificationFileNDate.${index}.file`,
-                            {}
-                          );
-                          setFieldValue(
-                            `complianceAndCertificationFileNDate.${index}.date`,
-                            ""
-                          );
-                          setFieldValue(
-                            `complianceAndCertificationFileNDate.${index}.preview`,
-                            false
-                          );
+                        <div
+                          className={styles.formCloseSection}
+                          onClick={() => {
+                            // Clear form values before removing the row
+                            setFieldValue(
+                              `complianceAndCertificationFileNDate.${index}.file`,
+                              {}
+                            );
+                            setFieldValue(
+                              `complianceAndCertificationFileNDate.${index}.date`,
+                              ""
+                            );
+                            setFieldValue(
+                              `complianceAndCertificationFileNDate.${index}.preview`,
+                              false
+                            );
 
-                          // Remove the row from the array
-                          const updatedList =
-                            values.complianceAndCertificationFileNDate.filter(
-                              (_, elindex) => elindex !== index
+                            // Remove the row from the array
+                            const updatedList =
+                              values.complianceAndCertificationFileNDate.filter(
+                                (_, elindex) => elindex !== index
+                              );
+                            const updatedList2 =
+                              values.complianceFile.filter(
+                                (_, elindex) => elindex !== index
+                              );
+                            setFieldValue(
+                              "complianceAndCertificationFileNDate",
+                              updatedList
                             );
-                          const updatedList2 =
-                            values.complianceFile.filter(
-                              (_, elindex) => elindex !== index
+                            setFieldValue(
+                              "complianceFile",
+                              updatedList2
                             );
-                          setFieldValue(
-                            "complianceAndCertificationFileNDate",
-                            updatedList
-                          );
-                          setFieldValue(
-                            "complianceFile",
-                            updatedList2
-                          );
-                        }}
-                      >
-                        <span className={styles.formclose}>
-                          <CloseIcon className={styles.icon} />
-                        </span>
-                      </div>
-                    )}
+                          }}
+                        >
+                          <span className={styles.formclose}>
+                            <CloseIcon className={styles.icon} />
+                          </span>
+                        </div>
+                      )}
                   </div>
                 )
               )}
@@ -3625,21 +3525,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Adheres to HL7/FHIR standards for healthcare data exchange."
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                       <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
+                     
                     </div>
                   </div>
 
@@ -3658,21 +3545,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Type of laser (e.g., CO2, diode, Nd:YAG, Er:YAG)"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                      <Tooltip content="Type of laser (e.g., CO2, diode, Nd:YAG, Er:YAG)"></Tooltip>
+                     
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3691,21 +3565,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Type of cooling used (e.g., air, contact, cryogenic cooling)."
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                        <Tooltip content="Type of cooling used (e.g., air, contact, cryogenic cooling)."></Tooltip>
+                     
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3725,21 +3586,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Diameter of the laser spot on the skin (in mm or cm)"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                         <Tooltip content="Diameter of the laser spot on the skin (in mm or cm)"></Tooltip>
+                      
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3760,21 +3608,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Specific diagnostic tests or functions that the tool performs"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                      <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
+                     
                     </div>
                   </div>
                   <div className={styles.productContainer}>
@@ -3794,24 +3629,10 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="testing-tooltip"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="testing-tooltip"
-                      >
-                        Results from any internal or external product testing
-                        (e.g., nebulizer <br /> output, CPAP pressure and
-                        airflow testing).
-                      </Tooltip>
+                       <Tooltip content=" Results from any internal or external product testing
+                        (e.g., nebulizer output, CPAP pressure and
+                        airflow testing)."></Tooltip>
+                      
                     </div>
                     <AddProductFileUpload
                       fieldInputName={"performanceTestingReportFile"}
@@ -3830,8 +3651,8 @@ const AddProduct = ({ placeholder }) => {
                       )}
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Specification</label>
-                    <span className={styles.labelStamp}>*</span>
+                    <label className={styles.formLabel}>Specification<span className={styles.labelStamp}>*</span></label>
+                    
                     <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
@@ -3845,21 +3666,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="medical-tooltip"
-                        data-tooltip-content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      <Tooltip
-                        className={styles.tooltipSec}
-                        id="medical-tooltip"
-                      />
+                        <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+                      
                       {touched.specification && errors.specification && (
                         <span className={styles.error}>
                           {errors.specification}
@@ -3912,21 +3720,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="pharma-tooltip"
-                          data-tooltip-content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="pharma-tooltip"
-                        />
+                         <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
+                       
                       </div>
                       {touched.genericName && errors.genericName && (
                         <span className={styles.error}>
@@ -3953,21 +3748,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="pharma-tooltip"
-                          data-tooltip-content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="pharma-tooltip"
-                        />
+                          <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
+                      
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -3991,23 +3773,9 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="strength-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="strength-tooltip"
-                        >
-                          The strength or concentration of the medication (e.g.,{" "}
-                          <br /> 500 mg, 10 mg/mL,Standard or high-strength).
-                        </Tooltip>
+                           <Tooltip content=" The strength or concentration of the medication (e.g.,
+                           500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
+                       
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -4031,24 +3799,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="classification-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="classification-tooltip"
-                        >
-                          Classification of the OTC drug by health authorities
-                          (e.g., <br /> approved for general public use,
-                          behind-the-counter).
-                        </Tooltip>
+                         <Tooltip content="  Classification of the OTC drug by health authorities
+                          (e.g.,  approved for general public use,
+                          behind-the-counter)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4070,21 +3824,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="pharma-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="pharma-tooltip"
-                        />
+                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -4107,21 +3848,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="pharma-tooltip"
-                          data-tooltip-content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="pharma-tooltip"
-                        />
+                           <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                      
                       </div>
                       {/* <span className={styles.error}></span> */}
                     </div>
@@ -4141,34 +3869,20 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="purpose-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="purpose-tooltip"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain relief,{" "}
-                          <br /> Prevention of infection.,Cooling and
+                         <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
+                          monitoring, cholesterol level check,Pain relief,
+                           Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure or use
                           case of
-                          <br /> tool, Relieves symptoms, promotes healing, or
-                          prevents recurrence.)
-                        </Tooltip>
+                           tool, Relieves symptoms, promotes healing, or
+                          prevents recurrence.)"></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Drug Administration Route
-                        <span className={styles.labelStamp}>*</span>
+                        {/* <span className={styles.labelStamp}>*</span> */}
                       </label>
                       <div className={styles.tooltipContainer}>
                         <textarea
@@ -4183,27 +3897,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="administration-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="administration-tooltip"
-                        >
-                          Drugs can be introduced into the body by many routes,
-                          such as enteric (oral, peroral, rectal), <br />{" "}
+                         <Tooltip content="  Drugs can be introduced into the body by many routes,
+                          such as enteric (oral, peroral, rectal), 
                           parenteral (intravascular, intramuscular,
                           subcutaneous, and inhalation
-                          <br /> administration) or topical (skin and mucosal
-                          membranes)
-                        </Tooltip>
+                           administration) or topical (skin and mucosal
+                          membranes)"></Tooltip>
+                       
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -4243,25 +3943,11 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="controlled-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="controlled-tooltip"
-                        >
-                          Whether the drug is a controlled substance (e.g., some
+                        <Tooltip content="Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
-                          <br /> some are only available behind the counter or
-                          on prescription).
-                        </Tooltip>
+                          some are only available behind the counter or
+                          on prescription)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4291,21 +3977,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="pharma-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="pharma-tooltip"
-                          />
+                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                        
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -4335,26 +4008,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="warning-tooltip"
-                              data-tooltip-content=""
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="warning-tooltip"
-                            >
-                              Common side effects associated with the
+                              <Tooltip content="Common side effects associated with the
                               medication. Known
-                              <br /> interactions with other drugs or food (eg.
-                              Alcohol)
-                            </Tooltip>
+                              interactions with other drugs or food (eg.
+                              Alcohol)"></Tooltip>
+                           
                           </div>
                           {/* <span className={styles.error}></span> */}
                         </div>
@@ -4373,21 +4031,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="pharma-tooltip"
-                              data-tooltip-content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="pharma-tooltip"
-                            />
+                              <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                           
                           </div>
                         </div>
                       </div>
@@ -4422,21 +4067,27 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
+                          <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
+                        
+                      </div>
+                    </div>
+                    <div className={styles.productContainer}>
+                      <label className={styles.formLabel}>Fragrance</label>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          placeholder="Enter Fragrance"
+                          type="text"
+                          name="fragrance"
+                          value={values.fragrance}
+                          // onChange={handleChange}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 2000, "all")
+                          }
+                          onBlur={handleBlur}
                         />
+                         <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -4457,23 +4108,9 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-strength-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-strength-tooltip"
-                        >
-                          The strength or concentration of the medication (e.g.,{" "}
-                          <br /> 500 mg, 10 mg/mL,Standard or high-strength).
-                        </Tooltip>
+                          <Tooltip content=" The strength or concentration of the medication (e.g.,
+                          500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
+                        
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -4495,21 +4132,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Stretch for tapes"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                         <Tooltip content=" Stretch for tapes"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4529,21 +4153,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Adhesive or non-adhesive."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                              <Tooltip content=" Adhesive or non-adhesive."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4563,21 +4174,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="The thickness of the Item (e.g., in mil or gauge)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                         <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4599,24 +4197,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-otc-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-otc-tooltip"
-                        >
-                          Classification of the OTC drug by health authorities
-                          (e.g., <br /> approved for general public use,
-                          behind-the-counter).
-                        </Tooltip>
+                         <Tooltip content=" Classification of the OTC drug by health authorities
+                          (e.g., approved for general public use,
+                          behind-the-counter)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4635,57 +4219,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                          <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                     
                       </div>
                       <span className={styles.error}></span>
                     </div>
 
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>Fragrance</label>
-                      <div className={styles.tooltipContainer}>
-                        <textarea
-                          className={styles.formInput}
-                          placeholder="Enter Fragrance"
-                          rows="2"
-                          name="fragrance"
-                          value={values.fragrance}
-                          // onChange={handleChange}
-                          onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 2000, "all")
-                          }
-                          onBlur={handleBlur}
-                        />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Whether the product contains fragrance or is fragrance-free."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
-                      </div>
-                    </div>
+                  
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
@@ -4704,21 +4244,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                      
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -4744,21 +4271,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4781,21 +4295,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="The hair, scalp or skin condition the product is formulated to address "
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                           <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
+                       
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -4821,27 +4322,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="route-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="route-tooltip"
-                        >
-                          Drugs can be introduced into the body by many routes,
+                         <Tooltip content=" Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral,
-                          <br /> rectal), parenteral (intravascular,
+                          rectal), parenteral (intravascular,
                           intramuscular, subcutaneous, and inhalation
-                          <br /> administration) or topical (skin and mucosal
-                          membranes)
-                        </Tooltip>
+                          administration) or topical (skin and mucosal
+                          membranes)"></Tooltip>
+                       
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -4868,21 +4355,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                          <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
+                        
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -4903,27 +4377,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="consentration-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="consentration-tooltip"
-                        >
-                          Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are <br /> typically
+                         <Tooltip content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically
                           70-90% concentration for optimal antimicrobial
                           efficacy.
-                          <br /> Oxygen concentration level provided by the
-                          device (e.g., 95%)
-                        </Tooltip>
+                          Oxygen concentration level provided by the
+                          device (e.g., 95%)"></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4942,21 +4402,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                        <Tooltip content="such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4974,21 +4421,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Hyaluronic acid, Calcium hydroxyapatite"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                         <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5013,21 +4447,8 @@ const AddProduct = ({ placeholder }) => {
                             animal-derived ingredients).
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Description of the active and/or inactive ingredients and components"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                        <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5062,21 +4483,8 @@ const AddProduct = ({ placeholder }) => {
                             is cruelty-free
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="skin-tooltip"
-                          data-tooltip-content="Whether the product is tested on animals or is cruelty-free"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="skin-tooltip"
-                        />
+                        <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5110,25 +4518,11 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="substance-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="substance-tooltip"
-                        >
-                          Whether the drug is a controlled substance (e.g., some
+                        <Tooltip content="    Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
-                          <br /> some are only available behind the counter or
-                          on prescription).
-                        </Tooltip>
+                           some are only available behind the counter or
+                          on prescription)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5181,22 +4575,8 @@ const AddProduct = ({ placeholder }) => {
                               }}
                               onBlur={handleBlur}
                             />
-
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="skin-tooltip"
-                              data-tooltip-content="Whether the product has been dermatologist-tested for sensitivity."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="skin-tooltip"
-                            />
+<Tooltip content="   Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
+                            
                           </div>
                           {touched.dermatologistTested &&
                             errors.dermatologistTested && (
@@ -5271,22 +4651,8 @@ const AddProduct = ({ placeholder }) => {
                               }}
                               onBlur={handleBlur}
                             />
-
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="pediatrician-tooltip"
-                              data-tooltip-content="Whether the product has been recommended or endorsed by pediatricians."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="pediatrician-tooltip"
-                            />
+<Tooltip content=" Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
+                           
                           </div>
                           {touched.pediatricianRecommended &&
                             errors.pediatricianRecommended && (
@@ -5338,24 +4704,10 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="effects-tooltip"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="effects-tooltip"
-                            >
-                              Common side effects associated with the
-                              medication. Known interactions <br /> with other
-                              drugs or food (eg. Alcohol)
-                            </Tooltip>
+                            <Tooltip content="  Common side effects associated with the
+                              medication. Known interactions  with other
+                              drugs or food (eg. Alcohol)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5374,21 +4726,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="skin-tooltip"
-                              data-tooltip-content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="skin-tooltip"
-                            />
+                               <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                            
                           </div>
                         </div>
                       </div>
@@ -5416,21 +4755,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="skin-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="skin-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                       </div>
                       {touched.expiry && errors.expiry && (
@@ -5470,21 +4796,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                           <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -5505,23 +4818,9 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-strength-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-strength-tooltip"
-                        >
-                          The strength or concentration of the medication (e.g.,
-                          500 mg, 10 <br /> mg/mL,Standard or high-strength).
-                        </Tooltip>
+                         <Tooltip content=" The strength or concentration of the medication (e.g.,
+                          500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
+                      
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -5545,24 +4844,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-OTC-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-OTC-tooltip"
-                        >
-                          Classification of the OTC drug by health authorities
-                          (e.g., <br /> approved for general public use,
-                          behind-the-counter).
-                        </Tooltip>
+                          <Tooltip content="      Classification of the OTC drug by health authorities
+                          (e.g.,  approved for general public use,
+                          behind-the-counter)."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5584,21 +4869,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="  Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
+                     
                       </div>
                       {touched.healthBenefit && errors.healthBenefit && (
                         <span className={styles.error}>
@@ -5625,21 +4897,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -5662,21 +4921,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5696,28 +4942,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-purpose-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-purpose-tooltip"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain relief,{" "}
-                          <br />
+                        <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
+                          monitoring, cholesterol level check,Pain relief,
+                         
                           Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure
-                          <br /> or use case of tool, Relieves symptoms,
-                          promotes healing, or prevents recurrence.)
-                        </Tooltip>
+                           or use case of tool, Relieves symptoms,
+                          promotes healing, or prevents recurrence.)"></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5740,26 +4972,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-drugs-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-drugs-tooltip"
-                        >
-                          Drugs can be introduced into the body by many routes,
+                        <Tooltip content=" Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral, rectal), parenteral
-                          (intravascular, intramuscular, <br /> subcutaneous,
+                          (intravascular, intramuscular,  subcutaneous,
                           and inhalation administration) or topical (skin and
-                          mucosal membranes)
-                        </Tooltip>
+                          mucosal membranes)"></Tooltip>
+                        
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -5786,21 +5004,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
+                       
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -5823,25 +5028,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-sweeteners-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-sweeteners-tooltip"
-                        >
-                          Some proteins contain artificial sweeteners (e.g.,
+                          <Tooltip content="Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
-                          <br /> while others use natural sweeteners (e.g.,
-                          stevia, monk fruit).
-                        </Tooltip>
+                           while others use natural sweeteners (e.g.,
+                          stevia, monk fruit)."></Tooltip>
+                                             
                       </div>
                       {touched.additivesNSweeteners &&
                         errors.additivesNSweeteners && (
@@ -5928,24 +5119,10 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-substances-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-substances-tooltip"
-                        >
-                          Whether the drug is a controlled substance (e.g., some
-                          OTC drugs are <br /> restricted, some are only
-                          available behind the counter or on prescription).
-                        </Tooltip>
+                        <Tooltip content=" Whether the drug is a controlled substance (e.g., some
+                          OTC drugs are restricted, some are only
+                          available behind the counter or on prescription)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5971,21 +5148,8 @@ const AddProduct = ({ placeholder }) => {
                             <br />, no animal-derived ingredients).
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active and/or inactive ingredients and components"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content=" Description of the active and/or inactive ingredients and components"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6020,21 +5184,8 @@ const AddProduct = ({ placeholder }) => {
                             is cruelty-free
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the product is tested on animals or is cruelty-free"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content=" Whether the product is tested on animals or is cruelty-free"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6063,21 +5214,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                             <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -6108,24 +5246,10 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="side-effects-tooltip"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="side-effects-tooltip"
-                            >
-                              Common side effects associated with the
-                              medication. Known <br /> interactions with other
-                              drugs or food (eg. Alcohol)
-                            </Tooltip>
+                              <Tooltip content="Common side effects associated with the
+                              medication. Known interactions with other
+                              drugs or food (eg. Alcohol)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6144,21 +5268,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                              <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
+                            
                           </div>
                         </div>
                       </div>
@@ -6193,21 +5304,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The thickness of the Item (e.g., in mil or gauge)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6228,21 +5326,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6265,31 +5350,17 @@ const AddProduct = ({ placeholder }) => {
                           }}
                           placeholder={
                             !value.filtrationType ||
-                            value.filtrationType.length === 0
+                              value.filtrationType.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
                           allowDuplicate={false}
                           separator=","
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="filtration-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="filtration-tooltip"
-                        >
-                          Type of Filtration (e.g., PFE (Particle Filtration
-                          Efficiency), <br /> BFE (Bacterial Filtration
-                          Efficiency), Viral Filtration Efficiency etc)
-                        </Tooltip>
+                         <Tooltip content="  Type of Filtration (e.g., PFE (Particle Filtration
+                          Efficiency), BFE (Bacterial Filtration
+                          Efficiency), Viral Filtration Efficiency etc)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6309,21 +5380,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6343,21 +5401,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Any specific chemical resistance features"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Any specific chemical resistance features"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6377,21 +5422,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6411,21 +5443,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Type of coating (e.g., antimicrobial, silicone)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6456,21 +5475,8 @@ const AddProduct = ({ placeholder }) => {
                             powder-free.
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the gloves are powdered or powder-free."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
+                       
                       </div>
                     </div>
 
@@ -6497,21 +5503,8 @@ const AddProduct = ({ placeholder }) => {
                             Whether the item have texture <br /> or smooth
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the item have texture or smooth"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Whether the item have texture or smooth"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6541,21 +5534,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                        
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -6583,21 +5563,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
+                          
                           </div>
                         </div>
                         <div className={styles.productInnerContainer}>
@@ -6628,21 +5595,8 @@ const AddProduct = ({ placeholder }) => {
                                 non-sterile.
                               </label>
                             </span>
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Whether the item is sterilized or non-sterile."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6670,21 +5624,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6706,21 +5647,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6742,21 +5670,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6794,21 +5709,8 @@ const AddProduct = ({ placeholder }) => {
                                 for surgical masks)
                               </label>
                             </span>
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Resistance to fluid penetration (e.g., for surgical masks)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6835,7 +5737,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.physicalState || []} // Ensure value is always an array
                           placeholder={
                             !values.physicalState ||
-                            values.physicalState.length === 0
+                              values.physicalState.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -6852,21 +5754,8 @@ const AddProduct = ({ placeholder }) => {
                           allowDuplicate={false} // Prevent duplicate entries if supported
                           separator="," // Optional: Define separator for adding values
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="physical-state-tooltip" // Unique tooltip ID
-                          data-tooltip-content="Physical state (e.g., solid, liquid, gas)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="physical-state-tooltip" // Match the unique ID
-                        />
+                          <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6880,7 +5769,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.hazardClassification || []} // Ensure value is always an array
                           placeholder={
                             !values.hazardClassification ||
-                            values.hazardClassification.length === 0
+                              values.hazardClassification.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -6897,21 +5786,8 @@ const AddProduct = ({ placeholder }) => {
                           allowDuplicate={false} // Prevent duplicate entries if supported
                           separator="," // Optional: Define separator for adding values
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="hazard-tooltip" // Unique tooltip ID
-                          data-tooltip-content="Hazard Classification (e.g., flammable, toxic, etc)" // Updated content
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="hazard-tooltip" // Match the unique ID
-                        />
+                         <Tooltip content="Hazard Classification (e.g., flammable, toxic, etc)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6931,21 +5807,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
+                        
                       </div>
                     </div>
 
@@ -6964,21 +5827,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Type of coating (e.g., antimicrobial, silicone)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6996,27 +5846,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="diagnostic-purpose-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="diagnostic-purpose-tooltip"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
-                          monitoring, cholesterol level check,Pain <br />{" "}
+
+<Tooltip content="Purpose (e.g., COVID-19 detection, blood glucose
+                          monitoring, cholesterol level check,Pain 
                           relief,Prevention of infection.,Cooling and
-                          soothing.,Moisturizing and healing, procedure <br />{" "}
+                          soothing.,Moisturizing and healing, procedure 
                           or use case of tool, Relieves symptoms, promotes
-                          healing, or prevents recurrence.)
-                        </Tooltip>
+                          healing, or prevents recurrence.)"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7035,21 +5872,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Chemical Abstracts Service (CAS) number for unique identification."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Chemical Abstracts Service (CAS) number for unique identification."></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7068,21 +5892,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Purity or grade (e.g., analytical grade, reagent grade)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7102,27 +5913,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="concen-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="concen-tooltip"
-                        >
-                          Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%{" "}
-                          <br />
+                         <Tooltip content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically 70-90%
+                          
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level provided by the device
-                          (e.g., 95%)
-                        </Tooltip>
+                          (e.g., 95%)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7145,21 +5942,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7180,21 +5964,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Magnification capabilities (e.g., 40x to 1000x)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
+                      
                       </div>
                     </div>
 
@@ -7215,21 +5986,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7247,21 +6005,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Power requirements (e.g., battery, AC adapter)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7280,21 +6025,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Maximum resolution the microscope can achieve."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7330,21 +6062,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Specific diagnostic tests or functions that the tool performs"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
+                       
                       </div>
                       {touched.diagnosticFunctions &&
                         errors.diagnosticFunctions && (
@@ -7369,21 +6088,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
+                     
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7401,26 +6107,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="concentrations"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="concentrations"
-                        >
-                          Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                         <Tooltip content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
-                          concentration for optimal <br /> antimicrobial
+                          concentration for optimal  antimicrobial
                           efficacy. Oxygen concentration level provided by the
-                          device (e.g., 95%)
-                        </Tooltip>
+                          device (e.g., 95%)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7445,21 +6137,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
+                        
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7478,21 +6157,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Operating noise level (e.g., 40 dB)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content=" Operating noise level (e.g., 40 dB)."></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7567,21 +6233,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                           <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+                       
                       </div>
                       {touched.specification && errors.specification && (
                         <span className={styles.error}>
@@ -7621,26 +6274,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="performance-tooltips"
-                          data-tooltip-content=""
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="performance-tooltips"
-                        >
-                          Results from any internal or external product testing
+                         <Tooltip content=" Results from any internal or external product testing
                           (e.g.,
-                          <br /> nebulizer output, CPAP pressure and airflow
-                          testing).
-                        </Tooltip>
+                          nebulizer output, CPAP pressure and airflow
+                          testing)."></Tooltip>
+                      
                       </div>
                       <AddProductFileUpload
                         fieldInputName={"performanceTestingReportFile"}
@@ -7688,21 +6326,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The thickness of the Item (e.g., in mil or gauge)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                              <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
+                     
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7723,21 +6348,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
+                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7757,21 +6369,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7792,21 +6391,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Any specific chemical resistance features"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Any specific chemical resistance features"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7838,21 +6424,8 @@ const AddProduct = ({ placeholder }) => {
                             or powder-free.
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the gloves are powdered or powder-free."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7880,21 +6453,8 @@ const AddProduct = ({ placeholder }) => {
                             Whether the item have texture <br /> or smooth
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the item have texture or smooth"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Whether the item have texture or smooth"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7923,21 +6483,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7978,21 +6525,8 @@ const AddProduct = ({ placeholder }) => {
                                 or non-sterile.
                               </label>
                             </span>
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Whether the item is sterilized or non-sterile."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -8018,21 +6552,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Adhesive or non-adhesive."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Adhesive or non-adhesive."></Tooltip>
+                     
                       </div>
                     </div>
 
@@ -8052,21 +6573,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the suture is absorbable or non-absorbable."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
+                       
                       </div>
                     </div>
 
@@ -8086,21 +6594,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Stretch for tapes"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Stretch for tapes"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -8137,21 +6632,8 @@ const AddProduct = ({ placeholder }) => {
                             surgical masks)
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Resistance to fluid penetration (e.g., for surgical masks)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -8187,23 +6669,9 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="streng-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="streng-tooltip"
-                        >
-                          The strength or concentration of the medication (e.g.,{" "}
-                          <br /> 500 mg, 10 mg/mL,Standard or high-strength).
-                        </Tooltip>
+                         <Tooltip content="The strength or concentration of the medication (e.g.,
+                       500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
+                       
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -8227,21 +6695,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the item is moisture resistance or not"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Whether the item is moisture resistance or not"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -8260,21 +6715,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                        
                       </div>
                     </div>
 
@@ -8296,21 +6738,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The hair, scalp or skin condition the product is formulated to address "
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
+                       
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -8333,21 +6762,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Type of coating (e.g., antimicrobial, silicone)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                            <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -8385,21 +6801,8 @@ const AddProduct = ({ placeholder }) => {
                                 non-sterile.
                               </label>
                             </span>
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Whether the item is sterilized or non-sterile."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -8425,21 +6828,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Stretch for tapes"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Stretch for tapes"></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -8459,21 +6849,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Whether the suture is absorbable or non-absorbable."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                              <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -8494,21 +6871,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
+                           
                           </div>
                         </div>
 
@@ -8529,24 +6893,10 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="color-options-tooltip"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="color-options-tooltip"
-                            >
-                              Available colors (e.g., black, beige, grey,
-                              tortoiseshell, <br /> frame color or lense color
-                              etc)
-                            </Tooltip>
+                              <Tooltip content=" Available colors (e.g., black, beige, grey,
+                              tortoiseshell, frame color or lense color
+                              etc)"></Tooltip>
+                          
                           </div>
                         </div>
                       </div>
@@ -8583,21 +6933,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                            <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
+                    
                       </div>
                     </div>
 
@@ -8616,21 +6953,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
+                      
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -8650,28 +6974,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="target-condition-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="target-condition-tooltip"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
+                         <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
-                          relief,Prevention <br />
+                          relief,Prevention 
                           of infection.,Cooling and soothing.,Moisturizing and
                           healing, procedure or use case of tool, Relieves
-                          <br /> symptoms, promotes healing, or prevents
-                          recurrence.)
-                        </Tooltip>
+                           symptoms, promotes healing, or prevents
+                          recurrence.)"></Tooltip>
+                       
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -8704,21 +7014,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                       
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -8920,21 +7217,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -8968,21 +7252,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
+                       
                       </div>
                     </div>
 
@@ -9001,28 +7272,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="concentra-tooltip"
-                          data-tooltip-content=""
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="concentra-tooltip"
-                        >
-                          Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
-                          ,Alcohol-based disinfectants are typically 70-90%{" "}
-                          <br />
+                         <Tooltip content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                          ,Alcohol-based disinfectants are typically 70-90%
+                         
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level
-                          <br /> provided by the device (e.g., 95%)
-                        </Tooltip>
+                         provided by the device (e.g., 95%)"></Tooltip>
+                        
                       </div>
                     </div>
                   </div>
@@ -9050,21 +7306,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                          
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -9093,21 +7336,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9127,21 +7357,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
+                            
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9163,21 +7380,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Type of Battery Installed to Operate the Item"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9199,21 +7403,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Size of Battery Installed to Operate the Item"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                              <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9234,21 +7425,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9269,21 +7447,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Whether the product can be folded for easy storage (e.g., foldable walkers)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9304,21 +7469,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                               <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
+                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9339,25 +7491,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="type-support-tooltip"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="type-support-tooltip"
-                            >
-                              The type of support provided by the aid (e.g.,
+                            <Tooltip content=" The type of support provided by the aid (e.g.,
                               two-legged,
-                              <br /> four-legged walker, or wall-mounted grab
-                              bar).
-                            </Tooltip>
+                             four-legged walker, or wall-mounted grab
+                              bar)."></Tooltip>
+                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -9378,25 +7516,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="reports-tooltip"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="reports-tooltip"
-                            >
-                              Results from any internal or external product
+                               <Tooltip content="   Results from any internal or external product
                               testing (e.g.,
-                              <br /> nebulizer output, CPAP pressure and airflow
-                              testing).
-                            </Tooltip>
+                               nebulizer output, CPAP pressure and airflow
+                              testing)."></Tooltip>
+                          
                           </div>
                           <AddProductFileUpload
                             fieldInputName={"performanceTestingReportFile"}
@@ -9448,21 +7572,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Description of the active ingredients and components of the vaccine.."></Tooltip>
+                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -9485,28 +7596,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="identification-purpose-tooltip"
-                          data-tooltip-content=""
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="identification-purpose-tooltip"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
+                         <Tooltip content="  Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention of infection.,Cooling
-                          <br /> and soothing.,Moisturizing and healing,
+                          and soothing.,Moisturizing and healing,
                           procedure or use case of tool, Relieves symptoms,
-                          promotes healing, or prevents recurrence.)
-                        </Tooltip>
+                          promotes healing, or prevents recurrence.)"></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -9524,21 +7620,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content=" Verified by clinical trials or regulatory agencies."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="  Verified by clinical trials or regulatory agencies."></Tooltip>
+                       
                       </div>
                       <AddProductFileUpload
                         fieldInputName={"healthClaimsFile"}
@@ -9580,21 +7663,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -9633,21 +7703,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                      
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -9674,21 +7731,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Expected lifespan of the product (e.g., single-use vs. reusable items)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
+                      
                       </div>
                       {touched.productLongevity && errors.productLongevity && (
                         <span className={styles.error}>
@@ -9713,21 +7757,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the product can be folded for easy storage (e.g., foldable walkers)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
+                        
                       </div>
                       {touched.foldability && errors.foldability && (
                         <span className={styles.error}>
@@ -9760,21 +7791,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -9814,21 +7832,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -9852,26 +7857,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="contra-tooltips"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="contra-tooltips"
-                        >
-                          Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                           <Tooltip content="  Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration <br /> for optimal antimicrobial
                           efficacy. Oxygen concentration level provided by the
-                          device (e.g., 95%)
-                        </Tooltip>
+                          device (e.g., 95%)"></Tooltip>
+                      
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -9889,21 +7880,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
+                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -9922,21 +7900,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Whether the product contains fragrance or is fragrance-free."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
+                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -9965,21 +7930,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -10015,21 +7967,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Is the product dairy free?"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Is the product dairy free?"></Tooltip>
+                        
                       </div>
                       {touched.dairyFree && errors.dairyFree && (
                         <span className={styles.error}>{errors.dairyFree}</span>
@@ -10053,25 +7992,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="flavour-option-tooltip"
-                          data-tooltip-content=""
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="flavour-option-tooltip"
-                        >
-                          Protein powders often come in a wide variety of
-                          flavors like <br />
-                          chocolate, vanilla, strawberry, cookies & cream, etc.
-                        </Tooltip>
+                         <Tooltip content=" Protein powders often come in a wide variety of
+                          flavors like 
+                          chocolate, vanilla, strawberry, cookies & cream, etc."></Tooltip>
+                        
                       </div>
                       {touched.flavorOptions && errors.flavorOptions && (
                         <span className={styles.error}>
@@ -10098,21 +8022,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content=" Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
+                       
                       </div>
                       {touched.aminoAcidProfile && errors.aminoAcidProfile && (
                         <span className={styles.error}>
@@ -10137,21 +8048,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Varies based on type (e.g., whey isolate vs. concentrate)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
+                     
                       </div>
                       {touched.fatContent && errors.fatContent && (
                         <span className={styles.error}>
@@ -10178,21 +8076,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                         <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
+                      
                       </div>
                       {touched.healthBenefit && errors.healthBenefit && (
                         <span className={styles.error}>
@@ -10215,29 +8100,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="purpose-well-tooltips"
-                          data-tooltip-content=""
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="purpose-well-tooltips"
-                        >
-                          Purpose (e.g., COVID-19 detection, blood glucose
+                          <Tooltip content="     Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
-                          relief,Prevention of infection.,Cooling and soothing.,{" "}
-                          <br />
+                          relief,Prevention of infection.,Cooling and soothing.
+                         
                           Moisturizing and healing, procedure or use case of
                           tool, Relieves symptoms, promotes healing, or prevents
-                          recurrence.)
-                        </Tooltip>
+                          recurrence.)"></Tooltip>
+                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -10258,21 +8128,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active ingredients and components of the vaccine."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
+                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -10299,25 +8156,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="additives-tooltip"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="additives-tooltip"
-                        >
-                          Some proteins contain artificial sweeteners (e.g.,
+                        <Tooltip content=" Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
-                          <br /> while others use natural sweeteners (e.g.,
-                          stevia, monk fruit).
-                        </Tooltip>
+                          while others use natural sweeteners (e.g.,
+                          stevia, monk fruit)."></Tooltip>
+                       
                       </div>
                       {touched.additivesNSweeteners &&
                         errors.additivesNSweeteners && (
@@ -10346,21 +8189,8 @@ const AddProduct = ({ placeholder }) => {
                             animal-derived ingredients).
                           </label>
                         </span>
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Description of the active and/or inactive ingredients and components"
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                        <Tooltip content="Description of the active and/or inactive ingredients and components."></Tooltip>
+                       
                       </div>
                     </div>
                   </div>
@@ -10388,21 +8218,8 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                          <span
-                            className={styles.infoTooltip}
-                            data-tooltip-id="wellness-tooltip"
-                            data-tooltip-content="Expected shelf life of the item under proper storage conditions or Expiry date"
-                          >
-                            <img
-                              src={Information}
-                              className={styles.iconTooltip}
-                              alt="information"
-                            />
-                          </span>
-                          <Tooltip
-                            className={styles.tooltipSec}
-                            id="wellness-tooltip"
-                          />
+                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
+                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -10442,21 +8259,8 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <span
-                          className={styles.infoTooltip}
-                          data-tooltip-id="wellness-tooltip"
-                          data-tooltip-content="Easily adjustable storage to accommodate growing data volumes."
-                        >
-                          <img
-                            src={Information}
-                            className={styles.iconTooltip}
-                            alt="information"
-                          />
-                        </span>
-                        <Tooltip
-                          className={styles.tooltipSec}
-                          id="wellness-tooltip"
-                        />
+                          <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
+                      
                       </div>
                       {touched.scalabilityInfo && errors.scalabilityInfo && (
                         <span className={styles.error}>
@@ -10488,21 +8292,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="License Terms"
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                              <Tooltip content="License Terms"></Tooltip>
+                          
                           </div>
                           {touched.license && errors.license && (
                             <span className={styles.error}>
@@ -10527,21 +8318,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="White-label solutions for branding. ,Custom integrations or API usage."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                            <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
+                           
                           </div>
                           {touched.addOns && errors.addOns && (
                             <span className={styles.error}>
@@ -10567,21 +8345,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Patients Easy-to-use apps for booking and attending consultations."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
+                           
                           </div>
                           {touched.userAccess && errors.userAccess && (
                             <span className={styles.error}>
@@ -10613,26 +8378,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content=""
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            >
-                              Remote monitoring of vital signs (e.g., heart
-                              rate, blood pressure, glucose levels). <br />
+                            <Tooltip content="Remote monitoring of vital signs (e.g., heart
+                              rate, blood pressure, glucose levels).
                               Real-time data transmission to healthcare
-                              providers or mobile apps.
-                            </Tooltip>
+                              providers or mobile apps."></Tooltip>
+                           
                           </div>
                           {touched.keyFeatures && errors.keyFeatures && (
                             <span className={styles.error}>
@@ -10658,21 +8408,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
+                            
                           </div>
                           {touched.coreFunctionalities &&
                             errors.coreFunctionalities && (
@@ -10699,21 +8436,8 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <span
-                              className={styles.infoTooltip}
-                              data-tooltip-id="wellness-tooltip"
-                              data-tooltip-content="Adheres to HL7/FHIR standards for healthcare data exchange."
-                            >
-                              <img
-                                src={Information}
-                                className={styles.iconTooltip}
-                                alt="information"
-                              />
-                            </span>
-                            <Tooltip
-                              className={styles.tooltipSec}
-                              id="wellness-tooltip"
-                            />
+                             <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
+                          
                           </div>
                           {touched.interoperability &&
                             errors.interoperability && (
@@ -10750,49 +8474,49 @@ const AddProduct = ({ placeholder }) => {
             <div className={styles.section}>
               <span className={styles.formHead}>Health & Safety</span>
               <div className={styles.formSection}>
-                <AddProductFileUpload
-                  fieldInputName={"safetyDatasheet"}
-                  setFieldValue={setFieldValue}
-                  initialValues={values}
-                  label="Safety Datasheet"
-                  // fileUpload={safetyDatasheetUpload}
-                  tooltip="Specific safety information, instructions or precautions related to product"
-                />
-
-                <AddProductFileUpload
-                  fieldInputName={"healthHazardRating"}
-                  setFieldValue={setFieldValue}
-                  initialValues={values}
-                  label="Health Hazard Rating"
-                  // fileUpload={healthHazardUpload}
-                  tooltip="Health Hazard Rating Document"
-                />
-
-                <AddProductFileUpload
-                  fieldInputName={"environmentalImpact"}
-                  setFieldValue={setFieldValue}
-                  initialValues={values}
-                  label="Environmental Impact"
-                  // fileUpload={environmentalImpactUpload}
-                  tooltip="Environment Impact Rating Document"
-                />
-              </div>
-              <div className={styles.formSection}>
-                {touched.safetyDatasheet && errors.safetyDatasheet && (
+                <div className={styles.productContainer}>
+                  <AddProductFileUpload
+                    fieldInputName={"safetyDatasheet"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Safety Datasheet"
+                    // fileUpload={safetyDatasheetUpload}
+                    tooltip="Specific safety information, instructions or precautions related to product"
+                  />
+                   {touched.safetyDatasheet && errors.safetyDatasheet && (
                   <span className={styles.error}>{errors.safetyDatasheet}</span>
                 )}
-
-                {touched.healthHazardRating && errors.healthHazardRating && (
+                </div>
+                <div className={styles.productContainer}>
+                  <AddProductFileUpload
+                    fieldInputName={"healthHazardRating"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Health Hazard Rating"
+                    // fileUpload={healthHazardUpload}
+                    tooltip="Health Hazard Rating Document"
+                  />
+                  {touched.healthHazardRating && errors.healthHazardRating && (
                   <span className={styles.error}>
                     {errors.healthHazardRating}
                   </span>
                 )}
-
-                {touched.environmentalImpact && errors.environmentalImpact && (
+                </div>
+                <div className={styles.productContainer}>
+                  <AddProductFileUpload
+                    fieldInputName={"environmentalImpact"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Environmental Impact"
+                    // fileUpload={environmentalImpactUpload}
+                    tooltip="Environment Impact Rating Document"
+                  />
+                   {touched.environmentalImpact && errors.environmentalImpact && (
                   <span className={styles.error}>
                     {errors.environmentalImpact}
                   </span>
                 )}
+                </div>
               </div>
             </div>
 
@@ -10818,7 +8542,7 @@ const AddProduct = ({ placeholder }) => {
                     onBlur={handleBlur}
                   />
                 </div>
-
+                <div className={styles.productContainer}>
                 <AddProductFileUpload
                   fieldInputName={"guidelinesFile"}
                   setFieldValue={setFieldValue}
@@ -10830,6 +8554,7 @@ const AddProduct = ({ placeholder }) => {
                 {touched.guidelinesFile && errors.guidelinesFile && (
                   <span className={styles.error}>{errors.guidelinesFile}</span>
                 )}
+                </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
                   <div className={styles.tooltipContainer}>
@@ -10846,25 +8571,11 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="other-information-tooltip"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
-                      />
-                    </span>
-                    <Tooltip
-                      className={styles.tooltipSec}
-                      id="other-information-tooltip"
-                    >
-                      Any relevant, additional or other information regarding
-                      the product (eg. Prescribing <br /> Info for Medication or
+                      <Tooltip content=" Any relevant, additional or other information regarding
+                      the product (eg. Prescribing  Info for Medication or
                       Dosage Info or regarding the shipping of large devices
-                      etc.)
-                    </Tooltip>
+                      etc.)"></Tooltip>
+                   
                   </div>
                 </div>
               </div>

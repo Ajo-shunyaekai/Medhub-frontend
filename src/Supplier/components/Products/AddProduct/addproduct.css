@@ -42,3 +42,14 @@
 .css-1nmdiq5-menu {
     z-index: 99 !important;
 }
+.css-16xfy0z-control {
+    min-height: 46px !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.css-13cymwt-control {
+    outline: none !important;
+    min-height: 46px !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}

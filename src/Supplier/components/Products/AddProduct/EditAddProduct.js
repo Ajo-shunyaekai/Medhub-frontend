@@ -14,7 +14,6 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { Chips } from "primereact/chips";
-import Information from "../../../assets/images/infomation.svg";
 import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
@@ -101,12 +100,12 @@ const EditAddProduct = ({ placeholder }) => {
       environmentalImpactNew: productDetail?.environmentalImpactNew || [],
       category: productDetail?.category || "",
       market: productDetail?.market || "",
-      purchasedOn: productDetail?.secondayMarketDetails?.purchasedOn || "",
-      countryAvailable: productDetail?.secondayMarketDetails?.countryAvailable || [],
-      purchaseInvoiceFile: productDetail?.secondayMarketDetails?.purchaseInvoiceFile || [],
-      purchaseInvoiceFileNew: productDetail?.secondayMarketDetails?.purchaseInvoiceFileNew || [],
-      condition: productDetail?.secondayMarketDetails?.condition || "",
-      minimumPurchaseUnit: productDetail?.secondayMarketDetails?.minimumPurchaseUnit || "",
+      purchasedOn: productDetail?.purchasedOn || "",
+      countryAvailable: productDetail?.countryAvailable || [],
+      purchaseInvoiceFile: productDetail?.purchaseInvoiceFile || [],
+      purchaseInvoiceFileNew: productDetail?.purchaseInvoiceFileNew || [],
+      condition: productDetail?.condition || "",
+      minimumPurchaseUnit: productDetail?.minimumPurchaseUnit || "",
       subCategory: productDetail?.[productDetail?.category]?.subCategory || "",
       anotherCategory:
         productDetail?.[productDetail?.category]?.anotherCategory || "",

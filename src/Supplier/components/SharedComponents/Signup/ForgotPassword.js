@@ -14,6 +14,7 @@ const ForgotPasswordFlow = () => {
       switch (step) {
         case 1:
           return (
+           
             <VerifyEmail
               step={step}
               setStep={setStep}
@@ -45,7 +46,7 @@ const ForgotPasswordFlow = () => {
         </div>
         <div className="login-container-form-section">
           <div className="login-container-form-section-heading">
-            {step === 1 && "Forgot Password"}
+            {step === 1 && "Change Your Password"}
             {step === 2 && "OTP Verification"}
             {step === 3 && "Change Your Password"}
           </div>
