@@ -14,7 +14,6 @@ export const fetchProductsList = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(url)
-      console.log('response of product/fetchProductsList', response)
       return response?.data; 
     } catch (error) {
       // Log and pass the error
@@ -29,7 +28,6 @@ export const fetchProductDetail = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(url)
-      console.log('response of product/fetchProductDetail', response)
       return response?.data?.[0]; 
     } catch (error) {
       // Log and pass the error
@@ -43,7 +41,6 @@ export const softDeleteProduct = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(url)
-      console.log('response of product/fetchProductDetail', response)
       return response?.data?.[0]; 
     } catch (error) {
       // Log and pass the error

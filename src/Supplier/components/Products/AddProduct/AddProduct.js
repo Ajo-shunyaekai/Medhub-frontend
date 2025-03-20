@@ -3489,6 +3489,7 @@ const AddProduct = ({ placeholder }) => {
                             selectedFile={ele?.file}
                             preview={ele?.preview}
                             fileIndex={index}
+                            isEdit={false}
                           />
                         )}
                       </Field>
