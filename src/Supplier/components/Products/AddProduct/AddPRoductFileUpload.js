@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
-import Information from "../../../assets/images/infomation.svg";
+import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import styles from "./addproduct.module.css";
- 
+
 // useFileUpload Hook
 const useFileUpload = (
   fieldInputName,
@@ -20,15 +18,14 @@ const useFileUpload = (
   const [filesOld, setFilesOld] = useState(existingFiles || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
- 
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFilesNew((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
-            `You can only upload a maximum of ${maxFiles} ${
-              maxFiles === 1 ? "file" : "files"
+            `You can only upload a maximum of ${maxFiles} ${maxFiles === 1 ? "file" : "files"
             }.`
           );
           return prev; // Keep previous files if limit exceeded
@@ -40,14 +37,14 @@ const useFileUpload = (
     },
     [fieldInputName, setFieldValue, maxFiles]
   );
- 
+
   // Effect to handle initial file state
   useEffect(() => {
     if (existingFiles?.length > 0) {
       setFilesOld(existingFiles); // Set the existing files
     }
   }, [existingFiles]);
- 
+
   // Effect to merge the old and new files
   useEffect(() => {
     const mergedFiles = [...filesOld, ...filesNew];
@@ -55,37 +52,37 @@ const useFileUpload = (
       setFilesMerged(mergedFiles); // Only update if the merged files are different
     }
   }, [filesNew, filesOld, filesMerged]);
- 
+
   // Effect to update Formik fields when merged files change
   useEffect(() => {
     if (filesMerged?.length > 0) {
       const newFiles = filesMerged.filter((item) => typeof item === "object");
       const oldFiles = filesMerged.filter((item) => typeof item !== "object");
- 
+
       setFieldValue(fieldInputName, newFiles); // Set new files (File objects)
       setFieldValue(oldFieldName, oldFiles); // Set old files (strings or file paths)
     }
   }, [filesMerged, setFieldValue, fieldInputName, oldFieldName]);
- 
+
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
     if (arrayToFilter == "new") {
       setFilesNew((prev) => {
         // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
- 
+
         return updatedFiles; // Return the updated list to update the state
       });
     } else if (arrayToFilter == "old") {
       setFilesOld((prev) => {
         // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
- 
+
         return updatedFiles; // Return the updated list to update the state
       });
     }
   };
- 
+
   const defaultAccept = {
     "application/pdf": [],
     "application/msword": [],
@@ -95,16 +92,16 @@ const useFileUpload = (
     "image/jpeg": [],
     "image/jpg": [],
   };
- 
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: acceptTypes || defaultAccept, // Use provided acceptTypes or fallback to default
     multiple: maxFiles > 1, // Allow multiple only if maxFiles > 1
   });
- 
+
   return { filesMerged, getRootProps, getInputProps, isDragActive, removeFile };
 };
- 
+
 // AddProductFileUpload Component
 const AddProductFileUpload = ({
   productDetails,
@@ -122,7 +119,7 @@ const AddProductFileUpload = ({
 }) => {
   const tooltipId = `tooltip-${label.replace(/\s+/g, "-").toLowerCase()}`;
   const tooltipContent = tooltip || "Default tooltip text";
- 
+
   // Call the useFileUpload hook with acceptTypes and maxFiles
   const fileUpload = useFileUpload(
     fieldInputName,
@@ -133,17 +130,17 @@ const AddProductFileUpload = ({
     maxFiles,
     existingFiles
   );
- 
+
   const isImageOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type?.startsWith("image/"));
   const isPdfOnly =
     acceptTypes &&
     Object.keys(acceptTypes).every((type) => type === "application/pdf");
- 
+
   return (
     <div className={styles.compliancesContainer}>
-     {showLabel && (
+      {showLabel && (
         <label className={styles.formLabel}>
           {label}
           {label === "Purchase Invoice" && <span className={styles.labelStamp}>*</span>}
@@ -155,35 +152,18 @@ const AddProductFileUpload = ({
           <FiUploadCloud size={20} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
             {fileUpload?.isDragActive
-              ? `Drop the ${
-                  isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
-                } here...`
-              : `Click here to Upload ${
-                  isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
-                }`}
+              ? `Drop the ${isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
+              } here...`
+              : `Click here to Upload ${isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
+              }`}
           </p>
         </div>
         {tooltip && (
           <>
-            <span
-              className={styles.infoTooltip}
-              data-tooltip-id={tooltipId}
-              data-tooltip-content={tooltipContent}
-            >
-              <img
-                src={Information}
-                className={styles.iconTooltip}
-                alt="info"
-              />
-            </span>
             <Tooltip
+              content={tooltipContent}
               className={styles.tooltipSec}
-              id={tooltipId}
-              place="top"
-              effect="solid"
-            >
-              <div dangerouslySetInnerHTML={{ __html: tooltipContent }} />
-            </Tooltip>
+            />
           </>
         )}
       </div>
@@ -194,18 +174,18 @@ const AddProductFileUpload = ({
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
               typeof file === "string"
-                ? file.split(".").pop().toLowerCase() 
-                : file?.name.split(".").pop().toLowerCase(); 
- 
+                ? file.split(".").pop().toLowerCase()
+                : file?.name.split(".").pop().toLowerCase();
+
             const isImage =
               fileExtension === "jpeg" ||
               fileExtension === "png" ||
               fileExtension === "jpg" ||
               fileExtension === "gif" ||
               fileExtension === "bmp";
- 
+
             const isPdf = fileExtension === "pdf";
- 
+
             return (
               <div key={index} className={styles.filePreview}>
                 {isImage ? (
@@ -246,5 +226,5 @@ const AddProductFileUpload = ({
     </div>
   );
 };
- 
+
 export default AddProductFileUpload;

@@ -26,7 +26,10 @@ const RichTextEditor = ({
         value={value}
         name={name}
         apiKey="wvcl8z7mpoz0ed40t8k6s4a86vd4eegy6w7wryudvgrkdufd"
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(evt, editor) => {
+          editorRef.current = editor;
+          // No NodeChange event listener here
+        }}
         init={{
           height: height,
           width: '100%',
@@ -35,7 +38,7 @@ const RichTextEditor = ({
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
             'insertdatetime', 'media', 'table', 'paste', 'code', 'help', 'wordcount',
-            'save', 'emoticons', 'codesample', 'quickbars', 'directionality'
+            'save', 'emoticons', 'codesample', 'directionality'
           ],
           toolbar: [
             'undo redo | blocks | bold italic underline strikethrough | forecolor backcolor | ' +
@@ -64,8 +67,14 @@ const RichTextEditor = ({
               color: #666; 
               margin-top: 5px; 
             }
+            /* Hide the TinyMCE image toolbar */
+            .tox-pop.tox-pop--bottom, 
+            .tox-pop.tox-pop--top, 
+            .tox-pop.tox-pop--left, 
+            .tox-pop.tox-pop--right {
+              display: none !important;
+            }
           `,
-          // Disable automatic uploads to avoid conflicts
           automatic_uploads: false,
           file_picker_types: 'image file media',
           file_picker_callback: (callback, value, meta) => {
@@ -78,26 +87,31 @@ const RichTextEditor = ({
               const fileName = file.name;
               const reader = new FileReader();
               reader.onload = () => {
-                // Create a custom HTML structure with the image and filename below it
                 const html = `
                   <div class="image-wrapper">
                     <img src="${reader.result}" alt="${fileName}" />
                     <div class="image-caption">${fileName}</div>
                   </div>
                 `;
-                callback(html, { title: fileName }); // Insert the custom HTML
+                callback(html, { title: fileName });
               };
               reader.readAsDataURL(file);
             };
 
             input.click();
           },
+          // Disable all image-related toolbars and features
+          quickbars_image_toolbar: false, // Disable quickbars for images
+          quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+          image_advtab: false, // Disable advanced image tab
+          image_title: false, // Disable image title option
+          image_caption: false, // Disable image caption option
+          image_description: false, // Disable image description option
+          contextmenu: 'link table', // Exclude 'image' from context menu
           statusbar: true,
           resize: true,
           placeholder: 'Start typing here...',
-          quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
           toolbar_sticky: true,
-          contextmenu: 'link image table',
         }}
         onBlur={onBlur}
         onEditorChange={onChange}

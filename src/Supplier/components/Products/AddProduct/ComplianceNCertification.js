@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FiUploadCloud, FiFileText, FiX } from "react-icons/fi";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
-import Information from "../../../assets/images/infomation.svg";
+import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import styles from "./addproduct.module.css";
 
 // useFileUpload Hook
@@ -130,25 +128,10 @@ const ComplianceNCertification = ({
         </div>
         {tooltip && (
           <>
-            <span
-              className={styles.infoTooltip}
-              data-tooltip-id={tooltipId}
-              data-tooltip-content={tooltipContent}
-            >
-              <img
-                src={Information}
-                className={styles.iconTooltip}
-                alt="info"
-              />
-            </span>
-            <Tooltip
+           <Tooltip
+              content={tooltipContent}
               className={styles.tooltipSec}
-              id={tooltipId}
-              place="top"
-              effect="solid"
-            >
-              <div dangerouslySetInnerHTML={{ __html: tooltipContent }} />
-            </Tooltip>
+            />
           </>
         )}
       </div>
