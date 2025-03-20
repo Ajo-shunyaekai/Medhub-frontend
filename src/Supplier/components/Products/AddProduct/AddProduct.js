@@ -3393,16 +3393,20 @@ const AddProduct = ({ placeholder }) => {
                       >
                         {({ field }) => (
                           <ComplianceNCertification
-                          fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
-                          setFieldValue={setFieldValue}
-                          initialValues={values}
-                          label="Regulatory Compliance"
-                          tooltip={
-                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                          }
-                          selectedFile={ele?.file}
-                          preview={ele?.preview}
-                          fileIndex={index}
+                            fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
+                            setFieldValue={setFieldValue}
+                            initialValues={values}
+                            label="Regulatory Compliance"
+                            tooltip={
+                              "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
+                              "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                              " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                            }
+                            // Pass the selected file here
+                            selectedFile={ele?.file}
+                            preview={ele?.preview}
+                            fileIndex={index}
+                            isEdit={false}
                           />
                         )}
                       </Field>

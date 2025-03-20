@@ -18,9 +18,6 @@ const useFileUpload = (
   const [filesOld, setFilesOld] = useState(existingFiles || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesMerged, setFilesMerged] = useState([]);
-  console.log("existingFiles", existingFiles);
-  console.log("initialValues?.image", initialValues?.image);
-  console.log("initialValues?.imageNew", initialValues?.imageNew);
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -34,7 +31,6 @@ const useFileUpload = (
           return prev; // Keep previous files if limit exceeded
         }
         // Update Formik state
-        console.log("field Value to update ", fieldInputName);
         setFieldValue(fieldInputName, totalFiles);
         return totalFiles;
       });
