@@ -3354,7 +3354,7 @@ const EditAddProduct = ({ placeholder }) => {
                         className={styles.formInput}
                         type="text"
                         mask="dd-mm-yyyy"
-                        placeholder="Enter Date of Manufacture"
+                        placeholder="Enter Date of Expiry"
                         name={`complianceAndCertificationFileNDate.${index}.date`}
                         value={ele?.date}
                         onChange={(e) => {
