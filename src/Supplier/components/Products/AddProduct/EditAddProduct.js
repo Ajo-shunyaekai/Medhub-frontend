@@ -22,7 +22,7 @@ import {
   fetchProductDetail,
 } from "../../../../redux/reducers/productSlice";
 import { InputMask } from "@react-input/mask";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ComplianceNCertification from "./ComplianceNCertification";
 import EditComplianceNCertification from "./EditComplianceNCertification";
@@ -52,6 +52,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
 const EditAddProduct = ({ placeholder }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, productDetail } = useSelector(
     (state) => state?.productReducer
   );
@@ -1382,10 +1383,15 @@ const EditAddProduct = ({ placeholder }) => {
         }))
       );
       const complianceAndCertificationFileNDateUpdated = JSON.stringify(
-        values?.complianceAndCertificationFileNDate?.map((section) => ({
-          date: section?.date || "",
-          file: section?.file?.[0] || "",
-        }))
+        values?.complianceAndCertificationFileNDate?.map((section) => {
+          return {
+            date: section?.date || "",
+            file:
+              typeof section?.file == "string"
+                ? section?.file
+                : section?.file?.[0] || "",
+          };
+        })
       );
 
       formData.append("stockedInDetails", stockedInDetailsUpdated);
@@ -1396,7 +1402,12 @@ const EditAddProduct = ({ placeholder }) => {
       );
 
       // Dispatch the editProduct action (or any other submit action)
-      dispatch(editProduct({ id, values: formData }));
+      dispatch(editProduct({ id, values: formData })).then((response) => {
+        console.log("response", response);
+        if (response?.meta.requestStatus === "fulfilled") {
+          navigate("/supplier/product"); // Change this to your desired route
+        }
+      });
     },
   });
   const [productType, setProductType] = useState(null);
