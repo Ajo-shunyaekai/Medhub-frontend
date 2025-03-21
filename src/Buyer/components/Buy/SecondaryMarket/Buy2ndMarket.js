@@ -59,90 +59,90 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
         setFilterCategory(category)
     }
  
-    useEffect(() => {
-        const fetchData = async () => {
+    // useEffect(() => {
+    //     const fetchData = async () => {
  
-            const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
-            const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-    
-            if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
-            navigate("/buyer/login");
-            return;
-            }
-    
-            const obj = {
-                buyer_id: buyerIdSessionStorage|| buyerIdLocalStorage,
-                medicine_type : 'secondary market',
-                medicine_status :'accepted',
-                category_name : filterCategory,
-                searchKey: searchKey,
-                pageNo : currentPage, 
-                pageSize : itemsPerPage
-             }
-    
-            if(active === 'market') {
-                postRequestWithToken('buyer/medicine/medicine-list', obj, async (response) => {
-                    if (response.code === 200) {
-                        setMedicineList(response.result.data)
-                        setTotalitems(response.result.totalItems)
-                    } else {
-                        toast(response.message, {type:'error'})
-                       console.log('error in medicine list api',response);
-                    }
-                    setLoading(false);
-                })
-                try {
-                    const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`)
-                    if(response?.code !== 200){
-                    return
-                    }
-                    setMedicineList(response.result.data)
-                    setTotalitems(response.result.totalItems)
-                    // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`, obj, async (response) => {
-                    //     if (response.code === 200) {
-                    //         setMedicineList(response.result.data)
-                    //         setTotalitems(response.result.totalItems)
-                    //     } else {
-                    //         toast(response.message, {type:'error'})
-                    //         console.log('error in medicine list api',response);
-                    //     }
-                    // })
-                } catch (error) {
-                      console.log('error in medicine list api',error);
-                } finally{
-                  setLoading(false);
-                }
-            }
-        }
-        fetchData()
-    },[searchKey, currentPage, filterCategory])
-
-
-    //  useEffect(() => {
     //         const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     //         const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
-           
+    
     //         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
     //         navigate("/buyer/login");
     //         return;
     //         }
+    
+    //         const obj = {
+    //             buyer_id: buyerIdSessionStorage|| buyerIdLocalStorage,
+    //             medicine_type : 'secondary market',
+    //             medicine_status :'accepted',
+    //             category_name : filterCategory,
+    //             searchKey: searchKey,
+    //             pageNo : currentPage, 
+    //             pageSize : itemsPerPage
+    //          }
+    
     //         if(active === 'market') {
-    //             const fetchData = async () => {
-                    
-    //                 const marketType = active === 'product' ? 'new' : 'secondary';
-    //                 const response = await dispatch(
-    //                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}`)
-    //                 );
-    //                 if (response.meta.requestStatus === 'fulfilled') {
-    //                     console.log('Products fetched successfully:', response.payload);
-    //                     setMedicineList(response?.payload?.products)
-    //                     setTotalitems(response?.payload?.totalItems);
-    //                     setLoading(false);
+    //             postRequestWithToken('buyer/medicine/medicine-list', obj, async (response) => {
+    //                 if (response.code === 200) {
+    //                     setMedicineList(response.result.data)
+    //                     setTotalitems(response.result.totalItems)
+    //                 } else {
+    //                     toast(response.message, {type:'error'})
+    //                    console.log('error in medicine list api',response);
     //                 }
-    //             };
-    //             fetchData();
+    //                 setLoading(false);
+    //             })
+    //             try {
+    //                 const response = await apiRequests.getRequest(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`)
+    //                 if(response?.code !== 200){
+    //                 return
+    //                 }
+    //                 setMedicineList(response.result.data)
+    //                 setTotalitems(response.result.totalItems)
+    //                 // postRequestWithToken(`medicine/get-all-medicines-list?pageNo=${currentPage}&pageSize=${itemsPerPage}&medicine_type=${'secondary market'}&medicine_status=${'accepted'}&searchKey=${searchKey}&category_name=${filterCategory}`, obj, async (response) => {
+    //                 //     if (response.code === 200) {
+    //                 //         setMedicineList(response.result.data)
+    //                 //         setTotalitems(response.result.totalItems)
+    //                 //     } else {
+    //                 //         toast(response.message, {type:'error'})
+    //                 //         console.log('error in medicine list api',response);
+    //                 //     }
+    //                 // })
+    //             } catch (error) {
+    //                   console.log('error in medicine list api',error);
+    //             } finally{
+    //               setLoading(false);
+    //             }
     //         }
-    //         }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
+    //     }
+    //     fetchData()
+    // },[searchKey, currentPage, filterCategory])
+
+
+     useEffect(() => {
+            const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
+            const buyerIdLocalStorage   = localStorage.getItem("buyer_id");
+           
+            if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+            navigate("/buyer/login");
+            return;
+            }
+            if(active === 'market') {
+                const fetchData = async () => {
+                    
+                    const marketType = active === 'product' ? 'new' : 'secondary';
+                    const response = await dispatch(
+                        fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}`)
+                    );
+                    if (response.meta.requestStatus === 'fulfilled') {
+                        console.log('Products fetched successfully:', response.payload);
+                        setMedicineList(response?.payload?.products)
+                        setTotalitems(response?.payload?.totalItems);
+                        setLoading(false);
+                    }
+                };
+                fetchData();
+            }
+            }, [dispatch, currentPage, searchKey, currentPage, filterCategory]);
    
     return (
         <>
@@ -218,7 +218,8 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                        medicineList && medicineList.length > 0 ? (
                         medicineList?.map((medicine, i) => {
                             console.log('medicine',medicine);
-                            const firstImage = Array.isArray(medicine?.medicine_image) ? medicine.medicine_image[0] : null;
+                            // const firstImage = Array.isArray(medicine?.medicine_image) ? medicine.medicine_image[0] : null;
+                            const firstImage = Array.isArray(medicine?.general?.image) ? medicine?.general?.image[0] : null;
                             return (
                                 <div className='byproduct-product-card-section'>
                                 <div className='byproduct-product-card-first-section-right'>
@@ -237,11 +238,30 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                 <div className='byproduct-product-card-first-section'>
                                 <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
                                     <div className='byproduct-product-card-first-left'>
-                                        <div className='byproduct-product-card-first-copmany-name'>{medicine.medicine_name}</div>
-                                        <div className='byproduct-product-card-first-copmany-description'>{medicine?.strength?.includes('mg') ? medicine.strength : `${medicine.strength}mg` }</div>
+                                        <div className='byproduct-product-card-first-copmany-name'>{medicine?.general?.name}</div>
+                                        <div className='byproduct-product-card-first-copmany-description'>{medicine?.general?.weight} {medicine?.general?.unit}</div>
                                     </div>
                                     </Link>
                                     <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Unit Price</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine.inventoryDetails?.inventoryList?.[0]?.price} USD</div>
+                                    </div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Total Quantity</div>
+                                        <div className='byproduct-product-card-second-text'>{medicine?.general?.quantity}</div>
+                                    </div>
+                                    <div className='byproduct-product-card-second-section'>
+                                        <div className='byproduct-product-card-second-head'>Delivery Time</div>
+                                        <div className='byproduct-product-card-second-text'>
+                                        {medicine?.inventoryDetails?.inventoryList?.[0]?.deliveryTime 
+                                    ? medicine?.inventoryDetails?.inventoryList?.[0]?.deliveryTime.toLowerCase().includes('days') 
+                                        ? medicine?.inventoryDetails?.inventoryList?.[0]?.deliveryTime.replace(/days/i, 'Days')
+                                        : `${medicine?.inventoryDetails?.inventoryList?.[0]?.deliveryTime} Days`
+                                    : 'N/A'} Days
+                                        </div>
+                                    </div>
+
+                                    {/* <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>Country of Origin</div>
                                         <div className='byproduct-product-card-second-text'>{medicine.country_of_origin}</div>
                                     </div>
@@ -260,7 +280,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                     <div className='byproduct-product-card-second-section'>
                                         <div className='byproduct-product-card-second-head'>GMP Approvals</div>
                                         <div className='byproduct-product-card-second-text'>{medicine.gmp_approvals}</div>
-                                    </div>
+                                    </div> */}
         
                                 </div>
                             </div>
