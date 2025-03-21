@@ -23,15 +23,16 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                     <div className='rejected-table-row-item rejected-table-order-1'>
                                         <span className='rejected-header-text-color'>Product ID</span>
                                     </div>
+                                    <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <span className='rejected-header-text-color'>UPC</span>
+                                    </div>
                                     <div className='rejected-table-row-item rejected-table-order-2'>
                                         <span className='rejected-header-text-color'>Product Name</span>
                                     </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Strength</span>
-                                    </div>
-                                    <div className='rejected-table-row-item rejected-table-order-1'>
-                                        <span className='rejected-header-text-color'>Status</span>
-                                    </div>
+                                    {/* <div className='rejected-table-row-item rejected-table-order-1'>
+                                        <span className='rejected-header-text-color'>Manufaturer Name</span>
+                                    </div> */}
+                                   
                                     <div className='rejected-table-row-item rejected-table-order-1'>
                                         <span className='rejected-header-text-color'>Action</span>
                                     </div>
@@ -42,18 +43,21 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                     productList.map((product, index) => (
                                         <div className='rejected-table-row-container' key={index}>
                                             <div className='rejected-table-row-item rejected-table-order-1'>
-                                                <div className='rejected-table-text-color'>{product.supplier_id || 'N/A'}</div>
+                                                <div className='rejected-table-text-color'>{product?.userDetails?.supplier_id || 'N/A'}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-1'>
-                                                <div className='rejected-table-text-color'>{product.medicine_id || 'N/A'}</div>
+                                                <div className='rejected-table-text-color'>{product?.medicine_id || 'N/A'}</div>
+                                            </div>
+                                            <div className='rejected-table-row-item rejected-table-order-1'>
+                                                <div className='rejected-table-text-color'>{product?.general?.upc || 'N/A'}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-2'>
-                                                <div className='table-text-color'>{product.medicine_name || 'N/A'}</div>
+                                                <div className='table-text-color'>{product?.general?.name || 'N/A'}</div>
                                             </div>
-                                            <div className='rejected-table-row-item rejected-table-order-1'>
-                                                <div className='rejected-table-text-color'>{product.strength || '500 mg'}</div>
-                                            </div>
-                                            <div className='rejected-table-row-item rejected-table-order-1'>
+                                            {/* <div className='rejected-table-row-item rejected-table-order-1'>
+                                                <div className='rejected-table-text-color'>{product?.general?.manufacturer || 'N/A'}</div>
+                                            </div> */}
+                                            {/* <div className='rejected-table-row-item rejected-table-order-1'>
                                                 <div className='rejected-table-text-color'>
                                                     {(() => {
                                                         switch (product.status) {
@@ -68,7 +72,8 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                                         }
                                                     })()}
                                                 </div>
-                                            </div>
+                                            </div> */}
+
                                             <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
                                                 <Link to={`/admin/product-details/${product.medicine_id}`}>
                                                     <div className='rejected-table rejected-table-view'>

@@ -334,6 +334,12 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               </div>
             )}
           </div>
+
+          {/* <Link to="/products" className={styles.sidebar_text} activeclassname={styles.active}>
+            <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
+            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
+          </Link> */}
+
           <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
             <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
@@ -701,6 +707,11 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
             </div>
 
             {/* =============== */}
+            {/* <Link to="/products" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
+              <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
+              <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
+            </Link> */}
+
             <Link to="#" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
               <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
               <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
