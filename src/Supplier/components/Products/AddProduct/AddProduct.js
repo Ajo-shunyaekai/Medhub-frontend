@@ -184,7 +184,7 @@ const AddProduct = ({ placeholder }) => {
         })
       )
       .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    complianceAndCertificationFileNDate: Yup.array()
+    cNCFileNDate: Yup.array()
       .of(
         Yup.object({
           file: Yup.array()
@@ -1847,7 +1847,7 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: "",
             },
           ],
-          complianceAndCertificationFileNDate: [
+          cNCFileNDate: [
             {
               file: [],
               date: "",
@@ -1978,7 +1978,7 @@ const AddProduct = ({ placeholder }) => {
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
-            if (key != "productPricingDetails" || key != "stockedInDetails" || key != "complianceAndCertificationFileNDate") {
+            if (key != "productPricingDetails" || key != "stockedInDetails" || key != "cNCFileNDate") {
               if (Array.isArray(value)) {
                 // Append array items under the same key
                 value.forEach((item, index) => {
@@ -2010,8 +2010,8 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
-          const complianceAndCertificationFileNDateUpdated = JSON.stringify(
-            values?.complianceAndCertificationFileNDate?.map((section) => ({
+          const cNCFileNDateUpdated = JSON.stringify(
+            values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
               file: section?.file?.[0] || "",
             }))
@@ -2022,7 +2022,7 @@ const AddProduct = ({ placeholder }) => {
             "productPricingDetails",
             productPricingDetailsUpdated
           );
-          formData.append("complianceAndCertificationFileNDate", complianceAndCertificationFileNDateUpdated);
+          formData.append("cNCFileNDate", cNCFileNDateUpdated);
 
           // dispatch(addProduct(formData));
           dispatch(addProduct(formData)).then((response) => {
@@ -3370,9 +3370,9 @@ const AddProduct = ({ placeholder }) => {
                   className={styles.formAddButton}
                   onClick={() => {
                     // Add new file and date pair to the array
-                    values.complianceAndCertificationFileNDate?.length < 4 &&
-                    setFieldValue("complianceAndCertificationFileNDate", [
-                      ...values.complianceAndCertificationFileNDate,
+                    values.cNCFileNDate?.length < 4 &&
+                    setFieldValue("cNCFileNDate", [
+                      ...values.cNCFileNDate,
                       {
                         file: [],
                         date: "",
@@ -3385,17 +3385,17 @@ const AddProduct = ({ placeholder }) => {
               </div>
               {console.log("values?.complianceFile", values?.complianceFile)}
 
-              {values?.complianceAndCertificationFileNDate?.map(
+              {values?.cNCFileNDate?.map(
                 (ele, index) => (
                   <div key={`certification_${index}`} className={styles.formSection}>
                     {/* File Upload Section */}
                     <div className={styles.productContainer}>
                       <Field
-                        name={`complianceAndCertificationFileNDate.${index}.file`}
+                        name={`cNCFileNDate.${index}.file`}
                       >
                         {({ field }) => (
                           <ComplianceNCertification
-                            fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
+                            fieldInputName={`cNCFileNDate.${index}.file`}
                             setFieldValue={setFieldValue}
                             initialValues={values}
                             label="Regulatory Compliance"
@@ -3413,9 +3413,9 @@ const AddProduct = ({ placeholder }) => {
                         )}
                       </Field>
                       <span className={styles.error}>
-                        {touched.complianceAndCertificationFileNDate?.[index]
+                        {touched.cNCFileNDate?.[index]
                           ?.file &&
-                          errors.complianceAndCertificationFileNDate?.[index]
+                          errors.cNCFileNDate?.[index]
                             ?.file}
                       </span>
                     </div>
@@ -3432,14 +3432,14 @@ const AddProduct = ({ placeholder }) => {
                           className={styles.formInput}
                           type="text"
                           mask="dd-mm-yyyy"
-                          placeholder="Enter Date of Expiry"
-                          name={`complianceAndCertificationFileNDate.${index}.date`}
+                          placeholder="Enter Date of Manufacture"
+                          name={`cNCFileNDate.${index}.date`}
                           value={ele?.date}
                           onChange={(e) => {
                             handleChange(e);
                             // Force validation immediately after change
                             setFieldTouched(
-                              `complianceAndCertificationFileNDate.${index}.date`,
+                              `cNCFileNDate.${index}.date`,
                               true,
                               true
                             );
@@ -3452,36 +3452,36 @@ const AddProduct = ({ placeholder }) => {
                         
                       </div>
                       <span className={styles.error}>
-                        {touched.complianceAndCertificationFileNDate?.[index]
+                        {touched.cNCFileNDate?.[index]
                           ?.date &&
-                          errors.complianceAndCertificationFileNDate?.[index]
+                          errors.cNCFileNDate?.[index]
                             ?.date}
                       </span>
                     </div>
 
                     {/* Remove Section */}
-                    {values?.complianceAndCertificationFileNDate?.length >
+                    {values?.cNCFileNDate?.length >
                       1 && (
                         <div
                           className={styles.formCloseSection}
                           onClick={() => {
                             // Clear form values before removing the row
                             setFieldValue(
-                              `complianceAndCertificationFileNDate.${index}.file`,
+                              `cNCFileNDate.${index}.file`,
                               {}
                             );
                             setFieldValue(
-                              `complianceAndCertificationFileNDate.${index}.date`,
+                              `cNCFileNDate.${index}.date`,
                               ""
                             );
                             setFieldValue(
-                              `complianceAndCertificationFileNDate.${index}.preview`,
+                              `cNCFileNDate.${index}.preview`,
                               false
                             );
 
                             // Remove the row from the array
                             const updatedList =
-                              values.complianceAndCertificationFileNDate.filter(
+                              values.cNCFileNDate.filter(
                                 (_, elindex) => elindex !== index
                               );
                             const updatedList2 =
@@ -3489,7 +3489,7 @@ const AddProduct = ({ placeholder }) => {
                                 (_, elindex) => elindex !== index
                               );
                             setFieldValue(
-                              "complianceAndCertificationFileNDate",
+                              "cNCFileNDate",
                               updatedList
                             );
                             setFieldValue(

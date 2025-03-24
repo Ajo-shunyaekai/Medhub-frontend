@@ -227,7 +227,7 @@ const Buy2ndMarket = ({active, filterCategory, setFilterCategory}) => {
                                         <img  src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}  alt="Medicine" /> 
                                     </div>
                                     <div className='byproduct-product-card-first-button-container'>
-                                        <Link to={`/buyer/search-market-product-details/${medicine.medicine_id}`}>
+                                        <Link to={`/buyer/search-market-product-details/${medicine._id}`}>
                                             <div className='byproduct-product-card-first-send-button'>
                                                 View Details
                                             </div>
