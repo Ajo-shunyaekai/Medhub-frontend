@@ -8,6 +8,7 @@ import Information from '../../../assets/images/infomation.svg'
 import { Country, State, City } from "country-state-city";
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
+import CertificateUploader from './CertificateUploader';
 import './signup.css';
 import logo from '../../../assets/images/logo.svg'
 import SuccessModal from './SuccessModal';
@@ -18,6 +19,7 @@ import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import TermsAndConditions from '../../../../Policies/Terms&Conditions';
+
 
 const MultiSelectOption = ({ children, ...props }) => (
     <components.Option {...props}>
@@ -1178,26 +1180,59 @@ const SupplierSignUp = ({ socket }) => {
                                     <div className='signup-form-section-container'>
                                         <div className='signup-inner-heading'>Documents</div>
                                         <div className='signup-form-inner-div-section'>
+                                            <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Upload Company Logo<span className='labelstamp'>*</span></label>
 
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={logoPreviews} setFilePreviews={setlogoPreviews} imageType="logo" reset={resetUploaders} allowMultiple={false} />
+                                                {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
+                                            </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload Trade License<span className='labelstamp'>*</span></label>
-                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="license" reset={resetUploaders} allowMultiple={true} /> */}
+
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={tradeLicensePreviews} setFilePreviews={setTradeLicensePreviews} imageType="license" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Upload Tax Registration Certificate<span className='labelstamp'>*</span></label>
-                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="tax" reset={resetUploaders} allowMultiple={true} /> */}
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax" reset={resetUploaders} allowMultiple={true} />
+                                                <label className='signup-form-section-label'>Upload Certificates<span className='labelstamp'>*</span></label>
+
+                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax"
+                                                    reset={resetUploaders} allowMultiple={true}
+                                                    showTooltip={true}
+                                                    tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA (Wholesale Distributor Authorisation)."
+                                                />
+
+
+                                                {/* <CertificateUploader/> */}
                                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
                                             </div>
-
                                             <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Date of Expiry<span className='labelstamp'>*</span></label>
+                                                <div className='signup-tooltip-class'>
+                                                    <input
+                                                        className='signup-form-section-input'
+                                                        type="text"
+                                                        name="designation"
+                                                        placeholder="Enter Designation"
+                                                        value={formData.designation}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <span
+                                                        className="email-info-icon"
+                                                        data-tooltip-id="designation-tooltip"
+                                                        data-tooltip-content="Mention your professional designation."
+                                                    >
+                                                        <img src={Information} className='tooltip-icons' alt='information' />
+                                                    </span>
+                                                    <Tooltip id="designation-tooltip" />
+                                                </div>
+                                                {errors.designation && <div className='signup__errors'>{errors.designation}</div>}
+                                            </div>
+                                            {/* <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload a Certificate<span className='labelstamp'>*</span></label>
-                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="certificate" reset={resetUploaders} allowMultiple={true} /> */}
+                                               
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
-                                            </div>
+                                            </div> */}
                                             {selectedCompanyType?.value === "medical practitioner" && (
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
@@ -1205,12 +1240,7 @@ const SupplierSignUp = ({ socket }) => {
                                                     {errors.medicalCertificateImage && <div className='signup__errors'>{errors.medicalCertificateImage}</div>}
                                                 </div>
                                             )}
-                                            <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Upload Company Logo<span className='labelstamp'>*</span></label>
-                                                {/* <ImageUploader onUploadStatusChange={handleImageUpload} imageType="logo" reset={resetUploaders} allowMultiple={false} /> */}
-                                                <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={logoPreviews} setFilePreviews={setlogoPreviews} imageType="logo" reset={resetUploaders} allowMultiple={false} />
-                                                {errors.logoImage && <div className='signup__errors'>{errors.logoImage}</div>}
-                                            </div>
+
                                             <div className='signup-form-section-checkbox'>
                                                 {/* <Link to='/supplier/terms-and-conditions' > */}
                                                 <div className='termscondition' onClick={() => setShowTnC(true)}>Terms & Conditions<span className='labelstamp'>*</span></div>
@@ -1244,3 +1274,13 @@ const SupplierSignUp = ({ socket }) => {
 };
 
 export default SupplierSignUp;
+
+
+
+
+
+
+
+
+
+

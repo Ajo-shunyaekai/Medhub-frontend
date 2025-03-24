@@ -1,12 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Tooltip } from "react-tooltip"; // Removed TooltipProvider as it's not needed
+import "react-tooltip/dist/react-tooltip.css";
+import Information from '../../../assets/images/infomation.svg';
 import UploadImage from '../../../assets/images/uplaod.svg';
 import CrossIcon from '../../../assets/images/Icon.svg';
 import PDFIcon from '../../../assets/images/pdf-icon.svg';
 import styles from './imageuploader.module.css';
 
-const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, filePreviews, setFilePreviews }) => {
+const ImageUploader = ({
+    onUploadStatusChange,
+    imageType,
+    reset,
+    allowMultiple,
+    filePreviews,
+    setFilePreviews,
+    showTooltip = false,
+    tooltipMessage = "Upload your trade license documents (PDF/DOCX, max 5MB)"
+}) => {
     const fileInputRef = useRef(null);
-    // const [filePreviews, setFilePreviews] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
@@ -21,27 +32,24 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 fileInputRef.current.value = '';
             }
         }
-    }, [reset]); 
+    }, [reset]);
+
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
         let validFiles;
 
         if (imageType === 'logo') {
-            // Allow only JPEG and PNG for logos, and only one file
             validFiles = files.filter(file => file.type === 'image/jpeg' || file.type === 'image/png').slice(0, 1);
-
             if (files.length > 1 || validFiles.length === 0) {
                 setErrorMessage('Only JPEG/PNG format is allowed');
                 return;
             }
         } else {
-            // Allow only PDF and DOCX for other file types, with size <= 5MB
             validFiles = files.filter(file => {
                 const isValidType = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type);
                 const isValidSize = file.size <= 5 * 1024 * 1024;
                 return isValidType && isValidSize;
             });
-
             if (validFiles.length !== files.length) {
                 setErrorMessage('Invalid files. Only PDF/DOCX, max 5MB.');
                 return;
@@ -50,7 +58,6 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
 
         setErrorMessage('');
 
-        // Process valid files
         const newPreviews = validFiles.map(file => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -59,10 +66,10 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                         ? file.name.endsWith('.docx') ? file.name : `${file.name.split('.')[0]}.docx`
                         : file.name;
 
-                    resolve({ 
-                        name: newFileName, 
-                        preview: reader.result, 
-                        type: file.type, 
+                    resolve({
+                        name: newFileName,
+                        preview: reader.result,
+                        type: file.type,
                         file: new File([file], newFileName, { type: file.type })
                     });
                 };
@@ -87,20 +94,14 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                 setUploading(false);
             });
     };
-    
-
 
     const handleFileRemove = (fileName, event) => {
         event.stopPropagation();
-
         setFilePreviews(prev => {
             const updatedPreviews = prev.filter(file => file.name !== fileName);
-
             onUploadStatusChange(updatedPreviews.length > 0, updatedPreviews.map(file => file.file), imageType);
-
             return updatedPreviews;
         });
-
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -123,17 +124,32 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
     return (
         <div className={styles['image-uploader']}>
             <div className={styles['upload-area']} onClick={handleImageClick}>
-                {uploading ? (
-                    <p>Uploading...</p>
-                ) : (
-                    <>
-                        <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
-                        <p className={styles['upload-text']}>Click here to Upload Files</p>
-                    </>
-                )}
+                <div className={styles['upload-content-wrapper']}>
+                    {uploading ? (
+                        <p>Uploading...</p>
+                    ) : (
+                       <>
+                            <img src={UploadImage} alt="Upload" className={styles['upload-icon']} />
+                            <p className={styles['upload-text']}>Click here to Upload Files</p>
+                            </>
+                    )}
+                    {showTooltip && (
+                        <div className={styles['tooltip-container']}>
+                            <span
+                                className="email-info-icon"
+                                data-tooltip-id={`upload-tooltip-${imageType}`}
+                                data-tooltip-content={tooltipMessage}
+                                data-tooltip-place="top" // Position tooltip above
+                            >
+                                <img src={Information} className='tooltip-icons' alt='information' />
+                            </span>
+                            <Tooltip id={`upload-tooltip-${imageType}`} />
+                        </div>
+                    )}
+                </div>
                 <input
                     type="file"
-                    accept={imageType === 'logo' ? 'image/png, image/jpeg'  : 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+                    accept={imageType === 'logo' ? 'image/png, image/jpeg' : 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
                     onChange={handleImageUpload}
                     style={{ display: 'none' }}
                     ref={fileInputRef}
@@ -157,7 +173,12 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
                             <div className={styles['file-info']}>
                                 <span className={styles['image-file-name']}>{file.name}</span>
                             </div>
-                            <img src={CrossIcon} alt="Remove" className={styles['remove-icon']} onClick={(event) => handleFileRemove(file.name, event)} />
+                            <img
+                                src={CrossIcon}
+                                alt="Remove"
+                                className={styles['remove-icon']}
+                                onClick={(event) => handleFileRemove(file.name, event)}
+                            />
                         </div>
                     </div>
                 ))}
@@ -165,7 +186,7 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
             {modalOpen && modalContent && modalContent.type.startsWith('image') && (
                 <div className={styles['modal']} onClick={closeModal}>
                     <div className={styles['modal-content']} onClick={(e) => e.stopPropagation()}>
-                        <span className={styles['close']} onClick={closeModal}>&times;</span>
+                        <span className={styles['close']} onClick={closeModal}>×</span>
                         <img src={modalContent.preview} alt="Enlarged view" className={styles['modal-image']} />
                     </div>
                 </div>
@@ -175,9 +196,3 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
 };
 
 export default ImageUploader;
-
-
-
-
-
-
