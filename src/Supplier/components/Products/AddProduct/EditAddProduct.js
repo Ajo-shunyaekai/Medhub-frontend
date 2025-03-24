@@ -26,14 +26,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ComplianceNCertification from "./ComplianceNCertification";
 import EditComplianceNCertification from "./EditComplianceNCertification";
-
+ 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
-
+ 
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -47,7 +47,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
-
+ 
 // End Image Container Section
 const EditAddProduct = ({ placeholder }) => {
   const { id } = useParams();
@@ -338,7 +338,7 @@ const EditAddProduct = ({ placeholder }) => {
         ),
       form: Yup.string().required("Product Type/Form is required."),
       quantity: Yup.number().required("Product Quantity is required."),
-
+ 
       volumn: Yup.string().required("Product Size/Volumn is required."),
       weight: Yup.number().required("Product Weight is required."),
       unit: Yup.string().required("Product Weight Unit is required."),
@@ -375,15 +375,15 @@ const EditAddProduct = ({ placeholder }) => {
         //   'Please enter a valid date',
         //   function (value) {
         //     if (!value) return false;
-
+ 
         //     // Split the date and convert to numbers
         //     const parts = value.split('-');
         //     if (parts.length !== 3) return false;
-
+ 
         //     const day = parseInt(parts[0], 10);
         //     const month = parseInt(parts[1], 10);
         //     const year = parseInt(parts[2], 10);
-
+ 
         //     // Check if date is valid (using Date object)
         //     const date = new Date(year, month - 1, day);
         //     return (
@@ -398,17 +398,17 @@ const EditAddProduct = ({ placeholder }) => {
           "Future dates are not allowed",
           function (value) {
             if (!value) return true;
-
+ 
             const parts = value.split("-");
             if (parts.length !== 3) return true;
-
+ 
             const day = parseInt(parts[0], 10);
             const month = parseInt(parts[1], 10);
             const year = parseInt(parts[2], 10);
-
+ 
             const enteredDate = new Date(year, month - 1, day);
             const today = new Date();
-
+ 
             return enteredDate <= today;
           }
         )
@@ -646,7 +646,7 @@ const EditAddProduct = ({ placeholder }) => {
         is: "secondary",
         then: Yup.string().required("Minimum Purchase Unit is required."),
       }),
-
+ 
       // New Fields Validation
       subCategory: Yup.string()
         .required("Sub Category is required.")
@@ -959,9 +959,9 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.string().required("Shelf Life/Expiry is required."),
         })
         .nullable(),
-
+ 
       interoperability: Yup.string()
-
+ 
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
           then: Yup.string().required("Interoperability is required."),
@@ -980,7 +980,7 @@ const EditAddProduct = ({ placeholder }) => {
         })
         .nullable(),
       specification: Yup.string()
-
+ 
         .when("category", {
           is: (category) =>
             ["DiagnosticAndMonitoringDevices"].includes(category),
@@ -1042,14 +1042,14 @@ const EditAddProduct = ({ placeholder }) => {
         })
         .nullable(),
       diagnosticFunctions: Yup.string()
-
+ 
         .when("category", {
           is: (category) =>
             ["DiagnosticAndMonitoringDevices"].includes(category),
           then: Yup.string().required("Diagnostic Functions is required."),
         })
         .nullable(),
-
+ 
       performanceTestingReportFile: Yup.array()
         .when("category", {
           is: (category) =>
@@ -1113,7 +1113,7 @@ const EditAddProduct = ({ placeholder }) => {
             ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
               category
             ),
-
+ 
           then: Yup.string().required("Health Benfits is required."),
         })
         .nullable(),
@@ -1331,9 +1331,9 @@ const EditAddProduct = ({ placeholder }) => {
     onSubmit: (values) => {
       // Custom submit handler with e.preventDefault()
       console.log("Form submitted with values:", values);
-
+ 
       const formData = new FormData();
-
+ 
       // Append fields as usual
       Object.keys(values).forEach((key) => {
         const value = values[key];
@@ -1358,7 +1358,7 @@ const EditAddProduct = ({ placeholder }) => {
           }
         }
       });
-
+ 
       // Append the supplier ID
       const supplierId = sessionStorage.getItem("_id");
       if (supplierId) {
@@ -1366,7 +1366,7 @@ const EditAddProduct = ({ placeholder }) => {
       } else {
         console.error("Supplier ID not found in session storage.");
       }
-
+ 
       // Prepare and append 'stockedInDetails' and 'productPricingDetails' fields as JSON strings
       const stockedInDetailsUpdated = JSON.stringify(
         values?.stockedInDetails?.map((section) => ({
@@ -1393,14 +1393,14 @@ const EditAddProduct = ({ placeholder }) => {
           };
         })
       );
-
+ 
       formData.append("stockedInDetails", stockedInDetailsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
       formData.append(
         "cNCFileNDate",
         cNCFileNDateUpdated
       );
-
+ 
       // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData })).then((response) => {
         console.log("response", response);
@@ -1435,20 +1435,20 @@ const EditAddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+ 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
+ 
   // Start the checked container
-
+ 
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
-
+ 
   //handle field input
   const handleInputChange = (
     e,
@@ -1459,10 +1459,10 @@ const EditAddProduct = ({ placeholder }) => {
     allowedSpecialChars = ""
   ) => {
     let { value, name } = e.target;
-
+ 
     // Apply character limit
     value = value.slice(0, Number(textLimit));
-
+ 
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -1473,21 +1473,21 @@ const EditAddProduct = ({ placeholder }) => {
       restrictSpecialForFields.includes(name)
     ) {
       // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
-
+ 
       const allowedPattern = new RegExp(
         `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
         "g"
       );
       value = value.replace(allowedPattern, "");
     }
-
+ 
     setFieldValue(name, value);
   };
-
+ 
   // End the checked container
   const editor = useRef(null);
   const [content, setContent] = useState("");
-
+ 
   const config = useMemo(
     () => ({
       readonly: false,
@@ -1495,7 +1495,7 @@ const EditAddProduct = ({ placeholder }) => {
     }),
     [formik?.values?.description]
   );
-
+ 
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -1506,16 +1506,16 @@ const EditAddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
-
+ 
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
-
+ 
   const selectedSchema = getCategorySchema(selectedCategory);
-
+ 
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -1526,7 +1526,7 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) =>
@@ -1544,7 +1544,7 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
+ 
   //   Start the Dropdown option
   const Options = [
     { value: "new product", label: "New Product" },
@@ -1656,26 +1656,26 @@ const EditAddProduct = ({ placeholder }) => {
     { value: "No", label: "No" },
   ];
   //   End the Dropdown option
-
+ 
   const formatDateToDDMMYYYY = (dateString) => {
     if (!dateString) return "";
-
+ 
     // Try to parse the date from "12 Jan 2025"
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate)) return dateString; // Return original if invalid date
-
+ 
     // Format the date as DD-MM-YYYY
     const day = String(parsedDate.getDate()).padStart(2, "0"); // 01-31
     const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // 01-12
     const year = parsedDate.getFullYear();
     return `${day}-${month}-${year}`;
   };
-
+ 
   //   useEffects
   useEffect(() => {
     id && dispatch(fetchProductDetail(`product/${id}`));
   }, [id]);
-
+ 
   useEffect(() => {
     if (formik && productDetail) {
       // Destructure the general part of productDetail to simplify access
@@ -1685,7 +1685,7 @@ const EditAddProduct = ({ placeholder }) => {
       const healthNSafety = productDetail?.healthNSafety || {};
       const secondayMarketDetails = productDetail?.secondayMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
-
+ 
       formik.setValues({
         name: general?.name || "",
         description: general?.description || "",
@@ -1862,7 +1862,7 @@ const EditAddProduct = ({ placeholder }) => {
       });
     }
   }, [productDetail]); // Add formik to the dependency array
-
+ 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -1874,7 +1874,7 @@ const EditAddProduct = ({ placeholder }) => {
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
-
+ 
             // Check if the form is changed and no validation errors
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
@@ -1917,7 +1917,7 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               {console.log("formik?.values", formik?.values)}
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Market<span className={styles?.labelStamp}>*</span>
@@ -1944,7 +1944,7 @@ const EditAddProduct = ({ placeholder }) => {
                   name="market"
                   isDisabled={true}
                 />
-
+ 
                 {formik.touched.market && formik.errors.market && (
                   <span className={styles.error}>{formik.errors.market}</span>
                 )}
@@ -1978,7 +1978,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.category}</span>
                 )}
               </div>
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category
@@ -2016,14 +2016,14 @@ const EditAddProduct = ({ placeholder }) => {
                   placeholder="Select Sub Category"
                   // isDisabled={true} // Disable when no category is selected
                 />
-
+ 
                 {formik.touched.subCategory && formik.errors.subCategory && (
                   <span className={styles.error}>
                     {formik.errors.subCategory}
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category (Level 3)
@@ -2080,7 +2080,7 @@ const EditAddProduct = ({ placeholder }) => {
                   // isDisabled={!selectedSubCategory}
                 />
               </div>
-
+ 
               {formik?.values?.market === "secondary" && (
                 <>
                   <div className={styles.productContainer}>
@@ -2088,7 +2088,7 @@ const EditAddProduct = ({ placeholder }) => {
                       Purchased On
                       <span className={styles?.labelStamp}>*</span>
                     </label>
-
+ 
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -2108,7 +2108,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Condition<span className={styles?.labelStamp}>*</span>
@@ -2134,13 +2134,13 @@ const EditAddProduct = ({ placeholder }) => {
                       </span>
                     )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Country Available In
                       <span className={styles?.labelStamp}>*</span>
                     </label>
-
+ 
                     <MultiSelectDropdown
                       options={countries}
                       placeholderButtonLabel="Select Countries"
@@ -2162,7 +2162,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }}
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
-
+ 
                     {formik.touched.countryAvailable &&
                       formik.errors.countryAvailable && (
                         <span className={styles.error}>
@@ -2170,7 +2170,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Minimum Purchase Unit
@@ -2198,7 +2198,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                 </>
               )}
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   UPC (Universal Product Code)
@@ -2225,7 +2225,7 @@ const EditAddProduct = ({ placeholder }) => {
                 />
                 <span className={styles.error}></span>
               </div>
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Part/Model Number
@@ -2320,7 +2320,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.quantity}</span>
                 )}
               </div>
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Size/Volumn
@@ -2516,7 +2516,7 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)."></Tooltip>
                 </div>
-
+ 
                 {/* Show text field when "Other" is selected */}
                 {/* {selectedOption?.value === "Other" && (
                   <input
@@ -2535,7 +2535,7 @@ const EditAddProduct = ({ placeholder }) => {
                     }}
                   />
                 )} */}
-
+ 
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
                   formik.errors.packageMaterial && (
@@ -2573,7 +2573,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
-
+ 
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Contry of Origin
@@ -2596,7 +2596,7 @@ const EditAddProduct = ({ placeholder }) => {
                     );
                   }}
                 />
-
+ 
                 {formik.touched.countryOfOrigin &&
                   formik.errors.countryOfOrigin && (
                     <span className={styles.error}>
@@ -2733,7 +2733,7 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
-
+ 
           {/* Start the Inventory */}
           <div className={styles.section}>
             <span className={styles.formHead}>Inventory</span>
@@ -2863,7 +2863,7 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
-
+ 
             <div className={styles.formStockContainer}>
               <div className={styles.formHeadSection}>
                 <span className={styles.formHead}>Stocked In Details</span>
@@ -2886,7 +2886,7 @@ const EditAddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
-
+ 
               {formik?.values?.stockedInDetails?.map((stock, index) => (
                 <div key={index} className={styles.formSection}>
                   <div className={styles.productContainer}>
@@ -2917,7 +2917,7 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.country}
                     </span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Stock Quantity
@@ -2936,7 +2936,7 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onChange={formik.handleChange}
                         />
-
+ 
                         {/* <button
                           type="button"
                           className={`${styles.quantityButton} ${styles.selected}`}
@@ -2944,7 +2944,7 @@ const EditAddProduct = ({ placeholder }) => {
                           {stock.type}
                         </button> */}
                       </div>
-
+ 
                       {/* <div className={styles.radioForm}>
                         {["Box", "Strip", "Pack"].map((type) => (
                           <label key={type}>
@@ -2977,7 +2977,7 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.quantity}
                     </span>
                   </div>
-
+ 
                   {formik?.values?.stockedInDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -2998,9 +2998,9 @@ const EditAddProduct = ({ placeholder }) => {
               ))}
             </div>
           </div>
-
+ 
           {/* End the Inventory */}
-
+ 
           {/* Start the Product Pricing */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -3065,7 +3065,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.quantity}
                           </span>
                         </div>
-
+ 
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Cost Per Product
@@ -3087,7 +3087,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.price}
                           </span>
                         </div>
-
+ 
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Est. Delivery Time
@@ -3106,7 +3106,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.deliveryTime}
                           </span>
                         </div>
-
+ 
                         {formik?.values?.productPricingDetails?.length > 1 && (
                           <div
                             className={styles.formCloseSection}
@@ -3124,9 +3124,9 @@ const EditAddProduct = ({ placeholder }) => {
               )}
             />
           </div>
-
+ 
           {/* End the Product Pricing */}
-
+ 
           {/* Start the Compliances and certificate */}
           {/* <div className={styles.documentContainer}>
             <div className={styles.sectionCompliances}>
@@ -3238,7 +3238,7 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           </div> */}
           {/* End the compliances and certificate */}
-
+ 
           {/* Start the Compliances and certificate 222222222 */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -3266,7 +3266,7 @@ const EditAddProduct = ({ placeholder }) => {
                 Add More
               </span>
             </div>
-
+ 
             {formik?.values?.cNCFileNDate?.map(
               (ele, index) => (
                 <div
@@ -3310,7 +3310,7 @@ const EditAddProduct = ({ placeholder }) => {
                         ]?.file}
                     </span>
                   </div>
-
+ 
                   {/* Date of Expiry Section */}
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
@@ -3362,7 +3362,7 @@ const EditAddProduct = ({ placeholder }) => {
                         ]?.date}
                     </span>
                   </div>
-
+ 
                   {/* Remove Section */}
                   {formik?.values?.cNCFileNDate?.length >
                     1 && (
@@ -3382,7 +3382,7 @@ const EditAddProduct = ({ placeholder }) => {
                           `cNCFileNDate.${index}.preview`,
                           false
                         );
-
+ 
                         // Remove the row from the array
                         const updatedList =
                           formik?.values?.cNCFileNDate.filter(
@@ -3412,9 +3412,9 @@ const EditAddProduct = ({ placeholder }) => {
               )
             )}
           </div>
-
+ 
           {/* End the compliances and certificate 222222222 */}
-
+ 
           {/* Start the Medical Equipment And Devices */}
           {formik?.values?.category?.toLowerCase() ===
             "MedicalEquipmentAndDevices"?.toLowerCase() && (
@@ -3440,7 +3440,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                   </div>
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Laser Type</label>
                   <div className={styles.tooltipContainer}>
@@ -3481,7 +3481,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <span className={styles.error}></span>
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Spot Size</label>
                   <div className={styles.tooltipContainer}>
@@ -3622,7 +3622,7 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           )}
           {/* End the MedicalEquipmentAndDevices */}
-
+ 
           {/* Start the Pharmaceuticals */}
           {formik?.values?.category?.toLowerCase() ===
             "Pharmaceuticals"?.toLowerCase() && (
@@ -3658,7 +3658,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -3791,7 +3791,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     {/* <span className={styles.error}></span> */}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -3862,7 +3862,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Controlled Substance
@@ -3893,7 +3893,7 @@ const EditAddProduct = ({ placeholder }) => {
                           Whether the drug is a controlled <br /> substance
                         </label>
                       </span>
-
+ 
                       <Tooltip
                         content=" Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
@@ -3904,7 +3904,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                 </div>
-
+ 
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Storage & Handling</span>
@@ -3941,7 +3941,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -4007,9 +4007,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
-
+ 
           {/* End the Pharmaceuticals */}
-
+ 
           {/* Start the Skin, Hair and Cosmetic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "SkinHairCosmeticSupplies"?.toLowerCase() && (
@@ -4180,7 +4180,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Fragrance</label>
                     <div className={styles.tooltipContainer}>
@@ -4236,7 +4236,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Purpose<span className={styles?.labelStamp}>*</span>
@@ -4263,7 +4263,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -4335,7 +4335,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -4460,7 +4460,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e. <br />, no
                           animal-derived ingredients).
@@ -4495,7 +4495,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
-
+ 
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
@@ -4548,7 +4548,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                 </div>
-
+ 
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
@@ -4617,7 +4617,7 @@ const EditAddProduct = ({ placeholder }) => {
                           </>
                         )}
                       </div>
-
+ 
                       {/* Pediatrician Recommended */}
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
@@ -4779,9 +4779,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
-
+ 
           {/* End the Skin, Hair and Cosmetic Supplies */}
-
+ 
           {/* Start the Vital Health and Wellness */}
           {formik?.values?.category?.toLowerCase() ===
             "VitalHealthAndWellness"?.toLowerCase() && (
@@ -4903,7 +4903,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Composition/Ingredients
@@ -4955,7 +4955,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -4987,7 +4987,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Administration Route
@@ -5026,7 +5026,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -5109,7 +5109,7 @@ const EditAddProduct = ({ placeholder }) => {
                             handleCheckboxChange("controlledSubstance")
                           }
                         />
-
+ 
                         <label
                           className={styles.checkText}
                           htmlFor="controlledSubstance"
@@ -5125,7 +5125,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Vegan</label>
                     <div className={styles.tooltipContainer}>
@@ -5143,7 +5143,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e.
                           <br />, no animal-derived ingredients).
@@ -5178,7 +5178,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
-
+ 
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
@@ -5228,7 +5228,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -5295,7 +5295,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Vital Health and Wellness */}
-
+ 
           {/* Start the Medical Consumables and Disposables */}
           {formik?.values?.category?.toLowerCase() ===
             "MedicalConsumablesAndDisposables"?.toLowerCase() && (
@@ -5365,7 +5365,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -5415,7 +5415,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Shape</label>
                     <div className={styles.tooltipContainer}>
@@ -5440,7 +5440,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -5488,7 +5488,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="powdered">
                           Whether the gloves are powdered <br /> or powder-free.
                         </label>
@@ -5496,7 +5496,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -5514,7 +5514,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -5527,7 +5527,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Storage & Handling</span>
-
+ 
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -5561,7 +5561,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -5609,7 +5609,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
-
+ 
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -5624,7 +5624,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -5732,7 +5732,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
-
+ 
                             <label
                               className={styles.checkText}
                               htmlFor="fluidResistance"
@@ -5752,7 +5752,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Medical Consumables and Disposables */}
-
+ 
           {/* Start the Laboratory Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "LaboratorySupplies"?.toLowerCase() && (
@@ -5779,7 +5779,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Hazard Classification
@@ -5818,7 +5818,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -5911,7 +5911,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -5984,7 +5984,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Objective Lenses</label>
                     <div className={styles.tooltipContainer}>
@@ -6051,7 +6051,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Laboratory Supplies */}
-
+ 
           {/* Start the Diagnostic and Monitoring Devices */}
           {formik?.values?.category?.toLowerCase() ===
             "DiagnosticAndMonitoringDevices"?.toLowerCase() && (
@@ -6091,7 +6091,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Flow Rate</label>
                     <div className={styles.tooltipContainer}>
@@ -6201,7 +6201,7 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Maintenance Notes
@@ -6354,7 +6354,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Diagnostic and Monitoring Devices */}
-
+ 
           {/* Start the Hospital and Clinic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "HospitalAndClinicSupplies"?.toLowerCase() && (
@@ -6406,7 +6406,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -6431,7 +6431,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Chemical Resistance
@@ -6457,7 +6457,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Powdered</label>
                     <div className={styles.tooltipContainer}>
@@ -6481,7 +6481,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="powdered">
                           Whether the gloves are powdered <br />
                           or powder-free.
@@ -6491,7 +6491,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -6509,7 +6509,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
-
+ 
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -6555,7 +6555,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -6580,7 +6580,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
-
+ 
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -6596,7 +6596,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
-
+ 
                 <span className={styles.formHead}>Technical Details</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
@@ -6618,7 +6618,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Adhesive or non-adhesive."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Absorbency</label>
                     <div className={styles.tooltipContainer}>
@@ -6638,7 +6638,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Elasticity</label>
                     <div className={styles.tooltipContainer}>
@@ -6699,7 +6699,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Hospital and Clinic Supplies */}
-
+ 
           {/* Start the Orthopedic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "OrthopedicSupplies"?.toLowerCase() && (
@@ -6786,7 +6786,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -6878,7 +6878,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -6957,7 +6957,7 @@ const EditAddProduct = ({ placeholder }) => {
                           <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
                         </div>
                       </div>
-
+ 
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Color Options
@@ -6994,7 +6994,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Orthopedic Supplies */}
-
+ 
           {/* Start the Dental Products */}
           {formik?.values?.category?.toLowerCase() ===
             "DentalProducts"?.toLowerCase() && (
@@ -7026,7 +7026,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -7124,13 +7124,13 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>Usage Rate</label>
-
+ 
                         <input
                           className={styles.formInput}
                           type="text"
@@ -7149,14 +7149,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
-
+ 
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Maintenance Notes
                         </label>
-
+ 
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Maintenance Notes"
@@ -7174,14 +7174,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
-
+ 
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Compatible Equipment
                         </label>
-
+ 
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Compatible Equipment"
@@ -7199,7 +7199,7 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
-
+ 
                         <span className={styles.error}></span>
                       </div>
                     </div>
@@ -7209,7 +7209,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Dental Products */}
-
+ 
           {/* Start the Eye Care Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "EyeCareSupplies"?.toLowerCase() && (
@@ -7219,7 +7219,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Frame</label>
-
+ 
                     <Select
                       className={styles.formSelect}
                       options={frameOptions}
@@ -7235,10 +7235,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens</label>
-
+ 
                     <Select
                       className={styles.formSelect}
                       options={lensOptions}
@@ -7256,7 +7256,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Material</label>
-
+ 
                     <Select
                       className={styles.formSelect}
                       options={lensmaterialOptions}
@@ -7275,7 +7275,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
-
+ 
                     <span className={styles.error}></span>
                   </div>
                 </div>
@@ -7283,7 +7283,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Diameter</label>
-
+ 
                     <input
                       className={styles.formInput}
                       type="text"
@@ -7297,12 +7297,12 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
-
+ 
                     <span className={styles.error}></span>
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Power</label>
-
+ 
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Lens Power"
@@ -7316,10 +7316,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Base Curve</label>
-
+ 
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Base Curve"
@@ -7333,7 +7333,7 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Color Options</label>
                     <div className={styles.tooltipContainer}>
@@ -7363,9 +7363,9 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Eye Care Supplies */}
-
+ 
           {/* Start the Home Healthcare Products */}
-
+ 
           {formik?.values?.category?.toLowerCase() ===
             "HomeHealthcareProducts"?.toLowerCase() && (
             <>
@@ -7390,7 +7390,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
                     </div>
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -7457,7 +7457,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -7734,7 +7734,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Home Healthcare Products */}
-
+ 
           {/* Start the Alternative Medicines */}
           {formik?.values?.category?.toLowerCase() ===
             "AlternativeMedicines"?.toLowerCase() && (
@@ -7892,7 +7892,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Alternative Medicines */}
-
+ 
           {/* Start the Emergency and First Aid Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "EmergencyAndFirstAidSupplies"?.toLowerCase() && (
@@ -7932,7 +7932,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Product Longevity
@@ -8033,9 +8033,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
-
+ 
           {/* End the Emergency and First Aid Supplies */}
-
+ 
           {/* Start the Disinfection and Hygiene Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "disinfectionAndHygieneSuppliesSchema"?.toLowerCase() && (
@@ -8075,7 +8075,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -8190,7 +8190,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Disinfection and Hygiene Supplies */}
-
+ 
           {/* Start the Nutrition and Dietary Products */}
           {formik?.values?.category?.toLowerCase() ===
             "NutritionAndDietaryProducts"?.toLowerCase() && (
@@ -8265,7 +8265,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Amino Acid Profile
@@ -8329,7 +8329,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </span>
                     )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Health Benefit
@@ -8425,7 +8425,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
-
+ 
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Additives & Sweeteners
@@ -8529,9 +8529,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
-
+ 
           {/* End the Nutrition and Dietary Products */}
-
+ 
           {/* Start the Healthcare IT Solutions */}
           {formik?.values?.category?.toLowerCase() ===
             "HealthcareITSolutions"?.toLowerCase() && (
@@ -8674,7 +8674,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
-
+ 
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -8810,7 +8810,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Healthcare IT Solutions */}
-
+ 
           {/* Start the Health & Safety */}
           <div className={styles.section}>
             <span className={styles.formHead}>Health & Safety</span>
@@ -8837,7 +8837,7 @@ const EditAddProduct = ({ placeholder }) => {
                   formik.errors.safetyDatasheet
                 }
               />
-
+ 
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={
@@ -8860,7 +8860,7 @@ const EditAddProduct = ({ placeholder }) => {
                   formik.errors.healthHazardRating
                 }
               />
-
+ 
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={
@@ -8885,9 +8885,9 @@ const EditAddProduct = ({ placeholder }) => {
               />
             </div>
           </div>
-
+ 
           {/* End the Health & Safety */}
-
+ 
           {/* Start the Additional Information */}
           <div className={styles.additionalSection}>
             <span className={styles.formHead}>Additional Information</span>
@@ -8908,7 +8908,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
-
+ 
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={4 - (formik?.values?.guidelinesFile?.length || 0)}
@@ -8955,9 +8955,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
-
+ 
           {/* End the Additional Information */}
-
+ 
           {/* Start button section */}
           <div className={styles.buttonContainer}>
             <button className={styles.buttonCancel}>Cancel</button>
@@ -8965,7 +8965,7 @@ const EditAddProduct = ({ placeholder }) => {
               Submit
             </button>
           </div>
-
+ 
           {/* End button section */}
         </form>
         {/* //   </Row> */}
@@ -8973,5 +8973,5 @@ const EditAddProduct = ({ placeholder }) => {
     </div>
   );
 };
-
+ 
 export default EditAddProduct;

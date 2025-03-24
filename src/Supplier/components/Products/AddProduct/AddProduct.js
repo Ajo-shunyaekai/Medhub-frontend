@@ -2650,47 +2650,7 @@ const AddProduct = ({ placeholder }) => {
                    
                   </div>
                 </div>
-                <div className={styles.productContainer}>
-                  <AddProductFileUpload
-                    fieldInputName={"image"}
-                    setFieldValue={setFieldValue}
-                    initialValues={values}
-                    label="Product Image"
-                    tooltip={false}
-                    acceptTypes={{
-                      "image/png": [],
-                      "image/jpeg": [],
-                      "image/jpg": [],
-                    }}
-                  />
-
-                  {touched.image && errors.image && (
-                    <span className={styles.error}>{errors.image}</span>
-                  )}
-                </div>
-                {productType === "secondary product" && (
-                  <div className={styles.productContainer}>
-
-                    <AddProductFileUpload
-                      fieldInputName={"purchaseInvoiceFile"}
-                      setFieldValue={setFieldValue}
-                      initialValues={values}
-                      label="Purchase Invoice"
-                      tooltip={false}
-                      acceptTypes={{
-                        "application/pdf": [],
-                      }}
-                      maxFiles={1}
-                      error={
-                        touched.purchaseInvoiceFile &&
-                          errors.purchaseInvoiceFile
-                          ? errors.purchaseInvoiceFile
-                          : null
-                      }
-                    />
-
-                  </div>
-                )}
+               
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Name
@@ -2763,6 +2723,48 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
+
+                <div className={styles.productContainer}>
+                  <AddProductFileUpload
+                    fieldInputName={"image"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="Product Image"
+                    tooltip={false}
+                    acceptTypes={{
+                      "image/png": [],
+                      "image/jpeg": [],
+                      "image/jpg": [],
+                    }}
+                  />
+
+                  {touched.image && errors.image && (
+                    <span className={styles.error}>{errors.image}</span>
+                  )}
+                </div>
+                {productType === "secondary product" && (
+                  <div className={styles.productContainer}>
+
+                    <AddProductFileUpload
+                      fieldInputName={"purchaseInvoiceFile"}
+                      setFieldValue={setFieldValue}
+                      initialValues={values}
+                      label="Purchase Invoice"
+                      tooltip={false}
+                      acceptTypes={{
+                        "application/pdf": [],
+                      }}
+                      maxFiles={1}
+                      error={
+                        touched.purchaseInvoiceFile &&
+                          errors.purchaseInvoiceFile
+                          ? errors.purchaseInvoiceFile
+                          : null
+                      }
+                    />
+
+                  </div>
+                )}
                 {/* <div className={styles.sectionCompliances}>
                   <span className={styles.formHead}>Storage & Handling</span>
                   <div className={styles.compliancesContainer}>

@@ -294,7 +294,6 @@ const Profile = () => {
       <div className={styles.documentContainer}>
         <div className={styles.documentMainHeading}>Documents</div>
         <div className={styles.documentSection}>
-          {/* Trade License */}
           <div className={styles.documentInnerSection}>
             <div className={styles.documentDocName}>Trade License</div>
             <div className={styles.documentDocContent}>
