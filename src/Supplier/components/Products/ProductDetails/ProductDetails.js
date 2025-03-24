@@ -2410,7 +2410,7 @@ const ProductDetails = () => {
         )}
         {/* End product image section */}
         {/* Start Compliance & Certification Health & Safety */}
-        {(productDetail?.complianceAndCertificationFileNDate?.length > 0 ||
+        {(productDetail?.cNCFileNDate?.length > 0 ||
           productDetail?.healthNSafety?.safetyDatasheet?.length > 0 ||
           productDetail?.healthNSafety?.healthHazardRating?.length > 0 ||
           productDetail?.healthNSafety?.environmentalImpact?.length > 0) && (
@@ -2419,13 +2419,13 @@ const ProductDetails = () => {
                 Compliance & Certification And Health & Safety
               </span>
               <div className={styles.innerComplianceSection}>
-                {productDetail?.complianceAndCertificationFileNDate?.length > 0 && (
+                {productDetail?.cNCFileNDate?.length > 0 && (
                   <div className={styles.additionalUploadSection}>
                     <span className={styles.medicineHead}>
                       Regulatory Compliance
                     </span>
                     <div className={styles.additionalImageSection}>
-                      {productDetail.complianceAndCertificationFileNDate.map((item, index) => (
+                      {productDetail.cNCFileNDate.map((item, index) => (
                         <div className={styles.complianceSection} key={item._id || index}>
                           <RenderProductFiles files={[item.file]} />
                           <span className={styles.medicineContent}>{item.date}</span>

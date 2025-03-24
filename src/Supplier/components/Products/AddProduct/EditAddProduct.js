@@ -83,8 +83,8 @@ const EditAddProduct = ({ placeholder }) => {
       countries: productDetail?.countries || [],
       date: productDetail?.date || "",
       complianceFile: productDetail?.complianceFile || [],
-      complianceAndCertificationFileNDate:
-        productDetail?.complianceAndCertificationFileNDate || [],
+      cNCFileNDate:
+        productDetail?.cNCFileNDate || [],
       complianceFileNew: productDetail?.complianceFileNew || [],
       storage: productDetail?.storage || "",
       other: productDetail?.additional?.other || "",
@@ -1340,7 +1340,7 @@ const EditAddProduct = ({ placeholder }) => {
         // Fixing condition to check for 'productPricingDetails' and 'stockedInDetails'
         if (
           (key !== "productPricingDetails" && key !== "stockedInDetails") ||
-          key != "complianceAndCertificationFileNDate"
+          key != "cNCFileNDate"
         ) {
           if (Array.isArray(value)) {
             // Append array items under the same key
@@ -1382,8 +1382,8 @@ const EditAddProduct = ({ placeholder }) => {
           deliveryTime: section?.deliveryTime || "",
         }))
       );
-      const complianceAndCertificationFileNDateUpdated = JSON.stringify(
-        values?.complianceAndCertificationFileNDate?.map((section) => {
+      const cNCFileNDateUpdated = JSON.stringify(
+        values?.cNCFileNDate?.map((section) => {
           return {
             date: section?.date || "",
             file:
@@ -1397,8 +1397,8 @@ const EditAddProduct = ({ placeholder }) => {
       formData.append("stockedInDetails", stockedInDetailsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
       formData.append(
-        "complianceAndCertificationFileNDate",
-        complianceAndCertificationFileNDateUpdated
+        "cNCFileNDate",
+        cNCFileNDateUpdated
       );
 
       // Dispatch the editProduct action (or any other submit action)
@@ -1715,8 +1715,8 @@ const EditAddProduct = ({ placeholder }) => {
         // date: productDetail?.date || "",
         date: formatDateToDDMMYYYY(inventoryDetails?.date) || "",
         complianceFile: productDetail?.complianceFile || [],
-        complianceAndCertificationFileNDate:
-          productDetail?.complianceAndCertificationFileNDate || [],
+        cNCFileNDate:
+          productDetail?.cNCFileNDate || [],
         complianceFileNew: productDetail?.complianceFileNew || [],
         storage: productDetail?.storage || "",
         other: productDetail?.additional?.other || "",
@@ -3249,12 +3249,12 @@ const EditAddProduct = ({ placeholder }) => {
                 className={styles.formAddButton}
                 onClick={() => {
                   // Add new file and date pair to the array
-                  formik?.values?.complianceAndCertificationFileNDate?.length <
+                  formik?.values?.cNCFileNDate?.length <
                     4 &&
                     formik?.setFieldValue(
-                      "complianceAndCertificationFileNDate",
+                      "cNCFileNDate",
                       [
-                        ...formik?.values?.complianceAndCertificationFileNDate,
+                        ...formik?.values?.cNCFileNDate,
                         {
                           file: [],
                           date: "",
@@ -3267,7 +3267,7 @@ const EditAddProduct = ({ placeholder }) => {
               </span>
             </div>
 
-            {formik?.values?.complianceAndCertificationFileNDate?.map(
+            {formik?.values?.cNCFileNDate?.map(
               (ele, index) => (
                 <div
                   key={`certification_${index}`}
@@ -3276,11 +3276,11 @@ const EditAddProduct = ({ placeholder }) => {
                   {/* File Upload Section */}
                   <div className={styles.productContainer}>
                     <Field
-                      name={`complianceAndCertificationFileNDate.${index}.file`}
+                      name={`cNCFileNDate.${index}.file`}
                     >
                       {({ field }) => (
                         <EditComplianceNCertification
-                          fieldInputName={`complianceAndCertificationFileNDate.${index}.file`}
+                          fieldInputName={`cNCFileNDate.${index}.file`}
                           setFieldValue={formik?.setFieldValue}
                           initialValues={formik?.values}
                           label="Regulatory Compliance"
@@ -3302,10 +3302,10 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </Field>
                     <span className={styles.error}>
-                      {formik?.touched.complianceAndCertificationFileNDate?.[
+                      {formik?.touched.cNCFileNDate?.[
                         index
                       ]?.file &&
-                        formik?.errors.complianceAndCertificationFileNDate?.[
+                        formik?.errors.cNCFileNDate?.[
                           index
                         ]?.file}
                     </span>
@@ -3324,13 +3324,13 @@ const EditAddProduct = ({ placeholder }) => {
                         type="text"
                         mask="dd-mm-yyyy"
                         placeholder="Enter Date of Manufacture"
-                        name={`complianceAndCertificationFileNDate.${index}.date`}
+                        name={`cNCFileNDate.${index}.date`}
                         value={ele?.date}
                         onChange={(e) => {
                           formik?.handleChange(e);
                           // Force validation immediately after change
                           formik?.setFieldTouched(
-                            `complianceAndCertificationFileNDate.${index}.date`,
+                            `cNCFileNDate.${index}.date`,
                             true,
                             true
                           );
@@ -3354,38 +3354,38 @@ const EditAddProduct = ({ placeholder }) => {
                       {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
                     </div>
                     <span className={styles.error}>
-                      {formik?.touched.complianceAndCertificationFileNDate?.[
+                      {formik?.touched.cNCFileNDate?.[
                         index
                       ]?.date &&
-                        formik?.errors.complianceAndCertificationFileNDate?.[
+                        formik?.errors.cNCFileNDate?.[
                           index
                         ]?.date}
                     </span>
                   </div>
 
                   {/* Remove Section */}
-                  {formik?.values?.complianceAndCertificationFileNDate?.length >
+                  {formik?.values?.cNCFileNDate?.length >
                     1 && (
                     <div
                       className={styles.formCloseSection}
                       onClick={() => {
                         // Clear form values before removing the row
                         formik?.setFieldValue(
-                          `complianceAndCertificationFileNDate.${index}.file`,
+                          `cNCFileNDate.${index}.file`,
                           []
                         );
                         formik?.setFieldValue(
-                          `complianceAndCertificationFileNDate.${index}.date`,
+                          `cNCFileNDate.${index}.date`,
                           ""
                         );
                         formik?.setFieldValue(
-                          `complianceAndCertificationFileNDate.${index}.preview`,
+                          `cNCFileNDate.${index}.preview`,
                           false
                         );
 
                         // Remove the row from the array
                         const updatedList =
-                          formik?.values?.complianceAndCertificationFileNDate.filter(
+                          formik?.values?.cNCFileNDate.filter(
                             (_, elindex) => elindex !== index
                           );
                         const updatedList2 =
@@ -3393,7 +3393,7 @@ const EditAddProduct = ({ placeholder }) => {
                             (_, elindex) => elindex !== index
                           );
                         formik?.setFieldValue(
-                          "complianceAndCertificationFileNDate",
+                          "cNCFileNDate",
                           updatedList
                         );
                         formik?.setFieldValue("complianceFile", []);

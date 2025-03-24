@@ -108,14 +108,18 @@ const SearchMarketProductDetails = () => {
                 buyer_id: buyerIdSessionStorage || buyerIdLocalStorage
             }
             try {
-                const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${medId}`, obj)
+                // const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${medId}`, obj)
+                const response = await apiRequests.getRequest(`product/${medId}`, obj)
                 if(response?.code !== 200){
+                    console.log("responseresponseresponseresponse code", response)
                     return
+                }else{
+                    console.log("responseresponseresponseresponse", response?.data?.[0])
                 }
-                setDetails(response?.result)
-                setMedicineName(response?.result?.medicine_name)
-                setCountryAvailableIn(response?.result?.countryAvailable)
-                setSupplierId(response.result?.supplier_id)
+                setDetails(response?.data?.[0])
+                setMedicineName(response?.data?.[0]?.general?.name)
+                setCountryAvailableIn(response?.data?.[0]?.countryAvailable) // need tocheck this
+                setSupplierId(response.data?.[0]?.supplier_id)
             } catch (error) {
                 console.log('error in medicine list api',error);
             }
