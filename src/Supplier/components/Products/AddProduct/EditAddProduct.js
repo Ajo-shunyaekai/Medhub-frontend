@@ -165,6 +165,8 @@ const EditAddProduct = ({ placeholder }) => {
         productDetail?.[productDetail?.category]?.specificationFileNew || [],
       diagnosticFunctions:
         productDetail?.[productDetail?.category]?.diagnosticFunctions || "",
+      flowRate: 
+        productDetail?.[productDetail?.category]?.flowRate || "",
       performanceTestingReport:
         productDetail?.[productDetail?.category]?.performanceTestingReport ||
         "",
@@ -184,7 +186,7 @@ const EditAddProduct = ({ placeholder }) => {
       texture: productDetail?.[productDetail?.category]?.texture || false,
       sterilized: productDetail?.[productDetail?.category]?.sterilized || false,
       chemicalResistance:
-        productDetail?.[productDetail?.category]?.chemicalResistance || false,
+        productDetail?.[productDetail?.category]?.chemicalResistance || "",
       fluidResistance:
         productDetail?.[productDetail?.category]?.fluidResistance || false,
       shape: productDetail?.[productDetail?.category]?.shape || "",
@@ -268,6 +270,7 @@ const EditAddProduct = ({ placeholder }) => {
         productDetail?.[productDetail?.category]?.moistureResistance || "",
       // Add the other fields under DentalProducts || Add the other fields under DentalProducts
       // Add the other fields under EyeCareSupplies || Add the other fields under EyeCareSupplies
+      colorOptions: productDetail?.[productDetail?.category]?.colorOptions || "",
       lensPower: productDetail?.[productDetail?.category]?.lensPower || "",
       baseCurve: productDetail?.[productDetail?.category]?.baseCurve || "",
       diameter: productDetail?.[productDetail?.category]?.diameter || "",
@@ -961,13 +964,15 @@ const EditAddProduct = ({ placeholder }) => {
         .nullable(),
  
       interoperability: Yup.string()
- 
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
           then: Yup.string().required("Interoperability is required."),
         })
         .nullable(),
-      interoperabilityFile: Yup.array()
+      interoperabilityFile: Yup.array().max(4, "You can upload up to 4 Interoperability files.").of(
+        Yup.string().required("A file path is required.") // Since it's now a string
+      ),
+      interoperabilityFileNew: Yup.array()
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
           then: Yup.array()
@@ -1775,6 +1780,7 @@ const EditAddProduct = ({ placeholder }) => {
         specificationFile: categoryDetails?.specificationFile || [],
         specificationFileNew: categoryDetails?.specificationFileNew || [],
         diagnosticFunctions: categoryDetails?.diagnosticFunctions || "",
+        flowRate: categoryDetails?.flowRate || "",
         performanceTestingReport:
           categoryDetails?.performanceTestingReport || "",
         performanceTestingReportFile:
@@ -1833,6 +1839,7 @@ const EditAddProduct = ({ placeholder }) => {
         hazardClassification: categoryDetails?.hazardClassification || [],
         noiseLevel: categoryDetails?.noiseLevel || "",
         moistureResistance: categoryDetails?.moistureResistance || "",
+        colorOptions: categoryDetails?.colorOptions || "",
         lensPower: categoryDetails?.lensPower || "",
         baseCurve: categoryDetails?.baseCurve || "",
         diameter: categoryDetails?.diameter || "",
@@ -4428,6 +4435,7 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Enter Filler Type"
                         rows="2"
                         name="fillerType"
+                        value={formik?.values?.fillerType}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
                           handleInputChange(
@@ -4567,7 +4575,11 @@ const EditAddProduct = ({ placeholder }) => {
                             options={dermatologistOptions}
                             placeholder="Select Dermatologist Tested"
                             name="dermatologistTested"
-                            value={formik?.values?.dermatologistTested}
+                            // value={formik?.values?.dermatologistTested}
+                            value={dermatologistOptions.find(
+                              (option) =>
+                                option?.value === formik?.values?.dermatologistTested
+                            )}
                             onChange={(selectedOption) => {
                               formik.setFieldValue(
                                 "dermatologistTested",
@@ -4630,7 +4642,11 @@ const EditAddProduct = ({ placeholder }) => {
                             options={pediatricianOptions}
                             placeholder="Select Pediatrician Recommended"
                             name="pediatricianRecommended"
-                            value={formik?.values?.pediatricianRecommended}
+                            // value={formik?.values?.pediatricianRecommended}
+                            value={pediatricianOptions.find(
+                              (option) =>
+                                option?.value === formik?.values?.pediatricianRecommended
+                            )}
                             onChange={(selectedOption) => {
                               formik.setFieldValue(
                                 "pediatricianRecommended",
@@ -5346,7 +5362,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>Filtration Type</label>
                     <div className={styles.tooltipContainer}>
                       <Chips
-                        value={value.filtrationType}
+                        value={formik?.values.filtrationType}
                         name="filtrationType"
                         onBlur={formik?.handleBlur}
                         onChange={(e) => {
@@ -5400,6 +5416,7 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Enter Chemical Resistance"
                         rows="2"
                         name="chemicalResistance"
+                        value={formik?.values?.chemicalResistance}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
                           handleInputChange(
@@ -5597,7 +5614,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={checked["sterilized"] || false}
+                              checked={formik?.values?.sterilized || checked["sterilized"] || false}
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -6442,6 +6459,7 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Enter Chemical Resistance"
                         rows="2"
                         name="chemicalResistance"
+                        value={formik?.values?.chemicalResistance}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
                           handleInputChange(
@@ -6568,7 +6586,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={checked["sterilized"] || false}
+                              checked={formik?.values?.sterilized || checked["sterilized"] || false}
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -6747,7 +6765,7 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Select Moisture Resistance"
                         name="moistureResistance"
                         // Ensure that the value reflects the value from formik or the productDetail state
-                        value={pharmaOptions.find(
+                        value={moistureOptions.find(
                           (option) =>
                             option?.value === formik?.values?.moistureResistance
                         )}
@@ -6852,7 +6870,7 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={checked["sterilized"] || false}
+                              checked={formik?.values?.sterilized ||checked["sterilized"] || false}
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -7226,7 +7244,7 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Select Frame"
                       name="frame"
                       // Ensure that the value reflects the value from formik or the productDetail state
-                      value={pharmaOptions.find(
+                      value={frameOptions.find(
                         (option) => option?.value === formik?.values?.frame
                       )}
                       onChange={(selectedOption) =>
@@ -7245,7 +7263,7 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Select Lens"
                       name="lens"
                       // Ensure that the value reflects the value from formik or the productDetail state
-                      value={pharmaOptions.find(
+                      value={lensOptions.find(
                         (option) => option?.value === formik?.values?.lens
                       )}
                       onChange={(selectedOption) =>
@@ -7263,7 +7281,7 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="Select Lens Material"
                       name="lensMaterial"
                       // Ensure that the value reflects the value from formik or the productDetail state
-                      value={pharmaOptions.find(
+                      value={lensmaterialOptions.find(
                         (option) =>
                           option?.value === formik?.values?.lensMaterial
                       )}
@@ -8209,7 +8227,7 @@ const EditAddProduct = ({ placeholder }) => {
                         placeholder="Select Dairy Free"
                         name="dairyFree"
                         // Ensure that the value reflects the value from formik or the productDetail state
-                        value={pharmaOptions.find(
+                        value={dairyfeeOptions?.find(
                           (option) =>
                             option?.value === formik?.values?.dairyFree
                         )}
