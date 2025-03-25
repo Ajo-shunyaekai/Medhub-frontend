@@ -142,8 +142,8 @@
     align-items: center;
     cursor: pointer !important;
     position: absolute;
-    top: 50%;
-    right: 16px;
+    top: 70%;
+    right: -16px;
     transform: translateY(-50%);
     cursor: pointer !important;
   }
@@ -166,7 +166,7 @@
     width: 100%;
     position: relative;
   }
-  
+
   .icon {
     width: 16px !important;
     height: 16px !important;
@@ -673,6 +673,7 @@
     justify-content: center;
     column-gap: 20px;
     margin-top: 30px;
+    margin-bottom: 100px;
 }
 .logisticsAccept{
     border: none !important;
