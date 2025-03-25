@@ -22,6 +22,7 @@ import {
 } from "../../../../redux/reducers/productSlice";
 import { InputMask } from "@react-input/mask";
 import ComplianceNCertification from "./ComplianceNCertification";
+import moment from "moment";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -72,8 +73,8 @@ const AddProduct = ({ placeholder }) => {
     form: Yup.string().required("Product Type/Form is required."),
     quantity: Yup.number().required("Product Quantity is required."),
 
-    volumn: Yup.string().required("Product Size/Volumn is required."),
-    dimension: Yup.string().required("Product Dimension is required."),
+    // volumn: Yup.string().required("Product Size/Volumn is required."),
+    // dimension: Yup.string().required("Product Dimension is required."),
     weight: Yup.number().required("Product Weight is required."),
     unit: Yup.string().required("Product Weight Unit is required."),
     // packageType: Yup.string().required("Product Packaging Type is required."),
@@ -93,7 +94,7 @@ const AddProduct = ({ placeholder }) => {
     //   ),
     // }),
     // costPerProduct: Yup.string().required("Cost Per Unit is required."),
-    sku: Yup.string().required("SKU is required."),
+    // sku: Yup.string().required("SKU is required."),
     stock: Yup.string()
       .oneOf(["In-stock", "Out of Stock", "On-demand"])
       .required("Stock is required."),
@@ -102,7 +103,7 @@ const AddProduct = ({ placeholder }) => {
       .min(1, "At least one country must be selected.")
       .of(Yup.string().required("Country Available is required.")),
     // date: Yup.string().required("Date is required."),
-    date: Yup.string()
+    // date: Yup.str  ing()
       // .required("Date is required.")
       // .test(
       //   'is-valid-date',
@@ -127,26 +128,26 @@ const AddProduct = ({ placeholder }) => {
       //     );
       //   }
       // )
-      .test(
-        "not-future-date",
-        "Future dates are not allowed",
-        function (value) {
-          if (!value) return true;
+      // .test(
+      //   "not-future-date",
+      //   "Future dates are not allowed",
+      //   function (value) {
+      //     if (!value) return true;
 
-          const parts = value.split("-");
-          if (parts.length !== 3) return true;
+      //     const parts = value.split("-");
+      //     if (parts.length !== 3) return true;
 
-          const day = parseInt(parts[0], 10);
-          const month = parseInt(parts[1], 10);
-          const year = parseInt(parts[2], 10);
+      //     const day = parseInt(parts[0], 10);
+      //     const month = parseInt(parts[1], 10);
+      //     const year = parseInt(parts[2], 10);
 
-          const enteredDate = new Date(year, month - 1, day);
-          const today = new Date();
+      //     const enteredDate = new Date(year, month - 1, day);
+      //     const today = new Date();
 
-          return enteredDate <= today;
-        }
-      )
-      .nullable(),
+      //     return enteredDate <= today;
+      //   }
+      // )
+      // .nullable(),
 
     // stockedInDetails: Yup.array()
     //   .of(
@@ -164,9 +165,9 @@ const AddProduct = ({ placeholder }) => {
         Yup.object({
           quantity: Yup.string().required("Quantity is required."),
           price: Yup.number()
-            .typeError("Price must be a number.")
-            .required("Price is required.")
-            .positive("Price must be greater than 0")
+            .typeError("Cost Per Price must be a number.")
+            .required("Cost Per Price is required.")
+            .positive("Cost Per Price must be greater than 0")
             .test(
               "decimal-places",
               "Price can have up to 3 decimal places only.",
@@ -180,37 +181,36 @@ const AddProduct = ({ placeholder }) => {
               /^\d{1,3}$/,
               "Delivery Time must be a number with up to 3 digits."
             )
-            .required("Delivery Time is required."),
+            .required("Est. Delivery Time is required."),
         })
       )
       .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    cNCFileNDate: Yup.array()
-      .of(
-        Yup.object({
-          file: Yup.array()
-            .max(1, "You can upload up to 1 Compliance File.")
-            .of(
-              Yup.mixed()
-                .required("A file is required.")
-                .test(
-                  "fileSize",
-                  "File too large",
-                  (value) => value && value.size <= 1024 * 1024 * 5
-                ) // Max 5MB
-                .test("fileType", "Unsupported file format", (value) => {
-                  const allowedFormats = [
-                    "application/pdf",
-                    "image/jpeg",
-                    "image/png",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                  ];
-                  return value && allowedFormats.includes(value.type);
-                })
-            )
-            .nullable(),
-        })
-      ),
+    cNCFileNDate: Yup.array().of(
+      Yup.object({
+        file: Yup.array()
+          .max(1, "You can upload up to 1 Compliance File.")
+          .of(
+            Yup.mixed()
+              .required("A file is required.")
+              .test(
+                "fileSize",
+                "File too large",
+                (value) => value && value.size <= 1024 * 1024 * 5
+              ) // Max 5MB
+              .test("fileType", "Unsupported file format", (value) => {
+                const allowedFormats = [
+                  "application/pdf",
+                  "image/jpeg",
+                  "image/png",
+                  "application/msword",
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ];
+                return value && allowedFormats.includes(value.type);
+              })
+          )
+          .nullable(),
+      })
+    ),
     complianceFile: Yup.array()
       .max(4, "You can upload up to 4 Compliance File.")
       .of(
@@ -470,7 +470,7 @@ const AddProduct = ({ placeholder }) => {
             ],
             "Invalid Subcategory."
           )
-          .required("Subcategory is required."),
+          .required("Sub Category is required."),
       })
       // For "DiagnosticAndMonitoringDevices" category
       .when("category", {
@@ -607,7 +607,6 @@ const AddProduct = ({ placeholder }) => {
         ),
       })
       .nullable(),
-    anotherCategory: Yup.string().nullable(),
     // Common fields of multiple categories
     drugClass: Yup.string()
       .when("category", {
@@ -620,31 +619,6 @@ const AddProduct = ({ placeholder }) => {
         then: Yup.string().required("Drug Class is required."),
       })
       .nullable(),
-    // controlledSubstance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // otcClassification: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.string().oneOf(
-    //       ["Category I", "Category II", "Category III"],
-    //       "Invalid OTC Classification"
-    //     ),
-    //   })
-    //   .nullable(),
     genericName: Yup.string()
       .when("category", {
         is: (category) =>
@@ -684,27 +658,11 @@ const AddProduct = ({ placeholder }) => {
         is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
         then: Yup.string().required("Purpose is required."),
       })
-      // .when("category", {
-      //   is: (category) =>
-      //     [
-      //       "Pharmaceuticals",
-      //       "VitalHealthAndWellness",
-      //       "MedicalConsumablesAndDisposables",
-      //       "LaboratorySupplies",
-      //       "HospitalAndClinicSupplies",
-      //       "OrthopedicSupplies",
-      //       "DentalProducts",
-      //       "AlternativeMedicines",
-      //       "NutritionAndDietaryProducts",
-      //     ].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .nullable(),
     drugAdministrationRoute: Yup.string()
       .when("category", {
         is: (category) =>
           [
-            // "Pharmaceuticals",
             "SkinHairCosmeticSupplies",
             "VitalHealthAndWellness",
           ].includes(category),
@@ -731,77 +689,7 @@ const AddProduct = ({ placeholder }) => {
         then: Yup.string().required("Shelf Life/Expiry is required."),
       })
       .nullable(),
-    // allergens: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "MedicalConsumablesAndDisposables",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // formulation: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // vegan: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //         "NutritionAndDietaryProducts",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // crueltyFree: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["SkinHairCosmeticSupplies", , "VitalHealthAndWellness"].includes(
-    //         category
-    //       ),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // sideEffectsAndWarnings: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "Pharmaceuticals",
-    //         "SkinHairCosmeticSupplies",
-    //         "VitalHealthAndWellness",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // thickness: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     interoperability: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .when("category", {
         is: (category) => ["HealthcareITSolutions"].includes(category),
         then: Yup.string().required("Interoperability is required."),
@@ -825,10 +713,6 @@ const AddProduct = ({ placeholder }) => {
       })
       .nullable(),
     specification: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .when("category", {
         is: (category) =>
           [
@@ -839,20 +723,6 @@ const AddProduct = ({ placeholder }) => {
       })
       .nullable(),
     specificationFile: Yup.array()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.array()
-      //     .max(4, "You can upload up to 4 specification files.")
-      //     .of(
-      //       Yup.mixed()
-      //         .required("A file is required.")
-      //         .test(
-      //           "fileSize",
-      //           "File too large",
-      //           (value) => value && value.size <= 1024 * 1024 * 5
-      //         ) // Max 5MB
-      //     ),
-      // })
       .when("category", {
         is: (category) =>
           [
@@ -875,26 +745,11 @@ const AddProduct = ({ placeholder }) => {
       })
       .nullable(),
     diagnosticFunctions: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .when("category", {
         is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
         then: Yup.string().required("Diagnostic Functions is required."),
       })
       .nullable(),
-    // performanceTestingReport: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalEquipmentAndDevices",
-    //         "DiagnosticAndMonitoringDevices",
-    //         "HomeHealthcareProducts",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     performanceTestingReportFile: Yup.array()
       .when("category", {
         is: (category) =>
@@ -916,219 +771,25 @@ const AddProduct = ({ placeholder }) => {
           ),
       })
       .nullable(),
-    // additivesNSweeteners: Yup.string()
-    //   .when("category", {
-    //     is: (category) => ["VitalHealthAndWellness"].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     additivesNSweeteners: Yup.string()
       .when("category", {
         is: (category) => ["NutritionAndDietaryProducts"].includes(category),
         then: Yup.string().required("Additives & Sweeteners is required."),
       })
       .nullable(),
-    // powdered: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // productMaterial: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //         "DentalProducts",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // texture: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // sterilized: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // chemicalResistance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // fluidResistance: Yup.boolean()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "HospitalAndClinicSupplies",
-    //       ].includes(category),
-    //     then: Yup.boolean().nullable(),
-    //   })
-    //   .nullable(),
-    // shape: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["MedicalConsumablesAndDisposables", "LaboratorySupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // coating: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "MedicalConsumablesAndDisposables",
-    //         "LaboratorySupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // concentration: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "LaboratorySupplies",
-    //         "DiagnosticAndMonitoringDevices",
-    //         "HomeHealthcareProducts",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // measurementRange: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "HomeHealthcareProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // maintenanceNotes: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // compatibleEquipment: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // usageRate: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["DiagnosticAndMonitoringDevices", "DentalProducts"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // adhesiveness: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["SkinHairCosmeticSupplies", "HospitalAndClinicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // absorbency: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["HospitalAndClinicSupplies", "OrthopedicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     targetCondition: Yup.string()
       .when("category", {
         is: (category) =>
           ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
         then: Yup.string().required("Target Condition is required."),
       })
-      // .when("category", {
-      //   is: (category) => ["DentalProducts"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .nullable(),
-    // elasticity: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "HospitalAndClinicSupplies",
-    //         "OrthopedicSupplies",
-    //       ].includes(category),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // breathability: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       ["MedicalConsumablesAndDisposables", "OrthopedicSupplies"].includes(
-    //         category
-    //       ),
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     foldability: Yup.string()
-      // .when("category", {
-      //   is: (category) => ["HomeHealthcareProducts"].includes(category),
-      //   then: Yup.string().nullable(),
-      // })
       .when("category", {
         is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
         then: Yup.string().required("Foldability is required."),
       })
       .nullable(),
-    // fragrance: Yup.string()
-    //   .when("category", {
-    //     is: (category) =>
-    //       [
-    //         "SkinHairCosmeticSupplies",
-    //         "DisinfectionAndHygieneSupplies",
-    //       ].includes(category),
-
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     healthBenefit: Yup.string()
       .when("category", {
         is: (category) =>
@@ -1140,32 +801,8 @@ const AddProduct = ({ placeholder }) => {
       })
       .nullable(),
     // Add the other fields under MedicalEquipmentAndDevices
-    // laserType: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // coolingSystem: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // spotSize: Yup.string()
-    //   .when("category", {
-    //     is: "MedicalEquipmentAndDevices",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     // Add the other fields under Pharmaceuticals
     // Add the other fields under SkinHairCosmeticSupplies
-    // spf: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     dermatologistTested: Yup.string()
       .when("category", {
         is: "SkinHairCosmeticSupplies",
@@ -1234,205 +871,16 @@ const AddProduct = ({ placeholder }) => {
         .nullable(),
       otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
     }),
-    // moisturizers: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
-    // fillerType: Yup.string()
-    //   .when("category", {
-    //     is: "SkinHairCosmeticSupplies",
-    //     then: Yup.string().nullable(),
-    //   })
-    //   .nullable(),
     // Add the other fields under VitalHealthAndWellness
     // Add the other fields under MedicalConsumablesAndDisposables
-    filtrationEfficiency: Yup.string()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string(),
-      })
-      .nullable(),
-    layerCount: Yup.string()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string(),
-      })
-      .nullable(),
-    filtrationType: Yup.array()
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.array(),
-      })
-      .nullable(),
     // Add the other fields under LaboratorySupplies
-    // magnificationRange: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // objectiveLenses: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // powerSource: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // resolution: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // connectivity: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // casNumber: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // grade: Yup.string()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // physicalState: Yup.array()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.array(),
-    //   })
-    //   .nullable(),
-    // hazardClassification: Yup.array()
-    //   .when("category", {
-    //     is: "LaboratorySupplies",
-    //     then: Yup.array(),
-    //   })
-    //   .nullable(),
     // Add the other fields under DiagnosticAndMonitoringDevices
-    // measurementRange: Yup.string()
-    //   .when("category", {
-    //     is: "DiagnosticAndMonitoringDevices",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // noiseLevel: Yup.string()
-    //   .when("category", {
-    //     is: "DiagnosticAndMonitoringDevices",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
     // Add the other fields under HospitalAndClinicSupplies
     // Add the other fields under OrthopedicSupplies
-    moistureResistance: Yup.string()
-      .when("category", {
-        is: "OrthopedicSupplies",
-        then: Yup.string().oneOf(["Yes", "No"], "Invalid Moisture Resistance"),
-      })
-      .nullable(),
     // Add the other fields under DentalProducts
     // Add the other fields under EyeCareSupplies
-    // lensPower: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // baseCurve: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // diameter: Yup.string()
-    //   .when("category", {
-    //     is: "EyeCareSupplies",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    frame: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Metal", "Plastic", "Rimless"],
-          "Invalid Frame"
-        ),
-      })
-      .nullable(),
-    lens: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Single Vision", "Bifocal", "Progressive", "Anti-Reflective"],
-          "Invalid Lens"
-        ),
-      })
-      .nullable(),
-    lensMaterial: Yup.string()
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          ["Polycarbonate", "Glass", "Trivex"],
-          "Invalid Lens Material"
-        ),
-      })
-      .nullable(),
     // Add the other fields under HomeHealthcareProducts
-    // maxWeightCapacity: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // gripType: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // lockingMechanism: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // typeOfSupport: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // batteryType: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // batterySize: Yup.string()
-    //   .when("category", {
-    //     is: "HomeHealthcareProducts",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
-    // // Add the other fields under AlternativeMedicines
-    // healthClaims: Yup.string()
-    //   .when("category", {
-    //     is: "AlternativeMedicines",
-    //     then: Yup.string(),
-    //   })
-    //   .nullable(),
+    // // Add the other fields under 
     healthClaimsFile: Yup.array()
       .when("category", {
         is: "AlternativeMedicines",
@@ -1537,7 +985,6 @@ const AddProduct = ({ placeholder }) => {
     {
       country: "",
       quantity: "",
-      type: "",
       placeholder: "Enter Quantity",
     },
   ]);
@@ -1836,8 +1283,7 @@ const AddProduct = ({ placeholder }) => {
             {
               country: "",
               quantity: "",
-              type: "Box",
-              placeholder: "Enter Box Quantity",
+              placeholder: "Enter Quantity",
             },
           ],
           productPricingDetails: [
@@ -1928,10 +1374,11 @@ const AddProduct = ({ placeholder }) => {
           physicalState: [],
           hazardClassification: [],
           // Add the other fields under DiagnosticAndMonitoringDevices
-          measurementRange: "",
+          flowRate:"",
           noiseLevel: "",
           // Add the other fields under HospitalAndClinicSupplies
           // Add the other fields under OrthopedicSupplies
+          colorOptions:"",
           moistureResistance: "",
           // Add the other fields under DentalProducts
           // Add the other fields under EyeCareSupplies
@@ -1978,7 +1425,11 @@ const AddProduct = ({ placeholder }) => {
           // Append fields as usual
           Object.keys(values).forEach((key) => {
             const value = values[key];
-            if (key != "productPricingDetails" || key != "stockedInDetails" || key != "cNCFileNDate") {
+            if (
+              key != "productPricingDetails" ||
+              key != "stockedInDetails" ||
+              key != "cNCFileNDate"
+            ) {
               if (Array.isArray(value)) {
                 // Append array items under the same key
                 value.forEach((item, index) => {
@@ -2000,7 +1451,7 @@ const AddProduct = ({ placeholder }) => {
             values?.stockedInDetails?.map((section) => ({
               country: section?.country || "",
               quantity: section?.quantity || "",
-              type: section?.type || "",
+              // type: section?.type || "",
             }))
           );
           const productPricingDetailsUpdated = JSON.stringify(
@@ -2192,6 +1643,7 @@ const AddProduct = ({ placeholder }) => {
                         placeholder="dd/MM/yyyy"
                         name="purchasedOn"
                         value={values.purchasedOn}
+                        maxDate={new Date()}
                         onChange={(date) => {
                           setFieldValue("purchasedOn", date); // This updates Formik's value
                         }}
@@ -2363,12 +1815,13 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <Tooltip content=" The type of product (e.g., tablet, liquid, cream,
+                    <Tooltip
+                      content=" The type of product (e.g., tablet, liquid, cream,
                       ointment, Surgical, Needle Type, Syringe, Type of monitor,
                       systems, devices, mobility or platforms,
                       wheelchair, walker, cane, crutches, grab bar, scooter
-                      etc)."></Tooltip>
-                    
+                      etc)."
+                    ></Tooltip>
                   </div>
                   {touched.form && errors.form && (
                     <span className={styles.error}>{errors.form}</span>
@@ -2393,8 +1846,7 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                     <Tooltip content="Add number of tablets in a strip, bottle, or box or number of bottles in a pack"></Tooltip>
-                   
+                    <Tooltip content="Add number of tablets in a strip, bottle, or box or number of bottles in a pack"></Tooltip>
                   </div>
                   {touched.quantity && errors.quantity && (
                     <span className={styles.error}>{errors.quantity}</span>
@@ -2426,23 +1878,19 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                      <Tooltip content=" The size or volume of the product (e.g., 50 mL, 100 g,
+                    <Tooltip
+                      content=" The size or volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
                      Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc."></Tooltip>
-                    
-                     
-                   
+                      width, adhesive strip size etc."
+                    ></Tooltip>
                   </div>
                   {/* {touched.volumn && errors.volumn && (
                     <span className={styles.error}>{errors.volumn}</span>
                   )} */}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Product Dimension
-                   
-                  </label>
+                  <label className={styles.formLabel}>Product Dimension</label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2464,59 +1912,60 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                      <Tooltip content="The size or volume of the product (e.g., 50 mL, 100 g,
+                    <Tooltip
+                      content="The size or volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
                        Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc."></Tooltip>
-                    
+                      width, adhesive strip size etc."
+                    ></Tooltip>
                   </div>
-                  {/* {touched.dimension && errors.dimension && (
+                  {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
-                  )} */}
+                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Product Weight & Units<span className={styles.labelStamp}>*</span>
+                    Product Weight & Units
+                    <span className={styles.labelStamp}>*</span>
                   </label>
                   <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Product Weight"
-                      // autoComplete="off"
-                      name="weight"
-                      value={values.weight}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(e, setFieldValue, 9, "number", [
-                          "weight",
-                        ])
-                      }
-                      onBlur={handleBlur}
-                    />
-                     <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
-                    
-                  </div>
-                  {touched.weight && errors.weight && (
-                    <span className={styles.error}>{errors.weight}</span>
-                  )}
-                  </div>
-                  <div className={styles.unitSection}>
-                  <Select
-                    className={styles.formSelect}
-                    options={packagingUnits}
-                    placeholder="Select Units"
-                    onBlur={handleBlur}
-                    onChange={(selectedOption) => {
-                      setFieldValue("unit", selectedOption?.value);
-                    }}
-                  />
-                  {touched.unit && errors.unit && (
-                    <span className={styles.error}>{errors.unit}</span>
-                  )}
-                  </div>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Product Weight"
+                          // autoComplete="off"
+                          name="weight"
+                          value={values.weight}
+                          // onChange={handleChange}
+                          onChange={(e) =>
+                            handleInputChange(e, setFieldValue, 9, "number", [
+                              "weight",
+                            ])
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
+                      </div>
+                      {touched.weight && errors.weight && (
+                        <span className={styles.error}>{errors.weight}</span>
+                      )}
+                    </div>
+                    <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={packagingUnits}
+                        placeholder="Select Units"
+                        onBlur={handleBlur}
+                        onChange={(selectedOption) => {
+                          setFieldValue("unit", selectedOption?.value);
+                        }}
+                      />
+                      {touched.unit && errors.unit && (
+                        <span className={styles.error}>{errors.unit}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 {/* <div className={styles.productContainer}>
@@ -2551,11 +2000,12 @@ const AddProduct = ({ placeholder }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                     <Tooltip content="The type of product packaging (e.g., bottle, tube, jar,
+                    <Tooltip
+                      content="The type of product packaging (e.g., bottle, tube, jar,
                       pump, blister
                       <br /> pack, strip, pouches, soft case, hard case,
-                      backpack, case )."></Tooltip>
-                    
+                      backpack, case )."
+                    ></Tooltip>
                   </div>
                   {/* {touched.packageType && errors.packageType && (
                     <span className={styles.error}>{errors.packageType}</span>
@@ -2597,7 +2047,6 @@ const AddProduct = ({ placeholder }) => {
                       onBlur={handleBlur}
                     />
                     <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)"></Tooltip>
-                   
                   </div>
 
                   {/* Show text field when "Other" is selected */}
@@ -2630,9 +2079,7 @@ const AddProduct = ({ placeholder }) => {
                     )} */}
                 </div>
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Storage Conditions
-                  </label>
+                  <label className={styles.formLabel}>Storage Conditions</label>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -2646,11 +2093,10 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                      <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
-                   
+                    <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                   </div>
                 </div>
-               
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Manufacturer Name
@@ -2744,7 +2190,6 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 {productType === "secondary product" && (
                   <div className={styles.productContainer}>
-
                     <AddProductFileUpload
                       fieldInputName={"purchaseInvoiceFile"}
                       setFieldValue={setFieldValue}
@@ -2757,12 +2202,11 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1}
                       error={
                         touched.purchaseInvoiceFile &&
-                          errors.purchaseInvoiceFile
+                        errors.purchaseInvoiceFile
                           ? errors.purchaseInvoiceFile
                           : null
                       }
                     />
-
                   </div>
                 )}
                 {/* <div className={styles.sectionCompliances}>
@@ -2807,7 +2251,6 @@ const AddProduct = ({ placeholder }) => {
                   touched={touched.description}
                   height={300}
                 />
-
               </div>
             </div>
 
@@ -2821,31 +2264,7 @@ const AddProduct = ({ placeholder }) => {
                     {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.tooltipContainer}>
-                    {/* <input
-                        className={styles.formInput}
-                        type="text"
-                        placeholder="Enter Date of Manufacture"
-                        // autoComplete="off"
-                        name="date"
-                        value={values.date}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      /> */}
-
                     {/* <InputMask
-                        className={styles.formInput}
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="Enter Date of Manufacture"
-                        name="date"
-                        value={values.date}
-                        onChange={handleChange}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                        showMask
-                        separate
-                      /> */}
-
-                    <InputMask
                       className={styles.formInput}
                       type="text"
                       mask="dd-mm-yyyy"
@@ -2861,9 +2280,22 @@ const AddProduct = ({ placeholder }) => {
                       replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                       showMask
                       separate
-                    />
-                       <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
-                  
+                    /> */}
+                    
+                    <DatePicker
+                        className={styles.formDate}
+                        clearIcon={null}
+                        format="dd/MM/yyyy"
+                        placeholder="dd/MM/yyyy"
+                        name="date"
+                        maxDate={new Date()}
+                        value={values.date}
+                        onChange={(date) => {
+                          setFieldValue("date", date); // This updates Formik's value
+                        }}
+                        onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                      />
+                    <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                   </div>
                   {touched.date && errors.date && (
                     <span className={styles.error}>{errors.date}</span>
@@ -2894,8 +2326,7 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                     <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
-                    
+                    <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
                   </div>
                   {touched.sku && errors.sku && (
                     <span className={styles.error}>{errors.sku}</span>
@@ -2917,8 +2348,7 @@ const AddProduct = ({ placeholder }) => {
                         setFieldValue("stock", selectedOption.value)
                       }
                     />
-                     <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
-                   
+                    <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
                   </div>
                   {touched.stock && errors.stock && (
                     <span className={styles.error}>{errors.stock}</span>
@@ -2951,8 +2381,7 @@ const AddProduct = ({ placeholder }) => {
                           {
                             country: "",
                             quantity: "",
-                            type: "Box",
-                            placeholder: "Enter Box Quantity",
+                            placeholder: "Enter Quantity",
                           },
                         ]);
                       }
@@ -2971,14 +2400,13 @@ const AddProduct = ({ placeholder }) => {
                     className={styles.formAddButton}
                     onClick={() =>
                       (values?.stockedInDetails?.length || 0) <
-                      (values.countries?.length || 0) &&
+                        (values.countries?.length || 0) &&
                       setFieldValue("stockedInDetails", [
                         ...values.stockedInDetails,
                         {
                           country: "",
                           quantity: "",
-                          type: "Box",
-                          placeholder: "Enter Box Quantity",
+                          placeholder: "Enter Quantity",
                         },
                       ])
                     }
@@ -3030,9 +2458,9 @@ const AddProduct = ({ placeholder }) => {
                                   .replace(/\D/g, "")
                                   .slice(0, 6);
                               }}
-                            // onInput={(e) => {
-                            //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
-                            // }}
+                              // onInput={(e) => {
+                              //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                              // }}
                             />
                             {/* <button
                               type="button"
@@ -3197,7 +2625,6 @@ const AddProduct = ({ placeholder }) => {
                         }}
                       />
                       <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
-                    
                     </div>
                     <span className={styles.error}>
                       {touched.productPricingDetails?.[index]?.price &&
@@ -3371,13 +2798,13 @@ const AddProduct = ({ placeholder }) => {
                   onClick={() => {
                     // Add new file and date pair to the array
                     values.cNCFileNDate?.length < 4 &&
-                    setFieldValue("cNCFileNDate", [
-                      ...values.cNCFileNDate,
-                      {
-                        file: [],
-                        date: "",
-                      },
-                    ]);
+                      setFieldValue("cNCFileNDate", [
+                        ...values.cNCFileNDate,
+                        {
+                          file: [],
+                          date: "",
+                        },
+                      ]);
                   }}
                 >
                   Add More
@@ -3385,127 +2812,122 @@ const AddProduct = ({ placeholder }) => {
               </div>
               {console.log("values?.complianceFile", values?.complianceFile)}
 
-              {values?.cNCFileNDate?.map(
-                (ele, index) => (
-                  <div key={`certification_${index}`} className={styles.formSection}>
-                    {/* File Upload Section */}
-                    <div className={styles.productContainer}>
-                      <Field
-                        name={`cNCFileNDate.${index}.file`}
-                      >
-                        {({ field }) => (
-                          <ComplianceNCertification
-                            fieldInputName={`cNCFileNDate.${index}.file`}
-                            setFieldValue={setFieldValue}
-                            initialValues={values}
-                            label="Regulatory Compliance"
-                            tooltip={
-                              "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
-                              "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                              " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                            }
-                            // Pass the selected file here
-                            selectedFile={ele?.file}
-                            preview={ele?.preview}
-                            fileIndex={index}
-                            isEdit={false}
-                          />
-                        )}
-                      </Field>
-                      <span className={styles.error}>
-                        {touched.cNCFileNDate?.[index]
-                          ?.file &&
-                          errors.cNCFileNDate?.[index]
-                            ?.file}
-                      </span>
-                    </div>
-
-                    {/* Date of Expiry Section */}
-                    <div className={styles.productContainer}>
-                      <label className={styles.formLabel}>
-                        Date of Expiry
-                        {/* <span className={styles.labelStamp}>*</span> */}
-                      </label>
-                      <div className={styles.tooltipContainer}>
-                        {/* Date Mask Input */}
-                        <InputMask
-                          className={styles.formInput}
-                          type="text"
-                          mask="dd-mm-yyyy"
-                          placeholder="Enter Date of Manufacture"
-                          name={`cNCFileNDate.${index}.date`}
-                          value={ele?.date}
-                          onChange={(e) => {
-                            handleChange(e);
-                            // Force validation immediately after change
-                            setFieldTouched(
-                              `cNCFileNDate.${index}.date`,
-                              true,
-                              true
-                            );
-                          }}
-                          onBlur={handleBlur}
-                          replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                          showMask
-                          separate
+              {values?.cNCFileNDate?.map((ele, index) => (
+                <div
+                  key={`certification_${index}`}
+                  className={styles.formSection}
+                >
+                  {/* File Upload Section */}
+                  <div className={styles.productContainer}>
+                    <Field name={`cNCFileNDate.${index}.file`}>
+                      {({ field }) => (
+                        <ComplianceNCertification
+                          fieldInputName={`cNCFileNDate.${index}.file`}
+                          setFieldValue={setFieldValue}
+                          initialValues={values}
+                          label="Regulatory Compliance"
+                          tooltip={
+                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
+                            "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                            " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                          }
+                          // Pass the selected file here
+                          selectedFile={ele?.file}
+                          preview={ele?.preview}
+                          fileIndex={index}
+                          isEdit={false}
                         />
-                        
-                      </div>
-                      <span className={styles.error}>
-                        {touched.cNCFileNDate?.[index]
-                          ?.date &&
-                          errors.cNCFileNDate?.[index]
-                            ?.date}
+                      )}
+                    </Field>
+                    <span className={styles.error}>
+                      {touched.cNCFileNDate?.[index]?.file &&
+                        errors.cNCFileNDate?.[index]?.file}
+                    </span>
+                  </div>
+
+                  {/* Date of Expiry Section */}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Date of Expiry
+                      {/* <span className={styles.labelStamp}>*</span> */}
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      {/* Date Mask Input */}
+                      {/* <InputMask
+                        className={styles.formInput}
+                        type="text"
+                        mask="dd-mm-yyyy"
+                        placeholder="Enter Date of Manufacture"
+                        name={`cNCFileNDate.${index}.date`}
+                        value={ele?.date}
+                        onChange={(e) => {
+                          handleChange(e);
+                          // Force validation immediately after change
+                          setFieldTouched(
+                            `cNCFileNDate.${index}.date`,
+                            true,
+                            true
+                          );
+                        }}
+                        onBlur={handleBlur}
+                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                        showMask
+                        separate
+                      /> */}
+                      <DatePicker
+                        className={styles.formDate}
+                        clearIcon={null}
+                        format="dd/MM/yyyy"
+                        placeholder="dd/MM/yyyy"
+                        name={`cNCFileNDate.${index}.date`}
+                        value={ele?.date}
+                        minDate={new Date()}
+                        onChange={(e) => {
+                          setFieldValue( `cNCFileNDate.${index}.date`, e); // This updates Formik's value
+                          setFieldTouched(
+                            `cNCFileNDate.${index}.date`,
+                            true,
+                            true
+                          );
+                        }}
+                        onBlur={handleBlur}
+                        disabledDate={(current) => current && current < moment().endOf('day')}
+                      />
+                    </div>
+                    <span className={styles.error}>
+                      {touched.cNCFileNDate?.[index]?.date &&
+                        errors.cNCFileNDate?.[index]?.date}
+                    </span>
+                  </div>
+
+                  {/* Remove Section */}
+                  {values?.cNCFileNDate?.length > 1 && (
+                    <div
+                      className={styles.formCloseSection}
+                      onClick={() => {
+                        // Clear form values before removing the row
+                        setFieldValue(`cNCFileNDate.${index}.file`, {});
+                        setFieldValue(`cNCFileNDate.${index}.date`, "");
+                        setFieldValue(`cNCFileNDate.${index}.preview`, false);
+
+                        // Remove the row from the array
+                        const updatedList = values.cNCFileNDate.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                        const updatedList2 = values.complianceFile.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                        setFieldValue("cNCFileNDate", updatedList);
+                        setFieldValue("complianceFile", updatedList2);
+                      }}
+                    >
+                      <span className={styles.formclose}>
+                        <CloseIcon className={styles.icon} />
                       </span>
                     </div>
-
-                    {/* Remove Section */}
-                    {values?.cNCFileNDate?.length >
-                      1 && (
-                        <div
-                          className={styles.formCloseSection}
-                          onClick={() => {
-                            // Clear form values before removing the row
-                            setFieldValue(
-                              `cNCFileNDate.${index}.file`,
-                              {}
-                            );
-                            setFieldValue(
-                              `cNCFileNDate.${index}.date`,
-                              ""
-                            );
-                            setFieldValue(
-                              `cNCFileNDate.${index}.preview`,
-                              false
-                            );
-
-                            // Remove the row from the array
-                            const updatedList =
-                              values.cNCFileNDate.filter(
-                                (_, elindex) => elindex !== index
-                              );
-                            const updatedList2 =
-                              values.complianceFile.filter(
-                                (_, elindex) => elindex !== index
-                              );
-                            setFieldValue(
-                              "cNCFileNDate",
-                              updatedList
-                            );
-                            setFieldValue(
-                              "complianceFile",
-                              updatedList2
-                            );
-                          }}
-                        >
-                          <span className={styles.formclose}>
-                            <CloseIcon className={styles.icon} />
-                          </span>
-                        </div>
-                      )}
-                  </div>
-                )
-              )}
+                  )}
+                </div>
+              ))}
             </div>
 
             {/* End the compliances and certificate 222222222 */}
@@ -3531,8 +2953,7 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                       <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
-                     
+                      <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                     </div>
                   </div>
 
@@ -3552,7 +2973,6 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                       <Tooltip content="Type of laser (e.g., CO2, diode, Nd:YAG, Er:YAG)"></Tooltip>
-                     
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3571,8 +2991,7 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                        <Tooltip content="Type of cooling used (e.g., air, contact, cryogenic cooling)."></Tooltip>
-                     
+                      <Tooltip content="Type of cooling used (e.g., air, contact, cryogenic cooling)."></Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3592,8 +3011,7 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                         <Tooltip content="Diameter of the laser spot on the skin (in mm or cm)"></Tooltip>
-                      
+                      <Tooltip content="Diameter of the laser spot on the skin (in mm or cm)"></Tooltip>
                     </div>
                     <span className={styles.error}></span>
                   </div>
@@ -3615,7 +3033,6 @@ const AddProduct = ({ placeholder }) => {
                         onBlur={handleBlur}
                       />
                       <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
-                     
                     </div>
                   </div>
                   <div className={styles.productContainer}>
@@ -3635,10 +3052,11 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                       <Tooltip content=" Results from any internal or external product testing
+                      <Tooltip
+                        content=" Results from any internal or external product testing
                         (e.g., nebulizer output, CPAP pressure and
-                        airflow testing)."></Tooltip>
-                      
+                        airflow testing)."
+                      ></Tooltip>
                     </div>
                     <AddProductFileUpload
                       fieldInputName={"performanceTestingReportFile"}
@@ -3657,8 +3075,10 @@ const AddProduct = ({ placeholder }) => {
                       )}
                   </div>
                   <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>Specification<span className={styles.labelStamp}>*</span></label>
-                    
+                    <label className={styles.formLabel}>
+                      Specification<span className={styles.labelStamp}>*</span>
+                    </label>
+
                     <div className={styles.tooltipContainer}>
                       <textarea
                         className={styles.formInput}
@@ -3672,8 +3092,8 @@ const AddProduct = ({ placeholder }) => {
                         }
                         onBlur={handleBlur}
                       />
-                        <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
-                      
+                      <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
+
                       {touched.specification && errors.specification && (
                         <span className={styles.error}>
                           {errors.specification}
@@ -3726,8 +3146,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                       
+                        <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
                       </div>
                       {touched.genericName && errors.genericName && (
                         <span className={styles.error}>
@@ -3754,8 +3173,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                      
+                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -3779,9 +3197,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content=" The strength or concentration of the medication (e.g.,
-                           500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
-                       
+                        <Tooltip
+                          content=" The strength or concentration of the medication (e.g.,
+                           500 mg, 10 mg/mL,Standard or high-strength)."
+                        ></Tooltip>
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -3805,10 +3224,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="  Classification of the OTC drug by health authorities
+                        <Tooltip
+                          content="  Classification of the OTC drug by health authorities
                           (e.g.,  approved for general public use,
-                          behind-the-counter)."></Tooltip>
-                       
+                          behind-the-counter)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -3830,8 +3250,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                       
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -3854,8 +3273,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                      
+                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                       </div>
                       {/* <span className={styles.error}></span> */}
                     </div>
@@ -3875,14 +3293,15 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain relief,
                            Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure or use
                           case of
                            tool, Relieves symptoms, promotes healing, or
-                          prevents recurrence.)"></Tooltip>
-                       
+                          prevents recurrence.)"
+                        ></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -3903,13 +3322,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="  Drugs can be introduced into the body by many routes,
+                        <Tooltip
+                          content="  Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral, rectal), 
                           parenteral (intravascular, intramuscular,
                           subcutaneous, and inhalation
                            administration) or topical (skin and mucosal
-                          membranes)"></Tooltip>
-                       
+                          membranes)"
+                        ></Tooltip>
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -3949,11 +3369,12 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <Tooltip content="Whether the drug is a controlled substance (e.g., some
+                        <Tooltip
+                          content="Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
                           some are only available behind the counter or
-                          on prescription)."></Tooltip>
-                       
+                          on prescription)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -3983,8 +3404,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -4014,11 +3434,12 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Common side effects associated with the
+                            <Tooltip
+                              content="Common side effects associated with the
                               medication. Known
                               interactions with other drugs or food (eg.
-                              Alcohol)"></Tooltip>
-                           
+                              Alcohol)"
+                            ></Tooltip>
                           </div>
                           {/* <span className={styles.error}></span> */}
                         </div>
@@ -4037,8 +3458,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                           
+                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
                           </div>
                         </div>
                       </div>
@@ -4073,8 +3493,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
-                        
+                        <Tooltip content="If the product is a sunscreen, the SPF (Sun Protection Factor) rating"></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -4092,8 +3511,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                       
+                        <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -4114,9 +3532,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content=" The strength or concentration of the medication (e.g.,
-                          500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
-                        
+                        <Tooltip
+                          content=" The strength or concentration of the medication (e.g.,
+                          500 mg, 10 mg/mL,Standard or high-strength)."
+                        ></Tooltip>
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -4138,8 +3557,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Stretch for tapes"></Tooltip>
-                       
+                        <Tooltip content=" Stretch for tapes"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4159,8 +3577,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                              <Tooltip content=" Adhesive or non-adhesive."></Tooltip>
-                        
+                        <Tooltip content=" Adhesive or non-adhesive."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4180,8 +3597,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                      
+                        <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4203,10 +3619,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Classification of the OTC drug by health authorities
+                        <Tooltip
+                          content=" Classification of the OTC drug by health authorities
                           (e.g., approved for general public use,
-                          behind-the-counter)."></Tooltip>
-                       
+                          behind-the-counter)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4225,13 +3642,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                     
+                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
 
-                  
                     <div className={styles.productContainer}>
                       <label className={styles.formLabel}>
                         Composition/Ingredients
@@ -4251,7 +3666,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -4278,7 +3692,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4301,8 +3714,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
-                       
+                        <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -4328,13 +3740,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Drugs can be introduced into the body by many routes,
+                        <Tooltip
+                          content=" Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral,
                           rectal), parenteral (intravascular,
                           intramuscular, subcutaneous, and inhalation
                           administration) or topical (skin and mucosal
-                          membranes)"></Tooltip>
-                       
+                          membranes)"
+                        ></Tooltip>
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -4361,8 +3774,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                        
+                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -4383,13 +3795,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                        <Tooltip
+                          content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically
                           70-90% concentration for optimal antimicrobial
                           efficacy.
                           Oxygen concentration level provided by the
-                          device (e.g., 95%)"></Tooltip>
-                        
+                          device (e.g., 95%)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4409,7 +3822,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="such as aloe vera, glycerin, or Vitamin E to reduce skin irritation from frequent use"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4427,8 +3839,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
-                        
+                        <Tooltip content="Hyaluronic acid, Calcium hydroxyapatite"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4454,7 +3865,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Description of the active and/or inactive ingredients and components"></Tooltip>
-                        
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4490,7 +3900,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4524,11 +3933,12 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <Tooltip content="    Whether the drug is a controlled substance (e.g., some
+                        <Tooltip
+                          content="    Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
                            some are only available behind the counter or
-                          on prescription)."></Tooltip>
-                       
+                          on prescription)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4581,8 +3991,7 @@ const AddProduct = ({ placeholder }) => {
                               }}
                               onBlur={handleBlur}
                             />
-<Tooltip content="   Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
-                            
+                            <Tooltip content="   Whether the product has been dermatologist-tested for sensitivity."></Tooltip>
                           </div>
                           {touched.dermatologistTested &&
                             errors.dermatologistTested && (
@@ -4657,8 +4066,7 @@ const AddProduct = ({ placeholder }) => {
                               }}
                               onBlur={handleBlur}
                             />
-<Tooltip content=" Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
-                           
+                            <Tooltip content=" Whether the product has been recommended or endorsed by pediatricians."></Tooltip>
                           </div>
                           {touched.pediatricianRecommended &&
                             errors.pediatricianRecommended && (
@@ -4710,10 +4118,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <Tooltip content="  Common side effects associated with the
+                            <Tooltip
+                              content="  Common side effects associated with the
                               medication. Known interactions  with other
-                              drugs or food (eg. Alcohol)"></Tooltip>
-                           
+                              drugs or food (eg. Alcohol)"
+                            ></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -4732,8 +4141,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                               <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                            
+                            <Tooltip content=" Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
                           </div>
                         </div>
                       </div>
@@ -4761,8 +4169,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                       </div>
                       {touched.expiry && errors.expiry && (
@@ -4802,8 +4209,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
-                       
+                        <Tooltip content="The generic name of the medication (e.g., Paracetamol, Metformin, Ibuprofene)"></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -4824,9 +4230,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" The strength or concentration of the medication (e.g.,
-                          500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
-                      
+                        <Tooltip
+                          content=" The strength or concentration of the medication (e.g.,
+                          500 mg, 10 mg/mL,Standard or high-strength)."
+                        ></Tooltip>
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -4850,10 +4257,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="      Classification of the OTC drug by health authorities
+                        <Tooltip
+                          content="      Classification of the OTC drug by health authorities
                           (e.g.,  approved for general public use,
-                          behind-the-counter)."></Tooltip>
-                        
+                          behind-the-counter)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4875,8 +4283,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="  Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                     
+                        <Tooltip content="  Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                       </div>
                       {touched.healthBenefit && errors.healthBenefit && (
                         <span className={styles.error}>
@@ -4903,8 +4310,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                       
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -4927,8 +4333,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                        
+                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4948,14 +4353,15 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain relief,
                          
                           Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure
                            or use case of tool, Relieves symptoms,
-                          promotes healing, or prevents recurrence.)"></Tooltip>
-                        
+                          promotes healing, or prevents recurrence.)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -4978,12 +4384,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content=" Drugs can be introduced into the body by many routes,
+                        <Tooltip
+                          content=" Drugs can be introduced into the body by many routes,
                           such as enteric (oral, peroral, rectal), parenteral
                           (intravascular, intramuscular,  subcutaneous,
                           and inhalation administration) or topical (skin and
-                          mucosal membranes)"></Tooltip>
-                        
+                          mucosal membranes)"
+                        ></Tooltip>
                       </div>
                       {touched.drugAdministrationRoute &&
                         errors.drugAdministrationRoute && (
@@ -5010,8 +4417,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
-                       
+                        <Tooltip content="The class of the drug (e.g., analgesic, antibiotic, antihypertensive)"></Tooltip>
                       </div>
                       {touched.drugClass && errors.drugClass && (
                         <span className={styles.error}>{errors.drugClass}</span>
@@ -5034,11 +4440,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Some proteins contain artificial sweeteners (e.g.,
+                        <Tooltip
+                          content="Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
                            while others use natural sweeteners (e.g.,
-                          stevia, monk fruit)."></Tooltip>
-                                             
+                          stevia, monk fruit)."
+                        ></Tooltip>
                       </div>
                       {touched.additivesNSweeteners &&
                         errors.additivesNSweeteners && (
@@ -5125,10 +4532,11 @@ const AddProduct = ({ placeholder }) => {
                             Whether the drug is a controlled <br /> substance
                           </label>
                         </span>
-                        <Tooltip content=" Whether the drug is a controlled substance (e.g., some
+                        <Tooltip
+                          content=" Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted, some are only
-                          available behind the counter or on prescription)."></Tooltip>
-                       
+                          available behind the counter or on prescription)."
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5155,7 +4563,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content=" Description of the active and/or inactive ingredients and components"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5191,7 +4598,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content=" Whether the product is tested on animals or is cruelty-free"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5220,8 +4626,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                             <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -5252,10 +4657,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Common side effects associated with the
+                            <Tooltip
+                              content="Common side effects associated with the
                               medication. Known interactions with other
-                              drugs or food (eg. Alcohol)"></Tooltip>
-                           
+                              drugs or food (eg. Alcohol)"
+                            ></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5274,8 +4680,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
-                            
+                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten etc)."></Tooltip>
                           </div>
                         </div>
                       </div>
@@ -5310,8 +4715,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                       
+                        <Tooltip content="The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -5332,8 +4736,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                       
+                        <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5356,17 +4759,18 @@ const AddProduct = ({ placeholder }) => {
                           }}
                           placeholder={
                             !value.filtrationType ||
-                              value.filtrationType.length === 0
+                            value.filtrationType.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
                           allowDuplicate={false}
                           separator=","
                         />
-                         <Tooltip content="  Type of Filtration (e.g., PFE (Particle Filtration
+                        <Tooltip
+                          content="  Type of Filtration (e.g., PFE (Particle Filtration
                           Efficiency), BFE (Bacterial Filtration
-                          Efficiency), Viral Filtration Efficiency etc)"></Tooltip>
-                       
+                          Efficiency), Viral Filtration Efficiency etc)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5387,7 +4791,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5408,7 +4811,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5428,8 +4830,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                       
+                        <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5449,8 +4850,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                        
+                        <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5482,7 +4882,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
-                       
                       </div>
                     </div>
 
@@ -5510,7 +4909,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Whether the item have texture or smooth"></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5540,8 +4938,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                        
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -5569,8 +4966,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
-                          
+                            <Tooltip content="Common allergens in the product (e.g., parabens, sulfates, gluten, milk, Latex etc)."></Tooltip>
                           </div>
                         </div>
                         <div className={styles.productInnerContainer}>
@@ -5602,7 +4998,6 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             </span>
                             <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5630,8 +5025,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
-                           
+                            <Tooltip content="Percentage of particles the mask filters (e.g., 95%, 99%, etc.)"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5653,8 +5047,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
-                           
+                            <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5676,8 +5069,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
-                           
+                            <Tooltip content="Number of layers (e.g., 3-ply, 4-ply, 5-ply)."></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5716,7 +5108,6 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             </span>
                             <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -5743,7 +5134,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.physicalState || []} // Ensure value is always an array
                           placeholder={
                             !values.physicalState ||
-                              values.physicalState.length === 0
+                            values.physicalState.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -5760,8 +5151,7 @@ const AddProduct = ({ placeholder }) => {
                           allowDuplicate={false} // Prevent duplicate entries if supported
                           separator="," // Optional: Define separator for adding values
                         />
-                          <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
-                      
+                        <Tooltip content="Physical state (e.g., solid, liquid, gas)"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5775,7 +5165,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.hazardClassification || []} // Ensure value is always an array
                           placeholder={
                             !values.hazardClassification ||
-                              values.hazardClassification.length === 0
+                            values.hazardClassification.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -5792,8 +5182,7 @@ const AddProduct = ({ placeholder }) => {
                           allowDuplicate={false} // Prevent duplicate entries if supported
                           separator="," // Optional: Define separator for adding values
                         />
-                         <Tooltip content="Hazard Classification (e.g., flammable, toxic, etc)"></Tooltip>
-                       
+                        <Tooltip content="Hazard Classification (e.g., flammable, toxic, etc)"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5813,8 +5202,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
-                        
+                        <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
                       </div>
                     </div>
 
@@ -5833,8 +5221,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                       
+                        <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -5853,13 +5240,14 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
 
-<Tooltip content="Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content="Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain 
                           relief,Prevention of infection.,Cooling and
                           soothing.,Moisturizing and healing, procedure 
                           or use case of tool, Relieves symptoms, promotes
-                          healing, or prevents recurrence.)"></Tooltip>
-                      
+                          healing, or prevents recurrence.)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5879,7 +5267,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Chemical Abstracts Service (CAS) number for unique identification."></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5898,8 +5285,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
-                       
+                        <Tooltip content="Purity or grade (e.g., analytical grade, reagent grade)"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5919,13 +5305,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                        <Tooltip
+                          content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level provided by the device
-                          (e.g., 95%)"></Tooltip>
-                       
+                          (e.g., 95%)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5948,8 +5335,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
-                       
+                        <Tooltip content="Connectivity options (e.g., USB, Wi-Fi, HDMI)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -5970,8 +5356,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
-                      
+                        <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
                       </div>
                     </div>
 
@@ -5993,7 +5378,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Number and types of objective lenses (e.g., 4x, 10x, 40x)"></Tooltip>
-                       
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6011,8 +5395,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
-                        
+                        <Tooltip content="Power requirements (e.g., battery, AC adapter)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6031,8 +5414,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
-                        
+                        <Tooltip content="Maximum resolution the microscope can achieve."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6068,8 +5450,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
-                       
+                        <Tooltip content="Specific diagnostic tests or functions that the tool performs"></Tooltip>
                       </div>
                       {touched.diagnosticFunctions &&
                         errors.diagnosticFunctions && (
@@ -6095,7 +5476,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                     
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6113,12 +5493,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                        <Tooltip
+                          content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration for optimal  antimicrobial
                           efficacy. Oxygen concentration level provided by the
-                          device (e.g., 95%)"></Tooltip>
-                       
+                          device (e.g., 95%)"
+                        ></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6143,8 +5524,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
-                        
+                        <Tooltip content=" Blood pressure range the monitor can measure (e.g., 0-300 mmHg)."></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6163,8 +5543,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Operating noise level (e.g., 40 dB)."></Tooltip>
-                      
+                        <Tooltip content=" Operating noise level (e.g., 40 dB)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6239,8 +5618,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
-                       
+                        <Tooltip content="Technical Specification of the tool  (e.g., hardware, software, network diagnostics, etc.)"></Tooltip>
                       </div>
                       {touched.specification && errors.specification && (
                         <span className={styles.error}>
@@ -6280,11 +5658,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Results from any internal or external product testing
+                        <Tooltip
+                          content=" Results from any internal or external product testing
                           (e.g.,
                           nebulizer output, CPAP pressure and airflow
-                          testing)."></Tooltip>
-                      
+                          testing)."
+                        ></Tooltip>
                       </div>
                       <AddProductFileUpload
                         fieldInputName={"performanceTestingReportFile"}
@@ -6332,8 +5711,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                              <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
-                     
+                        <Tooltip content=" The thickness of the Item (e.g., in mil or gauge)."></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6354,8 +5732,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                        
+                        <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6375,8 +5752,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                       
+                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6397,8 +5773,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Any specific chemical resistance features"></Tooltip>
-                       
+                        <Tooltip content="Any specific chemical resistance features"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6431,7 +5806,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6460,7 +5834,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Whether the item have texture or smooth"></Tooltip>
-                       
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6489,8 +5862,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -6532,7 +5904,6 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             </span>
                             <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6558,8 +5929,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Adhesive or non-adhesive."></Tooltip>
-                     
+                        <Tooltip content="Adhesive or non-adhesive."></Tooltip>
                       </div>
                     </div>
 
@@ -6579,8 +5949,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
-                       
+                        <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
                       </div>
                     </div>
 
@@ -6601,7 +5970,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Stretch for tapes"></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6639,7 +6007,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Resistance to fluid penetration (e.g., for surgical masks)"></Tooltip>
-                      
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6675,9 +6042,10 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The strength or concentration of the medication (e.g.,
-                       500 mg, 10 mg/mL,Standard or high-strength)."></Tooltip>
-                       
+                        <Tooltip
+                          content="The strength or concentration of the medication (e.g.,
+                       500 mg, 10 mg/mL,Standard or high-strength)."
+                        ></Tooltip>
                       </div>
                       {touched.strength && errors.strength && (
                         <span className={styles.error}>{errors.strength}</span>
@@ -6701,8 +6069,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Whether the item is moisture resistance or not"></Tooltip>
-                       
+                        <Tooltip content="Whether the item is moisture resistance or not"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6721,8 +6088,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                        
+                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                       </div>
                     </div>
 
@@ -6744,8 +6110,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
-                       
+                        <Tooltip content="The hair, scalp or skin condition the product is formulated to address"></Tooltip>
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -6768,8 +6133,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                            <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
-                       
+                        <Tooltip content="Type of coating (e.g., antimicrobial, silicone)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -6808,7 +6172,6 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             </span>
                             <Tooltip content="Whether the item is sterilized or non-sterile."></Tooltip>
-                           
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6834,8 +6197,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Stretch for tapes"></Tooltip>
-                          
+                            <Tooltip content="Stretch for tapes"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6855,8 +6217,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
-                          
+                            <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -6877,8 +6238,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
-                           
+                            <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
                           </div>
                         </div>
 
@@ -6899,10 +6259,11 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content=" Available colors (e.g., black, beige, grey,
+                            <Tooltip
+                              content=" Available colors (e.g., black, beige, grey,
                               tortoiseshell, frame color or lense color
-                              etc)"></Tooltip>
-                          
+                              etc)"
+                            ></Tooltip>
                           </div>
                         </div>
                       </div>
@@ -6939,8 +6300,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                            <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
-                    
+                        <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                       </div>
                     </div>
 
@@ -6959,8 +6319,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
-                      
+                        <Tooltip content="Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -6980,14 +6339,15 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content=" Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention 
                           of infection.,Cooling and soothing.,Moisturizing and
                           healing, procedure or use case of tool, Relieves
                            symptoms, promotes healing, or prevents
-                          recurrence.)"></Tooltip>
-                       
+                          recurrence.)"
+                        ></Tooltip>
                       </div>
                       {touched.targetCondition && errors.targetCondition && (
                         <span className={styles.error}>
@@ -7020,8 +6380,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                       
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7223,8 +6582,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
-                       
+                        <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7259,7 +6617,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
-                       
                       </div>
                     </div>
 
@@ -7278,13 +6635,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                        <Tooltip
+                          content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                          
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level
-                         provided by the device (e.g., 95%)"></Tooltip>
-                        
+                         provided by the device (e.g., 95%)"
+                        ></Tooltip>
                       </div>
                     </div>
                   </div>
@@ -7312,8 +6670,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                          
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7342,8 +6699,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
-                          
+                            <Tooltip content="The maximum weight capacity that the mobility aid can support (e.g., 250 lbs for a walker)."></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7363,8 +6719,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
-                            
+                            <Tooltip content="Type of grips or handles (e.g., ergonomic, foam, rubberized handles for better comfort)."></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7386,8 +6741,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
-                           
+                            <Tooltip content="Type of Battery Installed to Operate the Item"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7409,8 +6763,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
-                           
+                            <Tooltip content="Size of Battery Installed to Operate the Item"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7431,8 +6784,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
-                           
+                            <Tooltip content="Available colors (e.g., black, beige, grey, tortoiseshell, frame color or lense color etc)"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7454,7 +6806,6 @@ const AddProduct = ({ placeholder }) => {
                               onBlur={handleBlur}
                             />
                             <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                          
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7475,8 +6826,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                               <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
-                           
+                            <Tooltip content="Details on any locking mechanisms (e.g., locking wheels or adjustable legs on walkers)"></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7497,11 +6847,12 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <Tooltip content=" The type of support provided by the aid (e.g.,
+                            <Tooltip
+                              content=" The type of support provided by the aid (e.g.,
                               two-legged,
                              four-legged walker, or wall-mounted grab
-                              bar)."></Tooltip>
-                          
+                              bar)."
+                            ></Tooltip>
                           </div>
                           <span className={styles.error}></span>
                         </div>
@@ -7522,11 +6873,12 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                               <Tooltip content="   Results from any internal or external product
+                            <Tooltip
+                              content="   Results from any internal or external product
                               testing (e.g.,
                                nebulizer output, CPAP pressure and airflow
-                              testing)."></Tooltip>
-                          
+                              testing)."
+                            ></Tooltip>
                           </div>
                           <AddProductFileUpload
                             fieldInputName={"performanceTestingReportFile"}
@@ -7578,8 +6930,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Description of the active ingredients and components of the vaccine.."></Tooltip>
-                       
+                        <Tooltip content="Description of the active ingredients and components of the vaccine.."></Tooltip>
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -7602,13 +6953,14 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="  Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content="  Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention of infection.,Cooling
                           and soothing.,Moisturizing and healing,
                           procedure or use case of tool, Relieves symptoms,
-                          promotes healing, or prevents recurrence.)"></Tooltip>
-                       
+                          promotes healing, or prevents recurrence.)"
+                        ></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7627,7 +6979,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="  Verified by clinical trials or regulatory agencies."></Tooltip>
-                       
                       </div>
                       <AddProductFileUpload
                         fieldInputName={"healthClaimsFile"}
@@ -7670,7 +7021,6 @@ const AddProduct = ({ placeholder }) => {
                             onBlur={handleBlur}
                           />
                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7710,7 +7060,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                      
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -7737,8 +7086,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
-                      
+                        <Tooltip content="Expected lifespan of the product (e.g., single-use vs. reusable items)."></Tooltip>
                       </div>
                       {touched.productLongevity && errors.productLongevity && (
                         <span className={styles.error}>
@@ -7763,8 +7111,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
-                        
+                        <Tooltip content="Whether the product can be folded for easy storage (e.g., foldable walkers)."></Tooltip>
                       </div>
                       {touched.foldability && errors.foldability && (
                         <span className={styles.error}>
@@ -7797,8 +7144,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7838,8 +7184,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                       
+                        <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -7863,12 +7208,13 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                           <Tooltip content="  Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
+                        <Tooltip
+                          content="  Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration <br /> for optimal antimicrobial
                           efficacy. Oxygen concentration level provided by the
-                          device (e.g., 95%)"></Tooltip>
-                      
+                          device (e.g., 95%)"
+                        ></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -7886,8 +7232,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
-                       
+                        <Tooltip content="The type of formulation (e.g., gel, cream, lotion, serum, mask, foam etc)."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7906,8 +7251,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
-                      
+                        <Tooltip content="Whether the product contains fragrance or is fragrance-free."></Tooltip>
                       </div>
                       <span className={styles.error}></span>
                     </div>
@@ -7936,8 +7280,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                            <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -7974,7 +7317,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Is the product dairy free?"></Tooltip>
-                        
                       </div>
                       {touched.dairyFree && errors.dairyFree && (
                         <span className={styles.error}>{errors.dairyFree}</span>
@@ -7998,10 +7340,11 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Protein powders often come in a wide variety of
+                        <Tooltip
+                          content=" Protein powders often come in a wide variety of
                           flavors like 
-                          chocolate, vanilla, strawberry, cookies & cream, etc."></Tooltip>
-                        
+                          chocolate, vanilla, strawberry, cookies & cream, etc."
+                        ></Tooltip>
                       </div>
                       {touched.flavorOptions && errors.flavorOptions && (
                         <span className={styles.error}>
@@ -8028,8 +7371,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content=" Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
-                       
+                        <Tooltip content=" Full spectrum or specific amino acids like BCAAs (Branched-Chain Amino Acids)."></Tooltip>
                       </div>
                       {touched.aminoAcidProfile && errors.aminoAcidProfile && (
                         <span className={styles.error}>
@@ -8054,8 +7396,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
-                     
+                        <Tooltip content="Varies based on type (e.g., whey isolate vs. concentrate)"></Tooltip>
                       </div>
                       {touched.fatContent && errors.fatContent && (
                         <span className={styles.error}>
@@ -8082,8 +7423,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                         <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
-                      
+                        <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                       </div>
                       {touched.healthBenefit && errors.healthBenefit && (
                         <span className={styles.error}>
@@ -8106,14 +7446,15 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="     Purpose (e.g., COVID-19 detection, blood glucose
+                        <Tooltip
+                          content="     Purpose (e.g., COVID-19 detection, blood glucose
                           monitoring, cholesterol level check,Pain
                           relief,Prevention of infection.,Cooling and soothing.
                          
                           Moisturizing and healing, procedure or use case of
                           tool, Relieves symptoms, promotes healing, or prevents
-                          recurrence.)"></Tooltip>
-                       
+                          recurrence.)"
+                        ></Tooltip>
                       </div>
                     </div>
                     <div className={styles.productContainer}>
@@ -8135,7 +7476,6 @@ const AddProduct = ({ placeholder }) => {
                           onBlur={handleBlur}
                         />
                         <Tooltip content="Description of the active ingredients and components of the vaccine."></Tooltip>
-                       
                       </div>
                       {touched.composition && errors.composition && (
                         <span className={styles.error}>
@@ -8162,11 +7502,12 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                        <Tooltip content=" Some proteins contain artificial sweeteners (e.g.,
+                        <Tooltip
+                          content=" Some proteins contain artificial sweeteners (e.g.,
                           sucralose, aspartame),
                           while others use natural sweeteners (e.g.,
-                          stevia, monk fruit)."></Tooltip>
-                       
+                          stevia, monk fruit)."
+                        ></Tooltip>
                       </div>
                       {touched.additivesNSweeteners &&
                         errors.additivesNSweeteners && (
@@ -8196,7 +7537,6 @@ const AddProduct = ({ placeholder }) => {
                           </label>
                         </span>
                         <Tooltip content="Description of the active and/or inactive ingredients and components."></Tooltip>
-                       
                       </div>
                     </div>
                   </div>
@@ -8224,8 +7564,7 @@ const AddProduct = ({ placeholder }) => {
                             }
                             onBlur={handleBlur}
                           />
-                           <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
-                         
+                          <Tooltip content="Expected shelf life of the item under proper storage conditions or Expiry date"></Tooltip>
                         </div>
                         {touched.expiry && errors.expiry && (
                           <span className={styles.error}>{errors.expiry}</span>
@@ -8265,8 +7604,7 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                          <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
-                      
+                        <Tooltip content="Easily adjustable storage to accommodate growing data volumes."></Tooltip>
                       </div>
                       {touched.scalabilityInfo && errors.scalabilityInfo && (
                         <span className={styles.error}>
@@ -8298,8 +7636,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                              <Tooltip content="License Terms"></Tooltip>
-                          
+                            <Tooltip content="License Terms"></Tooltip>
                           </div>
                           {touched.license && errors.license && (
                             <span className={styles.error}>
@@ -8325,7 +7662,6 @@ const AddProduct = ({ placeholder }) => {
                               onBlur={handleBlur}
                             />
                             <Tooltip content="White-label solutions for branding. ,Custom integrations or API usage."></Tooltip>
-                           
                           </div>
                           {touched.addOns && errors.addOns && (
                             <span className={styles.error}>
@@ -8351,8 +7687,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
-                           
+                            <Tooltip content="Patients Easy-to-use apps for booking and attending consultations."></Tooltip>
                           </div>
                           {touched.userAccess && errors.userAccess && (
                             <span className={styles.error}>
@@ -8384,11 +7719,12 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                            <Tooltip content="Remote monitoring of vital signs (e.g., heart
+                            <Tooltip
+                              content="Remote monitoring of vital signs (e.g., heart
                               rate, blood pressure, glucose levels).
                               Real-time data transmission to healthcare
-                              providers or mobile apps."></Tooltip>
-                           
+                              providers or mobile apps."
+                            ></Tooltip>
                           </div>
                           {touched.keyFeatures && errors.keyFeatures && (
                             <span className={styles.error}>
@@ -8414,8 +7750,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
-                            
+                            <Tooltip content="Continuous or on-demand monitoring (e.g., ECG, blood oxygen levels, heart rate)."></Tooltip>
                           </div>
                           {touched.coreFunctionalities &&
                             errors.coreFunctionalities && (
@@ -8442,8 +7777,7 @@ const AddProduct = ({ placeholder }) => {
                               }
                               onBlur={handleBlur}
                             />
-                             <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
-                          
+                            <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                           </div>
                           {touched.interoperability &&
                             errors.interoperability && (
@@ -8489,9 +7823,11 @@ const AddProduct = ({ placeholder }) => {
                     // fileUpload={safetyDatasheetUpload}
                     tooltip="Specific safety information, instructions or precautions related to product"
                   />
-                   {touched.safetyDatasheet && errors.safetyDatasheet && (
-                  <span className={styles.error}>{errors.safetyDatasheet}</span>
-                )}
+                  {touched.safetyDatasheet && errors.safetyDatasheet && (
+                    <span className={styles.error}>
+                      {errors.safetyDatasheet}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
@@ -8503,10 +7839,10 @@ const AddProduct = ({ placeholder }) => {
                     tooltip="Health Hazard Rating Document"
                   />
                   {touched.healthHazardRating && errors.healthHazardRating && (
-                  <span className={styles.error}>
-                    {errors.healthHazardRating}
-                  </span>
-                )}
+                    <span className={styles.error}>
+                      {errors.healthHazardRating}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
@@ -8517,11 +7853,12 @@ const AddProduct = ({ placeholder }) => {
                     // fileUpload={environmentalImpactUpload}
                     tooltip="Environment Impact Rating Document"
                   />
-                   {touched.environmentalImpact && errors.environmentalImpact && (
-                  <span className={styles.error}>
-                    {errors.environmentalImpact}
-                  </span>
-                )}
+                  {touched.environmentalImpact &&
+                    errors.environmentalImpact && (
+                      <span className={styles.error}>
+                        {errors.environmentalImpact}
+                      </span>
+                    )}
                 </div>
               </div>
             </div>
@@ -8549,17 +7886,19 @@ const AddProduct = ({ placeholder }) => {
                   />
                 </div>
                 <div className={styles.productContainer}>
-                <AddProductFileUpload
-                  fieldInputName={"guidelinesFile"}
-                  setFieldValue={setFieldValue}
-                  initialValues={values}
-                  label="User Guidelines"
-                  // fileUpload={userGuidelinesUpload}
-                  tooltip="Specific information, instructions related to product."
-                />
-                {touched.guidelinesFile && errors.guidelinesFile && (
-                  <span className={styles.error}>{errors.guidelinesFile}</span>
-                )}
+                  <AddProductFileUpload
+                    fieldInputName={"guidelinesFile"}
+                    setFieldValue={setFieldValue}
+                    initialValues={values}
+                    label="User Guidelines"
+                    // fileUpload={userGuidelinesUpload}
+                    tooltip="Specific information, instructions related to product."
+                  />
+                  {touched.guidelinesFile && errors.guidelinesFile && (
+                    <span className={styles.error}>
+                      {errors.guidelinesFile}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Other Information</label>
@@ -8577,11 +7916,12 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                      <Tooltip content=" Any relevant, additional or other information regarding
+                    <Tooltip
+                      content=" Any relevant, additional or other information regarding
                       the product (eg. Prescribing  Info for Medication or
                       Dosage Info or regarding the shipping of large devices
-                      etc.)"></Tooltip>
-                   
+                      etc.)"
+                    ></Tooltip>
                   </div>
                 </div>
               </div>

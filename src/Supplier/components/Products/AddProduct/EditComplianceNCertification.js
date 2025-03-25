@@ -21,12 +21,7 @@ const useFileUpload = (
   const [filesOld, setFilesOld] = useState(selectedFile || []);
   const [filesNew, setFilesNew] = useState([]);
   const [filesNewMerged, setFilesNewMerged] = useState([]);
-  console.log("filesOld", filesOld);
 
-  console.log("acceptTypes", [
-    ...initialValues?.complianceFileNew,
-    // acceptedFiles?.[0],
-  ]);
   // const onDrop = useCallback(
   //   (acceptedFiles) => {
   //     setFieldValue(fieldInputName, acceptedFiles);
@@ -49,13 +44,11 @@ const useFileUpload = (
   //     // setFilesNew((prev) => {
   //     //   const totalFiles = [...prev, ...updatedFileObj].slice(0, 4); // Limit to maxFiles
   //     //   return totalFiles;
-  //     console.log("acceptedFiles?.[0]", acceptedFiles?.[0]);
   //     const updatedFileObj = {
   //       file: acceptedFiles?.[0],
   //       action: "add",
   //       indexAction: fileIndex,
   //     };
-  //     console.log("acceptedFiles?.[0]2", updatedFileObj);
   //     setFilesNew((prev) => {
   //       const totalFiles = [...prev, acceptedFiles?.[0]]; // Limit to maxFiles
   //       return totalFiles;
@@ -85,7 +78,6 @@ const useFileUpload = (
         return totalFiles;
       });
 
-      console.log("Updated compliance files:", updatedComplianceFiles); // Debugging
     },
     [setFieldValue, initialValues]
   );
@@ -128,7 +120,6 @@ const useFileUpload = (
     //     initialValues?.complianceFile?.filter((_, i) => i !== fileIndex)
     //   ); // Update Formik field with the new files
     // }
-    console.log("ieldInputName, updatedFile", fieldInputName);
     if (arrayToFilter == "new") {
       // we will remove from new array
       setFilesNew([]);
@@ -143,7 +134,6 @@ const useFileUpload = (
         setFieldValue(
           "complianceFileNew",
           // initialValues?.complianceFileNew?.map((ele, index) => {
-          //   console.log("ele to string in new", JSON.stringify(ele) == file);
           //   return index == fileIndex
           //     ? { ...ele, action: "delete", indexAction: fileIndex }
           //     : ele;
@@ -157,7 +147,6 @@ const useFileUpload = (
         setFieldValue(
           "complianceFileNew",
           // initialValues?.complianceFileNew?.map((ele, index) => {
-          //   console.log("ele to string in new", JSON.stringify(ele) == file);
           //   return index == fileIndex
           //     ? { ...ele, action: "delete", indexAction: fileIndex }
           //     : ele;
@@ -186,7 +175,6 @@ const useFileUpload = (
         setFieldValue(
           "complianceFile",
           // initialValues?.complianceFile?.map((ele, index) => {
-          //   console.log("ele to string in new", JSON.stringify(ele) == file);
           //   return index == fileIndex
           //     ? { ...ele, action: "delete", indexAction: fileIndex }
           //     : ele;
@@ -200,7 +188,6 @@ const useFileUpload = (
         setFieldValue(
           "complianceFile",
           // initialValues?.complianceFile?.map((ele, index) => {
-          //   console.log("ele to string in new", JSON.stringify(ele) == file);
           //   return index == fileIndex
           //     ? { ...ele, action: "delete", indexAction: fileIndex }
           //     : ele;
@@ -281,7 +268,6 @@ const EditComplianceNCertification = ({
     isEdit
   );
 
-  console.log("selectedFile", selectedFile);
 
   const isImageOnly =
     acceptTypes &&
