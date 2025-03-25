@@ -75,7 +75,7 @@ export const addProduct = createAsyncThunk(
 );
  
 export const editProduct = createAsyncThunk(
-  "product/addProduct",
+  "product/editProduct",
   async ({id,values}, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequestWithFile(
