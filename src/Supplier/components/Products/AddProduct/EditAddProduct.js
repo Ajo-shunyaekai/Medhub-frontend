@@ -1410,7 +1410,7 @@ const EditAddProduct = ({ placeholder }) => {
       dispatch(editProduct({ id, values: formData })).then((response) => {
         console.log("response", response);
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/product"); // Change this to your desired route
+          // navigate("/supplier/product"); // Change this to your desired route
         }
       });
     },
