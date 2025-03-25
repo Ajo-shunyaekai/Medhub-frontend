@@ -25,9 +25,7 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
-            `You can only upload a maximum of ${maxFiles} ${
-              maxFiles === 1 ? "file" : "files"
-            }.`
+            `You can only upload a maximum of 4 files.`
           );
           return prev; // Keep previous files if limit exceeded
         }
@@ -54,16 +52,16 @@ const useFileUpload = (
     }
   }, [filesNew, filesOld, filesMerged]);
 
-  // Effect to update Formik fields when merged files change
-  useEffect(() => {
-    if (filesMerged?.length > 0) {
-      const newFiles = filesMerged.filter((item) => typeof item === "object");
-      const oldFiles = filesMerged.filter((item) => typeof item !== "object");
+  // // Effect to update Formik fields when merged files change
+  // useEffect(() => {
+  //   if (filesMerged?.length > 0) {
+  //     const newFiles = filesMerged.filter((item) => typeof item === "object");
+  //     const oldFiles = filesMerged.filter((item) => typeof item !== "object");
 
-      setFieldValue(fieldInputName, newFiles); // Set new files (File objects)
-      setFieldValue(oldFieldName, oldFiles); // Set old files (strings or file paths)
-    }
-  }, [filesMerged, setFieldValue, fieldInputName, oldFieldName]);
+  //     setFieldValue(fieldInputName, newFiles); // Set new files (File objects)
+  //     setFieldValue(oldFieldName, oldFiles); // Set old files (strings or file paths)
+  //   }
+  // }, [filesMerged, setFieldValue, fieldInputName, oldFieldName]);
 
   const removeFile = (index, event, arrayToFilter) => {
     if (event) event.stopPropagation();
@@ -72,6 +70,7 @@ const useFileUpload = (
         // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
 
+        setFieldValue(fieldInputName, updatedFiles); // Set new files (File objects)
         return updatedFiles; // Return the updated list to update the state
       });
     } else if (arrayToFilter == "old") {
@@ -79,6 +78,7 @@ const useFileUpload = (
         // Create the updated file list by removing the file at the specified index
         const updatedFiles = prev.filter((_, i) => i !== index);
 
+        setFieldValue(oldFieldName, updatedFiles); // Set old files (strings or file paths)
         return updatedFiles; // Return the updated list to update the state
       });
     }

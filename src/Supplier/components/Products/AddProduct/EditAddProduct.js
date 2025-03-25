@@ -895,9 +895,11 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.string().required("Interoperability is required."),
         })
         .nullable(),
-      interoperabilityFile: Yup.array().max(4, "You can upload up to 4 Interoperability files.").of(
-        Yup.string().required("A file path is required.") // Since it's now a string
-      ),
+      interoperabilityFile: Yup.array()
+        .max(4, "You can upload up to 4 Interoperability files.")
+        .of(
+          Yup.string().required("A file path is required.") // Since it's now a string
+        ),
       interoperabilityFileNew: Yup.array()
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -1480,7 +1482,7 @@ const EditAddProduct = ({ placeholder }) => {
     { value: "Kilogram (kg)", label: "Kilogram (kg)" },
     { value: "Gram (g)", label: "Gram (g)" },
     { value: "Milligram (mg)", label: "Milligram (mg)" },
-    { value: "Microgram (�g)", label: "Microgram (�g)" },
+    { value: "Microgram (µg)", label: "Microgram (µg)" },
     { value: "Tonne (t)", label: "Tonne (t)" },
     { value: "Pound (lb)", label: "Pound (lb)" },
     { value: "Ounce (oz)", label: "Ounce (oz)" },
@@ -1584,9 +1586,7 @@ const EditAddProduct = ({ placeholder }) => {
   //   End the Dropdown option
 
   const formatDateToDDMMYYYY = (dateString) => {
-    console.log("dateString", dateString)
     if (!dateString) return "";
-    console.log("dateString1", dateString)
 
     // Try to parse the date from "12 Jan 2025"
     const parsedDate = new Date(dateString);
@@ -1639,10 +1639,13 @@ const EditAddProduct = ({ placeholder }) => {
         stock: inventoryDetails?.stock || "",
         stockQuantity: inventoryDetails?.stockQuantity || "",
         countries: inventoryDetails?.countries || [], // Assuming countries exists
-        date: productDetail?.date || "",
+        // date: productDetail?.date || "",
         date: formatDateToDDMMYYYY(inventoryDetails?.date) || "",
         complianceFile: productDetail?.complianceFile || [],
-        cNCFileNDate: productDetail?.cNCFileNDate || [],
+        cNCFileNDate:
+          productDetail?.cNCFileNDate?.filter(
+            (ele) => ele?.file || ele?.date
+          ) || [],
         complianceFileNew: [],
         storage: productDetail?.storage || "",
         other: productDetail?.additional?.other || "",
@@ -1787,6 +1790,7 @@ const EditAddProduct = ({ placeholder }) => {
       });
     }
   }, [productDetail]); // Add formik to the dependency array
+  console.log("cNCFileNDate", formik?.errors);
 
   return (
     <div className={styles.container}>
@@ -2583,29 +2587,34 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
               <div className={styles.formInnerSection}>
                 {formik?.values?.market === "secondary" && (
-                <AddProductFileUpload
-                productDetails={productDetail}
-                maxFiles={1 - (formik?.values?.purchaseInvoiceFile?.length || 0)}
-                fieldInputName={"purchaseInvoiceFileNew"}
-                oldFieldName={"purchaseInvoiceFile"}
-                existingFiles={formik?.values?.purchaseInvoiceFile}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="Purchase Invoice"
-                tooltip={false}
-                acceptTypes={{
-                  "application/pdf":[],
-                }}
-                // maxFiles={1}
-                error={
-                  (formik.touched.purchaseInvoiceFile ||
-                    formik.touched.purchaseInvoiceFileNew ||
-                    formik.errors.purchaseInvoiceFile ||
-                    formik.errors.purchaseInvoiceFileNew) && (
-                    <div>{formik.errors.purchaseInvoiceFile || formik.errors.purchaseInvoiceFileNew}</div>
-                  )
-                }
-              />
+                  <AddProductFileUpload
+                    productDetails={productDetail}
+                    maxFiles={
+                      1 - (formik?.values?.purchaseInvoiceFile?.length || 0)
+                    }
+                    fieldInputName={"purchaseInvoiceFileNew"}
+                    oldFieldName={"purchaseInvoiceFile"}
+                    existingFiles={formik?.values?.purchaseInvoiceFile}
+                    setFieldValue={formik.setFieldValue}
+                    initialValues={formik?.values}
+                    label="Purchase Invoice"
+                    tooltip={false}
+                    acceptTypes={{
+                      "application/pdf": [],
+                    }}
+                    // maxFiles={1}
+                    error={
+                      (formik.touched.purchaseInvoiceFile ||
+                        formik.touched.purchaseInvoiceFileNew ||
+                        formik.errors.purchaseInvoiceFile ||
+                        formik.errors.purchaseInvoiceFileNew) && (
+                        <div>
+                          {formik.errors.purchaseInvoiceFile ||
+                            formik.errors.purchaseInvoiceFileNew}
+                        </div>
+                      )
+                    }
+                  />
                 )}
               </div>
               <div className={styles.descriptionContainer}>
@@ -3104,50 +3113,53 @@ const EditAddProduct = ({ placeholder }) => {
               </span>
             </div>
 
-            {formik?.values?.cNCFileNDate?.map((ele, index) => (
-              <div
-                key={`certification_${index}`}
-                className={styles.formSection}
-              >
-                {/* File Upload Section */}
-                <div className={styles.productContainer}>
-                  <Field name={`cNCFileNDate.${index}.file`}>
-                    {({ field }) => (
-                      <EditComplianceNCertification
-                        fieldInputName={`cNCFileNDate.${index}.file`}
-                        setFieldValue={formik?.setFieldValue}
-                        initialValues={formik?.values}
-                        label="Regulatory Compliance"
-                        tooltip={
-                          "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
-                          "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                          " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                        }
-                        // Pass the selected file here
-                        selectedFile={
-                          typeof ele?.file == "string" ? [ele?.file] : ele?.file
-                        }
-                        preview={ele?.preview}
-                        fileIndex={index}
-                        isEdit={true}
-                      />
-                    )}
-                  </Field>
-                  <span className={styles.error}>
-                    {formik?.touched.cNCFileNDate?.[index]?.file &&
-                      formik?.errors.cNCFileNDate?.[index]?.file}
-                  </span>
-                </div>
+            {formik?.values?.cNCFileNDate?.length > 0 ? (
+              formik?.values?.cNCFileNDate?.map((ele, index) => (
+                <div
+                  key={`certification_${index}`}
+                  className={styles.formSection}
+                >
+                  {/* File Upload Section */}
+                  <div className={styles.productContainer}>
+                    <Field name={`cNCFileNDate.${index}.file`}>
+                      {({ field }) => (
+                        <EditComplianceNCertification
+                          fieldInputName={`cNCFileNDate.${index}.file`}
+                          setFieldValue={formik?.setFieldValue}
+                          initialValues={formik?.values}
+                          label="Regulatory Compliance"
+                          tooltip={
+                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
+                            "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                            " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                          }
+                          // Pass the selected file here
+                          selectedFile={
+                            typeof ele?.file == "string"
+                              ? [ele?.file]
+                              : ele?.file
+                          }
+                          preview={ele?.preview}
+                          fileIndex={index}
+                          isEdit={true}
+                        />
+                      )}
+                    </Field>
+                    <span className={styles.error}>
+                      {formik?.touched.cNCFileNDate?.[index]?.file &&
+                        formik?.errors.cNCFileNDate?.[index]?.file}
+                    </span>
+                  </div>
 
-                {/* Date of Expiry Section */}
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Date of Expiry
-                    {/* <span className={styles.labelStamp}>*</span> */}
-                  </label>
-                  <div className={styles.tooltipContainer}>
-                    {/* Date Mask Input */}
-                    {/* <InputMask
+                  {/* Date of Expiry Section */}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Date of Expiry
+                      {/* <span className={styles.labelStamp}>*</span> */}
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      {/* Date Mask Input */}
+                      {/* <InputMask
                       className={styles.formInput}
                       type="text"
                       mask="dd-mm-yyyy"
@@ -3169,78 +3181,87 @@ const EditAddProduct = ({ placeholder }) => {
                       separate
                     /> */}
 
-                    <DatePicker
-                      className={styles.formDate}
-                      clearIcon={null}
-                      format="dd/MM/yyyy"
-                      placeholder="dd/MM/yyyy"
-                      name={`cNCFileNDate.${index}.date`}
-                      value={ele?.date}
-                      minDate={new Date()}
-                      onChange={(e) => {
-                        // formik?.handleChange(e);
-                        // Force validation immediately after change
-                        formik?.setFieldValue(`cNCFileNDate.${index}.date`, e); // This updates Formik's value
-                        formik?.setFieldTouched(
-                          `cNCFileNDate.${index}.date`,
-                          true,
-                          true
-                        );
-                      }}
-                      onBlur={formik?.handleBlur}
-                    />
-                    <span
-                      className={styles.infoTooltip}
-                      data-tooltip-id="sku-tooltip"
-                      data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
-                    >
-                      <img
-                        src={Information}
-                        className={styles.iconTooltip}
-                        alt="information"
+                      <DatePicker
+                        className={styles.formDate}
+                        clearIcon={null}
+                        format="dd/MM/yyyy"
+                        placeholder="dd/MM/yyyy"
+                        name={`cNCFileNDate.${index}.date`}
+                        value={ele?.date}
+                        minDate={new Date()}
+                        onChange={(e) => {
+                          // formik?.handleChange(e);
+                          // Force validation immediately after change
+                          formik?.setFieldValue(
+                            `cNCFileNDate.${index}.date`,
+                            e
+                          ); // This updates Formik's value
+                          formik?.setFieldTouched(
+                            `cNCFileNDate.${index}.date`,
+                            true,
+                            true
+                          );
+                        }}
+                        onBlur={formik?.handleBlur}
                       />
+                      <span
+                        className={styles.infoTooltip}
+                        data-tooltip-id="sku-tooltip"
+                        data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
+                      >
+                        <img
+                          src={Information}
+                          className={styles.iconTooltip}
+                          alt="information"
+                        />
+                      </span>
+                      {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
+                    </div>
+                    <span className={styles.error}>
+                      {formik?.touched.cNCFileNDate?.[index]?.date &&
+                        formik?.errors.cNCFileNDate?.[index]?.date}
                     </span>
-                    {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
                   </div>
-                  <span className={styles.error}>
-                    {formik?.touched.cNCFileNDate?.[index]?.date &&
-                      formik?.errors.cNCFileNDate?.[index]?.date}
-                  </span>
-                </div>
 
-                {/* Remove Section */}
-                {formik?.values?.cNCFileNDate?.length > 1 && (
-                  <div
-                    className={styles.formCloseSection}
-                    onClick={() => {
-                      // Clear form values before removing the row
-                      formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
-                      formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
-                      formik?.setFieldValue(
-                        `cNCFileNDate.${index}.preview`,
-                        false
-                      );
+                  {/* Remove Section */}
+                  {formik?.values?.cNCFileNDate?.length > 1 && (
+                    <div
+                      className={styles.formCloseSection}
+                      onClick={() => {
+                        // Clear form values before removing the row
+                        formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
+                        formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
+                        formik?.setFieldValue(
+                          `cNCFileNDate.${index}.preview`,
+                          false
+                        );
 
-                      // Remove the row from the array
-                      const updatedList = formik?.values?.cNCFileNDate.filter(
-                        (_, elindex) => elindex !== index
-                      );
-                      const updatedList2 =
-                        formik?.values?.complianceFileNew.filter(
+                        // Remove the row from the array
+                        const updatedList = formik?.values?.cNCFileNDate.filter(
                           (_, elindex) => elindex !== index
                         );
-                      formik?.setFieldValue("cNCFileNDate", updatedList);
-                      formik?.setFieldValue("complianceFile", []);
-                      formik?.setFieldValue("complianceFileNew", updatedList2);
-                    }}
-                  >
-                    <span className={styles.formclose}>
-                      <CloseIcon className={styles.icon} />
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
+                        const updatedList2 =
+                          formik?.values?.complianceFileNew.filter(
+                            (_, elindex) => elindex !== index
+                          );
+                        formik?.setFieldValue("cNCFileNDate", updatedList);
+                        formik?.setFieldValue("complianceFile", []);
+                        formik?.setFieldValue(
+                          "complianceFileNew",
+                          updatedList2
+                        );
+                      }}
+                    >
+                      <span className={styles.formclose}>
+                        <CloseIcon className={styles.icon} />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div>No Compliances & Certification Details added</div>
+            )}
           </div>
 
           {/* End the compliances and certificate 222222222 */}
@@ -3436,9 +3457,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <AddProductFileUpload
                     productDetails={productDetail}
                     maxFiles={
-                      4 -
-                      (formik?.values?.specificationFile?.length ||
-                        0)
+                      4 - (formik?.values?.specificationFile?.length || 0)
                     }
                     fieldInputName={"specificationFileNew"}
                     oldFieldName={"specificationFile"}
@@ -4236,7 +4255,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                       <Tooltip
-                        content="Concentration if its a solution (e.g., 0.1 M, 5% w/v)
+                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are  typically 70-90%
                           concentration for optimal antimicrobial efficacy.
                            Oxygen concentration level provided by the device
@@ -4420,7 +4439,8 @@ const EditAddProduct = ({ placeholder }) => {
                             // value={formik?.values?.dermatologistTested}
                             value={dermatologistOptions.find(
                               (option) =>
-                                option?.value === formik?.values?.dermatologistTested
+                                option?.value ===
+                                formik?.values?.dermatologistTested
                             )}
                             onChange={(selectedOption) => {
                               formik.setFieldValue(
@@ -4445,12 +4465,14 @@ const EditAddProduct = ({ placeholder }) => {
                               productDetails={productDetail}
                               maxFiles={
                                 4 -
-                                (formik?.values?.dermatologistTestedFile?.length ||
-                                  0)
+                                (formik?.values?.dermatologistTestedFile
+                                  ?.length || 0)
                               }
                               fieldInputName={"dermatologistTestedFileNew"}
                               oldFieldName={"dermatologistTestedFile"}
-                              existingFiles={formik?.values?.dermatologistTestedFile}
+                              existingFiles={
+                                formik?.values?.dermatologistTestedFile
+                              }
                               setFieldValue={formik.setFieldValue}
                               initialValues={formik?.values}
                               label=""
@@ -4493,7 +4515,8 @@ const EditAddProduct = ({ placeholder }) => {
                             // value={formik?.values?.pediatricianRecommended}
                             value={pediatricianOptions.find(
                               (option) =>
-                                option?.value === formik?.values?.pediatricianRecommended
+                                option?.value ===
+                                formik?.values?.pediatricianRecommended
                             )}
                             onChange={(selectedOption) => {
                               formik.setFieldValue(
@@ -4518,12 +4541,14 @@ const EditAddProduct = ({ placeholder }) => {
                               productDetails={productDetail}
                               maxFiles={
                                 4 -
-                                (formik?.values?.pediatricianRecommendedFile?.length ||
-                                  0)
+                                (formik?.values?.pediatricianRecommendedFile
+                                  ?.length || 0)
                               }
                               fieldInputName={"pediatricianRecommendedFileNew"}
                               oldFieldName={"pediatricianRecommendedFile"}
-                              existingFiles={formik?.values?.pediatricianRecommendedFile}
+                              existingFiles={
+                                formik?.values?.pediatricianRecommendedFile
+                              }
                               setFieldValue={formik.setFieldValue}
                               initialValues={formik?.values}
                               label=""
@@ -4537,12 +4562,16 @@ const EditAddProduct = ({ placeholder }) => {
                               }}
                               error={
                                 (formik.touched.pediatricianRecommendedFile ||
-                                  formik.touched.pediatricianRecommendedFileNew ||
+                                  formik.touched
+                                    .pediatricianRecommendedFileNew ||
                                   formik.errors.pediatricianRecommendedFile ||
-                                  formik.errors.pediatricianRecommendedFileNew) && (
+                                  formik.errors
+                                    .pediatricianRecommendedFileNew) && (
                                   <div>
-                                    {formik.errors.pediatricianRecommendedFile ||
-                                      formik.errors.pediatricianRecommendedFileNew}
+                                    {formik.errors
+                                      .pediatricianRecommendedFile ||
+                                      formik.errors
+                                        .pediatricianRecommendedFileNew}
                                   </div>
                                 )
                               }
@@ -4766,7 +4795,7 @@ const EditAddProduct = ({ placeholder }) => {
                         }
                         onBlur={formik?.handleBlur}
                       />
-                      <Tooltip content="Info about the health benefits (e.g., Boosts immunity, Supports joint health)"></Tooltip>
+                      <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                     </div>
                     {formik.touched.healthBenefit &&
                       formik.errors.healthBenefit && (
@@ -5470,7 +5499,11 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={formik?.values?.sterilized || checked["sterilized"] || false}
+                              checked={
+                                formik?.values?.sterilized ||
+                                checked["sterilized"] ||
+                                false
+                              }
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -5806,7 +5839,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                       <Tooltip
-                        content="Concentration if its a solution (e.g., 0.1 M, 5% w/v)
+                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90% 
                           concentration for optimal antimicrobial efficacy. Oxygen
                           concentration level provided by the device (e.g., 95%)"
@@ -6004,7 +6037,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                       <Tooltip
-                        content="   Concentration if its a solution (e.g., 0.1 M, 5% w/v)
+                        content="   Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration for optimal antimicrobial efficacy.
                           Oxygen concentration level provided by the device (e.g.,
@@ -6144,9 +6177,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <AddProductFileUpload
                       productDetails={productDetail}
                       maxFiles={
-                        4 -
-                        (formik?.values?.specificationFile?.length ||
-                          0)
+                        4 - (formik?.values?.specificationFile?.length || 0)
                       }
                       fieldInputName={"specificationFileNew"}
                       oldFieldName={"specificationFile"}
@@ -6213,7 +6244,9 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       fieldInputName={"performanceTestingReportFileNew"}
                       oldFieldName={"performanceTestingReportFile"}
-                      existingFiles={formik?.values?.performanceTestingReportFile}
+                      existingFiles={
+                        formik?.values?.performanceTestingReportFile
+                      }
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
                       label=""
@@ -6458,7 +6491,11 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={formik?.values?.sterilized || checked["sterilized"] || false}
+                              checked={
+                                formik?.values?.sterilized ||
+                                checked["sterilized"] ||
+                                false
+                              }
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -6742,7 +6779,11 @@ const EditAddProduct = ({ placeholder }) => {
                             <input
                               type="checkbox"
                               id="sterilized"
-                              checked={formik?.values?.sterilized ||checked["sterilized"] || false}
+                              checked={
+                                formik?.values?.sterilized ||
+                                checked["sterilized"] ||
+                                false
+                              }
                               onChange={(e) => {
                                 handleCheckboxChange(
                                   "sterilized",
@@ -7302,7 +7343,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                       <Tooltip
-                        content="Concentration if its a solution (e.g., 0.1 M, 5% w/v)
+                        content="Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90% 
                           concentration for optimal antimicrobial efficacy. Oxygen
                           concentration level
@@ -7593,12 +7634,14 @@ const EditAddProduct = ({ placeholder }) => {
                           productDetails={productDetail}
                           maxFiles={
                             4 -
-                            (formik?.values?.performanceTestingReportFile?.length ||
-                              0)
+                            (formik?.values?.performanceTestingReportFile
+                              ?.length || 0)
                           }
                           fieldInputName={"performanceTestingReportFileNew"}
                           oldFieldName={"performanceTestingReportFile"}
-                          existingFiles={formik?.values?.performanceTestingReportFile}
+                          existingFiles={
+                            formik?.values?.performanceTestingReportFile
+                          }
                           setFieldValue={formik.setFieldValue}
                           initialValues={formik?.values}
                           label=""
@@ -7614,7 +7657,8 @@ const EditAddProduct = ({ placeholder }) => {
                             (formik.touched.performanceTestingReportFile ||
                               formik.touched.performanceTestingReportFileNew ||
                               formik.errors.performanceTestingReportFile ||
-                              formik.errors.performanceTestingReportFileNew) && (
+                              formik.errors
+                                .performanceTestingReportFileNew) && (
                               <div>
                                 {formik.errors.performanceTestingReportFile ||
                                   formik.errors.performanceTestingReportFileNew}
@@ -7725,9 +7769,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <AddProductFileUpload
                       productDetails={productDetail}
                       maxFiles={
-                        4 -
-                        (formik?.values?.healthClaimsFile?.length ||
-                          0)
+                        4 - (formik?.values?.healthClaimsFile?.length || 0)
                       }
                       fieldInputName={"healthClaimsFileNew"}
                       oldFieldName={"healthClaimsFile"}
@@ -8003,7 +8045,7 @@ const EditAddProduct = ({ placeholder }) => {
                         onBlur={formik?.handleBlur}
                       />
                       <Tooltip
-                        content=" Concentration if its a solution (e.g., 0.1 M, 5% w/v)
+                        content=" Concentration if it’s a solution (e.g., 0.1 M, 5% w/v)
                           ,Alcohol-based disinfectants are typically 70-90%
                           concentration  for optimal antimicrobial efficacy.
                           Oxygen concentration level provided by the device (e.g.,
@@ -8259,7 +8301,7 @@ const EditAddProduct = ({ placeholder }) => {
                         }
                         onBlur={formik?.handleBlur}
                       />
-                      <Tooltip content="Info about the health benefits (e.g., Boosts immunity, Supports joint health)"></Tooltip>
+                      <Tooltip content="Info about the health benefits (e.g., “Boosts immunity”, “Supports joint health”)"></Tooltip>
                     </div>
                     {formik.touched.healthBenefit &&
                       formik.errors.healthBenefit && (
@@ -8688,8 +8730,7 @@ const EditAddProduct = ({ placeholder }) => {
                           productDetails={productDetail}
                           maxFiles={
                             4 -
-                            (formik?.values?.interoperabilityFile?.length ||
-                              0)
+                            (formik?.values?.interoperabilityFile?.length || 0)
                           }
                           fieldInputName={"interoperabilityFileNew"}
                           oldFieldName={"interoperabilityFile"}
@@ -8732,9 +8773,7 @@ const EditAddProduct = ({ placeholder }) => {
             <div className={styles.formSection}>
               <AddProductFileUpload
                 productDetails={productDetail}
-                maxFiles={
-                  4 - (formik?.values?.safetyDatasheet?.length || 0)
-                }
+                maxFiles={4 - (formik?.values?.safetyDatasheet?.length || 0)}
                 fieldInputName={"safetyDatasheetNew"}
                 oldFieldName={"safetyDatasheet"}
                 existingFiles={formik?.values?.safetyDatasheet}
@@ -8763,9 +8802,7 @@ const EditAddProduct = ({ placeholder }) => {
 
               <AddProductFileUpload
                 productDetails={productDetail}
-                maxFiles={
-                  4 - (formik?.values?.healthHazardRating?.length || 0)
-                }
+                maxFiles={4 - (formik?.values?.healthHazardRating?.length || 0)}
                 fieldInputName={"healthHazardRatingNew"}
                 oldFieldName={"healthHazardRating"}
                 existingFiles={formik?.values?.healthHazardRating}
