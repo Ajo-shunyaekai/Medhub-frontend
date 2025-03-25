@@ -26,14 +26,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ComplianceNCertification from "./ComplianceNCertification";
 import EditComplianceNCertification from "./EditComplianceNCertification";
- 
+import RichTextEditor from "./ProductDescriptionEditor";
+
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
     <input type="checkbox" checked={props.isSelected} onChange={() => null} />{" "}
     <label>{children}</label>
   </components.Option>
 );
- 
+
 const MultiSelectDropdown = ({ options, value, onChange }) => {
   return (
     <Select
@@ -47,7 +48,7 @@ const MultiSelectDropdown = ({ options, value, onChange }) => {
     />
   );
 };
- 
+
 // End Image Container Section
 const EditAddProduct = ({ placeholder }) => {
   const { id } = useParams();
@@ -58,64 +59,54 @@ const EditAddProduct = ({ placeholder }) => {
   );
   const formik = useFormik({
     initialValues: {
-      name: productDetail?.general?.name || "",
-      description: productDetail?.description || "",
-      manufacturer: productDetail?.manufacturer || "",
-      aboutManufacturer: productDetail?.aboutManufacturer || "",
-      countryOfOrigin: productDetail?.countryOfOrigin || "",
-      upc: productDetail?.general?.upc || "",
-      model: productDetail?.general?.model || "",
-      image: productDetail?.general?.image || [],
-      imageNew: productDetail?.imageNew || [],
-      brand: productDetail?.general?.brand || "",
-      quantity: productDetail?.quantity || "",
-      volumn: productDetail?.volumn || "",
-      dimension: productDetail?.dimension || "",
-      weight: productDetail?.general?.weight || "",
-      unit: productDetail?.general?.unit || "",
-      packageType: productDetail?.packageType || "",
-      packageMaterial: productDetail?.packageMaterial || "",
-      packageMaterialIfOther: productDetail?.packageMaterialIfOther || "",
-      costPerProduct: productDetail?.costPerProduct || "",
-      sku: productDetail?.inventoryDetails?.sku || "",
-      stock: productDetail?.stock || "",
-      stockQuantity: productDetail?.stockQuantity || "",
-      countries: productDetail?.countries || [],
-      date: productDetail?.date || "",
-      complianceFile: productDetail?.complianceFile || [],
-      cNCFileNDate:
-        productDetail?.cNCFileNDate || [],
-      complianceFileNew: productDetail?.complianceFileNew || [],
-      storage: productDetail?.storage || "",
-      other: productDetail?.additional?.other || "",
-      guidelinesFile: productDetail?.guidelinesFile || [],
-      guidelinesFileNew: productDetail?.guidelinesFileNew || [],
-      warranty: productDetail?.additional?.warranty || "",
-      safetyDatasheet: productDetail?.healthNSafety?.safetyDatasheet || [],
-      safetyDatasheetNew:
-        productDetail?.healthNSafety?.safetyDatasheetNew || [],
-      healthHazardRating:
-        productDetail?.healthNSafety?.healthHazardRating || [],
-      healthHazardRatingNew:
-        productDetail?.healthNSafety?.healthHazardRatingNew || [],
-      environmentalImpact: productDetail?.environmentalImpact || [],
-      environmentalImpactNew: productDetail?.environmentalImpactNew || [],
-      category: productDetail?.category || "",
-      market: productDetail?.market || "",
-      purchasedOn: productDetail?.secondayMarketDetails?.purchasedOn || "",
-      countryAvailable:
-        productDetail?.secondayMarketDetails?.countryAvailable || [],
-      purchaseInvoiceFile:
-        productDetail?.secondayMarketDetails?.purchaseInvoiceFile || [],
-      purchaseInvoiceFileNew:
-        productDetail?.secondayMarketDetails?.purchaseInvoiceFileNew || [],
-      condition: productDetail?.secondayMarketDetails?.condition || "",
-      minimumPurchaseUnit:
-        productDetail?.secondayMarketDetails?.minimumPurchaseUnit || "",
-      subCategory: productDetail?.[productDetail?.category]?.subCategory || "",
-      anotherCategory:
-        productDetail?.[productDetail?.category]?.anotherCategory || "",
-      stockedInDetails: productDetail?.stockedInDetails || [
+      name: "",
+      description: "",
+      manufacturer: "",
+      aboutManufacturer: "",
+      countryOfOrigin: "",
+      upc: "",
+      model: "",
+      image: [],
+      imageNew: [],
+      brand: "",
+      quantity: "",
+      volumn: "",
+      dimension: "",
+      weight: "",
+      unit: "",
+      packageType: "",
+      packageMaterial: "",
+      packageMaterialIfOther: "",
+      sku: "",
+      stock: "",
+      stockQuantity: "",
+      countries: [],
+      date: "",
+      complianceFile: [],
+      cNCFileNDate: [],
+      complianceFileNew: [],
+      storage: "",
+      other: "",
+      guidelinesFile: [],
+      guidelinesFileNew: [],
+      warranty: "",
+      safetyDatasheet: [],
+      safetyDatasheetNew: [],
+      healthHazardRating: [],
+      healthHazardRatingNew: [],
+      environmentalImpact: [],
+      environmentalImpactNew: [],
+      category: "",
+      market: "",
+      purchasedOn: "",
+      countryAvailable: [],
+      purchaseInvoiceFile: [],
+      purchaseInvoiceFileNew: [],
+      condition: "",
+      minimumPurchaseUnit: "",
+      subCategory: "",
+      anotherCategory: "",
+      stockedInDetails: [
         {
           country: "",
           quantity: "",
@@ -123,7 +114,7 @@ const EditAddProduct = ({ placeholder }) => {
           placeholder: "Enter Box Quantity",
         },
       ],
-      productPricingDetails: productDetail?.productPricingDetails || [
+      productPricingDetails: [
         {
           quantity: "",
           price: "",
@@ -131,188 +122,123 @@ const EditAddProduct = ({ placeholder }) => {
         },
       ],
       // Common fields of multiple categories
-      drugClass: productDetail?.[productDetail?.category]?.drugClass || "",
-      controlledSubstance:
-        productDetail?.[productDetail?.category]?.controlledSubstance || false,
-      otcClassification:
-        productDetail?.[productDetail?.category]?.otcClassification || "",
-      genericName: productDetail?.[productDetail?.category]?.genericName || "",
-      strength: productDetail?.[productDetail?.category]?.strength || "",
-      composition: productDetail?.[productDetail?.category]?.composition || "",
-      purpose: productDetail?.[productDetail?.category]?.purpose || "",
-      drugAdministrationRoute:
-        productDetail?.[productDetail?.category]?.drugAdministrationRoute || "",
-      expiry: productDetail?.[productDetail?.category]?.expiry || "",
-      allergens: productDetail?.[productDetail?.category]?.allergens || "",
-      formulation: productDetail?.[productDetail?.category]?.formulation || "",
-      vegan: productDetail?.[productDetail?.category]?.vegan || false,
-      crueltyFree:
-        productDetail?.[productDetail?.category]?.crueltyFree || false,
-      sideEffectsAndWarnings:
-        productDetail?.[productDetail?.category]?.sideEffectsAndWarnings || "",
-      thickness: productDetail?.[productDetail?.category]?.thickness || "",
-      interoperability:
-        productDetail?.[productDetail?.category]?.interoperability || "",
-      interoperabilityFile:
-        productDetail?.[productDetail?.category]?.interoperabilityFile || [],
-      interoperabilityFileNew:
-        productDetail?.[productDetail?.category]?.interoperabilityFileNew || [],
-      specification:
-        productDetail?.[productDetail?.category]?.specification || "",
-      specificationFile:
-        productDetail?.[productDetail?.category]?.specificationFile || [],
-      specificationFileNew:
-        productDetail?.[productDetail?.category]?.specificationFileNew || [],
-      diagnosticFunctions:
-        productDetail?.[productDetail?.category]?.diagnosticFunctions || "",
-      flowRate: 
-        productDetail?.[productDetail?.category]?.flowRate || "",
-      performanceTestingReport:
-        productDetail?.[productDetail?.category]?.performanceTestingReport ||
-        "",
-      performanceTestingReportFile:
-        productDetail?.[productDetail?.category]
-          ?.performanceTestingReportFile || [],
-      performanceTestingReportFileNew:
-        productDetail?.[productDetail?.category]
-          ?.performanceTestingReportFileNew || [],
-      additivesNSweeteners:
-        productDetail?.[productDetail?.category]?.additivesNSweeteners || "",
-      powdered: productDetail?.[productDetail?.category]?.powdered || false,
-      productMaterial:
-        productDetail?.[productDetail?.category]?.productMaterial || "",
-      productMaterialIfOther:
-        productDetail?.[productDetail?.category]?.productMaterialIfOther || "",
-      texture: productDetail?.[productDetail?.category]?.texture || false,
-      sterilized: productDetail?.[productDetail?.category]?.sterilized || false,
-      chemicalResistance:
-        productDetail?.[productDetail?.category]?.chemicalResistance || "",
-      fluidResistance:
-        productDetail?.[productDetail?.category]?.fluidResistance || false,
-      shape: productDetail?.[productDetail?.category]?.shape || "",
-      coating: productDetail?.[productDetail?.category]?.coating || "",
-      concentration:
-        productDetail?.[productDetail?.category]?.concentration || "",
-      measurementRange:
-        productDetail?.[productDetail?.category]?.measurementRange || "",
-      maintenanceNotes:
-        productDetail?.[productDetail?.category]?.maintenanceNotes || "",
-      compatibleEquipment:
-        productDetail?.[productDetail?.category]?.compatibleEquipment || "",
-      usageRate: productDetail?.[productDetail?.category]?.usageRate || "",
-      adhesiveness:
-        productDetail?.[productDetail?.category]?.adhesiveness || "",
-      absorbency: productDetail?.[productDetail?.category]?.absorbency || "",
-      targetCondition:
-        productDetail?.[productDetail?.category]?.targetCondition || "",
-      elasticity: productDetail?.[productDetail?.category]?.elasticity || "",
-      breathability:
-        productDetail?.[productDetail?.category]?.breathability || "",
-      foldability: productDetail?.[productDetail?.category]?.foldability || "",
-      fragrance: productDetail?.[productDetail?.category]?.fragrance || "",
-      healthBenefit:
-        productDetail?.[productDetail?.category]?.healthBenefit || "",
+      drugClass: "",
+      controlledSubstance: false,
+      otcClassification: "",
+      genericName: "",
+      strength: "",
+      composition: "",
+      purpose: "",
+      drugAdministrationRoute: "",
+      expiry: "",
+      allergens: "",
+      formulation: "",
+      vegan: false,
+      crueltyFree: false,
+      sideEffectsAndWarnings: "",
+      thickness: "",
+      interoperability: "",
+      interoperabilityFile: [],
+      interoperabilityFileNew: [],
+      specification: "",
+      specificationFile: [],
+      specificationFileNew: [],
+      diagnosticFunctions: "",
+      performanceTestingReport: "",
+      performanceTestingReportFile: [],
+      performanceTestingReportFileNew: [],
+      additivesNSweeteners: "",
+      powdered: false,
+      productMaterial: "",
+      productMaterialIfOther: "",
+      texture: false,
+      sterilized: false,
+      chemicalResistance: false,
+      fluidResistance: false,
+      shape: "",
+      coating: "",
+      concentration: "",
+      measurementRange: "",
+      maintenanceNotes: "",
+      compatibleEquipment: "",
+      usageRate: "",
+      adhesiveness: "",
+      absorbency: "",
+      targetCondition: "",
+      elasticity: "",
+      breathability: "",
+      foldability: "",
+      fragrance: "",
+      healthBenefit: "",
       // Add the other fields under MedicalEquipmentAndDevices || Add the other fields under MedicalEquipmentAndDevices
-      laserType: productDetail?.[productDetail?.category]?.laserType || "",
-      coolingSystem:
-        productDetail?.[productDetail?.category]?.coolingSystem || "",
-      spotSize: productDetail?.[productDetail?.category]?.spotSize || "",
+      laserType: "",
+      coolingSystem: "",
+      spotSize: "",
       // Add the other fields under Pharmaceuticals || Add the other fields under Pharmaceuticals
       // Add the other fields under SkinHairCosmeticSupplies || Add the other fields under SkinHairCosmeticSupplies
-      spf: productDetail?.[productDetail?.category]?.spf || "",
-      dermatologistTested:
-        productDetail?.[productDetail?.category]?.dermatologistTested || "",
-      dermatologistTestedFile:
-        productDetail?.[productDetail?.category]?.dermatologistTestedFile || [],
-      dermatologistTestedFileNew:
-        productDetail?.[productDetail?.category]?.dermatologistTestedFileNew ||
-        [],
-      pediatricianRecommended:
-        productDetail?.[productDetail?.category]?.pediatricianRecommended || "",
-      pediatricianRecommendedFile:
-        productDetail?.[productDetail?.category]?.pediatricianRecommendedFile ||
-        [],
-      pediatricianRecommendedFileNew:
-        productDetail?.[productDetail?.category]
-          ?.pediatricianRecommendedFileNew || [],
-      moisturizers:
-        productDetail?.[productDetail?.category]?.moisturizers || "",
-      fillerType: productDetail?.[productDetail?.category]?.fillerType || "",
+      spf: "",
+      dermatologistTested: "",
+      dermatologistTestedFile: [],
+      dermatologistTestedFileNew: [],
+      pediatricianRecommended: "",
+      pediatricianRecommendedFile: [],
+      pediatricianRecommendedFileNew: [],
+      moisturizers: "",
+      fillerType: "",
       // Add the other fields under VitalHealthAndWellness || Add the other fields under VitalHealthAndWellness
       // Add the other fields under MedicalConsumablesAndDisposables || Add the other fields under MedicalConsumablesAndDisposables
-      filtrationEfficiency:
-        productDetail?.[productDetail?.category]?.filtrationEfficiency || "",
-      layerCount: productDetail?.[productDetail?.category]?.layerCount || "",
-      filtrationType:
-        productDetail?.[productDetail?.category]?.filtrationType || [],
+      filtrationEfficiency: "",
+      layerCount: "",
+      filtrationType: [],
       // Add the other fields under LaboratorySupplies || Add the other fields under LaboratorySupplies
-      magnificationRange:
-        productDetail?.[productDetail?.category]?.magnificationRange || "",
-      objectiveLenses:
-        productDetail?.[productDetail?.category]?.objectiveLenses || "",
-      powerSource: productDetail?.[productDetail?.category]?.powerSource || "",
-      resolution: productDetail?.[productDetail?.category]?.resolution || "",
-      connectivity:
-        productDetail?.[productDetail?.category]?.connectivity || "",
-      casNumber: productDetail?.[productDetail?.category]?.casNumber || "",
-      grade: productDetail?.[productDetail?.category]?.grade || "",
-      physicalState:
-        productDetail?.[productDetail?.category]?.physicalState || [],
-      hazardClassification:
-        productDetail?.[productDetail?.category]?.hazardClassification || [],
+      magnificationRange: "",
+      objectiveLenses: "",
+      powerSource: "",
+      resolution: "",
+      connectivity: "",
+      casNumber: "",
+      grade: "",
+      physicalState: [],
+      hazardClassification: [],
       // Add the other fields under DiagnosticAndMonitoringDevices || Add the other fields under DiagnosticAndMonitoringDevices
-      measurementRange:
-        productDetail?.[productDetail?.category]?.measurementRange || "",
-      noiseLevel: productDetail?.[productDetail?.category]?.noiseLevel || "",
+      flowRate: "",
+      noiseLevel: "",
       // Add the other fields under HospitalAndClinicSupplies || Add the other fields under HospitalAndClinicSupplies
       // Add the other fields under OrthopedicSupplies || Add the other fields under OrthopedicSupplies
-      moistureResistance:
-        productDetail?.[productDetail?.category]?.moistureResistance || "",
+      moistureResistance: "",
+      colorOptions: "",
       // Add the other fields under DentalProducts || Add the other fields under DentalProducts
       // Add the other fields under EyeCareSupplies || Add the other fields under EyeCareSupplies
-      colorOptions: productDetail?.[productDetail?.category]?.colorOptions || "",
-      lensPower: productDetail?.[productDetail?.category]?.lensPower || "",
-      baseCurve: productDetail?.[productDetail?.category]?.baseCurve || "",
-      diameter: productDetail?.[productDetail?.category]?.diameter || "",
-      frame: productDetail?.[productDetail?.category]?.frame || "",
-      lens: productDetail?.[productDetail?.category]?.lens || "",
-      lensMaterial:
-        productDetail?.[productDetail?.category]?.lensMaterial || "",
+      lensPower: "",
+      baseCurve: "",
+      diameter: "",
+      frame: "",
+      lens: "",
+      lensMaterial: "",
       // Add the other fields under HomeHealthcareProducts || Add the other fields under HomeHealthcareProducts
-      maxWeightCapacity:
-        productDetail?.[productDetail?.category]?.maxWeightCapacity || "",
-      gripType: productDetail?.[productDetail?.category]?.gripType || "",
-      lockingMechanism:
-        productDetail?.[productDetail?.category]?.lockingMechanism || "",
-      typeOfSupport:
-        productDetail?.[productDetail?.category]?.typeOfSupport || "",
-      batteryType: productDetail?.[productDetail?.category]?.batteryType || "",
-      batterySize: productDetail?.[productDetail?.category]?.batterySize || "",
+      maxWeightCapacity: "",
+      gripType: "",
+      lockingMechanism: "",
+      typeOfSupport: "",
+      batteryType: "",
+      batterySize: "",
       // Add the other fields under AlternativeMedicines || Add the other fields under AlternativeMedicines
-      healthClaims:
-        productDetail?.[productDetail?.category]?.healthClaims || "",
-      healthClaimsFile:
-        productDetail?.[productDetail?.category]?.healthClaimsFile || [],
-      healthClaimsFileNew:
-        productDetail?.[productDetail?.category]?.healthClaimsFileNew || [],
+      healthClaims: "",
+      healthClaimsFile: [],
+      healthClaimsFileNew: [],
       // Add the other fields under EmergencyAndFirstAidSupplies || Add the other fields under EmergencyAndFirstAidSupplies
-      productLongevity:
-        productDetail?.[productDetail?.category]?.productLongevity || "",
-      flavorOptions:
-        productDetail?.[productDetail?.category]?.flavorOptions || "",
-      aminoAcidProfile:
-        productDetail?.[productDetail?.category]?.aminoAcidProfile || "",
-      fatContent: productDetail?.[productDetail?.category]?.fatContent || "",
-      dairyFree: productDetail?.[productDetail?.category]?.dairyFree || "",
+      productLongevity: "",
+      flavorOptions: "",
+      aminoAcidProfile: "",
+      fatContent: "",
+      dairyFree: "",
       // Add the other fields under HealthcareITSolutions || Add the other fields under HealthcareITSolutions
-      license: productDetail?.[productDetail?.category]?.license || "",
-      scalabilityInfo:
-        productDetail?.[productDetail?.category]?.scalabilityInfo || "",
-      addOns: productDetail?.[productDetail?.category]?.addOns || "",
-      userAccess: productDetail?.[productDetail?.category]?.userAccess || "",
-      keyFeatures: productDetail?.[productDetail?.category]?.keyFeatures || "",
-      coreFunctionalities:
-        productDetail?.[productDetail?.category]?.coreFunctionalities || "",
+      license: "",
+      scalabilityInfo: "",
+      addOns: "",
+      userAccess: "",
+      keyFeatures: "",
+      coreFunctionalities: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Product Name is required."),
@@ -325,9 +251,10 @@ const EditAddProduct = ({ placeholder }) => {
         "Manufacturer Country of Origin is required."
       ),
       model: Yup.string().required("Part/Model Number is required."),
-      image: Yup.array().max(4, "You can upload up to 4 images.").of(
-        Yup.string().required("A file path is required.") // Since it's now a string
-      ),
+      image: Yup.array().max(4, "You can upload up to 4 images."),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
       imageNew: Yup.array()
         .max(4, "You can upload up to 4 images.")
         .of(
@@ -341,8 +268,6 @@ const EditAddProduct = ({ placeholder }) => {
         ),
       form: Yup.string().required("Product Type/Form is required."),
       quantity: Yup.number().required("Product Quantity is required."),
- 
-      volumn: Yup.string().required("Product Size/Volumn is required."),
       weight: Yup.number().required("Product Weight is required."),
       unit: Yup.string().required("Product Weight Unit is required."),
       // packageType: Yup.string().required("Product Packaging Type is required."),
@@ -362,7 +287,7 @@ const EditAddProduct = ({ placeholder }) => {
       //   ),
       // }),
       // costPerProduct: Yup.string().required("Cost Per Unit is required."),
-      sku: Yup.string().required("SKU is required."),
+      // sku: Yup.string().required("SKU is required."),
       stock: Yup.string()
         .oneOf(["In-stock", "Out of Stock", "On-demand"])
         .required("Stock is required."),
@@ -371,51 +296,51 @@ const EditAddProduct = ({ placeholder }) => {
         .min(1, "At least one country must be selected.")
         .of(Yup.string().required("Country Available is required.")),
       // date: Yup.string().required("Date is required."),
-      date: Yup.string()
-        // .required("Date is required.")
-        // .test(
-        //   'is-valid-date',
-        //   'Please enter a valid date',
-        //   function (value) {
-        //     if (!value) return false;
- 
-        //     // Split the date and convert to numbers
-        //     const parts = value.split('-');
-        //     if (parts.length !== 3) return false;
- 
-        //     const day = parseInt(parts[0], 10);
-        //     const month = parseInt(parts[1], 10);
-        //     const year = parseInt(parts[2], 10);
- 
-        //     // Check if date is valid (using Date object)
-        //     const date = new Date(year, month - 1, day);
-        //     return (
-        //       date.getFullYear() === year &&
-        //       date.getMonth() === month - 1 &&
-        //       date.getDate() === day
-        //     );
-        //   }
-        // )
-        .test(
-          "not-future-date",
-          "Future dates are not allowed",
-          function (value) {
-            if (!value) return true;
- 
-            const parts = value.split("-");
-            if (parts.length !== 3) return true;
- 
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10);
-            const year = parseInt(parts[2], 10);
- 
-            const enteredDate = new Date(year, month - 1, day);
-            const today = new Date();
- 
-            return enteredDate <= today;
-          }
-        )
-        .nullable(),
+      // date: Yup.string()
+      // .required("Date is required.")
+      // .test(
+      //   'is-valid-date',
+      //   'Please enter a valid date',
+      //   function (value) {
+      //     if (!value) return false;
+
+      //     // Split the date and convert to numbers
+      //     const parts = value.split('-');
+      //     if (parts.length !== 3) return false;
+
+      //     const day = parseInt(parts[0], 10);
+      //     const month = parseInt(parts[1], 10);
+      //     const year = parseInt(parts[2], 10);
+
+      //     // Check if date is valid (using Date object)
+      //     const date = new Date(year, month - 1, day);
+      //     return (
+      //       date.getFullYear() === year &&
+      //       date.getMonth() === month - 1 &&
+      //       date.getDate() === day
+      //     );
+      //   }
+      // )
+      // .test(
+      //   "not-future-date",
+      //   "Future dates are not allowed",
+      //   function (value) {
+      //     if (!value) return true;
+
+      //     const parts = value.split("-");
+      //     if (parts.length !== 3) return true;
+
+      //     const day = parseInt(parts[0], 10);
+      //     const month = parseInt(parts[1], 10);
+      //     const year = parseInt(parts[2], 10);
+
+      //     const enteredDate = new Date(year, month - 1, day);
+      //     const today = new Date();
+
+      //     return enteredDate <= today;
+      //   }
+      // )
+      // .nullable(),
       // stockedInDetails: Yup.array()
       //   .of(
       //     Yup.object({
@@ -432,17 +357,33 @@ const EditAddProduct = ({ placeholder }) => {
           Yup.object({
             quantity: Yup.string().required("Quantity is required."),
             price: Yup.number()
-              .required("Price is required.")
-              .positive("Price must be greater than 0"),
-            deliveryTime: Yup.string().required("Delivery Time is required."),
+              .typeError("Cost Per Price must be a number.")
+              .required("Cost Per Price is required.")
+              .positive("Cost Per Price must be greater than 0")
+              .test(
+                "decimal-places",
+                "Price can have up to 3 decimal places only.",
+                (value) => {
+                  if (value === undefined || value === null) return true; // Skip validation if empty
+                  return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
+                }
+              ),
+            deliveryTime: Yup.string()
+              .matches(
+                /^\d{1,3}$/,
+                "Delivery Time must be a number with up to 3 digits."
+              )
+              .required("Est. Delivery Time is required."),
           })
         )
         .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-      complianceFile: Yup.array()
-        .max(4, "You can upload up to 4 Compliance File.")
-        .of(
-          Yup.string().required("A file path is required.") // Since it's now a string
-        ),
+      complianceFile: Yup.array().max(
+        4,
+        "You can upload up to 4 Compliance File."
+      ),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
       complianceFileNew: Yup.array()
         .max(4, "You can upload up to 4 Compliance File.")
         .of(
@@ -452,7 +393,6 @@ const EditAddProduct = ({ placeholder }) => {
               "fileSize",
               "File too large",
               (value) => value && value.size <= 1024 * 1024 * 5
-              // (value) => console.log("file sixze ", value.size, (1024 * 1024 * 5))
             ) // Max 5MB
             .test("fileType", "Unsupported file format", (value) => {
               const allowedFormats = [
@@ -465,11 +405,13 @@ const EditAddProduct = ({ placeholder }) => {
               return value && allowedFormats.includes(value.type);
             })
         ),
-      guidelinesFile: Yup.array()
-        .max(4, "You can upload up to 4 guideline files.")
-        .of(
-          Yup.string().required("A file path is required.") // Since it's now a string
-        ),
+      guidelinesFile: Yup.array().max(
+        4,
+        "You can upload up to 4 guideline files."
+      ),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
       guidelinesFileNew: Yup.array()
         .max(4, "You can upload up to 4 guideline files.")
         .of(
@@ -491,11 +433,10 @@ const EditAddProduct = ({ placeholder }) => {
               return value && allowedFormats.includes(value.type);
             })
         ),
-      safetyDatasheet: Yup.array()
-        .max(4, "You can upload up to 4 safety datasheets.")
-        .of(
-          Yup.string().required("A file path is required.") // Since it's now a string
-        ),
+      safetyDatasheet: Yup.array().max(
+        4,
+        "You can upload up to 4 safety datasheets."
+      ),
       safetyDatasheetNew: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
@@ -517,11 +458,13 @@ const EditAddProduct = ({ placeholder }) => {
               return value && allowedFormats.includes(value.type);
             })
         ),
-      healthHazardRating: Yup.array()
-        .max(4, "You can upload up to 4 safety datasheets.")
-        .of(
-          Yup.string().required("A file path is required.") // Since it's now a string
-        ),
+      healthHazardRating: Yup.array().max(
+        4,
+        "You can upload up to 4 safety datasheets."
+      ),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
       healthHazardRatingNew: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
@@ -538,11 +481,13 @@ const EditAddProduct = ({ placeholder }) => {
               return value && allowedFormats.includes(value.type);
             })
         ),
-      environmentalImpact: Yup.array()
-        .max(4, "You can upload up to 4 safety datasheets.")
-        .of(
-          Yup.string().required("A file path is required.") // Since it's now a string
-        ),
+      environmentalImpact: Yup.array().max(
+        4,
+        "You can upload up to 4 safety datasheets."
+      ),
+      // .of(
+      // Yup.string().required("A file path is required.") // Since it's now a string
+      // ),
       environmentalImpactNew: Yup.array()
         .max(4, "You can upload up to 4 safety datasheets.")
         .of(
@@ -596,22 +541,7 @@ const EditAddProduct = ({ placeholder }) => {
         .of(Yup.mixed().required("Purchase Invoice File is required."))
         .when("market", {
           is: "secondary",
-          then: Yup.array()
-            // .min(1, "At least one Purchase Invoice File must be selected.")
-            // .max(4, "You can upload up to 4 safety datasheets.")
-            // .required("Purchase Invoice files is required.")
-            // .of(
-            //   Yup.mixed()
-            //     .required("A Purchase Invoice File is required.")
-            //     .test(
-            //       "fileSize",
-            //       "File too large",
-            //       (value) => value && value.size <= 1024 * 1024 * 5
-            //     ) // Max 5MB
-            // ),
-            .of(
-              Yup.string().required("A file path is required.") // Since it's now a string
-            ),
+          then: Yup.array().max(4, "You can upload up to 4 safety datasheets."),
         }),
       purchaseInvoiceFileNew: Yup.array()
         .max(4, "You can upload up to 4 Compliance File.")
@@ -622,7 +552,6 @@ const EditAddProduct = ({ placeholder }) => {
               "fileSize",
               "File too large",
               (value) => value && value.size <= 1024 * 1024 * 5
-              // (value) => console.log("file sixze ", value.size, (1024 * 1024 * 5))
             ) // Max 5MB
             .test("fileType", "Unsupported file format", (value) => {
               const allowedFormats = [
@@ -649,7 +578,7 @@ const EditAddProduct = ({ placeholder }) => {
         is: "secondary",
         then: Yup.string().required("Minimum Purchase Unit is required."),
       }),
- 
+
       // New Fields Validation
       subCategory: Yup.string()
         .required("Sub Category is required.")
@@ -744,7 +673,7 @@ const EditAddProduct = ({ placeholder }) => {
               ],
               "Invalid Subcategory."
             )
-            .required("Subcategory is required."),
+            .required("Sub Category is required."),
         })
         // For "DiagnosticAndMonitoringDevices" category
         .when("category", {
@@ -878,7 +807,6 @@ const EditAddProduct = ({ placeholder }) => {
           ),
         })
         .nullable(),
-      anotherCategory: Yup.string().nullable(),
       // Common fields of multiple categories
       drugClass: Yup.string()
         .when("category", {
@@ -934,11 +862,9 @@ const EditAddProduct = ({ placeholder }) => {
       drugAdministrationRoute: Yup.string()
         .when("category", {
           is: (category) =>
-            [
-              // "Pharmaceuticals",
-              "SkinHairCosmeticSupplies",
-              "VitalHealthAndWellness",
-            ].includes(category),
+            ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
+              category
+            ),
           then: Yup.string().required("Drug Administration Route is required."),
         })
         .nullable(),
@@ -962,7 +888,7 @@ const EditAddProduct = ({ placeholder }) => {
           then: Yup.string().required("Shelf Life/Expiry is required."),
         })
         .nullable(),
- 
+
       interoperability: Yup.string()
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -972,6 +898,18 @@ const EditAddProduct = ({ placeholder }) => {
       interoperabilityFile: Yup.array().max(4, "You can upload up to 4 Interoperability files.").of(
         Yup.string().required("A file path is required.") // Since it's now a string
       ),
+      interoperabilityFileNew: Yup.array()
+        .when("category", {
+          is: (category) => ["HealthcareITSolutions"].includes(category),
+          then: Yup.array().max(
+            4,
+            "You can upload up to 4 Interoperability file."
+          ),
+          // .of(
+          // Yup.string().required("A file path is required.") // Since it's now a string
+          // ),
+        })
+        .nullable(),
       interoperabilityFileNew: Yup.array()
         .when("category", {
           is: (category) => ["HealthcareITSolutions"].includes(category),
@@ -985,33 +923,41 @@ const EditAddProduct = ({ placeholder }) => {
         })
         .nullable(),
       specification: Yup.string()
- 
         .when("category", {
           is: (category) =>
-            ["DiagnosticAndMonitoringDevices"].includes(category),
+            [
+              "MedicalEquipmentAndDevices",
+              "DiagnosticAndMonitoringDevices",
+            ].includes(category),
           then: Yup.string().required("Specification is required."),
         })
         .nullable(),
       specificationFile: Yup.array()
         .when("category", {
-          is: (category) => ["MedicalEquipmentAndDevices"].includes(category),
-          then: Yup.array()
-            .max(4, "You can upload up to 4 specification files.")
-            .of(
-              Yup.string().required("A file path is required.") // Since it's now a string
-            ),
-        })
-        .when("category", {
           is: (category) =>
-            ["DiagnosticAndMonitoringDevices"].includes(category),
-          then: Yup.array()
-            .min(1, "At least one file is required for the specification file.")
-            .max(4, "You can upload up to 4 specification files.")
-            .required("specification files is required.")
-            .of(
-              Yup.string().required("A file path is required.") // Since it's now a string
-            ),
+            [
+              "MedicalEquipmentAndDevices",
+              "DiagnosticAndMonitoringDevices",
+            ].includes(category),
+          then: Yup.array().max(
+            4,
+            "You can upload up to 4 specification files."
+          ),
+          // .of(
+          // Yup.string().required("A file path is required.") // Since it's now a string
+          // ),
         })
+        // .when("category", {
+        //   is: (category) =>
+        //     ["MedicalEquipmentAndDevices","DiagnosticAndMonitoringDevices"].includes(category),
+        //   then: Yup.array()
+        //     .min(1, "At least one file is required for the specification file.")
+        //     .max(4, "You can upload up to 4 specification files.")
+        //     .required("specification files is required."),
+        //   // .of(
+        //   // Yup.string().required("A file path is required.") // Since it's now a string
+        //   // ),
+        // })
         .nullable(),
       specificationFileNew: Yup.array()
         .when("category", {
@@ -1047,14 +993,13 @@ const EditAddProduct = ({ placeholder }) => {
         })
         .nullable(),
       diagnosticFunctions: Yup.string()
- 
         .when("category", {
           is: (category) =>
             ["DiagnosticAndMonitoringDevices"].includes(category),
           then: Yup.string().required("Diagnostic Functions is required."),
         })
         .nullable(),
- 
+
       performanceTestingReportFile: Yup.array()
         .when("category", {
           is: (category) =>
@@ -1063,11 +1008,13 @@ const EditAddProduct = ({ placeholder }) => {
               "DiagnosticAndMonitoringDevices",
               "HomeHealthcareProducts",
             ].includes(category),
-          then: Yup.array()
-            .max(4, "You can upload up to 4 performance testing files.")
-            .of(
-              Yup.string().required("A file path is required.") // Since it's now a string
-            ),
+          then: Yup.array().max(
+            4,
+            "You can upload up to 4 performance testing files."
+          ),
+          // .of(
+          // Yup.string().required("A file path is required.") // Since it's now a string
+          // ),
         })
         .nullable(),
       performanceTestingReportFileNew: Yup.array()
@@ -1118,7 +1065,7 @@ const EditAddProduct = ({ placeholder }) => {
             ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
               category
             ),
- 
+
           then: Yup.string().required("Health Benfits is required."),
         })
         .nullable(),
@@ -1131,6 +1078,20 @@ const EditAddProduct = ({ placeholder }) => {
         })
         .nullable(),
       dermatologistTestedFile: Yup.array().when("category", {
+        is: "SkinHairCosmeticSupplies", // Check category first
+        then: Yup.array()
+          .when("dermatologistTested", {
+            is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
+            then: Yup.array().max(
+              4,
+              "You can upload up to 4 dermatologist tested files."
+            ),
+            otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
+          })
+          .nullable(),
+        otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
+      }),
+      dermatologistTestedFileNew: Yup.array().when("category", {
         is: "SkinHairCosmeticSupplies", // Check category first
         then: Yup.array()
           .when("dermatologistTested", {
@@ -1169,6 +1130,20 @@ const EditAddProduct = ({ placeholder }) => {
         then: Yup.array()
           .when("pediatricianRecommended", {
             is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
+            then: Yup.array().max(
+              4,
+              "You can upload up to 4 Pediatrician Recommended files."
+            ),
+            otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
+          })
+          .nullable(),
+        otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
+      }),
+      pediatricianRecommendedFileNew: Yup.array().when("category", {
+        is: "SkinHairCosmeticSupplies", // Check category first
+        then: Yup.array()
+          .when("pediatricianRecommended", {
+            is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
             then: Yup.array()
               .min(
                 1,
@@ -1190,61 +1165,16 @@ const EditAddProduct = ({ placeholder }) => {
           .nullable(),
         otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
       }),
-      filtrationEfficiency: Yup.string()
-        .when("category", {
-          is: "MedicalConsumablesAndDisposables",
-          then: Yup.string(),
-        })
-        .nullable(),
-      layerCount: Yup.string()
-        .when("category", {
-          is: "MedicalConsumablesAndDisposables",
-          then: Yup.string(),
-        })
-        .nullable(),
-      filtrationType: Yup.array()
-        .when("category", {
-          is: "MedicalConsumablesAndDisposables",
-          then: Yup.array(),
-        })
-        .nullable(),
-      moistureResistance: Yup.string()
-        .when("category", {
-          is: "OrthopedicSupplies",
-          then: Yup.string().oneOf(
-            ["Yes", "No"],
-            "Invalid Moisture Resistance"
-          ),
-        })
-        .nullable(),
-      frame: Yup.string()
-        .when("category", {
-          is: "EyeCareSupplies",
-          then: Yup.string().oneOf(
-            ["Metal", "Plastic", "Rimless"],
-            "Invalid Frame"
-          ),
-        })
-        .nullable(),
-      lens: Yup.string()
-        .when("category", {
-          is: "EyeCareSupplies",
-          then: Yup.string().oneOf(
-            ["Single Vision", "Bifocal", "Progressive", "Anti-Reflective"],
-            "Invalid Lens"
-          ),
-        })
-        .nullable(),
-      lensMaterial: Yup.string()
-        .when("category", {
-          is: "EyeCareSupplies",
-          then: Yup.string().oneOf(
-            ["Polycarbonate", "Glass", "Trivex"],
-            "Invalid Lens Material"
-          ),
-        })
-        .nullable(),
       healthClaimsFile: Yup.array()
+        .when("category", {
+          is: "AlternativeMedicines",
+          then: Yup.array().max(
+            4,
+            "You can upload up to 4 Health Claims Files."
+          ),
+        })
+        .nullable(),
+      healthClaimsFileNew: Yup.array()
         .when("category", {
           is: "AlternativeMedicines",
           then: Yup.array()
@@ -1335,10 +1265,9 @@ const EditAddProduct = ({ placeholder }) => {
     }),
     onSubmit: (values) => {
       // Custom submit handler with e.preventDefault()
-      console.log("Form submitted with values:", values);
- 
+
       const formData = new FormData();
- 
+
       // Append fields as usual
       Object.keys(values).forEach((key) => {
         const value = values[key];
@@ -1363,7 +1292,7 @@ const EditAddProduct = ({ placeholder }) => {
           }
         }
       });
- 
+
       // Append the supplier ID
       const supplierId = sessionStorage.getItem("_id");
       if (supplierId) {
@@ -1371,13 +1300,13 @@ const EditAddProduct = ({ placeholder }) => {
       } else {
         console.error("Supplier ID not found in session storage.");
       }
- 
+
       // Prepare and append 'stockedInDetails' and 'productPricingDetails' fields as JSON strings
       const stockedInDetailsUpdated = JSON.stringify(
         values?.stockedInDetails?.map((section) => ({
           country: section?.country || "",
           quantity: section?.quantity || "",
-          type: section?.type || "",
+          // type: section?.type || "",
         }))
       );
       const productPricingDetailsUpdated = JSON.stringify(
@@ -1398,19 +1327,15 @@ const EditAddProduct = ({ placeholder }) => {
           };
         })
       );
- 
+
       formData.append("stockedInDetails", stockedInDetailsUpdated);
       formData.append("productPricingDetails", productPricingDetailsUpdated);
-      formData.append(
-        "cNCFileNDate",
-        cNCFileNDateUpdated
-      );
- 
+      formData.append("cNCFileNDate", cNCFileNDateUpdated);
+
       // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData })).then((response) => {
-        console.log("response", response);
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/product"); // Change this to your desired route
+          // navigate("/supplier/product"); // Change this to your desired route
         }
       });
     },
@@ -1440,20 +1365,20 @@ const EditAddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
- 
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
- 
+
   // Start the checked container
- 
+
   const handleCheckboxChange = (id, vallue) => {
     setChecked((prev) => ({
       ...prev,
       [id]: vallue,
     }));
   };
- 
+
   //handle field input
   const handleInputChange = (
     e,
@@ -1464,10 +1389,10 @@ const EditAddProduct = ({ placeholder }) => {
     allowedSpecialChars = ""
   ) => {
     let { value, name } = e.target;
- 
+
     // Apply character limit
     value = value.slice(0, Number(textLimit));
- 
+
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -1478,21 +1403,21 @@ const EditAddProduct = ({ placeholder }) => {
       restrictSpecialForFields.includes(name)
     ) {
       // value = value.replace(/[^a-zA-Z0-9\s]/g, ""); // Allow only letters, numbers, and spaces (No special characters)
- 
+
       const allowedPattern = new RegExp(
         `[^a-zA-Z0-9\\s${allowedSpecialChars}]`,
         "g"
       );
       value = value.replace(allowedPattern, "");
     }
- 
+
     setFieldValue(name, value);
   };
- 
+
   // End the checked container
   const editor = useRef(null);
-  const [content, setContent] = useState("");
- 
+  const [content, setContent] = useState(formik?.values?.description || "");
+
   const config = useMemo(
     () => ({
       readonly: false,
@@ -1500,7 +1425,7 @@ const EditAddProduct = ({ placeholder }) => {
     }),
     [formik?.values?.description]
   );
- 
+
   useEffect(() => {
     const countryOptions = countryList().getData();
     setCountries(countryOptions);
@@ -1511,16 +1436,16 @@ const EditAddProduct = ({ placeholder }) => {
       label: cat.name,
     };
   });
- 
+
   const getCategorySchema = (category) => {
     if (!category) return null;
     return (
       categoryArrays.find((cat) => cat.name === category.label)?.schema || null
     );
   };
- 
+
   const selectedSchema = getCategorySchema(selectedCategory);
- 
+
   const getSubCategories = (categoryName) => {
     return (
       categoryArrays
@@ -1531,7 +1456,7 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   const getLevel3Categories = (subCategoryName) => {
     const category = categoryArrays.find(
       (cat) =>
@@ -1549,7 +1474,7 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
- 
+
   //   Start the Dropdown option
   const Options = [
     { value: "new product", label: "New Product" },
@@ -1661,26 +1586,26 @@ const EditAddProduct = ({ placeholder }) => {
     { value: "No", label: "No" },
   ];
   //   End the Dropdown option
- 
+
   const formatDateToDDMMYYYY = (dateString) => {
     if (!dateString) return "";
- 
+
     // Try to parse the date from "12 Jan 2025"
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate)) return dateString; // Return original if invalid date
- 
+
     // Format the date as DD-MM-YYYY
     const day = String(parsedDate.getDate()).padStart(2, "0"); // 01-31
     const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // 01-12
     const year = parsedDate.getFullYear();
     return `${day}-${month}-${year}`;
   };
- 
+
   //   useEffects
   useEffect(() => {
     id && dispatch(fetchProductDetail(`product/${id}`));
   }, [id]);
- 
+
   useEffect(() => {
     if (formik && productDetail) {
       // Destructure the general part of productDetail to simplify access
@@ -1690,7 +1615,7 @@ const EditAddProduct = ({ placeholder }) => {
       const healthNSafety = productDetail?.healthNSafety || {};
       const secondayMarketDetails = productDetail?.secondayMarketDetails || {};
       const categoryDetails = productDetail?.[productDetail?.category] || {}; // Safely access category details
- 
+
       formik.setValues({
         name: general?.name || "",
         description: general?.description || "",
@@ -1700,7 +1625,6 @@ const EditAddProduct = ({ placeholder }) => {
         upc: general?.upc || "",
         model: general?.model || "",
         image: general?.image || [], // Image field based on general object
-        // imageNew: general?.imageNew || [],
         imageNew: [],
         brand: general?.brand || "",
         form: general?.form || "",
@@ -1712,7 +1636,7 @@ const EditAddProduct = ({ placeholder }) => {
         packageType: general?.packageType || "",
         packageMaterial: general?.packageMaterial || "",
         packageMaterialIfOther: general?.packageMaterialIfOther || "",
-        costPerProduct: productDetail?.costPerProduct || "", // Assuming it exists in your data
+        // costPerProduct: productDetail?.costPerProduct || "", // Assuming it exists in your data
         sku: inventoryDetails?.sku || "", // Nested access for inventoryDetails
         stock: inventoryDetails?.stock || "",
         stockQuantity: inventoryDetails?.stockQuantity || "",
@@ -1720,28 +1644,25 @@ const EditAddProduct = ({ placeholder }) => {
         // date: productDetail?.date || "",
         date: formatDateToDDMMYYYY(inventoryDetails?.date) || "",
         complianceFile: productDetail?.complianceFile || [],
-        cNCFileNDate:
-          productDetail?.cNCFileNDate || [],
-        complianceFileNew: productDetail?.complianceFileNew || [],
+        cNCFileNDate: productDetail?.cNCFileNDate || [],
+        complianceFileNew: [],
         storage: productDetail?.storage || "",
         other: productDetail?.additional?.other || "",
-        guidelinesFile: productDetail?.guidelinesFile || [],
-        guidelinesFileNew: productDetail?.guidelinesFileNew || [],
+        guidelinesFile: additional?.guidelinesFile || [],
+        guidelinesFileNew: [],
         warranty: productDetail?.additional?.warranty || "",
-        // safetyDatasheet: productDetail?.safetyDatasheet || [],
         safetyDatasheet: healthNSafety?.safetyDatasheet || [],
-        safetyDatasheetNew: productDetail?.safetyDatasheetNew || [],
+        safetyDatasheetNew: [],
         healthHazardRating: healthNSafety?.healthHazardRating || [],
-        healthHazardRatingNew: productDetail?.healthHazardRatingNew || [],
-        environmentalImpact: productDetail?.environmentalImpact || [],
-        environmentalImpactNew: productDetail?.environmentalImpactNew || [],
+        healthHazardRatingNew: [],
+        environmentalImpact: healthNSafety?.environmentalImpact || [],
+        environmentalImpactNew: [],
         category: productDetail?.category || "",
         market: productDetail?.market || "",
         purchasedOn: secondayMarketDetails?.purchasedOn || "",
         countryAvailable: secondayMarketDetails?.countryAvailable || [],
         purchaseInvoiceFile: secondayMarketDetails?.purchaseInvoiceFile || [],
-        purchaseInvoiceFileNew:
-          secondayMarketDetails?.purchaseInvoiceFileNew || [],
+        purchaseInvoiceFileNew: [],
         condition: secondayMarketDetails?.condition || "",
         minimumPurchaseUnit: secondayMarketDetails?.minimumPurchaseUnit || "",
         subCategory: categoryDetails?.subCategory || "",
@@ -1775,18 +1696,17 @@ const EditAddProduct = ({ placeholder }) => {
         thickness: categoryDetails?.thickness || "",
         interoperability: categoryDetails?.interoperability || "",
         interoperabilityFile: categoryDetails?.interoperabilityFile || [],
-        interoperabilityFileNew: categoryDetails?.interoperabilityFileNew || [],
+        interoperabilityFileNew: [],
         specification: categoryDetails?.specification || "",
         specificationFile: categoryDetails?.specificationFile || [],
-        specificationFileNew: categoryDetails?.specificationFileNew || [],
+        specificationFileNew: [],
         diagnosticFunctions: categoryDetails?.diagnosticFunctions || "",
         flowRate: categoryDetails?.flowRate || "",
         performanceTestingReport:
           categoryDetails?.performanceTestingReport || "",
         performanceTestingReportFile:
           categoryDetails?.performanceTestingReportFile || [],
-        performanceTestingReportFileNew:
-          categoryDetails?.performanceTestingReportFileNew || [],
+        performanceTestingReportFileNew: [],
         additivesNSweeteners: categoryDetails?.additivesNSweeteners || "",
         powdered: categoryDetails?.powdered || false,
         productMaterial: categoryDetails?.productMaterial || "",
@@ -1854,7 +1774,7 @@ const EditAddProduct = ({ placeholder }) => {
         batterySize: categoryDetails?.batterySize || "",
         healthClaims: categoryDetails?.healthClaims || "",
         healthClaimsFile: categoryDetails?.healthClaimsFile || [],
-        healthClaimsFileNew: categoryDetails?.healthClaimsFileNew || [],
+        healthClaimsFileNew: [],
         productLongevity: categoryDetails?.productLongevity || "",
         flavorOptions: categoryDetails?.flavorOptions || "",
         aminoAcidProfile: categoryDetails?.aminoAcidProfile || "",
@@ -1869,7 +1789,7 @@ const EditAddProduct = ({ placeholder }) => {
       });
     }
   }, [productDetail]); // Add formik to the dependency array
- 
+
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
@@ -1881,13 +1801,12 @@ const EditAddProduct = ({ placeholder }) => {
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
- 
+
             // Check if the form is changed and no validation errors
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
               // If validation errors exist or no change, show the error message
-              console.log("Formik Errors:", formik.errors);
               toast.error("Please fill the required fields correctly.");
             }
           }}
@@ -1923,8 +1842,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.name}</span>
                 )}
               </div>
-              {console.log("formik?.values", formik?.values)}
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Market<span className={styles?.labelStamp}>*</span>
@@ -1951,7 +1869,7 @@ const EditAddProduct = ({ placeholder }) => {
                   name="market"
                   isDisabled={true}
                 />
- 
+
                 {formik.touched.market && formik.errors.market && (
                   <span className={styles.error}>{formik.errors.market}</span>
                 )}
@@ -1985,7 +1903,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.category}</span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category
@@ -2023,14 +1941,14 @@ const EditAddProduct = ({ placeholder }) => {
                   placeholder="Select Sub Category"
                   // isDisabled={true} // Disable when no category is selected
                 />
- 
+
                 {formik.touched.subCategory && formik.errors.subCategory && (
                   <span className={styles.error}>
                     {formik.errors.subCategory}
                   </span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Sub Category (Level 3)
@@ -2087,7 +2005,7 @@ const EditAddProduct = ({ placeholder }) => {
                   // isDisabled={!selectedSubCategory}
                 />
               </div>
- 
+
               {formik?.values?.market === "secondary" && (
                 <>
                   <div className={styles.productContainer}>
@@ -2095,13 +2013,14 @@ const EditAddProduct = ({ placeholder }) => {
                       Purchased On
                       <span className={styles?.labelStamp}>*</span>
                     </label>
- 
+
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
                       format="dd/MM/yyyy"
                       placeholder="dd/MM/yyyy"
                       name="purchasedOn"
+                      maxDate={new Date()}
                       value={formik?.values?.purchasedOn}
                       onChange={(date) => {
                         formik.setFieldValue("purchasedOn", date); // This updates Formik's value
@@ -2115,7 +2034,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Condition<span className={styles?.labelStamp}>*</span>
@@ -2141,19 +2060,19 @@ const EditAddProduct = ({ placeholder }) => {
                       </span>
                     )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Country Available In
                       <span className={styles?.labelStamp}>*</span>
                     </label>
- 
+
                     <MultiSelectDropdown
                       options={countries}
                       placeholderButtonLabel="Select Countries"
                       name="countryAvailable"
                       // value={formik?.values?.countryAvailable} // Bind Formik's state
-                      value={formik.values.countryAvailable.map((country) => ({
+                      value={formik.values?.countryAvailable.map((country) => ({
                         label: country,
                         value: country,
                       }))}
@@ -2169,7 +2088,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }}
                       onBlur={formik?.handleBlur} // Optional: add this if the component has a blur event
                     />
- 
+
                     {formik.touched.countryAvailable &&
                       formik.errors.countryAvailable && (
                         <span className={styles.error}>
@@ -2177,7 +2096,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Minimum Purchase Unit
@@ -2205,7 +2124,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                 </>
               )}
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   UPC (Universal Product Code)
@@ -2232,7 +2151,7 @@ const EditAddProduct = ({ placeholder }) => {
                 />
                 <span className={styles.error}></span>
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Part/Model Number
@@ -2327,7 +2246,7 @@ const EditAddProduct = ({ placeholder }) => {
                   <span className={styles.error}>{formik.errors.quantity}</span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Size/Volumn
@@ -2388,8 +2307,10 @@ const EditAddProduct = ({ placeholder }) => {
                     width, adhesive strip size etc."
                   ></Tooltip>
                 </div>
-                {formik.touched.volumn && formik.errors.volumn && (
-                  <span className={styles.error}>{formik.errors.volumn}</span>
+                {formik.touched.dimension && formik.errors.dimension && (
+                  <span className={styles.error}>
+                    {formik.errors.dimension}
+                  </span>
                 )}
               </div>
               <div className={styles.productContainer}>
@@ -2442,7 +2363,7 @@ const EditAddProduct = ({ placeholder }) => {
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Type
-                  <span className={styles?.labelStamp}>*</span>
+                  {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.tooltipContainer}>
                   {/* <Select
@@ -2523,7 +2444,7 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="The material used for packaging (e.g., plastic, glass, aluminum, cardboard, thermocol etc)."></Tooltip>
                 </div>
- 
+
                 {/* Show text field when "Other" is selected */}
                 {/* {selectedOption?.value === "Other" && (
                   <input
@@ -2542,7 +2463,7 @@ const EditAddProduct = ({ placeholder }) => {
                     }}
                   />
                 )} */}
- 
+
                 {/* Display error message if any */}
                 {formik.touched.packageMaterial &&
                   formik.errors.packageMaterial && (
@@ -2580,7 +2501,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
- 
+
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Contry of Origin
@@ -2592,7 +2513,8 @@ const EditAddProduct = ({ placeholder }) => {
                   placeholder="Select Country of Origin"
                   value={
                     countries.find(
-                      (option) => option.label === formik.values.countryOfOrigin
+                      (option) =>
+                        option.label === formik.values?.countryOfOrigin
                     ) || null
                   }
                   onBlur={formik.handleBlur}
@@ -2603,7 +2525,7 @@ const EditAddProduct = ({ placeholder }) => {
                     );
                   }}
                 />
- 
+
                 {formik.touched.countryOfOrigin &&
                   formik.errors.countryOfOrigin && (
                     <span className={styles.error}>
@@ -2691,7 +2613,7 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               <div className={styles.descriptionContainer}>
-                <label className={styles.formLabel}>
+                {/* <label className={styles.formLabel}>
                   Product Description
                   <span className={styles?.labelStamp}>*</span>
                 </label>
@@ -2709,6 +2631,20 @@ const EditAddProduct = ({ placeholder }) => {
                     setContent(newContent);
                     formik.setFieldValue("description", newContent);
                   }}
+                /> */}
+                <RichTextEditor
+                  label="Product Description"
+                  name="description"
+                  value={formik?.values?.description}
+                  onChange={(content) =>
+                    formik?.setFieldValue("description", content)
+                  }
+                  onBlur={() =>
+                    formik?.handleBlur({ target: { name: "description" } })
+                  }
+                  // error={formik?.errors.description}
+                  // touched={formik?.touched.description}
+                  height={300}
                 />
                 {formik.touched.description && formik.errors.description && (
                   <span className={styles.error}>
@@ -2740,7 +2676,7 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
- 
+
           {/* Start the Inventory */}
           <div className={styles.section}>
             <span className={styles.formHead}>Inventory</span>
@@ -2782,7 +2718,7 @@ const EditAddProduct = ({ placeholder }) => {
                   {/* <span className={styles?.labelStamp}>*</span> */}
                 </label>
                 <div className={styles.tooltipContainer}>
-                  <InputMask
+                  {/* <InputMask
                     className={styles.formInput}
                     type="text"
                     mask="dd-mm-yyyy"
@@ -2793,6 +2729,20 @@ const EditAddProduct = ({ placeholder }) => {
                     replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
                     showMask
                     separate
+                  /> */}
+
+                  <DatePicker
+                    className={styles.formDate}
+                    clearIcon={null}
+                    format="dd/MM/yyyy"
+                    placeholder="dd/MM/yyyy"
+                    name="date"
+                    maxDate={new Date()}
+                    value={formik?.values?.date}
+                    onChange={(date) => {
+                      formik.setFieldValue("date", date); // This updates Formik's value
+                    }}
+                    onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
                   />
                   <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                 </div>
@@ -2835,7 +2785,7 @@ const EditAddProduct = ({ placeholder }) => {
                   placeholderButtonLabel="Select Countries"
                   name="countries"
                   // value={formik?.values?.countryAvailable} // Bind Formik's state
-                  value={formik.values.countries.map((country) => ({
+                  value={formik.values?.countries.map((country) => ({
                     label: country,
                     value: country,
                   }))}
@@ -2870,7 +2820,7 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
             </div>
- 
+
             <div className={styles.formStockContainer}>
               <div className={styles.formHeadSection}>
                 <span className={styles.formHead}>Stocked In Details</span>
@@ -2893,7 +2843,7 @@ const EditAddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
- 
+
               {formik?.values?.stockedInDetails?.map((stock, index) => (
                 <div key={index} className={styles.formSection}>
                   <div className={styles.productContainer}>
@@ -2924,7 +2874,7 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.country}
                     </span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Stock Quantity
@@ -2943,7 +2893,7 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onChange={formik.handleChange}
                         />
- 
+
                         {/* <button
                           type="button"
                           className={`${styles.quantityButton} ${styles.selected}`}
@@ -2951,7 +2901,7 @@ const EditAddProduct = ({ placeholder }) => {
                           {stock.type}
                         </button> */}
                       </div>
- 
+
                       {/* <div className={styles.radioForm}>
                         {["Box", "Strip", "Pack"].map((type) => (
                           <label key={type}>
@@ -2984,7 +2934,7 @@ const EditAddProduct = ({ placeholder }) => {
                         formik.errors.stockedInDetails?.[index]?.quantity}
                     </span>
                   </div>
- 
+
                   {formik?.values?.stockedInDetails?.length > 1 && (
                     <div
                       className={styles.formCloseSection}
@@ -3005,9 +2955,9 @@ const EditAddProduct = ({ placeholder }) => {
               ))}
             </div>
           </div>
- 
+
           {/* End the Inventory */}
- 
+
           {/* Start the Product Pricing */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -3072,7 +3022,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.quantity}
                           </span>
                         </div>
- 
+
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Cost Per Product
@@ -3094,7 +3044,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.price}
                           </span>
                         </div>
- 
+
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Est. Delivery Time
@@ -3113,7 +3063,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 ?.deliveryTime}
                           </span>
                         </div>
- 
+
                         {formik?.values?.productPricingDetails?.length > 1 && (
                           <div
                             className={styles.formCloseSection}
@@ -3131,121 +3081,9 @@ const EditAddProduct = ({ placeholder }) => {
               )}
             />
           </div>
- 
+
           {/* End the Product Pricing */}
- 
-          {/* Start the Compliances and certificate */}
-          {/* <div className={styles.documentContainer}>
-            <div className={styles.sectionCompliances}>
-              <span className={styles.formHead}>Upload Documents</span>
-              <div className={styles.formInnerSection}>
-                <AddProductFileUpload
-                  productDetails={productDetail}
-                  maxfileCount={4 - (formik?.values?.image?.length || 0)}
-                  fieldInputName={"imageNew"}
-                  oldFieldName={"image"}
-                  existingFiles={formik?.values?.image}
-                  setFieldValue={formik.setFieldValue}
-                  initialValues={formik?.values}
-                  label="Product Image"
-                  tooltip={false}
-                  acceptTypes={{
-                    "image/png": [],
-                    "image/jpeg": [],
-                    "image/jpg": [],
-                  }}
-                  error={
-                    (formik.touched.image ||
-                      formik.touched.imageNew ||
-                      formik.errors.image ||
-                      formik.errors.imageNew) && (
-                      <div>{formik.errors.image || formik.errors.imageNew}</div>
-                    )
-                  }
-                />
-                {formik?.values?.market === "secondary" && (
-                  <AddProductFileUpload
-                    productDetails={productDetail}
-                    maxfileCount={
-                      4 - (formik?.values?.purchaseInvoiceFile?.length || 0)
-                    }
-                    fieldInputName={"purchaseInvoiceFileNew"}
-                    oldFieldName={"purchaseInvoiceFile"}
-                    existingFiles={formik?.values?.purchaseInvoiceFile}
-                    setFieldValue={formik.setFieldValue}
-                    initialValues={formik?.values}
-                    label="Purchase Invoice"
-                    tooltip={false}
-                    acceptTypes={{
-                      "application/pdf": [],
-                    }}
-                    maxFiles={1}
-                    error={
-                      (formik.touched.purchaseInvoiceFileNew ||
-                        formik.touched.purchaseInvoiceFile ||
-                        formik.errors.purchaseInvoiceFileNew ||
-                        formik.errors.purchaseInvoiceFile) &&
-                      (formik.errors.purchaseInvoiceFileNew ||
-                        formik.errors.purchaseInvoiceFile)
-                    }
-                  />
-                )}
-              </div>
-            </div>
-            <div className={styles.sectionCompliances}>
-              <span className={styles.formHead}>Storage & Handling</span>
-              <div className={styles.compliancesContainer}>
-                <label className={styles.formLabel}>Storage Conditions</label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Storage Conditions"
-                    // autoComplete="off"
-                    name="storage"
-                    // onChange={formik?.handleChange}
-                    value={formik?.values?.storage}
-                    onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 30, "all")
-                    }
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
-                </div>
-              </div>
-            </div>
-            <div className={styles.sectionCompliances}>
-              <span className={styles.formHead}>
-                Compliances & Certification
-              </span>
-              <AddProductFileUpload
-                productDetails={productDetail}
-                maxfileCount={4 - (formik?.values?.complianceFile?.length || 0)}
-                fieldInputName={"complianceFileNew"}
-                oldFieldName={"complianceFile"}
-                existingFiles={formik?.values?.complianceFile}
-                setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values}
-                label="Regulatory Compliance"
-                // fileUpload={regulatoryCompliance}
-                tooltip={
-                  "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM,  \n" +
-                  "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                  " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                }
-                error={
-                  ((formik.touched.complianceFile ||
-                    formik.touched.complianceFileNew ||
-                    formik.errors.complianceFile ||
-                    formik.errors.complianceFileNew) &&
-                    formik.errors.complianceFile) ||
-                  formik.errors.complianceFileNew
-                }
-              />
-            </div>
-          </div> */}
-          {/* End the compliances and certificate */}
- 
+
           {/* Start the Compliances and certificate 222222222 */}
           <div className={styles.section}>
             <div className={styles.formHeadSection}>
@@ -3256,172 +3094,161 @@ const EditAddProduct = ({ placeholder }) => {
                 className={styles.formAddButton}
                 onClick={() => {
                   // Add new file and date pair to the array
-                  formik?.values?.cNCFileNDate?.length <
-                    4 &&
-                    formik?.setFieldValue(
-                      "cNCFileNDate",
-                      [
-                        ...formik?.values?.cNCFileNDate,
-                        {
-                          file: [],
-                          date: "",
-                        },
-                      ]
-                    );
+                  formik?.values?.cNCFileNDate?.length < 4 &&
+                    formik?.setFieldValue("cNCFileNDate", [
+                      ...formik?.values?.cNCFileNDate,
+                      {
+                        file: [],
+                        date: "",
+                      },
+                    ]);
                 }}
               >
                 Add More
               </span>
             </div>
- 
-            {formik?.values?.cNCFileNDate?.map(
-              (ele, index) => (
-                <div
-                  key={`certification_${index}`}
-                  className={styles.formSection}
-                >
-                  {/* File Upload Section */}
-                  <div className={styles.productContainer}>
-                    <Field
-                      name={`cNCFileNDate.${index}.file`}
-                    >
-                      {({ field }) => (
-                        <EditComplianceNCertification
-                          fieldInputName={`cNCFileNDate.${index}.file`}
-                          setFieldValue={formik?.setFieldValue}
-                          initialValues={formik?.values}
-                          label="Regulatory Compliance"
-                          tooltip={
-                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
-                            "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                            " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                          }
-                          // Pass the selected file here
-                          selectedFile={
-                            typeof ele?.file == "string"
-                              ? [ele?.file]
-                              : ele?.file
-                          }
-                          preview={ele?.preview}
-                          fileIndex={index}
-                          isEdit={true}
-                        />
-                      )}
-                    </Field>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[
-                        index
-                      ]?.file &&
-                        formik?.errors.cNCFileNDate?.[
-                          index
-                        ]?.file}
-                    </span>
-                  </div>
- 
-                  {/* Date of Expiry Section */}
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                      {/* <span className={styles.labelStamp}>*</span> */}
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      {/* Date Mask Input */}
-                      <InputMask
-                        className={styles.formInput}
-                        type="text"
-                        mask="dd-mm-yyyy"
-                        placeholder="Enter Date of Manufacture"
-                        name={`cNCFileNDate.${index}.date`}
-                        value={ele?.date}
-                        onChange={(e) => {
-                          formik?.handleChange(e);
-                          // Force validation immediately after change
-                          formik?.setFieldTouched(
-                            `cNCFileNDate.${index}.date`,
-                            true,
-                            true
-                          );
-                        }}
-                        onBlur={formik?.handleBlur}
-                        replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                        showMask
-                        separate
+
+            {formik?.values?.cNCFileNDate?.map((ele, index) => (
+              <div
+                key={`certification_${index}`}
+                className={styles.formSection}
+              >
+                {/* File Upload Section */}
+                <div className={styles.productContainer}>
+                  <Field name={`cNCFileNDate.${index}.file`}>
+                    {({ field }) => (
+                      <EditComplianceNCertification
+                        fieldInputName={`cNCFileNDate.${index}.file`}
+                        setFieldValue={formik?.setFieldValue}
+                        initialValues={formik?.values}
+                        label="Regulatory Compliance"
+                        tooltip={
+                          "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
+                          "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                          " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                        }
+                        // Pass the selected file here
+                        selectedFile={
+                          typeof ele?.file == "string" ? [ele?.file] : ele?.file
+                        }
+                        preview={ele?.preview}
+                        fileIndex={index}
+                        isEdit={true}
                       />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="sku-tooltip"
-                        data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
-                    </div>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[
-                        index
-                      ]?.date &&
-                        formik?.errors.cNCFileNDate?.[
-                          index
-                        ]?.date}
-                    </span>
-                  </div>
- 
-                  {/* Remove Section */}
-                  {formik?.values?.cNCFileNDate?.length >
-                    1 && (
-                    <div
-                      className={styles.formCloseSection}
-                      onClick={() => {
-                        // Clear form values before removing the row
-                        formik?.setFieldValue(
-                          `cNCFileNDate.${index}.file`,
-                          []
-                        );
-                        formik?.setFieldValue(
+                    )}
+                  </Field>
+                  <span className={styles.error}>
+                    {formik?.touched.cNCFileNDate?.[index]?.file &&
+                      formik?.errors.cNCFileNDate?.[index]?.file}
+                  </span>
+                </div>
+
+                {/* Date of Expiry Section */}
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Date of Expiry
+                    {/* <span className={styles.labelStamp}>*</span> */}
+                  </label>
+                  <div className={styles.tooltipContainer}>
+                    {/* Date Mask Input */}
+                    {/* <InputMask
+                      className={styles.formInput}
+                      type="text"
+                      mask="dd-mm-yyyy"
+                      placeholder="Enter Date of Expiry"
+                      name={`cNCFileNDate.${index}.date`}
+                      value={ele?.date}
+                      onChange={(e) => {
+                        formik?.handleChange(e);
+                        // Force validation immediately after change
+                        formik?.setFieldTouched(
                           `cNCFileNDate.${index}.date`,
-                          ""
-                        );
-                        formik?.setFieldValue(
-                          `cNCFileNDate.${index}.preview`,
-                          false
-                        );
- 
-                        // Remove the row from the array
-                        const updatedList =
-                          formik?.values?.cNCFileNDate.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        const updatedList2 =
-                          formik?.values?.complianceFileNew.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        formik?.setFieldValue(
-                          "cNCFileNDate",
-                          updatedList
-                        );
-                        formik?.setFieldValue("complianceFile", []);
-                        formik?.setFieldValue(
-                          "complianceFileNew",
-                          updatedList2
+                          true,
+                          true
                         );
                       }}
+                      onBlur={formik?.handleBlur}
+                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                      showMask
+                      separate
+                    /> */}
+
+                    <DatePicker
+                      className={styles.formDate}
+                      clearIcon={null}
+                      format="dd/MM/yyyy"
+                      placeholder="dd/MM/yyyy"
+                      name={`cNCFileNDate.${index}.date`}
+                      value={ele?.date}
+                      minDate={new Date()}
+                      onChange={(e) => {
+                        // formik?.handleChange(e);
+                        // Force validation immediately after change
+                        formik?.setFieldValue(`cNCFileNDate.${index}.date`, e); // This updates Formik's value
+                        formik?.setFieldTouched(
+                          `cNCFileNDate.${index}.date`,
+                          true,
+                          true
+                        );
+                      }}
+                      onBlur={formik?.handleBlur}
+                    />
+                    <span
+                      className={styles.infoTooltip}
+                      data-tooltip-id="sku-tooltip"
+                      data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
                     >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
-                      </span>
-                    </div>
-                  )}
+                      <img
+                        src={Information}
+                        className={styles.iconTooltip}
+                        alt="information"
+                      />
+                    </span>
+                    {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
+                  </div>
+                  <span className={styles.error}>
+                    {formik?.touched.cNCFileNDate?.[index]?.date &&
+                      formik?.errors.cNCFileNDate?.[index]?.date}
+                  </span>
                 </div>
-              )
-            )}
+
+                {/* Remove Section */}
+                {formik?.values?.cNCFileNDate?.length > 1 && (
+                  <div
+                    className={styles.formCloseSection}
+                    onClick={() => {
+                      // Clear form values before removing the row
+                      formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
+                      formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
+                      formik?.setFieldValue(
+                        `cNCFileNDate.${index}.preview`,
+                        false
+                      );
+
+                      // Remove the row from the array
+                      const updatedList = formik?.values?.cNCFileNDate.filter(
+                        (_, elindex) => elindex !== index
+                      );
+                      const updatedList2 =
+                        formik?.values?.complianceFileNew.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                      formik?.setFieldValue("cNCFileNDate", updatedList);
+                      formik?.setFieldValue("complianceFile", []);
+                      formik?.setFieldValue("complianceFileNew", updatedList2);
+                    }}
+                  >
+                    <span className={styles.formclose}>
+                      <CloseIcon className={styles.icon} />
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
- 
+
           {/* End the compliances and certificate 222222222 */}
- 
+
           {/* Start the Medical Equipment And Devices */}
           {formik?.values?.category?.toLowerCase() ===
             "MedicalEquipmentAndDevices"?.toLowerCase() && (
@@ -3447,7 +3274,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <Tooltip content="Adheres to HL7/FHIR standards for healthcare data exchange."></Tooltip>
                   </div>
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Laser Type</label>
                   <div className={styles.tooltipContainer}>
@@ -3488,7 +3315,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <span className={styles.error}></span>
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Spot Size</label>
                   <div className={styles.tooltipContainer}>
@@ -3565,16 +3392,24 @@ const EditAddProduct = ({ placeholder }) => {
                     setFieldValue={formik.setFieldValue}
                     initialValues={formik?.values}
                     label=""
-                    // fileUpload={performanceUpload}
                     tooltip={false}
                     showLabel={false}
+                    acceptTypes={{
+                      "image/png": [],
+                      "image/jpeg": [],
+                      "image/jpg": [],
+                      "application/pdf": [],
+                    }}
                     error={
-                      ((formik.touched.performanceTestingReportFile ||
+                      (formik.touched.performanceTestingReportFile ||
                         formik.touched.performanceTestingReportFileNew ||
                         formik.errors.performanceTestingReportFile ||
-                        formik.errors.performanceTestingReportFileNew) &&
-                        formik.errors.performanceTestingReportFile) ||
-                      formik.errors.performanceTestingReportFileNew
+                        formik.errors.performanceTestingReportFileNew) && (
+                        <div>
+                          {formik.errors.performanceTestingReportFile ||
+                            formik.errors.performanceTestingReportFileNew}
+                        </div>
+                      )
                     }
                   />
                 </div>
@@ -3629,7 +3464,7 @@ const EditAddProduct = ({ placeholder }) => {
             </div>
           )}
           {/* End the MedicalEquipmentAndDevices */}
- 
+
           {/* Start the Pharmaceuticals */}
           {formik?.values?.category?.toLowerCase() ===
             "Pharmaceuticals"?.toLowerCase() && (
@@ -3665,7 +3500,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -3798,7 +3633,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     {/* <span className={styles.error}></span> */}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -3869,7 +3704,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Controlled Substance
@@ -3900,7 +3735,7 @@ const EditAddProduct = ({ placeholder }) => {
                           Whether the drug is a controlled <br /> substance
                         </label>
                       </span>
- 
+
                       <Tooltip
                         content=" Whether the drug is a controlled substance (e.g., some
                           OTC drugs are restricted,
@@ -3911,7 +3746,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                 </div>
- 
+
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Storage & Handling</span>
@@ -3948,7 +3783,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -4014,9 +3849,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Pharmaceuticals */}
- 
+
           {/* Start the Skin, Hair and Cosmetic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "SkinHairCosmeticSupplies"?.toLowerCase() && (
@@ -4187,7 +4022,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Fragrance</label>
                     <div className={styles.tooltipContainer}>
@@ -4243,7 +4078,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Purpose<span className={styles?.labelStamp}>*</span>
@@ -4270,7 +4105,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -4342,7 +4177,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -4468,7 +4303,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e. <br />, no
                           animal-derived ingredients).
@@ -4503,7 +4338,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
@@ -4556,7 +4391,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}></span>
                   </div>
                 </div>
- 
+
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
@@ -4629,7 +4464,7 @@ const EditAddProduct = ({ placeholder }) => {
                           </>
                         )}
                       </div>
- 
+
                       {/* Pediatrician Recommended */}
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
@@ -4674,6 +4509,10 @@ const EditAddProduct = ({ placeholder }) => {
                                   ?.length || 0)
                               }
                               fieldInputName={"pediatricianRecommendedFileNew"}
+                              oldFieldName={"pediatricianRecommendedFile"}
+                              existingFiles={
+                                formik?.values?.pediatricianRecommendedFile
+                              }
                               setFieldValue={formik.setFieldValue}
                               initialValues={formik?.values}
                               label=""
@@ -4795,9 +4634,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Skin, Hair and Cosmetic Supplies */}
- 
+
           {/* Start the Vital Health and Wellness */}
           {formik?.values?.category?.toLowerCase() ===
             "VitalHealthAndWellness"?.toLowerCase() && (
@@ -4919,7 +4758,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Composition/Ingredients
@@ -4971,7 +4810,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -5003,7 +4842,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Administration Route
@@ -5042,7 +4881,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Drug Class<span className={styles?.labelStamp}>*</span>
@@ -5125,7 +4964,7 @@ const EditAddProduct = ({ placeholder }) => {
                             handleCheckboxChange("controlledSubstance")
                           }
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="controlledSubstance"
@@ -5141,7 +4980,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Vegan</label>
                     <div className={styles.tooltipContainer}>
@@ -5159,7 +4998,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("vegan", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="vegan">
                           Whether the product is vegan (i.e.
                           <br />, no animal-derived ingredients).
@@ -5194,7 +5033,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label
                           className={styles.checkText}
                           htmlFor="crueltyFree"
@@ -5244,7 +5083,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -5311,7 +5150,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Vital Health and Wellness */}
- 
+
           {/* Start the Medical Consumables and Disposables */}
           {formik?.values?.category?.toLowerCase() ===
             "MedicalConsumablesAndDisposables"?.toLowerCase() && (
@@ -5381,7 +5220,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -5432,7 +5271,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Shape</label>
                     <div className={styles.tooltipContainer}>
@@ -5457,7 +5296,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -5505,7 +5344,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="powdered">
                           Whether the gloves are powdered <br /> or powder-free.
                         </label>
@@ -5513,7 +5352,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Whether the gloves are powdered or powder-free."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -5531,7 +5370,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -5544,7 +5383,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.innerProductContainer}>
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Storage & Handling</span>
- 
+
                     <div className={styles.productInnerContainer}>
                       <label className={styles.formLabel}>
                         Shelf Life/Expiry
@@ -5578,7 +5417,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -5626,7 +5465,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -5641,7 +5480,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -5749,7 +5588,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="fluidResistance"
@@ -5769,7 +5608,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Medical Consumables and Disposables */}
- 
+
           {/* Start the Laboratory Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "LaboratorySupplies"?.toLowerCase() && (
@@ -5796,7 +5635,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Hazard Classification
@@ -5835,7 +5674,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Shape of the needle (e.g., 1/2 circle, 3/8 circle)."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Coating</label>
                     <div className={styles.tooltipContainer}>
@@ -5928,7 +5767,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -6001,7 +5840,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Magnification capabilities (e.g., 40x to 1000x)."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Objective Lenses</label>
                     <div className={styles.tooltipContainer}>
@@ -6068,7 +5907,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Laboratory Supplies */}
- 
+
           {/* Start the Diagnostic and Monitoring Devices */}
           {formik?.values?.category?.toLowerCase() ===
             "DiagnosticAndMonitoringDevices"?.toLowerCase() && (
@@ -6108,7 +5947,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Flow Rate</label>
                     <div className={styles.tooltipContainer}>
@@ -6218,7 +6057,7 @@ const EditAddProduct = ({ placeholder }) => {
                     />
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Maintenance Notes
@@ -6353,16 +6192,24 @@ const EditAddProduct = ({ placeholder }) => {
                       setFieldValue={formik.setFieldValue}
                       initialValues={formik?.values}
                       label=""
-                      // fileUpload={performanceUpload}
                       tooltip={false}
                       showLabel={false}
+                      acceptTypes={{
+                        "image/png": [],
+                        "image/jpeg": [],
+                        "image/jpg": [],
+                        "application/pdf": [],
+                      }}
                       error={
-                        formik.touched.performanceTestingReportFileNew ||
-                        formik.touched.performanceTestingReportFile ||
-                        ((formik.errors.performanceTestingReportFileNew ||
-                          formik.errors.performanceTestingReportFile) &&
-                          formik.errors.performanceTestingReportFileNew) ||
-                        formik.errors.performanceTestingReportFile
+                        (formik.touched.performanceTestingReportFile ||
+                          formik.touched.performanceTestingReportFileNew ||
+                          formik.errors.performanceTestingReportFile ||
+                          formik.errors.performanceTestingReportFileNew) && (
+                          <div>
+                            {formik.errors.performanceTestingReportFile ||
+                              formik.errors.performanceTestingReportFileNew}
+                          </div>
+                        )
                       }
                     />
                   </div>
@@ -6371,7 +6218,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Diagnostic and Monitoring Devices */}
- 
+
           {/* Start the Hospital and Clinic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "HospitalAndClinicSupplies"?.toLowerCase() && (
@@ -6423,7 +6270,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -6448,7 +6295,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Chemical Resistance
@@ -6475,7 +6322,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Powdered</label>
                     <div className={styles.tooltipContainer}>
@@ -6499,7 +6346,7 @@ const EditAddProduct = ({ placeholder }) => {
                             );
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="powdered">
                           Whether the gloves are powdered <br />
                           or powder-free.
@@ -6509,7 +6356,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                     <span className={styles.error}></span>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Texture</label>
                     <div className={styles.tooltipContainer}>
@@ -6527,7 +6374,7 @@ const EditAddProduct = ({ placeholder }) => {
                             formik.setFieldValue("texture", e?.target?.checked);
                           }}
                         />
- 
+
                         <label className={styles.checkText} htmlFor="texture">
                           Whether the item have texture <br /> or smooth
                         </label>
@@ -6573,7 +6420,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>
                       Monitoring and Adherence
@@ -6598,7 +6445,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 );
                               }}
                             />
- 
+
                             <label
                               className={styles.checkText}
                               htmlFor="sterilized"
@@ -6614,7 +6461,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
- 
+
                 <span className={styles.formHead}>Technical Details</span>
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
@@ -6636,7 +6483,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Adhesive or non-adhesive."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Absorbency</label>
                     <div className={styles.tooltipContainer}>
@@ -6656,7 +6503,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Whether the suture is absorbable or non-absorbable."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Elasticity</label>
                     <div className={styles.tooltipContainer}>
@@ -6717,7 +6564,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Hospital and Clinic Supplies */}
- 
+
           {/* Start the Orthopedic Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "OrthopedicSupplies"?.toLowerCase() && (
@@ -6804,7 +6651,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content=" Intended use type (e.g., oily, dry, curly, fine, thick, straight, medical, industrial etc)"></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Target Condition
@@ -6896,7 +6743,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -6975,7 +6822,7 @@ const EditAddProduct = ({ placeholder }) => {
                           <Tooltip content="Breathability rating (e.g., air flow resistance, Inhalation/Exhalation rate)"></Tooltip>
                         </div>
                       </div>
- 
+
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Color Options
@@ -7012,7 +6859,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Orthopedic Supplies */}
- 
+
           {/* Start the Dental Products */}
           {formik?.values?.category?.toLowerCase() ===
             "DentalProducts"?.toLowerCase() && (
@@ -7044,7 +6891,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Material used (e.g., Latex, Nitrile, Vinyl, Rubber, stainless steel, titanium etc.)."></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Purpose</label>
                     <div className={styles.tooltipContainer}>
@@ -7142,13 +6989,13 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>Usage Rate</label>
- 
+
                         <input
                           className={styles.formInput}
                           type="text"
@@ -7167,14 +7014,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Maintenance Notes
                         </label>
- 
+
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Maintenance Notes"
@@ -7192,14 +7039,14 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                       <div className={styles.productInnerContainer}>
                         <label className={styles.formLabel}>
                           Compatible Equipment
                         </label>
- 
+
                         <textarea
                           className={styles.formInput}
                           placeholder="Enter Compatible Equipment"
@@ -7217,7 +7064,7 @@ const EditAddProduct = ({ placeholder }) => {
                           }
                           onBlur={formik?.handleBlur}
                         />
- 
+
                         <span className={styles.error}></span>
                       </div>
                     </div>
@@ -7227,7 +7074,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Dental Products */}
- 
+
           {/* Start the Eye Care Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "EyeCareSupplies"?.toLowerCase() && (
@@ -7237,7 +7084,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Frame</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={frameOptions}
@@ -7253,10 +7100,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={lensOptions}
@@ -7274,7 +7121,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Material</label>
- 
+
                     <Select
                       className={styles.formSelect}
                       options={lensmaterialOptions}
@@ -7293,7 +7140,7 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
- 
+
                     <span className={styles.error}></span>
                   </div>
                 </div>
@@ -7301,7 +7148,7 @@ const EditAddProduct = ({ placeholder }) => {
                 <div className={styles.formSection}>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Diameter</label>
- 
+
                     <input
                       className={styles.formInput}
                       type="text"
@@ -7315,12 +7162,12 @@ const EditAddProduct = ({ placeholder }) => {
                       }
                       onBlur={formik?.handleBlur}
                     />
- 
+
                     <span className={styles.error}></span>
                   </div>
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Lens Power</label>
- 
+
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Lens Power"
@@ -7334,10 +7181,10 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Base Curve</label>
- 
+
                     <textarea
                       className={styles.formInput}
                       placeholder="Enter Base Curve"
@@ -7351,7 +7198,7 @@ const EditAddProduct = ({ placeholder }) => {
                       onBlur={formik?.handleBlur}
                     />
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Color Options</label>
                     <div className={styles.tooltipContainer}>
@@ -7381,9 +7228,9 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Eye Care Supplies */}
- 
+
           {/* Start the Home Healthcare Products */}
- 
+
           {formik?.values?.category?.toLowerCase() ===
             "HomeHealthcareProducts"?.toLowerCase() && (
             <>
@@ -7408,7 +7255,7 @@ const EditAddProduct = ({ placeholder }) => {
                       <Tooltip content="Adjustable flow rate range (e.g., 1-5 LPM, 1-10 LPM)"></Tooltip>
                     </div>
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -7475,7 +7322,7 @@ const EditAddProduct = ({ placeholder }) => {
                       )}
                     </div>
                   </div>
- 
+
                   <div className={styles.innerSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -7732,16 +7579,25 @@ const EditAddProduct = ({ placeholder }) => {
                           setFieldValue={formik.setFieldValue}
                           initialValues={formik?.values}
                           label=""
-                          // fileUpload={performanceUpload}
                           tooltip={false}
                           showLabel={false}
+                          acceptTypes={{
+                            "image/png": [],
+                            "image/jpeg": [],
+                            "image/jpg": [],
+                            "application/pdf": [],
+                          }}
                           error={
-                            formik.touched.performanceTestingReportFileNew ||
-                            formik.touched.performanceTestingReportFile ||
-                            ((formik.errors.performanceTestingReportFileNew ||
-                              formik.errors.performanceTestingReportFile) &&
-                              formik.errors.performanceTestingReportFileNew) ||
-                            formik.errors.performanceTestingReportFile
+                            (formik.touched.performanceTestingReportFile ||
+                              formik.touched.performanceTestingReportFileNew ||
+                              formik.errors.performanceTestingReportFile ||
+                              formik.errors
+                                .performanceTestingReportFileNew) && (
+                              <div>
+                                {formik.errors.performanceTestingReportFile ||
+                                  formik.errors.performanceTestingReportFileNew}
+                              </div>
+                            )
                           }
                         />
                       </div>
@@ -7752,7 +7608,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Home Healthcare Products */}
- 
+
           {/* Start the Alternative Medicines */}
           {formik?.values?.category?.toLowerCase() ===
             "AlternativeMedicines"?.toLowerCase() && (
@@ -7910,7 +7766,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Alternative Medicines */}
- 
+
           {/* Start the Emergency and First Aid Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "EmergencyAndFirstAidSupplies"?.toLowerCase() && (
@@ -7950,7 +7806,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Product Longevity
@@ -8051,9 +7907,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Emergency and First Aid Supplies */}
- 
+
           {/* Start the Disinfection and Hygiene Supplies */}
           {formik?.values?.category?.toLowerCase() ===
             "disinfectionAndHygieneSuppliesSchema"?.toLowerCase() && (
@@ -8093,7 +7949,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>Concentration</label>
                     <div className={styles.tooltipContainer}>
@@ -8208,7 +8064,7 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Disinfection and Hygiene Supplies */}
- 
+
           {/* Start the Nutrition and Dietary Products */}
           {formik?.values?.category?.toLowerCase() ===
             "NutritionAndDietaryProducts"?.toLowerCase() && (
@@ -8283,7 +8139,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Amino Acid Profile
@@ -8347,7 +8203,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </span>
                     )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Health Benefit
@@ -8443,7 +8299,7 @@ const EditAddProduct = ({ placeholder }) => {
                         </span>
                       )}
                   </div>
- 
+
                   <div className={styles.productContainer}>
                     <label className={styles.formLabel}>
                       Additives & Sweeteners
@@ -8547,9 +8403,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </>
           )}
- 
+
           {/* End the Nutrition and Dietary Products */}
- 
+
           {/* Start the Healthcare IT Solutions */}
           {formik?.values?.category?.toLowerCase() ===
             "HealthcareITSolutions"?.toLowerCase() && (
@@ -8692,7 +8548,7 @@ const EditAddProduct = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   <div className={styles.innerMonitorSection}>
                     <span className={styles.formHead}>Technical Details</span>
                     <div className={styles.formInnerSection}>
@@ -8828,12 +8684,12 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Healthcare IT Solutions */}
- 
+
           {/* Start the Health & Safety */}
           <div className={styles.section}>
             <span className={styles.formHead}>Health & Safety</span>
             <div className={styles.formSection}>
-              <AddProductFileUpload
+              {/* <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={
                   4 - (formik?.values?.safetyDatasheet?.length || 0)
@@ -8842,7 +8698,7 @@ const EditAddProduct = ({ placeholder }) => {
                 oldFieldName={"safetyDatasheet"}
                 existingFiles={formik?.values?.safetyDatasheet}
                 setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values?.safetyDatasheet}
+                initialValues={formik?.values}
                 label="Safety Datasheet"
                 // fileUpload={safetyDatasheetUpload}
                 tooltip="Specific safety information, instructions or precautions related to product"
@@ -8854,8 +8710,38 @@ const EditAddProduct = ({ placeholder }) => {
                     formik.errors.safetyDatasheetNew) ||
                   formik.errors.safetyDatasheet
                 }
+              /> */}
+              <AddProductFileUpload
+                productDetails={productDetail}
+                maxfileCount={
+                  4 - (formik?.values?.safetyDatasheet?.length || 0)
+                }
+                fieldInputName={"safetyDatasheetNew"}
+                oldFieldName={"safetyDatasheet"}
+                existingFiles={formik?.values?.safetyDatasheet}
+                setFieldValue={formik.setFieldValue}
+                initialValues={formik?.values}
+                label="Safety Datasheet"
+                tooltip="Specific safety information, instructions or precautions related to product"
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
+                error={
+                  (formik.touched.safetyDatasheet ||
+                    formik.touched.safetyDatasheetNew ||
+                    formik.errors.safetyDatasheet ||
+                    formik.errors.safetyDatasheetNew) && (
+                    <div>
+                      {formik.errors.safetyDatasheet ||
+                        formik.errors.safetyDatasheetNew}
+                    </div>
+                  )
+                }
               />
- 
+
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={
@@ -8865,20 +8751,28 @@ const EditAddProduct = ({ placeholder }) => {
                 oldFieldName={"healthHazardRating"}
                 existingFiles={formik?.values?.healthHazardRating}
                 setFieldValue={formik.setFieldValue}
-                initialValues={formik?.values?.healthHazardRating || []}
+                initialValues={formik?.values}
                 label="Health Hazard Rating"
-                // fileUpload={healthHazardUpload}
                 tooltip="Health Hazard Rating Document"
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
                 error={
-                  formik.touched.healthHazardRatingNew ||
-                  formik.touched.healthHazardRating ||
-                  ((formik.errors.healthHazardRatingNew ||
-                    formik.errors.healthHazardRating) &&
-                    formik.errors.healthHazardRatingNew) ||
-                  formik.errors.healthHazardRating
+                  (formik.touched.healthHazardRating ||
+                    formik.touched.healthHazardRatingNew ||
+                    formik.errors.healthHazardRating ||
+                    formik.errors.healthHazardRatingNew) && (
+                    <div>
+                      {formik.errors.healthHazardRating ||
+                        formik.errors.healthHazardRatingNew}
+                    </div>
+                  )
                 }
               />
- 
+
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={
@@ -8890,22 +8784,30 @@ const EditAddProduct = ({ placeholder }) => {
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values}
                 label="Environmental Impact"
-                // fileUpload={environmentalImpactUpload}
                 tooltip="Environment Impact Rating Document"
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
                 error={
-                  formik.touched.environmentalImpactNew ||
-                  formik.touched.environmentalImpact ||
-                  ((formik.errors.environmentalImpactNew ||
-                    formik.errors.environmentalImpact) &&
-                    formik.errors.environmentalImpactNew) ||
-                  formik.errors.environmentalImpact
+                  (formik.touched.environmentalImpact ||
+                    formik.touched.environmentalImpactNew ||
+                    formik.errors.environmentalImpact ||
+                    formik.errors.environmentalImpactNew) && (
+                    <div>
+                      {formik.errors.environmentalImpact ||
+                        formik.errors.environmentalImpactNew}
+                    </div>
+                  )
                 }
               />
             </div>
           </div>
- 
+
           {/* End the Health & Safety */}
- 
+
           {/* Start the Additional Information */}
           <div className={styles.additionalSection}>
             <span className={styles.formHead}>Additional Information</span>
@@ -8926,7 +8828,7 @@ const EditAddProduct = ({ placeholder }) => {
                   onBlur={formik?.handleBlur}
                 />
               </div>
- 
+
               <AddProductFileUpload
                 productDetails={productDetail}
                 maxfileCount={4 - (formik?.values?.guidelinesFile?.length || 0)}
@@ -8936,15 +8838,23 @@ const EditAddProduct = ({ placeholder }) => {
                 setFieldValue={formik.setFieldValue}
                 initialValues={formik?.values}
                 label="User Guidelines"
-                // fileUpload={userGuidelinesUpload}
                 tooltip="Specific information, instructions related to product."
+                acceptTypes={{
+                  "image/png": [],
+                  "image/jpeg": [],
+                  "image/jpg": [],
+                  "application/pdf": [],
+                }}
                 error={
-                  formik.touched.guidelinesFileNew ||
-                  formik.touched.guidelinesFile ||
-                  ((formik.errors.guidelinesFileNew ||
-                    formik.errors.guidelinesFile) &&
-                    formik.errors.guidelinesFileNew) ||
-                  formik.errors.guidelinesFile
+                  (formik.touched.guidelinesFile ||
+                    formik.touched.guidelinesFileNew ||
+                    formik.errors.guidelinesFile ||
+                    formik.errors.guidelinesFileNew) && (
+                    <div>
+                      {formik.errors.guidelinesFile ||
+                        formik.errors.guidelinesFileNew}
+                    </div>
+                  )
                 }
               />
               {/* )} */}
@@ -8973,9 +8883,9 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
- 
+
           {/* End the Additional Information */}
- 
+
           {/* Start button section */}
           <div className={styles.buttonContainer}>
             <button className={styles.buttonCancel}>Cancel</button>
@@ -8983,7 +8893,7 @@ const EditAddProduct = ({ placeholder }) => {
               Submit
             </button>
           </div>
- 
+
           {/* End button section */}
         </form>
         {/* //   </Row> */}
@@ -8991,5 +8901,5 @@ const EditAddProduct = ({ placeholder }) => {
     </div>
   );
 };
- 
+
 export default EditAddProduct;

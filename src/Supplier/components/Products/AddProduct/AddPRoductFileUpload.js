@@ -25,7 +25,8 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, maxFiles); // Limit to maxFiles
         if (acceptedFiles?.length + prev.length > maxFiles) {
           alert(
-            `You can only upload a maximum of ${maxFiles} ${maxFiles === 1 ? "file" : "files"
+            `You can only upload a maximum of ${maxFiles} ${
+              maxFiles === 1 ? "file" : "files"
             }.`
           );
           return prev; // Keep previous files if limit exceeded
@@ -143,7 +144,9 @@ const AddProductFileUpload = ({
       {showLabel && (
         <label className={styles.formLabel}>
           {label}
-          {label === "Purchase Invoice" && <span className={styles.labelStamp}>*</span>}
+          {label === "Purchase Invoice" && (
+            <span className={styles.labelStamp}>*</span>
+          )}
         </label>
       )}
       <div className={styles.tooltipContainer}>
@@ -152,28 +155,27 @@ const AddProductFileUpload = ({
           <FiUploadCloud size={20} className={styles.uploadIcon} />
           <p className={styles.uploadText}>
             {fileUpload?.isDragActive
-              ? `Drop the ${isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
-              } here...`
-              : `Click here to Upload ${isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
-              }`}
+              ? `Drop the ${
+                  isImageOnly ? "image" : isPdfOnly ? "PDF" : "files"
+                } here...`
+              : `Click here to Upload ${
+                  isImageOnly ? "Image" : isPdfOnly ? "PDF" : ""
+                }`}
           </p>
         </div>
         {tooltip && (
           <>
-            <Tooltip
-              content={tooltipContent}
-              className={styles.tooltipSec}
-            />
+            <Tooltip content={tooltipContent} className={styles.tooltipSec} />
           </>
         )}
       </div>
       {error && <span className={styles.error}>{error}</span>}
-      {fileUpload?.filesMerged?.length > 0 && (
+      {/* {fileUpload?.filesMerged?.length > 0 && (
         <div className={styles.previewContainer}>
           {fileUpload?.filesMerged?.map((file, index) => {
             // Determine the file extension based on whether it's a File object or string
             const fileExtension =
-              typeof file === "string"
+              typeof file == "string"
                 ? file.split(".").pop().toLowerCase()
                 : file?.name.split(".").pop().toLowerCase();
 
@@ -191,7 +193,7 @@ const AddProductFileUpload = ({
                 {isImage ? (
                   <img
                     src={
-                      typeof file === "string"
+                      typeof file == "string"
                         ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
                         : URL.createObjectURL(file)
                     }
@@ -202,7 +204,7 @@ const AddProductFileUpload = ({
                   <FiFileText size={25} className={styles.fileIcon} />
                 ) : null}
                 <p className={styles.fileName}>
-                  {typeof file === "string" ? file : file?.name}
+                  {typeof file == "string" ? file : file?.name}
                 </p>
                 <button
                   type="button"
@@ -212,6 +214,56 @@ const AddProductFileUpload = ({
                       index,
                       event,
                       typeof file == "string" ? "old" : "new"
+                    )
+                  }
+                  title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}
+                >
+                  <FiX size={15} className={styles.removeIcon} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )} */}
+      {fileUpload?.filesMerged?.length > 0 && (
+        <div className={styles.previewContainer}>
+          {fileUpload?.filesMerged?.map((file, index) => {
+            // Check if file is a string or an object
+            const isString = typeof file == "string";
+            const fileName = isString ? file : file?.name;
+            const fileExtension = isString
+              ? file.split(".").pop().toLowerCase()
+              : fileName?.split(".").pop().toLowerCase();
+
+            const isImage = ["jpeg", "png", "jpg", "gif", "bmp"].includes(
+              fileExtension
+            );
+            const isPdf = fileExtension === "pdf";
+
+            return (
+              <div key={index} className={styles.filePreview}>
+                {isImage ? (
+                  <img
+                    src={
+                      isString
+                        ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${file}`
+                        : URL.createObjectURL(file)
+                    }
+                    alt={fileName}
+                    className={styles.previewImage}
+                  />
+                ) : isPdf ? (
+                  <FiFileText size={25} className={styles.fileIcon} />
+                ) : null}
+                <p className={styles.fileName}>{fileName}</p>
+                <button
+                  type="button"
+                  className={styles.removeButton}
+                  onClick={(event) =>
+                    fileUpload?.removeFile(
+                      index,
+                      event,
+                      isString ? "old" : "new"
                     )
                   }
                   title={`Remove ${isImage ? "image" : isPdf ? "PDF" : "file"}`}

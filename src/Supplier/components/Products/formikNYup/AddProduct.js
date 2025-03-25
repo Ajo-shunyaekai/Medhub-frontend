@@ -33,6 +33,7 @@ const productValidationSchema = Yup.object({
     .positive()
     .integer(),
   volumn: Yup.string().required("Product Size/Volumn is required."),
+  dimension: Yup.string().required("Product Dimension is required."),
   weight: Yup.number().required("Product Weight is required.").positive(),
   unit: Yup.string().required("Product Weight Unit is required."),
   packageType: Yup.string().required("Product Packaging Type is required."),
