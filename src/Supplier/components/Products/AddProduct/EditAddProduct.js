@@ -71,6 +71,7 @@ const EditAddProduct = ({ placeholder }) => {
       brand: "",
       quantity: "",
       volumn: "",
+      volumeUnit: "",
       dimension: "",
       weight: "",
       unit: "",
@@ -1492,6 +1493,21 @@ const EditAddProduct = ({ placeholder }) => {
     { value: "Carat (ct)", label: "Carat (ct)" },
     { value: "Grain (gr)", label: "Grain (gr)" },
   ];
+
+  const volumeUnits = [
+    { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
+    { value: "Gram (g)", label: "Gram (g)" },
+    { value: "Milligram (mg)", label: "Milligram (mg)" },
+    { value: "Microgram (µg)", label: "Microgram (µg)" },
+    { value: "Tonne (t)", label: "Tonne (t)" },
+    { value: "Pound (lb)", label: "Pound (lb)" },
+    { value: "Ounce (oz)", label: "Ounce (oz)" },
+    { value: "Stone (st)", label: "Stone (st)" },
+    { value: "Ton (long ton)", label: "Ton (long ton)" },
+    { value: "Short ton", label: "Short ton" },
+    { value: "Carat (ct)", label: "Carat (ct)" },
+    { value: "Grain (gr)", label: "Grain (gr)" },
+  ];
   const packagingOptions = [
     { value: "Bottle", label: "Bottle" },
     { value: "Tube", label: "Tube" },
@@ -1628,6 +1644,7 @@ const EditAddProduct = ({ placeholder }) => {
         form: general?.form || "",
         quantity: general?.quantity || "", // Quantity should be from general
         volumn: general?.volumn || "",
+        volumeUnit: general?.volumeUnit || "",
         dimension: general?.dimension || "",
         weight: general?.weight || "",
         unit: general?.unit || "",
@@ -2249,16 +2266,16 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
 
-              <div className={styles.productContainer}>
+              {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
-                  Product Size/Volumn
+                  Product Volume
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <div className={styles.tooltipContainer}>
                   <input
                     className={styles.formInput}
                     type="text"
-                    placeholder="Enter Size/Volume"
+                    placeholder="Enter Volume"
                     // autoComplete="off"
                     name="volumn"
                     value={formik?.values?.volumn}
@@ -2280,7 +2297,61 @@ const EditAddProduct = ({ placeholder }) => {
                 {formik.touched.volumn && formik.errors.volumn && (
                   <span className={styles.error}>{formik.errors.volumn}</span>
                 )}
-              </div>
+              </div> */}
+
+               <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Product Volume
+                  </label>
+                  <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Volume"
+                      // autoComplete="off"
+                      name="volumn"
+                      value={formik?.values?.volumn}
+                      // onChange={handleChange}
+                      onChange={(e) =>
+                        handleInputChange(e, formik.setFieldValue, 5, "all", [
+                          "volumn",
+                        ])
+                      }
+                      onBlur={formik?.handleBlur}
+                    />
+                    <Tooltip
+                      content=" The volume of the product (e.g., 50 mL, 100 g,
+                      drip chamber ) (e.g., macro, micro),
+                     Length of the needle (e.g., 19 mm, 26 mm ) tape
+                      width, adhesive strip size etc."
+                    ></Tooltip>
+                  </div>
+                    </div>
+                    <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={volumeUnits}
+                        placeholder="Select Units"
+                        onBlur={formik?.handleBlur}
+                        value={volumeUnits.find(
+                          (option) => option?.value === formik?.values?.volumeUnit
+                        )}
+                        onChange={(selectedOption) => {
+                          formik?.setFieldValue("volumeUnit", selectedOption?.value);
+                        }}
+                      />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                    </div>
+
+                </div>
+                  {/* {touched.volumn && errors.volumn && (
+                    <span className={styles.error}>{errors.volumn}</span>
+                  )} */}
+                </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Dimension
@@ -2537,13 +2608,13 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
-                  About Manufacturer
+                  Short Description
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <textarea
                   className={styles.formInput}
                   type="text"
-                  placeholder="Enter About Manufacturer"
+                  placeholder="Enter Short Description"
                   value={formik?.values?.aboutManufacturer}
                   name="aboutManufacturer"
                   onBlur={formik?.handleBlur}
@@ -2657,6 +2728,8 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
+
+              
               <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Storage & Handling</span>
                 <div className={styles.compliancesContainer}>
@@ -2681,590 +2754,6 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
             </div>
           </div>
-
-          {/* Start the Inventory */}
-          <div className={styles.section}>
-            <span className={styles.formHead}>Inventory</span>
-            <div className={styles.formSection}>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  SKU<span className={styles?.labelStamp}>*</span>
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter SKU"
-                    // autoComplete="off"
-                    name="sku"
-                    value={formik?.values?.sku}
-                    // onChange={formik?.handleChange}
-                    onChange={(e) =>
-                      handleInputChange(
-                        e,
-                        formik.setFieldValue,
-                        20,
-                        "all",
-                        ["sku"],
-                        "-"
-                      )
-                    }
-                    onBlur={formik?.handleBlur}
-                  />
-                  <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
-                </div>
-                {formik.touched.sku && formik.errors.sku && (
-                  <span className={styles.error}>{formik.errors.sku}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Date of Manufacture
-                  {/* <span className={styles?.labelStamp}>*</span> */}
-                </label>
-                <div className={styles.tooltipContainer}>
-                  {/* <InputMask
-                    className={styles.formInput}
-                    type="text"
-                    mask="dd-mm-yyyy"
-                    placeholder="Enter Date of Manufacture"
-                    name="date"
-                    value={formik?.values?.date}
-                    onChange={formik?.handleChange}
-                    replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                    showMask
-                    separate
-                  /> */}
-
-                  <DatePicker
-                    className={styles.formDate}
-                    clearIcon={null}
-                    format="dd/MM/yyyy"
-                    placeholder="dd/MM/yyyy"
-                    name="date"
-                    maxDate={new Date()}
-                    value={formik?.values?.date}
-                    onChange={(date) => {
-                      formik.setFieldValue("date", date); // This updates Formik's value
-                    }}
-                    onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
-                  />
-                  <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
-                </div>
-                {formik.touched.date && formik.errors.date && (
-                  <span className={styles.error}>{formik.errors.date}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Stock<span className={styles?.labelStamp}>*</span>
-                </label>
-                <div className={styles.tooltipContainer}>
-                  <Select
-                    className={styles.formSelect}
-                    options={stockOptions}
-                    placeholder="Select Stock"
-                    name="stock"
-                    // Ensure that the value reflects the value from formik or the productDetail state
-                    value={stockOptions.find(
-                      (option) => option?.value === formik?.values?.stock
-                    )}
-                    onBlur={formik?.handleBlur}
-                    onChange={(selectedOption) =>
-                      formik.setFieldValue("stock", selectedOption?.value)
-                    }
-                  />
-                  <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
-                </div>
-                {formik.touched.stock && formik.errors.stock && (
-                  <span className={styles.error}>{formik.errors.stock}</span>
-                )}
-              </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Stocked in Country
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <MultiSelectDropdown
-                  options={countries}
-                  placeholderButtonLabel="Select Countries"
-                  name="countries"
-                  // value={formik?.values?.countryAvailable} // Bind Formik's state
-                  value={formik.values?.countries.map((country) => ({
-                    label: country,
-                    value: country,
-                  }))}
-                  onChange={(selectedOptions) => {
-                    // Ensure we map selected options correctly
-                    const selectedValues = selectedOptions
-                      ? selectedOptions.map((option) => option?.label)
-                      : [];
-                    setInventoryStockedCountries(
-                      selectedValues?.map((option) => ({
-                        label: option,
-                        value: option,
-                      })) || []
-                    );
-                    formik.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
-                    if (selectedValues?.length == 0) {
-                      setStockedInDetails([
-                        {
-                          country: "",
-                          quantity: "",
-                          type: "Box",
-                          placeholder: "Enter Box Quantity",
-                        },
-                      ]);
-                    }
-                  }}
-                />
-                {formik.touched.countries && formik.errors.countries && (
-                  <span className={styles.error}>
-                    {formik.errors.countries}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.formStockContainer}>
-              <div className={styles.formHeadSection}>
-                <span className={styles.formHead}>Stocked In Details</span>
-                <span
-                  className={styles.formAddButton}
-                  onClick={() =>
-                    (formik?.values?.stockedInDetails?.length || 0) <
-                      (formik?.values?.countries?.length || 0) &&
-                    formik.setFieldValue("stockedInDetails", [
-                      ...formik?.values?.stockedInDetails,
-                      {
-                        country: "",
-                        quantity: "",
-                        type: "Box",
-                        placeholder: "Enter Box Quantity",
-                      },
-                    ])
-                  }
-                >
-                  Add More
-                </span>
-              </div>
-
-              {formik?.values?.stockedInDetails?.map((stock, index) => (
-                <div key={index} className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Countries where Stock Trades
-                      {/* <span className={styles?.labelStamp}>*</span> */}
-                    </label>
-                    <Select
-                      className={styles.formSelect}
-                      options={formik?.values?.countries.map((country) => ({
-                        label: country,
-                        value: country,
-                      }))} // Map countries to the correct format
-                      placeholder="Select Countries where Stock Trades"
-                      value={formik?.values?.countries
-                        .map((country) => ({ label: country, value: country }))
-                        .find((option) => option.value === stock?.country)} // Find the selected country
-                      onBlur={formik?.handleBlur}
-                      onChange={(option) =>
-                        formik.setFieldValue(
-                          `stockedInDetails.${index}.country`,
-                          option?.value
-                        )
-                      }
-                    />
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails?.[index]?.country &&
-                        formik.errors.stockedInDetails?.[index]?.country}
-                    </span>
-                  </div>
-
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Stock Quantity
-                      {/* <span className={styles?.labelStamp}>*</span> */}
-                    </label>
-                    <div className={styles.productQuantityContainer}>
-                      <div className={styles.quantitySection}>
-                        <input
-                          name={`stockedInDetails.${index}.quantity`}
-                          className={styles.quantityInput}
-                          placeholder={stock.placeholder}
-                          type="number"
-                          value={
-                            formik?.values?.stockedInDetails[index]?.quantity ||
-                            ""
-                          }
-                          onChange={formik.handleChange}
-                        />
-
-                        {/* <button
-                          type="button"
-                          className={`${styles.quantityButton} ${styles.selected}`}
-                        >
-                          {stock.type}
-                        </button> */}
-                      </div>
-
-                      {/* <div className={styles.radioForm}>
-                        {["Box", "Strip", "Pack"].map((type) => (
-                          <label key={type}>
-                            <input
-                              type="radio"
-                              name={`stockedInDetails.${index}.type`}
-                              value={type}
-                              checked={stock.type === type}
-                              onChange={() => {
-                                const updatedList = [
-                                  ...formik?.values?.stockedInDetails,
-                                ];
-                                updatedList[index].type = type;
-                                updatedList[
-                                  index
-                                ].placeholder = `Enter ${type} Quantity`;
-                                formik.setFieldValue(
-                                  "stockedInDetails",
-                                  updatedList
-                                );
-                              }}
-                            />
-                            <span className={styles.radioText}>{type}</span>
-                          </label>
-                        ))}
-                      </div> */}
-                    </div>
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails?.[index]?.quantity &&
-                        formik.errors.stockedInDetails?.[index]?.quantity}
-                    </span>
-                  </div>
-
-                  {formik?.values?.stockedInDetails?.length > 1 && (
-                    <div
-                      className={styles.formCloseSection}
-                      onClick={() => {
-                        const updatedList =
-                          formik?.values?.stockedInDetails.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        formik.setFieldValue("stockedInDetails", updatedList);
-                      }}
-                    >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* End the Inventory */}
-
-          {/* Start the Product Pricing */}
-          <div className={styles.section}>
-            <div className={styles.formHeadSection}>
-              <span className={styles.formHead}>Product Pricing</span>
-              <span
-                className={styles.formAddButton}
-                onClick={() => {
-                  formik.setFieldValue("productPricingDetails", [
-                    ...formik?.values?.productPricingDetails,
-                    {
-                      quantity: "",
-                      price: "",
-                      deliveryTime: "",
-                    },
-                  ]);
-                }}
-              >
-                Add More
-              </span>
-            </div>
-            <FieldArray
-              name="productPricingDetails"
-              render={(arrayHelpers) => (
-                <>
-                  {formik?.values?.productPricingDetails?.map(
-                    (stock, index) => (
-                      <div
-                        key={`product_${index}`}
-                        className={styles.formSection}
-                      >
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Quantity
-                            <span className={styles?.labelStamp}>*</span>
-                          </label>
-                          <Field
-                            name={`productPricingDetails.${index}.quantity`}
-                          >
-                            {({ field }) => (
-                              <Select
-                                {...field}
-                                className={styles.formSelect}
-                                options={quantityOptions}
-                                placeholder="Select Quantity"
-                                value={quantityOptions.find(
-                                  (option) => option?.value === stock?.quantity
-                                )}
-                                onBlur={formik.handleBlur}
-                                onChange={(option) =>
-                                  formik.setFieldValue(
-                                    `productPricingDetails.${index}.quantity`,
-                                    option?.value
-                                  )
-                                }
-                              />
-                            )}
-                          </Field>
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
-                              ?.quantity &&
-                              formik.errors.productPricingDetails?.[index]
-                                ?.quantity}
-                          </span>
-                        </div>
-
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Cost Per Product
-                            <span className={styles?.labelStamp}>*</span>
-                          </label>
-                          <div className={styles.tooltipContainer}>
-                            <Field
-                              name={`productPricingDetails.${index}.price`}
-                              type="text"
-                              placeholder="Enter Cost Per Product in USD"
-                              className={styles.formInput}
-                            />
-                            <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
-                          </div>
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
-                              ?.price &&
-                              formik.errors.productPricingDetails?.[index]
-                                ?.price}
-                          </span>
-                        </div>
-
-                        <div className={styles.productContainer}>
-                          <label className={styles.formLabel}>
-                            Est. Delivery Time
-                            <span className={styles?.labelStamp}>*</span>
-                          </label>
-                          <Field
-                            name={`productPricingDetails.${index}.deliveryTime`}
-                            type="text"
-                            placeholder="Enter Est. Delivery Time"
-                            className={styles.formInput}
-                          />
-                          <span className={styles.error}>
-                            {formik.touched.productPricingDetails?.[index]
-                              ?.deliveryTime &&
-                              formik.errors.productPricingDetails?.[index]
-                                ?.deliveryTime}
-                          </span>
-                        </div>
-
-                        {formik?.values?.productPricingDetails?.length > 1 && (
-                          <div
-                            className={styles.formCloseSection}
-                            onClick={() => arrayHelpers.remove(index)}
-                          >
-                            <span className={styles.formclose}>
-                              <CloseIcon className={styles.icon} />
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    )
-                  )}
-                </>
-              )}
-            />
-          </div>
-
-          {/* End the Product Pricing */}
-
-          {/* Start the Compliances and certificate 222222222 */}
-          <div className={styles.section}>
-            <div className={styles.formHeadSection}>
-              <span className={styles.formHead}>
-                Compliances & Certification
-              </span>
-              <span
-                className={styles.formAddButton}
-                onClick={() => {
-                  // Add new file and date pair to the array
-                  formik?.values?.cNCFileNDate?.length < 4 &&
-                    formik?.setFieldValue("cNCFileNDate", [
-                      ...formik?.values?.cNCFileNDate,
-                      {
-                        file: [],
-                        date: "",
-                      },
-                    ]);
-                }}
-              >
-                Add More
-              </span>
-            </div>
-
-            {formik?.values?.cNCFileNDate?.length > 0 ? (
-              formik?.values?.cNCFileNDate?.map((ele, index) => (
-                <div
-                  key={`certification_${index}`}
-                  className={styles.formSection}
-                >
-                  {/* File Upload Section */}
-                  <div className={styles.productContainer}>
-                    <Field name={`cNCFileNDate.${index}.file`}>
-                      {({ field }) => (
-                        <EditComplianceNCertification
-                          fieldInputName={`cNCFileNDate.${index}.file`}
-                          setFieldValue={formik?.setFieldValue}
-                          initialValues={formik?.values}
-                          label="Regulatory Compliance"
-                          tooltip={
-                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
-                            "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
-                            " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
-                          }
-                          // Pass the selected file here
-                          selectedFile={
-                            typeof ele?.file == "string"
-                              ? [ele?.file]
-                              : ele?.file
-                          }
-                          preview={ele?.preview}
-                          fileIndex={index}
-                          isEdit={true}
-                        />
-                      )}
-                    </Field>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[index]?.file &&
-                        formik?.errors.cNCFileNDate?.[index]?.file}
-                    </span>
-                  </div>
-
-                  {/* Date of Expiry Section */}
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Date of Expiry
-                      {/* <span className={styles.labelStamp}>*</span> */}
-                    </label>
-                    <div className={styles.tooltipContainer}>
-                      {/* Date Mask Input */}
-                      {/* <InputMask
-                      className={styles.formInput}
-                      type="text"
-                      mask="dd-mm-yyyy"
-                      placeholder="Enter Date of Expiry"
-                      name={`cNCFileNDate.${index}.date`}
-                      value={ele?.date}
-                      onChange={(e) => {
-                        formik?.handleChange(e);
-                        // Force validation immediately after change
-                        formik?.setFieldTouched(
-                          `cNCFileNDate.${index}.date`,
-                          true,
-                          true
-                        );
-                      }}
-                      onBlur={formik?.handleBlur}
-                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
-                      showMask
-                      separate
-                    /> */}
-
-                      <DatePicker
-                        className={styles.formDate}
-                        clearIcon={null}
-                        format="dd/MM/yyyy"
-                        placeholder="dd/MM/yyyy"
-                        name={`cNCFileNDate.${index}.date`}
-                        value={ele?.date}
-                        minDate={new Date()}
-                        onChange={(e) => {
-                          // formik?.handleChange(e);
-                          // Force validation immediately after change
-                          formik?.setFieldValue(
-                            `cNCFileNDate.${index}.date`,
-                            e
-                          ); // This updates Formik's value
-                          formik?.setFieldTouched(
-                            `cNCFileNDate.${index}.date`,
-                            true,
-                            true
-                          );
-                        }}
-                        onBlur={formik?.handleBlur}
-                      />
-                      <span
-                        className={styles.infoTooltip}
-                        data-tooltip-id="sku-tooltip"
-                        data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
-                      >
-                        <img
-                          src={Information}
-                          className={styles.iconTooltip}
-                          alt="information"
-                        />
-                      </span>
-                      {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
-                    </div>
-                    <span className={styles.error}>
-                      {formik?.touched.cNCFileNDate?.[index]?.date &&
-                        formik?.errors.cNCFileNDate?.[index]?.date}
-                    </span>
-                  </div>
-
-                  {/* Remove Section */}
-                  {formik?.values?.cNCFileNDate?.length > 1 && (
-                    <div
-                      className={styles.formCloseSection}
-                      onClick={() => {
-                        // Clear form values before removing the row
-                        formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
-                        formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
-                        formik?.setFieldValue(
-                          `cNCFileNDate.${index}.preview`,
-                          false
-                        );
-
-                        // Remove the row from the array
-                        const updatedList = formik?.values?.cNCFileNDate.filter(
-                          (_, elindex) => elindex !== index
-                        );
-                        const updatedList2 =
-                          formik?.values?.complianceFileNew.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        formik?.setFieldValue("cNCFileNDate", updatedList);
-                        formik?.setFieldValue("complianceFile", []);
-                        formik?.setFieldValue(
-                          "complianceFileNew",
-                          updatedList2
-                        );
-                      }}
-                    >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div>No Compliances & Certification Details added</div>
-            )}
-          </div>
-
-          {/* End the compliances and certificate 222222222 */}
 
           {/* Start the Medical Equipment And Devices */}
           {formik?.values?.category?.toLowerCase() ===
@@ -8766,6 +8255,591 @@ const EditAddProduct = ({ placeholder }) => {
             </>
           )}
           {/* End the Healthcare IT Solutions */}
+
+          {/* Start the Inventory */}
+          <div className={styles.section}>
+            <span className={styles.formHead}>Inventory</span>
+            <div className={styles.formSection}>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  SKU<span className={styles?.labelStamp}>*</span>
+                </label>
+                <div className={styles.tooltipContainer}>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter SKU"
+                    // autoComplete="off"
+                    name="sku"
+                    value={formik?.values?.sku}
+                    // onChange={formik?.handleChange}
+                    onChange={(e) =>
+                      handleInputChange(
+                        e,
+                        formik.setFieldValue,
+                        20,
+                        "all",
+                        ["sku"],
+                        "-"
+                      )
+                    }
+                    onBlur={formik?.handleBlur}
+                  />
+                  <Tooltip content="Stock-keeping unit for inventory management"></Tooltip>
+                </div>
+                {formik.touched.sku && formik.errors.sku && (
+                  <span className={styles.error}>{formik.errors.sku}</span>
+                )}
+              </div>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Date of Manufacture
+                  {/* <span className={styles?.labelStamp}>*</span> */}
+                </label>
+                <div className={styles.tooltipContainer}>
+                  {/* <InputMask
+                    className={styles.formInput}
+                    type="text"
+                    mask="dd-mm-yyyy"
+                    placeholder="Enter Date of Manufacture"
+                    name="date"
+                    value={formik?.values?.date}
+                    onChange={formik?.handleChange}
+                    replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                    showMask
+                    separate
+                  /> */}
+
+                  <DatePicker
+                    className={styles.formDate}
+                    clearIcon={null}
+                    format="dd/MM/yyyy"
+                    placeholder="dd/MM/yyyy"
+                    name="date"
+                    maxDate={new Date()}
+                    value={formik?.values?.date}
+                    onChange={(date) => {
+                      formik.setFieldValue("date", date); // This updates Formik's value
+                    }}
+                    onBlur={formik?.handleBlur} // Adds the blur event to track when the field is blurred
+                  />
+                  <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
+                </div>
+                {formik.touched.date && formik.errors.date && (
+                  <span className={styles.error}>{formik.errors.date}</span>
+                )}
+              </div>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Stock<span className={styles?.labelStamp}>*</span>
+                </label>
+                <div className={styles.tooltipContainer}>
+                  <Select
+                    className={styles.formSelect}
+                    options={stockOptions}
+                    placeholder="Select Stock"
+                    name="stock"
+                    // Ensure that the value reflects the value from formik or the productDetail state
+                    value={stockOptions.find(
+                      (option) => option?.value === formik?.values?.stock
+                    )}
+                    onBlur={formik?.handleBlur}
+                    onChange={(selectedOption) =>
+                      formik.setFieldValue("stock", selectedOption?.value)
+                    }
+                  />
+                  <Tooltip content="If the product is in stock or out of stock or On-demand"></Tooltip>
+                </div>
+                {formik.touched.stock && formik.errors.stock && (
+                  <span className={styles.error}>{formik.errors.stock}</span>
+                )}
+              </div>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Stocked in Country
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <MultiSelectDropdown
+                  options={countries}
+                  placeholderButtonLabel="Select Countries"
+                  name="countries"
+                  // value={formik?.values?.countryAvailable} // Bind Formik's state
+                  value={formik.values?.countries.map((country) => ({
+                    label: country,
+                    value: country,
+                  }))}
+                  onChange={(selectedOptions) => {
+                    // Ensure we map selected options correctly
+                    const selectedValues = selectedOptions
+                      ? selectedOptions.map((option) => option?.label)
+                      : [];
+                    setInventoryStockedCountries(
+                      selectedValues?.map((option) => ({
+                        label: option,
+                        value: option,
+                      })) || []
+                    );
+                    formik.setFieldValue("countries", selectedValues); // Update Formik value with the selected country values
+                    if (selectedValues?.length == 0) {
+                      setStockedInDetails([
+                        {
+                          country: "",
+                          quantity: "",
+                          type: "Box",
+                          placeholder: "Enter Box Quantity",
+                        },
+                      ]);
+                    }
+                  }}
+                />
+                {formik.touched.countries && formik.errors.countries && (
+                  <span className={styles.error}>
+                    {formik.errors.countries}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.formStockContainer}>
+              <div className={styles.formHeadSection}>
+                <span className={styles.formHead}>Stocked In Details</span>
+                <span
+                  className={styles.formAddButton}
+                  onClick={() =>
+                    (formik?.values?.stockedInDetails?.length || 0) <
+                      (formik?.values?.countries?.length || 0) &&
+                    formik.setFieldValue("stockedInDetails", [
+                      ...formik?.values?.stockedInDetails,
+                      {
+                        country: "",
+                        quantity: "",
+                        type: "Box",
+                        placeholder: "Enter Box Quantity",
+                      },
+                    ])
+                  }
+                >
+                  Add More
+                </span>
+              </div>
+
+              {formik?.values?.stockedInDetails?.map((stock, index) => (
+                <div key={index} className={styles.formSection}>
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Countries where Stock Trades
+                      {/* <span className={styles?.labelStamp}>*</span> */}
+                    </label>
+                    <Select
+                      className={styles.formSelect}
+                      options={formik?.values?.countries.map((country) => ({
+                        label: country,
+                        value: country,
+                      }))} // Map countries to the correct format
+                      placeholder="Select Countries where Stock Trades"
+                      value={formik?.values?.countries
+                        .map((country) => ({ label: country, value: country }))
+                        .find((option) => option.value === stock?.country)} // Find the selected country
+                      onBlur={formik?.handleBlur}
+                      onChange={(option) =>
+                        formik.setFieldValue(
+                          `stockedInDetails.${index}.country`,
+                          option?.value
+                        )
+                      }
+                    />
+                    <span className={styles.error}>
+                      {formik.touched.stockedInDetails?.[index]?.country &&
+                        formik.errors.stockedInDetails?.[index]?.country}
+                    </span>
+                  </div>
+
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Stock Quantity
+                      {/* <span className={styles?.labelStamp}>*</span> */}
+                    </label>
+                    <div className={styles.productQuantityContainer}>
+                      <div className={styles.quantitySection}>
+                        <input
+                          name={`stockedInDetails.${index}.quantity`}
+                          className={styles.quantityInput}
+                          placeholder={stock.placeholder}
+                          type="number"
+                          value={
+                            formik?.values?.stockedInDetails[index]?.quantity ||
+                            ""
+                          }
+                          onChange={formik.handleChange}
+                        />
+
+                        {/* <button
+                          type="button"
+                          className={`${styles.quantityButton} ${styles.selected}`}
+                        >
+                          {stock.type}
+                        </button> */}
+                      </div>
+
+                      {/* <div className={styles.radioForm}>
+                        {["Box", "Strip", "Pack"].map((type) => (
+                          <label key={type}>
+                            <input
+                              type="radio"
+                              name={`stockedInDetails.${index}.type`}
+                              value={type}
+                              checked={stock.type === type}
+                              onChange={() => {
+                                const updatedList = [
+                                  ...formik?.values?.stockedInDetails,
+                                ];
+                                updatedList[index].type = type;
+                                updatedList[
+                                  index
+                                ].placeholder = `Enter ${type} Quantity`;
+                                formik.setFieldValue(
+                                  "stockedInDetails",
+                                  updatedList
+                                );
+                              }}
+                            />
+                            <span className={styles.radioText}>{type}</span>
+                          </label>
+                        ))}
+                      </div> */}
+                    </div>
+                    <span className={styles.error}>
+                      {formik.touched.stockedInDetails?.[index]?.quantity &&
+                        formik.errors.stockedInDetails?.[index]?.quantity}
+                    </span>
+                  </div>
+
+                  {formik?.values?.stockedInDetails?.length > 1 && (
+                    <div
+                      className={styles.formCloseSection}
+                      onClick={() => {
+                        const updatedList =
+                          formik?.values?.stockedInDetails.filter(
+                            (_, elindex) => elindex !== index
+                          );
+                        formik.setFieldValue("stockedInDetails", updatedList);
+                      }}
+                    >
+                      <span className={styles.formclose}>
+                        <CloseIcon className={styles.icon} />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* End the Inventory */}
+
+          {/* Start the Product Pricing */}
+          <div className={styles.section}>
+            <div className={styles.formHeadSection}>
+              <span className={styles.formHead}>Product Pricing</span>
+              <span
+                className={styles.formAddButton}
+                onClick={() => {
+                  formik.setFieldValue("productPricingDetails", [
+                    ...formik?.values?.productPricingDetails,
+                    {
+                      quantity: "",
+                      price: "",
+                      deliveryTime: "",
+                    },
+                  ]);
+                }}
+              >
+                Add More
+              </span>
+            </div>
+            <FieldArray
+              name="productPricingDetails"
+              render={(arrayHelpers) => (
+                <>
+                  {formik?.values?.productPricingDetails?.map(
+                    (stock, index) => (
+                      <div
+                        key={`product_${index}`}
+                        className={styles.formSection}
+                      >
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Quantity
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <Field
+                            name={`productPricingDetails.${index}.quantity`}
+                          >
+                            {({ field }) => (
+                              <Select
+                                {...field}
+                                className={styles.formSelect}
+                                options={quantityOptions}
+                                placeholder="Select Quantity"
+                                value={quantityOptions.find(
+                                  (option) => option?.value === stock?.quantity
+                                )}
+                                onBlur={formik.handleBlur}
+                                onChange={(option) =>
+                                  formik.setFieldValue(
+                                    `productPricingDetails.${index}.quantity`,
+                                    option?.value
+                                  )
+                                }
+                              />
+                            )}
+                          </Field>
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.quantity &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.quantity}
+                          </span>
+                        </div>
+
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Cost Per Product
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <div className={styles.tooltipContainer}>
+                            <Field
+                              name={`productPricingDetails.${index}.price`}
+                              type="text"
+                              placeholder="Enter Cost Per Product in USD"
+                              className={styles.formInput}
+                            />
+                            <Tooltip content="The cost of the medication per unit (MRP) in Dollar"></Tooltip>
+                          </div>
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.price &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.price}
+                          </span>
+                        </div>
+
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Est. Delivery Time
+                            <span className={styles?.labelStamp}>*</span>
+                          </label>
+                          <Field
+                            name={`productPricingDetails.${index}.deliveryTime`}
+                            type="text"
+                            placeholder="Enter Est. Delivery Time"
+                            className={styles.formInput}
+                          />
+                          <span className={styles.error}>
+                            {formik.touched.productPricingDetails?.[index]
+                              ?.deliveryTime &&
+                              formik.errors.productPricingDetails?.[index]
+                                ?.deliveryTime}
+                          </span>
+                        </div>
+
+                        {formik?.values?.productPricingDetails?.length > 1 && (
+                          <div
+                            className={styles.formCloseSection}
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <span className={styles.formclose}>
+                              <CloseIcon className={styles.icon} />
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  )}
+                </>
+              )}
+            />
+          </div>
+
+          {/* End the Product Pricing */}
+
+          {/* Start the Compliances and certificate 222222222 */}
+          <div className={styles.section}>
+            <div className={styles.formHeadSection}>
+              <span className={styles.formHead}>
+                Compliances & Certification
+              </span>
+              <span
+                className={styles.formAddButton}
+                onClick={() => {
+                  // Add new file and date pair to the array
+                  formik?.values?.cNCFileNDate?.length < 4 &&
+                    formik?.setFieldValue("cNCFileNDate", [
+                      ...formik?.values?.cNCFileNDate,
+                      {
+                        file: [],
+                        date: "",
+                      },
+                    ]);
+                }}
+              >
+                Add More
+              </span>
+            </div>
+
+            {formik?.values?.cNCFileNDate?.length > 0 ? (
+              formik?.values?.cNCFileNDate?.map((ele, index) => (
+                <div
+                  key={`certification_${index}`}
+                  className={styles.formSection}
+                >
+                  {/* File Upload Section */}
+                  <div className={styles.productContainer}>
+                    <Field name={`cNCFileNDate.${index}.file`}>
+                      {({ field }) => (
+                        <EditComplianceNCertification
+                          fieldInputName={`cNCFileNDate.${index}.file`}
+                          setFieldValue={formik?.setFieldValue}
+                          initialValues={formik?.values}
+                          label="Regulatory Compliance"
+                          tooltip={
+                            "Compliance with industry standards for healthcare-related tools (e.g. HIPAA, GMP, WDA, ASTM, \n" +
+                            "FDA, CE, ISO, WHO etc) HIPAA applies to healthcare-related tools, while MHRA governs GMP in \n" +
+                            " the UK. The European Medicines Agency (EMA) governs GMP in Europe."
+                          }
+                          // Pass the selected file here
+                          selectedFile={
+                            typeof ele?.file == "string"
+                              ? [ele?.file]
+                              : ele?.file
+                          }
+                          preview={ele?.preview}
+                          fileIndex={index}
+                          isEdit={true}
+                        />
+                      )}
+                    </Field>
+                    <span className={styles.error}>
+                      {formik?.touched.cNCFileNDate?.[index]?.file &&
+                        formik?.errors.cNCFileNDate?.[index]?.file}
+                    </span>
+                  </div>
+
+                  {/* Date of Expiry Section */}
+                  <div className={styles.productContainer}>
+                    <label className={styles.formLabel}>
+                      Date of Expiry
+                      {/* <span className={styles.labelStamp}>*</span> */}
+                    </label>
+                    <div className={styles.tooltipContainer}>
+                      {/* Date Mask Input */}
+                      {/* <InputMask
+                      className={styles.formInput}
+                      type="text"
+                      mask="dd-mm-yyyy"
+                      placeholder="Enter Date of Expiry"
+                      name={`cNCFileNDate.${index}.date`}
+                      value={ele?.date}
+                      onChange={(e) => {
+                        formik?.handleChange(e);
+                        // Force validation immediately after change
+                        formik?.setFieldTouched(
+                          `cNCFileNDate.${index}.date`,
+                          true,
+                          true
+                        );
+                      }}
+                      onBlur={formik?.handleBlur}
+                      replacement={{ d: /\d/, m: /\d/, y: /\d/ }}
+                      showMask
+                      separate
+                    /> */}
+
+                      <DatePicker
+                        className={styles.formDate}
+                        clearIcon={null}
+                        format="dd/MM/yyyy"
+                        placeholder="dd/MM/yyyy"
+                        name={`cNCFileNDate.${index}.date`}
+                        value={ele?.date}
+                        minDate={new Date()}
+                        onChange={(e) => {
+                          // formik?.handleChange(e);
+                          // Force validation immediately after change
+                          formik?.setFieldValue(
+                            `cNCFileNDate.${index}.date`,
+                            e
+                          ); // This updates Formik's value
+                          formik?.setFieldTouched(
+                            `cNCFileNDate.${index}.date`,
+                            true,
+                            true
+                          );
+                        }}
+                        onBlur={formik?.handleBlur}
+                      />
+                      <span
+                        className={styles.infoTooltip}
+                        data-tooltip-id="sku-tooltip"
+                        data-tooltip-content="The cost of the medication per unit (MRP) in Dollar"
+                      >
+                        <img
+                          src={Information}
+                          className={styles.iconTooltip}
+                          alt="information"
+                        />
+                      </span>
+                      {/* <Tooltip className={styles.tooltipSec} id="sku-tooltip" /> */}
+                    </div>
+                    <span className={styles.error}>
+                      {formik?.touched.cNCFileNDate?.[index]?.date &&
+                        formik?.errors.cNCFileNDate?.[index]?.date}
+                    </span>
+                  </div>
+
+                  {/* Remove Section */}
+                  {formik?.values?.cNCFileNDate?.length > 1 && (
+                    <div
+                      className={styles.formCloseSection}
+                      onClick={() => {
+                        // Clear form values before removing the row
+                        formik?.setFieldValue(`cNCFileNDate.${index}.file`, []);
+                        formik?.setFieldValue(`cNCFileNDate.${index}.date`, "");
+                        formik?.setFieldValue(
+                          `cNCFileNDate.${index}.preview`,
+                          false
+                        );
+
+                        // Remove the row from the array
+                        const updatedList = formik?.values?.cNCFileNDate.filter(
+                          (_, elindex) => elindex !== index
+                        );
+                        const updatedList2 =
+                          formik?.values?.complianceFileNew.filter(
+                            (_, elindex) => elindex !== index
+                          );
+                        formik?.setFieldValue("cNCFileNDate", updatedList);
+                        formik?.setFieldValue("complianceFile", []);
+                        formik?.setFieldValue(
+                          "complianceFileNew",
+                          updatedList2
+                        );
+                      }}
+                    >
+                      <span className={styles.formclose}>
+                        <CloseIcon className={styles.icon} />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div>No Compliances & Certification Details added</div>
+            )}
+          </div>
+
+          {/* End the compliances and certificate 222222222 */}
+
 
           {/* Start the Health & Safety */}
           <div className={styles.section}>
