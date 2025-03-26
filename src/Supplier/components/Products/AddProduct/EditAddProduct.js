@@ -1685,7 +1685,7 @@ const EditAddProduct = ({ placeholder }) => {
         stockQuantity: inventoryDetails?.stockQuantity || "",
         countries: inventoryDetails?.countries || [], // Assuming countries exists
         // date: productDetail?.date || "",
-        date: formatDateToDDMMYYYY(inventoryDetails?.date) || "",
+        date: inventoryDetails?.date || "",
         complianceFile: productDetail?.complianceFile || [],
         cNCFileNDate:
           productDetail?.cNCFileNDate?.filter(
@@ -2222,6 +2222,30 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
               <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Short Description
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <textarea
+                  className={styles.formInput}
+                  type="text"
+                  placeholder="Enter Short Description"
+                  value={formik?.values?.aboutManufacturer}
+                  name="aboutManufacturer"
+                  onBlur={formik?.handleBlur}
+                  // onChange={formik?.handleChange}
+                  onChange={(e) =>
+                    handleInputChange(e, formik.setFieldValue, 500, "all")
+                  }
+                />
+                {formik.touched.aboutManufacturer &&
+                  formik.errors.aboutManufacturer && (
+                    <span className={styles.error}>
+                      {formik.errors.aboutManufacturer}
+                    </span>
+                  )}
+              </div>
+              <div className={styles.productContainer}>
                 <label className={styles.formLabel}>Brand Name</label>
                 <input
                   className={styles.formInput}
@@ -2713,30 +2737,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </span>
                   )}
               </div>
-              <div className={styles.productContainer}>
-                <label className={styles.formLabel}>
-                  Short Description
-                  <span className={styles?.labelStamp}>*</span>
-                </label>
-                <textarea
-                  className={styles.formInput}
-                  type="text"
-                  placeholder="Enter Short Description"
-                  value={formik?.values?.aboutManufacturer}
-                  name="aboutManufacturer"
-                  onBlur={formik?.handleBlur}
-                  // onChange={formik?.handleChange}
-                  onChange={(e) =>
-                    handleInputChange(e, formik.setFieldValue, 1000, "all")
-                  }
-                />
-                {formik.touched.aboutManufacturer &&
-                  formik.errors.aboutManufacturer && (
-                    <span className={styles.error}>
-                      {formik.errors.aboutManufacturer}
-                    </span>
-                  )}
-              </div>
+              
               <div className={styles.formInnerSection}>
                 <AddProductFileUpload
                   productDetails={productDetail}

@@ -1155,17 +1155,14 @@ const AddProduct = ({ placeholder }) => {
   ];
   const volumeUnits = [
     { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
-    { value: "Gram (g)", label: "Gram (g)" },
-    { value: "Milligram (mg)", label: "Milligram (mg)" },
+    { value: "Liter (L)", label: "Liter (L)" },
+    { value: "Milliliter (mL)", label: "Milliliter (mL)" },
     { value: "Microgram (µg)", label: "Microgram (µg)" },
-    { value: "Tonne (t)", label: "Tonne (t)" },
-    { value: "Pound (lb)", label: "Pound (lb)" },
-    { value: "Ounce (oz)", label: "Ounce (oz)" },
-    { value: "Stone (st)", label: "Stone (st)" },
-    { value: "Ton (long ton)", label: "Ton (long ton)" },
-    { value: "Short ton", label: "Short ton" },
-    { value: "Carat (ct)", label: "Carat (ct)" },
-    { value: "Grain (gr)", label: "Grain (gr)" },
+    { value: "Cubic centimeter (cm³)", label: "Cubic centimeter (cm³)" },
+    { value: "Cubic decimeter (dm³)", label: "Cubic decimeter (dm³)" },
+    { value: "Cubic inch (in³)", label: "Cubic inch (in³)" },
+    { value: "Cubic foot (ft³)", label: "Cubic foot (ft³)" },
+    { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
   ];
   const packagingOptions = [
     { value: "Bottle", label: "Bottle" },
@@ -1825,6 +1822,29 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
                 <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Short Description
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <textarea
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Short Description of Product"
+                    value={values.aboutManufacturer}
+                    name="aboutManufacturer"
+                    onBlur={handleBlur}
+                    // onChange={handleChange}
+                    onChange={(e) =>
+                      handleInputChange(e, setFieldValue, 500, "all")
+                    }
+                  />
+                  {touched.aboutManufacturer && errors.aboutManufacturer && (
+                    <span className={styles.error}>
+                      {errors.aboutManufacturer}
+                    </span>
+                  )}
+                </div>
+                <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Brand Name</label>
                   <input
                     className={styles.formInput}
@@ -2207,29 +2227,7 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
-                <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Short Description
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <textarea
-                    className={styles.formInput}
-                    type="text"
-                    placeholder="Enter Short Description of Product"
-                    value={values.aboutManufacturer}
-                    name="aboutManufacturer"
-                    onBlur={handleBlur}
-                    // onChange={handleChange}
-                    onChange={(e) =>
-                      handleInputChange(e, setFieldValue, 2000, "all")
-                    }
-                  />
-                  {touched.aboutManufacturer && errors.aboutManufacturer && (
-                    <span className={styles.error}>
-                      {errors.aboutManufacturer}
-                    </span>
-                  )}
-                </div>
+               
 
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
