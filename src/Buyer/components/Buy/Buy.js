@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './buy.css';
+import styles from './buy.module.css';
 import Right from "../../assets/images/right-arrow.svg";
-import BuySeller from './BySupplier/BuySeller';
+import BuySeller from './BySupplier/BySupplier';
 import BuyProduct from './ByProduct/BuyProduct';
 import Buy2ndMarket from './SecondaryMarket/Buy2ndMarket';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,14 +9,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Buy = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    
-    // State to manage selected category (if any)
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [filterCategory, setFilterCategory] = useState(''); // Generics, Originals, Biosimilars, Medical Devices, Nutraceutical
+    const [filterCategory, setFilterCategory] = useState('');
     
     const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
         const crumbs = [{ name: 'Buy', path: '/buyer/buy/by-supplier' }];
-        
         switch (pathname) {
             case '/buyer/buy/by-supplier':
                 crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
@@ -26,7 +23,6 @@ const Buy = () => {
                 if (selectedCategory) {
                     crumbs.push({ name: selectedCategory, path: `/buyer/buy/by-product/${selectedCategory}` });
                 }
-                // Add the filterCategory breadcrumb if it exists
                 if (filterCategory) {
                     crumbs.push({ name: filterCategory, path: `/buyer/buy/by-product` });
                 }
@@ -36,7 +32,6 @@ const Buy = () => {
                 if (selectedCategory) {
                     crumbs.push({ name: selectedCategory, path: `/buyer/buy/secondary-market/${selectedCategory}` });
                 }
-                // Add the filterCategory breadcrumb if it exists
                 if (filterCategory) {
                     crumbs.push({ name: filterCategory, path: `/buyer/buy/secondary-market` });
                 }
@@ -52,15 +47,15 @@ const Buy = () => {
     useEffect(() => {
         const crumbs = getBreadCrumbs(location.pathname, selectedCategory, filterCategory);
         setBreadcrumbs(crumbs);
-    }, [location.pathname, selectedCategory, filterCategory]); // Add filterCategory as a dependency
+    }, [location.pathname, selectedCategory, filterCategory]);
 
     const handleBreadcrumbClick = (path) => {
         navigate(path);
     };
     
-    useEffect(()=>{
-        setFilterCategory("")
-    },[location.pathname])
+    useEffect(() => {
+        setFilterCategory("");
+    }, [location.pathname]);
 
     const getActiveButtonFromPath = (path) => {
         switch (path) {
@@ -93,37 +88,45 @@ const Buy = () => {
         }
     };
 
-
     return (
         <>
-            <div className='buy-main-container'>
-                <div className='buy-main-heading'>Buy</div>
+            <div className={styles.main}>
+                <div className={styles.heading}>Buy</div>
                 
                 {/* Render breadcrumbs */}
-                <div className='buy-breadcrumbs-section'>
+                <div className={styles.breadcrumbSection}>
                     {breadcrumbs.map((breadcrumb, index) => (
                         <React.Fragment key={breadcrumb.name}>
                             <span
-                                className={`breadcrumbs-head ${index === breadcrumbs.length - 1 ? 'active' : ''}`}
+                                className={`${styles.breadcrumbText} ${index === breadcrumbs.length - 1 ? styles.active : ''}`}
                                 onClick={() => handleBreadcrumbClick(breadcrumb.path)}
                             >
                                 {breadcrumb.name}
                             </span>
                             {index < breadcrumbs.length - 1 && (
-                                <img className="breadcrumbs-icon" src={Right} alt=">" />
+                                <img className={styles.breadcrumbIcon} src={Right} alt=">" />
                             )}
                         </React.Fragment>
                     ))}
                 </div>
 
-                <div className='buy-button-section'>
-                    <div className={`buy-button-one ${activeButton === 'seller' ? 'active' : ''}`} onClick={() => handleButtonClick('seller')}>
+                <div className={styles.section}>
+                    <div
+                        className={`${styles.supplierBtn} ${activeButton === 'seller' ? styles.active : ''}`}
+                        onClick={() => handleButtonClick('seller')}
+                    >
                         By Supplier
                     </div>
-                    <div className={`buy-button-two ${activeButton === 'product' ? 'active' : ''}`} onClick={() => handleButtonClick('product')}>
+                    <div
+                        className={`${styles.productBtn} ${activeButton === 'product' ? styles.active : ''}`}
+                        onClick={() => handleButtonClick('product')}
+                    >
                         By Product
                     </div>
-                    <div className={`buy-button-two ${activeButton === 'market' ? 'active' : ''}`} onClick={() => handleButtonClick('market')}>
+                    <div
+                        className={`${styles.productBtn} ${activeButton === 'market' ? styles.active : ''}`}
+                        onClick={() => handleButtonClick('market')}
+                    >
                         Secondary Market
                     </div>
                 </div>

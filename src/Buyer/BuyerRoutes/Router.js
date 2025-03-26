@@ -42,7 +42,7 @@ const MySupplier = lazy(() => import("../components/MySuppliers/index"));
 
 const Invoice = lazy(() => import("../components/Invoice/index"));
 const Support = lazy(() => import("../components/Support/index"));
-const BySeller = lazy(() => import("../components/Buy/BySupplier/BuySeller"));
+const BySupplier = lazy(() => import("../components/Buy/BySupplier/BySupplier"));
 const ByProduct = lazy(() => import("../components/Buy/ByProduct/BuyProduct"));
 
 const Subscription = lazy(() => import("../components/Subscription/Subscription.js"));
@@ -56,12 +56,10 @@ const SecondaryMarket = lazy(() =>
 const SupplierDetails = lazy(() =>
   import("../components/Buy/BySupplier/SupplierDetails")
 );
-const SearchProductDetails = lazy(() =>
-  import("../components/Buy/ByProduct/SearchProductDetails")
-);
-const SearchMarketProductDetails = lazy(() =>
-  import("../components/Buy/SecondaryMarket/SearchMarketProductDetails")
-);
+
+// const SearchMarketProductDetails = lazy(() =>
+//   import("../components/Buy/SecondaryMarket/SearchMarketProductDetails")
+// );
 const OnGoingOrder = lazy(() =>
   import("../components/Inquiry/Inquiry/OnGoingOrder")
 );
@@ -101,12 +99,15 @@ const CompleteInvoicesList = lazy(() =>
 const PendingInvoicesList = lazy(() =>
   import("../components/Dashboard/DashboardList/PendingInvoicesList")
 );
-const MedicineDetails = lazy(() =>
-  import("../components/Buy/ByProduct/ProductDetails")
+const ProductDetails = lazy(() =>
+  import("../components/Buy/Details/ProductDetails.js")
 );
-const MarketProductDetails = lazy(() =>
-  import("../components/Buy/SecondaryMarket/MarketProductDetails")
+const SearchProductDetails = lazy(() =>
+  import("../components/Buy/Details/SearchProductDetails.js")
 );
+// const MarketProductDetails = lazy(() =>
+//   import("../components/Buy/SecondaryMarket/MarketProductDetails")
+// );
 const OnGoingInquiriesDetails = lazy(() =>
   import("../components/Inquiry/Inquiry/OnGoingInquiriesDetails")
 );
@@ -497,7 +498,7 @@ const router = createBrowserRouter([
             path: "by-supplier",
             element: (
               <Suspense fallback={<Loader />}>
-                <BySeller socket={socket} />
+                <BySupplier socket={socket} />
               </Suspense>
             ),
           },
@@ -520,21 +521,30 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "medicine-details/:medicineId",
+        path: "product-details/:id",  
         element: (
           <Suspense fallback={<Loader />}>
-            <MedicineDetails socket={socket} />
+            <ProductDetails socket={socket} />
           </Suspense>
         ),
       },
       {
-        path: "market-product-details/:medicineId",
+        path: "search-product-details/:id",  
         element: (
           <Suspense fallback={<Loader />}>
-            <MarketProductDetails socket={socket} />
+            <SearchProductDetails socket={socket} />
           </Suspense>
         ),
       },
+      
+      // {
+      //   path: "market-product-details/:medicineId",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <MarketProductDetails socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "supplier-details/:supplierId",
         element: (
@@ -570,22 +580,22 @@ const router = createBrowserRouter([
         ],
       },
  
-      {
-        path: "search-product-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SearchProductDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "search-market-product-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SearchMarketProductDetails socket={socket} />
-          </Suspense>
-        ),
-      },
+      // {
+      //   path: "search-product-details/:medicineId",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <SearchProductDetails socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
+      // {
+      //   path: "search-market-product-details/:medicineId",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <SearchMarketProductDetails socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "send-inquiry",
         element: (

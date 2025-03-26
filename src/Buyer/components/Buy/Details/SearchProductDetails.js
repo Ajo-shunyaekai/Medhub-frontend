@@ -1,0 +1,378 @@
+import styles from "./productdetails.module.css";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
+import { useState, useEffect } from "react";
+import Modal from "react-modal";
+import CloseIcon from "../../../assets/images/Icon.svg";
+import SearchSection from "../UiShared/Search/Search"; // Updated import
+import FilterSection from "../Details/FilterSection"; // Updated import
+import SupplierMedicineCard from "../Details/SupplierMedicineCard"; // Updated import
+
+Modal.setAppElement("#root");
+
+const SearchProductDetails = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { productDetail } = useSelector((state) => state?.productReducer || {});
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  // State for search and filter
+  const [inputValue, setInputValue] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const pdfFile =
+    productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
+    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
+  const pdfUrl = pdfFile
+    ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
+    : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
+  // Fetch product details on mount or when id changes
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductDetail(`product/${id}`));
+    }
+  }, [id, dispatch]);
+
+  // Update filtered data when productDetail changes
+  useEffect(() => {
+    // Assuming productDetail.data or productDetail contains the supplier/product list
+    const dataToFilter = productDetail?.data || [productDetail] || [];
+    setFilteredData(dataToFilter);
+  }, [productDetail]);
+
+  const getCategoryData = (property) => {
+    if (!productDetail?.category) return null;
+    return productDetail[productDetail.category]?.[property];
+  };
+
+  // Search handlers
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleProductSearch = () => {
+    const dataToFilter = productDetail?.data || [productDetail] || [];
+    const filtered = dataToFilter.filter((item) =>
+      item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleProductSearch();
+    }
+  };
+
+  // Filter handlers (minimal implementation, adjust as per your needs)
+  const handlePriceRange = (selectedValues) => {
+    console.log("Price Range:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleDeliveryTime = (selectedValues) => {
+    console.log("Delivery Time:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleStockedIn = (selectedValues) => {
+    console.log("Stocked In:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleQuantity = (selectedValues) => {
+    console.log("Quantity:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleReset = () => {
+    const dataToFilter = productDetail?.data || [productDetail] || [];
+    setFilteredData(dataToFilter);
+    setInputValue("");
+  };
+
+  // Configuration for ProductCards
+  const fieldsConfig = {
+    title: {
+      key: "general.name",
+      render: (item) => item?.general?.name || "N/A",
+    },
+    details: [
+      {
+        key: "general.form",
+        label: "Type/Form",
+        render: (item) => item?.general?.form || "N/A",
+      },
+      {
+        key: "general.quantity",
+        label: "Quantity",
+        render: (item) => item?.general?.quantity || "N/A",
+      },
+    ],
+  };
+
+  const secondaryFieldsConfig = [
+    {
+      key: "secondayMarketDetails.condition",
+      label: "Condition",
+      render: (item) => item?.secondayMarketDetails?.condition || "N/A",
+    },
+    {
+      key: "secondayMarketDetails.countryAvailable",
+      label: "Country Available",
+      render: (item) =>
+        item?.secondayMarketDetails?.countryAvailable?.join(", ") || "N/A",
+    },
+  ];
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.section}>
+        <div className={styles.mainContainer}>
+          <span className={styles.medicineName}>{productDetail?.general?.name}</span>
+        </div>
+
+        {/* Secondary Market Section */}
+        {(productDetail?.secondayMarketDetails?.purchasedOn ||
+          productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
+          productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length > 0 ||
+          productDetail?.secondayMarketDetails?.condition) && (
+          <div className={styles.mainContainer}>
+            <span className={styles.innerHead}>Secondary Market Information</span>
+            <div className={styles.innerSection}>
+              <div className={styles.mainSection}>
+                {productDetail?.secondayMarketDetails?.purchasedOn && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Purchased on</span>
+                    <span className={styles.medicineText}>
+                      {String(
+                        new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getDate()
+                      ).padStart(2, "0")}
+                      /
+                      {String(
+                        new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getMonth() + 1
+                      ).padStart(2, "0")}
+                      /
+                      {new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getFullYear()}
+                    </span>
+                  </div>
+                )}
+                {productDetail?.secondayMarketDetails?.condition && (
+                  <div className={styles.medicinesSection}>
+                    <span className={styles.medicineHead}>Condition</span>
+                    <span className={styles.medicineText}>
+                      {productDetail?.secondayMarketDetails?.condition}
+                    </span>
+                  </div>
+                )}
+              </div>
+              {(productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
+                productDetail?.secondayMarketDetails?.minimumPurchaseUnit) && (
+                <div className={styles.mainSection}>
+                  {productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 && (
+                    <div className={styles.medicinesSection}>
+                      <span className={styles.medicineHead}>Country Available in</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.secondayMarketDetails?.countryAvailable?.map(
+                          (country, index) => (
+                            <span key={index}>
+                              {country}
+                              {index !==
+                                productDetail?.secondayMarketDetails?.countryAvailable.length - 1 &&
+                                ", "}
+                            </span>
+                          )
+                        )}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.secondayMarketDetails?.minimumPurchaseUnit && (
+                    <div className={styles.medicinesSection}>
+                      <span className={styles.medicineHead}>Minimum Purchase Unit</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.secondayMarketDetails?.minimumPurchaseUnit}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length > 0 && (
+                <div className={styles.mainPurchaseSection}>
+                  <button
+                    className={styles.PurcahseButton}
+                    onClick={() => setModalIsOpen(true)}
+                  >
+                    View Purchase Invoice
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* General Information Section */}
+        <div className={styles.mainContainer}>
+          <span className={styles.innerHead}>General Information</span>
+          <div className={styles.innerSection}>
+            <div className={styles.mainSection}>
+              {productDetail?.category && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Category</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.category
+                      ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                      ?.replace(/\b\w/g, (char) => char.toUpperCase())}
+                  </span>
+                </div>
+              )}
+              {productDetail?.[productDetail?.category]?.anotherCategory && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Sub Category(Level3)</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.[productDetail?.category]?.anotherCategory}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.form && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Type/Form</span>
+                  <span className={styles.medicineText}>{productDetail?.general?.form}</span>
+                </div>
+              )}
+              {productDetail?.general?.quantity && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Quantity</span>
+                  <span className={styles.medicineText}>{productDetail?.general?.quantity}</span>
+                </div>
+              )}
+            </div>
+            <div className={styles.mainSection}>
+              {productDetail?.[productDetail?.category]?.subCategory && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Sub Category</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.[productDetail?.category]?.subCategory}
+                  </span>
+                </div>
+              )}
+              {productDetail?.general?.model && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Part/Model Number</span>
+                  <span className={styles.medicineText}>{productDetail?.general?.model}</span>
+                </div>
+              )}
+              {productDetail?.general?.weight && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Product Weight</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.weight} {productDetail?.general?.unit}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Product Description */}
+        {productDetail?.general?.description && (
+          <div className={styles.mainContainer}>
+            <div className={styles.manufacturerDescriptionSection}>
+              <span className={styles.medicineHead}>Product Description</span>
+              <span
+                className={styles.medicineDescriptionContent}
+                dangerouslySetInnerHTML={{ __html: productDetail?.general?.description }}
+              ></span>
+            </div>
+          </div>
+        )}
+
+        {/* Manufacturer Section */}
+        {(productDetail?.general?.manufacturer ||
+          productDetail?.general?.aboutManufacturer ||
+          productDetail?.general?.countryOfOrigin) && (
+          <div className={styles.mainManufacturerContainer}>
+            <span className={styles.innerHead}>Manufacturer Details</span>
+            <div className={styles.manufacturerMainContainer}>
+              {(productDetail?.general?.manufacturer ||
+                productDetail?.general?.countryOfOrigin) && (
+                <div className={styles.manufacturerContainer}>
+                  {productDetail?.general?.manufacturer && (
+                    <div className={styles.manufacturersection}>
+                      <span className={styles.medicineHead}>Manufacturer Name</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.general?.manufacturer}
+                      </span>
+                    </div>
+                  )}
+                  {productDetail?.general?.countryOfOrigin && (
+                    <div className={styles.manufacturersection}>
+                      <span className={styles.medicineHead}>Country of Origin</span>
+                      <span className={styles.medicineText}>
+                        {productDetail?.general?.countryOfOrigin}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Modal for PDF Preview */}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          contentLabel="Purchase Invoice"
+          className={styles.modal}
+          overlayClassName={styles.overlay}
+        >
+          <div className={styles.closeButton} onClick={() => setModalIsOpen(false)}>
+            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
+          </div>
+          {pdfFile ? (
+            <iframe
+              src={pdfUrl}
+              className={styles.pdfIframe}
+              title="Purchase Invoice"
+              onError={() => alert("Failed to load PDF. Please check the file path.")}
+            />
+          ) : (
+            <p>Loading PDF or file not found...</p>
+          )}
+        </Modal>
+
+        {/* Search Section */}
+        <SearchSection
+          inputValue={inputValue}
+          handleInputChange={handleInputChange}
+          handleProductSearch={handleProductSearch}
+          handleKeyDown={handleKeyDown}
+        />
+
+        {/* Filter Section */}
+        <FilterSection
+          countryAvailable={productDetail?.secondayMarketDetails?.countryAvailable || []}
+          handlePriceRange={handlePriceRange}
+          handleDeliveryTime={handleDeliveryTime}
+          handleStockedIn={handleStockedIn}
+          handleQuantity={handleQuantity}
+          handleReset={handleReset}
+        />
+
+        {/* Product Cards */}
+        <SupplierMedicineCard
+            medicineList={filteredData}
+            currentPage={1}
+            totalItems={filteredData.length}
+            itemsPerPage={10}
+            onPageChange={(page) => console.log(page)}
+            // isSecondaryMarket={productData?.market === "secondary"}
+          />
+      </div>
+    </div>
+  );
+};
+
+export default SearchProductDetails;
