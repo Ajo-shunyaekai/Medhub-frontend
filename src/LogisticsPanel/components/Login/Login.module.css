@@ -1,0 +1,102 @@
+.loginContainer {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardContainer {
+  width: 45rem;
+  height: auto;
+  padding: 40px 60px;
+  background-color: #fff;
+  box-shadow: 3px 3px 13px gray, -2px -2px 13px gray;
+  border-radius: 30px;
+  border: 1.5px solid #282f86;
+}
+
+.cardContainer:hover {
+  box-shadow: 5px 5px 13px #282f86, -5px -5px 13px #282f86;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo {
+  width: 100%;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.title {
+  text-align: center;
+  color: #282f86;
+}
+
+.errorText {
+  font-size: 0.75rem;
+  color: #d32f2f;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin-top: 3px;
+  margin-right: 14px;
+  margin-left: 14px;
+}
+
+.loginButton {
+  padding: 10px;
+  background-color: #282f86;
+  color: #fff;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.loginButton:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.loadingSpinner {
+  border: 4px solid rgba(226, 212, 212, 0.39);
+  border-left-color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.link {
+  color: #282f86;
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    padding: 40px 40px;
+  }
+}
+
+@media (max-width: 580px) {
+  .cardContainer {
+    padding: 30px 20px;
+  }
+}

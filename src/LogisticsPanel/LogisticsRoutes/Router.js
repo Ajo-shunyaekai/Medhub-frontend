@@ -8,7 +8,8 @@ const CompleteOrder     = lazy(() => import("../components/Orders/CompletedOrder
 const Dashboard         = lazy(() => import("../components/Dashboard/index"));
 const Inventory         = lazy(() => import("../components/Inventory/index"));
 const Layout            = lazy(() => import("../components/SharedComponents/layout"));
-const Login             = lazy(() => import("../components/SharedComponents/Login/Login"));
+// const Login             = lazy(() => import("../components/SharedComponents/Login/Login"));
+const Login             = lazy(() => import("../components/Login/Login"));
 const LogisticsDetails  = lazy(() => import("../components/Orders/OrderDetails/LogisticsDetails"));
 const OngoingOrder      = lazy(() => import("../components/Orders/OngoingOrders/OngoingOrders"));
 const Orders            = lazy(() => import("../components/Orders/index"));
