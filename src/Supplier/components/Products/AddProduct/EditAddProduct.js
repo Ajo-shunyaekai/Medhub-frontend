@@ -1334,7 +1334,7 @@ const EditAddProduct = ({ placeholder }) => {
       // Dispatch the editProduct action (or any other submit action)
       dispatch(editProduct({ id, values: formData })).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          // navigate("/supplier/product"); // Change this to your desired route
+          navigate("/supplier/product"); // Change this to your desired route
         }
       });
     },
