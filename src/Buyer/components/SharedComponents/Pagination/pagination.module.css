@@ -1,0 +1,9 @@
+.paginationContainer{
+  margin-bottom: 20rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pagiTotal{
+    font-size: 12px;
+}
