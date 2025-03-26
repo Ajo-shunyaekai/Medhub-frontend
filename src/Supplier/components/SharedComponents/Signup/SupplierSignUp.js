@@ -1193,46 +1193,25 @@ const SupplierSignUp = ({ socket }) => {
                                                 {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Upload Certificates<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>Upload Tax Registration Certificate<span className='labelstamp'>*</span></label>
 
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax"
                                                     reset={resetUploaders} allowMultiple={true}
-                                                    showTooltip={true}
-                                                    tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA (Wholesale Distributor Authorisation)."
+                                                    // showTooltip={true}
+                                                    // tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA (Wholesale Distributor Authorisation)."
                                                 />
 
 
                                                 {/* <CertificateUploader/> */}
                                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
                                             </div>
+                                          
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Date of Expiry<span className='labelstamp'>*</span></label>
-                                                <div className='signup-tooltip-class'>
-                                                    <input
-                                                        className='signup-form-section-input'
-                                                        type="text"
-                                                        name="designation"
-                                                        placeholder="Enter Designation"
-                                                        value={formData.designation}
-                                                        onChange={handleChange}
-                                                    />
-                                                    <span
-                                                        className="email-info-icon"
-                                                        data-tooltip-id="designation-tooltip"
-                                                        data-tooltip-content="Mention your professional designation."
-                                                    >
-                                                        <img src={Information} className='tooltip-icons' alt='information' />
-                                                    </span>
-                                                    <Tooltip id="designation-tooltip" />
-                                                </div>
-                                                {errors.designation && <div className='signup__errors'>{errors.designation}</div>}
-                                            </div>
-                                            {/* <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload a Certificate<span className='labelstamp'>*</span></label>
                                                
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
-                                            </div> */}
+                                            </div>
                                             {selectedCompanyType?.value === "medical practitioner" && (
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
