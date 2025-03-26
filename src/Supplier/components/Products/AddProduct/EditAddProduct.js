@@ -1392,6 +1392,32 @@ const EditAddProduct = ({ placeholder }) => {
     // Apply character limit
     value = value.slice(0, Number(textLimit));
 
+     // Dimension field validation
+     if (name === "dimension") {
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "").toLowerCase();
+  
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
+  
+      // Split the values by "x" while keeping their sequence
+      const parts = value.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+  
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
+  
+        return part;
+      });
+  
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
+  
+      setFieldValue(name, value);
+      return;
+    }
+
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -1408,6 +1434,8 @@ const EditAddProduct = ({ placeholder }) => {
         "g"
       );
       value = value.replace(allowedPattern, "");
+    } else if(allowedType === "decimal") {
+      if (!/^\d*\.?\d*$/.test(value)) return
     }
 
     setFieldValue(name, value);
@@ -2315,7 +2343,7 @@ const EditAddProduct = ({ placeholder }) => {
                       value={formik?.values?.volumn}
                       // onChange={handleChange}
                       onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 5, "all", [
+                        handleInputChange(e, formik.setFieldValue, 9, "decimal", [
                           "volumn",
                         ])
                       }
@@ -2361,15 +2389,25 @@ const EditAddProduct = ({ placeholder }) => {
                   <input
                     className={styles.formInput}
                     type="text"
-                    placeholder="Enter Size/Volume"
+                    placeholder="Enter Height x Width x Depth"
                     // autoComplete="off"
                     name="dimension"
                     value={formik?.values?.dimension}
                     // onChange={formik?.handleChange}
+                    // onChange={(e) =>
+                    //   handleInputChange(e, formik.setFieldValue, 35, "all", [
+                    //     "dimension",
+                    //   ])
+                    // }
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 9, "all", [
-                        "dimension",
-                      ])
+                      handleInputChange(
+                        e,
+                        formik.setFieldValue,
+                        35,
+                        "all",
+                        ["dimension"],
+                        ". x"
+                      )
                     }
                     onBlur={formik?.handleBlur}
                   />
@@ -2451,7 +2489,7 @@ const EditAddProduct = ({ placeholder }) => {
                           value={formik?.values?.weight}
                     // onChange={formik?.handleChange}
                     onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 5, "all", [
+                      handleInputChange(e, formik.setFieldValue, 9, "decimal", [
                         "weight",
                       ])
                     }

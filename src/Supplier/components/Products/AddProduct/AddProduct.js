@@ -1070,6 +1070,8 @@ const AddProduct = ({ placeholder }) => {
         "g"
       );
       value = value.replace(allowedPattern, "");
+    } else if(allowedType === "decimal") {
+      if (!/^\d*\.?\d*$/.test(value)) return
     }
 
     setFieldValue(name, value);
@@ -1916,7 +1918,7 @@ const AddProduct = ({ placeholder }) => {
                           e,
                           setFieldValue,
                           9,
-                          "number",
+                          "decimal",
                           ["volumn"],
                           "."
                         )
@@ -1999,7 +2001,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.weight}
                           // onChange={handleChange}
                           onChange={(e) =>
-                            handleInputChange(e, setFieldValue, 9, "number", [
+                            handleInputChange(e, setFieldValue, 9, "decimal", [
                               "weight",
                             ])
                           }
