@@ -23,6 +23,27 @@ import {
 import { InputMask } from "@react-input/mask";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
+import {
+  Options,
+  packagingUnits,
+  volumeUnits,
+  packagingOptions,
+  materialOptions,
+  conditionOptions,
+  stockOptions,
+  quantityOptions,
+  stockQuantityOptions,
+  pharmaOptions,
+  skinhairOptions,
+  vitalHealthOptions,
+  moistureOptions,
+  dermatologistOptions,
+  pediatricianOptions,
+  frameOptions,
+  lensOptions,
+  lensmaterialOptions,
+  dairyfeeOptions,
+} from "./DropDowns";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -105,50 +126,50 @@ const AddProduct = ({ placeholder }) => {
       .of(Yup.string().required("Country Available is required.")),
     // date: Yup.string().required("Date is required."),
     // date: Yup.str  ing()
-      // .required("Date is required.")
-      // .test(
-      //   'is-valid-date',
-      //   'Please enter a valid date',
-      //   function (value) {
-      //     if (!value) return false;
+    // .required("Date is required.")
+    // .test(
+    //   'is-valid-date',
+    //   'Please enter a valid date',
+    //   function (value) {
+    //     if (!value) return false;
 
-      //     // Split the date and convert to numbers
-      //     const parts = value.split('-');
-      //     if (parts.length !== 3) return false;
+    //     // Split the date and convert to numbers
+    //     const parts = value.split('-');
+    //     if (parts.length !== 3) return false;
 
-      //     const day = parseInt(parts[0], 10);
-      //     const month = parseInt(parts[1], 10);
-      //     const year = parseInt(parts[2], 10);
+    //     const day = parseInt(parts[0], 10);
+    //     const month = parseInt(parts[1], 10);
+    //     const year = parseInt(parts[2], 10);
 
-      //     // Check if date is valid (using Date object)
-      //     const date = new Date(year, month - 1, day);
-      //     return (
-      //       date.getFullYear() === year &&
-      //       date.getMonth() === month - 1 &&
-      //       date.getDate() === day
-      //     );
-      //   }
-      // )
-      // .test(
-      //   "not-future-date",
-      //   "Future dates are not allowed",
-      //   function (value) {
-      //     if (!value) return true;
+    //     // Check if date is valid (using Date object)
+    //     const date = new Date(year, month - 1, day);
+    //     return (
+    //       date.getFullYear() === year &&
+    //       date.getMonth() === month - 1 &&
+    //       date.getDate() === day
+    //     );
+    //   }
+    // )
+    // .test(
+    //   "not-future-date",
+    //   "Future dates are not allowed",
+    //   function (value) {
+    //     if (!value) return true;
 
-      //     const parts = value.split("-");
-      //     if (parts.length !== 3) return true;
+    //     const parts = value.split("-");
+    //     if (parts.length !== 3) return true;
 
-      //     const day = parseInt(parts[0], 10);
-      //     const month = parseInt(parts[1], 10);
-      //     const year = parseInt(parts[2], 10);
+    //     const day = parseInt(parts[0], 10);
+    //     const month = parseInt(parts[1], 10);
+    //     const year = parseInt(parts[2], 10);
 
-      //     const enteredDate = new Date(year, month - 1, day);
-      //     const today = new Date();
+    //     const enteredDate = new Date(year, month - 1, day);
+    //     const today = new Date();
 
-      //     return enteredDate <= today;
-      //   }
-      // )
-      // .nullable(),
+    //     return enteredDate <= today;
+    //   }
+    // )
+    // .nullable(),
 
     // stockedInDetails: Yup.array()
     //   .of(
@@ -663,10 +684,9 @@ const AddProduct = ({ placeholder }) => {
     drugAdministrationRoute: Yup.string()
       .when("category", {
         is: (category) =>
-          [
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-          ].includes(category),
+          ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
+            category
+          ),
         then: Yup.string().required("Drug Administration Route is required."),
       })
       .nullable(),
@@ -881,7 +901,7 @@ const AddProduct = ({ placeholder }) => {
     // Add the other fields under DentalProducts
     // Add the other fields under EyeCareSupplies
     // Add the other fields under HomeHealthcareProducts
-    // // Add the other fields under 
+    // // Add the other fields under
     healthClaimsFile: Yup.array()
       .when("category", {
         is: "AlternativeMedicines",
@@ -1031,28 +1051,27 @@ const AddProduct = ({ placeholder }) => {
     if (name === "dimension") {
       // Allow only numbers, "x", and "."
       value = value.replace(/[^0-9x.]/g, "").toLowerCase();
-  
+
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");
-  
+
       // Split the values by "x" while keeping their sequence
       const parts = value.split("x").map((part, index) => {
         // Allow up to 5 digits before decimal and 2 after
         part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-  
+
         // Ensure only one decimal per number
         part = part.replace(/(\..*)\./g, "$1");
-  
+
         return part;
       });
-  
+
       // Join back using "x" but ensure it doesn't remove already typed "x"
       value = parts.join("x");
-  
+
       setFieldValue(name, value);
       return;
     }
-  
 
     // Restrict input type
     if (allowedType === "number") {
@@ -1070,8 +1089,8 @@ const AddProduct = ({ placeholder }) => {
         "g"
       );
       value = value.replace(allowedPattern, "");
-    } else if(allowedType === "decimal") {
-      if (!/^\d*\.?\d*$/.test(value)) return
+    } else if (allowedType === "decimal") {
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
@@ -1133,129 +1152,6 @@ const AddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
-  //   Start the Dropdown option
-  const Options = [
-    { value: "new product", label: "New Product" },
-    { value: "secondary product", label: "Secondary Product" },
-  ];
-  const packagingUnits = [
-    { value: "Kilogram (kg)", label: "Kilogram (kg)" },
-    { value: "Gram (g)", label: "Gram (g)" },
-    { value: "Milligram (mg)", label: "Milligram (mg)" },
-    { value: "Microgram (µg)", label: "Microgram (µg)" },
-    { value: "Tonne (t)", label: "Tonne (t)" },
-    { value: "Pound (lb)", label: "Pound (lb)" },
-    { value: "Ounce (oz)", label: "Ounce (oz)" },
-    { value: "Stone (st)", label: "Stone (st)" },
-    { value: "Ton (long ton)", label: "Ton (long ton)" },
-    { value: "Short ton", label: "Short ton" },
-    { value: "Carat (ct)", label: "Carat (ct)" },
-    { value: "Grain (gr)", label: "Grain (gr)" },
-  ];
-  const volumeUnits = [
-    { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
-    { value: "Liter (L)", label: "Liter (L)" },
-    { value: "Milliliter (mL)", label: "Milliliter (mL)" },
-    { value: "Microgram (µg)", label: "Microgram (µg)" },
-    { value: "Cubic centimeter (cm³)", label: "Cubic centimeter (cm³)" },
-    { value: "Cubic decimeter (dm³)", label: "Cubic decimeter (dm³)" },
-    { value: "Cubic inch (in³)", label: "Cubic inch (in³)" },
-    { value: "Cubic foot (ft³)", label: "Cubic foot (ft³)" },
-    { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
-  ];
-  const packagingOptions = [
-    { value: "Bottle", label: "Bottle" },
-    { value: "Tube", label: "Tube" },
-    { value: "Jar", label: "Jar" },
-    { value: "Pump", label: "Pump" },
-    { value: "Blister Pack", label: "Blister Pack" },
-    { value: "Strip", label: "Strip" },
-    { value: "Pouches", label: "Pouches" },
-    { value: "Soft Case", label: "Soft Case" },
-    { value: "Hard Case", label: "Hard Case" },
-    { value: "Backpack", label: "Backpack" },
-  ];
-  const materialOptions = [
-    { value: "Plastic", label: "Plastic" },
-    { value: "Glass", label: "Glass" },
-    { value: "Aluminum", label: "Aluminum" },
-    { value: "Cardboard", label: "Cardboard" },
-    { value: "Thermocol", label: "Thermocol" },
-    { value: "Other", label: "Other" },
-  ];
-  const conditionOptions = [
-    { value: "New", label: "New" },
-    { value: "Used", label: "Used" },
-    { value: "Refurbished", label: "Refurbished" },
-  ];
-  const stockOptions = [
-    { value: "In-stock", label: "In-stock" },
-    { value: "Out of Stock", label: "Out of Stock" },
-    { value: "On-demand", label: "On-demand" },
-  ];
-  const quantityOptions = [
-    { value: "0-500", label: "0-500" },
-    { value: "500-1000", label: "500-1000" },
-    { value: "1000-2000", label: "1000-2000" },
-    { value: "2000-5000", label: "2000-5000" },
-    { value: "5000-8000", label: "5000-8000" },
-    { value: "8000-12000", label: "8000-12000" },
-  ];
-  const stockQuantityOptions = [
-    { value: "America", label: "America" },
-    { value: "India", label: "India" },
-    { value: "United Arab Emirates", label: "United Arab Emirates" },
-    { value: "United Kingdom", label: "United Kingdom" },
-  ];
-  const pharmaOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const skinhairOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const vitalHealthOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const moistureOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const dermatologistOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const pediatricianOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const frameOptions = [
-    { value: "Metal", label: "Metal" },
-    { value: "Plastic", label: "Plastic" },
-    { value: "Rimless", label: "Rimless" },
-  ];
-  const lensOptions = [
-    { value: "Single Vision", label: "Single Vision" },
-    { value: "Bifocal", label: "Bifocal" },
-    { value: "Progressive", label: "Progressive" },
-    { value: "Anti-Reflective", label: "Anti-Reflective" },
-  ];
-  const lensmaterialOptions = [
-    { value: "Polycarbonate", label: "Polycarbonate" },
-    { value: "Glass", label: "Glass" },
-    { value: "Trivex", label: "Trivex" },
-  ];
-  const dairyfeeOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  //   End the Dropdown option
 
   const handleBulkUpload = () => {
     console.log("file", selectedFile);
@@ -1416,11 +1312,11 @@ const AddProduct = ({ placeholder }) => {
           physicalState: [],
           hazardClassification: [],
           // Add the other fields under DiagnosticAndMonitoringDevices
-          flowRate:"",
+          flowRate: "",
           noiseLevel: "",
           // Add the other fields under HospitalAndClinicSupplies
           // Add the other fields under OrthopedicSupplies
-          colorOptions:"",
+          colorOptions: "",
           moistureResistance: "",
           // Add the other fields under DentalProducts
           // Add the other fields under EyeCareSupplies
@@ -1919,39 +1815,37 @@ const AddProduct = ({ placeholder }) => {
                 </div>
 
                 <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Product Volume
-                  </label>
+                  <label className={styles.formLabel}>Product Volume</label>
                   <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Volume"
-                      // autoComplete="off"
-                      name="volumn"
-                      value={values.volumn}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          setFieldValue,
-                          9,
-                          "decimal",
-                          ["volumn"],
-                          "."
-                        )
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Tooltip
-                      content=" The size or volume of the product (e.g., 50 mL, 100 g,
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Volume"
+                          // autoComplete="off"
+                          name="volumn"
+                          value={values.volumn}
+                          // onChange={handleChange}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              9,
+                              "decimal",
+                              ["volumn"],
+                              "."
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip
+                          content=" The size or volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
                      Length of the needle (e.g., 19 mm, 26 mm ) tape
                       width, adhesive strip size etc."
-                    ></Tooltip>
-                  </div>
+                        ></Tooltip>
+                      </div>
                     </div>
                     <div className={styles.unitSection}>
                       <Select
@@ -1967,8 +1861,7 @@ const AddProduct = ({ placeholder }) => {
                         <span className={styles.error}>{errors.volumeUnit}</span>
                       )} */}
                     </div>
-
-                </div>
+                  </div>
                   {/* {touched.volumn && errors.volumn && (
                     <span className={styles.error}>{errors.volumn}</span>
                   )} */}
@@ -1996,9 +1889,7 @@ const AddProduct = ({ placeholder }) => {
                       }
                       onBlur={handleBlur}
                     />
-                    <Tooltip
-                      content="The dimension of the product in Height x Width x Depth."
-                    ></Tooltip>
+                    <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
                   </div>
                   {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
@@ -2227,7 +2118,6 @@ const AddProduct = ({ placeholder }) => {
                     </span>
                   )}
                 </div>
-               
 
                 <div className={styles.productContainer}>
                   <AddProductFileUpload
@@ -2313,8 +2203,8 @@ const AddProduct = ({ placeholder }) => {
               </div>
             </div>
 
-             {/* Start the Medical Equipment And Devices */}
-             {selectedSchema === "MedicalEquipmentAndDevices" && (
+            {/* Start the Medical Equipment And Devices */}
+            {selectedSchema === "MedicalEquipmentAndDevices" && (
               <div className={styles.section}>
                 <span className={styles.formHead}>Technical Details</span>
                 <div className={styles.formSection}>
@@ -7218,20 +7108,20 @@ const AddProduct = ({ placeholder }) => {
                       showMask
                       separate
                     /> */}
-                    
+
                     <DatePicker
-                        className={styles.formDate}
-                        clearIcon={null}
-                        format="dd/MM/yyyy"
-                        placeholder="dd/MM/yyyy"
-                        name="date"
-                        maxDate={new Date()}
-                        value={values.date}
-                        onChange={(date) => {
-                          setFieldValue("date", date); // This updates Formik's value
-                        }}
-                        onBlur={handleBlur} // Adds the blur event to track when the field is blurred
-                      />
+                      className={styles.formDate}
+                      clearIcon={null}
+                      format="dd/MM/yyyy"
+                      placeholder="dd/MM/yyyy"
+                      name="date"
+                      maxDate={new Date()}
+                      value={values.date}
+                      onChange={(date) => {
+                        setFieldValue("date", date); // This updates Formik's value
+                      }}
+                      onBlur={handleBlur} // Adds the blur event to track when the field is blurred
+                    />
                     <Tooltip content="The date when the item was assembled or manufactured. if applicable for in stock"></Tooltip>
                   </div>
                   {touched.date && errors.date && (
@@ -7820,7 +7710,7 @@ const AddProduct = ({ placeholder }) => {
                         value={ele?.date}
                         minDate={new Date()}
                         onChange={(e) => {
-                          setFieldValue( `cNCFileNDate.${index}.date`, e); // This updates Formik's value
+                          setFieldValue(`cNCFileNDate.${index}.date`, e); // This updates Formik's value
                           setFieldTouched(
                             `cNCFileNDate.${index}.date`,
                             true,
@@ -7828,7 +7718,9 @@ const AddProduct = ({ placeholder }) => {
                           );
                         }}
                         onBlur={handleBlur}
-                        disabledDate={(current) => current && current < moment().endOf('day')}
+                        disabledDate={(current) =>
+                          current && current < moment().endOf("day")
+                        }
                       />
                     </div>
                     <span className={styles.error}>
@@ -7868,8 +7760,6 @@ const AddProduct = ({ placeholder }) => {
             </div>
 
             {/* End the compliances and certificate 222222222 */}
-
-           
 
             {/* Start the Health & Safety */}
             <div className={styles.section}>
