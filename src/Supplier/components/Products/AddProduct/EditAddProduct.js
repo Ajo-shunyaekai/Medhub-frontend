@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import Select, { components } from "react-select";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
-import JoditEditor from "jodit-react";
 import countryList from "react-select-country-list";
 import DatePicker from "react-date-picker";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,12 +20,31 @@ import {
   editProduct,
   fetchProductDetail,
 } from "../../../../redux/reducers/productSlice";
-import { InputMask } from "@react-input/mask";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import ComplianceNCertification from "./ComplianceNCertification";
 import EditComplianceNCertification from "./EditComplianceNCertification";
 import RichTextEditor from "./ProductDescriptionEditor";
+import {
+  Options,
+  packagingUnits,
+  volumeUnits,
+  packagingOptions,
+  materialOptions,
+  conditionOptions,
+  stockOptions,
+  quantityOptions,
+  stockQuantityOptions,
+  pharmaOptions,
+  skinhairOptions,
+  vitalHealthOptions,
+  moistureOptions,
+  dermatologistOptions,
+  pediatricianOptions,
+  frameOptions,
+  lensOptions,
+  lensmaterialOptions,
+  dairyfeeOptions,
+} from "./DropDowns";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -1392,28 +1410,28 @@ const EditAddProduct = ({ placeholder }) => {
     // Apply character limit
     value = value.slice(0, Number(textLimit));
 
-     // Dimension field validation
-     if (name === "dimension") {
+    // Dimension field validation
+    if (name === "dimension") {
       // Allow only numbers, "x", and "."
       value = value.replace(/[^0-9x.]/g, "").toLowerCase();
-  
+
       // Prevent multiple consecutive "x"
       value = value.replace(/x{2,}/g, "x");
-  
+
       // Split the values by "x" while keeping their sequence
       const parts = value.split("x").map((part, index) => {
         // Allow up to 5 digits before decimal and 2 after
         part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
-  
+
         // Ensure only one decimal per number
         part = part.replace(/(\..*)\./g, "$1");
-  
+
         return part;
       });
-  
+
       // Join back using "x" but ensure it doesn't remove already typed "x"
       value = parts.join("x");
-  
+
       setFieldValue(name, value);
       return;
     }
@@ -1434,8 +1452,8 @@ const EditAddProduct = ({ placeholder }) => {
         "g"
       );
       value = value.replace(allowedPattern, "");
-    } else if(allowedType === "decimal") {
-      if (!/^\d*\.?\d*$/.test(value)) return
+    } else if (allowedType === "decimal") {
+      if (!/^\d*\.?\d*$/.test(value)) return;
     }
 
     setFieldValue(name, value);
@@ -1501,133 +1519,6 @@ const EditAddProduct = ({ placeholder }) => {
         })) || []
     );
   };
-
-  //   Start the Dropdown option
-  const Options = [
-    { value: "new product", label: "New Product" },
-    { value: "secondary product", label: "Secondary Product" },
-  ];
-  const packagingUnits = [
-    { value: "Kilogram (kg)", label: "Kilogram (kg)" },
-    { value: "Gram (g)", label: "Gram (g)" },
-    { value: "Milligram (mg)", label: "Milligram (mg)" },
-    { value: "Microgram (µg)", label: "Microgram (µg)" },
-    { value: "Tonne (t)", label: "Tonne (t)" },
-    { value: "Pound (lb)", label: "Pound (lb)" },
-    { value: "Ounce (oz)", label: "Ounce (oz)" },
-    { value: "Stone (st)", label: "Stone (st)" },
-    { value: "Ton (long ton)", label: "Ton (long ton)" },
-    { value: "Short ton", label: "Short ton" },
-    { value: "Carat (ct)", label: "Carat (ct)" },
-    { value: "Grain (gr)", label: "Grain (gr)" },
-  ];
-
-  const volumeUnits = [
-    { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
-    { value: "Gram (g)", label: "Gram (g)" },
-    { value: "Milligram (mg)", label: "Milligram (mg)" },
-    { value: "Microgram (µg)", label: "Microgram (µg)" },
-    { value: "Tonne (t)", label: "Tonne (t)" },
-    { value: "Pound (lb)", label: "Pound (lb)" },
-    { value: "Ounce (oz)", label: "Ounce (oz)" },
-    { value: "Stone (st)", label: "Stone (st)" },
-    { value: "Ton (long ton)", label: "Ton (long ton)" },
-    { value: "Short ton", label: "Short ton" },
-    { value: "Carat (ct)", label: "Carat (ct)" },
-    { value: "Grain (gr)", label: "Grain (gr)" },
-  ];
-  const packagingOptions = [
-    { value: "Bottle", label: "Bottle" },
-    { value: "Tube", label: "Tube" },
-    { value: "Jar", label: "Jar" },
-    { value: "Pump", label: "Pump" },
-    { value: "Blister Pack", label: "Blister Pack" },
-    { value: "Strip", label: "Strip" },
-    { value: "Pouches", label: "Pouches" },
-    { value: "Soft Case", label: "Soft Case" },
-    { value: "Hard Case", label: "Hard Case" },
-    { value: "Backpack", label: "Backpack" },
-  ];
-  const materialOptions = [
-    { value: "Plastic", label: "Plastic" },
-    { value: "Glass", label: "Glass" },
-    { value: "Aluminum", label: "Aluminum" },
-    { value: "Cardboard", label: "Cardboard" },
-    { value: "Thermocol", label: "Thermocol" },
-    { value: "Other", label: "Other" },
-  ];
-  const conditionOptions = [
-    { value: "New", label: "New" },
-    { value: "Used", label: "Used" },
-    { value: "Refurbished", label: "Refurbished" },
-  ];
-  const stockOptions = [
-    { value: "In-stock", label: "In-stock" },
-    { value: "Out of Stock", label: "Out of Stock" },
-    { value: "On-demand", label: "On-demand" },
-  ];
-  const quantityOptions = [
-    { value: "0-500", label: "0-500" },
-    { value: "500-1000", label: "500-1000" },
-    { value: "1000-2000", label: "1000-2000" },
-    { value: "2000-5000", label: "2000-5000" },
-    { value: "5000-8000", label: "5000-8000" },
-    { value: "8000-12000", label: "8000-12000" },
-  ];
-  const stockQuantityOptions = [
-    { value: "America", label: "America" },
-    { value: "India", label: "India" },
-    { value: "United Arab Emirates", label: "United Arab Emirates" },
-    { value: "United Kingdom", label: "United Kingdom" },
-  ];
-  const pharmaOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const skinhairOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const vitalHealthOptions = [
-    { value: "Category I", label: "Category I" },
-    { value: "Category II", label: "Category II" },
-    { value: "Category III", label: "Category III" },
-  ];
-  const moistureOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const dermatologistOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const pediatricianOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  const frameOptions = [
-    { value: "Metal", label: "Metal" },
-    { value: "Plastic", label: "Plastic" },
-    { value: "Rimless", label: "Rimless" },
-  ];
-  const lensOptions = [
-    { value: "Single Vision", label: "Single Vision" },
-    { value: "Bifocal", label: "Bifocal" },
-    { value: "Progressive", label: "Progressive" },
-    { value: "Anti-Reflective", label: "Anti-Reflective" },
-  ];
-  const lensmaterialOptions = [
-    { value: "Polycarbonate", label: "Polycarbonate" },
-    { value: "Glass", label: "Glass" },
-    { value: "Trivex", label: "Trivex" },
-  ];
-  const dairyfeeOptions = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-  //   End the Dropdown option
 
   const formatDateToDDMMYYYY = (dateString) => {
     if (!dateString) return "";
@@ -2351,59 +2242,63 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div> */}
 
-               <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Product Volume
-                  </label>
-                  <div className={styles.weightContainer}>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>Product Volume</label>
+                <div className={styles.weightContainer}>
                   <div className={styles.weightSection}>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Volume"
-                      // autoComplete="off"
-                      name="volumn"
-                      value={formik?.values?.volumn}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 9, "decimal", [
-                          "volumn",
-                        ])
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip
-                      content=" The volume of the product (e.g., 50 mL, 100 g,
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Volume"
+                        // autoComplete="off"
+                        name="volumn"
+                        value={formik?.values?.volumn}
+                        // onChange={handleChange}
+                        onChange={(e) =>
+                          handleInputChange(
+                            e,
+                            formik.setFieldValue,
+                            9,
+                            "decimal",
+                            ["volumn"]
+                          )
+                        }
+                        onBlur={formik?.handleBlur}
+                      />
+                      <Tooltip
+                        content=" The volume of the product (e.g., 50 mL, 100 g,
                       drip chamber ) (e.g., macro, micro),
                      Length of the needle (e.g., 19 mm, 26 mm ) tape
                       width, adhesive strip size etc."
-                    ></Tooltip>
-                  </div>
+                      ></Tooltip>
                     </div>
-                    <div className={styles.unitSection}>
-                      <Select
-                        className={styles.formSelect}
-                        options={volumeUnits}
-                        placeholder="Select Units"
-                        onBlur={formik?.handleBlur}
-                        value={volumeUnits.find(
-                          (option) => option?.value === formik?.values?.volumeUnit
-                        )}
-                        onChange={(selectedOption) => {
-                          formik?.setFieldValue("volumeUnit", selectedOption?.value);
-                        }}
-                      />
-                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                  </div>
+                  <div className={styles.unitSection}>
+                    <Select
+                      className={styles.formSelect}
+                      options={volumeUnits}
+                      placeholder="Select Units"
+                      onBlur={formik?.handleBlur}
+                      value={volumeUnits.find(
+                        (option) => option?.value === formik?.values?.volumeUnit
+                      )}
+                      onChange={(selectedOption) => {
+                        formik?.setFieldValue(
+                          "volumeUnit",
+                          selectedOption?.value
+                        );
+                      }}
+                    />
+                    {/* {touched?.volumeUnit && errors.volumeUnit && (
                         <span className={styles.error}>{errors.volumeUnit}</span>
                       )} */}
-                    </div>
-
+                  </div>
                 </div>
-                  {/* {touched.volumn && errors.volumn && (
+                {/* {touched.volumn && errors.volumn && (
                     <span className={styles.error}>{errors.volumn}</span>
                   )} */}
-                </div>
+              </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Dimension
@@ -2496,55 +2391,63 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div> */}
 
-<div className={styles.productContainer}>
-                  <label className={styles.formLabel}>
-                    Product Weight & Units
-                    <span className={styles.labelStamp}>*</span>
-                  </label>
-                  <div className={styles.weightContainer}>
-                    <div className={styles.weightSection}>
-                      <div className={styles.tooltipContainer}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Product Weight"
-                          // autoComplete="off"
-                          name="weight"
-                          value={formik?.values?.weight}
-                    // onChange={formik?.handleChange}
-                    onChange={(e) =>
-                      handleInputChange(e, formik.setFieldValue, 9, "decimal", [
-                        "weight",
-                      ])
-                    }
-                    onBlur={formik?.handleBlur}
-                        />
-                        <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
-                      </div>
-                      {formik?.touched.weight && formik?.errors.weight && (
-                        <span className={styles.error}>{formik?.errors.weight}</span>
-                      )}
-                    </div>
-                    <div className={styles.unitSection}>
-                      <Select
-                        className={styles.formSelect}
-                        options={packagingUnits}
-                        placeholder="Select Units"
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                  Product Weight & Units
+                  <span className={styles.labelStamp}>*</span>
+                </label>
+                <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Product Weight"
+                        // autoComplete="off"
+                        name="weight"
+                        value={formik?.values?.weight}
+                        // onChange={formik?.handleChange}
+                        onChange={(e) =>
+                          handleInputChange(
+                            e,
+                            formik.setFieldValue,
+                            9,
+                            "decimal",
+                            ["weight"]
+                          )
+                        }
                         onBlur={formik?.handleBlur}
-                  // Ensure that the value reflects the value from formik or the productDetail state
-                  value={packagingUnits.find(
-                    (option) => option?.value === formik?.values?.unit
-                  )}
-                  onChange={(selectedOption) => {
-                    formik.setFieldValue("unit", selectedOption?.value);
-                  }}
                       />
-                      {formik?.touched.unit && formik?.errors.unit && (
-                        <span className={styles.error}>{formik?.errors.unit}</span>
-                      )}
+                      <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
                     </div>
+                    {formik?.touched.weight && formik?.errors.weight && (
+                      <span className={styles.error}>
+                        {formik?.errors.weight}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.unitSection}>
+                    <Select
+                      className={styles.formSelect}
+                      options={packagingUnits}
+                      placeholder="Select Units"
+                      onBlur={formik?.handleBlur}
+                      // Ensure that the value reflects the value from formik or the productDetail state
+                      value={packagingUnits.find(
+                        (option) => option?.value === formik?.values?.unit
+                      )}
+                      onChange={(selectedOption) => {
+                        formik.setFieldValue("unit", selectedOption?.value);
+                      }}
+                    />
+                    {formik?.touched.unit && formik?.errors.unit && (
+                      <span className={styles.error}>
+                        {formik?.errors.unit}
+                      </span>
+                    )}
                   </div>
                 </div>
+              </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Type
@@ -2664,24 +2567,24 @@ const EditAddProduct = ({ placeholder }) => {
                   )}
               </div>
               <div className={styles.productContainer}>
-                  <label className={styles.formLabel}>Storage Conditions</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Storage Conditions"
-                      // autoComplete="off"
-                      name="storage"
-                      // onChange={formik?.handleChange}
-                      value={formik?.values?.storage}
-                      onChange={(e) =>
-                        handleInputChange(e, formik.setFieldValue, 30, "all")
-                      }
-                      onBlur={formik?.handleBlur}
-                    />
-                    <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
-                  </div>
+                <label className={styles.formLabel}>Storage Conditions</label>
+                <div className={styles.tooltipContainer}>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Storage Conditions"
+                    // autoComplete="off"
+                    name="storage"
+                    // onChange={formik?.handleChange}
+                    value={formik?.values?.storage}
+                    onChange={(e) =>
+                      handleInputChange(e, formik.setFieldValue, 30, "all")
+                    }
+                    onBlur={formik?.handleBlur}
+                  />
+                  <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                 </div>
+              </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Name
@@ -2737,7 +2640,7 @@ const EditAddProduct = ({ placeholder }) => {
                     </span>
                   )}
               </div>
-              
+
               <div className={styles.formInnerSection}>
                 <AddProductFileUpload
                   productDetails={productDetail}
@@ -2837,7 +2740,6 @@ const EditAddProduct = ({ placeholder }) => {
                 )}
               </div>
 
-              
               {/* <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Storage & Handling</span>
                 <div className={styles.compliancesContainer}>
@@ -8947,7 +8849,6 @@ const EditAddProduct = ({ placeholder }) => {
           </div>
 
           {/* End the compliances and certificate 222222222 */}
-
 
           {/* Start the Health & Safety */}
           <div className={styles.section}>
