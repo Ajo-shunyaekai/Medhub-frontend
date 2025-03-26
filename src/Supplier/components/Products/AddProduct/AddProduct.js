@@ -6540,7 +6540,7 @@ const AddProduct = ({ placeholder }) => {
             {/* End the Emergency and First Aid Supplies */}
 
             {/* Start the Disinfection and Hygiene Supplies */}
-            {selectedSchema === "disinfectionAndHygieneSuppliesSchema" && (
+            {selectedSchema === "DisinfectionAndHygieneSupplies" && (
               <>
                 <div className={styles.section}>
                   <span className={styles.formHead}>

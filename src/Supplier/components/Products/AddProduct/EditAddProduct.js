@@ -7583,7 +7583,7 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start the Disinfection and Hygiene Supplies */}
           {formik?.values?.category?.toLowerCase() ===
-            "disinfectionAndHygieneSuppliesSchema"?.toLowerCase() && (
+            "DisinfectionAndHygieneSupplies"?.toLowerCase() && (
             <>
               <div className={styles.section}>
                 <span className={styles.formHead}>Product Identification</span>
