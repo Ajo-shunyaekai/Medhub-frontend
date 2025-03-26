@@ -27,10 +27,18 @@ const useFileUpload = (
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles
         // Update Formik state
         console.log("field Value to update ", fieldInputName);
-        setFieldValue("complianceFile", totalFiles);
+        // setFieldValue("complianceFile", totalFiles);
         return totalFiles;
       });
       setFilesMerged(acceptedFiles); // Set the accepted files
+
+      const updatedComplianceFiles = [
+        ...(initialValues?.complianceFile || []), // Use `values` instead of `initialValues`
+        ...acceptedFiles, // Add all the accepted files
+      ];
+
+      // Update Formik's field value with the new files
+      setFieldValue("complianceFile", updatedComplianceFiles);
     },
     [fieldInputName, setFieldValue]
   );
