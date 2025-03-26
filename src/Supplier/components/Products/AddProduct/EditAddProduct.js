@@ -246,7 +246,7 @@ const EditAddProduct = ({ placeholder }) => {
       description: Yup.string().required("Product Description is required."),
       manufacturer: Yup.string().required("Manufacturer Name is required."),
       aboutManufacturer: Yup.string().required(
-        "About Manufacturer is required."
+        "Short Description is required."
       ),
       countryOfOrigin: Yup.string().required(
         "Manufacturer Country of Origin is required."
@@ -2386,7 +2386,7 @@ const EditAddProduct = ({ placeholder }) => {
                   </span>
                 )}
               </div>
-              <div className={styles.productContainer}>
+              {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Weight<span className={styles?.labelStamp}>*</span>
                 </label>
@@ -2432,7 +2432,57 @@ const EditAddProduct = ({ placeholder }) => {
                 {formik.touched.unit && formik.errors.unit && (
                   <span className={styles.error}>{formik.errors.unit}</span>
                 )}
-              </div>
+              </div> */}
+
+<div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Product Weight & Units
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <div className={styles.weightContainer}>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Product Weight"
+                          // autoComplete="off"
+                          name="weight"
+                          value={formik?.values?.weight}
+                    // onChange={formik?.handleChange}
+                    onChange={(e) =>
+                      handleInputChange(e, formik.setFieldValue, 5, "all", [
+                        "weight",
+                      ])
+                    }
+                    onBlur={formik?.handleBlur}
+                        />
+                        <Tooltip content="in (g, kg, lbs, l, ml, oz, gal, t)"></Tooltip>
+                      </div>
+                      {formik?.touched.weight && formik?.errors.weight && (
+                        <span className={styles.error}>{formik?.errors.weight}</span>
+                      )}
+                    </div>
+                    <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={packagingUnits}
+                        placeholder="Select Units"
+                        onBlur={formik?.handleBlur}
+                  // Ensure that the value reflects the value from formik or the productDetail state
+                  value={packagingUnits.find(
+                    (option) => option?.value === formik?.values?.unit
+                  )}
+                  onChange={(selectedOption) => {
+                    formik.setFieldValue("unit", selectedOption?.value);
+                  }}
+                      />
+                      {formik?.touched.unit && formik?.errors.unit && (
+                        <span className={styles.error}>{formik?.errors.unit}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Packaging Type
@@ -2551,6 +2601,25 @@ const EditAddProduct = ({ placeholder }) => {
                     </span>
                   )}
               </div>
+              <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>Storage Conditions</label>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Storage Conditions"
+                      // autoComplete="off"
+                      name="storage"
+                      // onChange={formik?.handleChange}
+                      value={formik?.values?.storage}
+                      onChange={(e) =>
+                        handleInputChange(e, formik.setFieldValue, 30, "all")
+                      }
+                      onBlur={formik?.handleBlur}
+                    />
+                    <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
+                  </div>
+                </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Manufacturer Name
@@ -2730,7 +2799,7 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
 
               
-              <div className={styles.sectionCompliances}>
+              {/* <div className={styles.sectionCompliances}>
                 <span className={styles.formHead}>Storage & Handling</span>
                 <div className={styles.compliancesContainer}>
                   <label className={styles.formLabel}>Storage Conditions</label>
@@ -2751,7 +2820,7 @@ const EditAddProduct = ({ placeholder }) => {
                     <Tooltip content="Recommended storage (e.g., store in a cool, dry place)"></Tooltip>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

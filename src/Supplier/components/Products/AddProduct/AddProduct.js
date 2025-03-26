@@ -54,7 +54,7 @@ const AddProduct = ({ placeholder }) => {
     name: Yup.string().required("Product Name is required."),
     description: Yup.string().required("Product Description is required."),
     manufacturer: Yup.string().required("Manufacturer Name is required."),
-    aboutManufacturer: Yup.string().required("About Manufacturer is required."),
+    aboutManufacturer: Yup.string().required("Short Description is required."),
     countryOfOrigin: Yup.string().required(
       "Manufacturer Country of Origin is required."
     ),
@@ -1027,6 +1027,33 @@ const AddProduct = ({ placeholder }) => {
     // Apply character limit
     value = value.slice(0, Number(textLimit));
 
+    // Dimension field validation
+    if (name === "dimension") {
+      // Allow only numbers, "x", and "."
+      value = value.replace(/[^0-9x.]/g, "").toLowerCase();
+  
+      // Prevent multiple consecutive "x"
+      value = value.replace(/x{2,}/g, "x");
+  
+      // Split the values by "x" while keeping their sequence
+      const parts = value.split("x").map((part, index) => {
+        // Allow up to 5 digits before decimal and 2 after
+        part = part.replace(/^(\d{1,5})\.(\d{0,2}).*/, "$1.$2");
+  
+        // Ensure only one decimal per number
+        part = part.replace(/(\..*)\./g, "$1");
+  
+        return part;
+      });
+  
+      // Join back using "x" but ensure it doesn't remove already typed "x"
+      value = parts.join("x");
+  
+      setFieldValue(name, value);
+      return;
+    }
+  
+
     // Restrict input type
     if (allowedType === "number") {
       value = value.replace(/[^0-9]/g, ""); // Allow only numbers
@@ -1889,7 +1916,7 @@ const AddProduct = ({ placeholder }) => {
                           e,
                           setFieldValue,
                           9,
-                          "all",
+                          "number",
                           ["volumn"],
                           "."
                         )
@@ -1930,7 +1957,7 @@ const AddProduct = ({ placeholder }) => {
                     <input
                       className={styles.formInput}
                       type="text"
-                      placeholder="Enter Dimension"
+                      placeholder="Enter Height x Width x Depth"
                       // autoComplete="off"
                       name="dimension"
                       value={values.dimension}
@@ -1939,19 +1966,16 @@ const AddProduct = ({ placeholder }) => {
                         handleInputChange(
                           e,
                           setFieldValue,
-                          9,
+                          35,
                           "all",
                           ["dimension"],
-                          "."
+                          ". x"
                         )
                       }
                       onBlur={handleBlur}
                     />
                     <Tooltip
-                      content="The size or volume of the product (e.g., 50 mL, 100 g,
-                      drip chamber ) (e.g., macro, micro),
-                       Length of the needle (e.g., 19 mm, 26 mm ) tape
-                      width, adhesive strip size etc."
+                      content="The dimension of the product in Height x Width x Depth."
                     ></Tooltip>
                   </div>
                   {touched.dimension && errors.dimension && (
@@ -2189,7 +2213,7 @@ const AddProduct = ({ placeholder }) => {
                   <textarea
                     className={styles.formInput}
                     type="text"
-                    placeholder="Enter Short Description"
+                    placeholder="Enter Short Description of Product"
                     value={values.aboutManufacturer}
                     name="aboutManufacturer"
                     onBlur={handleBlur}

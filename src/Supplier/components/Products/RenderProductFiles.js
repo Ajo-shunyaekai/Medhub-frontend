@@ -10,7 +10,7 @@ const RenderProductFiles = ({ files }) => {
   return files?.map((file, index) => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
  
-    if (file.endsWith(".pdf")) {
+    if (file?.endsWith(".pdf")) {
       return (
         <div key={index} className={styles.uploadFileContainer}>
           <FaFilePdf
@@ -32,10 +32,10 @@ const RenderProductFiles = ({ files }) => {
         </div>
       );
     } else if (
-      file.endsWith(
+      file?.endsWith(
         ".vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) ||
-      file.endsWith(".docx")
+      file?.endsWith(".docx")
     ) {
       const docxFileName = file.replace(
         ".vnd.openxmlformats-officedocument.wordprocessingml.document",
