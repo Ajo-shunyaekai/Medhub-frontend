@@ -34,6 +34,21 @@ const ProductDetails = () => {
     return productDetail[productDetail.category]?.[property];
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return ""; // Handle empty or undefined dates
+  
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj)) return ""; // Handle invalid dates
+  
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = dateObj.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  };
+  
+  
+
   return (
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
@@ -366,7 +381,8 @@ const ProductDetails = () => {
                               Date of Manufacture
                             </span>
                             <span className={styles.medicineText}>
-                              {productDetail?.inventoryDetails?.date}
+                              {/* {productDetail?.inventoryDetails?.date} */}
+                              {formatDate(productDetail?.inventoryDetails?.date)}
                             </span>
                           </div>
                         )}
@@ -2428,7 +2444,7 @@ const ProductDetails = () => {
                       {productDetail.cNCFileNDate.map((item, index) => (
                         <div className={styles.complianceSection} key={item._id || index}>
                           <RenderProductFiles files={[item.file]} />
-                          <span className={styles.medicineContent}>{item.date}</span>
+                          <span className={styles.medicineContent}>{formatDate(item.date)}</span>
                         </div>
                       ))}
                     </div>
