@@ -12,6 +12,7 @@ const SupplierMedicineCard = ({
     onPageChange,
     isSecondaryMarket = false
 }) => {
+    // console.log('medicineList', medicineList, currentPage, totalItems, itemsPerPage)
     return (
         <div className={styles.container}>
             <span className={styles.cardMainHeading}>Supplier List</span>

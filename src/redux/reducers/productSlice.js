@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 const initialState = {
   loading: false,
   products : [],
+  supplierProductList: [],
+  otherSupplierList: [],
   productDetail : {},
 };
  
@@ -121,6 +123,34 @@ export const addBulkProducts = createAsyncThunk(
     }
   }
 );
+
+export const fetchSupplierProductsList = createAsyncThunk(
+  "product/fetchSupplierProductsList",
+  async (url, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postRequest(url)
+      return response?.data; 
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response || error.message);
+    }
+  }
+);
+
+export const fetchOtherSupplierProductsList = createAsyncThunk(
+  "product/fetchOtherSupplierProductsList",
+  async (url, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests.postRequest(url)
+      return response?.data; 
+    } catch (error) {
+      // Log and pass the error
+      console.log("API error:", error);
+      return rejectWithValue(error?.response || error.message);
+    }
+  }
+);
  
 export const productSlice = createSlice({
   name: "admin",
@@ -140,6 +170,28 @@ export const productSlice = createSlice({
         state.products = action?.payload;
       })
       .addCase(fetchProductsList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchSupplierProductsList.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchSupplierProductsList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.supplierProductList = action?.payload;
+      })
+      .addCase(fetchSupplierProductsList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchOtherSupplierProductsList.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOtherSupplierProductsList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otherSupplierList = action?.payload;
+      })
+      .addCase(fetchOtherSupplierProductsList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

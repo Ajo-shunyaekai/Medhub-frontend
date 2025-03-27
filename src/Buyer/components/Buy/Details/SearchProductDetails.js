@@ -1,7 +1,7 @@
 import styles from "./productdetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
+import { fetchProductDetail, fetchSupplierProductsList } from "../../../../redux/reducers/productSlice";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
@@ -14,12 +14,16 @@ Modal.setAppElement("#root");
 const SearchProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { productDetail } = useSelector((state) => state?.productReducer || {});
+  const { productDetail, supplierProductList } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
   // State for search and filter
+   
   const [inputValue, setInputValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [medicineList, setMedicineList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalitems] = useState(0); 
+  const itemsPerPage = 2;
 
   const pdfFile =
     productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
@@ -32,8 +36,24 @@ const SearchProductDetails = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
+      // dispatch(fetchSupplierProductsList(`product/get-suppliers?id=${id}&page_no=${currentPage}&page_size=${itemsPerPage}`));
     }
   }, [id, dispatch]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await dispatch(fetchSupplierProductsList(`product/get-suppliers/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+
+      if(response.meta.requestStatus === 'fulfilled') {
+        setMedicineList(response?.payload?.products || []);
+        setTotalitems(response?.payload?.totalItems || 0);
+      } else {
+        setMedicineList([]);
+        setTotalitems(0);
+      }
+    }
+    fetchData()
+  }, [id, dispatch, currentPage])
 
   // Update filtered data when productDetail changes
   useEffect(() => {
@@ -64,6 +84,10 @@ const SearchProductDetails = () => {
     if (e.key === "Enter") {
       handleProductSearch();
     }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   // Filter handlers (minimal implementation, adjust as per your needs)
@@ -363,11 +387,13 @@ const SearchProductDetails = () => {
 
         {/* Product Cards */}
         <SupplierMedicineCard
-            medicineList={filteredData}
-            currentPage={1}
-            totalItems={filteredData.length}
-            itemsPerPage={10}
-            onPageChange={(page) => console.log(page)}
+            medicineList={medicineList}
+            currentPage={currentPage}
+            // totalItems={filteredData.length}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            // onPageChange={(page) => console.log(page)}
+            onPageChange={handlePageChange}
             // isSecondaryMarket={productData?.market === "secondary"}
           />
       </div>

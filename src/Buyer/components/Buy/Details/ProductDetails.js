@@ -2,7 +2,7 @@ import styles from "./productdetails.module.css";
 import Select from 'react-select';
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
+import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import RenderProductFiles from "./RenderFiles";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
@@ -24,11 +24,56 @@ const ProductDetails = () => {
     productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0]);
   console.log("Constructed PDF URL:", pdfUrl);
 
+  const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
+
+  const quantityOptions = inventoryList.map((item) => ({
+    value: item.quantity,
+    label: item.quantity,
+  }));
+
+  // Initialize state with the first quantity range
+  const [selectedQuantity, setSelectedQuantity] = useState(quantityOptions[0]?.value || "");
+
+  // Update selected quantity when inventoryList changes
+  useEffect(() => {
+    if (quantityOptions.length > 0) {
+      setSelectedQuantity(quantityOptions[0].value);
+    }
+  }, [productDetail]);
+
+  // Find the corresponding inventory item based on selected quantity
+  const selectedInventory = inventoryList.find((item) => item.quantity === selectedQuantity) || {};
+
+
+  const [medicineList, setMedicineList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalitems] = useState(0); 
+  const itemsPerPage = 6;
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(`product/${id}`));
     }
   }, [id]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+  
+        if(response.meta.requestStatus === 'fulfilled') {
+          setMedicineList(response?.payload?.products || []);
+          setTotalitems(response?.payload?.totalItems || 0);
+        } else {
+          setMedicineList([]);
+          setTotalitems(0);
+        }
+      }
+      fetchData()
+    }, [id, dispatch, currentPage])
 
   const getCategoryData = (property) => {
     if (!productDetail?.category) return null;
@@ -2520,7 +2565,8 @@ const ProductDetails = () => {
 
         {/* End Additional information */}
         {/* Start the product inventory section */}
-        {productDetail?.inventoryDetails?.inventoryList?.length > 0 && (
+        {/* {productDetail?.inventoryDetails?.inventoryList?.length > 0 && ( */}
+        {inventoryList.length > 0 && (
   <div className={styles.mainContainer}>
     <span className={styles.innerHead}>Product Inventory</span>
     <div className={styles.innerInventorySection}>
@@ -2541,28 +2587,37 @@ const ProductDetails = () => {
           <span className={styles.inventoryHead}>Target Price</span>
         </div>
       </div>
-      {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
+      {/* {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
         const options = Array.isArray(ele?.quantity)
           ? ele.quantity.map((qty) => ({ value: qty, label: qty }))
           : [{ value: ele?.quantity, label: ele?.quantity }];
 
-        return (
-          <div className={styles.inventorySection} key={index}>
+        return ( */}
+          <div className={styles.inventorySection}>
             <div className={styles.inventoryContainer}>
-              <Select
+              {/* <Select
                 options={options}
                 placeholder="Select Quantity"
                 
+              /> */}
+
+<Select
+                options={quantityOptions}
+                placeholder="Select Quantity"
+                value={quantityOptions.find((opt) => opt.value === selectedQuantity)}
+                onChange={(selectedOption) => setSelectedQuantity(selectedOption.value)}
               />
             </div>
             <div className={styles.inventoryContainer}>
               <span className={styles.inventoryInput} readOnly>
-                {ele?.price}
+                {/* {ele?.price} */}
+                {selectedInventory.price || "-"}
               </span>
             </div>
             <div className={styles.inventoryContainer}>
               <span className={styles.inventoryInput} readOnly>
-                {ele?.deliveryTime}
+                {/* {ele?.deliveryTime} */}
+                {selectedInventory.deliveryTime || "-"}
               </span>
             </div>
             <div className={styles.inventoryContainer}>
@@ -2580,13 +2635,19 @@ const ProductDetails = () => {
               />
             </div>
           </div>
-        );
-      })}
+      {/* //   );
+      // })} */}
     </div>
   </div>
 )}
         {/* End the product inventory section */}
-        <ProductCard />
+        <ProductCard 
+         medicineList={medicineList}
+         currentPage={currentPage}
+         totalItems={totalItems}
+         itemsPerPage={itemsPerPage}
+         onPageChange={handlePageChange}
+        />
         {/* Modal for PDF Preview */}
         <Modal
           isOpen={modalIsOpen}
