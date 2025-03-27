@@ -19,6 +19,7 @@ const SearchProductDetails = () => {
   // State for search and filter
    
   const [inputValue, setInputValue] = useState("");
+  const [searchKey, setSearchKey]   = useState(null)
   const [filteredData, setFilteredData] = useState([]);
   const [medicineList, setMedicineList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +43,7 @@ const SearchProductDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await dispatch(fetchSupplierProductsList(`product/get-suppliers/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+      const response = await dispatch(fetchSupplierProductsList(`product/get-suppliers/${id}?search_key=${searchKey}&page_no=${currentPage}&page_size=${itemsPerPage}`));
 
       if(response.meta.requestStatus === 'fulfilled') {
         setMedicineList(response?.payload?.products || []);
@@ -53,7 +54,7 @@ const SearchProductDetails = () => {
       }
     }
     fetchData()
-  }, [id, dispatch, currentPage])
+  }, [id, dispatch, currentPage, searchKey])
 
   // Update filtered data when productDetail changes
   useEffect(() => {
@@ -69,15 +70,24 @@ const SearchProductDetails = () => {
 
   // Search handlers
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    // setInputValue(e.target.value);
+    const input = e.target.value;
+        // if(input.length <= 10) {
+            setInputValue(e.target.value)
+ 
+        if (e.target.value === '') {
+            setSearchKey('');
+        }
   };
 
   const handleProductSearch = () => {
-    const dataToFilter = productDetail?.data || [productDetail] || [];
-    const filtered = dataToFilter.filter((item) =>
-      item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setFilteredData(filtered);
+    // const dataToFilter = productDetail?.data || [productDetail] || [];
+    // const filtered = dataToFilter.filter((item) =>
+    //   item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
+    // );
+    // setFilteredData(filtered);
+    setSearchKey(inputValue)
+    setCurrentPage(1)
   };
 
   const handleKeyDown = (e) => {
