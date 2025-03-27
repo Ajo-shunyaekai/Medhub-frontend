@@ -27,7 +27,8 @@ const ProductCard = ({
     totalItems, 
     itemsPerPage, 
     onPageChange,
-    isSecondaryMarket = false
+    isSecondaryMarket = false,
+    basePath = "/buyer/search-product-details"
 }) => {
     return (
         <div className={styles.container}>
@@ -46,12 +47,12 @@ const ProductCard = ({
                                         alt={medicine?.general?.name || 'Medicine'} 
                                     />
                                 </div>
-                                <Link to={`/buyer/search-product-details/${medicine._id}`}>
+                                <Link to={`${basePath}/${medicine._id}`}>
                                     <button className={styles.button}>View Details</button>
                                 </Link>
                             </div>
                             <div className={styles.contentSection}>
-                                <Link to={`/buyer/search-product-details/${medicine._id}`}>
+                                <Link to={`${basePath}/${medicine._id}`}>
                                     <span className={styles.mainHeading}>
                                         {medicine?.general?.name || 'N/A'}
                                     </span>

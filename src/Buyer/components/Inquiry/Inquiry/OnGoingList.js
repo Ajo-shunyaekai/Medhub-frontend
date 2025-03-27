@@ -45,7 +45,7 @@ const AssignDriver = ({ items, inquiryDetails }) => {
                   <span className="table-g-section">{item?.medicine_details?.medicine_name?.charAt(0).toUpperCase()}</span>
                   <div className="table-g-section-content">
                     <span className="table-g-driver-name">Product Name</span>
-                    <span className="table-g-not-name">{item?.medicine_details?.medicine_name}</span>
+                    <span className="table-g-not-name">{item?.medicine_details?.general?.name}</span>
                   </div>
                 </div>
               </td>

@@ -1,6 +1,6 @@
 import styles from "./productdetails.module.css";
 import Select from 'react-select';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../redux/reducers/productSlice";
 import { useState, useEffect } from "react";
@@ -10,23 +10,25 @@ import ProductCard from "../UiShared/ProductCards/ProductCard";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import RenderProductFiles from './RenderFiles' 
 import * as Yup from 'yup';
+import { addToList } from "../../../../redux/reducers/listSlice";
 
 Modal.setAppElement("#root");
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   selectedQuantity: Yup.string()
-    .required('Quantity selection is mandatory'),
+    .required('Quantity Range is Required'),
   quantityRequired: Yup.number()
-    .required('Quantity Required is mandatory')
+    .required('Quantity is Required')
     .positive('Must be a positive number')
     .typeError('Must be a number'),
   targetPrice: Yup.number()
-    .required('Target Price is mandatory')
+    .required('Target Price is Required')
     .positive('Must be a positive price')
     .typeError('Must be a number'),
 });
 const ProductDetails = () => {
+  const navigate  = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
@@ -69,6 +71,53 @@ const ProductDetails = () => {
       if (!productDetail?.category) return null;
       return productDetail[productDetail.category]?.[property];
     };
+
+    // const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
+
+// Extract all available quantities along with their corresponding prices and delivery times
+const quantityOptions = inventoryList.flatMap((ele) => 
+  Array.isArray(ele?.quantity)
+    ? ele.quantity.map((qty, idx) => ({ value: qty, label: qty, price: ele?.price[idx], deliveryTime: ele?.deliveryTime[idx] }))
+    : [{ value: ele?.quantity, label: ele?.quantity, price: ele?.price, deliveryTime: ele?.deliveryTime }]
+);
+
+// Get the first quantity option as the default
+const defaultOption = quantityOptions[0] || { value: '', price: '', deliveryTime: '' };
+
+const handleSubmit = (values, { resetForm }) => {
+  console.log('Form submitted:', values);
+  const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage = localStorage.getItem('buyer_id');
+    const buyerId = sessionStorage.getItem('_id') || localStorage.getItem('_id')
+
+    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      navigate('/buyer/login');
+      return;
+    }
+
+  const obj = {
+    buyerId,
+    buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
+    medId             : id,
+    medicine_id       : productDetail?.medicine_id,
+    supplier_id       : productDetail?.userDetails?.supplier_id,
+    quantity_required : values?.quantityRequired,
+    target_price      : values?.targetPrice,
+    quantity          : values?.selectedQuantity,
+    unit_price        : values?.price,
+    est_delivery_time : values?.deliveryTime
+  }
+
+  console.log('Form obj:', obj);
+    dispatch(addToList(obj)).then((response) => {
+      console.log("response", response);
+      if (response?.meta.requestStatus === "fulfilled") {
+        // navigate("/supplier/product"); 
+        resetForm()
+      }
+    })
+  
+ }
 
   return (
     <div className={styles.container}>
@@ -2580,26 +2629,34 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
+              {/* {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
                 const options = Array.isArray(ele?.quantity)
                   ? ele.quantity.map((qty) => ({ value: qty, label: qty }))
                   : [{ value: ele?.quantity, label: ele?.quantity }];
 
-                return (
+                return ( */}
                   <Formik
-                    key={index}
+                    // key={index}
+                    // initialValues={{
+                    //   selectedQuantity: '',
+                    //   quantityRequired: '',
+                    //   targetPrice: ''
+                    // }}
                     initialValues={{
-                      selectedQuantity: '',
+                      selectedQuantity: defaultOption.value,
+                      price: defaultOption.price,
+                     deliveryTime: defaultOption.deliveryTime,
                       quantityRequired: '',
-                      targetPrice: ''
+                      targetPrice: '',
                     }}
                     validationSchema={validationSchema}
-                    onSubmit={(values, { resetForm }) => {
-                      console.log('Form submitted:', values);
-                      // Add your submit logic here
-                    }}
+                    // onSubmit={(values, { resetForm }) => {
+                    //   console.log('Form submitted:', values);
+                    //   // Add your submit logic here
+                    // }}
+                    onSubmit={handleSubmit}
                   >
-                    {({ handleReset, setFieldValue, errors, touched }) => (
+                    {/* {({ handleReset, setFieldValue, errors, touched }) => (
                       <Form className={styles.formSection}>
                         <div className={styles.fromContainer}>
                           <div className={styles.inventoryContainer}>
@@ -2665,10 +2722,61 @@ const ProductDetails = () => {
                           </button>
                         </div>
                       </Form>
-                    )}
+                    )} */}
+
+{({ setFieldValue, values, errors, touched }) => {
+      // Get the selected quantity details
+      const selectedOption = quantityOptions.find((opt) => opt.value === values.selectedQuantity) || defaultOption;
+
+      return (
+        <Form className={styles.formSection}>
+          <div className={styles.fromContainer}>
+            <div className={styles.inventoryContainer}>
+              <Select
+                options={quantityOptions}
+                value={quantityOptions.find((opt) => opt.value === values.selectedQuantity)}
+                placeholder="Select Quantity"
+                onChange={(option) => {
+                  setFieldValue('selectedQuantity', option?.value || '');
+                  setFieldValue('targetPrice', ''); // Reset target price when quantity changes
+                }}
+                className={errors.selectedQuantity && touched.selectedQuantity ? styles.errorSelect : ''}
+              />
+              <ErrorMessage name="selectedQuantity" component="span" className={styles.errorText} />
+            </div>
+            <div className={styles.inventoryContainer}>
+              <span className={styles.inventoryInput} readOnly>
+                {selectedOption.price || 'N/A'}
+              </span>
+            </div>
+            <div className={styles.inventoryContainer}>
+              <span className={styles.inventoryInput} readOnly>
+                {selectedOption.deliveryTime || 'N/A'}
+              </span>
+            </div>
+            <div className={styles.inventoryContainer}>
+              <Field type="number" name="quantityRequired" className={styles.inventoryInput} placeholder="Enter quantity" />
+              <ErrorMessage name="quantityRequired" component="span" className={styles.errorText} />
+            </div>
+            <div className={styles.inventoryContainer}>
+              <Field type="number" name="targetPrice" className={styles.inventoryInput} placeholder="Enter target price" />
+              <ErrorMessage name="targetPrice" component="span" className={styles.errorText} />
+            </div>
+          </div>
+          <div className={styles.buttonContainer}>
+            <button type="submit" className={styles.submitButton}>
+              Add to List
+            </button>
+            <button type="button" className={styles.cancelButton} onClick={() => setFieldValue('quantityRequired', '')}>
+              Cancel
+            </button>
+          </div>
+        </Form>
+      );
+    }}
                   </Formik>
-                );
-              })}
+                {/* );
+              // })} */}
             </div>
           </div>
         )}
@@ -2679,6 +2787,7 @@ const ProductDetails = () => {
           totalItems={totalItems}
           itemsPerPage={itemsPerPage}
           onPageChange={handlePageChange}
+          basePath="/buyer/product-details"
         />
         {/* Modal for PDF Preview */}
         <Modal
