@@ -154,7 +154,7 @@ const SearchProductDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <div className={styles.mainContainer}>
+        <div className={styles.ProductMainContainer}>
           <span className={styles.medicineName}>{productDetail?.general?.name}</span>
         </div>
 

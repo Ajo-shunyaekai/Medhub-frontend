@@ -55,6 +55,19 @@ const BuySeller = ({ active }) => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
     };
 
+    const resetFilters = () => {
+        setFilterCountry('');
+        setInputValue('');
+        setSearchKey('');
+        setCurrentPage(1);
+        setOpenDropdown(null);
+    };
+
+    // Check if any filters are applied
+    const areFiltersApplied = () => {
+        return filterCountry !== '' || searchKey !== '';
+    };
+
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setOpenDropdown(null);
@@ -135,6 +148,8 @@ const BuySeller = ({ active }) => {
                         countryOrigin={countryOrigin}
                         handleCountry={handleCountry}
                         dropdownRef={dropdownRef}
+                        resetFilters={resetFilters}
+                        areFiltersApplied={areFiltersApplied()} // Pass filter status
                     />
                     <SupplierCard 
                         supplierList={supplierList}

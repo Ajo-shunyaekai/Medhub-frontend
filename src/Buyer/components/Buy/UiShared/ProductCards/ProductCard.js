@@ -46,12 +46,12 @@ const ProductCard = ({
                                         alt={medicine?.general?.name || 'Medicine'} 
                                     />
                                 </div>
-                                <Link to={`/buyer/product-details/${medicine._id}`}>
+                                <Link to={`/buyer/search-product-details/${medicine._id}`}>
                                     <button className={styles.button}>View Details</button>
                                 </Link>
                             </div>
                             <div className={styles.contentSection}>
-                                <Link to={`/buyer/product-details/${medicine._id}`}>
+                                <Link to={`/buyer/search-product-details/${medicine._id}`}>
                                     <span className={styles.mainHeading}>
                                         {medicine?.general?.name || 'N/A'}
                                     </span>

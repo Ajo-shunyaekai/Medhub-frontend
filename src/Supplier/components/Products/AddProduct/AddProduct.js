@@ -12,7 +12,6 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
 import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
@@ -20,7 +19,6 @@ import {
   addProduct,
   addBulkProducts,
 } from "../../../../redux/reducers/productSlice";
-import { InputMask } from "@react-input/mask";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
 import {
@@ -1057,7 +1055,7 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1}
                       error={
                         touched.purchaseInvoiceFile &&
-                        errors.purchaseInvoiceFile
+                          errors.purchaseInvoiceFile
                           ? errors.purchaseInvoiceFile
                           : null
                       }
@@ -2936,7 +2934,7 @@ const AddProduct = ({ placeholder }) => {
                           }}
                           placeholder={
                             !value.filtrationType ||
-                            value.filtrationType.length === 0
+                              value.filtrationType.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3311,7 +3309,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.physicalState || []} // Ensure value is always an array
                           placeholder={
                             !values.physicalState ||
-                            values.physicalState.length === 0
+                              values.physicalState.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3342,7 +3340,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.hazardClassification || []} // Ensure value is always an array
                           placeholder={
                             !values.hazardClassification ||
-                            values.hazardClassification.length === 0
+                              values.hazardClassification.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -6134,7 +6132,7 @@ const AddProduct = ({ placeholder }) => {
                     className={styles.formAddButton}
                     onClick={() =>
                       (values?.stockedInDetails?.length || 0) <
-                        (values.countries?.length || 0) &&
+                      (values.countries?.length || 0) &&
                       setFieldValue("stockedInDetails", [
                         ...values.stockedInDetails,
                         {
@@ -6192,9 +6190,9 @@ const AddProduct = ({ placeholder }) => {
                                   .replace(/\D/g, "")
                                   .slice(0, 6);
                               }}
-                              // onInput={(e) => {
-                              //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
-                              // }}
+                            // onInput={(e) => {
+                            //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                            // }}
                             />
                             {/* <button
                               type="button"
@@ -6441,7 +6439,7 @@ const AddProduct = ({ placeholder }) => {
                       "image/jpg": [],
                     }}
                   />
-
+ 
                   {touched.image && errors.image && (
                     <span className={styles.error}>{errors.image}</span>
                   )}
