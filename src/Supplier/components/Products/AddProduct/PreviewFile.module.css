@@ -1,9 +1,46 @@
+.tableHeader {
+  width: 100%;
+  max-width: 90%;
+  height: 60px;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonGroup {
+  display: flex;
+  column-gap: 15px;
+}
+
+.uploadButton {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer !important;
+  font-size: 14px;
+  padding: 6px 8px;
+  border: none;
+  outline: none;
+}
+
+.headerContainer h3 {
+  margin-bottom: 0px;
+}
+
+.errorBanner {
+  font-size: 14px;
+  color: red;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  row-gap: 24px;
+  row-gap: 10px;
   width: 100%;
-  max-width: 93%;
+  max-width: 90%;
   height: 100vh;
   margin-bottom: 60px;
 }
