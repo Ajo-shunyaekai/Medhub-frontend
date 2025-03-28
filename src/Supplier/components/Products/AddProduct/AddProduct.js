@@ -44,6 +44,7 @@ import {
   lensmaterialOptions,
   dairyfeeOptions,
 } from "./DropDowns";
+import { FiUploadCloud } from "react-icons/fi";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -1161,15 +1162,16 @@ const AddProduct = ({ placeholder }) => {
     bulkFormData.append("csvfile", selectedFile);
 
     dispatch(addBulkProducts(bulkFormData));
+    navigate("/supplier/preview-file");
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
-        {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
+        <button onClick={() => setOpen(true)} className={styles.bulkButton}>
             Bulk Upload
-          </button> */}
+          </button>
       </div>
       <Formik
         initialValues={{
@@ -7893,7 +7895,7 @@ const AddProduct = ({ placeholder }) => {
         )}
       </Formik>
 
-      {/* {open && (
+      {open && (
                 <div className={styles.modalOverlay}>
                   <div className={styles.modalContent}>
                     <div className={styles.modalHeadContainer}>
@@ -7939,7 +7941,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
-              )} */}
+              )}
     </div>
   );
 };
