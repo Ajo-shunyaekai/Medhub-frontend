@@ -5,7 +5,7 @@ import ProductCard from '../UiShared/ProductCards/ProductCard';
 import OtherSuppliers from '../Details/SupplierMedicineCard';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOtherSupplierProductsList, fetchProductDetail } from '../../../../redux/reducers/productSlice';
+import { fetchOtherSupplierProductsList, fetchProductDetail, fetchSupplierProductsList } from '../../../../redux/reducers/productSlice';
 
 const ProductButton = () => {
     const location = useLocation();
@@ -58,16 +58,16 @@ const ProductButton = () => {
     // Fetch data based on active button
     useEffect(() => {
         const fetchData = async () => {
-            let endpoint = '';
+            let response;
             if (activeButton === 'similar-products') {
-                endpoint = `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`;
+                const endpoint = `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`;
+                response = await dispatch(fetchOtherSupplierProductsList(endpoint));
             } else if (activeButton === 'other-supplier') {
-                // Assuming a different endpoint for other suppliers; adjust as needed
-                endpoint = `product/get-other-suppliers/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`;
+                const endpoint = `product/get-suppliers/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`;
+                response = await dispatch(fetchSupplierProductsList(endpoint));
             }
 
-            const response = await dispatch(fetchOtherSupplierProductsList(endpoint));
-            if (response.meta.requestStatus === 'fulfilled') {
+            if (response?.meta?.requestStatus === 'fulfilled') {
                 setMedicineList(response?.payload?.products || []);
                 setTotalItems(response?.payload?.totalItems || 0);
             } else {
