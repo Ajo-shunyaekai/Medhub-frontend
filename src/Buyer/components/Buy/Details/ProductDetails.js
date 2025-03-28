@@ -1,35 +1,38 @@
 import styles from "./productdetails.module.css";
 import Select from 'react-select';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../redux/reducers/productSlice";
-import SearchSection from "../UiShared/Search/Search"; // Updated import
-import FilterSection from "../Details/FilterSection";
-import ProductButton from './ProductButton'
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ProductCard from "../UiShared/ProductCards/ProductCard";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import RenderProductFiles from './RenderFiles'
+import RenderProductFiles from './RenderFiles' 
 import * as Yup from 'yup';
+import { addToList } from "../../../../redux/reducers/listSlice";
+import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
+import { postRequestWithToken } from "../../../../api/Requests";
 
 Modal.setAppElement("#root");
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   selectedQuantity: Yup.string()
-    .required('Quantity selection is mandatory'),
+    .required('Quantity Range is Required'),
   quantityRequired: Yup.number()
-    .required('Quantity Required is mandatory')
+    .required('Quantity is Required')
     .positive('Must be a positive number')
     .typeError('Must be a number'),
   targetPrice: Yup.number()
-    .required('Target Price is mandatory')
+    .required('Target Price is Required')
     .positive('Must be a positive price')
     .typeError('Must be a number'),
 });
 const ProductDetails = () => {
+  const navigate  = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state?.productReducer || {});
@@ -39,93 +42,115 @@ const ProductDetails = () => {
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-  const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
-  const [medicineList, setMedicineList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalitems] = useState(0);
-  const [inputValue, setInputValue] = useState("");
-  const [searchKey, setSearchKey] = useState(null)
-  const [filteredData, setFilteredData] = useState([]);
-  const itemsPerPage = 6;
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchProductDetail(`product/${id}`));
-    }
-  }, [id]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
-      if (response.meta.requestStatus === 'fulfilled') {
-        setMedicineList(response?.payload?.products || []);
-        setTotalitems(response?.payload?.totalItems || 0);
-      } else {
-        setMedicineList([]);
-        setTotalitems(0);
+    const [loading, setLoading]  = useState(false);
+    const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
+    const [medicineList, setMedicineList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalitems] = useState(0);
+    const itemsPerPage = 6;
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+  
+    useEffect(() => {
+      if (id) {
+        dispatch(fetchProductDetail(`product/${id}`));
       }
+    }, [id]);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+        if (response.meta.requestStatus === 'fulfilled') {
+          setMedicineList(response?.payload?.products || []);
+          setTotalitems(response?.payload?.totalItems || 0);
+        } else {
+          setMedicineList([]);
+          setTotalitems(0);
+        }
+      }
+      fetchData();
+    }, [id, dispatch, currentPage]);
+  
+    const getCategoryData = (property) => {
+      if (!productDetail?.category) return null;
+      return productDetail[productDetail.category]?.[property];
+    };
+
+    // const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
+
+// Extract all available quantities along with their corresponding prices and delivery times
+const quantityOptions = inventoryList.flatMap((ele) => 
+  Array.isArray(ele?.quantity)
+    ? ele.quantity.map((qty, idx) => ({ value: qty, label: qty, price: ele?.price[idx], deliveryTime: ele?.deliveryTime[idx] }))
+    : [{ value: ele?.quantity, label: ele?.quantity, price: ele?.price, deliveryTime: ele?.deliveryTime }]
+);
+
+// Get the first quantity option as the default
+const defaultOption = quantityOptions[0] || { value: '', price: '', deliveryTime: '' };
+
+const handleSubmit = (values, { resetForm }) => {
+  console.log('Form submitted:', values);
+  setLoading(true)
+  const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
+    const buyerIdLocalStorage = localStorage.getItem('buyer_id');
+    const buyerId = sessionStorage.getItem('_id') || localStorage.getItem('_id')
+
+    if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
+      navigate('/buyer/login');
+      return;
     }
-    fetchData();
-  }, [id, dispatch, currentPage]);
 
-  const getCategoryData = (property) => {
-    if (!productDetail?.category) return null;
-    return productDetail[productDetail.category]?.[property];
-  };
-  const handleInputChange = (e) => {
-    // setInputValue(e.target.value);
-    const input = e.target.value;
-    // if(input.length <= 10) {
-    setInputValue(e.target.value)
+  const obj = {
+    buyerId,
+    buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
+    medId             : id,
+    medicine_id       : productDetail?.medicine_id,
+    supplier_id       : productDetail?.userDetails?.supplier_id,
+    quantity_required : values?.quantityRequired,
+    target_price      : values?.targetPrice,
+    quantity          : values?.selectedQuantity,
+    unit_price        : values?.price,
+    est_delivery_time : values?.deliveryTime
+  }
 
-    if (e.target.value === '') {
-      setSearchKey('');
-    }
-  };
-  const handleProductSearch = () => {
-    // const dataToFilter = productDetail?.data || [productDetail] || [];
-    // const filtered = dataToFilter.filter((item) =>
-    //   item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
-    // );
-    // setFilteredData(filtered);
-    setSearchKey(inputValue)
-    setCurrentPage(1)
-  };
+  console.log('Form obj:', obj);
+    // dispatch(addToList(obj)).then((response) => {
+    //   console.log("response", response);
+    //   if (response?.meta.requestStatus === "fulfilled") {
+    //     dispatch(updateInquiryCartCount(response?.result?.listCount))
+        
+    //     // resetForm()
+    //     // setTimeout(() => {
+    //     //   navigate('/buyer/send-inquiry')
+    //     //   setLoading(true)
+    //     // }, 1000);
+        
+    //   } else {
+    //     setLoading(false)
+    //   }
+    // })
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleProductSearch();
-    }
-  };
-  // Filter handlers (minimal implementation, adjust as per your needs)
-  const handlePriceRange = (selectedValues) => {
-    console.log("Price Range:", selectedValues);
-    // Add filtering logic here if needed
-  };
+    postRequestWithToken('buyer/add-to-list', obj, async (response) => {
+      if (response.code === 200) {
+        toast(response.message, { type: "success" });
+        sessionStorage.setItem('list_count', response.result.listCount)
+        dispatch(updateInquiryCartCount(response.result.listCount))
+          setTimeout(() => {
+            navigate('/buyer/send-inquiry')
+            setLoading(true)
+          }, 1000);
+      } else {
+        setLoading(false)
+        toast(response.message, { type: "error" });
+        console.log('error in similar-medicine-list api');
+        
+      }
+    });
+  
+ }
 
-  const handleDeliveryTime = (selectedValues) => {
-    console.log("Delivery Time:", selectedValues);
-    // Add filtering logic here if needed
-  };
-
-  const handleStockedIn = (selectedValues) => {
-    console.log("Stocked In:", selectedValues);
-    // Add filtering logic here if needed
-  };
-
-  const handleQuantity = (selectedValues) => {
-    console.log("Quantity:", selectedValues);
-    // Add filtering logic here if needed
-  };
-
-  const handleReset = () => {
-    const dataToFilter = productDetail?.data || [productDetail] || [];
-    setFilteredData(dataToFilter);
-    setInputValue("");
-  };
   return (
     <div className={styles.container}>
       {/* <span className={styles.heading}>Product ID : </span> */}
@@ -2636,26 +2661,34 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
+              {/* {productDetail?.inventoryDetails?.inventoryList?.map((ele, index) => {
                 const options = Array.isArray(ele?.quantity)
                   ? ele.quantity.map((qty) => ({ value: qty, label: qty }))
                   : [{ value: ele?.quantity, label: ele?.quantity }];
 
-                return (
+                return ( */}
                   <Formik
-                    key={index}
+                    // key={index}
+                    // initialValues={{
+                    //   selectedQuantity: '',
+                    //   quantityRequired: '',
+                    //   targetPrice: ''
+                    // }}
                     initialValues={{
-                      selectedQuantity: '',
+                      selectedQuantity: defaultOption.value,
+                      price: defaultOption.price,
+                     deliveryTime: defaultOption.deliveryTime,
                       quantityRequired: '',
-                      targetPrice: ''
+                      targetPrice: '',
                     }}
                     validationSchema={validationSchema}
-                    onSubmit={(values, { resetForm }) => {
-                      console.log('Form submitted:', values);
-                      // Add your submit logic here
-                    }}
+                    // onSubmit={(values, { resetForm }) => {
+                    //   console.log('Form submitted:', values);
+                    //   // Add your submit logic here
+                    // }}
+                    onSubmit={handleSubmit}
                   >
-                    {({ handleReset, setFieldValue, errors, touched }) => (
+                    {/* {({ handleReset, setFieldValue, errors, touched }) => (
                       <Form className={styles.formSection}>
                         <div className={styles.fromContainer}>
                           <div className={styles.inventoryContainer}>
@@ -2721,65 +2754,108 @@ const ProductDetails = () => {
                           </button>
                         </div>
                       </Form>
-                    )}
+                    )} */}
+
+{({ setFieldValue, values, errors, touched }) => {
+      // Get the selected quantity details
+      const selectedOption = quantityOptions.find((opt) => opt.value === values.selectedQuantity) || defaultOption;
+
+      return (
+        <Form className={styles.formSection}>
+          <div className={styles.fromContainer}>
+            <div className={styles.inventoryContainer}>
+              <Select
+                options={quantityOptions}
+                value={quantityOptions.find((opt) => opt.value === values.selectedQuantity)}
+                placeholder="Select Quantity"
+                onChange={(option) => {
+                  setFieldValue('selectedQuantity', option?.value || '');
+                  setFieldValue('targetPrice', ''); // Reset target price when quantity changes
+                }}
+                className={errors.selectedQuantity && touched.selectedQuantity ? styles.errorSelect : ''}
+              />
+              <ErrorMessage name="selectedQuantity" component="span" className={styles.errorText} />
+            </div>
+            <div className={styles.inventoryContainer}>
+              <span className={styles.inventoryInput} readOnly>
+                {selectedOption.price || 'N/A'}
+              </span>
+            </div>
+            <div className={styles.inventoryContainer}>
+              <span className={styles.inventoryInput} readOnly>
+                {selectedOption.deliveryTime || 'N/A'}
+              </span>
+            </div>
+            <div className={styles.inventoryContainer}>
+              <Field type="number" name="quantityRequired" className={styles.inventoryInput} placeholder="Enter quantity" />
+              <ErrorMessage name="quantityRequired" component="span" className={styles.errorText} />
+            </div>
+            <div className={styles.inventoryContainer}>
+              <Field type="number" name="targetPrice" className={styles.inventoryInput} placeholder="Enter target price" />
+              <ErrorMessage name="targetPrice" component="span" className={styles.errorText} />
+            </div>
+          </div>
+          <div className={styles.buttonContainer}>
+            <button type="submit" className={styles.submitButton} disabled={loading}>
+              {/* Add to List */}
+              {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Add to List'
+                            )}
+            </button>
+            <button type="button" className={styles.cancelButton} onClick={() => setFieldValue('quantityRequired', '')}>
+              Cancel
+            </button>
+          </div>
+        </Form>
+      );
+    }}
                   </Formik>
-                );
-              })}
+                {/* );
+              // })} */}
             </div>
           </div>
         )}
         {/* End the product inventory section */}
-
-      </div>
-{/* <div className={styles.cardExternalContainer}> */}
-      <SearchSection
-        inputValue={inputValue}
-        handleInputChange={handleInputChange}
-        handleProductSearch={handleProductSearch}
-        handleKeyDown={handleKeyDown}
-      />
-
-      <FilterSection
-        countryAvailable={productDetail?.secondayMarketDetails?.countryAvailable || []}
-        handlePriceRange={handlePriceRange}
-        handleDeliveryTime={handleDeliveryTime}
-        handleStockedIn={handleStockedIn}
-        handleQuantity={handleQuantity}
-        handleReset={handleReset}
-      />
-
-      <ProductButton />
-      {/* </div> */}
-      {/* Modal for PDF Preview */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Purchase Invoice"
-        className={styles.modal}
-        overlayClassName={styles.overlay}
-      >
-        <div
-          className={styles.closeButton}
-          onClick={() => setModalIsOpen(false)}
+        <ProductCard
+          medicineList={medicineList}
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          basePath="/buyer/product-details"
+        />
+        {/* Modal for PDF Preview */}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          contentLabel="Purchase Invoice"
+          className={styles.modal}
+          overlayClassName={styles.overlay}
         >
-          <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-        </div>
+          <div
+            className={styles.closeButton}
+            onClick={() => setModalIsOpen(false)}
+          >
+            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
+          </div>
 
-        {/* PDF display with loading and error handling */}
-        {pdfFile ? (
-          <iframe
-            src={pdfUrl}
-            className={styles.pdfIframe}
-            title="Purchase Invoice"
-            onError={() =>
-              alert("Failed to load PDF. Please check the file path.")
-            }
-          />
-        ) : (
-          <p>Loading PDF or file not found...</p>
-        )}
-      </Modal>
-
+          {/* PDF display with loading and error handling */}
+          {pdfFile ? (
+            <iframe
+              src={pdfUrl}
+              className={styles.pdfIframe}
+              title="Purchase Invoice"
+              onError={() =>
+                alert("Failed to load PDF. Please check the file path.")
+              }
+            />
+          ) : (
+            <p>Loading PDF or file not found...</p>
+          )}
+        </Modal>
+      </div>
     </div>
   );
 };

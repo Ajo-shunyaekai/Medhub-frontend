@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import Image from '../../../../assets/images/image.png';
 import PaginationComponent from '../../../SharedComponents/Pagination/pagination';
 import styles from './productcard.module.css';
-
+ 
 // Helper function to add spaces before capital letters
 const formatCategory = (str) => {
     return str.replace(/([A-Z])/g, ' $1').trim();
 };
-
+ 
 // Helper function to format date
 const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -19,12 +19,12 @@ const formatDate = (dateString) => {
         day: 'numeric',
     });
 };
-
+ 
 // Helper function to get subcategory dynamically for any category
 const getSubCategory = (medicine) => {
     return medicine[medicine.category].subCategory;
 };
-
+ 
 const ProductCard = ({
     medicineList,
     currentPage,
@@ -44,7 +44,7 @@ const ProductCard = ({
                     const firstImage = Array.isArray(medicine?.general?.image) && medicine.general.image.length > 0
                         ? `${process.env.REACT_APP_SERVER_URL}uploads/products/${medicine.general.image[0]}`
                         : Image;
-
+ 
                     return (
                         <div className={styles.card} key={index}>
                             <div className={styles.innerContainer}>
@@ -131,5 +131,5 @@ const ProductCard = ({
         </div>
     );
 };
-
+ 
 export default ProductCard;

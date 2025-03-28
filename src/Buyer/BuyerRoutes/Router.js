@@ -361,14 +361,14 @@ export function NotificationProvider({ children }) {
  
 // Routes
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <Navigate to="/buyer" replace />
-      </Suspense>
-    ),
-  },
+  // {
+  //   path: "/",
+  //   element: (
+  //     <Suspense fallback={<Loader />}>
+  //       <Navigate to="/buyer" replace />
+  //     </Suspense>
+  //   ),
+  // },
   {
     path: "/buyer/login",
     element: (

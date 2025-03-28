@@ -94,7 +94,7 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                                     <span className="table-g-section">G</span>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product Name</span>
-                                        <span className="table-g-not-name">{item.medicine_details.medicine_name}</span>
+                                        <span className="table-g-not-name">{item?.medicine_details?.medicine_name || item?.medicine_details?.general?.name}</span>
                                     </div>
                                 </div>
                             </td>
