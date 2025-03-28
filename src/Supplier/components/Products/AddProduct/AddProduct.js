@@ -25,6 +25,7 @@ import {
   Options,
   packagingUnits,
   volumeUnits,
+  dimensionUnits,
   packagingOptions,
   materialOptions,
   conditionOptions,
@@ -772,6 +773,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
+                  <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -795,9 +798,25 @@ const AddProduct = ({ placeholder }) => {
                     />
                     <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
                   </div>
-                  {touched.dimension && errors.dimension && (
+                  </div>
+                  <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={dimensionUnits}
+                        placeholder="Select Units"
+                        onBlur={handleBlur}
+                        onChange={(selectedOption) => {
+                          setFieldValue("dimensionUnit", selectedOption?.value);
+                        }}
+                      />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                  </div>
+                  </div>
+                  {/* {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>

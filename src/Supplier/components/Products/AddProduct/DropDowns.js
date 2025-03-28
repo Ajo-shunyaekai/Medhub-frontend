@@ -32,6 +32,14 @@ export const volumeUnits = [
   { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
 ]?.sort((a, b) => a?.label?.localeCompare(b?.label));
 
+export const dimensionUnits = [
+  { value: "Millimeter (mm)", label: "Millimeter (mm)" },
+  { value: "Centimeter (cm)", label: "Centimeter (cm)" },
+  { value: "Meter (m)", label: "Milliliter (m)" },
+  { value: "Inch (in)", label: "Inch (in)" },
+  { value: "Feet (ft)", label: "Feet (ft)" },
+]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+
 export const packagingOptions = [
   { value: "Bottle", label: "Bottle" },
   { value: "Tube", label: "Tube" },

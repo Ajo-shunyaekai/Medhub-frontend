@@ -28,6 +28,7 @@ import {
   Options,
   packagingUnits,
   volumeUnits,
+  dimensionUnits,
   packagingOptions,
   materialOptions,
   conditionOptions,
@@ -365,6 +366,7 @@ const EditAddProduct = ({ placeholder }) => {
         volumn: general?.volumn || "",
         volumeUnit: general?.volumeUnit || "",
         dimension: general?.dimension || "",
+        dimensionUnit: general?.dimensionUnit || "",
         weight: general?.weight || "",
         unit: general?.unit || "",
         packageType: general?.packageType || "",
@@ -1099,11 +1101,13 @@ const EditAddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.volumn}</span>
                   )} */}
               </div>
-              <div className={styles.productContainer}>
+
+              {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Dimension
                   <span className={styles?.labelStamp}>*</span>
                 </label>
+                <div className={styles.weightSection}>
                 <div className={styles.tooltipContainer}>
                   <input
                     className={styles.formInput}
@@ -1112,12 +1116,7 @@ const EditAddProduct = ({ placeholder }) => {
                     // autoComplete="off"
                     name="dimension"
                     value={formik?.values?.dimension}
-                    // onChange={formik?.handleChange}
-                    // onChange={(e) =>
-                    //   handleInputChange(e, formik.setFieldValue, 35, "all", [
-                    //     "dimension",
-                    //   ])
-                    // }
+                    
                     onChange={(e) =>
                       handleInputChange(
                         e,
@@ -1131,18 +1130,90 @@ const EditAddProduct = ({ placeholder }) => {
                     onBlur={formik?.handleBlur}
                   />
                   <Tooltip
-                    content="The size or volume of the product (e.g., 50 mL, 100 g, drip
-                    chamber ) (e.g., macro, micro),
-                    Length of the needle (e.g., 19 mm, 26 mm ) tape
-                    width, adhesive strip size etc."
+                    content="The dimension of the product in Height x Width x Depth."
                   ></Tooltip>
                 </div>
-                {formik.touched.dimension && formik.errors.dimension && (
-                  <span className={styles.error}>
-                    {formik.errors.dimension}
-                  </span>
-                )}
+                </div>
+                
+                 <div className={styles.unitSection}>
+                    <Select
+                      className={styles.formSelect}
+                      options={dimensionUnits}
+                      placeholder="Select Units"
+                      onBlur={formik?.handleBlur}
+                      value={dimensionUnits.find(
+                        (option) => option?.value === formik?.values?.dimensionUnit
+                      )}
+                      onChange={(selectedOption) => {
+                        formik?.setFieldValue(
+                          "dimensionUnit",
+                          selectedOption?.value
+                        );
+                      }}
+                    />
+                  
+                  </div>
+              </div> */}
+
+
+<div className={styles.productContainer}>
+                <label className={styles.formLabel}>Product Dimension</label>
+                <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
+                    <div className={styles.tooltipContainer}>
+                      <input
+                        className={styles.formInput}
+                        type="text"
+                        placeholder="Enter Height x Width x Depth"
+                        // autoComplete="off"
+                        name="dimension"
+                        value={formik?.values?.dimension}
+                        // onChange={handleChange}
+                        onChange={(e) =>
+                          handleInputChange(
+                            e,
+                            formik.setFieldValue,
+                            35,
+                            "all",
+                            ["dimension"],
+                            ". x"
+                          )
+                        }
+                        onBlur={formik?.handleBlur}
+                      />
+                      <Tooltip
+                       content="The dimension of the product in Height x Width x Depth."
+                      ></Tooltip>
+                    </div>
+                  </div>
+                  <div className={styles.unitSection}>
+                    <Select
+                      className={styles.formSelect}
+                      options={dimensionUnits}
+                      placeholder="Select Units"
+                      onBlur={formik?.handleBlur}
+                      value={dimensionUnits.find(
+                        (option) => option?.value === formik?.values?.dimensionUnit
+                      )}
+                      onChange={(selectedOption) => {
+                        formik?.setFieldValue(
+                          "dimensionUnit",
+                          selectedOption?.value
+                        );
+                      }}
+                    />
+                    {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                  </div>
+                </div>
+                {/* {touched.volumn && errors.volumn && (
+                    <span className={styles.error}>{errors.volumn}</span>
+                  )} */}
               </div>
+
+
+              
               {/* <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
                   Product Weight<span className={styles?.labelStamp}>*</span>
