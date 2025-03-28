@@ -728,7 +728,7 @@ const EditCreatePO = ({socket}) => {
                                         type='text'
                                         name={`orderItems[${index}].productName`}
                                         placeholder='Item Name'
-                                        value = {item?.medicine_details?.medicine_name}
+                                        value = {item?.medicine_details?.medicine_name || item?.medicine_name}
                                         readOnly
                                     />
                                     {errors.orderItems?.[index]?.productName && <p>{errors.orderItems[index].productName.message}</p>}
@@ -764,7 +764,7 @@ const EditCreatePO = ({socket}) => {
                                             type='text'
                                             name={`orderItems[${index}].unitTax`}
                                             placeholder='Enter Unit Tax'
-                                            value={item?.medicine_details?.unit_tax}
+                                            value={item?.medicine_details?.unit_tax || 0}
                                             readOnly
                                         />
                                         {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}

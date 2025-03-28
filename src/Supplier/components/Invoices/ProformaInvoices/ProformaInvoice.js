@@ -898,7 +898,7 @@ console.log(setFormData)
                                 <label className={styles['create-invoice-div-label']}>Product Name</label>
                                 <input className={styles['create-invoice-div-input']} type='text' name={`Qty-${item.id}`}
                                     placeholder='Enter Product Name'
-                                    value={item?.medicine_details?.medicine_name}
+                                    value={item?.medicine_details?.medicine_name || item?.medicine_name}
                                     readOnly
                                 />
                             </div>
@@ -925,7 +925,7 @@ console.log(setFormData)
                                 <input className={styles['create-invoice-div-input']} type='text'
                                     name={`UnitPrice-${item.id}`}
                                     placeholder='Enter Tax%'
-                                    value={item?.medicine_details?.unit_tax}
+                                    value={item?.medicine_details?.unit_tax || 0}
                                     readOnly
                                 />
                             </div>
