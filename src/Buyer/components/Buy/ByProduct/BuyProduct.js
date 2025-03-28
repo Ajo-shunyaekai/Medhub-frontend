@@ -84,7 +84,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
                 <Loader />
             ) : (
                 <div className={styles.productContainer}>
-                    <Category handleCategoryFilter={handleCategoryFilter} />
+                    {/* <Category handleCategoryFilter={handleCategoryFilter} /> */}
                     <SearchSection
                         inputValue={inputValue}
                         handleInputChange={handleInputChange}
