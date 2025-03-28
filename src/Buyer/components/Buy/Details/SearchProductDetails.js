@@ -376,7 +376,7 @@ const SearchProductDetails = () => {
             <p>Loading PDF or file not found...</p>
           )}
         </Modal>
-
+        </div>
         {/* Search Section */}
         <SearchSection
           inputValue={inputValue}
@@ -406,7 +406,7 @@ const SearchProductDetails = () => {
             onPageChange={handlePageChange}
             // isSecondaryMarket={productData?.market === "secondary"}
           />
-      </div>
+     
     </div>
   );
 };

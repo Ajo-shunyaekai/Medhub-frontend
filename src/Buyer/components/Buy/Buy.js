@@ -4,14 +4,17 @@ import Right from "../../assets/images/right-arrow.svg";
 import BuySeller from './BySupplier/BySupplier';
 import BuyProduct from './ByProduct/BuyProduct';
 import Buy2ndMarket from './SecondaryMarket/Buy2ndMarket';
+import AccordionFilter from './UiShared/Category/Category';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { HiOutlineFilter } from "react-icons/hi";
 
 const Buy = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [filterCategory, setFilterCategory] = useState('');
-    
+    const [isOpen, setIsOpen] = useState(false); // State to control accordion
+
     const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
         const crumbs = [{ name: 'Buy', path: '/buyer/buy/by-supplier' }];
         switch (pathname) {
@@ -41,7 +44,7 @@ const Buy = () => {
         }
         return crumbs;
     };
-    
+
     const [breadcrumbs, setBreadcrumbs] = useState([]);
 
     useEffect(() => {
@@ -52,7 +55,7 @@ const Buy = () => {
     const handleBreadcrumbClick = (path) => {
         navigate(path);
     };
-    
+
     useEffect(() => {
         setFilterCategory("");
     }, [location.pathname]);
@@ -88,11 +91,15 @@ const Buy = () => {
         }
     };
 
+    const toggleAccordion = () => {
+        setIsOpen(!isOpen); // Toggle the accordion state
+    };
+
     return (
         <>
             <div className={styles.main}>
                 <div className={styles.heading}>Buy</div>
-                
+
                 {/* Render breadcrumbs */}
                 <div className={styles.breadcrumbSection}>
                     {breadcrumbs.map((breadcrumb, index) => (
@@ -111,25 +118,40 @@ const Buy = () => {
                 </div>
 
                 <div className={styles.section}>
-                    <div
-                        className={`${styles.supplierBtn} ${activeButton === 'seller' ? styles.active : ''}`}
-                        onClick={() => handleButtonClick('seller')}
-                    >
-                        By Supplier
+                    <div className={styles.innerSection}>
+                        <div
+                            className={`${styles.supplierBtn} ${activeButton === 'seller' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('seller')}
+                        >
+                            By Supplier
+                        </div>
+                        <div
+                            className={`${styles.productBtn} ${activeButton === 'product' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('product')}
+                        >
+                            By Product
+                        </div>
+                        <div
+                            className={`${styles.productBtn} ${activeButton === 'market' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('market')}
+                        >
+                            Secondary Market
+                        </div>
                     </div>
-                    <div
-                        className={`${styles.productBtn} ${activeButton === 'product' ? styles.active : ''}`}
-                        onClick={() => handleButtonClick('product')}
-                    >
-                        By Product
-                    </div>
-                    <div
-                        className={`${styles.productBtn} ${activeButton === 'market' ? styles.active : ''}`}
-                        onClick={() => handleButtonClick('market')}
-                    >
-                        Secondary Market
-                    </div>
+                    {/* Conditionally render the filter button */}
+                    {(activeButton === 'product' || activeButton === 'market') && (
+                        <div className={styles.innerSection}>
+                            <button className={styles.filterButton} onClick={toggleAccordion}>
+                                <HiOutlineFilter className={styles.filterIcon} />
+                            </button>
+                        </div>
+                    )}
                 </div>
+
+                {/* Render AccordionFilter only when filter is relevant */}
+                {(activeButton === 'product' || activeButton === 'market') && (
+                    <AccordionFilter isOpen={isOpen} toggleAccordion={toggleAccordion} />
+                )}
 
                 {activeButton === 'seller' && <BuySeller active={activeButton} />}
                 {activeButton === 'product' && (

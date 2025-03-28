@@ -6,7 +6,6 @@
     flex-wrap: wrap;
     gap: 20px;
     padding: 50px 30px;
-    margin-bottom: 20rem;
 }
 .card{
     background-color: #fff;
@@ -19,10 +18,10 @@
     width: 49%;
 }
 .container{
-    display: flex
-    ;
-        flex-direction: column;
-        gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    margin-bottom: 26rem;
        
 }
 .cardMainHeading{

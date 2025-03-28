@@ -3,12 +3,15 @@ import Select from 'react-select';
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../redux/reducers/productSlice";
+import SearchSection from "../UiShared/Search/Search"; // Updated import
+import FilterSection from "../Details/FilterSection";
+import ProductButton from './ProductButton'
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
 import ProductCard from "../UiShared/ProductCards/ProductCard";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import RenderProductFiles from './RenderFiles' 
+import RenderProductFiles from './RenderFiles'
 import * as Yup from 'yup';
 
 Modal.setAppElement("#root");
@@ -36,40 +39,93 @@ const ProductDetails = () => {
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
-    const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
-    const [medicineList, setMedicineList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalitems] = useState(0);
-    const itemsPerPage = 6;
-    const handlePageChange = (pageNumber) => {
-      setCurrentPage(pageNumber);
-    };
-  
-    useEffect(() => {
-      if (id) {
-        dispatch(fetchProductDetail(`product/${id}`));
-      }
-    }, [id]);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
-        if (response.meta.requestStatus === 'fulfilled') {
-          setMedicineList(response?.payload?.products || []);
-          setTotalitems(response?.payload?.totalItems || 0);
-        } else {
-          setMedicineList([]);
-          setTotalitems(0);
-        }
-      }
-      fetchData();
-    }, [id, dispatch, currentPage]);
-  
-    const getCategoryData = (property) => {
-      if (!productDetail?.category) return null;
-      return productDetail[productDetail.category]?.[property];
-    };
+  const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
+  const [medicineList, setMedicineList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalitems] = useState(0);
+  const [inputValue, setInputValue] = useState("");
+  const [searchKey, setSearchKey] = useState(null)
+  const [filteredData, setFilteredData] = useState([]);
+  const itemsPerPage = 6;
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductDetail(`product/${id}`));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+      if (response.meta.requestStatus === 'fulfilled') {
+        setMedicineList(response?.payload?.products || []);
+        setTotalitems(response?.payload?.totalItems || 0);
+      } else {
+        setMedicineList([]);
+        setTotalitems(0);
+      }
+    }
+    fetchData();
+  }, [id, dispatch, currentPage]);
+
+  const getCategoryData = (property) => {
+    if (!productDetail?.category) return null;
+    return productDetail[productDetail.category]?.[property];
+  };
+  const handleInputChange = (e) => {
+    // setInputValue(e.target.value);
+    const input = e.target.value;
+    // if(input.length <= 10) {
+    setInputValue(e.target.value)
+
+    if (e.target.value === '') {
+      setSearchKey('');
+    }
+  };
+  const handleProductSearch = () => {
+    // const dataToFilter = productDetail?.data || [productDetail] || [];
+    // const filtered = dataToFilter.filter((item) =>
+    //   item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
+    // );
+    // setFilteredData(filtered);
+    setSearchKey(inputValue)
+    setCurrentPage(1)
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleProductSearch();
+    }
+  };
+  // Filter handlers (minimal implementation, adjust as per your needs)
+  const handlePriceRange = (selectedValues) => {
+    console.log("Price Range:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleDeliveryTime = (selectedValues) => {
+    console.log("Delivery Time:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleStockedIn = (selectedValues) => {
+    console.log("Stocked In:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleQuantity = (selectedValues) => {
+    console.log("Quantity:", selectedValues);
+    // Add filtering logic here if needed
+  };
+
+  const handleReset = () => {
+    const dataToFilter = productDetail?.data || [productDetail] || [];
+    setFilteredData(dataToFilter);
+    setInputValue("");
+  };
   return (
     <div className={styles.container}>
       {/* <span className={styles.heading}>Product ID : </span> */}
@@ -2673,43 +2729,57 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
-        <ProductCard
-          medicineList={medicineList}
-          currentPage={currentPage}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={handlePageChange}
-        />
-        {/* Modal for PDF Preview */}
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-          contentLabel="Purchase Invoice"
-          className={styles.modal}
-          overlayClassName={styles.overlay}
-        >
-          <div
-            className={styles.closeButton}
-            onClick={() => setModalIsOpen(false)}
-          >
-            <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
-          </div>
 
-          {/* PDF display with loading and error handling */}
-          {pdfFile ? (
-            <iframe
-              src={pdfUrl}
-              className={styles.pdfIframe}
-              title="Purchase Invoice"
-              onError={() =>
-                alert("Failed to load PDF. Please check the file path.")
-              }
-            />
-          ) : (
-            <p>Loading PDF or file not found...</p>
-          )}
-        </Modal>
       </div>
+{/* <div className={styles.cardExternalContainer}> */}
+      <SearchSection
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleProductSearch={handleProductSearch}
+        handleKeyDown={handleKeyDown}
+      />
+
+      <FilterSection
+        countryAvailable={productDetail?.secondayMarketDetails?.countryAvailable || []}
+        handlePriceRange={handlePriceRange}
+        handleDeliveryTime={handleDeliveryTime}
+        handleStockedIn={handleStockedIn}
+        handleQuantity={handleQuantity}
+        handleReset={handleReset}
+      />
+
+      <ProductButton />
+      {/* </div> */}
+      {/* Modal for PDF Preview */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Purchase Invoice"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <div
+          className={styles.closeButton}
+          onClick={() => setModalIsOpen(false)}
+        >
+          <img className={styles.closeImg} src={CloseIcon} alt="closeIcon" />
+        </div>
+
+        {/* PDF display with loading and error handling */}
+        {pdfFile ? (
+          <iframe
+            src={pdfUrl}
+            className={styles.pdfIframe}
+            title="Purchase Invoice"
+            onError={() =>
+              alert("Failed to load PDF. Please check the file path.")
+            }
+          />
+        ) : (
+          <p>Loading PDF or file not found...</p>
+        )}
+      </Modal>
+
     </div>
   );
 };
