@@ -15,7 +15,6 @@ const SupplierMedicineCard = ({
     // console.log('medicineList', medicineList, currentPage, totalItems, itemsPerPage)
     return (
         <div className={styles.container}>
-            <span className={styles.cardMainHeading}>Supplier List</span>
             <div className={styles.gridContainer}>
                 {medicineList && medicineList.length > 0 && medicineList.map((medicine, index) => {
                     const firstImage = Array.isArray(medicine?.general?.image) && medicine.general.image.length > 0

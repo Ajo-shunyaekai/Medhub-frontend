@@ -1,98 +1,118 @@
-.gridContainer{
+.gridContainer {
     background: linear-gradient(270deg, #f5f5f7, #e1f2ff);
     border-radius: 4px;
-    display: flex
-;
+    display: flex;
     justify-content: start;
     flex-wrap: wrap;
     gap: 20px;
     padding: 50px 30px;
 }
-.card{
+
+.card {
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    display: flex;
+    display: flex
+;
     align-items: center;
     gap: 30px;
-    padding: 24px 32px;
-    width: 49%;
+    padding: 20px 24px;
+    width: 100%;
 }
-.container{
+
+.container {
+    margin-bottom: 26rem;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+}
+
+.innerContainer {
     display: flex
     ;
-        flex-direction: column;
-        gap: 30px;
-       
-}
-.innerContainer{
-    display: flex;
         flex-direction: column;
         gap: 10px;
         justify-content: center;
         align-items: center;
-        width: 25%;
+        width: 12%;
+        min-width: 120px;
 }
-.imageContainer{
-    display: flex
-    ;
-        height: 100px;
-        justify-content: center;
-        overflow: hidden;
-        width: 100px;
+
+.imageContainer {
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    overflow: hidden;
+    width: 100px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
 }
-.imageContainer img{
+
+.imageContainer img {
     height: 100%;
     object-fit: contain;
     width: 100%;
+
 }
-.button{
+
+.button {
     background: linear-gradient(270deg, #00dcff, #0075ce);
     border: none;
     border-radius: 4px;
     color: #fff;
     column-gap: 8px;
     cursor: pointer !important;
-    display: flex
-;
+    display: flex;
     font-size: 14px;
     justify-content: center;
     outline: none;
-    padding: 6px 8px;
+    padding: 6px 10px;
 }
-.contentSection{
-    display: flex;
+.cardContentSection{
+    display: flex
+    ;
+        gap: 20px;
+        width: 100%;
+}
+
+.contentSection {
+    display: flex
+    ;
         flex-direction: column;
-        gap: 8px;
-        width: 70%;
+        gap: 4px;
+        width: 72%;
 }
-.mainHeading{
+
+.mainHeading {
     color: #5e676f;
     font-size: 22px;
     font-weight: 600;
 }
-.section{
-    display: flex;
-    gap: 10px;
+
+.section {
+    display: flex
+    ;
+        flex-direction: column;
+        width: 20%;
 }
-.head{
+
+.head {
     font-size: 13px;
     font-weight: 500;
-    width: 100px;
 }
-.text{
+
+.text {
     color: #99a0ac;
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
-    width: 60%;
 }
-.noData{
+
+.noData {
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    display: flex
-;
+    display: flex;
     align-items: center;
     gap: 30px;
     padding: 24px 32px;
@@ -100,27 +120,31 @@
     font-size: 16px;
     font-weight: 500;
 }
-@media screen and (max-width: 1300px) {
-    .card{
-    gap: 20px;
-    padding: 24px 16px;
-    width: 48.6%;
-}
-.button{
-    font-size: 12px;
-}
-.mainHeading{
-    font-size: 20px;
-}
-}
-@media screen and (max-width: 1024px) {
-    .card{
-        gap: 20px;
-        padding: 30px 28px;
-        width: 99%;
-}
-.button{
-    font-size: 14px;
+.buttonContainer{
+    width: 100px;
+    display: flex
+;
+    justify-content: end;
 }
 
+@media screen and (max-width: 1300px) {
+    .card {
+        gap: 20px;
+        padding: 24px 16px;
+    }
+
+    .button {
+        font-size: 12px;
+    }
+
+    .mainHeading {
+        font-size: 20px;
+    }
+    
+}
+@media screen and (max-width: 1024px) {
+
+.section {
+        width: 26%;
+}
 }

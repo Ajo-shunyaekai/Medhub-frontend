@@ -4,7 +4,6 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 10px;
   }
   
   .searchInput {
@@ -40,6 +39,6 @@
 /* End Search Container */
 @media screen and (max-width: 991px) {
     .searchInput {
-        width: 50vw;
+      width: 46vw;
       }
     }

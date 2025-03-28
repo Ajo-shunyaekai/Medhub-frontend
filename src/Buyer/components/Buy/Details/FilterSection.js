@@ -109,7 +109,7 @@ const FilterSection = ({
     }
   };
 
-  // Reset all filters
+  // Reset all filters and close dropdown
   const resetAllFilters = () => {
     const resetState = {
       price: [],
@@ -118,6 +118,7 @@ const FilterSection = ({
       totalQuantity: [],
     };
     setSelectedFilters(resetState);
+    setOpenDropdown(null); // Close any open dropdown
     handleReset(); // Call parent reset handler
   };
 

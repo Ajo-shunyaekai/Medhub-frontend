@@ -20,7 +20,7 @@ const BuySeller = ({ active }) => {
     const [filterCountry, setFilterCountry] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
-    const itemsPerPage = 4;
+    const itemsPerPage = 10;
 
     const dropdownRef = useRef(null);
 
