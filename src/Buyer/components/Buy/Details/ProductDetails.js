@@ -6,11 +6,15 @@ import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ProductCard from "../UiShared/ProductCards/ProductCard";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import RenderProductFiles from './RenderFiles' 
 import * as Yup from 'yup';
 import { addToList } from "../../../../redux/reducers/listSlice";
+import { updateInquiryCartCount } from "../../../../redux/reducers/inquirySlice";
+import { postRequestWithToken } from "../../../../api/Requests";
 
 Modal.setAppElement("#root");
 
@@ -38,6 +42,8 @@ const ProductDetails = () => {
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
+
+    const [loading, setLoading]  = useState(false);
     const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
     const [medicineList, setMedicineList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -86,6 +92,7 @@ const defaultOption = quantityOptions[0] || { value: '', price: '', deliveryTime
 
 const handleSubmit = (values, { resetForm }) => {
   console.log('Form submitted:', values);
+  setLoading(true)
   const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage = localStorage.getItem('buyer_id');
     const buyerId = sessionStorage.getItem('_id') || localStorage.getItem('_id')
@@ -109,13 +116,38 @@ const handleSubmit = (values, { resetForm }) => {
   }
 
   console.log('Form obj:', obj);
-    dispatch(addToList(obj)).then((response) => {
-      console.log("response", response);
-      if (response?.meta.requestStatus === "fulfilled") {
-        // navigate("/supplier/product"); 
-        resetForm()
+    // dispatch(addToList(obj)).then((response) => {
+    //   console.log("response", response);
+    //   if (response?.meta.requestStatus === "fulfilled") {
+    //     dispatch(updateInquiryCartCount(response?.result?.listCount))
+        
+    //     // resetForm()
+    //     // setTimeout(() => {
+    //     //   navigate('/buyer/send-inquiry')
+    //     //   setLoading(true)
+    //     // }, 1000);
+        
+    //   } else {
+    //     setLoading(false)
+    //   }
+    // })
+
+    postRequestWithToken('buyer/add-to-list', obj, async (response) => {
+      if (response.code === 200) {
+        toast(response.message, { type: "success" });
+        sessionStorage.setItem('list_count', response.result.listCount)
+        dispatch(updateInquiryCartCount(response.result.listCount))
+          setTimeout(() => {
+            navigate('/buyer/send-inquiry')
+            setLoading(true)
+          }, 1000);
+      } else {
+        setLoading(false)
+        toast(response.message, { type: "error" });
+        console.log('error in similar-medicine-list api');
+        
       }
-    })
+    });
   
  }
 
@@ -2764,8 +2796,13 @@ const handleSubmit = (values, { resetForm }) => {
             </div>
           </div>
           <div className={styles.buttonContainer}>
-            <button type="submit" className={styles.submitButton}>
-              Add to List
+            <button type="submit" className={styles.submitButton} disabled={loading}>
+              {/* Add to List */}
+              {loading ? (
+                                <div className='loading-spinner'></div> 
+                            ) : (
+                                'Add to List'
+                            )}
             </button>
             <button type="button" className={styles.cancelButton} onClick={() => setFieldValue('quantityRequired', '')}>
               Cancel
