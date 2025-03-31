@@ -99,13 +99,37 @@ export const editProduct = createAsyncThunk(
     }
   }
 );
- 
+
 export const addBulkProducts = createAsyncThunk(
   "product/addBulkProducts",
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequestWithFile(
-        `product/add-bulk-products`,
+        `product/preview-bulk-products`,
+        values
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message)
+      
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
+export const previewBulkProducts = createAsyncThunk(
+  "product/previewBulkProducts",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postRequestWithFile(
+        `product/preview-bulk-products`,
         values
       );
       if (response.code !== 200) {
