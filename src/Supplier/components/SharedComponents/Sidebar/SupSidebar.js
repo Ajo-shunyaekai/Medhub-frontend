@@ -434,6 +434,12 @@ const SupSidebar = ({ children, dragWindow,
                                         </div>
                                     </div>
                                 )}
+                                {/* <MenuOutlinedIcon
+                                    className={styles.nav_icon_color_two_3}
+                                    onClick={toggleDrawer(true)}
+                                /> */}
+                            </div>
+                            <div ref={profileRef}>
                                 <MenuOutlinedIcon
                                     className={styles.nav_icon_color_two_3}
                                     onClick={toggleDrawer(true)}
