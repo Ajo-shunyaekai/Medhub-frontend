@@ -60,13 +60,15 @@ console.log('filterCategory',filterCategory)
             const fetchData = async () => {
                 setLoading(true); // Set loading true before fetch
                 const marketType = active === 'product' ? 'new' : 'secondary';
+                const { category, subCategory, level3Category } = filterCategory || {};
                 const response = await dispatch(
-                    fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${filterCategory || ''}`)
+                    // fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${filterCategory || ''}`)
+                    fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${encodeURIComponent(category || '')}&subCategory=${encodeURIComponent(subCategory || '')}&level3Category=${encodeURIComponent(level3Category || '')}`)
                 );
                 if (response.meta.requestStatus === 'fulfilled') {
                     console.log('Products fetched successfully:', response.payload);
-                    setMedicineList(response.payload.products || []);
-                    setTotalitems(response.payload?.totalItems || 0);
+                    setMedicineList(response?.payload?.products || []);
+                    setTotalitems(response?.payload?.totalItems || 0);
                     setLoading(false);
                 } else {
                     setMedicineList([]);
