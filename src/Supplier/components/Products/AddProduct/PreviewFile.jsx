@@ -1,52 +1,65 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addBulkProducts } from "../../../../redux/reducers/productSlice";
 
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
-import { testData } from "./PreviewFileData";
-
-const hasRowError   = (row) => Object.values(row).some((cell) => cell?.error);
-
-const hasTableError = testData?.maincontent?.some((row) => hasRowError(row));
-
-const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
-  const maxContentWidth = Math.max(
-    ...data.map((row) => {
-      const valueLength = row[key]?.value ? row[key].value.length * 8 : 0;
-      return valueLength;
-    })
-  );
-  return Math.max(minWidth, maxContentWidth + padding);
-};
-
-const columns =
-  testData?.maincontent && testData.maincontent.length > 0
-    ? Object.keys(testData.maincontent[0]).map((key, index) => ({
-        name: testData.headings[index] || key,
-        selector: (row) => row[key]?.value || "-",
-        cell: (row) => {
-          const hasError = row[key]?.error;
-          return (
-            <div className={`${styles.cell} ${hasError ? styles.errorCell : ""}`}>
-              {row[key]?.value || "-"}
-            </div>
-          );
-        },
-        minWidth: `${calculateColumnWidth(testData.maincontent, key)}px`,
-        style: {
-          whiteSpace   : "nowrap",
-          overflow     : "hidden",
-          textOverflow : "ellipsis",
-        },
-      }))
-    : [];
+// import { previewProducts } from "./PreviewFileData";
 
 function PreviewFile() {
-  const [open, setOpen]                 = useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const dispatch                        = useDispatch();
+  const dispatch = useDispatch();
+  const { previewProducts } = useSelector((state) => state?.productReducer);
+
+  console.log("previewProducts", previewProducts);
+
+  const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
+
+  const hasTableError = previewProducts?.mainContent?.some((row) =>
+    hasRowError(row)
+  );
+
+  const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
+    const maxContentWidth = Math.max(
+      ...data.map((row) => {
+        const valueLength = row[key]?.value ? row[key].value.length * 8 : 0;
+        return valueLength;
+      })
+    );
+    return Math.max(minWidth, maxContentWidth + padding);
+  };
+
+  const columns =
+    previewProducts?.mainContent && previewProducts?.mainContent.length > 0
+      ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => ({
+          name: previewProducts?.headings[index] || key,
+          selector: (row) => row[key]?.value || "-",
+          cell: (row) => {
+            const hasError = row[key]?.error;
+            return (
+              <div
+                className={`${styles.cell} ${hasError ? styles.errorCell : ""}`}
+              >
+                {Array.isArray(row[key]?.value)
+                  ? // ? row[key]?.value?.toString()
+                    row[key]?.value?.join()
+                  : row[key]?.value || "-"}
+              </div>
+            );
+          },
+          minWidth: `${calculateColumnWidth(
+            previewProducts?.mainContent,
+            key
+          )}px`,
+          style: {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
+        }))
+      : [];
 
   // const handleFileChange = (event) => {
   //   setSelectedFile(event.target.files[0]);
@@ -66,7 +79,20 @@ function PreviewFile() {
     }
   };
 
-  if (!testData || !testData.maincontent || testData.maincontent.length === 0) {
+  const handleSubmit = async () => {
+    const filteredData = previewProducts?.mainContent?.filter((item) => {
+      // Check if any field has error == true in the current item
+      return Object.values(item).some((field) => field.error === false);
+    });
+
+    console.log("filteredData", filteredData);
+  };
+
+  if (
+    !previewProducts ||
+    !previewProducts?.mainContent ||
+    previewProducts?.mainContent?.length === 0
+  ) {
     return (
       <>
         <div className={styles.tableHeader}>
@@ -79,7 +105,11 @@ function PreviewFile() {
             <DataTable
               columns={[]}
               data={[]}
-              noDataComponent={<div style={{ padding: "20px", fontSize: "16px" }}>There are no records to display</div>}
+              noDataComponent={
+                <div style={{ padding: "20px", fontSize: "16px" }}>
+                  There are no records to display
+                </div>
+              }
             />
           </div>
         </div>
@@ -93,21 +123,27 @@ function PreviewFile() {
         <div className={styles.headerContainer}>
           <h4>Bulk Upload Preview</h4>
           <div className={styles.buttonGroup}>
-            <button className={styles.uploadButton} onClick={() => setOpen(true)}>Re-Upload</button>
-            <button className={styles.uploadButton}>Upload</button>
+            <button
+              className={styles.uploadButton}
+              onClick={() => setOpen(true)}
+            >
+              Re-Upload
+            </button>
+            <button className={styles.uploadButton} onClick={handleSubmit}>Upload</button>
           </div>
         </div>
         {hasTableError && (
-            <span className={styles.errorBanner}>
-              Some errors were found in the uploaded file. Please review and correct them.
-            </span>
-          )}
+          <span className={styles.errorBanner}>
+            Some errors were found in the uploaded file. Please review and
+            correct them.
+          </span>
+        )}
       </div>
       <div className={styles.container}>
         <div className={styles.tableContainer}>
           <DataTable
             columns={columns}
-            data={testData.maincontent}
+            data={previewProducts.mainContent}
             fixedHeader
             fixedHeaderScrollHeight="calc(100vh - 140px)"
             responsive
@@ -125,12 +161,12 @@ function PreviewFile() {
 
       {open && (
         <FileUploadModal
-          onClose        = {() => setOpen(false)}
-          onSelectFile   = {handleSelectFile}
-          onHandleUpload = {handleBulkUpload}
-          modaltitle     = "Bulk Upload"
-          title          = "Upload"
-          selectedFile   = {selectedFile}
+          onClose={() => setOpen(false)}
+          onSelectFile={handleSelectFile}
+          onHandleUpload={handleBulkUpload}
+          modaltitle="Bulk Upload"
+          title="Upload"
+          selectedFile={selectedFile}
         />
       )}
       {/* {open && (
@@ -185,14 +221,13 @@ function PreviewFile() {
 
 export default PreviewFile;
 
-
-// Old error code 
+// Old error code
 /*
 import React from "react";
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
-import { testData } from "./PreviewFileData";
-// const testData = null;
+import { previewProducts } from "./PreviewFileData";
+// const previewProducts = null;
 
 // calculate the max width of a column based on its content
 const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
@@ -211,9 +246,9 @@ const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
 };
 
 const columns =
-  testData?.maincontent && testData.maincontent.length > 0
-    ? Object.keys(testData.maincontent[0]).map((key, index) => ({
-        name: testData.headings[index] || key,
+  previewProducts?.mainContent && previewProducts?.mainContent.length > 0
+    ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => ({
+        name: previewProducts?.headings[index] || key,
         selector: (row) => row[key]?.value || "-",
         cell: (row) => {
           const hasError = row[key]?.error;
@@ -229,8 +264,8 @@ const columns =
           );
         },
         minWidth: `${
-          calculateColumnWidth(testData.maincontent, key) +
-          (testData.maincontent.some((row) => row[key]?.error) ? 50 : 0)
+          calculateColumnWidth(previewProducts?.mainContent, key) +
+          (previewProducts?.mainContent.some((row) => row[key]?.error) ? 50 : 0)
         }px`,
         style: {
           whiteSpace: "nowrap",
@@ -245,7 +280,7 @@ const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
 
 function PreviewFile() {
 
-  if (!testData || !testData.maincontent || testData.maincontent.length === 0) {
+  if (!previewProducts || !previewProducts?.mainContent || previewProducts?.mainContent.length === 0) {
     return <div className={styles.container}>
     <div className={styles.tableContainer}>
       <DataTable
@@ -264,7 +299,7 @@ function PreviewFile() {
         <DataTable
           title="Bulk Upload Preview"
           columns={columns}
-          data={testData.maincontent}
+          data={previewProducts?.mainContent}
           fixedHeader
           fixedHeaderScrollHeight="calc(100vh - 120px)"
           responsive
