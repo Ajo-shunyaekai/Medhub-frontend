@@ -131,6 +131,8 @@ const EditAddProduct = ({ placeholder }) => {
         values?.productPricingDetails?.map((section) => ({
           price: section?.price || "",
           quantity: section?.quantity || "",
+          quantityFrom: section?.quantityFrom || "",
+          quantityTo: section?.quantityTo || "",
           deliveryTime: section?.deliveryTime || "",
         }))
       );
@@ -369,6 +371,7 @@ const EditAddProduct = ({ placeholder }) => {
         dimensionUnit: general?.dimensionUnit || "",
         weight: general?.weight || "",
         unit: general?.unit || "",
+        tax: general?.tax || "",
         packageType: general?.packageType || "",
         packageMaterial: general?.packageMaterial || "",
         packageMaterialIfOther: general?.packageMaterialIfOther || "",
@@ -415,7 +418,7 @@ const EditAddProduct = ({ placeholder }) => {
           },
         ],
         productPricingDetails: inventoryDetails?.inventoryList || [
-          { quantity: "", price: "", deliveryTime: "" },
+          { quantity: "", quantityFrom: "", quantityTo: "", price: "", deliveryTime: "" },
         ],
         // Common fields of multiple categories
         drugClass: categoryDetails?.drugClass || "",
@@ -1318,6 +1321,31 @@ const EditAddProduct = ({ placeholder }) => {
                     )}
                   </div>
                 </div>
+              </div>
+              <div className={styles.productContainer}>
+                <label className={styles.formLabel}>
+                Product Tax%
+                  <span className={styles?.labelStamp}>*</span>
+                </label>
+                <div className={styles.tooltipContainer}>
+                  <input
+                    className={styles.formInput}
+                    type="text"
+                    placeholder="Enter Tax in percentage"
+                    // autoComplete="off"
+                    name="tax"
+                    value={formik?.values?.tax}
+                    // onChange={formik?.handleChange}
+                    onChange={(e) =>
+                      handleInputChange(e, formik.setFieldValue, 9, "decimal")
+                    }
+                    onBlur={formik?.handleBlur}
+                  />
+                  <Tooltip content="Unit Tax of the product"></Tooltip>
+                </div>
+                {formik.touched.tax && formik.errors.tax && (
+                  <span className={styles.error}>{formik.errors.tax}</span>
+                )}
               </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
@@ -7452,6 +7480,8 @@ const EditAddProduct = ({ placeholder }) => {
                     ...formik?.values?.productPricingDetails,
                     {
                       quantity: "",
+                      quantityFrom: "",
+                      quantityTo: "",
                       price: "",
                       deliveryTime: "",
                     },
@@ -7476,7 +7506,7 @@ const EditAddProduct = ({ placeholder }) => {
                             Quantity
                             <span className={styles?.labelStamp}>*</span>
                           </label>
-                          <Field
+                          {/* <Field
                             name={`productPricingDetails.${index}.quantity`}
                           >
                             {({ field }) => (
@@ -7497,13 +7527,63 @@ const EditAddProduct = ({ placeholder }) => {
                                 }
                               />
                             )}
-                          </Field>
-                          <span className={styles.error}>
+                          </Field> */}
+                            <div className={styles.weightContainer}>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          // autoComplete="off"
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          value={formik?.values.productPricingDetails[index]?.quantityFrom}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                          onBlur={formik?.handleBlur}
+                        />
+                       
+                      </div>
+                    </div>
+                    <div className={styles.unitSection}>
+                    <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          // autoComplete="off"
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          value={formik?.values.productPricingDetails[index]?.quantityTo}
+                          onChange={(e) =>
+                            formik?.setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                          onBlur={formik?.handleBlur}
+                        />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                    </div>
+                  </div>
+                          {/* <span className={styles.error}>
                             {formik.touched.productPricingDetails?.[index]
                               ?.quantity &&
                               formik.errors.productPricingDetails?.[index]
                                 ?.quantity}
-                          </span>
+                          </span> */}
+                          <span className={styles.error}>
+                    {formik.touched.productPricingDetails?.[index]?.quantityFrom &&
+                      formik.errors.productPricingDetails?.[index]?.quantityFrom}
+                  </span>
+                  <span className={styles.error}>
+                    {formik.touched.productPricingDetails?.[index]?.quantityTo &&
+                      formik.errors.productPricingDetails?.[index]?.quantityTo}
+                  </span>
                         </div>
 
                         <div className={styles.productContainer}>

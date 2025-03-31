@@ -165,6 +165,7 @@ export const initialValues = {
   dimension: "",
   weight: "",
   unit: "",
+  tax: "",
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -203,6 +204,8 @@ export const initialValues = {
   productPricingDetails: [
     {
       quantity: "",
+      quantityFrom: "",
+      quantityTo: "",
       price: "",
       deliveryTime: "",
     },
@@ -355,6 +358,7 @@ export const addProductValidationSchema = Yup.object({
   // dimension: Yup.string().required("Product Dimension is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
+  tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -441,7 +445,9 @@ export const addProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.string().required("Quantity is required."),
+        quantityFrom: Yup.string().required("Quantity From is required."),
+        quantityTo: Yup.string().required("Quantity To is required."),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -1270,6 +1276,7 @@ export const editProductValidationSchema = Yup.object({
   quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
+  tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1355,7 +1362,15 @@ export const editProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.string().required("Quantity is required."),
+        quantityFrom: Yup.number()
+        .typeError("Quantity From must be a number.")
+        .required("Quantity From is required.")
+        .positive("Quantity From must be greater than 0"),
+        quantityTo: Yup.number()
+        .typeError("Quantity To must be a number.")
+        .required("Quantity To is required.")
+        .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")

@@ -297,13 +297,24 @@ const AddProduct = ({ placeholder }) => {
               // type: section?.type || "",
             }))
           );
+          // const productPricingDetailsUpdated = JSON.stringify(
+          //   values?.productPricingDetails?.map((section) => ({
+          //     price: section?.price || "",
+          //     quantity: section?.quantity || "",
+          //     deliveryTime: section?.deliveryTime || "",
+          //   }))
+          // );
+
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
-              quantity: section?.quantity || "",
+              // quantity: section?.quantity || "",
+              quantityFrom: section?.quantityFrom || "",
+              quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
             }))
           );
+          
           const cNCFileNDateUpdated = JSON.stringify(
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
@@ -322,7 +333,7 @@ const AddProduct = ({ placeholder }) => {
           dispatch(addProduct(formData)).then((response) => {
             console.log("response", response);
             if (response?.meta.requestStatus === "fulfilled") {
-              navigate("/supplier/product"); // Change this to your desired route
+              // navigate("/supplier/product"); // Change this to your desired route
             }
           });
           // setSubmitting(false); // Important to reset form submission state
@@ -869,6 +880,37 @@ const AddProduct = ({ placeholder }) => {
                   </label>
                   
                 </div> */}
+
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Product Tax%
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Tax in percentage"
+                      // autoComplete="off"
+                      name="tax"
+                      value={values.tax}
+                      // onChange={handleChange}
+                      // onChange={(e) =>
+                      //   handleInputChange(e, setFieldValue, 8, "number")
+                      // }
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 9, "decimal", [
+                          "tax",
+                        ])}
+                      onBlur={handleBlur}
+                    />
+                    <Tooltip content="Unit Tax of the product"></Tooltip>
+                  </div>
+                  {touched.tax && errors.tax && (
+                    <span className={styles.error}>{errors.tax}</span>
+                  )}
+                </div>
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
@@ -6314,7 +6356,9 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue("productPricingDetails", [
                       ...values.productPricingDetails,
                       {
-                        quantity: "",
+                        // quantity: "",
+                        quantityFrom: "",
+                        quantityTo: "",
                         price: "",
                         deliveryTime: "",
                       },
@@ -6330,7 +6374,7 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-                    <Field name={`productPricingDetails.${index}.quantity`}>
+                    {/* <Field name={`productPricingDetails.${index}.quantity`}>
                       {({ field }) => (
                         <Select
                           {...field}
@@ -6349,11 +6393,58 @@ const AddProduct = ({ placeholder }) => {
                           }
                         />
                       )}
-                    </Field>
-                    <span className={styles.error}>
-                      {touched.productPricingDetails?.[index]?.quantity &&
-                        errors.productPricingDetails?.[index]?.quantity}
-                    </span>
+                    </Field> */}
+                    <div className={styles.weightContainer}>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          // autoComplete="off"
+                          name={`productPricingDetails.${index}.quantityFrom`}
+                          value={values.productPricingDetails[index]?.quantityFrom}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityFrom`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                       
+                      </div>
+                    </div>
+                    <div className={styles.unitSection}>
+                    <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          // autoComplete="off"
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          value={values.productPricingDetails[index]?.quantityTo}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <span className={styles.error}>
+                    {touched.productPricingDetails?.[index]?.quantityFrom &&
+                      errors.productPricingDetails?.[index]?.quantityFrom}
+                  </span>
+                  <span className={styles.error}>
+                    {touched.productPricingDetails?.[index]?.quantityTo &&
+                      errors.productPricingDetails?.[index]?.quantityTo}
+                  </span>
                   </div>
 
                   <div className={styles.productContainer}>
@@ -6425,8 +6516,16 @@ const AddProduct = ({ placeholder }) => {
                       className={styles.formCloseSection}
                       onClick={() => {
                         // Clear form values before removing the row
+                        // setFieldValue(
+                        //   `productPricingDetails.${index}.quantity`,
+                        //   ""
+                        // );
                         setFieldValue(
-                          `productPricingDetails.${index}.quantity`,
+                          `productPricingDetails.${index}.quantityFrom`,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityTo`,
                           ""
                         );
                         setFieldValue(
