@@ -43,7 +43,7 @@ import {
   lensmaterialOptions,
   dairyfeeOptions,
   initialValues,
-  addProductValidationSchema
+  addProductValidationSchema,
 } from "./DropDowns";
 
 const MultiSelectOption = ({ children, ...props }) => (
@@ -6031,7 +6031,7 @@ const AddProduct = ({ placeholder }) => {
                       showMask
                       separate
                     /> */}
-
+ 
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -6083,7 +6083,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.sku}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stock<span className={styles.labelStamp}>*</span>
@@ -6107,7 +6107,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Stocked in Country
+                    Stocked in Countries
                     <span className={styles.labelStamp}>*</span>
                   </label>
                   <MultiSelectDropdown
@@ -6143,85 +6143,90 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
               </div>
-
-              <div className={styles.formStockContainer}>
-                <div className={styles.formHeadSection}>
-                  <span className={styles.formHead}>Stocked In Details</span>
-                  <span
-                    className={styles.formAddButton}
-                    onClick={() =>
-                      (values?.stockedInDetails?.length || 0) <
-                      (values.countries?.length || 0) &&
-                      setFieldValue("stockedInDetails", [
-                        ...values.stockedInDetails,
-                        {
-                          country: "",
-                          quantity: "",
-                          placeholder: "Enter Quantity",
-                        },
-                      ])
+ 
+              {inventoryStockedCountries?.length > 0 ? (
+                <div className={styles.formStockContainer}>
+                  <div className={styles.formHeadSection}>
+                    <span className={styles.formHead}>Stocked In Details</span>
+                    {
+                      // inventoryStockedCountries?.length > 1 &&
+                      <span
+                        className={styles.formAddButton}
+                        onClick={() =>
+                          (values?.stockedInDetails?.length || 0) <
+                            (values.countries?.length || 0) &&
+                          setFieldValue("stockedInDetails", [
+                            ...values.stockedInDetails,
+                            {
+                              country: "",
+                              quantity: "",
+                              placeholder: "Enter Quantity",
+                            },
+                          ])
+                        }
+                      >
+                        Add More
+                      </span>
                     }
-                  >
-                    Add More
-                  </span>
-                </div>
-                {values?.stockedInDetails?.map((stock, index) => (
-                  <>
-                    <div key={index} className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Countries where Stock Trades
-                          {/* <span className={styles.labelStamp}>*</span> */}
-                        </label>
-                        <Select
-                          className={styles.formSelect}
-                          options={inventoryStockedCountries}
-                          placeholder="Select Countries where Stock Trades"
-                          value={inventoryStockedCountries.find(
-                            (option) => option.value === stock.country
-                          )}
-                          onBlur={handleBlur}
-                          onChange={(option) =>
-                            setFieldValue(
-                              `stockedInDetails.${index}.country`,
-                              option.value
-                            )
-                          }
-                        />
-                      </div>
-
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Stock Quantity
-                          {/* <span className={styles.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.productQuantityContainer}>
-                          <div className={styles.quantitySection}>
-                            <Field
-                              name={`stockedInDetails.${index}.quantity`}
-                              className={styles.quantityInput}
-                              // placeholder={stock.placeholder}
-                              placeholder="Enter Quantity"
-                              // autoComplete="off"
-                              // type="number"
-                              onInput={(e) => {
-                                e.target.value = e.target.value
-                                  .replace(/\D/g, "")
-                                  .slice(0, 6);
-                              }}
-                            // onInput={(e) => {
-                            //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
-                            // }}
-                            />
-                            {/* <button
+                  </div>
+                  {values?.stockedInDetails?.map((stock, index) => (
+                    <>
+                      <div key={index} className={styles.formSection}>
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Country where Stock Trades
+                            {/* <span className={styles.labelStamp}>*</span> */}
+                          </label>
+                          <Select
+                            className={styles.formSelect}
+                            options={inventoryStockedCountries}
+                            placeholder="Select Country where Stock Trades"
+                            value={inventoryStockedCountries.find(
+                              (option) => option.value === stock.country
+                            )}
+                            onBlur={handleBlur}
+                            onChange={(option) =>
+                              setFieldValue(
+                                `stockedInDetails.${index}.country`,
+                                option.value
+                              )
+                            }
+                            isDisabled={inventoryStockedCountries?.length == 0}
+                          />
+                        </div>
+ 
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Stock Quantity
+                            {/* <span className={styles.labelStamp}>*</span> */}
+                          </label>
+                          <div className={styles.productQuantityContainer}>
+                            <div className={styles.quantitySection}>
+                              <Field
+                                name={`stockedInDetails.${index}.quantity`}
+                                className={styles.quantityInput}
+                                // placeholder={stock.placeholder}
+                                placeholder="Enter Quantity"
+                                // autoComplete="off"
+                                // type="number"
+                                onInput={(e) => {
+                                  e.target.value = e.target.value
+                                    .replace(/\D/g, "")
+                                    .slice(0, 6);
+                                }}
+                                // onInput={(e) => {
+                                //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                                // }}
+                              />
+                              {/* <button
                               type="button"
                               className={`${styles.quantityButton} ${styles.selected}`}
                             >
                               {stock.type}
                             </button> */}
-                          </div>
-
-                          {/* <div className={styles.radioForm}>
+                            </div>
+ 
+                            {/* <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
                                 <Field
@@ -6247,46 +6252,56 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             ))}
                           </div> */}
+                          </div>
                         </div>
+ 
+                        {values?.stockedInDetails?.length > 1 && (
+                          <div
+                            className={styles.formCloseSection}
+                            onClick={() => {
+                              const updatedList =
+                                values.stockedInDetails.filter(
+                                  (_, elindex) => elindex !== index
+                                );
+                              setFieldValue("stockedInDetails", updatedList);
+                            }}
+                          >
+                            <span className={styles.formclose}>
+                              <CloseIcon className={styles.icon} />
+                            </span>
+                          </div>
+                        )}
                       </div>
-
-                      {values?.stockedInDetails?.length > 1 && (
-                        <div
-                          className={styles.formCloseSection}
-                          onClick={() => {
-                            const updatedList = values.stockedInDetails.filter(
-                              (_, elindex) => elindex !== index
-                            );
-                            setFieldValue("stockedInDetails", updatedList);
-                          }}
-                        >
-                          <span className={styles.formclose}>
-                            <CloseIcon className={styles.icon} />
+                      {/* ///////// */}
+                      <div key={index} className={styles.formSection}>
+                        <div className={styles.productContainer}>
+                          <span className={styles.error}>
+                            {touched.stockedInDetails?.[index]?.country &&
+                              errors.stockedInDetails?.[index]?.country}
                           </span>
                         </div>
-                      )}
-                    </div>
-                    {/* ///////// */}
-                    <div key={index} className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <span className={styles.error}>
-                          {touched.stockedInDetails?.[index]?.country &&
-                            errors.stockedInDetails?.[index]?.country}
-                        </span>
+ 
+                        <div className={styles.productContainer}>
+                          <span className={styles.error}>
+                            {touched.stockedInDetails?.[index]?.quantity &&
+                              errors.stockedInDetails?.[index]?.quantity}
+                          </span>
+                        </div>
                       </div>
-
-                      <div className={styles.productContainer}>
-                        <span className={styles.error}>
-                          {touched.stockedInDetails?.[index]?.quantity &&
-                            errors.stockedInDetails?.[index]?.quantity}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                ))}
-              </div>
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.formStockContainer}>
+                  <div className={styles.formHeadSection}>
+                    <label className={styles.formLabel}>
+                      Please select Stocked in Countries to add stocked In details
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
-
+ 
             {/* End the Inventory */}
 
             {/* Start the Product Pricing */}

@@ -465,7 +465,7 @@ const handleSubmit = (values, { resetForm }) => {
                         {productDetail?.inventoryDetails?.countries && (
                           <div className={styles.medicinesSection}>
                             <span className={styles.medicineHead}>
-                              Stocked in Country
+                              Stocked in Countries
                             </span>
                             <span className={styles.medicineText}>
                               {productDetail.inventoryDetails.countries.map((country, index) => (
@@ -513,7 +513,7 @@ const handleSubmit = (values, { resetForm }) => {
                       <div className={styles.mainSection}>
                         <div className={styles.medicinesSection}>
                           <span className={styles.medicineHead}>
-                            Countries where Stock Trades
+                            Country where Stock Trades
                           </span>
                           <span className={styles.medicineHeadings}>Quantity</span>
                         </div>

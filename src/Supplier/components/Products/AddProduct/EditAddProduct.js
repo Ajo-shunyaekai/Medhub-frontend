@@ -7238,7 +7238,7 @@ const EditAddProduct = ({ placeholder }) => {
               </div>
               <div className={styles.productContainer}>
                 <label className={styles.formLabel}>
-                  Stocked in Country
+                  Stocked in Countries
                   <span className={styles?.labelStamp}>*</span>
                 </label>
                 <MultiSelectDropdown
@@ -7305,65 +7305,78 @@ const EditAddProduct = ({ placeholder }) => {
                 </span>
               </div>
 
-              {formik?.values?.stockedInDetails?.map((stock, index) => (
-                <div key={index} className={styles.formSection}>
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Countries where Stock Trades
-                      {/* <span className={styles?.labelStamp}>*</span> */}
-                    </label>
-                    <Select
-                      className={styles.formSelect}
-                      options={formik?.values?.countries.map((country) => ({
-                        label: country,
-                        value: country,
-                      }))} // Map countries to the correct format
-                      placeholder="Select Countries where Stock Trades"
-                      value={formik?.values?.countries
-                        .map((country) => ({ label: country, value: country }))
-                        .find((option) => option.value === stock?.country)} // Find the selected country
-                      onBlur={formik?.handleBlur}
-                      onChange={(option) =>
-                        formik.setFieldValue(
-                          `stockedInDetails.${index}.country`,
-                          option?.value
-                        )
-                      }
-                    />
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails?.[index]?.country &&
-                        formik.errors.stockedInDetails?.[index]?.country}
-                    </span>
-                  </div>
+              {formik?.values?.countries.map((country) => ({
+                label: country,
+                value: country,
+              }))?.length > 0 ? (
+                formik?.values?.stockedInDetails?.map((stock, index) => (
+                  <div key={index} className={styles.formSection}>
+                    <div className={styles.productContainer}>
+                      <label className={styles.formLabel}>
+                        Country where Stock Trades
+                        {/* <span className={styles?.labelStamp}>*</span> */}
+                      </label>
+                      <Select
+                        className={styles.formSelect}
+                        options={formik?.values?.countries.map((country) => ({
+                          label: country,
+                          value: country,
+                        }))} // Map countries to the correct format
+                        placeholder="Select Country where Stock Trades"
+                        value={formik?.values?.countries
+                          .map((country) => ({
+                            label: country,
+                            value: country,
+                          }))
+                          .find((option) => option.value === stock?.country)} // Find the selected country
+                        onBlur={formik?.handleBlur}
+                        onChange={(option) =>
+                          formik.setFieldValue(
+                            `stockedInDetails.${index}.country`,
+                            option?.value
+                          )
+                        }
+                        isDisabled={
+                          formik?.values?.countries.map((country) => ({
+                            label: country,
+                            value: country,
+                          }))?.length == 0
+                        }
+                      />
+                      <span className={styles.error}>
+                        {formik.touched.stockedInDetails?.[index]?.country &&
+                          formik.errors.stockedInDetails?.[index]?.country}
+                      </span>
+                    </div>
 
-                  <div className={styles.productContainer}>
-                    <label className={styles.formLabel}>
-                      Stock Quantity
-                      {/* <span className={styles?.labelStamp}>*</span> */}
-                    </label>
-                    <div className={styles.productQuantityContainer}>
-                      <div className={styles.quantitySection}>
-                        <input
-                          name={`stockedInDetails.${index}.quantity`}
-                          className={styles.quantityInput}
-                          placeholder={stock.placeholder}
-                          type="number"
-                          value={
-                            formik?.values?.stockedInDetails[index]?.quantity ||
-                            ""
-                          }
-                          onChange={formik.handleChange}
-                        />
+                    <div className={styles.productContainer}>
+                      <label className={styles.formLabel}>
+                        Stock Quantity
+                        {/* <span className={styles?.labelStamp}>*</span> */}
+                      </label>
+                      <div className={styles.productQuantityContainer}>
+                        <div className={styles.quantitySection}>
+                          <input
+                            name={`stockedInDetails.${index}.quantity`}
+                            className={styles.quantityInput}
+                            placeholder={stock.placeholder}
+                            type="number"
+                            value={
+                              formik?.values?.stockedInDetails[index]
+                                ?.quantity || ""
+                            }
+                            onChange={formik.handleChange}
+                          />
 
-                        {/* <button
+                          {/* <button
                           type="button"
                           className={`${styles.quantityButton} ${styles.selected}`}
                         >
                           {stock.type}
                         </button> */}
-                      </div>
+                        </div>
 
-                      {/* <div className={styles.radioForm}>
+                        {/* <div className={styles.radioForm}>
                         {["Box", "Strip", "Pack"].map((type) => (
                           <label key={type}>
                             <input
@@ -7389,31 +7402,40 @@ const EditAddProduct = ({ placeholder }) => {
                           </label>
                         ))}
                       </div> */}
-                    </div>
-                    <span className={styles.error}>
-                      {formik.touched.stockedInDetails?.[index]?.quantity &&
-                        formik.errors.stockedInDetails?.[index]?.quantity}
-                    </span>
-                  </div>
-
-                  {formik?.values?.stockedInDetails?.length > 1 && (
-                    <div
-                      className={styles.formCloseSection}
-                      onClick={() => {
-                        const updatedList =
-                          formik?.values?.stockedInDetails.filter(
-                            (_, elindex) => elindex !== index
-                          );
-                        formik.setFieldValue("stockedInDetails", updatedList);
-                      }}
-                    >
-                      <span className={styles.formclose}>
-                        <CloseIcon className={styles.icon} />
+                      </div>
+                      <span className={styles.error}>
+                        {formik.touched.stockedInDetails?.[index]?.quantity &&
+                          formik.errors.stockedInDetails?.[index]?.quantity}
                       </span>
                     </div>
-                  )}
+
+                    {formik?.values?.stockedInDetails?.length > 1 && (
+                      <div
+                        className={styles.formCloseSection}
+                        onClick={() => {
+                          const updatedList =
+                            formik?.values?.stockedInDetails.filter(
+                              (_, elindex) => elindex !== index
+                            );
+                          formik.setFieldValue("stockedInDetails", updatedList);
+                        }}
+                      >
+                        <span className={styles.formclose}>
+                          <CloseIcon className={styles.icon} />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className={styles.formStockContainer}>
+                  <div className={styles.formHeadSection}>
+                    <label className={styles.formLabel}>
+                      Please select Stocked in Countries to add stocked In details
+                    </label>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
