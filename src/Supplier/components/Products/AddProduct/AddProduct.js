@@ -45,6 +45,7 @@ import {
   initialValues,
   addProductValidationSchema,
 } from "./DropDowns";
+import { FiUploadCloud } from "react-icons/fi";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -243,15 +244,16 @@ const AddProduct = ({ placeholder }) => {
     bulkFormData.append("csvfile", selectedFile);
 
     dispatch(addBulkProducts(bulkFormData));
+    navigate("/supplier/preview-file");
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
-        {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
+        <button onClick={() => setOpen(true)} className={styles.bulkButton}>
             Bulk Upload
-          </button> */}
+          </button>
       </div>
       <Formik
         initialValues={initialValues}
@@ -6931,7 +6933,7 @@ const AddProduct = ({ placeholder }) => {
         )}
       </Formik>
 
-      {/* {open && (
+      {open && (
                 <div className={styles.modalOverlay}>
                   <div className={styles.modalContent}>
                     <div className={styles.modalHeadContainer}>
@@ -6946,7 +6948,7 @@ const AddProduct = ({ placeholder }) => {
   
                     <div className={styles.fileInputWrapper}>
                       <label className={styles.formLabel}>
-                        Upload File (PDF, CSV, Excel, DOC)
+                        Preview File (PDF, CSV, Excel, DOC)
                       </label>
                       <div className={styles.modalInnerSection}>
                         <FiUploadCloud size={20} className={styles.uploadIcon} />
@@ -6957,7 +6959,7 @@ const AddProduct = ({ placeholder }) => {
                           className={styles.fileInput}
                         />
                         {!selectedFile && (
-                          <p className={styles.placeholderText}>Upload file</p>
+                          <p className={styles.placeholderText}>Preview file</p>
                         )}
                         {selectedFile && (
                           <p className={styles.fileModalName}>
@@ -6973,11 +6975,11 @@ const AddProduct = ({ placeholder }) => {
                       >
                         Cancel
                       </button>
-                      <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Upload</button>
+                      <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Preview</button>
                     </div>
                   </div>
                 </div>
-              )} */}
+              )}
     </div>
   );
 };

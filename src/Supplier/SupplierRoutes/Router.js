@@ -139,6 +139,9 @@ const EditProfile = lazy(() =>
 const SupplierLogistics = lazy(() => 
   import("../components/Orders/SupplierLogistics/SupplierLogistics")
 )
+const PreviewFile = lazy(() => 
+  import("../components/Products/AddProduct/PreviewFile.jsx")
+)
  
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
@@ -512,6 +515,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <AddProduct socket={socket} />
+          </Suspense>
+        ),
+      },
+      {
+        path: "preview-file",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PreviewFile />
           </Suspense>
         ),
       },

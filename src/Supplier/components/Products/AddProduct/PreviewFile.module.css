@@ -1,0 +1,247 @@
+.tableHeader {
+  width: 100%;
+  max-width: 90%;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonGroup {
+  display: flex;
+  column-gap: 15px;
+}
+
+.uploadButton {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer !important;
+  font-size: 14px;
+  padding: 6px 8px;
+  border: none;
+  outline: none;
+}
+
+.headerContainer h3 {
+  margin-bottom: 0px;
+}
+
+.errorBanner {
+  font-size: 14px;
+  color: red;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  margin-bottom: 60px;
+}
+
+.tableContainer {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+.cell {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #848991fa;
+}
+
+.errorCell {
+  border: 2px solid red !important;
+  background-color: #ffe6e6;
+  padding: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Bulk Upload section */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999;
+}
+
+.modalContent {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.fileInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modalInnerSection {
+  background-color: #fff !important;
+  align-items: center !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-size: 14px !important;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
+  display: flex;
+  gap: 10px;
+  cursor: pointer !important;
+}
+
+.fileInput {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer !important;
+}
+.fileModalName {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: start;
+}
+.placeholderText {
+  font-size: 14px;
+  color: #888;
+}
+.modalButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+.modalHeadContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.closeButton {
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #fff !important;
+  align-items: center !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  cursor: pointer !important;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+.labelStamp {
+  font-size: 16px;
+  color: #ff0000;
+}
+
+.buttonCancel {
+  background-color: #fff;
+  border: 1px solid #5e676f;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px #0000000d !important;
+  color: #5e676f;
+  align-items: center;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 22px;
+}
+
+.buttonSubmit {
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border: none !important;
+  border-radius: 4px;
+  color: #fff;
+  outline: none !important;
+  align-items: center;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 22px;
+}
+/* End bulk upload section */
+
+@media (max-width: 1700px) {
+  .tableHeader {
+    max-width: 89%;
+  }
+  .container {
+    max-width: 89%;
+  }
+}
+
+@media (max-width: 1500px) {
+  .tableHeader {
+    max-width: 87%;
+  }
+  .container {
+    max-width: 87%;
+  }
+}
+
+@media (max-width: 1300px) {
+  .tableHeader {
+    max-width: 85%;
+  }
+  .container {
+    max-width: 85%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .tableHeader {
+    max-width: 83%;
+  }
+  .container {
+    max-width: 83%;
+  }
+}
+
+@media (max-width: 992px) {
+  .tableHeader {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+  .container {
+    max-width: 100%;
+  }
+}
