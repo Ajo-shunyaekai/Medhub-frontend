@@ -3,7 +3,7 @@ import Select from 'react-select';
 import styles from './category.module.css';
 import categoryArrays from '../../../../../utils/Category';
 
-const AccordionFilter = ({ isOpen, toggleAccordion }) => {
+const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
     const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
@@ -47,11 +47,13 @@ const AccordionFilter = ({ isOpen, toggleAccordion }) => {
     };
 
     const handleApply = () => {
-        console.log('Applied Filters:', {
-            category: selectedCategory?.value,
-            subCategory: selectedSubCategory?.value,
-            level3Category: selectedLevel3Category?.value,
-        });
+        const filterData = {
+            category: selectedCategory?.value || '',
+            subCategory: selectedSubCategory?.value || '',
+            level3Category: selectedLevel3Category?.value || '',
+        };
+        console.log('filterData',filterData)
+        setFilterCategory(filterData); 
         // Add your apply filter logic here
     };
 

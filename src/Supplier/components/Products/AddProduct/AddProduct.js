@@ -265,6 +265,7 @@ const AddProduct = ({ placeholder }) => {
       }
     });
   };
+}
 
   return (
     <div className={styles.container}>
@@ -7022,6 +7023,7 @@ const AddProduct = ({ placeholder }) => {
 
     </div>
   );
+  
 };
 
 export default AddProduct;

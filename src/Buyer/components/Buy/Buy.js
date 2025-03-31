@@ -139,18 +139,18 @@ const Buy = () => {
                         </div>
                     </div>
                     {/* Conditionally render the filter button */}
-                    {/* {(activeButton === 'product' || activeButton === 'market') && (
+                    {(activeButton === 'product' || activeButton === 'market') && (
                         <div className={styles.innerSection}>
                             <button className={styles.filterButton} onClick={toggleAccordion}>
                                 <HiOutlineFilter className={styles.filterIcon} />
                             </button>
                         </div>
-                    )} */}
+                    )}
                 </div>
 
                 {/* Render AccordionFilter only when filter is relevant */}
                 {(activeButton === 'product' || activeButton === 'market') && (
-                    <AccordionFilter isOpen={isOpen} toggleAccordion={toggleAccordion} />
+                    <AccordionFilter isOpen={isOpen} toggleAccordion={toggleAccordion} setFilterCategory={setFilterCategory} />
                 )}
 
                 {activeButton === 'seller' && <BuySeller active={activeButton} />}
