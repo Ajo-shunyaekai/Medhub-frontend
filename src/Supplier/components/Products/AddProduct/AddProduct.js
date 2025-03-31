@@ -45,6 +45,7 @@ import {
   dairyfeeOptions,
 } from "./DropDowns";
 import { FiUploadCloud } from "react-icons/fi";
+import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -1017,8 +1018,12 @@ const AddProduct = ({ placeholder }) => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  // const handleFileChange = (event) => {
+  //   setSelectedFile(event.target.files[0]);
+  // };
+
+  const handleSelectFile = (file) => {
+    setSelectedFile(file);
   };
 
   // Start the checked container
@@ -1154,15 +1159,25 @@ const AddProduct = ({ placeholder }) => {
     );
   };
 
+  // const handleBulkUpload = () => {
+  //   console.log("file", selectedFile);
+  //   const bulkFormData = new FormData();
+
+  //   bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+  //   bulkFormData.append("csvfile", selectedFile);
+
+  //   dispatch(addBulkProducts(bulkFormData));
+  //   navigate("/supplier/preview-file");
+  // };
   const handleBulkUpload = () => {
-    console.log("file", selectedFile);
-    const bulkFormData = new FormData();
-
-    bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
-    bulkFormData.append("csvfile", selectedFile);
-
-    dispatch(addBulkProducts(bulkFormData));
-    navigate("/supplier/preview-file");
+    if (selectedFile) {
+      console.log("file", selectedFile);
+      const bulkFormData = new FormData();
+      bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+      bulkFormData.append("csvfile", selectedFile);
+      dispatch(addBulkProducts(bulkFormData));
+      navigate("/supplier/preview-file");
+    }
   };
 
   return (
@@ -7896,6 +7911,16 @@ const AddProduct = ({ placeholder }) => {
       </Formik>
 
       {open && (
+        <FileUploadModal
+          onClose          = {() => setOpen(false)}
+          onSelectFile     = {handleSelectFile}
+          onHandleUpload   = {handleBulkUpload}
+          modaltitle       = "Bulk Upload"
+          title            = "Preview"
+          selectedFile     = {selectedFile}
+        />
+      )}
+      {/* {open && (
                 <div className={styles.modalOverlay}>
                   <div className={styles.modalContent}>
                     <div className={styles.modalHeadContainer}>
@@ -7941,7 +7966,7 @@ const AddProduct = ({ placeholder }) => {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
     </div>
   );
 };
