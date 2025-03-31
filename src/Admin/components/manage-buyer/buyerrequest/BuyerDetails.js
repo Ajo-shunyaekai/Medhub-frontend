@@ -273,9 +273,23 @@ const BuyerDetails = () => {
                         </div>
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
+                            <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>
+                                    {buyerDetails?.account_status === 1 ? "Account Approved Date:" : buyerDetails?.account_status === 2 ? "Account Rejected Date:" : ""}
+                                    </div>
+                                    <div className='buyer-details-inner-text'>
+                                    {buyerDetails?.account_status === 1 
+                                        ? buyerDetails?.account_accepted_date 
+                                        : buyerDetails?.account_status === 2 
+                                        ? buyerDetails?.account_rejected_date 
+                                        : " "}
+                                        </div>
+                                </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name:</div>
-                                    <div className='buyer-details-inner-text'>{buyerDetails?.sales_person_name}</div>
+                                    <div className='buyer-details-inner-text'>
+                                        {buyerDetails?.sales_person_name}
+                                    </div>
                                 </div>
                                 <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Contact Person Name :</div>

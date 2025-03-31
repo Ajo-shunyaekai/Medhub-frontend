@@ -24,7 +24,7 @@
 
 .section {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     column-gap: 18px;
     margin-top: 8px;
@@ -39,6 +39,11 @@
     font-weight: 500;
     cursor: pointer !important;
     ;
+}
+
+.innerSection {
+    display: flex;
+    gap: 10px;
 }
 
 .productBtn {
@@ -68,7 +73,24 @@
     border-color: #dadade;
     color: #282f86;
 }
-
+.filterButton{
+    background: linear-gradient(270deg, #00dcff, #0075ce);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    column-gap: 8px;
+    cursor: pointer !important;
+    display: flex;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    padding: 6px 10px;
+}
+.filterIcon{
+font-size: 18px;
+cursor: pointer !important;
+}
 /* style the breadcrumbs section */
 .breadcrumbSection {
     display: flex;

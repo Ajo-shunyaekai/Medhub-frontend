@@ -1,45 +1,138 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Select from 'react-select';
 import styles from './category.module.css';
-import Generics from '../../../../assets/images/Buy/generics.svg';
-import Originals from '../../../../assets/images/Buy/orignals.svg';
-import Biosimilars from '../../../../assets/images/Buy/biosimilars.svg';
-import MedicalDevices from '../../../../assets/images/Buy/medicaldevices.svg';
-import Nutraceutical from '../../../../assets/images/Buy/neutraceutical.svg';
-import Arrow from '../../../../assets/images/Buy/arrow.svg'; 
+import categoryArrays from '../../../../../utils/Category';
 
-const Category = ({ handleCategoryFilter }) => {
-    const categories = [
-        { name: 'Generics', image: Generics, description: '10+ generic categories and 60+ finished dosage formulations' },
-        { name: 'Originals', image: Originals, description: '10+ products' },
-        { name: 'Biosimilars', image: Biosimilars, description: '60+ products' },
-        { name: 'Medical Devices', image: MedicalDevices, description: '200+ products' },
-        { name: 'Nutraceutical', image: Nutraceutical, description: '500+ products' },
-    ];
+const AccordionFilter = ({ isOpen, toggleAccordion }) => {
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+    const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
+
+    // Define category options from categoryArrays
+    const categoryOptions = categoryArrays.map(cat => ({
+        value: cat.name,
+        label: cat.name
+    }));
+
+    const getCategorySchema = (category) => {
+        if (!category) return null;
+        return (
+            categoryArrays.find((cat) => cat.name === category.label)?.schema || null
+        );
+    };
+
+    const getSubCategories = (categoryName) => {
+        return (
+            categoryArrays
+                .find((cat) => cat.name === categoryName)
+                ?.subCategories.map((sub) => ({
+                    value: sub.name,
+                    label: sub.name,
+                })) || []
+        );
+    };
+
+    const getLevel3Categories = (subCategoryName) => {
+        const category = categoryArrays.find(
+            (cat) => cat.name === selectedCategory?.label
+        );
+        return (
+            category?.subCategories
+                .find((sub) => sub.name === subCategoryName)
+                ?.anotherCategories.map((level3) => ({
+                    value: level3,
+                    label: level3,
+                })) || []
+        );
+    };
+
+    const handleApply = () => {
+        console.log('Applied Filters:', {
+            category: selectedCategory?.value,
+            subCategory: selectedSubCategory?.value,
+            level3Category: selectedLevel3Category?.value,
+        });
+        // Add your apply filter logic here
+    };
+
+    const handleReset = () => {
+        setSelectedCategory(null);
+        setSelectedSubCategory(null);
+        setSelectedLevel3Category(null);
+        console.log('Filters reset');
+    };
+
+    const isFilterSelected = selectedCategory || selectedSubCategory || selectedLevel3Category;
 
     return (
-        <div className={styles.Container}>
-            {categories.map((category, index) => (
-                <div 
-                    key={index}
-                    className={styles.section} 
-                    onClick={() => handleCategoryFilter(category.name)}
-                >
-                    <div className={styles.iconMain}>
-                        <img 
-                            className={`-${index + 1}`} 
-                            src={category.image} 
-                            alt={category.name}
+        <div className={styles.filterWrapper}>
+            <div className={`${styles.accordionContent} ${isOpen ? styles.open : ''}`}>
+                <div className={styles.filterContainer}>
+                    <div className={styles.filterSection}>
+                        <label>Product Category</label>
+                        <Select
+                            className={styles.reactSelect}
+                            options={categoryOptions}
+                            value={selectedCategory}
+                            onChange={(selectedOption) => {
+                                setSelectedCategory(selectedOption);
+                                setSelectedSubCategory(null);
+                                setSelectedLevel3Category(null);
+                            }}
+                            placeholder="Select Category"
                         />
                     </div>
-                    <div className={styles.head}>{category.name}</div>
-                    <div className={styles.content}>{category.description}</div>
-                    <div className={styles.icon}>
-                        <img src={Arrow} alt="Arrow" />
+
+                    <div className={styles.filterSection}>
+                        <label>Product Sub Category</label>
+                        <Select
+                            className={styles.reactSelect}
+                            options={
+                                selectedCategory
+                                    ? getSubCategories(selectedCategory.label)
+                                    : []
+                            }
+                            value={selectedSubCategory}
+                            onChange={(selectedOption) => {
+                                setSelectedSubCategory(selectedOption);
+                                setSelectedLevel3Category(null);
+                            }}
+                            placeholder="Select Sub Category"
+                            isDisabled={!selectedCategory}
+                        />
+                    </div>
+
+                    <div className={styles.filterSection}>
+                        <label>Product Sub Category (Level 3)</label>
+                        <Select
+                            className={styles.reactSelect}
+                            options={
+                                selectedSubCategory
+                                    ? getLevel3Categories(selectedSubCategory.value)
+                                    : []
+                            }
+                            value={selectedLevel3Category}
+                            onChange={(selectedOption) => {
+                                setSelectedLevel3Category(selectedOption);
+                            }}
+                            placeholder="Select Level 3 Category"
+                            isDisabled={!selectedSubCategory}
+                        />
                     </div>
                 </div>
-            ))}
+                {isFilterSelected && (
+                    <div className={styles.buttonSection}>
+                        <button className={styles.applyButton} onClick={handleApply}>
+                            Apply
+                        </button>
+                        <button className={styles.resetButton} onClick={handleReset}>
+                            Reset
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
 
-export default Category;
+export default AccordionFilter;

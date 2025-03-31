@@ -12,7 +12,6 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
 import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
@@ -20,13 +19,13 @@ import {
   addProduct,
   addBulkProducts,
 } from "../../../../redux/reducers/productSlice";
-import { InputMask } from "@react-input/mask";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
 import {
   Options,
   packagingUnits,
   volumeUnits,
+  dimensionUnits,
   packagingOptions,
   materialOptions,
   conditionOptions,
@@ -774,6 +773,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
+                  <div className={styles.weightContainer}>
+                  <div className={styles.weightSection}>
                   <div className={styles.tooltipContainer}>
                     <input
                       className={styles.formInput}
@@ -797,9 +798,25 @@ const AddProduct = ({ placeholder }) => {
                     />
                     <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
                   </div>
-                  {touched.dimension && errors.dimension && (
+                  </div>
+                  <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={dimensionUnits}
+                        placeholder="Select Units"
+                        onBlur={handleBlur}
+                        onChange={(selectedOption) => {
+                          setFieldValue("dimensionUnit", selectedOption?.value);
+                        }}
+                      />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                  </div>
+                  </div>
+                  {/* {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -1057,7 +1074,7 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1}
                       error={
                         touched.purchaseInvoiceFile &&
-                        errors.purchaseInvoiceFile
+                          errors.purchaseInvoiceFile
                           ? errors.purchaseInvoiceFile
                           : null
                       }
@@ -2936,7 +2953,7 @@ const AddProduct = ({ placeholder }) => {
                           }}
                           placeholder={
                             !value.filtrationType ||
-                            value.filtrationType.length === 0
+                              value.filtrationType.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3311,7 +3328,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.physicalState || []} // Ensure value is always an array
                           placeholder={
                             !values.physicalState ||
-                            values.physicalState.length === 0
+                              values.physicalState.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3342,7 +3359,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.hazardClassification || []} // Ensure value is always an array
                           placeholder={
                             !values.hazardClassification ||
-                            values.hazardClassification.length === 0
+                              values.hazardClassification.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -6014,7 +6031,7 @@ const AddProduct = ({ placeholder }) => {
                       showMask
                       separate
                     /> */}
-
+ 
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -6066,7 +6083,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.sku}</span>
                   )}
                 </div>
-
+ 
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stock<span className={styles.labelStamp}>*</span>
@@ -6126,7 +6143,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
               </div>
-
+ 
               {inventoryStockedCountries?.length > 0 ? (
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
@@ -6177,7 +6194,7 @@ const AddProduct = ({ placeholder }) => {
                             isDisabled={inventoryStockedCountries?.length == 0}
                           />
                         </div>
-
+ 
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Stock Quantity
@@ -6208,7 +6225,7 @@ const AddProduct = ({ placeholder }) => {
                               {stock.type}
                             </button> */}
                             </div>
-
+ 
                             {/* <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
@@ -6237,7 +6254,7 @@ const AddProduct = ({ placeholder }) => {
                           </div> */}
                           </div>
                         </div>
-
+ 
                         {values?.stockedInDetails?.length > 1 && (
                           <div
                             className={styles.formCloseSection}
@@ -6263,7 +6280,7 @@ const AddProduct = ({ placeholder }) => {
                               errors.stockedInDetails?.[index]?.country}
                           </span>
                         </div>
-
+ 
                         <div className={styles.productContainer}>
                           <span className={styles.error}>
                             {touched.stockedInDetails?.[index]?.quantity &&
@@ -6284,7 +6301,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               )}
             </div>
-
+ 
             {/* End the Inventory */}
 
             {/* Start the Product Pricing */}
@@ -6456,7 +6473,7 @@ const AddProduct = ({ placeholder }) => {
                       "image/jpg": [],
                     }}
                   />
-
+ 
                   {touched.image && errors.image && (
                     <span className={styles.error}>{errors.image}</span>
                   )}

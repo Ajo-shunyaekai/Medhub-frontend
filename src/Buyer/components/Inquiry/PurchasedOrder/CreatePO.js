@@ -904,7 +904,7 @@ const CreatePO = ({socket}) => {
                                             placeholder='Item Name'
                                             // defaultValue={item?.medicine_details?.medicine_name}
                                             // {...register(`orderItems[${index}].productName`, { validate: value => value.trim() !== '' || 'Product name is required' })}
-                                            value={item?.medicine_details?.medicine_name}
+                                            value={item?.medicine_details?.medicine_name || item?.medicine_details?.general?.name}
                                             readOnly
                                         />
                                         {errors.orderItems?.[index]?.productName && <p>{errors.orderItems[index].productName.message}</p>}
@@ -944,7 +944,7 @@ const CreatePO = ({socket}) => {
                                             type='text'
                                             name={`orderItems[${index}].unitTax`}
                                             placeholder='Enter Unit Tax'
-                                            value={item?.medicine_details?.unit_tax}
+                                            value={item?.medicine_details?.unit_tax || 0}
                                             readOnly
                                         />
                                         {errors.orderItems?.[index]?.unitTax && <p>{errors.orderItems[index].unitTax.message}</p>}

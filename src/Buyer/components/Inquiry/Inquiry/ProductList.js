@@ -51,7 +51,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const formattedDate = moment(dateToDisplay)
         .tz("Asia/Kolkata")
         .format("DD/MM/YYYY HH:mm:ss");
-
+console.log('currentOrders',currentOrders)
     return (
         <div className="card-body">
             <div>
@@ -73,10 +73,10 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     </td>
                                     <td className='tables-tds-cont' >
                                         <div className="table-second-container">
-                                            <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.medicine_name?.charAt(0) || item?.productName?.charAt(0)}</span>
+                                            <span className="table-g-section">{item?.product_name?.charAt(0) || item?.medicine_details?.general?.name?.charAt(0) || item?.productName?.charAt(0)}</span>
                                             <div className="table-g-section-content">
                                                 <span className="table-g-driver-name">Product Name</span>
-                                                <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.medicine_name || item.product_name}</span>
+                                                <span className="table-g-not-name">{item?.product_name || item?.medicine_details?.general?.name || item.product_name}</span>
                                             </div>
                                         </div>
                                     </td>

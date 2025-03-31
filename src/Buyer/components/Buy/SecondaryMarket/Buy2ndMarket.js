@@ -18,7 +18,7 @@ const Buy2ndMarket = ({ active, filterCategory, setFilterCategory }) => {
     const [searchKey, setSearchKey] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
-    const itemsPerPage = 6;
+    const itemsPerPage = 10;
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);

@@ -20,7 +20,7 @@ const BuySeller = ({ active }) => {
     const [filterCountry, setFilterCountry] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
-    const itemsPerPage = 4;
+    const itemsPerPage = 10;
 
     const dropdownRef = useRef(null);
 
@@ -53,6 +53,19 @@ const BuySeller = ({ active }) => {
 
     const toggleDropdown = (dropdown) => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+    };
+
+    const resetFilters = () => {
+        setFilterCountry('');
+        setInputValue('');
+        setSearchKey('');
+        setCurrentPage(1);
+        setOpenDropdown(null);
+    };
+
+    // Check if any filters are applied
+    const areFiltersApplied = () => {
+        return filterCountry !== '' || searchKey !== '';
     };
 
     const handleClickOutside = (event) => {
@@ -135,6 +148,8 @@ const BuySeller = ({ active }) => {
                         countryOrigin={countryOrigin}
                         handleCountry={handleCountry}
                         dropdownRef={dropdownRef}
+                        resetFilters={resetFilters}
+                        areFiltersApplied={areFiltersApplied()} // Pass filter status
                     />
                     <SupplierCard 
                         supplierList={supplierList}

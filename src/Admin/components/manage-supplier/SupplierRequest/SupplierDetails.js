@@ -224,6 +224,18 @@ const renderFiles = (files, type) => {
                         <div className='buyers-details-section'>
                             <div className='buyer-details-inner-left-section'>
                             <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>
+                                    {supplierDetails?.account_status === 1 ? "Account Approved Date:" : supplierDetails?.account_status === 2 ? "Account Rejected Date:" : ""}
+                                    </div>
+                                    <div className='buyer-details-inner-text'>
+                                        {supplierDetails?.account_status === 1 
+                                        ? supplierDetails?.account_accepted_date 
+                                        : supplierDetails?.account_status === 2 
+                                        ? supplierDetails?.account_rejected_date 
+                                        : " "}
+                                    </div>
+                                </div>
+                            <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name :</div>
                                     <div className='buyer-details-inner-text'>{supplierDetails?.sales_person_name}</div>
                                 </div>

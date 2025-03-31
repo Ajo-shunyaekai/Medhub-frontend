@@ -98,7 +98,7 @@ const SellerRequest = () => {
                                         sellerRequestList.map((seller, index) => (
                                             <div className={styles['rejected-table-row-container']} key={index}>
                                                  <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
-                                                    <div className={styles['rejected-table-text-color']}>{ moment(seller.created_at).format("DD/MM/YYYY")}</div>
+                                                    <div className={styles['rejected-table-text-color']}>{ moment(seller.createdAt).format("DD/MM/YYYY")}</div>
                                                 </div>
                                                 <div className={`${styles['rejected-table-row-item']} ${styles['rejected-table-order-1']}`}>
                                                     <div className={styles['rejected-table-text-color']}>{seller.supplier_type}</div>
