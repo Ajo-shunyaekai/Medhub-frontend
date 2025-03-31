@@ -18,6 +18,7 @@ const BuySeller = ({ active }) => {
     const [searchKey, setSearchKey] = useState('');
     const [countryOrigin, setCountryOrigin] = useState([]);
     const [filterCountry, setFilterCountry] = useState('');
+    const [companyType, setCompanyType] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const itemsPerPage = 10;
@@ -50,6 +51,12 @@ const BuySeller = ({ active }) => {
         setFilterCountry(country);
         setOpenDropdown(null);
     };
+
+    const handleCompanyType = (type) => {
+        setCompanyType(type);
+        setOpenDropdown(null);
+    };
+    
 
     const toggleDropdown = (dropdown) => {
         setOpenDropdown(openDropdown === dropdown ? null : dropdown);
@@ -92,7 +99,7 @@ const BuySeller = ({ active }) => {
 
                 if (active === 'seller') {
                     const response = await apiRequests.getRequest(
-                        `supplier/get-all-suppliers-list?filterKey=accepted&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}`,
+                        `supplier/get-all-suppliers-list?filterKey=accepted&pageNo=${currentPage}&pageSize=${itemsPerPage}&searchKey=${searchKey}&filterCountry=${filterCountry}&type=${companyType}`,
                         { buyer_id: buyerId }
                     );
 
@@ -112,7 +119,7 @@ const BuySeller = ({ active }) => {
             }
         };
         fetchData();
-    }, [searchKey, filterCountry, currentPage, active, navigate]);
+    }, [searchKey, filterCountry, currentPage, active, companyType, navigate]);
 
     useEffect(() => {
         const buyerId = sessionStorage.getItem("buyer_id") || localStorage.getItem("buyer_id");
@@ -150,6 +157,7 @@ const BuySeller = ({ active }) => {
                         dropdownRef={dropdownRef}
                         resetFilters={resetFilters}
                         areFiltersApplied={areFiltersApplied()} // Pass filter status
+                        handleCompanyType={handleCompanyType}
                     />
                     <SupplierCard 
                         supplierList={supplierList}
