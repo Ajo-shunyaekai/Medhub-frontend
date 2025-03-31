@@ -4,10 +4,10 @@ import { addBulkProducts } from "../../../../redux/reducers/productSlice";
 
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
+import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
 import { testData } from "./PreviewFileData";
-import { FiUploadCloud } from "react-icons/fi";
 
-const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
+const hasRowError   = (row) => Object.values(row).some((cell) => cell?.error);
 
 const hasTableError = testData?.maincontent?.some((row) => hasRowError(row));
 
@@ -36,31 +36,34 @@ const columns =
         },
         minWidth: `${calculateColumnWidth(testData.maincontent, key)}px`,
         style: {
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+          whiteSpace   : "nowrap",
+          overflow     : "hidden",
+          textOverflow : "ellipsis",
         },
       }))
     : [];
 
 function PreviewFile() {
-
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]                 = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const dispatch = useDispatch();
+  const dispatch                        = useDispatch();
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  // const handleFileChange = (event) => {
+  //   setSelectedFile(event.target.files[0]);
+  // };
+
+  const handleSelectFile = (file) => {
+    setSelectedFile(file);
   };
 
   const handleBulkUpload = () => {
-    console.log("file", selectedFile);
-    const bulkFormData = new FormData();
-
-    bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
-    bulkFormData.append("csvfile", selectedFile);
-
-    dispatch(addBulkProducts(bulkFormData));
+    if (selectedFile) {
+      console.log("file", selectedFile);
+      const bulkFormData = new FormData();
+      bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+      bulkFormData.append("csvfile", selectedFile);
+      dispatch(addBulkProducts(bulkFormData));
+    }
   };
 
   if (!testData || !testData.maincontent || testData.maincontent.length === 0) {
@@ -121,6 +124,16 @@ function PreviewFile() {
       </div>
 
       {open && (
+        <FileUploadModal
+          onClose        = {() => setOpen(false)}
+          onSelectFile   = {handleSelectFile}
+          onHandleUpload = {handleBulkUpload}
+          modaltitle     = "Bulk Upload"
+          title          = "Upload"
+          selectedFile   = {selectedFile}
+        />
+      )}
+      {/* {open && (
           <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
               <div className={styles.modalHeadContainer}>
@@ -165,7 +178,7 @@ function PreviewFile() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
     </>
   );
 }

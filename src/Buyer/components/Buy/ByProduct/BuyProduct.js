@@ -11,7 +11,7 @@ import { fetchProductsList } from '../../../../redux/reducers/productSlice';
 const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+console.log('filterCategory',filterCategory)
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([]);
     const [inputValue, setInputValue] = useState('');
@@ -84,7 +84,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
                 <Loader />
             ) : (
                 <div className={styles.productContainer}>
-                    {/* <Category handleCategoryFilter={handleCategoryFilter} /> */}
+                    <Category handleCategoryFilter={handleCategoryFilter} setFilterCategory={setFilterCategory} />
                     <SearchSection
                         inputValue={inputValue}
                         handleInputChange={handleInputChange}

@@ -7,6 +7,8 @@ import NewProduct from './NewProduct';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import Loader from '../../SharedComponents/Loader/Loader';
+import FileUploadModal from '../../SharedComponents/FileUploadModal/FileUploadModal';
+import { addBulkProducts } from "../../../../redux/reducers/productSlice";
 
 const Product = () => {
     const location = useLocation();
@@ -18,6 +20,14 @@ const Product = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
 
+    // Open Modal
+    const [open, setOpen]                 = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    // Display Download and update button
+    const path            = location.pathname.split('/').filter(Boolean);;
+    const lastPart        = path[path.length - 1];
+    const showButtonGroup = lastPart === 'newproduct' ||  lastPart === 'product';
 
     const [medicineType, setMedicineType] = useState(() => {
 
@@ -65,6 +75,19 @@ const Product = () => {
         setCurrentPage(pageNumber);
     };
 
+    const handleSelectFile = (file) => {
+    setSelectedFile(file);
+    };
+
+    const handleUpdateProductUpload = () => {
+    if (selectedFile) {
+        const bulkFormData = new FormData();
+        bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+        bulkFormData.append("csvfile", selectedFile);
+        dispatch(addBulkProducts(bulkFormData));
+    }
+    };
+
     useEffect(() => {
         const supplierIdSessionStorage = sessionStorage.getItem("supplier_id");
         const supplierIdLocalStorage = localStorage.getItem("supplier_id");
@@ -98,18 +121,26 @@ const Product = () => {
                     Products
                 </div>
                 <div className={styles.productButtonSection}>
-                    <div
-                        className={`${styles.newProductButton} ${activeButton === 'newproduct' ? styles.active : ''}`}
-                        onClick={() => handleButtonClick('newproduct')}
-                    >
-                        New Product
+                    <div className={styles.mainButtons}>
+                        <div
+                            className={`${styles.newProductButton} ${activeButton === 'newproduct' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('newproduct')}
+                        >
+                            New Product
+                        </div>
+                        <div
+                            className={`${styles.secondaryButton} ${activeButton === 'secondarymarket' ? styles.active : ''}`}
+                            onClick={() => handleButtonClick('secondarymarket')}
+                        >
+                            Secondary Market
+                        </div>
                     </div>
-                    <div
-                        className={`${styles.secondaryButton} ${activeButton === 'secondarymarket' ? styles.active : ''}`}
-                        onClick={() => handleButtonClick('secondarymarket')}
-                    >
-                        Secondary Market
-                    </div>
+                    {showButtonGroup && (
+                        <div className={styles.buttonGroup}>
+                            <button className={styles.uploadButton}>Download (.csv)</button>
+                            <button className={styles.uploadButton} onClick={() => setOpen(true)}>Update Product</button>
+                        </div>
+                    )}
                 </div>
                 {loading ? (
                     <Loader />
@@ -132,6 +163,17 @@ const Product = () => {
                                 handlePageChange={handlePageChange}
                             />}
                     </>
+                )}
+
+            {open && (
+                <FileUploadModal
+                    onClose        = {() => setOpen(false)}
+                    onSelectFile   = {handleSelectFile}
+                    onHandleUpload = {handleUpdateProductUpload}
+                    modaltitle     = "Update Product"
+                    title          = "Update"
+                    selectedFile   = {selectedFile}
+                />
                 )}
             </div>
         </>

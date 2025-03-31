@@ -46,6 +46,7 @@ import {
   addProductValidationSchema,
 } from "./DropDowns";
 import { FiUploadCloud } from "react-icons/fi";
+import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
 
 const MultiSelectOption = ({ children, ...props }) => (
   <components.Option {...props}>
@@ -99,8 +100,12 @@ const AddProduct = ({ placeholder }) => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  // const handleFileChange = (event) => {
+  //   setSelectedFile(event.target.files[0]);
+  // };
+
+  const handleSelectFile = (file) => {
+    setSelectedFile(file);
   };
 
   // Start the checked container
@@ -236,21 +241,31 @@ const AddProduct = ({ placeholder }) => {
     );
   };
 
+  // const handleBulkUpload = () => {
+  //   console.log("file", selectedFile);
+  //   const bulkFormData = new FormData();
+
+  //   bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+  //   bulkFormData.append("csvfile", selectedFile);
+
+  //   dispatch(addBulkProducts(bulkFormData));
+  //   navigate("/supplier/preview-file");
+  // };
   const handleBulkUpload = () => {
-    console.log("file", selectedFile);
-    const bulkFormData = new FormData();
-
-    bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
-    bulkFormData.append("csvfile", selectedFile);
-
+    if (selectedFile) {
+      console.log("file", selectedFile);
+      const bulkFormData = new FormData();
+      bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
+      bulkFormData.append("csvfile", selectedFile);
+   
     dispatch(previewBulkProducts(bulkFormData)).then((response) => {
       console.log("response", response);
       if (response?.meta.requestStatus === "fulfilled") {
         navigate("/supplier/preview-file");
       }
     });
-
   };
+}
 
   return (
     <div className={styles.container}>
@@ -6949,57 +6964,66 @@ const AddProduct = ({ placeholder }) => {
       </Formik>
 
       {open && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
-            <div className={styles.modalHeadContainer}>
-              <div className={styles.modalTitle}>Bulk Upload</div>
-              <button
-                className={styles.closeButton}
-                onClick={() => setOpen(false)}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className={styles.fileInputWrapper}>
-              <label className={styles.formLabel}>
-                Preview File (PDF, CSV, Excel, DOC)
-              </label>
-              <div className={styles.modalInnerSection}>
-                <FiUploadCloud size={20} className={styles.uploadIcon} />
-                <input
-                  type="file"
-                  accept=".pdf,.csv,.xls,.xlsx,.doc,.docx"
-                  onChange={handleFileChange}
-                  className={styles.fileInput}
-                />
-                {!selectedFile && (
-                  <p className={styles.placeholderText}>Preview file</p>
-                )}
-                {selectedFile && (
-                  <p className={styles.fileModalName}>{selectedFile.name}</p>
-                )}
-              </div>
-            </div>
-            <div className={styles.modalButtonContainer}>
-              <button
-                onClick={() => setOpen(false)}
-                className={styles.buttonCancel}
-              >
-                Cancel
-              </button>
-              <button
-                className={styles.buttonSubmit}
-                onClick={handleBulkUpload}
-              >
-                Preview
-              </button>
-            </div>
-          </div>
-        </div>
+        <FileUploadModal
+          onClose          = {() => setOpen(false)}
+          onSelectFile     = {handleSelectFile}
+          onHandleUpload   = {handleBulkUpload}
+          modaltitle       = "Bulk Upload"
+          title            = "Preview"
+          selectedFile     = {selectedFile}
+        />
       )}
+      {/* {open && (
+                <div className={styles.modalOverlay}>
+                  <div className={styles.modalContent}>
+                    <div className={styles.modalHeadContainer}>
+                      <div className={styles.modalTitle}>Bulk Upload</div>
+                      <button
+                        className={styles.closeButton}
+                        onClick={() => setOpen(false)}
+                      >
+                        ×
+                      </button>
+                    </div>
+  
+                    <div className={styles.fileInputWrapper}>
+                      <label className={styles.formLabel}>
+                        Preview File (PDF, CSV, Excel, DOC)
+                      </label>
+                      <div className={styles.modalInnerSection}>
+                        <FiUploadCloud size={20} className={styles.uploadIcon} />
+                        <input
+                          type="file"
+                          accept=".pdf,.csv,.xls,.xlsx,.doc,.docx"
+                          onChange={handleFileChange}
+                          className={styles.fileInput}
+                        />
+                        {!selectedFile && (
+                          <p className={styles.placeholderText}>Preview file</p>
+                        )}
+                        {selectedFile && (
+                          <p className={styles.fileModalName}>
+                            {selectedFile.name}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className={styles.modalButtonContainer}>
+                      <button
+                        onClick={() => setOpen(false)}
+                        className={styles.buttonCancel}
+                      >
+                        Cancel
+                      </button>
+                      <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Preview</button>
+                    </div>
+                  </div>
+                </div>
+              )} */}
+
     </div>
   );
+  
 };
 
 export default AddProduct;
