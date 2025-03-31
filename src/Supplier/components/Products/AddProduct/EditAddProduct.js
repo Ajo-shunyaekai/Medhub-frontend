@@ -386,7 +386,7 @@ const EditAddProduct = ({ placeholder }) => {
         cNCFileNDate:
           productDetail?.cNCFileNDate?.filter(
             (ele) => ele?.file || ele?.date
-          ) || [],
+          ) || [{date:"",file:""}],
         complianceFileNew: [],
         storage: productDetail?.storage || "",
         other: productDetail?.additional?.other || "",
@@ -420,6 +420,7 @@ const EditAddProduct = ({ placeholder }) => {
         productPricingDetails: inventoryDetails?.inventoryList || [
           { quantity: "", quantityFrom: "", quantityTo: "", price: "", deliveryTime: "" },
         ],
+        
         // Common fields of multiple categories
         drugClass: categoryDetails?.drugClass || "",
         controlledSubstance: categoryDetails?.controlledSubstance || false,
@@ -4115,7 +4116,7 @@ const EditAddProduct = ({ placeholder }) => {
                         value={formik?.values?.shape}
                         // onChange={formik?.handleChange}
                         onChange={(e) =>
-                          handleInputChange(e, formik.setFieldValue, 20, "all")
+                          handleInputChange(e, formik.setFieldValue, 2000, "all")
                         }
                         onBlur={formik?.handleBlur}
                       />

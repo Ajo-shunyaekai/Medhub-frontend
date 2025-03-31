@@ -81,11 +81,19 @@ const ProductDetails = () => {
     // const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
 
 // Extract all available quantities along with their corresponding prices and delivery times
-const quantityOptions = inventoryList.flatMap((ele) => 
-  Array.isArray(ele?.quantity)
-    ? ele.quantity.map((qty, idx) => ({ value: qty, label: qty, price: ele?.price[idx], deliveryTime: ele?.deliveryTime[idx] }))
-    : [{ value: ele?.quantity, label: ele?.quantity, price: ele?.price, deliveryTime: ele?.deliveryTime }]
-);
+// const quantityOptions = inventoryList.flatMap((ele) => 
+//   Array.isArray(ele?.quantity)
+//     ? ele.quantity.map((qty, idx) => ({ value: qty, label: qty, price: ele?.price[idx], deliveryTime: ele?.deliveryTime[idx] }))
+//     : [{ value: ele?.quantity, label: ele?.quantity, price: ele?.price, deliveryTime: ele?.deliveryTime }]
+// );
+
+const quantityOptions = inventoryList.map((ele) => ({
+  value: `${ele.quantityFrom}-${ele.quantityTo}`,
+  label: `${ele.quantityFrom} - ${ele.quantityTo}`,
+  price: ele.price,
+  deliveryTime: ele.deliveryTime,
+}));
+
 
 // Get the first quantity option as the default
 const defaultOption = quantityOptions[0] || { value: '', price: '', deliveryTime: '' };

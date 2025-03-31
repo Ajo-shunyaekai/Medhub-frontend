@@ -147,7 +147,7 @@ export const previewBulkProducts = createAsyncThunk(
     }
   }
 );
-
+ 
 export const fetchSupplierProductsList = createAsyncThunk(
   "product/fetchSupplierProductsList",
   async (url, { rejectWithValue }) => {
@@ -161,7 +161,7 @@ export const fetchSupplierProductsList = createAsyncThunk(
     }
   }
 );
-
+ 
 export const fetchOtherSupplierProductsList = createAsyncThunk(
   "product/fetchOtherSupplierProductsList",
   async (url, { rejectWithValue }) => {

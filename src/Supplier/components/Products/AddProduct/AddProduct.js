@@ -248,7 +248,7 @@ const AddProduct = ({ placeholder }) => {
       if (response?.meta.requestStatus === "fulfilled") {
         // navigate("/supplier/preview-file");
       }
-    });;
+    });
 
   };
 
