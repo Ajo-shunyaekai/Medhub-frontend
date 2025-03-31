@@ -99,7 +99,7 @@ export const editProduct = createAsyncThunk(
     }
   }
 );
- 
+
 export const addBulkProducts = createAsyncThunk(
   "product/addBulkProducts",
   async (values, { rejectWithValue }) => {
@@ -123,7 +123,7 @@ export const addBulkProducts = createAsyncThunk(
     }
   }
 );
- 
+
 export const previewBulkProducts = createAsyncThunk(
   "product/previewBulkProducts",
   async (values, { rejectWithValue }) => {

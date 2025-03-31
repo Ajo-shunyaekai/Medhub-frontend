@@ -257,8 +257,8 @@ const AddProduct = ({ placeholder }) => {
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
         <button onClick={() => setOpen(true)} className={styles.bulkButton}>
-            Bulk Upload
-          </button>
+          Bulk Upload
+        </button>
       </div>
       <Formik
         initialValues={initialValues}
@@ -321,7 +321,7 @@ const AddProduct = ({ placeholder }) => {
               deliveryTime: section?.deliveryTime || "",
             }))
           );
-          
+
           const cNCFileNDateUpdated = JSON.stringify(
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
@@ -797,32 +797,32 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
                   <div className={styles.weightContainer}>
-                  <div className={styles.weightSection}>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Height x Width x Depth"
-                      // autoComplete="off"
-                      name="dimension"
-                      value={values.dimension}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          setFieldValue,
-                          35,
-                          "all",
-                          ["dimension"],
-                          ". x"
-                        )
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
-                  </div>
-                  </div>
-                  <div className={styles.unitSection}>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Height x Width x Depth"
+                          // autoComplete="off"
+                          name="dimension"
+                          value={values.dimension}
+                          // onChange={handleChange}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              35,
+                              "all",
+                              ["dimension"],
+                              ". x"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
+                      </div>
+                    </div>
+                    <div className={styles.unitSection}>
                       <Select
                         className={styles.formSelect}
                         options={dimensionUnits}
@@ -835,7 +835,7 @@ const AddProduct = ({ placeholder }) => {
                       {/* {touched?.volumeUnit && errors.volumeUnit && (
                         <span className={styles.error}>{errors.volumeUnit}</span>
                       )} */}
-                  </div>
+                    </div>
                   </div>
                   {/* {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
@@ -913,7 +913,8 @@ const AddProduct = ({ placeholder }) => {
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 9, "decimal", [
                           "tax",
-                        ])}
+                        ])
+                      }
                       onBlur={handleBlur}
                     />
                     <Tooltip content="Unit Tax of the product"></Tooltip>
@@ -1128,7 +1129,7 @@ const AddProduct = ({ placeholder }) => {
                       maxFiles={1}
                       error={
                         touched.purchaseInvoiceFile &&
-                          errors.purchaseInvoiceFile
+                        errors.purchaseInvoiceFile
                           ? errors.purchaseInvoiceFile
                           : null
                       }
@@ -3007,7 +3008,7 @@ const AddProduct = ({ placeholder }) => {
                           }}
                           placeholder={
                             !value.filtrationType ||
-                              value.filtrationType.length === 0
+                            value.filtrationType.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3382,7 +3383,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.physicalState || []} // Ensure value is always an array
                           placeholder={
                             !values.physicalState ||
-                              values.physicalState.length === 0
+                            values.physicalState.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -3413,7 +3414,7 @@ const AddProduct = ({ placeholder }) => {
                           value={values.hazardClassification || []} // Ensure value is always an array
                           placeholder={
                             !values.hazardClassification ||
-                              values.hazardClassification.length === 0
+                            values.hazardClassification.length === 0
                               ? "Press enter to add label"
                               : ""
                           }
@@ -6085,7 +6086,7 @@ const AddProduct = ({ placeholder }) => {
                       showMask
                       separate
                     /> */}
- 
+
                     <DatePicker
                       className={styles.formDate}
                       clearIcon={null}
@@ -6137,7 +6138,7 @@ const AddProduct = ({ placeholder }) => {
                     <span className={styles.error}>{errors.sku}</span>
                   )}
                 </div>
- 
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Stock<span className={styles.labelStamp}>*</span>
@@ -6197,7 +6198,7 @@ const AddProduct = ({ placeholder }) => {
                   )}
                 </div>
               </div>
- 
+
               {inventoryStockedCountries?.length > 0 ? (
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
@@ -6248,7 +6249,7 @@ const AddProduct = ({ placeholder }) => {
                             isDisabled={inventoryStockedCountries?.length == 0}
                           />
                         </div>
- 
+
                         <div className={styles.productContainer}>
                           <label className={styles.formLabel}>
                             Stock Quantity
@@ -6279,7 +6280,7 @@ const AddProduct = ({ placeholder }) => {
                               {stock.type}
                             </button> */}
                             </div>
- 
+
                             {/* <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
@@ -6308,7 +6309,7 @@ const AddProduct = ({ placeholder }) => {
                           </div> */}
                           </div>
                         </div>
- 
+
                         {values?.stockedInDetails?.length > 1 && (
                           <div
                             className={styles.formCloseSection}
@@ -6334,7 +6335,7 @@ const AddProduct = ({ placeholder }) => {
                               errors.stockedInDetails?.[index]?.country}
                           </span>
                         </div>
- 
+
                         <div className={styles.productContainer}>
                           <span className={styles.error}>
                             {touched.stockedInDetails?.[index]?.quantity &&
@@ -6349,13 +6350,14 @@ const AddProduct = ({ placeholder }) => {
                 <div className={styles.formStockContainer}>
                   <div className={styles.formHeadSection}>
                     <label className={styles.formLabel}>
-                      Please select Stocked in Countries to add stocked In details
+                      Please select Stocked in Countries to add stocked In
+                      details
                     </label>
                   </div>
                 </div>
               )}
             </div>
- 
+
             {/* End the Inventory */}
 
             {/* Start the Product Pricing */}
@@ -6407,34 +6409,37 @@ const AddProduct = ({ placeholder }) => {
                       )}
                     </Field> */}
                     <div className={styles.weightContainer}>
-                    <div className={styles.weightSection}>
-                      <div className={styles.tooltipContainer}>
+                      <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Quantity From"
+                            // autoComplete="off"
+                            name={`productPricingDetails.${index}.quantityFrom`}
+                            value={
+                              values.productPricingDetails[index]?.quantityFrom
+                            }
+                            onChange={(e) =>
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantityFrom`,
+                                e.target.value.replace(/\D/g, "") // Allow only numbers
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.unitSection}>
                         <input
                           className={styles.formInput}
                           type="text"
                           placeholder="Enter Quantity From"
                           // autoComplete="off"
-                          name={`productPricingDetails.${index}.quantityFrom`}
-                          value={values.productPricingDetails[index]?.quantityFrom}
-                          onChange={(e) =>
-                            setFieldValue(
-                              `productPricingDetails.${index}.quantityFrom`,
-                              e.target.value.replace(/\D/g, "") // Allow only numbers
-                            )
-                          }
-                          onBlur={handleBlur}
-                        />
-                       
-                      </div>
-                    </div>
-                    <div className={styles.unitSection}>
-                    <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Quantity From"
-                          // autoComplete="off"
                           name={`productPricingDetails.${index}.quantityTo`}
-                          value={values.productPricingDetails[index]?.quantityTo}
+                          value={
+                            values.productPricingDetails[index]?.quantityTo
+                          }
                           onChange={(e) =>
                             setFieldValue(
                               `productPricingDetails.${index}.quantityTo`,
@@ -6443,20 +6448,20 @@ const AddProduct = ({ placeholder }) => {
                           }
                           onBlur={handleBlur}
                         />
-                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        {/* {touched?.volumeUnit && errors.volumeUnit && (
                         <span className={styles.error}>{errors.volumeUnit}</span>
                       )} */}
+                      </div>
                     </div>
-                  </div>
 
-                  <span className={styles.error}>
-                    {touched.productPricingDetails?.[index]?.quantityFrom &&
-                      errors.productPricingDetails?.[index]?.quantityFrom}
-                  </span>
-                  <span className={styles.error}>
-                    {touched.productPricingDetails?.[index]?.quantityTo &&
-                      errors.productPricingDetails?.[index]?.quantityTo}
-                  </span>
+                    <span className={styles.error}>
+                      {touched.productPricingDetails?.[index]?.quantityFrom &&
+                        errors.productPricingDetails?.[index]?.quantityFrom}
+                    </span>
+                    <span className={styles.error}>
+                      {touched.productPricingDetails?.[index]?.quantityTo &&
+                        errors.productPricingDetails?.[index]?.quantityTo}
+                    </span>
                   </div>
 
                   <div className={styles.productContainer}>
@@ -6944,52 +6949,55 @@ const AddProduct = ({ placeholder }) => {
       </Formik>
 
       {open && (
-                <div className={styles.modalOverlay}>
-                  <div className={styles.modalContent}>
-                    <div className={styles.modalHeadContainer}>
-                      <div className={styles.modalTitle}>Bulk Upload</div>
-                      <button
-                        className={styles.closeButton}
-                        onClick={() => setOpen(false)}
-                      >
-                        ×
-                      </button>
-                    </div>
-  
-                    <div className={styles.fileInputWrapper}>
-                      <label className={styles.formLabel}>
-                        Preview File (PDF, CSV, Excel, DOC)
-                      </label>
-                      <div className={styles.modalInnerSection}>
-                        <FiUploadCloud size={20} className={styles.uploadIcon} />
-                        <input
-                          type="file"
-                          accept=".pdf,.csv,.xls,.xlsx,.doc,.docx"
-                          onChange={handleFileChange}
-                          className={styles.fileInput}
-                        />
-                        {!selectedFile && (
-                          <p className={styles.placeholderText}>Preview file</p>
-                        )}
-                        {selectedFile && (
-                          <p className={styles.fileModalName}>
-                            {selectedFile.name}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div className={styles.modalButtonContainer}>
-                      <button
-                        onClick={() => setOpen(false)}
-                        className={styles.buttonCancel}
-                      >
-                        Cancel
-                      </button>
-                      <button className={styles.buttonSubmit} onClick = {handleBulkUpload}>Preview</button>
-                    </div>
-                  </div>
-                </div>
-              )}
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeadContainer}>
+              <div className={styles.modalTitle}>Bulk Upload</div>
+              <button
+                className={styles.closeButton}
+                onClick={() => setOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className={styles.fileInputWrapper}>
+              <label className={styles.formLabel}>
+                Preview File (PDF, CSV, Excel, DOC)
+              </label>
+              <div className={styles.modalInnerSection}>
+                <FiUploadCloud size={20} className={styles.uploadIcon} />
+                <input
+                  type="file"
+                  accept=".pdf,.csv,.xls,.xlsx,.doc,.docx"
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                />
+                {!selectedFile && (
+                  <p className={styles.placeholderText}>Preview file</p>
+                )}
+                {selectedFile && (
+                  <p className={styles.fileModalName}>{selectedFile.name}</p>
+                )}
+              </div>
+            </div>
+            <div className={styles.modalButtonContainer}>
+              <button
+                onClick={() => setOpen(false)}
+                className={styles.buttonCancel}
+              >
+                Cancel
+              </button>
+              <button
+                className={styles.buttonSubmit}
+                onClick={handleBulkUpload}
+              >
+                Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
