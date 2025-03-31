@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import {
   addProduct,
-  addBulkProducts,
+  previewBulkProducts,
 } from "../../../../redux/reducers/productSlice";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
@@ -243,8 +243,13 @@ const AddProduct = ({ placeholder }) => {
     bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
     bulkFormData.append("csvfile", selectedFile);
 
-    dispatch(addBulkProducts(bulkFormData));
-    navigate("/supplier/preview-file");
+    dispatch(previewBulkProducts(bulkFormData)).then((response) => {
+      console.log("response", response);
+      if (response?.meta.requestStatus === "fulfilled") {
+        // navigate("/supplier/preview-file");
+      }
+    });
+
   };
 
   return (
@@ -321,7 +326,12 @@ const AddProduct = ({ placeholder }) => {
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
               file: section?.file?.[0] || "",
-            }))
+            })) || [
+              {
+                date: "",
+                file: "",
+              },
+            ]
           );
 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
