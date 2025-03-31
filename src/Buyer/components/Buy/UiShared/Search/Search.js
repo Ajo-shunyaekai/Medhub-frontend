@@ -9,7 +9,7 @@ const SearchSection = ({ inputValue, handleInputChange, handleProductSearch, han
                 type='text'
                 placeholder='Search Seller'
                 value={inputValue}
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(e)}
                 onKeyDown={handleKeyDown}
             />
             <div 

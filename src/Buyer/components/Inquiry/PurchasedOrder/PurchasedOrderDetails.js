@@ -155,7 +155,7 @@ const PurchasedOrderDetails = () => {
                                                                             <p style={{ fontWeight: 500, fontSize: '14px' }}>{index + 1}</p>
                                                                         </td> 
                                                                         <td style={{ paddingBlock: '12px' }}>
-                                                                            <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name} ({item.medicine_details?.strength})</p>
+                                                                            <p style={{ fontWeight: 500, fontSize: '14px' }}>{item.medicine_name}</p>
                                                                         </td>
                                                                         <td style={{ paddingBlock: '12px' }}>
                                                                             <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.quantity_required}</p>

@@ -12,21 +12,20 @@ import "./addproduct.css";
 import styles from "./addproduct.module.css";
 import categoryArrays from "../../../../utils/Category";
 import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
 import AddProductFileUpload from "./AddPRoductFileUpload";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../SharedComponents/Tooltip/Tooltip";
 import {
   addProduct,
-  addBulkProducts,
+  previewBulkProducts,
 } from "../../../../redux/reducers/productSlice";
-import { InputMask } from "@react-input/mask";
 import ComplianceNCertification from "./ComplianceNCertification";
 import moment from "moment";
 import {
   Options,
   packagingUnits,
   volumeUnits,
+  dimensionUnits,
   packagingOptions,
   materialOptions,
   conditionOptions,
@@ -43,6 +42,8 @@ import {
   lensOptions,
   lensmaterialOptions,
   dairyfeeOptions,
+  initialValues,
+  addProductValidationSchema,
 } from "./DropDowns";
 import { FiUploadCloud } from "react-icons/fi";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
@@ -73,926 +74,7 @@ const AddProduct = ({ placeholder }) => {
   const editorRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const productValidationSchema = Yup.object({
-    name: Yup.string().required("Product Name is required."),
-    description: Yup.string().required("Product Description is required."),
-    manufacturer: Yup.string().required("Manufacturer Name is required."),
-    aboutManufacturer: Yup.string().required("Short Description is required."),
-    countryOfOrigin: Yup.string().required(
-      "Manufacturer Country of Origin is required."
-    ),
-    model: Yup.string().required("Part/Model Number is required."),
-    image: Yup.array()
-      .max(4, "You can upload up to 4 images.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-      ),
-    form: Yup.string().required("Product Type/Form is required."),
-    quantity: Yup.number().required("Product Quantity is required."),
-
-    // volumn: Yup.string().required("Product Size/Volumn is required."),
-    // volumeUnit: Yup.string().required("Product Volume Unit is required."),
-    // dimension: Yup.string().required("Product Dimension is required."),
-    weight: Yup.number().required("Product Weight is required."),
-    unit: Yup.string().required("Product Weight Unit is required."),
-    // packageType: Yup.string().required("Product Packaging Type is required."),
-    // packageMaterial: Yup.string().required(
-    //   "Product Packaging Material is required."
-    // ),
-    // packageMaterialIfOther: Yup.string()
-    //   .when("packageMaterial", {
-    //     is: "Other",
-    //     then: Yup.string().required("Package Material Name is required."),
-    //   })
-    //   .nullable(),
-    // packageMaterialIfOther: Yup.string().when("packageMaterial", {
-    //   is: "Other",
-    //   then: Yup.string().required(
-    //     "Product Packaging Material Other Name is required."
-    //   ),
-    // }),
-    // costPerProduct: Yup.string().required("Cost Per Unit is required."),
-    // sku: Yup.string().required("SKU is required."),
-    stock: Yup.string()
-      .oneOf(["In-stock", "Out of Stock", "On-demand"])
-      .required("Stock is required."),
-    // stockQuantity: Yup.number().required("Stock Quantity is required."),
-    countries: Yup.array()
-      .min(1, "At least one country must be selected.")
-      .of(Yup.string().required("Country Available is required.")),
-    // date: Yup.string().required("Date is required."),
-    // date: Yup.str  ing()
-    // .required("Date is required.")
-    // .test(
-    //   'is-valid-date',
-    //   'Please enter a valid date',
-    //   function (value) {
-    //     if (!value) return false;
-
-    //     // Split the date and convert to numbers
-    //     const parts = value.split('-');
-    //     if (parts.length !== 3) return false;
-
-    //     const day = parseInt(parts[0], 10);
-    //     const month = parseInt(parts[1], 10);
-    //     const year = parseInt(parts[2], 10);
-
-    //     // Check if date is valid (using Date object)
-    //     const date = new Date(year, month - 1, day);
-    //     return (
-    //       date.getFullYear() === year &&
-    //       date.getMonth() === month - 1 &&
-    //       date.getDate() === day
-    //     );
-    //   }
-    // )
-    // .test(
-    //   "not-future-date",
-    //   "Future dates are not allowed",
-    //   function (value) {
-    //     if (!value) return true;
-
-    //     const parts = value.split("-");
-    //     if (parts.length !== 3) return true;
-
-    //     const day = parseInt(parts[0], 10);
-    //     const month = parseInt(parts[1], 10);
-    //     const year = parseInt(parts[2], 10);
-
-    //     const enteredDate = new Date(year, month - 1, day);
-    //     const today = new Date();
-
-    //     return enteredDate <= today;
-    //   }
-    // )
-    // .nullable(),
-
-    // stockedInDetails: Yup.array()
-    //   .of(
-    //     Yup.object({
-    //       country: Yup.string().required("Country is required."),
-    //       quantity: Yup.number()
-    //         .required("Quantity is required.")
-    //         .positive("Quantity must be greater than 0"),
-    //       type: Yup.string().required("Type is required."),
-    //     })
-    //   )
-    //   .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    productPricingDetails: Yup.array()
-      .of(
-        Yup.object({
-          quantity: Yup.string().required("Quantity is required."),
-          price: Yup.number()
-            .typeError("Cost Per Price must be a number.")
-            .required("Cost Per Price is required.")
-            .positive("Cost Per Price must be greater than 0")
-            .test(
-              "decimal-places",
-              "Price can have up to 3 decimal places only.",
-              (value) => {
-                if (value === undefined || value === null) return true; // Skip validation if empty
-                return /^\d+(\.\d{1,3})?$/.test(value.toString()); // Allows up to 3 decimals
-              }
-            ),
-          deliveryTime: Yup.string()
-            .matches(
-              /^\d{1,3}$/,
-              "Delivery Time must be a number with up to 3 digits."
-            )
-            .required("Est. Delivery Time is required."),
-        })
-      )
-      .min(1, "At least one product is required."), // Optional: You can enforce at least one item in the array
-    cNCFileNDate: Yup.array().of(
-      Yup.object({
-        file: Yup.array()
-          .max(1, "You can upload up to 1 Compliance File.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-              .test("fileType", "Unsupported file format", (value) => {
-                const allowedFormats = [
-                  "application/pdf",
-                  "image/jpeg",
-                  "image/png",
-                  "application/msword",
-                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                ];
-                return value && allowedFormats.includes(value.type);
-              })
-          )
-          .nullable(),
-      })
-    ),
-    complianceFile: Yup.array()
-      .max(4, "You can upload up to 4 Compliance File.")
-      .of(
-        Yup.mixed()
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    guidelinesFile: Yup.array()
-      .max(4, "You can upload up to 4 guideline files.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    safetyDatasheet: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    healthHazardRating: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    environmentalImpact: Yup.array()
-      .max(4, "You can upload up to 4 safety datasheets.")
-      .of(
-        Yup.mixed()
-          .required("A file is required.")
-          .test(
-            "fileSize",
-            "File too large",
-            (value) => value && value.size <= 1024 * 1024 * 5
-          ) // Max 5MB
-          .test("fileType", "Unsupported file format", (value) => {
-            const allowedFormats = [
-              "application/pdf",
-              "image/jpeg",
-              "image/png",
-              "application/msword",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ];
-            return value && allowedFormats.includes(value.type);
-          })
-      ),
-    category: Yup.string()
-      .oneOf([
-        "MedicalEquipmentAndDevices",
-        "Pharmaceuticals",
-        "SkinHairCosmeticSupplies",
-        "VitalHealthAndWellness",
-        "MedicalConsumablesAndDisposables",
-        "LaboratorySupplies",
-        "DiagnosticAndMonitoringDevices",
-        "HospitalAndClinicSupplies",
-        "OrthopedicSupplies",
-        "DentalProducts",
-        "EyeCareSupplies",
-        "HomeHealthcareProducts",
-        "AlternativeMedicines",
-        "EmergencyAndFirstAidSupplies",
-        "DisinfectionAndHygieneSupplies",
-        "NutritionAndDietaryProducts",
-        "HealthcareITSolutions",
-      ])
-      .required("Category is required."),
-    market: Yup.string()
-      .oneOf(["new", "secondary"])
-      .required("Product Market is required."),
-    purchasedOn: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Purchased On is required."),
-    }),
-    purchaseInvoiceFile: Yup.array()
-      .of(Yup.mixed().required("Purchase Invoice File is required."))
-      .when("market", {
-        is: "secondary",
-        then: Yup.array()
-          .min(1, "At least one Purchase Invoice File must be selected.")
-          .max(4, "You can upload up to 4 safety datasheets.")
-          .required("Purchase Invoice files is required.")
-          .of(
-            Yup.mixed()
-              .required("A Purchase Invoice File is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      }),
-    countryAvailable: Yup.array()
-      .of(Yup.string().required("Country Available is required."))
-      .when("market", {
-        is: "secondary",
-        then: Yup.array().min(1, "At least one country must be selected."),
-      }),
-    condition: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Condition is required."),
-    }),
-    minimumPurchaseUnit: Yup.string().when("market", {
-      is: "secondary",
-      then: Yup.string().required("Minimum Purchase Unit is required."),
-    }),
-
-    // New Fields Validation
-    subCategory: Yup.string()
-      .required("Sub Category is required.")
-      // For "MedicalEquipmentAndDevices" category
-      .when("category", {
-        is: "MedicalEquipmentAndDevices",
-        then: Yup.string().oneOf(
-          [
-            "Diagnostic Tools",
-            "Imaging Equipment",
-            "Surgical Instruments",
-            "Monitoring Devices",
-            "Mobility Aids",
-            "Respiratory Care",
-            "Elderly Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "Pharmaceuticals" category
-      .when("category", {
-        is: "Pharmaceuticals",
-        then: Yup.string().oneOf(
-          [
-            "Prescription Medications",
-            "Over-the-Counter Medications",
-            "Vaccines",
-            "Generic Drugs",
-            "Specialized Treatments",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "SkinHairCosmeticSupplies" category
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Skin Care",
-            "Hair Care",
-            "Personal Hygiene",
-            "Baby Care",
-            "Anti-aging Solutions",
-            "Skin Graft",
-            "Anti-Scar & Healing Ointments",
-            "Burn Care Solutions",
-            "Dermal Fillers & Injectables",
-            "Laser Treatment Devices",
-            "Chemical Peels",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "VitalHealthAndWellness" category
-      .when("category", {
-        is: "VitalHealthAndWellness",
-        then: Yup.string().oneOf(
-          [
-            "Fitness Monitors",
-            "Herbal & Alternative Medicines",
-            "Immune Boosters",
-            "Vitamins & Supplements",
-            "Weight Management",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "MedicalConsumablesAndDisposables" category
-      .when("category", {
-        is: "MedicalConsumablesAndDisposables",
-        then: Yup.string().oneOf(
-          [
-            "Bandages, Gauze, & Wound Dressings",
-            "Gloves, Masks, & Protective gear",
-            "Sterilization Products",
-            "Surgical Sutures & Adhesives",
-            "Syringes, IV Sets & Catheters",
-          ],
-          "Invalid Subcategory for Medical Consumables And Disposables"
-        ),
-      })
-      // For "LaboratorySupplies" category
-      .when("category", {
-        is: "LaboratorySupplies",
-        then: Yup.string()
-          .oneOf(
-            [
-              "Test kits",
-              "Microscopes & Lab Equipment",
-              "Chemicals & Reagents",
-              "Lab Consumables",
-            ],
-            "Invalid Subcategory."
-          )
-          .required("Sub Category is required."),
-      })
-      // For "DiagnosticAndMonitoringDevices" category
-      .when("category", {
-        is: "DiagnosticAndMonitoringDevices",
-        then: Yup.string().oneOf(
-          [
-            "Blood Glucose Monitors",
-            "Blood Pressure Monitors",
-            "Oxygen Concentrators",
-            "Wearable Health Devices",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HospitalAndClinicSupplies" category
-      .when("category", {
-        is: "HospitalAndClinicSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Patient Beds & Stretchers",
-            "Trolleys & Storage Units",
-            "Examination Tables",
-            "Medical Furniture",
-            "First Aid Kits",
-            "Emergency Medical Equipment",
-            "Trauma Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "OrthopedicSupplies" category
-      .when("category", {
-        is: "OrthopedicSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Orthopedic Braces & Supports",
-            "Splints & Casting Materials",
-            "Prosthetics",
-            "Rehabilitation Equipment",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "DentalProducts" category
-      .when("category", {
-        is: "DentalProducts",
-        then: Yup.string().oneOf(
-          [
-            "Dental Instruments & tools",
-            "Orthodontic Supplies",
-            "Dental Chairs and Accessories",
-            "Dental Consumables",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "EyeCareSupplies" category
-      .when("category", {
-        is: "EyeCareSupplies",
-        then: Yup.string().oneOf(
-          [
-            "Contact Lenses and Solutions",
-            "Eyewear",
-            "Eyewear Lenses",
-            "Eye Drops and Ointments",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HomeHealthcareProducts" category
-      .when("category", {
-        is: "HomeHealthcareProducts",
-        then: Yup.string().oneOf(
-          [
-            "Mobility Aids",
-            "Respiratory Care",
-            "Patient Monitoring Devices",
-            "Elderly Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "AlternativeMedicines" category
-      .when("category", {
-        is: "AlternativeMedicines",
-        then: Yup.string().oneOf(
-          ["Homeopathy", "Ayurvedic"],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "EmergencyAndFirstAidSupplies" category
-      .when("category", {
-        is: "EmergencyAndFirstAidSupplies",
-        then: Yup.string().oneOf(
-          [
-            "First Aid Kits",
-            "Emergency Medical Equipment",
-            "Trauma Care Products",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "DisinfectionAndHygieneSupplies" category
-      .when("category", {
-        is: "DisinfectionAndHygieneSupplies",
-        then: Yup.string().oneOf(
-          ["Hand Sanitizers", "Air Purifiers", "Cleaning Agents"],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "NutritionAndDietaryProducts" category
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().oneOf(
-          [
-            "Protein Powders and Shakes",
-            "Specialized Nutrition",
-            "Meal Replacement Solutions",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      // For "HealthcareITSolutions" category
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().oneOf(
-          [
-            "Healthcare Management Software",
-            "Telemedicine Platforms",
-            "Medical Billing Software",
-            "IoT-Enabled Medical Devices",
-          ],
-          "Invalid Subcategory"
-        ),
-      })
-      .nullable(),
-    // Common fields of multiple categories
-    drugClass: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-          ].includes(category),
-        then: Yup.string().required("Drug Class is required."),
-      })
-      .nullable(),
-    genericName: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["Pharmaceuticals", "VitalHealthAndWellness"].includes(category),
-        then: Yup.string().required("Generic Name is required."),
-      })
-      .nullable(),
-    strength: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "OrthopedicSupplies",
-          ].includes(category),
-        then: Yup.string().required("Strength is required."),
-      })
-      .nullable(),
-    composition: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "AlternativeMedicines",
-            "EmergencyAndFirstAidSupplies",
-            "DisinfectionAndHygieneSupplies",
-            "NutritionAndDietaryProducts",
-          ].includes(category),
-        then: Yup.string().required("Composition/Ingredients is required."),
-      })
-      .nullable(),
-    purpose: Yup.string()
-      .when("category", {
-        is: (category) => ["SkinHairCosmeticSupplies"].includes(category),
-        then: Yup.string().required("Purpose is required."),
-      })
-      .nullable(),
-    drugAdministrationRoute: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["SkinHairCosmeticSupplies", "VitalHealthAndWellness"].includes(
-            category
-          ),
-        then: Yup.string().required("Drug Administration Route is required."),
-      })
-      .nullable(),
-    expiry: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "Pharmaceuticals",
-            "SkinHairCosmeticSupplies",
-            "VitalHealthAndWellness",
-            "MedicalConsumablesAndDisposables",
-            "HospitalAndClinicSupplies",
-            // "OrthopedicSupplies",
-            "DentalProducts",
-            "HomeHealthcareProducts",
-            "AlternativeMedicines",
-            "EmergencyAndFirstAidSupplies",
-            "DisinfectionAndHygieneSupplies",
-            "NutritionAndDietaryProducts",
-          ].includes(category),
-        then: Yup.string().required("Shelf Life/Expiry is required."),
-      })
-      .nullable(),
-    interoperability: Yup.string()
-      .when("category", {
-        is: (category) => ["HealthcareITSolutions"].includes(category),
-        then: Yup.string().required("Interoperability is required."),
-      })
-      .nullable(),
-    interoperabilityFile: Yup.array()
-      .when("category", {
-        is: (category) => ["HealthcareITSolutions"].includes(category),
-        then: Yup.array()
-          .min(
-            1,
-            "At least one file is required for the Interoperability file."
-          )
-          .max(4, "You can upload up to 4 Interoperability files.")
-          .required("Interoperability files is required."),
-        // .test(
-        //   "fileSize",
-        //   "File too large",
-        //   (value) => value && value.size <= 1024 * 1024 * 5
-        // ), // Max 5MB
-      })
-      .nullable(),
-    specification: Yup.string()
-      .when("category", {
-        is: (category) =>
-          [
-            "MedicalEquipmentAndDevices",
-            "DiagnosticAndMonitoringDevices",
-          ].includes(category),
-        then: Yup.string().required("Specification is required."),
-      })
-      .nullable(),
-    specificationFile: Yup.array()
-      .when("category", {
-        is: (category) =>
-          [
-            "MedicalEquipmentAndDevices",
-            "DiagnosticAndMonitoringDevices",
-          ].includes(category),
-        then: Yup.array()
-          .min(1, "At least one file is required for the specification file.")
-          .max(4, "You can upload up to 4 specification files.")
-          .required("specification files is required.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    diagnosticFunctions: Yup.string()
-      .when("category", {
-        is: (category) => ["DiagnosticAndMonitoringDevices"].includes(category),
-        then: Yup.string().required("Diagnostic Functions is required."),
-      })
-      .nullable(),
-    performanceTestingReportFile: Yup.array()
-      .when("category", {
-        is: (category) =>
-          [
-            "MedicalEquipmentAndDevices",
-            "DiagnosticAndMonitoringDevices",
-            "HomeHealthcareProducts",
-          ].includes(category),
-        then: Yup.array()
-          .max(4, "You can upload up to 4 performance testing files.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    additivesNSweeteners: Yup.string()
-      .when("category", {
-        is: (category) => ["NutritionAndDietaryProducts"].includes(category),
-        then: Yup.string().required("Additives & Sweeteners is required."),
-      })
-      .nullable(),
-    targetCondition: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["SkinHairCosmeticSupplies", "OrthopedicSupplies"].includes(category),
-        then: Yup.string().required("Target Condition is required."),
-      })
-      .nullable(),
-    foldability: Yup.string()
-      .when("category", {
-        is: (category) => ["EmergencyAndFirstAidSupplies"].includes(category),
-        then: Yup.string().required("Foldability is required."),
-      })
-      .nullable(),
-    healthBenefit: Yup.string()
-      .when("category", {
-        is: (category) =>
-          ["VitalHealthAndWellness", "NutritionAndDietaryProducts"].includes(
-            category
-          ),
-
-        then: Yup.string().required("Health Benfits is required."),
-      })
-      .nullable(),
-    // Add the other fields under MedicalEquipmentAndDevices
-    // Add the other fields under Pharmaceuticals
-    // Add the other fields under SkinHairCosmeticSupplies
-    dermatologistTested: Yup.string()
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string()
-          .required("Dermatologist Tested is required.")
-          .oneOf(["Yes", "No"], "Invalid Dermatologist Tested"),
-      })
-      .nullable(),
-    dermatologistTestedFile: Yup.array().when("category", {
-      is: "SkinHairCosmeticSupplies", // Check category first
-      then: Yup.array()
-        .when("dermatologistTested", {
-          is: (val) => val && val == "Yes", // If dermatologistTestedFile has a value
-          then: Yup.array()
-            .min(
-              1,
-              "At least one file is required for the Dermatologist Tested."
-            )
-            .max(4, "You can upload up to 4 dermatologist tested files.")
-            .required("Dermatologist Tested file is required.")
-            .of(
-              Yup.mixed()
-                .required("A file is required.")
-                .test(
-                  "fileSize",
-                  "File too large",
-                  (value) => value && value.size <= 1024 * 1024 * 5
-                ) // Max 5MB
-            ),
-          otherwise: Yup.array().nullable(), // If no dermatologistTestedFile, file is optional
-        })
-        .nullable(),
-      otherwise: Yup.array().nullable(), // If category is not dermatologistTestedFile, it's not required
-    }),
-    pediatricianRecommended: Yup.string()
-      .when("category", {
-        is: "SkinHairCosmeticSupplies",
-        then: Yup.string()
-          .required("Pediatrician Recommended is required.")
-          .oneOf(["Yes", "No"], "Invalid Pediatrician Recommended"),
-      })
-      .nullable(),
-    pediatricianRecommendedFile: Yup.array().when("category", {
-      is: "SkinHairCosmeticSupplies", // Check category first
-      then: Yup.array()
-        .when("pediatricianRecommended", {
-          is: (val) => val && val == "Yes", // If pediatricianRecommendedFile has a value
-          then: Yup.array()
-            .min(
-              1,
-              "At least one file is required for the Pediatrician Recommended."
-            )
-            .max(4, "You can upload up to 4 Pediatrician Recommended files.")
-            .required("Pediatrician Recommended file is required.")
-            .of(
-              Yup.mixed()
-                .required("A file is required.")
-                .test(
-                  "fileSize",
-                  "File too large",
-                  (value) => value && value.size <= 1024 * 1024 * 5
-                ) // Max 5MB
-            ),
-          otherwise: Yup.array().nullable(), // If no pediatricianRecommendedFile, file is optional
-        })
-        .nullable(),
-      otherwise: Yup.array().nullable(), // If category is not pediatricianRecommendedFile, it's not required
-    }),
-    // Add the other fields under VitalHealthAndWellness
-    // Add the other fields under MedicalConsumablesAndDisposables
-    // Add the other fields under LaboratorySupplies
-    // Add the other fields under DiagnosticAndMonitoringDevices
-    // Add the other fields under HospitalAndClinicSupplies
-    // Add the other fields under OrthopedicSupplies
-    // Add the other fields under DentalProducts
-    // Add the other fields under EyeCareSupplies
-    // Add the other fields under HomeHealthcareProducts
-    // // Add the other fields under
-    healthClaimsFile: Yup.array()
-      .when("category", {
-        is: "AlternativeMedicines",
-        then: Yup.array()
-          .max(4, "You can upload up to 4 Health Claims Files.")
-          .of(
-            Yup.mixed()
-              .required("A file is required.")
-              .test(
-                "fileSize",
-                "File too large",
-                (value) => value && value.size <= 1024 * 1024 * 5
-              ) // Max 5MB
-          ),
-      })
-      .nullable(),
-    // Add the other fields under EmergencyAndFirstAidSupplies
-    productLongevity: Yup.string()
-      .when("category", {
-        is: "EmergencyAndFirstAidSupplies",
-        then: Yup.string().required("Product Longevity is required."),
-      })
-      .nullable(),
-    // Add the other fields under DisinfectionAndHygieneSupplies
-    // Add the other fields under NutritionAndDietaryProducts
-    flavorOptions: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Flavor Options is required."),
-      })
-      .nullable(),
-    aminoAcidProfile: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Amino Acid Profile is required."),
-      })
-      .nullable(),
-    fatContent: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string().required("Fat Content is required."),
-      })
-      .nullable(),
-    dairyFree: Yup.string()
-      .when("category", {
-        is: "NutritionAndDietaryProducts",
-        then: Yup.string()
-          .oneOf(["Yes", "No"], "Invalid Dairy Free")
-          .required("Dairy Free is required."),
-      })
-      .nullable(),
-    // Add the other fields under HealthcareITSolutions
-    license: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("License is required."),
-      })
-      .nullable(),
-    scalabilityInfo: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Scalability Info is required."),
-      })
-      .nullable(),
-    addOns: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Add-Ons is required."),
-      })
-      .nullable(),
-    userAccess: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("User Access is required."),
-      })
-      .nullable(),
-    keyFeatures: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Key Features is required."),
-      })
-      .nullable(),
-    coreFunctionalities: Yup.string()
-      .when("category", {
-        is: "HealthcareITSolutions",
-        then: Yup.string().required("Core Functionalities is required."),
-      })
-      .nullable(),
-  });
+  const productValidationSchema = addProductValidationSchema;
   const [productType, setProductType] = useState(null);
   const [value, setValue] = useState([]);
   const [inventoryStockedCountries, setInventoryStockedCountries] = useState(
@@ -1175,9 +257,13 @@ const AddProduct = ({ placeholder }) => {
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
-      dispatch(addBulkProducts(bulkFormData));
-      navigate("/supplier/preview-file");
-    }
+   
+    dispatch(previewBulkProducts(bulkFormData)).then((response) => {
+      console.log("response", response);
+      if (response?.meta.requestStatus === "fulfilled") {
+        // navigate("/supplier/preview-file");
+      }
+    });
   };
 
   return (
@@ -1185,188 +271,11 @@ const AddProduct = ({ placeholder }) => {
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
         <button onClick={() => setOpen(true)} className={styles.bulkButton}>
-            Bulk Upload
-          </button>
+          Bulk Upload
+        </button>
       </div>
       <Formik
-        initialValues={{
-          name: "",
-          description: "",
-          manufacturer: "",
-          aboutManufacturer: "",
-          countryOfOrigin: "",
-          upc: "",
-          model: "",
-          image: [],
-          brand: "",
-          form: "",
-          quantity: "",
-          volumn: "",
-          volumeUnit: "",
-          dimension: "",
-          weight: "",
-          unit: "",
-          packageType: "",
-          packageMaterial: "",
-          packageMaterialIfOther: "",
-          costPerProduct: "",
-          sku: "",
-          stock: "",
-          stockQuantity: "",
-          countries: [],
-          date: "",
-          complianceFile: [],
-          storage: "",
-          other: "",
-          guidelinesFile: [],
-          warranty: "",
-          safetyDatasheet: [],
-          healthHazardRating: [],
-          environmentalImpact: [],
-          category: "",
-          // supplier_id: "",
-          // market related fields (new/secondary)
-          market: "",
-          purchasedOn: "",
-          countryAvailable: [],
-          purchaseInvoiceFile: [],
-          condition: "",
-          minimumPurchaseUnit: "",
-          subCategory: "",
-          anotherCategory: "",
-          stockedInDetails: [
-            {
-              country: "",
-              quantity: "",
-              placeholder: "Enter Quantity",
-            },
-          ],
-          productPricingDetails: [
-            {
-              quantity: "",
-              price: "",
-              deliveryTime: "",
-            },
-          ],
-          cNCFileNDate: [
-            {
-              file: [],
-              date: "",
-            },
-          ],
-          // Common fields of multiple categories
-          drugClass: defaultValues || "",
-          controlledSubstance: false,
-          otcClassification: "",
-          genericName: "",
-          strength: defaultValues || "",
-          composition: defaultValues || "",
-          purpose: defaultValues || "",
-          drugAdministrationRoute: defaultValues || "",
-          expiry: defaultValues || "",
-          allergens: "",
-          formulation: "",
-          vegan: false,
-          crueltyFree: false,
-          sideEffectsAndWarnings: "",
-          thickness: "",
-          interoperability: defaultValues || "",
-          interoperabilityFile: [],
-          specification: "",
-          specificationFile: [],
-          diagnosticFunctions: defaultValues || "",
-          performanceTestingReport: "",
-          performanceTestingReportFile: [],
-          additivesNSweeteners: defaultValues || "",
-          powdered: false,
-          productMaterial: "",
-          productMaterialIfOther: "",
-          texture: false,
-          sterilized: false,
-          chemicalResistance: false,
-          fluidResistance: false,
-          shape: "",
-          coating: "",
-          concentration: defaultValues || "",
-          measurementRange: "",
-          maintenanceNotes: "",
-          compatibleEquipment: "",
-          usageRate: "",
-          adhesiveness: "",
-          absorbency: "",
-          targetCondition: defaultValues || "",
-          elasticity: "",
-          breathability: "",
-          foldability: defaultValues || "",
-          fragrance: "",
-          healthBenefit: defaultValues || "",
-          // Add the other fields under MedicalEquipmentAndDevices
-          laserType: "",
-          coolingSystem: "",
-          spotSize: "",
-          // Add the other fields under Pharmaceuticals
-          // Add the other fields under SkinHairCosmeticSupplies
-          spf: "",
-          dermatologistTested: "",
-          dermatologistTestedFile: [],
-          pediatricianRecommended: "",
-          pediatricianRecommendedFile: [],
-          moisturizers: defaultValues || "",
-          fillerType: defaultValues || "",
-          // Add the other fields under VitalHealthAndWellness
-          // Add the other fields under MedicalConsumablesAndDisposables
-          filtrationEfficiency: "",
-          layerCount: "",
-          filtrationType: [],
-          // Add the other fields under LaboratorySupplies
-          magnificationRange: "",
-          objectiveLenses: "",
-          powerSource: "",
-          resolution: "",
-          connectivity: "",
-          casNumber: "",
-          grade: "",
-          physicalState: [],
-          hazardClassification: [],
-          // Add the other fields under DiagnosticAndMonitoringDevices
-          flowRate: "",
-          noiseLevel: "",
-          // Add the other fields under HospitalAndClinicSupplies
-          // Add the other fields under OrthopedicSupplies
-          colorOptions: "",
-          moistureResistance: "",
-          // Add the other fields under DentalProducts
-          // Add the other fields under EyeCareSupplies
-          lensPower: "",
-          baseCurve: "",
-          diameter: "",
-          frame: "",
-          lens: "",
-          lensMaterial: "",
-          // Add the other fields under HomeHealthcareProducts
-          maxWeightCapacity: "",
-          gripType: "",
-          lockingMechanism: "",
-          typeOfSupport: "",
-          batteryType: "",
-          batterySize: "",
-          // Add the other fields under AlternativeMedicines
-          healthClaims: "",
-          healthClaimsFile: [],
-          // Add the other fields under EmergencyAndFirstAidSupplies
-          productLongevity: defaultValues || "",
-          flavorOptions: defaultValues || "",
-          aminoAcidProfile: defaultValues || "",
-          fatContent: defaultValues || "",
-          dairyFree: "",
-          // Add the other fields under HealthcareITSolutions
-          license: defaultValues || "",
-          scalabilityInfo: defaultValues || "",
-          addOns: defaultValues || "",
-          userAccess: defaultValues || "",
-          keyFeatures: defaultValues || "",
-          coreFunctionalities: defaultValues || "",
-        }}
+        initialValues={initialValues}
         validationSchema={productValidationSchema}
         validateOnBlur={true}
         // validateOnChange={false} // Only validate when user submits
@@ -1409,18 +318,34 @@ const AddProduct = ({ placeholder }) => {
               // type: section?.type || "",
             }))
           );
+          // const productPricingDetailsUpdated = JSON.stringify(
+          //   values?.productPricingDetails?.map((section) => ({
+          //     price: section?.price || "",
+          //     quantity: section?.quantity || "",
+          //     deliveryTime: section?.deliveryTime || "",
+          //   }))
+          // );
+
           const productPricingDetailsUpdated = JSON.stringify(
             values?.productPricingDetails?.map((section) => ({
               price: section?.price || "",
-              quantity: section?.quantity || "",
+              // quantity: section?.quantity || "",
+              quantityFrom: section?.quantityFrom || "",
+              quantityTo: section?.quantityTo || "",
               deliveryTime: section?.deliveryTime || "",
             }))
           );
+
           const cNCFileNDateUpdated = JSON.stringify(
             values?.cNCFileNDate?.map((section) => ({
               date: section?.date || "",
               file: section?.file?.[0] || "",
-            }))
+            })) || [
+              {
+                date: "",
+                file: "",
+              },
+            ]
           );
 
           formData.append("stockedInDetails", stockedInDetailsUpdated);
@@ -1434,7 +359,7 @@ const AddProduct = ({ placeholder }) => {
           dispatch(addProduct(formData)).then((response) => {
             console.log("response", response);
             if (response?.meta.requestStatus === "fulfilled") {
-              navigate("/supplier/product"); // Change this to your desired route
+              // navigate("/supplier/product"); // Change this to your desired route
             }
           });
           // setSubmitting(false); // Important to reset form submission state
@@ -1885,32 +810,50 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>Product Dimension</label>
-                  <div className={styles.tooltipContainer}>
-                    <input
-                      className={styles.formInput}
-                      type="text"
-                      placeholder="Enter Height x Width x Depth"
-                      // autoComplete="off"
-                      name="dimension"
-                      value={values.dimension}
-                      // onChange={handleChange}
-                      onChange={(e) =>
-                        handleInputChange(
-                          e,
-                          setFieldValue,
-                          35,
-                          "all",
-                          ["dimension"],
-                          ". x"
-                        )
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
+                  <div className={styles.weightContainer}>
+                    <div className={styles.weightSection}>
+                      <div className={styles.tooltipContainer}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Height x Width x Depth"
+                          // autoComplete="off"
+                          name="dimension"
+                          value={values.dimension}
+                          // onChange={handleChange}
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              setFieldValue,
+                              35,
+                              "all",
+                              ["dimension"],
+                              ". x"
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        <Tooltip content="The dimension of the product in Height x Width x Depth."></Tooltip>
+                      </div>
+                    </div>
+                    <div className={styles.unitSection}>
+                      <Select
+                        className={styles.formSelect}
+                        options={dimensionUnits}
+                        placeholder="Select Units"
+                        onBlur={handleBlur}
+                        onChange={(selectedOption) => {
+                          setFieldValue("dimensionUnit", selectedOption?.value);
+                        }}
+                      />
+                      {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                    </div>
                   </div>
-                  {touched.dimension && errors.dimension && (
+                  {/* {touched.dimension && errors.dimension && (
                     <span className={styles.error}>{errors.dimension}</span>
-                  )}
+                  )} */}
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
@@ -1963,6 +906,38 @@ const AddProduct = ({ placeholder }) => {
                   </label>
                   
                 </div> */}
+
+                <div className={styles.productContainer}>
+                  <label className={styles.formLabel}>
+                    Product Tax%
+                    <span className={styles.labelStamp}>*</span>
+                  </label>
+                  <div className={styles.tooltipContainer}>
+                    <input
+                      className={styles.formInput}
+                      type="text"
+                      placeholder="Enter Tax in percentage"
+                      // autoComplete="off"
+                      name="tax"
+                      value={values.tax}
+                      // onChange={handleChange}
+                      // onChange={(e) =>
+                      //   handleInputChange(e, setFieldValue, 8, "number")
+                      // }
+                      onChange={(e) =>
+                        handleInputChange(e, setFieldValue, 9, "decimal", [
+                          "tax",
+                        ])
+                      }
+                      onBlur={handleBlur}
+                    />
+                    <Tooltip content="Unit Tax of the product"></Tooltip>
+                  </div>
+                  {touched.tax && errors.tax && (
+                    <span className={styles.error}>{errors.tax}</span>
+                  )}
+                </div>
+
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
                     Product Packaging Type
@@ -7147,7 +6122,8 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    SKU<span className={styles.labelStamp}>*</span>
+                    SKU
+                    {/* <span className={styles.labelStamp}>*</span> */}
                   </label>
                   <div className={styles.tooltipContainer}>
                     <input
@@ -7200,7 +6176,7 @@ const AddProduct = ({ placeholder }) => {
                 </div>
                 <div className={styles.productContainer}>
                   <label className={styles.formLabel}>
-                    Stocked in Country
+                    Stocked in Countries
                     <span className={styles.labelStamp}>*</span>
                   </label>
                   <MultiSelectDropdown
@@ -7237,84 +6213,89 @@ const AddProduct = ({ placeholder }) => {
                 </div>
               </div>
 
-              <div className={styles.formStockContainer}>
-                <div className={styles.formHeadSection}>
-                  <span className={styles.formHead}>Stocked In Details</span>
-                  <span
-                    className={styles.formAddButton}
-                    onClick={() =>
-                      (values?.stockedInDetails?.length || 0) <
-                        (values.countries?.length || 0) &&
-                      setFieldValue("stockedInDetails", [
-                        ...values.stockedInDetails,
-                        {
-                          country: "",
-                          quantity: "",
-                          placeholder: "Enter Quantity",
-                        },
-                      ])
+              {inventoryStockedCountries?.length > 0 ? (
+                <div className={styles.formStockContainer}>
+                  <div className={styles.formHeadSection}>
+                    <span className={styles.formHead}>Stocked In Details</span>
+                    {
+                      // inventoryStockedCountries?.length > 1 &&
+                      <span
+                        className={styles.formAddButton}
+                        onClick={() =>
+                          (values?.stockedInDetails?.length || 0) <
+                            (values.countries?.length || 0) &&
+                          setFieldValue("stockedInDetails", [
+                            ...values.stockedInDetails,
+                            {
+                              country: "",
+                              quantity: "",
+                              placeholder: "Enter Quantity",
+                            },
+                          ])
+                        }
+                      >
+                        Add More
+                      </span>
                     }
-                  >
-                    Add More
-                  </span>
-                </div>
-                {values?.stockedInDetails?.map((stock, index) => (
-                  <>
-                    <div key={index} className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Countries where Stock Trades
-                          {/* <span className={styles.labelStamp}>*</span> */}
-                        </label>
-                        <Select
-                          className={styles.formSelect}
-                          options={inventoryStockedCountries}
-                          placeholder="Select Countries where Stock Trades"
-                          value={inventoryStockedCountries.find(
-                            (option) => option.value === stock.country
-                          )}
-                          onBlur={handleBlur}
-                          onChange={(option) =>
-                            setFieldValue(
-                              `stockedInDetails.${index}.country`,
-                              option.value
-                            )
-                          }
-                        />
-                      </div>
+                  </div>
+                  {values?.stockedInDetails?.map((stock, index) => (
+                    <>
+                      <div key={index} className={styles.formSection}>
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Country where Stock Trades
+                            {/* <span className={styles.labelStamp}>*</span> */}
+                          </label>
+                          <Select
+                            className={styles.formSelect}
+                            options={inventoryStockedCountries}
+                            placeholder="Select Country where Stock Trades"
+                            value={inventoryStockedCountries.find(
+                              (option) => option.value === stock.country
+                            )}
+                            onBlur={handleBlur}
+                            onChange={(option) =>
+                              setFieldValue(
+                                `stockedInDetails.${index}.country`,
+                                option.value
+                              )
+                            }
+                            isDisabled={inventoryStockedCountries?.length == 0}
+                          />
+                        </div>
 
-                      <div className={styles.productContainer}>
-                        <label className={styles.formLabel}>
-                          Stock Quantity
-                          {/* <span className={styles.labelStamp}>*</span> */}
-                        </label>
-                        <div className={styles.productQuantityContainer}>
-                          <div className={styles.quantitySection}>
-                            <Field
-                              name={`stockedInDetails.${index}.quantity`}
-                              className={styles.quantityInput}
-                              // placeholder={stock.placeholder}
-                              placeholder="Enter Quantity"
-                              // autoComplete="off"
-                              // type="number"
-                              onInput={(e) => {
-                                e.target.value = e.target.value
-                                  .replace(/\D/g, "")
-                                  .slice(0, 6);
-                              }}
-                              // onInput={(e) => {
-                              //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
-                              // }}
-                            />
-                            {/* <button
+                        <div className={styles.productContainer}>
+                          <label className={styles.formLabel}>
+                            Stock Quantity
+                            {/* <span className={styles.labelStamp}>*</span> */}
+                          </label>
+                          <div className={styles.productQuantityContainer}>
+                            <div className={styles.quantitySection}>
+                              <Field
+                                name={`stockedInDetails.${index}.quantity`}
+                                className={styles.quantityInput}
+                                // placeholder={stock.placeholder}
+                                placeholder="Enter Quantity"
+                                // autoComplete="off"
+                                // type="number"
+                                onInput={(e) => {
+                                  e.target.value = e.target.value
+                                    .replace(/\D/g, "")
+                                    .slice(0, 6);
+                                }}
+                                // onInput={(e) => {
+                                //   e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3); // Allow only numbers & limit to 3 digits
+                                // }}
+                              />
+                              {/* <button
                               type="button"
                               className={`${styles.quantityButton} ${styles.selected}`}
                             >
                               {stock.type}
                             </button> */}
-                          </div>
+                            </div>
 
-                          {/* <div className={styles.radioForm}>
+                            {/* <div className={styles.radioForm}>
                             {["Box", "Strip", "Pack"].map((type) => (
                               <label key={type}>
                                 <Field
@@ -7340,44 +6321,55 @@ const AddProduct = ({ placeholder }) => {
                               </label>
                             ))}
                           </div> */}
+                          </div>
                         </div>
-                      </div>
 
-                      {values?.stockedInDetails?.length > 1 && (
-                        <div
-                          className={styles.formCloseSection}
-                          onClick={() => {
-                            const updatedList = values.stockedInDetails.filter(
-                              (_, elindex) => elindex !== index
-                            );
-                            setFieldValue("stockedInDetails", updatedList);
-                          }}
-                        >
-                          <span className={styles.formclose}>
-                            <CloseIcon className={styles.icon} />
+                        {values?.stockedInDetails?.length > 1 && (
+                          <div
+                            className={styles.formCloseSection}
+                            onClick={() => {
+                              const updatedList =
+                                values.stockedInDetails.filter(
+                                  (_, elindex) => elindex !== index
+                                );
+                              setFieldValue("stockedInDetails", updatedList);
+                            }}
+                          >
+                            <span className={styles.formclose}>
+                              <CloseIcon className={styles.icon} />
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      {/* ///////// */}
+                      <div key={index} className={styles.formSection}>
+                        <div className={styles.productContainer}>
+                          <span className={styles.error}>
+                            {touched.stockedInDetails?.[index]?.country &&
+                              errors.stockedInDetails?.[index]?.country}
                           </span>
                         </div>
-                      )}
-                    </div>
-                    {/* ///////// */}
-                    <div key={index} className={styles.formSection}>
-                      <div className={styles.productContainer}>
-                        <span className={styles.error}>
-                          {touched.stockedInDetails?.[index]?.country &&
-                            errors.stockedInDetails?.[index]?.country}
-                        </span>
-                      </div>
 
-                      <div className={styles.productContainer}>
-                        <span className={styles.error}>
-                          {touched.stockedInDetails?.[index]?.quantity &&
-                            errors.stockedInDetails?.[index]?.quantity}
-                        </span>
+                        <div className={styles.productContainer}>
+                          <span className={styles.error}>
+                            {touched.stockedInDetails?.[index]?.quantity &&
+                              errors.stockedInDetails?.[index]?.quantity}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                ))}
-              </div>
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.formStockContainer}>
+                  <div className={styles.formHeadSection}>
+                    <label className={styles.formLabel}>
+                      Please select Stocked in Countries to add stocked In
+                      details
+                    </label>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* End the Inventory */}
@@ -7392,7 +6384,9 @@ const AddProduct = ({ placeholder }) => {
                     setFieldValue("productPricingDetails", [
                       ...values.productPricingDetails,
                       {
-                        quantity: "",
+                        // quantity: "",
+                        quantityFrom: "",
+                        quantityTo: "",
                         price: "",
                         deliveryTime: "",
                       },
@@ -7408,7 +6402,7 @@ const AddProduct = ({ placeholder }) => {
                     <label className={styles.formLabel}>
                       Quantity<span className={styles.labelStamp}>*</span>
                     </label>
-                    <Field name={`productPricingDetails.${index}.quantity`}>
+                    {/* <Field name={`productPricingDetails.${index}.quantity`}>
                       {({ field }) => (
                         <Select
                           {...field}
@@ -7427,10 +6421,60 @@ const AddProduct = ({ placeholder }) => {
                           }
                         />
                       )}
-                    </Field>
+                    </Field> */}
+                    <div className={styles.weightContainer}>
+                      <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Quantity From"
+                            // autoComplete="off"
+                            name={`productPricingDetails.${index}.quantityFrom`}
+                            value={
+                              values.productPricingDetails[index]?.quantityFrom
+                            }
+                            onChange={(e) =>
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantityFrom`,
+                                e.target.value.replace(/\D/g, "") // Allow only numbers
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.unitSection}>
+                        <input
+                          className={styles.formInput}
+                          type="text"
+                          placeholder="Enter Quantity From"
+                          // autoComplete="off"
+                          name={`productPricingDetails.${index}.quantityTo`}
+                          value={
+                            values.productPricingDetails[index]?.quantityTo
+                          }
+                          onChange={(e) =>
+                            setFieldValue(
+                              `productPricingDetails.${index}.quantityTo`,
+                              e.target.value.replace(/\D/g, "") // Allow only numbers
+                            )
+                          }
+                          onBlur={handleBlur}
+                        />
+                        {/* {touched?.volumeUnit && errors.volumeUnit && (
+                        <span className={styles.error}>{errors.volumeUnit}</span>
+                      )} */}
+                      </div>
+                    </div>
+
                     <span className={styles.error}>
-                      {touched.productPricingDetails?.[index]?.quantity &&
-                        errors.productPricingDetails?.[index]?.quantity}
+                      {touched.productPricingDetails?.[index]?.quantityFrom &&
+                        errors.productPricingDetails?.[index]?.quantityFrom}
+                    </span>
+                    <span className={styles.error}>
+                      {touched.productPricingDetails?.[index]?.quantityTo &&
+                        errors.productPricingDetails?.[index]?.quantityTo}
                     </span>
                   </div>
 
@@ -7503,8 +6547,16 @@ const AddProduct = ({ placeholder }) => {
                       className={styles.formCloseSection}
                       onClick={() => {
                         // Clear form values before removing the row
+                        // setFieldValue(
+                        //   `productPricingDetails.${index}.quantity`,
+                        //   ""
+                        // );
                         setFieldValue(
-                          `productPricingDetails.${index}.quantity`,
+                          `productPricingDetails.${index}.quantityFrom`,
+                          ""
+                        );
+                        setFieldValue(
+                          `productPricingDetails.${index}.quantityTo`,
                           ""
                         );
                         setFieldValue(
@@ -7551,7 +6603,7 @@ const AddProduct = ({ placeholder }) => {
                       "image/jpg": [],
                     }}
                   />
-
+ 
                   {touched.image && errors.image && (
                     <span className={styles.error}>{errors.image}</span>
                   )}
@@ -7967,6 +7019,7 @@ const AddProduct = ({ placeholder }) => {
                   </div>
                 </div>
               )} */}
+
     </div>
   );
 };

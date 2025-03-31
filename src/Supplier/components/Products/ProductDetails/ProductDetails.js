@@ -197,6 +197,14 @@ const ProductDetails = () => {
                   </span>
                 </div>
               )}
+              {productDetail?.general?.tax && (
+                <div className={styles.medicinesSection}>
+                  <span className={styles.medicineHead}>Tax%</span>
+                  <span className={styles.medicineText}>
+                    {productDetail?.general?.tax}
+                  </span>
+                </div>
+              )}
               {productDetail?.general?.quantity && (
                 <div className={styles.medicinesSection}>
                   <span className={styles.medicineHead}>Product Quantity</span>
@@ -212,6 +220,7 @@ const ProductDetails = () => {
                   </span>
                   <span className={styles.medicineText}>
                     {productDetail?.general?.volumn}
+                    {productDetail?.general?.volumeUnit}
                   </span>
                 </div>
               )}
@@ -282,7 +291,8 @@ const ProductDetails = () => {
                   <span className={styles.medicineHead}>Product Dimension
                   </span>
                   <span className={styles.medicineText}>
-                    {productDetail?.general?.brand}
+                    {productDetail?.general?.dimension}
+                    {productDetail?.general?.dimensionUnit}
                   </span>
                 </div>
               )}
@@ -351,7 +361,7 @@ const ProductDetails = () => {
                         {productDetail?.inventoryDetails?.countries && (
                           <div className={styles.medicinesSection}>
                             <span className={styles.medicineHead}>
-                              Stocked in Country
+                              Stocked in Countries
                             </span>
                             <span className={styles.medicineText}>
                               {productDetail.inventoryDetails.countries.map((country, index) => (
@@ -396,7 +406,7 @@ const ProductDetails = () => {
                       <div className={styles.mainSection}>
                         <div className={styles.medicinesSection}>
                           <span className={styles.medicineHead}>
-                            Countries where Stock Trades
+                            Country where Stock Trades
                           </span>
                           <span className={styles.medicineHeadings}>Quantity</span>
                         </div>
@@ -443,7 +453,7 @@ const ProductDetails = () => {
                 <div className={styles.inventorySection}>
                   <div className={styles.inventoryContainer}>
                     <span className={styles.inventoryInput}>
-                      {ele?.quantity}
+                      {ele?.quantityFrom} - {ele?.quantityTo}
                     </span>
                   </div>
                   <div className={styles.inventoryContainer}>

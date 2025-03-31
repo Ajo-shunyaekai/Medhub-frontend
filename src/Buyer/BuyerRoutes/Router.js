@@ -102,6 +102,12 @@ const PendingInvoicesList = lazy(() =>
 const ProductDetails = lazy(() =>
   import("../components/Buy/Details/ProductDetails.js")
 );
+const SimilarProducts = lazy(() =>
+  import("../components/Buy/UiShared/ProductCards/ProductCard.js")
+);
+const OtherSupplier = lazy(() =>
+  import("../components/Buy/Details/SupplierMedicineCard.js")
+);
 const SearchProductDetails = lazy(() =>
   import("../components/Buy/Details/SearchProductDetails.js")
 );
@@ -355,14 +361,14 @@ export function NotificationProvider({ children }) {
  
 // Routes
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <Navigate to="/buyer" replace />
-      </Suspense>
-    ),
-  },
+  // {
+  //   path: "/",
+  //   element: (
+  //     <Suspense fallback={<Loader />}>
+  //       <Navigate to="/buyer" replace />
+  //     </Suspense>
+  //   ),
+  // },
   {
     path: "/buyer/login",
     element: (
@@ -527,6 +533,24 @@ const router = createBrowserRouter([
             <ProductDetails socket={socket} />
           </Suspense>
         ),
+        children: [
+          {
+            path: "similar-products",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <SimilarProducts socket={socket} />
+              </Suspense>
+            ),
+          },
+          {
+            path: "other-supplier",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <OtherSupplier socket={socket} />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
         path: "search-product-details/:id",  

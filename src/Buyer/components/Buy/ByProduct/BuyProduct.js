@@ -18,7 +18,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
     const [searchKey, setSearchKey] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState(0); // Initialize with 0
-    const itemsPerPage = 6;
+    const itemsPerPage = 10;
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -84,7 +84,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
                 <Loader />
             ) : (
                 <div className={styles.productContainer}>
-                    <Category handleCategoryFilter={handleCategoryFilter} />
+                    {/* <Category handleCategoryFilter={handleCategoryFilter} /> */}
                     <SearchSection
                         inputValue={inputValue}
                         handleInputChange={handleInputChange}

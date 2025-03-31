@@ -15,7 +15,6 @@ const SupplierMedicineCard = ({
     // console.log('medicineList', medicineList, currentPage, totalItems, itemsPerPage)
     return (
         <div className={styles.container}>
-            <span className={styles.cardMainHeading}>Supplier List</span>
             <div className={styles.gridContainer}>
                 {medicineList && medicineList.length > 0 && medicineList.map((medicine, index) => {
                     const firstImage = Array.isArray(medicine?.general?.image) && medicine.general.image.length > 0
@@ -24,10 +23,11 @@ const SupplierMedicineCard = ({
 
                     // Extract only the required fields
                     const supplierName = medicine?.userDetails?.supplier_name || 'N/A';
-                    const costPerProduct = medicine?.inventoryDetails?.inventoryList?.[0]?.price || 'N/A';
+                    const productName = medicine?.general?.name || "N/A";
+                    const costPerProduct = medicine?.inventoryDetails[0]?.inventoryList?.price || 'N/A';
                     const totalQuantity = medicine?.general?.quantity || 'N/A';
-                    const estimatedDeliveryTime = medicine?.userDetails?.estimated_delivery_time || 'N/A';
-                    const stockStatus = medicine?.inventoryDetails?.stock || 'N/A';
+                    const estimatedDeliveryTime = medicine?.inventoryDetails[0]?.inventoryList?.deliveryTime || 'N/A';
+                    const stockStatus = medicine?.inventoryDetails[0]?.stock || 'N/A';
 
                     return (
                         <div className={styles.card} key={index}>
@@ -50,6 +50,12 @@ const SupplierMedicineCard = ({
                                     </span>
                                 </div>
                                 <div className={styles.section}>
+                                    <span className={styles.head}>Product Name</span>
+                                    <span className={styles.text}>
+                                        {productName}
+                                    </span>
+                                </div>
+                                <div className={styles.section}>
                                     <span className={styles.head}>Cost Per Product</span>
                                     <span className={styles.text}>
                                         {costPerProduct !== 'N/A' ? `$${costPerProduct}` : 'N/A'}
@@ -64,7 +70,7 @@ const SupplierMedicineCard = ({
                                 <div className={styles.section}>
                                     <span className={styles.head}>Est. Delivery Time</span>
                                     <span className={styles.text}>
-                                        {estimatedDeliveryTime}
+                                        {estimatedDeliveryTime !== 'N/A' ? `${estimatedDeliveryTime} Days` : 'N/A'}
                                     </span>
                                 </div>
                                 <div className={styles.section}>

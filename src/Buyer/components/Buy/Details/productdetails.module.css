@@ -10,29 +10,28 @@
     background: linear-gradient(270deg, #00dcff, #0075ce);
     color: #fff;
     padding: 12px;
-  }
-  
-  .innerSectionFilter {
+}
+
+.innerSectionFilter {
     width: 100%;
-    display: flex
-;
+    display: flex;
     justify-content: center;
     gap: 30px;
-  }
-  
-  .mainSectionFilter {
+}
+
+.mainSectionFilter {
     display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        width: 100%;
-        justify-content: center;
-  }
-  
-  .medicinesSectionFilter {
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+}
+
+.medicinesSectionFilter {
     position: relative;
-  }
-  
-  .PurcahseButtonFilter {
+}
+
+.PurcahseButtonFilter {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -40,39 +39,44 @@
     font-size: 16px;
     font-weight: 500;
     min-width: 160px;
-  }
-  
-  .filterDropdownContentFilter {
-    position: absolute;
-    top: 120%;
-    left: 0;
-    color: #000 !important;
-    font-size: 13px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    padding: 10px;
-    z-index: 10;
-    min-width: 240px;
 }
 
-  
-  .filterOptionFilter {
-    margin-bottom: 5px;
-  }
-  
-  .medicineTextFilter {
-    display: flex
-    ;
-        align-items: center;
-        gap: 8px;
+.filterDropdownContentFilter {
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    color: #5e676f;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    padding: 14px;
+    padding-left: 14px !important;
+    position: absolute;
+    row-gap: 12px;
+    top: 140%;
+    width: 250px;
+    height: 150px;
     cursor: pointer !important;
-  } 
-  .mainPurchaseSectionFilter{
+    overflow: scroll;
+}
 
-  }
-  .ResetButton {
+.filterDropdownContentFilter::-webkit-scrollbar{
+    display: none !important;
+}
+.filterOptionFilter {
+    margin-bottom: 5px;
+}
+
+.medicineTextFilter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer !important;
+}
+
+.mainPurchaseSectionFilter {}
+
+.ResetButton {
     border: 1px solid #d3d3d3;
     border-radius: 4px;
     cursor: pointer !important;
@@ -84,14 +88,35 @@
     justify-content: center;
     padding: 0;
     width: 100px;
-  }
+}
+
 /* End filter section code */
 
 /* Style Medicine cards */
-
+.cardExternalContainer{
+    margin-bottom: 50rem !important;
+}
 /* End Medicine cards */
 
 /* Style Product details */
+.cardHeading{
+    font-size: 22px !important;
+    font-weight: 500 !important;
+}
+.ProductMainContainer {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+    padding: 26px 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Keeps it above other elements */
+    
+}
 
 .container {
     width: 100%;
@@ -100,7 +125,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    gap: 2.6rem;
     overflow: scroll;
     scrollbar-width: none;
     background-attachment: fixed;
@@ -136,7 +161,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-
+    position: relative; /* Prevents unintended overlap */
+    z-index: 1;
 }
 
 .mainFixedContainer {
@@ -155,6 +181,7 @@
     flex-direction: column;
     gap: 10px;
 }
+
 .innerSection {
     width: 100%;
     display: flex;
@@ -293,7 +320,7 @@
 .inventoryContainer {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 6px;
     width: 100%;
 }
 
@@ -315,7 +342,10 @@
     position: relative !important;
     width: 100% !important;
 }
-
+.errorText{
+    font-size: 12px;
+    color: red;
+}
 /* Style the manufacturer container */
 .manufacturerMainContainer {
     display: flex;
@@ -360,7 +390,47 @@
     height: 100%;
     object-fit: contain;
 }
+/* Start form container */
+.formSection{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.fromContainer{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.buttonContainer{
+    display: flex
+    ;
+        justify-content: center;
+        gap: 20px;
+}
+.submitButton{
+    background: linear-gradient(to left, #00dcff, #0075ce);
+    color: white;
+    outline: none !important;
+    border: none !important;
+    padding: 6px 22px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer !important;
+}
+.cancelButton{
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff;
+    border: 1px solid #5e676f;
+    color: #5e676f;
+    padding: 6px 22px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer !important;
+}
 
+/* End form container */
 /* Start the additional Information Container */
 
 .addtionalContainer {

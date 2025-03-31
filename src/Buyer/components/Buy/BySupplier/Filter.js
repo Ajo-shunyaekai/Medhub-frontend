@@ -1,7 +1,14 @@
 import styles from './bysupplier.module.css';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
-const FilterSection = ({ openDropdown, toggleDropdown, countryOrigin, handleCountry, dropdownRef }) => {
+const FilterSection = ({ openDropdown, toggleDropdown, countryOrigin, handleCountry, dropdownRef, resetFilters, areFiltersApplied, handleCompanyType }) => {
+    const handleReset = () => {
+        if (resetFilters) {
+            resetFilters();
+        }
+        toggleDropdown(null);
+    };
+
     return (
         <div className={styles.filterContainer} ref={dropdownRef}>
             <ul className={styles.filterSection}>
@@ -12,9 +19,9 @@ const FilterSection = ({ openDropdown, toggleDropdown, countryOrigin, handleCoun
                     Company Type {openDropdown === 'gmpApprovals' ? <FaAngleUp /> : <FaAngleDown />}
                     {openDropdown === 'gmpApprovals' && (
                         <ul className={styles.filterInnerSection}>
-                            <li>Manufacturer</li>
-                            <li>Distributor</li>
-                            <li>Medical Practitioner</li>
+                           <li onClick={() => handleCompanyType('Manufacturer')}>Manufacturer</li>
+                            <li onClick={() => handleCompanyType('Distributor')}>Distributor</li>
+                            <li onClick={() => handleCompanyType('Medical Practitioner')}>Medical Practitioner</li>
                         </ul>
                     )}
                 </li>
@@ -34,6 +41,15 @@ const FilterSection = ({ openDropdown, toggleDropdown, countryOrigin, handleCoun
                     )}
                 </li>
             </ul>
+            {/* Show reset button only when filters are applied */}
+            {areFiltersApplied && (
+                <button 
+                    className={styles.resetButton}
+                    onClick={handleReset}
+                >
+                    Reset Filters
+                </button>
+            )}
         </div>
     );
 };
