@@ -246,7 +246,7 @@ const AddProduct = ({ placeholder }) => {
     dispatch(previewBulkProducts(bulkFormData)).then((response) => {
       console.log("response", response);
       if (response?.meta.requestStatus === "fulfilled") {
-        // navigate("/supplier/preview-file");
+        navigate("/supplier/preview-file");
       }
     });
 

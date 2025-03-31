@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const initialState = {
   loading: false,
   products : [],
+  previewProducts:[],
   supplierProductList: [],
   otherSupplierList: [],
   productDetail : {},
@@ -227,6 +228,17 @@ export const productSlice = createSlice({
         state.productDetail = action?.payload;
       })
       .addCase(fetchProductDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(previewBulkProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(previewBulkProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.previewProducts = action?.payload;
+      })
+      .addCase(previewBulkProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
