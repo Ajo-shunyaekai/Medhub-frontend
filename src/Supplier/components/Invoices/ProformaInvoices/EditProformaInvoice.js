@@ -130,7 +130,6 @@ const EditProformaInvoice = () => {
                 const mobileNumber = supplierDetails.contact_person_mobile_no || '';
                 const formattedPhoneNumber = `${countryCode}${mobileNumber}`;
                 const newFormattedPhoneNumber = `${countryCode}-${mobileNumber}`;
-                console.log('newFormattedPhoneNumber',newFormattedPhoneNumber);
                 setValue('supplierMobile', formattedPhoneNumber);
                 setValue('newSupplierMobile',newFormattedPhoneNumber)
                 // setValue('supplierRegNo',response?.result?.supplier_details[0]?.registration_no)
@@ -159,7 +158,6 @@ const EditProformaInvoice = () => {
                 
                 setOrderItems(response?.result?.order_items)
             } else {
-                console.log('error in order list api', response);
             }
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage, setValue]);
@@ -213,7 +211,6 @@ const EditProformaInvoice = () => {
         },
         totalAmount: roundedGrandTotalAmount
     };
-        console.log(obj);
         postRequestWithToken('buyer/order/create-orde', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
@@ -221,7 +218,6 @@ const EditProformaInvoice = () => {
                     navigate('/supplier/order/active')
                 }, 1000)
             } else {
-                console.log('error in create-order api', response);
                 toast(response.message, { type: 'error' })
             }
         });

@@ -65,7 +65,6 @@ const SendInquiry = ({socket}) => {
         setRefreshTrigger(prev => !prev);
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in order list api', response);
       }
     });
   };
@@ -103,7 +102,6 @@ const SendInquiry = ({socket}) => {
 
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in order list api', response);
       }
     });
   }, [currentPage, refreshTrigger]);
@@ -137,7 +135,6 @@ const SendInquiry = ({socket}) => {
         });
       } 
     });
-// console.log('suplierId',supplier);
 
     const enquiryPayload = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -185,7 +182,6 @@ const SendInquiry = ({socket}) => {
       
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in send-enquiry api', response);
       }
       setButtonLoading(false)
     });

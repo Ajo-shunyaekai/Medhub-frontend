@@ -15,11 +15,9 @@ export const fetchBuyerListRedux = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest( url)
-      console.log('response', response)
       return response.result.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -33,7 +31,6 @@ export const fetchBuyerDataRedux = createAsyncThunk(
       return response.result 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }

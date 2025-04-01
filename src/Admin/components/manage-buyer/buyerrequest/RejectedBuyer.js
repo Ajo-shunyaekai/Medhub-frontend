@@ -47,7 +47,6 @@ const RejectedBuyer = () => {
                 setBuyerList(response.result.data)
                 setTotalBuyers(response.result.totalItems)
             } else {
-               console.log('error in get-buyer-list list api',response);
             }
             setLoading(false);
         })

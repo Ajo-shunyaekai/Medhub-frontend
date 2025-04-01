@@ -33,7 +33,6 @@ const DetailsBuyerRequest = () => {
     };
 
     const openModal = (url) => {
-        console.log("Opening URL:", url);
         window.open(url, '_blank');
     };
 
@@ -116,14 +115,12 @@ const DetailsBuyerRequest = () => {
             try {
                 const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-buyer-details api', response);
                     return;
                 }
                 setBuyerDetails(response?.result);
                 setSalesPersonName(response?.result?.sales_person_name)
 
             } catch (error) {
-                console.log('error in get-buyer-details api', error);
             }
         }
         getBuyerDetails()
@@ -160,7 +157,6 @@ const DetailsBuyerRequest = () => {
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-                console.log('error in accept-reject-buyer api', response);
                 toast(response.message, { type: 'error' })
             }
         })

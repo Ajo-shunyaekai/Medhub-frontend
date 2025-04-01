@@ -51,7 +51,6 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
     const formattedDate = moment(dateToDisplay)
         .tz("Asia/Kolkata")
         .format("DD/MM/YYYY HH:mm:ss");
-console.log('currentOrders',currentOrders)
     return (
         <div className="card-body">
             <div>

@@ -73,7 +73,6 @@ const SellerOrder = () => {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             } else {
-               console.log('error in order list api',response);
             }
             setLoading(false);
           })

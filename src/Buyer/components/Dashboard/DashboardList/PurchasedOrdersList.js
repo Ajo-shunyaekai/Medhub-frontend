@@ -54,7 +54,6 @@ const PurchasedOrdersList = () => {
                 setTotalPoList(response.result.totalItems)
             } else {
                 toast(response.message, { type: 'error' })
-                console.log('error in purchased order list api', response);
             }
             // setLoading(false);
         });

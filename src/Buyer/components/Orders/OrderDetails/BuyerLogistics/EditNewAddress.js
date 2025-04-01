@@ -19,7 +19,6 @@ const EditNewAddress = () => {
   const { addressToUpdate } = useSelector(
     (state) => state?.addressReducer
   );
-  console.log("addressToUpdate", addressToUpdate);
   const [addressType, setAddressType] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);

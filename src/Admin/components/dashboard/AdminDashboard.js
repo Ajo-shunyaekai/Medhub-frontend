@@ -42,7 +42,6 @@ const AdminDashboard = () => {
                 const convertedData = convertCountryToCode(response?.result?.buyerCountryData);
                 setCountryData(convertedData);
             } else {
-                console.log('error in orders-summary-details api', response);
             }
         })
     }, [])

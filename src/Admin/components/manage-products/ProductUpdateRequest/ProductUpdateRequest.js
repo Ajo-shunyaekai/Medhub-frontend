@@ -70,7 +70,6 @@ const ProductUpdateRequest = () => {
                 setProductList(response.result.data);
                 setTotalProducts(response.result.totalItems);
             } else {
-               console.log('error in order list api',response);
             }
             setLoading(false);
           })

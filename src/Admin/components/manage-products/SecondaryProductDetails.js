@@ -65,13 +65,11 @@ const SecondaryProductDetails = () => {
                 setMedicineDetails(response.result.data)
                 setInvoiceImage(response?.result?.data?.invoice_image[0])
             } else {
-                console.log('error in med details api');
             }
         })
     }, [])
     return (
         <>
-            {console.log("showModal state:", showModal)}
             <div className='main-product-details-container'>
                 <div className="product-details-cover">
                     <div className='product-details-container-main'>

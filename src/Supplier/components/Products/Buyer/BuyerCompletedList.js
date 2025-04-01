@@ -78,7 +78,6 @@ const BuyerCompletedList = () => {
                 setOrderList(response.result.orderList)
                 setTotalOrders(response.result.totalOrders)
             } else {
-                console.log('error in buyer-supplier-orders api ');
             }
         })
 

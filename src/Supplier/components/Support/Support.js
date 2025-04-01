@@ -100,7 +100,6 @@ const Support = () => {
         event.preventDefault();
         const errors = validate();
         if (Object.keys(errors).length === 0) {
-            console.log({ orderId, feedback, feedbackImages });
             // const feedback_images = Array.from(feedbackImages).map(file => file);
 
             const formData = new FormData();
@@ -139,7 +138,6 @@ const Support = () => {
         event.preventDefault();
         const errors = compValidate();
         if (Object.keys(errors).length === 0) {
-            console.log({ compOrderId, compFeedback, compImages });
             const complaint_images = Array.from(compImages).map(file => file);
 
             const formData = new FormData();

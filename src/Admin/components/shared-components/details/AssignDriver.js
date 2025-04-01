@@ -32,7 +32,6 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                 <tbody>
                 {
                     currentOrders?.map((item,i) => {
-                        console.log("ITEM",item);
                         
                         return (
                                 <tr>

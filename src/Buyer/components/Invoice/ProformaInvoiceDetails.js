@@ -35,7 +35,6 @@ function ProformaDetailsPage() {
                     setBankDetails({ bankName, accountNo, sortCode });
                 }
             } else {
-                console.log('error in buyer-order-details api', response);
             }
         })
     }, [])

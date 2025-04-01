@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import moment from 'moment-timezone';
 
 const OngoingInquiriesList = () => {
-    console.log('render');
     const navigate = useNavigate();
     const [modal, setModal] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);

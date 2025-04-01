@@ -242,7 +242,6 @@ const AddProduct = ({ placeholder }) => {
   };
 
   // const handleBulkUpload = () => {
-  //   console.log("file", selectedFile);
   //   const bulkFormData = new FormData();
 
   //   bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
@@ -253,19 +252,17 @@ const AddProduct = ({ placeholder }) => {
   // };
   const handleBulkUpload = () => {
     if (selectedFile) {
-      console.log("file", selectedFile);
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
-   
-    dispatch(previewBulkProducts(bulkFormData)).then((response) => {
-      console.log("response", response);
-      if (response?.meta.requestStatus === "fulfilled") {
-        navigate("/supplier/preview-file");
-      }
-    });
+
+      dispatch(previewBulkProducts(bulkFormData)).then((response) => {
+        if (response?.meta.requestStatus === "fulfilled") {
+          navigate("/supplier/preview-file");
+        }
+      });
+    }
   };
-}
 
   return (
     <div className={styles.container}>
@@ -282,7 +279,6 @@ const AddProduct = ({ placeholder }) => {
         // validateOnChange={false} // Only validate when user submits
         onSubmit={(values) => {
           // Custom submit handler with e.preventDefault()
-          console.log("Form submitted with values:", values);
           // Your custom submit logic here
           // Create a new FormData object
           const formData = new FormData();
@@ -358,7 +354,6 @@ const AddProduct = ({ placeholder }) => {
 
           // dispatch(addProduct(formData));
           dispatch(addProduct(formData)).then((response) => {
-            console.log("response", response);
             if (response?.meta.requestStatus === "fulfilled") {
               // navigate("/supplier/product"); // Change this to your desired route
             }
@@ -378,7 +373,6 @@ const AddProduct = ({ placeholder }) => {
           useFormikContext,
         }) => (
           <Form className={styles.form}>
-            {console.log("errors", errors)}
             <div className={styles.section}>
               <span className={styles.formHead}>General Information</span>
               <div className={styles.formSection}>
@@ -6444,39 +6438,39 @@ const AddProduct = ({ placeholder }) => {
                             onBlur={handleBlur}
                           />
                         </div>
+                        <span className={styles.error}>
+                          {touched.productPricingDetails?.[index]
+                            ?.quantityFrom &&
+                            errors.productPricingDetails?.[index]?.quantityFrom}
+                        </span>
                       </div>
-                      <div className={styles.unitSection}>
-                        <input
-                          className={styles.formInput}
-                          type="text"
-                          placeholder="Enter Quantity From"
-                          // autoComplete="off"
-                          name={`productPricingDetails.${index}.quantityTo`}
-                          value={
-                            values.productPricingDetails[index]?.quantityTo
-                          }
-                          onChange={(e) =>
-                            setFieldValue(
-                              `productPricingDetails.${index}.quantityTo`,
-                              e.target.value.replace(/\D/g, "") // Allow only numbers
-                            )
-                          }
-                          onBlur={handleBlur}
-                        />
-                        {/* {touched?.volumeUnit && errors.volumeUnit && (
-                        <span className={styles.error}>{errors.volumeUnit}</span>
-                      )} */}
+                      <div className={styles.weightSection}>
+                        <div className={styles.tooltipContainer}>
+                          <input
+                            className={styles.formInput}
+                            type="text"
+                            placeholder="Enter Quantity To"
+                            // autoComplete="off"
+                            name={`productPricingDetails.${index}.quantityTo`}
+                            value={
+                              values.productPricingDetails[index]?.quantityTo
+                            }
+                            onChange={(e) =>
+                              setFieldValue(
+                                `productPricingDetails.${index}.quantityTo`,
+                                e.target.value.replace(/\D/g, "") // Allow only numbers
+                              )
+                            }
+                            onBlur={handleBlur}
+                          />
+                        </div>
+                        <span className={styles.error}>
+                          {touched.productPricingDetails?.[index]
+                            ?.quantityTo &&
+                            errors.productPricingDetails?.[index]?.quantityTo}
+                        </span>
                       </div>
                     </div>
-
-                    <span className={styles.error}>
-                      {touched.productPricingDetails?.[index]?.quantityFrom &&
-                        errors.productPricingDetails?.[index]?.quantityFrom}
-                    </span>
-                    <span className={styles.error}>
-                      {touched.productPricingDetails?.[index]?.quantityTo &&
-                        errors.productPricingDetails?.[index]?.quantityTo}
-                    </span>
                   </div>
 
                   <div className={styles.productContainer}>
@@ -6707,7 +6701,6 @@ const AddProduct = ({ placeholder }) => {
                   Add More
                 </span>
               </div>
-              {console.log("values?.complianceFile", values?.complianceFile)}
 
               {values?.cNCFileNDate?.map((ele, index) => (
                 <div
@@ -6965,12 +6958,12 @@ const AddProduct = ({ placeholder }) => {
 
       {open && (
         <FileUploadModal
-          onClose          = {() => setOpen(false)}
-          onSelectFile     = {handleSelectFile}
-          onHandleUpload   = {handleBulkUpload}
-          modaltitle       = "Bulk Upload"
-          title            = "Preview"
-          selectedFile     = {selectedFile}
+          onClose={() => setOpen(false)}
+          onSelectFile={handleSelectFile}
+          onHandleUpload={handleBulkUpload}
+          modaltitle="Bulk Upload"
+          title="Preview"
+          selectedFile={selectedFile}
         />
       )}
       {/* {open && (
@@ -7020,10 +7013,8 @@ const AddProduct = ({ placeholder }) => {
                   </div>
                 </div>
               )} */}
-
     </div>
   );
-  
 };
 
 export default AddProduct;

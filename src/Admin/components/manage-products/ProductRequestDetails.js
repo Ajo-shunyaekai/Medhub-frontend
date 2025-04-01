@@ -52,7 +52,6 @@ const ProductRequestDetails = ({ socket }) => {
             if (response.code === 200) {
                 setMedicineDetails(response.result.data)
             } else {
-                console.log('error in med details api');
             }
         })
     }, [])
@@ -96,7 +95,6 @@ const ProductRequestDetails = ({ socket }) => {
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })

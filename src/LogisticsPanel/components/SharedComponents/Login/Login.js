@@ -58,7 +58,6 @@ const Login = ({socket}) => {
              
                 try {
                     const response = await apiRequests?.postRequest(`auth/login`, obj)
-                    console.log("response ", response)
                     if(response.code !== 200){
                         toast(response.message, { type: "error" });
                     }else{
@@ -66,7 +65,6 @@ const Login = ({socket}) => {
                         const {data} = await response;
                         for (let x in data) {
                             sessionStorage.setItem(`${x}`, data[x])
-                            console.log(`RESPONSE OF LOGIN LOGISTICS USER : ${x} ${ data[x]}`)
                         }
     
                         setTimeout(() => {
@@ -87,14 +85,11 @@ const Login = ({socket}) => {
                         // } else {
                         //     setLoading(false)
                         //     toast(response.message, { type: "error" });
-                        //     console.log('error in logistics/login api',response);
                         // }
                     }
                 } catch (error) {
-                    console.log(error)
                     setLoading(false)
                     toast(error.message, { type: "error" });
-                    console.log('error in admin/login api',error);
                 } finally{
                     setLoading(false)
     

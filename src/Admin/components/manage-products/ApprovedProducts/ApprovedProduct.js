@@ -76,7 +76,6 @@ const ApprovedProduct = () => {
     //             setProductList(response.result.data);
     //             setTotalProducts(response.result.totalItems);
     //         } else {
-    //            console.log('error in order list api',response);
     //         }
     //         setLoading(false);
     //       })
@@ -92,11 +91,9 @@ const ApprovedProduct = () => {
     //         //         setProductList(response.result.data);
     //         //         setTotalProducts(response.result.totalItems);
     //         //     } else {
-    //         //         console.log('error in medicine list api',response);
     //         //     }
     //         // })
     //       } catch (error) {
-    //         console.log('error in order list api',error);
     //       } finally{
     //         setLoading(false);
     //       }
@@ -118,7 +115,6 @@ const ApprovedProduct = () => {
                                 fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${listPerPage}`)
                             );
                 if (response.meta.requestStatus === 'fulfilled') {
-                    console.log('Products fetched successfully:', response.payload);
                     setMedicineList(response.payload.products)
                     setTotalProducts(response.payload?.totalItems);
                     setLoading(false);

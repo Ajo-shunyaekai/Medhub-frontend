@@ -358,7 +358,6 @@ const EditCreatePO = ({socket}) => {
                     orderItems: data?.items,
                 }));
             } else {
-                console.log('error in order list api', response);
             }
         });
     }, [navigate, buyerIdSessionStorage, buyerIdLocalStorage, purchaseOrderId]);
@@ -474,14 +473,12 @@ const EditCreatePO = ({socket}) => {
                     },1000)
                 } else {
                     setLoading(false)
-                    console.log('error in order list api', response);
                     toast(response.message, {type: 'error'})
                 }
             });
         } else {
             setLoading(false)
             toast('Some Fields are Missing', { type: "error" });
-            console.log('errorrrrr', formData);
         }
        
     };
@@ -520,7 +517,6 @@ const EditCreatePO = ({socket}) => {
     
             if (isValidNumber) {
                 const formattedPhoneNumber = formatPhoneNumber(mobileNumber, countryCode);
-                console.log("formattedPhoneNumber", formattedPhoneNumber);
     
                 // Update formData with the formatted phone number
                 setFormData(prevState => ({

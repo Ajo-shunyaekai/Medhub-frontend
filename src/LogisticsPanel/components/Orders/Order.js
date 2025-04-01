@@ -90,7 +90,6 @@ const Order = () => {
                 
             } catch (error) {
                 toast(error.message, {type:'error'})
-                console.log('error in order list api',error);
             } finally{
                 setLoading(false);
             }

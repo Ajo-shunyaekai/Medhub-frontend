@@ -89,7 +89,6 @@ const Order = () => {
         //         setTotalOrders(response.result.totalItems)
         //     } else {
         //         toast(response.message, {type:'error'})
-        //        console.log('error in order list api',response);
         //     }
         //     setLoading(false);
         //   })
@@ -107,7 +106,6 @@ const Order = () => {
             // })
         } catch (error) {
             toast(error.message, {type:'error'})
-            console.log('error in order list api',error);
         } finally{
             setLoading(false);
         }

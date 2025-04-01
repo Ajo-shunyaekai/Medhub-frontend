@@ -47,7 +47,6 @@ const LogisticsDetails = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log("error in update-logistics-details api");
     }
   };
 
@@ -85,7 +84,6 @@ const LogisticsDetails = () => {
         );
       }
     } catch (error) {
-      console.log("error in order details api");
     }
   };
 

@@ -74,7 +74,6 @@ const Invoice = ({socket}) => {
                     setTotalInvoices(response.result.totalItems);
                 } else {
                     toast(response.message, { type: 'error' });
-                    console.log('Error in proforma invoice list API:', response);
                 }
                 setLoading(false);
             });
@@ -84,7 +83,6 @@ const Invoice = ({socket}) => {
                     const response = await apiRequests.getRequest(`order/get-all-invoice-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${invoicesPerPage}`)
                     if(response?.code!==200){
                         toast(response.message, {type:'error'});
-                        console.log('error in invoice list api', response);
                         return
                     }
                     
@@ -97,7 +95,6 @@ const Invoice = ({socket}) => {
                     //     }
                     // })
                 } catch (error) {
-                    console.log('Error in get-invoice-list API', error);
                     
                 } finally {
                     setLoading(false);

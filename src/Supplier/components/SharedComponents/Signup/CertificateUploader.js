@@ -14,7 +14,6 @@ const useFileUpload = (
 ) => {
   const [filesMerged, setFilesMerged] = useState(selectedFile || []);
   const [filesMerged2, setFilesMerged2] = useState(initialValues?.complianceFile || []);
-  console.log(`setFieldValue("complianceFile", [...initialValues?.complianceFile, ...acceptedFiles]);`,initialValues?.complianceFile)
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -24,7 +23,6 @@ const useFileUpload = (
       setFilesMerged2((prev) => {
         const totalFiles = [...prev, ...acceptedFiles].slice(0, 4); // Limit to maxFiles
         // Update Formik state
-        console.log("field Value to update ", fieldInputName);
         setFieldValue("complianceFile", totalFiles);
         return totalFiles;
       });

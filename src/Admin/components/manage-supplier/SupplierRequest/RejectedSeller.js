@@ -49,7 +49,6 @@ const RejectedOrders = () => {
                 setSellerList(response.result.data)
                 setTotalSellers(response.result.totalItems)
             } else {
-               console.log('error in order list api',response);
             }
             setLoading(false);
           })

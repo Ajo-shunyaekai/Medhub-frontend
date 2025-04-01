@@ -209,7 +209,6 @@ const ProformaInvoice = ({socket}) => {
                                  }
                }
             } else {
-                console.log('error in order list api', response);
             }
         });
     }, [navigate, supplierIdSessionStorage, supplierIdLocalStorage]);
@@ -233,7 +232,6 @@ const ProformaInvoice = ({socket}) => {
         setDateValue()
     }
 
-console.log(setFormData)
     const handleCancel = () => {
         resetForm()
     }
@@ -351,7 +349,6 @@ console.log(setFormData)
                     setLoading(false)
                 } else {
                     setLoading(false)
-                    console.log('error in create-order api', response);
                     toast(response.message, { type: 'error' })
                 }
                 // setLoading(false)
@@ -359,7 +356,6 @@ console.log(setFormData)
         } else {
             setLoading(false)
             toast('Some Fields are Missing', { type: "error" });
-            console.log('errorrrrr', formData);
         }
        
 

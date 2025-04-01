@@ -141,13 +141,11 @@ const BuyerDetails = () => {
             //     if (response.code === 200) {
             //         setBuyerDetails(response.result)
             //     } else {
-            //        console.log('error in get-buyer-details api',response);
             //     }
             // })
             try {
                 const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-buyer-details api', response);
                     return;
                 }
                 setBuyerDetails(response?.result);
@@ -155,11 +153,9 @@ const BuyerDetails = () => {
                 //     if (response.code === 200) {
                 //         setBuyerDetails(response?.result);
                 //     } else {
-                //         console.log('error in get-buyer-details api', response);
                 //     }
                 // })
             } catch (error) {
-                console.log('error in get-buyer-details api', error);
             }
         }
         getBuyerDetails()
@@ -181,7 +177,6 @@ const BuyerDetails = () => {
                 }, 1000)
                 // setSupplierDetails(response.result)
             } else {
-                console.log('error in accept-reject-buyer api', response);
                 toast(response.message, { type: 'error' })
             }
         })

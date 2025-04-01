@@ -241,7 +241,6 @@ const Sidebar = ({ children, dragWindow,
         //                 // setNotificationList(response.result.data);
         //                 // setCount(response.result.totalItems || 0)
         //             } else {
-        //                 console.log('error in order details api');
         //             }
         //         });
     }
@@ -323,7 +322,6 @@ const Sidebar = ({ children, dragWindow,
                                     <div className={styles.noti_container}>
                                         <div className={styles.noti_wrapper}>
                                             <div className={styles.noti_top_wrapper}>
-                                                {console.log(notificationList)}
 
                                                 {/* Handle empty notificationList */}
                                                 {notificationList && notificationList.length > 0 ? (

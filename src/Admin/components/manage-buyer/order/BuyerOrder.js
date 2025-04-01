@@ -73,7 +73,6 @@ const BuyerOrder = () => {
         //         setOrderList(response.result.data)
         //         setTotalOrders(response.result.totalItems)
         //     } else {
-        //        console.log('error in order list api',response);
         //     }
         //     setLoading(false);
         // })
@@ -90,7 +89,6 @@ const BuyerOrder = () => {
             //     }
             // })
         } catch (error) {
-            console.log('error in order list api',error);
         } finally{
             setLoading(false);
         }

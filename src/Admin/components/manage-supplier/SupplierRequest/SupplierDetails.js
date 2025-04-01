@@ -104,13 +104,11 @@ const renderFiles = (files, type) => {
         try {
             const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in get-supplier-details api', response);
                 return;
             }
             setSupplierDetails(response?.result);
          
         } catch (error) {
-            console.log('error in get-supplier-details api', error);
         }
     }
         getSupplierDeatils()
@@ -130,7 +128,6 @@ const renderFiles = (files, type) => {
                     navigate('/admin/supplier-request')
                 },1000)
             } else {
-               console.log('error in accept-reject-supplier api',response);
                toast(response.message, {type: 'error'})
             }
         })

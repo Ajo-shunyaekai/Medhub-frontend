@@ -61,7 +61,6 @@ const Login = ({socket}) => {
              
                 try {
                     const response = await apiRequests?.postRequest(`auth/login`, obj)
-                    console.log("response ", response)
                     if(response.code !== 200){
                         toast(response.message, { type: "error" });
                     }else{
@@ -96,14 +95,11 @@ const Login = ({socket}) => {
                         } else {
                             setLoading(false)
                             toast(response.message, { type: "error" });
-                            console.log('error in admin/login api',response);
                         }
                     }
                 } catch (error) {
-                    console.log(error)
                     setLoading(false)
                     toast(error.message, { type: "error" });
-                    console.log('error in admin/login api',error);
                 } finally{
                     setLoading(false)
     

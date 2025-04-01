@@ -30,7 +30,6 @@ const VerifyEmail = ({ step, setStep }) => {
           email: values.email,
           usertype: "Buyer",
         };
-        console.log("Email submitted:", payloadData);
         const response = await apiRequests.postRequest(
           "auth/verify-email",
           payloadData

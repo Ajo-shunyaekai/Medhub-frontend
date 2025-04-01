@@ -19,7 +19,6 @@ export const fetchsLists = createAsyncThunk(
       return response?.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response || error.message);
     }
   }

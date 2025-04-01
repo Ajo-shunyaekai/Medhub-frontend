@@ -24,7 +24,6 @@ const BuyerTransactionDetails = () => {
       if (response.code === 200) {
         setTransactionDetails(response.result)
       } else {
-        console.log('error in get-supplier-details api', response);
       }
     })
   }, [])

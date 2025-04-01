@@ -168,7 +168,6 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                                     <div className={styles.noti_container}>
                                         <div className={styles.noti_wrapper}>
                                             <div className={styles.noti_top_wrapper}>
-                                                {console.log(notificationList)}
                                                 {notificationList && notificationList.length > 0 ? (
                                                     notificationList.slice(0, 5).map((data) => (
                                                         <div

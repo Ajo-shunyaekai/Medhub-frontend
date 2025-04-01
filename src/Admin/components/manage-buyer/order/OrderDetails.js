@@ -33,7 +33,6 @@ const OrderDetails = ({ socket }) => {
         //     if (response.code === 200) {
         //         setOrderDetails(response.result);
         //     } else {
-        //         console.log('error in order details api');
         //     }
         // });
         try {
@@ -42,7 +41,6 @@ const OrderDetails = ({ socket }) => {
                 setOrderDetails(response.result);
             }
         } catch (error) {
-            console.log('error in order details api');
         }
     }
 
@@ -55,7 +53,6 @@ const OrderDetails = ({ socket }) => {
     };
 
     const handleModalSubmit = (data) => {
-        console.log('Modal Data:', data);
         if (!adminIdSessionStorage && !adminIdLocalStorage) {
             navigate('/buyer/login');
             return;
@@ -89,7 +86,6 @@ const OrderDetails = ({ socket }) => {
             status: 'Awaiting details from supplier',
             logistics_details: [logisticsDetails],
         };
-        console.log('OBJ:', obj);
         postRequestWithToken('buyer/order/book-logistics', obj, (response) => {
             if (response.code === 200) {
                 // setOrderDetails((prevDetails) => ({
@@ -106,12 +102,10 @@ const OrderDetails = ({ socket }) => {
                         //   });
                     } else {
                         toast(response.message, { type: 'error' })
-                        console.log('error in order details api');
                     }
                 });
             } else {
                 toast(response.message, { type: 'error' })
-                console.log('Error updating order status');
             }
         });
     };

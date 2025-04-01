@@ -62,7 +62,6 @@ const Buy2ndMarket = ({ active, filterCategory, setFilterCategory }) => {
                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}&category=${filterCategory || ''}`)
                 );
                 if (response.meta.requestStatus === 'fulfilled') {
-                    console.log('Products fetched successfully:', response.payload);
                     setMedicineList(response?.payload?.products);
                     setTotalItems(response?.payload?.totalItems);
                     setLoading(false);

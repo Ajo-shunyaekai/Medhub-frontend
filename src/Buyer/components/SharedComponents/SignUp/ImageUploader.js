@@ -119,7 +119,6 @@ const ImageUploader = ({ onUploadStatusChange, imageType, reset, allowMultiple, 
 
     return (
         <div className={styles['image-uploader']}>
-            {console.log("filePreviews" , filePreviews)}
             <div className={styles['upload-area']} onClick={handleImageClick}>
                 {uploading ? (
                     <p>Uploading...</p>

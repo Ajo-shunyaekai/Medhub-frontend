@@ -40,14 +40,12 @@ const SupplierDashboard = () => {
                 const convertedData = convertCountryToCode(response?.result);
                 setCountryData(convertedData);
             } else {
-               console.log('error in orders-buyer-country api',response);
             }
         });
         postRequestWithToken('supplier/orders-summary-details', obj, async (response) => {
             if (response.code === 200) {
                 setOrderSummary(response?.result)
             } else {
-               console.log('error in orders-summary-details api',response);
             }
         })
 
@@ -55,7 +53,6 @@ const SupplierDashboard = () => {
             if (response.code === 200) {
                 setSalesSummary(response?.result)
             } else {
-               console.log('error in sales-filter api',response);
             }
         })
     },[])

@@ -165,13 +165,11 @@ const CreatePO = ({socket}) => {
             //             orderItems: data?.items,
             //         }));
             //     } else {
-            //         console.log('error in order list api', response);
             //     }
             // });
                       
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in get-enquiry-details api', response);
                 return;
             }
             setInquiryDetails(response?.result);
@@ -273,7 +271,6 @@ const CreatePO = ({socket}) => {
             //             orderItems: data?.items,
             //         }));
             //     } else {
-            //         console.log('error in order list api', response);
             //     }
             // });
         }
@@ -391,15 +388,12 @@ const CreatePO = ({socket}) => {
                     }, 1000)
                 } else {
                     setLoading(false)
-                    console.log(obj);
-                    console.log('error in order list api', response);
                     toast(response.message, { type: 'error' })
                 }
             });
         } else {
             setLoading(false)
             toast('Some Fields are Missing', { type: "error" });
-            console.log('errorrrrr', formData);
         }
        
     };
@@ -473,14 +467,11 @@ const CreatePO = ({socket}) => {
         // Extract the country code and the mobile number
         for (let code of countryCodes) {
             if (value.startsWith(code)) {
-                console.log('code', code);
                 countryCode = code.replace('+', ''); 
                 mobileNumber = value.substring(code.length); 
                 break;
             }
         }
-        console.log('countryCode', countryCode);
-        console.log(' mobileNumber', mobileNumber);
  
         // if (countryCode === '971' && mobileNumber.length > 9) {
         //     mobileNumber = mobileNumber.substring(0, 9);

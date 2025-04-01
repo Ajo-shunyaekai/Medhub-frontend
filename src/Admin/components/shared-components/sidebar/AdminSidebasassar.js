@@ -130,7 +130,6 @@ const AdminSidebar = () => {
             if (response.code === 200) {
                 setRefresh(true)
             } else {
-                console.log('error in order details api');
             }
         });
     }
@@ -150,7 +149,6 @@ const AdminSidebar = () => {
                     setNotificationList(response.result.data);
                     setCount(response.result.totalItems || 0)
                 } else {
-                    console.log('error in order details api');
                 }
             });
       };
@@ -190,7 +188,6 @@ const AdminSidebar = () => {
     });
 
     socket.on('newMedicineEditRequest', (message) => {
-        console.log(`medicine request: ${message}`);
         
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Medicine Edit Approval Request', {

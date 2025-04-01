@@ -40,7 +40,6 @@ const MySuplier = () => {
                 setTotalItems(response.result.totalItems)
             } else {
                 toast(response.message, { type: 'error' })
-                console.log('error in  buyer/supplier-list api');
             }
             setLoading(false);
         })

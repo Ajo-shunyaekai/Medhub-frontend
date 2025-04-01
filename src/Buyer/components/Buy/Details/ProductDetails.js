@@ -99,7 +99,6 @@ const quantityOptions = inventoryList.map((ele) => ({
 const defaultOption = quantityOptions[0] || { value: '', price: '', deliveryTime: '' };
 
 const handleSubmit = (values, { resetForm }) => {
-  console.log('Form submitted:', values);
   setLoading(true)
   const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
     const buyerIdLocalStorage = localStorage.getItem('buyer_id');
@@ -123,9 +122,7 @@ const handleSubmit = (values, { resetForm }) => {
     est_delivery_time : values?.deliveryTime
   }
 
-  console.log('Form obj:', obj);
     // dispatch(addToList(obj)).then((response) => {
-    //   console.log("response", response);
     //   if (response?.meta.requestStatus === "fulfilled") {
     //     dispatch(updateInquiryCartCount(response?.result?.listCount))
         
@@ -152,7 +149,6 @@ const handleSubmit = (values, { resetForm }) => {
       } else {
         setLoading(false)
         toast(response.message, { type: "error" });
-        console.log('error in similar-medicine-list api');
         
       }
     });
@@ -2691,7 +2687,6 @@ const handleSubmit = (values, { resetForm }) => {
                     }}
                     validationSchema={validationSchema}
                     // onSubmit={(values, { resetForm }) => {
-                    //   console.log('Form submitted:', values);
                     //   // Add your submit logic here
                     // }}
                     onSubmit={handleSubmit}

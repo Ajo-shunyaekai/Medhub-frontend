@@ -49,7 +49,6 @@ const TotalPO = () => {
                     setList(response.result.data);
                     setTotalList(response.result.totalItems);
                 } else {
-                    console.log('Error fetching PO list', response);
                 }
                 setLoading(false);
             });

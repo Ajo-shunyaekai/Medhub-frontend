@@ -54,7 +54,6 @@ const ProductDetails = () => {
             //     if (response.code === 200) {
             //         setMedicineDetails(response.result.data)
             //     } else {
-            //         console.log('error in med details api');
             //     }
             // })
             try {
@@ -67,11 +66,9 @@ const ProductDetails = () => {
                 //     if (response.code === 200) {
                 //         setMedicineDetails(response.result)
                 //     } else {
-                //         console.log('error in med details api');
                 //     }
                 // })
             } catch (error) {
-                console.log('error in medicine list api',error);
             }
         }
         fetchData()

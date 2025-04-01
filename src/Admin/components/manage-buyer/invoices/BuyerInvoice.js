@@ -76,7 +76,6 @@ const SellerInvoice = () => {
                 try {
                     const response = await apiRequests.getRequest(`order/get-all-invoice-list?filterKey=${filterKey}&pageNo=${currentPage}&pageSize=${listPerPage}`)
                     if(response?.code!==200){
-                        console.log('error in invoice list api', response);
                         return
                     }
                     
@@ -89,7 +88,6 @@ const SellerInvoice = () => {
                     //     }
                     // })
                 } catch (error) {
-                    console.log('Error in get-invoice-list API', error);
                     
                 } finally {
                     setLoading(false);
@@ -101,7 +99,6 @@ const SellerInvoice = () => {
             //         setInvoiceList(response.result.data);
             //         setTotalItems(response.result.totalItems);
             //     } else {
-            //         console.log('Error in get-invoice-list API', response);
             //     }
                 // setLoading(false);
             // });
@@ -113,7 +110,6 @@ const SellerInvoice = () => {
                     setInvoiceList(response.result.data);
                     setTotalItems(response.result.totalItems);
                 } else {
-                    console.log('Error in buyer-order-list API', response);
                 }
                 setLoading(false);
             });

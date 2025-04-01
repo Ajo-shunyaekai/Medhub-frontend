@@ -36,12 +36,10 @@ const BuyerDetails = () => {
             try {
                 const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-buyer-details api', response);
                     return;
                 }
                 setBuyer(response?.result);
             } catch (error) {
-                console.log('error in get-buyer-details api', error);
             }
         }
         fetchData()
@@ -70,7 +68,6 @@ const BuyerDetails = () => {
                     setBuyerSupplierOrder(response.result)
                     setTotalOrders(response.result.totalOrders)
                 } else {
-                    console.log('error in buyer-supplier-orders api');
                 }
             })
         }

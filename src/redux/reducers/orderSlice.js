@@ -16,11 +16,9 @@ export const fetchOrderListRedux = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.getRequest(url)
-      console.log('response', response)
       return response.result.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -34,7 +32,6 @@ export const fetchOrderDataRedux = createAsyncThunk(
       return response.result 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -45,11 +42,9 @@ export const fetchOrderById = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests.getRequest(`order/get-specific-order-details/${values?.id}`,)
-      console.log('response', response?.result)
       return response?.result
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }

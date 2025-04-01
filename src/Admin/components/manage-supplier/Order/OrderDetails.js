@@ -32,7 +32,6 @@ const OrderDetails = () => {
         //     if (response.code === 200) {
         //         setOrderDetails(response.result);
         //     } else {
-        //         console.log('error in order details api');
         //     }
         // });
         try {
@@ -44,11 +43,9 @@ const OrderDetails = () => {
             //     if (response.code === 200) {
             //         setOrderDetails(response.result);
             //     } else {
-            //         console.log('error in order details api');
             //     }
             // });
         } catch (error) {
-            console.log('error in order details api');
         }
     }
 
