@@ -85,6 +85,7 @@ const Buy2ndMarket = ({ active, filterCategory, setFilterCategory }) => {
                         handleInputChange={handleInputChange}
                         handleKeyDown={handleKeyDown}
                         handleProductSearch={handleProductSearch}
+                        placeholder = 'Search Products'
                     />
                     <ProductCard 
                         medicineList={medicineList}

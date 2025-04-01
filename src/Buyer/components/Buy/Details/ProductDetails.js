@@ -3,6 +3,9 @@ import Select from 'react-select';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOtherSupplierProductsList, fetchProductDetail } from "../../../../redux/reducers/productSlice";
+import SearchSection from "../UiShared/Search/Search"; // Updated import
+import FilterSection from "../Details/FilterSection";
+import ProductButton from './ProductButton'
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
@@ -48,7 +51,11 @@ const ProductDetails = () => {
     const [medicineList, setMedicineList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState(0);
-    const itemsPerPage = 6;
+    const [inputValue, setInputValue] = useState("");
+  const [searchKey, setSearchKey] = useState(null)
+  const [filteredData, setFilteredData] = useState([]);
+    const itemsPerPage = 5;
+
     const handlePageChange = (pageNumber) => {
       setCurrentPage(pageNumber);
     };
@@ -61,7 +68,7 @@ const ProductDetails = () => {
   
     useEffect(() => {
       const fetchData = async () => {
-        const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}`));
+        const response = await dispatch(fetchOtherSupplierProductsList(`product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}`));
         if (response.meta.requestStatus === 'fulfilled') {
           setMedicineList(response?.payload?.products || []);
           setTotalitems(response?.payload?.totalItems || 0);
@@ -71,11 +78,63 @@ const ProductDetails = () => {
         }
       }
       fetchData();
-    }, [id, dispatch, currentPage]);
+    }, [id, dispatch, currentPage, searchKey]);
   
     const getCategoryData = (property) => {
       if (!productDetail?.category) return null;
       return productDetail[productDetail.category]?.[property];
+    };
+
+    const handleInputChange = (e) => {
+      // setInputValue(e.target.value);
+      const input = e.target.value;
+      // if(input.length <= 10) {
+      setInputValue(e.target.value)
+   
+      if (e.target.value === '') {
+        setSearchKey('');
+      }
+    };
+    const handleProductSearch = () => {
+      // const dataToFilter = productDetail?.data || [productDetail] || [];
+      // const filtered = dataToFilter.filter((item) =>
+      //   item?.general?.name?.toLowerCase().includes(inputValue.toLowerCase())
+      // );
+      // setFilteredData(filtered);
+      setSearchKey(inputValue)
+      setCurrentPage(1)
+    };
+   
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        handleProductSearch();
+      }
+    };
+    // Filter handlers (minimal implementation, adjust as per your needs)
+    const handlePriceRange = (selectedValues) => {
+      console.log("Price Range:", selectedValues);
+      // Add filtering logic here if needed
+    };
+   
+    const handleDeliveryTime = (selectedValues) => {
+      console.log("Delivery Time:", selectedValues);
+      // Add filtering logic here if needed
+    };
+   
+    const handleStockedIn = (selectedValues) => {
+      console.log("Stocked In:", selectedValues);
+      // Add filtering logic here if needed
+    };
+   
+    const handleQuantity = (selectedValues) => {
+      console.log("Quantity:", selectedValues);
+      // Add filtering logic here if needed
+    };
+   
+    const handleReset = () => {
+      const dataToFilter = productDetail?.data || [productDetail] || [];
+      setFilteredData(dataToFilter);
+      setInputValue("");
     };
 
     // const inventoryList = productDetail?.inventoryDetails?.inventoryList || [];
@@ -2821,6 +2880,24 @@ const handleSubmit = (values, { resetForm }) => {
           </div>
         )}
         {/* End the product inventory section */}
+
+        <SearchSection
+        inputValue={inputValue}
+        handleInputChange={handleInputChange}
+        handleProductSearch={handleProductSearch}
+        handleKeyDown={handleKeyDown}
+        placeholder = 'Search Products'
+      />
+ 
+      {/* <FilterSection
+        countryAvailable={productDetail?.secondayMarketDetails?.countryAvailable || []}
+        handlePriceRange={handlePriceRange}
+        handleDeliveryTime={handleDeliveryTime}
+        handleStockedIn={handleStockedIn}
+        handleQuantity={handleQuantity}
+        handleReset={handleReset}
+      /> */}
+
         <ProductCard
           medicineList={medicineList}
           currentPage={currentPage}

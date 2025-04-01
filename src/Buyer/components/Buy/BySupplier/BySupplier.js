@@ -145,6 +145,7 @@ const BuySeller = ({ active }) => {
                         handleInputChange={handleInputChange}
                         handleProductSearch={handleProductSearch}
                         handleKeyDown={handleKeyDown}
+                        placeholder='Search Suppliers'
                     />
                     <FilterSection 
                         openDropdown={openDropdown}

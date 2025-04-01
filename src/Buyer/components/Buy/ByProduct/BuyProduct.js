@@ -17,7 +17,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
     const [searchKey, setSearchKey] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalitems] = useState(0); // Initialize with 0
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -90,6 +90,7 @@ const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
                         handleInputChange={handleInputChange}
                         handleProductSearch={handleProductSearch}
                         handleKeyDown={handleKeyDown}
+                        placeholder = 'Search Products'
                     />
                     <ProductCard 
                         medicineList={medicineList}
