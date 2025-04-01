@@ -2,35 +2,35 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 import { apiRequests } from "../../api";
 import { toast } from "react-toastify";
- 
+
 const initialState = {
   loading: false,
-  products : [],
-  previewProducts:[],
+  products: [],
+  previewProducts: [],
   supplierProductList: [],
   otherSupplierList: [],
-  productDetail : {},
+  productDetail: {},
 };
- 
+
 export const fetchProductsList = createAsyncThunk(
   "product/fetchProductsList",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url)
-      return response?.data; 
+      const response = await apiRequests.postRequest(url);
+      return response?.data;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response || error.message);
     }
   }
 );
- 
+
 export const fetchProductDetail = createAsyncThunk(
   "product/fetchProductDetail",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url)
-      return response?.data?.[0]; 
+      const response = await apiRequests.postRequest(url);
+      return response?.data?.[0];
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response || error.message);
@@ -41,15 +41,15 @@ export const softDeleteProduct = createAsyncThunk(
   "product/softDeleteProduct",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url)
-      return response?.data?.[0]; 
+      const response = await apiRequests.postRequest(url);
+      return response?.data?.[0];
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response || error.message);
     }
   }
 );
- 
+
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (values, { rejectWithValue }) => {
@@ -63,8 +63,8 @@ export const addProduct = createAsyncThunk(
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -73,10 +73,10 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
- 
+
 export const editProduct = createAsyncThunk(
   "product/editProduct",
-  async ({id,values}, { rejectWithValue }) => {
+  async ({ id, values }, { rejectWithValue }) => {
     try {
       const response = await apiRequests?.postRequestWithFile(
         `product/edit/${id}`,
@@ -87,8 +87,8 @@ export const editProduct = createAsyncThunk(
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -98,21 +98,20 @@ export const editProduct = createAsyncThunk(
   }
 );
 
-export const addBulkProducts = createAsyncThunk(
-  "product/addBulkProducts",
+export const bulkUpload = createAsyncThunk(
+  "product/bulkUpload",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests?.postRequestWithFile(
-        `product/preview-bulk-products`,
-        values
-      );
+      const response = await apiRequests?.postRequest(`product/bulk-upload`, {
+        products: values,
+      });
       if (response.code !== 200) {
         toast(response?.message, { type: "error" });
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -135,8 +134,8 @@ export const previewBulkProducts = createAsyncThunk(
         return rejectWithValue(response?.message || "Unknown error");
       }
       const { data, message } = await response;
-      toast.success(message)
-      
+      toast.success(message);
+
       return data;
       // return rejectWithValue(response?.data?.err);
     } catch (error) {
@@ -145,40 +144,38 @@ export const previewBulkProducts = createAsyncThunk(
     }
   }
 );
- 
+
 export const fetchSupplierProductsList = createAsyncThunk(
   "product/fetchSupplierProductsList",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url)
-      return response?.data; 
+      const response = await apiRequests.postRequest(url);
+      return response?.data;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response || error.message);
     }
   }
 );
- 
+
 export const fetchOtherSupplierProductsList = createAsyncThunk(
   "product/fetchOtherSupplierProductsList",
   async (url, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.postRequest(url)
-      return response?.data; 
+      const response = await apiRequests.postRequest(url);
+      return response?.data;
     } catch (error) {
       // Log and pass the error
       return rejectWithValue(error?.response || error.message);
     }
   }
 );
- 
+
 export const productSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    restAdminData: (state) => {
-      
-    },
+    restAdminData: (state) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -236,10 +233,10 @@ export const productSlice = createSlice({
       .addCase(previewBulkProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
+      });
   },
 });
- 
+
 export const { restAdminData } = productSlice.actions;
- 
+
 export default productSlice.reducer;

@@ -247,7 +247,7 @@ const AddProduct = ({ placeholder }) => {
   //   bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
   //   bulkFormData.append("csvfile", selectedFile);
 
-  //   dispatch(addBulkProducts(bulkFormData));
+  //   dispatch(bulkUpload(bulkFormData));
   //   navigate("/supplier/preview-file");
   // };
   const handleBulkUpload = () => {

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from "../../../../redux/reducers/productSlice";
 import Loader from '../../SharedComponents/Loader/Loader';
 import FileUploadModal from '../../SharedComponents/FileUploadModal/FileUploadModal';
-import { addBulkProducts } from "../../../../redux/reducers/productSlice";
+import { bulkUpload } from "../../../../redux/reducers/productSlice";
 
 const Product = () => {
     const location = useLocation();
@@ -84,7 +84,7 @@ const Product = () => {
         const bulkFormData = new FormData();
         bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
         bulkFormData.append("csvfile", selectedFile);
-        dispatch(addBulkProducts(bulkFormData));
+        dispatch(bulkUpload(bulkFormData));
     }
     };
 
