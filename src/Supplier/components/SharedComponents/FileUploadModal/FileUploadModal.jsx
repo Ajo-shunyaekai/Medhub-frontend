@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './FileUploadModal.module.css';
 
 import { FiUploadCloud } from 'react-icons/fi';
 
 const FileUploadModal = ({ onClose, onSelectFile, onHandleUpload, modaltitle, title, selectedFile }) => {
+  const [error, setError] = useState(""); 
+
   const handleInputChange = (e) => {
     onSelectFile(e.target.files[0]);
+    setError("");
   };
 
   const handleUploadClick = () => {
+    if (!selectedFile) {
+      setError("Please select a file before uploading");
+      return;
+    }
     onHandleUpload();
     onClose();
   };
@@ -32,6 +39,7 @@ const FileUploadModal = ({ onClose, onSelectFile, onHandleUpload, modaltitle, ti
                 </p>
             )}
           </div>
+          {error && <p className={styles.errorText}>{error}</p>}
         </div>
         <div className={styles.modalButtonContainer}>
           <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>

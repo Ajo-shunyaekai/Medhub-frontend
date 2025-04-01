@@ -8,57 +8,63 @@ import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadMo
 // import { previewProducts } from "./PreviewFileData";
 
 function PreviewFile() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const dispatch = useDispatch();
   const { previewProducts } = useSelector((state) => state?.productReducer);
 
-  console.log("previewProducts", previewProducts);
-
+  // console.log("previewProducts", previewProducts);
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
-
   const hasTableError = previewProducts?.mainContent?.some((row) =>
     hasRowError(row)
   );
 
-  const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
+  const calculateColumnWidth = (data, key, heading, minWidth = 120) => {
+    const headingWidth = heading.length * 10;
     const maxContentWidth = Math.max(
       ...data.map((row) => {
-        const valueLength = row[key]?.value ? row[key].value.length * 8 : 0;
-        return valueLength;
-      })
+        const value = row[key]?.value;
+        return value ? value.toString().length * 8 : 0;
+      }),
+      headingWidth
     );
-    return Math.max(minWidth, maxContentWidth + padding);
+    return Math.max(minWidth, maxContentWidth);
   };
 
   const columns =
     previewProducts?.mainContent && previewProducts?.mainContent.length > 0
-      ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => ({
-          name: previewProducts?.headings[index] || key,
-          selector: (row) => row[key]?.value || "-",
-          cell: (row) => {
-            const hasError = row[key]?.error;
-            return (
-              <div
-                className={`${styles.cell} ${hasError ? styles.errorCell : ""}`}
-              >
-                {Array.isArray(row[key]?.value)
-                  ? // ? row[key]?.value?.toString()
-                    row[key]?.value?.join()
-                  : row[key]?.value || "-"}
-              </div>
-            );
-          },
-          minWidth: `${calculateColumnWidth(
-            previewProducts?.mainContent,
-            key
-          )}px`,
-          style: {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          },
-        }))
+      ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => {
+          const heading = previewProducts?.headings[index] || key;
+          return {
+            name: heading,
+            selector: (row) => row[key]?.value || "-",
+            cell: (row) => {
+              const hasError = row[key]?.error;
+              return (
+                <div
+                  className={`${styles.cell} ${
+                    hasError ? styles.errorCell : ""
+                  }`}
+                >
+                  {Array.isArray(row[key]?.value)
+                    ? row[key]?.value?.join()
+                    : row[key]?.value || "-"}
+                </div>
+              );
+            },
+            width: `${calculateColumnWidth(
+              previewProducts?.mainContent,
+              key,
+              heading
+            )}px`,
+            style: {
+              textAlign: "left",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            },
+          };
+        })
       : [];
 
   // const handleFileChange = (event) => {
@@ -71,7 +77,7 @@ function PreviewFile() {
 
   const handleBulkUpload = () => {
     if (selectedFile) {
-      console.log("file", selectedFile);
+      // console.log("file", selectedFile);
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
@@ -85,7 +91,7 @@ function PreviewFile() {
       return Object.values(item).some((field) => field.error === false);
     });
 
-    console.log("filteredData", filteredData);
+    // console.log("filteredData", filteredData);
   };
 
   if (
@@ -129,7 +135,9 @@ function PreviewFile() {
             >
               Re-Upload
             </button>
-            <button className={styles.uploadButton} onClick={handleSubmit}>Upload</button>
+            <button className={styles.uploadButton} onClick={handleSubmit}>
+              Upload
+            </button>
           </div>
         </div>
         {hasTableError && (
