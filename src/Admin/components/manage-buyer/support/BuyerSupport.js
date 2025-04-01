@@ -76,7 +76,6 @@ const SellerSupport = () => {
                 setSupportList(response.result.data)
                 setTotalIems(response.result.totalItems)
             } else {
-               console.log('error in support-list api',response);
             }
             setLoading(false);
         })

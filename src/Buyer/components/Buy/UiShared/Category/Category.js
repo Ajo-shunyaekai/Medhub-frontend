@@ -52,7 +52,6 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
             subCategory: selectedSubCategory?.value || '',
             level3Category: selectedLevel3Category?.value || '',
         };
-        console.log('filterData',filterData)
         setFilterCategory(filterData); 
         // Add your apply filter logic here
     };
@@ -62,7 +61,6 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
         setSelectedSubCategory(null);
         setSelectedLevel3Category(null);
         setFilterCategory(null)
-        console.log('Filters reset');
     };
 
     const isFilterSelected = selectedCategory || selectedSubCategory || selectedLevel3Category;

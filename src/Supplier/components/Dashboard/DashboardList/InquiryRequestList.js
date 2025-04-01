@@ -63,7 +63,6 @@ const InquiryRequestList = () => {
                 setTotalInquiries(response.result.totalItems)
             } else {
                 toast(response.message, { type: 'error' })
-                console.log('error in order list api', response);
             }
         })
     }, [currentPage])

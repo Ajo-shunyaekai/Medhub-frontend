@@ -33,7 +33,6 @@ const Dashboard = () => {
             
         } catch (error) {
             toast(error.message, {type:'error'})
-            console.log('error in get-logistics-dashboard-data api',error);
         } finally{
 
         }

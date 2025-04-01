@@ -497,7 +497,6 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
-        console.log('ormData.bankdetails', formData.bankdetails)
         if (!formData.bankdetails) {
             formErrors.bankdetails = 'Bank Details are Required';
         } else {
@@ -551,7 +550,6 @@ const SupplierSignUp = ({ socket }) => {
         if (!formData.locality) formErrors.locality = 'Locality is Required';
         if (!formData.country) formErrors.country = 'Country is Required';
 
-        console.log('Validation Errors:', formErrors);
         setErrors(formErrors);
 
         return Object.keys(formErrors).length === 0;
@@ -642,7 +640,6 @@ const SupplierSignUp = ({ socket }) => {
 
     const handleSubmit = async () => {
         const isFormValid = await validateForm();
-        console.log('Is Form Valid:', isFormValid);
         if (isFormValid) {
             if (!isChecked) {
                 toast("You must agree to the terms and conditions", { type: 'error' });
@@ -701,7 +698,6 @@ const SupplierSignUp = ({ socket }) => {
                 if (response?.code !== 200) {
                     setLoading(false)
                     toast(response.message, { type: 'error' })
-                    console.log('error in supplier/register api');
                     return;
                 }
                 // handleCancel()
@@ -720,7 +716,6 @@ const SupplierSignUp = ({ socket }) => {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, { type: 'error' })
-                console.log('error in buyer/register api');
 
             }
         } else {

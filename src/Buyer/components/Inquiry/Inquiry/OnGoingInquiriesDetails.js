@@ -64,14 +64,12 @@ const OnGoingInquiriesDetails = () => {
       //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
       //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       //   } else {
-      //     console.log("error in order list api", response);
       //   }
       // }
       // );
                  
       const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
       if (response?.code !== 200) {
-          console.log('error in order list api', response);
           return;
       }
       setInquiryDetails(response?.result);
@@ -109,7 +107,6 @@ const OnGoingInquiriesDetails = () => {
       //     sessionStorage.setItem("acceptedQuotationItems", JSON.stringify(acceptedItems));
       //     sessionStorage.setItem("rejectedQuotationItems", JSON.stringify(rejectedItems));
       //   } else {
-      //     console.log("error in order list api", response);
       //   }
       // }
       // );
@@ -162,14 +159,12 @@ const OnGoingInquiriesDetails = () => {
           //     return updatedItems;
           //   });
           // } else {
-          //   console.log("error in order list api", response);
           // }
           // }
           // );
                  
           const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
           if (response?.code !== 200) {
-              console.log('error in order list api', response);
               return;
           }
           setInquiryDetails(response?.result);
@@ -203,7 +198,6 @@ const OnGoingInquiriesDetails = () => {
           //     return updatedItems;
           //   });
           // } else {
-          //   console.log("error in order list api", response);
           // }
           // }
           // );
@@ -212,7 +206,6 @@ const OnGoingInquiriesDetails = () => {
         fetchData()
       } else {
         toast(response.message, { type: "error" });
-        console.log("error in accept-reject-quotation api", response);
       }
     }
     );
@@ -262,13 +255,11 @@ const OnGoingInquiriesDetails = () => {
             //       return updatedItems;
             //     });
             //   } else {
-            //     console.log("error in order list api", response);
             //   }
             // }
             // );           
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                  console.log('error in order list api', response);
                   return;
               }
               setInquiryDetails(response?.result);
@@ -315,7 +306,6 @@ const OnGoingInquiriesDetails = () => {
             //       return updatedItems;
             //     });
             //   } else {
-            //     console.log("error in order list api", response);
             //   }
             // }
             // );           
@@ -323,7 +313,6 @@ const OnGoingInquiriesDetails = () => {
           fetchData()
         } else {
           toast(response.message, { type: "error" });
-          console.log("error in accept-reject-quotation api", response);
         }
       }
     );

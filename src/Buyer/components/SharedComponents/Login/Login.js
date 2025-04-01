@@ -93,13 +93,10 @@ const Login = ({ socket }) => {
                 } else {
                     setLoading(false)
                     toast(response.message, { type: "error" });
-                    console.log('error while login')
                 }
             } catch (error) {
-                console.log(error)
                 setLoading(false)
                 toast(error.message, { type: "error" });
-                console.log('error while login')
             } finally {
                 setLoading(false)
 

@@ -74,7 +74,6 @@ const SupplierAddAddress = () => {
     }),
     onSubmit: async (values) => {
       try {
-        console.log("Form submitted:", values);
         const apiPayload = {
           // order_id: orderId,
           supplier_id: supplierId,

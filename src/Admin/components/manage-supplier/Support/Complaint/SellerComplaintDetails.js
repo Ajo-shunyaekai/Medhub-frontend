@@ -51,7 +51,6 @@ const SellerComplaintDetails = () => {
             if (response.code === 200) {
                 setSupplierDetails(response.result)
             } else {
-                console.log('error in get-supplier-details api', response);
             }
         })
     }, [])
@@ -72,7 +71,6 @@ const SellerComplaintDetails = () => {
 
                 // setSupplierDetails(response.result)
             } else {
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })

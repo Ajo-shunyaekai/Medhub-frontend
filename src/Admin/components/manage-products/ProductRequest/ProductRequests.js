@@ -74,7 +74,6 @@ const ProductRequests = () => {
                     setProductList(response.result.data);
                     setTotalProducts(response.result.totalItems);
                 } else {
-                    console.log('error in order list api', response);
                 }
                 setLoading(false);
             });
@@ -90,11 +89,9 @@ const ProductRequests = () => {
                 //         setProductList(response.result.data);
                 //         setTotalProducts(response.result.totalItems);
                 //     } else {
-                //         console.log('error in medicine list api',response);
                 //     }
                 // })
             } catch (error) {
-                console.log('error in order list api',error);
             } finally{
                 setLoading(false);
             }

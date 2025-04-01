@@ -158,7 +158,6 @@ const CreateInvoice = ({socket}) => {
                     // totalPayableAmount: data?.pending_amount,
                 }));
             } else {
-                console.log('error in order details api');
             }
         });
     }, [orderId, navigate]);
@@ -289,7 +288,6 @@ const CreateInvoice = ({socket}) => {
                 } else {
                     setLoading(false)
                     toast(response.message, { type: 'error' })
-                    console.log('error in create-invoice api', response);
                 }
             })
         } else {
@@ -318,14 +316,12 @@ const CreateInvoice = ({socket}) => {
     //             const formattedMobile = `+${countryCode}-${mobile}`;
 
     //             // Update the state with formatted mobile number
-    //             console.log('Formatted Mobile:', formattedMobile);
     //             setFormData(prevFormData => ({
     //                 ...prevFormData,
     //                 supplierCountryCode: countryCode,
     //                 supplierMobile: formattedMobile,
     //             }));
     //         } else {
-    //             console.log('Invalid phone number');
     //             setFormData(prevFormData => ({
     //                 ...prevFormData,
     //                 supplierCountryCode: '',
@@ -362,7 +358,6 @@ const CreateInvoice = ({socket}) => {
                 }));
             }
         } catch (error) {
-            console.log('catch');
             console.error('Error parsing phone number:', error);
             setFormData(prevState => ({
                 ...prevState,

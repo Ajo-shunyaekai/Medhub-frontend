@@ -121,7 +121,6 @@ const LogisticsForm = ({socket}) => {
             extra_services: values.extraServices,
           };
         }
-console.log('apiPayload',apiPayload)
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
         if (response.meta.requestStatus === "fulfilled") {
@@ -247,10 +246,8 @@ console.log('apiPayload',apiPayload)
   const handlSameAsRegisteredAddress = async (event) => {
     const isChecked = event.target.checked;
     setIsRegAddressChecked(!isRegAddressChecked);
-    console.log("Function calleds", event.target.checked);
     try {
       if (isChecked) {
-        console.log("addressData", address);
         resetForminlValues(address);
       } else {
         formik.setValues({
@@ -280,7 +277,6 @@ console.log('apiPayload',apiPayload)
       // setIsLoading(false);
     }
   };
-  console.log("ADDRESS", address);
 
   const fetchData = async () => {
           if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -297,7 +293,6 @@ console.log('apiPayload',apiPayload)
                   setOrderDetails(response.result);
               }
           } catch (error) {
-              console.log('error in order details api');
           }
       }
   
@@ -319,8 +314,6 @@ console.log('apiPayload',apiPayload)
     }
   }, [updatedAddress, address]);
 
-  console.log("displayAddress", displayAddress);
-  console.log("updatedAddress", updatedAddress);
 
   return (
     <div className={styles.container}>

@@ -18,11 +18,9 @@ export const fetchAddressListRedux = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest('address/get-address-list', {buyer_id: values})
-      console.log('response', response?.address?.userAddress)
       return response?.address?.userAddress; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -33,11 +31,9 @@ export const fetchAddressById = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests.getRequest(`address/get-address/${values?.userId}/${values?.addressId}`,)
-      console.log('response', response?.address)
       return response?.address
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -51,7 +47,6 @@ export const fetchAddressDataRedux = createAsyncThunk(
       return response.result 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -108,7 +103,6 @@ export const editAddress = createAsyncThunk(
 export const deleteAddress = createAsyncThunk(
   "address/deleteAddress",
   async (values, { rejectWithValue }) => {
-    console.log('VALYES',values )
     try {
       const response = await apiRequests?.postRequest(
         `address/delete-address/${values?.userId}/${values?.addressId}`,

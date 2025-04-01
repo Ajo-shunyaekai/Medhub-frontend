@@ -339,7 +339,6 @@ export function NotificationProvider({ children }) {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
-        console.log("Error in fetching notifications");
       }
     });
   };
@@ -359,7 +358,6 @@ export function NotificationProvider({ children }) {
         if (response.code === 200) {
           setRefresh(true);
         } else {
-          console.log("Error in updating notification status");
         }
       }
     );

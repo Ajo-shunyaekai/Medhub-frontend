@@ -69,7 +69,6 @@ const BuyerInquiry = () => {
             //         setList(response.result.data);
             //         setTotalList(response.result.totalItems);
             //     } else {
-            //         console.log('Error fetching inquiry list', response);
             //     }
             //     setLoading(false);
             // });
@@ -86,7 +85,6 @@ const BuyerInquiry = () => {
                 //     }
                 // })
             } catch (error) {
-                console.log('Error fetching inquiry list', error);
             } finally{
                 setLoading(false);
             }
@@ -97,7 +95,6 @@ const BuyerInquiry = () => {
                     setList(response.result.data);
                     setTotalList(response.result.totalItems);
                 } else {
-                    console.log('Error fetching PO list', response);
                 }
                 setLoading(false);
             });

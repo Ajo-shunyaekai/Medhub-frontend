@@ -56,11 +56,9 @@ const SupplierLogin = ({socket}) => {
             }
             try {
                 const response = await apiRequests?.postRequest(`auth/login`, obj)
-                console.log("RESPONSE OF SUPPLIER LOGIN", response)
                 if(response.code !== 200){
                     toast(response.message, { type: "error" });
                 }else{
-                    console.log("response ", response)
                     const {data} = await response;
                     for (let x in data) {
                         sessionStorage.setItem(`${x}`, data[x])
@@ -92,10 +90,8 @@ const SupplierLogin = ({socket}) => {
 
                 }
             } catch (error) {
-                console.log(error)
                 setLoading(false)
                 toast(error.message, { type: "error" });
-                console.log('error while login')
             } finally{
                 setLoading(false)
 

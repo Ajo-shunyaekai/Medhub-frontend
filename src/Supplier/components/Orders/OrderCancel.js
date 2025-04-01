@@ -51,7 +51,6 @@ const OrderCancel = ({ setModal, orderId,  activeLink }) => {
         //     if (response.code === 200) {
 
         //     } else {
-        //        console.log('error in order cancel api',response);
         //     }
         //   })
         setModal(false)

@@ -78,7 +78,6 @@ const InquiriesDashList = () => {
                     setList(response.result.data);
                     setTotalList(response.result.totalItems);
                 } else {
-                    console.log('Error fetching inquiry list', response);
                 }
                 setLoading(false);
             });
@@ -89,7 +88,6 @@ const InquiriesDashList = () => {
                     setList(response.result.data);
                     setTotalList(response.result.totalItems);
                 } else {
-                    console.log('Error fetching PO list', response);
                 }
                 setLoading(false);
             });

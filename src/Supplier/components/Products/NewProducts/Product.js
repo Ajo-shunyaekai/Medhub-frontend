@@ -104,7 +104,6 @@ const Product = () => {
                 fetchProductsList(`product?market=${marketType}&supplier_id=${supplier_id}&page_no=${currentPage}&page_size=${itemsPerPage}`)
             );
             if (response.meta.requestStatus === 'fulfilled') {
-                console.log('Products fetched successfully:', response.payload);
                 setTotalItems(response.payload?.totalItems);
                 setLoading(false);
             }

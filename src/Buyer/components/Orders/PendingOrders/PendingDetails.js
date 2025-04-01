@@ -35,7 +35,6 @@ const PendingDetails = () => {
             if (response.code === 200) {
                 setOrderDetails(response.result)
             } else {
-                console.log('error in order details api');
             }
         })
     }, [])

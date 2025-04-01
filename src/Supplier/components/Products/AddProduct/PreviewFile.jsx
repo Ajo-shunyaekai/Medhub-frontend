@@ -13,7 +13,6 @@ function PreviewFile() {
   const [selectedFile, setSelectedFile] = useState(null);
   const { previewProducts } = useSelector((state) => state?.productReducer);
 
-  // console.log("previewProducts", previewProducts);
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
   const hasTableError = previewProducts?.mainContent?.some((row) =>
     hasRowError(row)
@@ -77,7 +76,6 @@ function PreviewFile() {
 
   const handleBulkUpload = () => {
     if (selectedFile) {
-      // console.log("file", selectedFile);
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
@@ -90,8 +88,6 @@ function PreviewFile() {
       // Check if any field has error == true in the current item
       return Object.values(item).some((field) => field.error === false);
     });
-
-    // console.log("filteredData", filteredData);
   };
 
   if (

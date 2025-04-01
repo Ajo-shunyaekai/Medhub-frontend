@@ -39,7 +39,6 @@ const OrderDetails = ({ socket }) => {
             }
            
         } catch (error) {
-            console.log('error in order details api');
         }
     }
 
@@ -57,7 +56,6 @@ const OrderDetails = ({ socket }) => {
     }
 
     const handleModalSubmit = (data) => {
-        console.log('Modal Data:', data);
         if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
             navigate('/buyer/login');
             return;
@@ -115,13 +113,11 @@ const OrderDetails = ({ socket }) => {
                     } else {
                         setLoading(false)
                         toast(response.message, { type: 'error' })
-                        console.log('error in order details api');
                     }
                 });
             } else {
                 setLoading(false)
                 toast(response.message, { type: 'error' })
-                console.log('Error updating order status');
             }
         });
     };

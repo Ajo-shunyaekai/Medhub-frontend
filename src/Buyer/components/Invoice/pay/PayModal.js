@@ -257,7 +257,6 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
                     handleClose();
                 } else {
                     toast(response.message, { type: 'error' });
-                    console.log('Error in proforma invoice list API:', response);
                 }
             });
         }
@@ -353,7 +352,6 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
 
 
 // function PayModal({ showModal, handleClose, invoiceId, orderId }) {
-//     console.log(invoiceId, orderId);
 //     const [selectedDate, setSelectedDate] = useState(new Date()); 
 //     const [chequeImage, setChequeImage] = useState(null);
 
@@ -505,7 +503,6 @@ function PayModal({ showModal, handleClose, invoiceId, orderId, buyerId, supplie
 //                     handleClose();
 //                 } else {
 //                     toast(response.message, { type: 'error' });
-//                     console.log('Error in proforma invoice list API:', response);
 //                 }
 //             });
 //         }

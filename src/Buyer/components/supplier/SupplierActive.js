@@ -44,7 +44,6 @@ const SupplierActive = () => {
                 setOrderList(response.result.orderList);
                 setTotalOrders(response.result.totalOrders);
             } else {
-                console.log('Error in buyer-supplier-orders API');
             }
         });
     }, [currentPage]);

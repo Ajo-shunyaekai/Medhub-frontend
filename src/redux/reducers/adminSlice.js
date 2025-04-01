@@ -14,11 +14,9 @@ export const fetchProfileEditReqsList = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(url)
-      console.log('response of admin/fetchProfileEditReqsList', response)
       return response?.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response || error.message);
     }
   }
@@ -29,11 +27,9 @@ export const fetchProfileEditReqsDetail = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(url)
-      console.log('response of admin/fetchProfileEditReqsDetail', response)
       return response?.data?.[0]; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response || error.message);
     }
   }
@@ -43,7 +39,6 @@ export const updateProfileEditReqsDetail = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const response = await apiRequests.postRequest(`admin/update-profile-edit-request-details/${values?.id}`,values)
-      console.log('response of admin/updateProfileEditReqsDetail', response)
       if(response.code != 200){
         return;
       }
@@ -51,7 +46,6 @@ export const updateProfileEditReqsDetail = createAsyncThunk(
       return response?.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response || error.message);
     }
   }

@@ -456,12 +456,10 @@ const SignUp = ({ socket }) => {
             if (phoneNumber && isValidPhoneNumber(value)) {
                 // Format the phone number in E.164 format (international standard)
 
-                console.log(phoneNumber.countryCallingCode);
                 const countryCode = phoneNumber.countryCallingCode
                 const nationalNumber = phoneNumber.nationalNumber
                 // const formattedNumber = phoneNumber.format('E.164');
                 const formattedNumber = `+${countryCode} ${nationalNumber}`
-                console.log(formattedNumber);
                 // Update form data with the formatted number
                 setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
             } else {
@@ -685,17 +683,14 @@ const SignUp = ({ socket }) => {
                 Array.from(formData.medicalCertificateImage).forEach(file => formDataToSend.append('medical_practitioner_image', file));
             }
 
-            console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
 
 
-            console.log(`formDataToSend ${formDataToSend}`)
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
                 if (response?.code !== 200) {
                     // setButtonLoading(false)
                     setLoading(false)
                     toast(response.message, { type: 'error' })
-                    console.log('error in buyer/register api');
                     return
                 }
                 // handleCancel()
@@ -717,7 +712,6 @@ const SignUp = ({ socket }) => {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, { type: 'error' })
-                console.log('error in buyer/register api');
 
             } finally {
 

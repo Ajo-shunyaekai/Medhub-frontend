@@ -119,7 +119,6 @@ const BuyerSidebar = () => {
             if (response.code === 200) {
                 setRefresh(true)
             } else {
-                console.log('error in order details api');
             }
         });
     }
@@ -142,7 +141,6 @@ const BuyerSidebar = () => {
                     setInvoiceCount(response.result);
                     
                 } else {
-                    console.log('error in fetching notification list');
                 }
             });
     
@@ -154,7 +152,6 @@ const BuyerSidebar = () => {
                         setNotificationList(response.result.data);
                         setCount(response.result.totalItems || 0);
                     } else {
-                        console.log('error in fetching notification list');
                     }
                 });
             };
@@ -164,7 +161,6 @@ const BuyerSidebar = () => {
     
             // Listen for new enquiry quotations via socket
             socket.on('enquiryQuotation', (message) => {
-                console.log(`Enquiry quote notification: ${message}`);
                 
                 const link = `${process.env.REACT_APP_BUYER_URL}/notification-list`;
                 showNotification('New Quote Received', {

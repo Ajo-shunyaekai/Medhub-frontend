@@ -83,7 +83,6 @@ const CancelInquiryList = () => {
         } else {
             setLoading(true)
             toast(response.message, { type: "error" });
-            console.log("error in cancel-enquiry api", response);
         }
       }
     );
@@ -103,12 +102,10 @@ const CancelInquiryList = () => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result);
             //     } else {
-            //         console.log("error in order list api", response);
             //     }
             // });           
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in order list api', response);
                 return;
             }
             setInquiryDetails(response?.result);
@@ -116,7 +113,6 @@ const CancelInquiryList = () => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result);
             //     } else {
-            //         console.log("error in order list api", response);
             //     }
             // });           
         }

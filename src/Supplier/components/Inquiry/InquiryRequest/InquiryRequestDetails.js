@@ -49,12 +49,10 @@ const InquiryRequestDetails = ({socket}) => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result)
             //     } else {
-            //         console.log('error in order list api', response);
             //     }
             // })            
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in order list api', response);
                 return;
             }
             setInquiryDetails(response?.result);
@@ -62,7 +60,6 @@ const InquiryRequestDetails = ({socket}) => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result)
             //     } else {
-            //         console.log('error in order list api', response);
             //     }
             // })            
         }
@@ -134,7 +131,6 @@ const InquiryRequestDetails = ({socket}) => {
             } else {
                 setLoading(false)
                 toast(response.message, { type: 'error' })
-                console.log('error in enquiry/submit-quotation api', response);
             }
         })
     }

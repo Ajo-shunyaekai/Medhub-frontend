@@ -105,7 +105,6 @@ const BuySeller = ({ active }) => {
 
                     if (response?.code !== 200) {
                         toast(response.message, { type: 'error' });
-                        console.log('error in supplier list api', response);
                         return;
                     }
 
@@ -113,7 +112,6 @@ const BuySeller = ({ active }) => {
                     setTotalItems(response.result.totalItems);
                 }
             } catch (error) {
-                console.log(`Error: ${error}`);
             } finally {
                 setLoading(false);
             }
@@ -132,7 +130,6 @@ const BuySeller = ({ active }) => {
             if (response.code === 200) {
                 setCountryOrigin(response.result[0].country);
             } else {
-                console.log('error in get filter values api', response);
             }
         });
     }, [navigate]);

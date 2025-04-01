@@ -56,7 +56,6 @@ const ChangePassword = ({ step, setStep }) => {
           email: emailToResetPassword,
           usertype: "Buyer",
         };
-        console.log("Password reset:", payloadData);
         const response = await apiRequests.postRequest(
           "auth/reset-password",
           payloadData

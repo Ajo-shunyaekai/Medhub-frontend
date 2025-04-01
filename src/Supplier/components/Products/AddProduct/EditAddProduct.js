@@ -532,7 +532,6 @@ const EditAddProduct = ({ placeholder }) => {
       });
     }
   }, [productDetail]); // Add formik to the dependency array
-  console.log("cNCFileNDate", formik?.errors);
 
   return (
     <div className={styles.container}>

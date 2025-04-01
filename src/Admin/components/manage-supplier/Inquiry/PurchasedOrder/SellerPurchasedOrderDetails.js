@@ -27,7 +27,6 @@ const SellerPurchasedOrderDetails = () => {
         if (response.code === 200) {
             setPoDetails(response.result)
         } else {
-           console.log('error in purchaseorder/get-po-details api',response);
         }
     })
   }, [])

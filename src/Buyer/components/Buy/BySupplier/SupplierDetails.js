@@ -91,19 +91,16 @@ const SupplierDetails = () => {
       try {
         const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
         if (response?.code !== 200) {
-          console.log(`error in supplier-details api`);
           return;
         }
         setSupplier(response?.result);
       } catch (error) {
-        console.log('error in get-supplier-details api', error);
       }
     }
 
     getSupplierDeatils()
   }, []);
 
-  console.log(activeButton, activeTab);
   useEffect(() => {
     const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
     const buyerIdLocalStorage = localStorage.getItem("buyer_id");
@@ -127,7 +124,6 @@ const SupplierDetails = () => {
         setProductList(response.result.data);
         setTotalProducts(response.result.totalItems);
       } else {
-        console.log('error in supplier-product-list api');
       }
     })
 
@@ -145,7 +141,6 @@ const SupplierDetails = () => {
           setBuyerSupplierOrder(response.result)
           setTotalOrders(response.result.totalOrders)
         } else {
-          console.log('error in buyer-supplier-orders api');
         }
       })
     }

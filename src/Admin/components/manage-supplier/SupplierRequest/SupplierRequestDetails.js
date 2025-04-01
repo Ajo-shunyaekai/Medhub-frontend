@@ -117,14 +117,12 @@ const SupplierRequestDetails = () => {
             try {
                 const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-supplier-details api', response);
                     return;
                 }
                 setSupplierDetails(response?.result);
                 setSalesPersonName(response?.result?.sales_person_name)
                 
             } catch (error) {
-                console.log('error in get-supplier-details api', error);
             }
         }
         getSupplierdetails()
@@ -140,7 +138,6 @@ const SupplierRequestDetails = () => {
             action: action,
             sales_person_name: salesPersonName
         }
-        console.log('salesPersonName',salesPersonName)
         // if(salesPersonName == '' || salesPersonName == null) {
         //     return toast('Sales Person is required',{ type: 'error' })
         // }
@@ -167,7 +164,6 @@ const SupplierRequestDetails = () => {
                 // setSupplierDetails(response.result)
             } else {
                 setLoading(false);
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })

@@ -102,22 +102,18 @@ const SearchProductDetails = () => {
 
   // Filter handlers (minimal implementation, adjust as per your needs)
   const handlePriceRange = (selectedValues) => {
-    console.log("Price Range:", selectedValues);
     // Add filtering logic here if needed
   };
 
   const handleDeliveryTime = (selectedValues) => {
-    console.log("Delivery Time:", selectedValues);
     // Add filtering logic here if needed
   };
 
   const handleStockedIn = (selectedValues) => {
-    console.log("Stocked In:", selectedValues);
     // Add filtering logic here if needed
   };
 
   const handleQuantity = (selectedValues) => {
-    console.log("Quantity:", selectedValues);
     // Add filtering logic here if needed
   };
 
@@ -402,7 +398,6 @@ const SearchProductDetails = () => {
             // totalItems={filteredData.length}
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}
-            // onPageChange={(page) => console.log(page)}
             onPageChange={handlePageChange}
             // isSecondaryMarket={productData?.market === "secondary"}
           />

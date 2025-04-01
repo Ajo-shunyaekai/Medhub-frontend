@@ -46,7 +46,6 @@ const NotificationList = () => {
                 setList(response.result.data);
                 setTotalItems(response.result.totalItems);
             } else {
-                console.log('Error in get-notification-details-list API');
             }
         });
     }, [currentPage]);

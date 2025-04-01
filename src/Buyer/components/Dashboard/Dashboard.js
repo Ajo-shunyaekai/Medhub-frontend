@@ -44,7 +44,6 @@ const Dashboard = () => {
                 const convertedData = await convertCountryToCode(response?.result || []);
                 setCountryData(convertedData);
             } else {
-                console.log('error in orders-seller-country api', response);
             }
         })
     }, [])
@@ -66,7 +65,6 @@ const Dashboard = () => {
             if (response.code === 200) {
                 setOrderSummary(response?.result || [])
             } else {
-                console.log('error in orders-summary-details api', response);
             }
         })
     }, [])

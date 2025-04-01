@@ -19,9 +19,6 @@ const ProductDetails = () => {
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
 
-  console.log("Constructed PDF File:", productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
-    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0]);
-  console.log("Constructed PDF URL:", pdfUrl);
 
   useEffect(() => {
     if (id) {

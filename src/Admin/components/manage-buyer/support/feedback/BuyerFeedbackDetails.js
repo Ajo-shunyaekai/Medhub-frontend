@@ -54,7 +54,6 @@ const BuyerFeedbackDetails = () => {
             if (response.code === 200) {
                 setSupplierDetails(response.result)
             } else {
-                console.log('error in get-supplier-details api', response);
             }
         })
     }, [])
@@ -75,7 +74,6 @@ const BuyerFeedbackDetails = () => {
 
                 // setSupplierDetails(response.result)
             } else {
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })

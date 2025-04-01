@@ -48,7 +48,6 @@ const SellerRequest = () => {
                 setSellerRequestList(response.result.data)
                 setTotalRequests(response.result.totalItems)
             } else {
-                console.log('error in get-supplier-reg-req-list api', response);
             }
             setLoading(false);
         })

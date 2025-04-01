@@ -12,7 +12,6 @@ const SupplierMedicineCard = ({
     onPageChange,
     isSecondaryMarket = false
 }) => {
-    // console.log('medicineList', medicineList, currentPage, totalItems, itemsPerPage)
     return (
         <div className={styles.container}>
             <div className={styles.gridContainer}>

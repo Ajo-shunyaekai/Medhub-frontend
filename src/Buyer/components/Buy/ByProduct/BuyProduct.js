@@ -11,7 +11,6 @@ import { fetchProductsList } from '../../../../redux/reducers/productSlice';
 const BuyProduct = ({ active, filterCategory, setFilterCategory }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-console.log('filterCategory',filterCategory)
     const [loading, setLoading] = useState(true);
     const [medicineList, setMedicineList] = useState([]);
     const [inputValue, setInputValue] = useState('');
@@ -66,7 +65,6 @@ console.log('filterCategory',filterCategory)
                     fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${encodeURIComponent(category || '')}&subCategory=${encodeURIComponent(subCategory || '')}&level3Category=${encodeURIComponent(level3Category || '')}`)
                 );
                 if (response.meta.requestStatus === 'fulfilled') {
-                    console.log('Products fetched successfully:', response.payload);
                     setMedicineList(response?.payload?.products || []);
                     setTotalitems(response?.payload?.totalItems || 0);
                     setLoading(false);

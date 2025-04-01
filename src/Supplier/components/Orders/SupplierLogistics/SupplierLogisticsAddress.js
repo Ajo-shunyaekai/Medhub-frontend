@@ -59,7 +59,6 @@ const SupplierLogisticsAddress = () => {
   const { address, updatedAddress } = useSelector(
     (state) => state?.addressReducer
   );
-  console.log('Addre', address)
   const [selectedAddress, setSelectedAddress] = useState(
     updatedAddress?._id || ""
   );
@@ -93,7 +92,6 @@ const SupplierLogisticsAddress = () => {
     // navigate(-1);
     navigate(`/supplier/logistics-form/${orderId}/${supplierId}`)
   };
-  console.log("selectedAddress", selectedAddress);
 
   const handleEdit = () => {
     const updatedAdd =
@@ -106,7 +104,6 @@ const SupplierLogisticsAddress = () => {
     const deleteApi = await dispatch(
       deleteAddress({ addressId: selectedAddress, userId: supplierId })
     );
-    console.log("deleteApi", deleteApi);
 
     if (deleteApi.meta.requestStatus === "fulfilled") {
       dispatch(fetchAddressListRedux(supplierId));

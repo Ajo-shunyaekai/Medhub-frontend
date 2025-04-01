@@ -244,7 +244,6 @@ export function NotificationProvider({ children }) {
       (response) => {
         if (response.code === 200) {
           // setRefresh(true);
-          // console.log("Notification status updated");
           fetchNotifications(); // Refresh notifications after updating
         } else {
           console.error("Error updating notification status");
