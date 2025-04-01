@@ -58,8 +58,10 @@ const Buy2ndMarket = ({ active, filterCategory, setFilterCategory }) => {
         if (active === 'market') {
             const fetchData = async () => {
                 const marketType = 'secondary'; // Hardcoding for secondary market
+                const { category, subCategory, level3Category } = filterCategory || {};
                 const response = await dispatch(
-                    fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}&category=${filterCategory || ''}`)
+                    // fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey}&category=${filterCategory || ''}`)
+                    fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${encodeURIComponent(category || '')}&subCategory=${encodeURIComponent(subCategory || '')}&level3Category=${encodeURIComponent(level3Category || '')}`)
                 );
                 if (response.meta.requestStatus === 'fulfilled') {
                     setMedicineList(response?.payload?.products);

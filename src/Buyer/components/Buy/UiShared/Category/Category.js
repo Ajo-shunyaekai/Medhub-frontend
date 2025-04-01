@@ -60,6 +60,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
         setSelectedCategory(null);
         setSelectedSubCategory(null);
         setSelectedLevel3Category(null);
+        setFilterCategory(null)
     };
 
     const isFilterSelected = selectedCategory || selectedSubCategory || selectedLevel3Category;

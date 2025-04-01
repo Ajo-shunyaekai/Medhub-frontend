@@ -124,3 +124,8 @@
   font-weight: 500;
   padding: 6px 22px;
 }
+
+.errorText {
+  color: red;
+  font-size: 12px;
+}
