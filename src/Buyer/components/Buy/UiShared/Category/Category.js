@@ -61,6 +61,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
         setSelectedCategory(null);
         setSelectedSubCategory(null);
         setSelectedLevel3Category(null);
+        setFilterCategory(null)
         console.log('Filters reset');
     };
 
