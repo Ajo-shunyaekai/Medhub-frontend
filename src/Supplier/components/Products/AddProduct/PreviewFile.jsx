@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addBulkProducts } from "../../../../redux/reducers/productSlice";
+import {
+  bulkUpload,
+  previewBulkProducts,
+} from "../../../../redux/reducers/productSlice";
 
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
 import FileUploadModal from "../../SharedComponents/FileUploadModal/FileUploadModal";
+import { useNavigate } from "react-router-dom";
 // import { previewProducts } from "./PreviewFileData";
 
 function PreviewFile() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const { previewProducts } = useSelector((state) => state?.productReducer);
 
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
-  const hasTableError = previewProducts?.mainContent?.some((row) =>
+  const hasTableError = previewProducts?.entriesWithoutErrors?.some((row) =>
     hasRowError(row)
   );
 
@@ -31,39 +36,42 @@ function PreviewFile() {
   };
 
   const columns =
-    previewProducts?.mainContent && previewProducts?.mainContent.length > 0
-      ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => {
-          const heading = previewProducts?.headings[index] || key;
-          return {
-            name: heading,
-            selector: (row) => row[key]?.value || "-",
-            cell: (row) => {
-              const hasError = row[key]?.error;
-              return (
-                <div
-                  className={`${styles.cell} ${
-                    hasError ? styles.errorCell : ""
-                  }`}
-                >
-                  {Array.isArray(row[key]?.value)
-                    ? row[key]?.value?.join()
-                    : row[key]?.value || "-"}
-                </div>
-              );
-            },
-            width: `${calculateColumnWidth(
-              previewProducts?.mainContent,
-              key,
-              heading
-            )}px`,
-            style: {
-              textAlign: "left",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            },
-          };
-        })
+    previewProducts?.entriesWithoutErrors &&
+    previewProducts?.entriesWithoutErrors.length > 0
+      ? Object.keys(previewProducts?.entriesWithoutErrors[0]).map(
+          (key, index) => {
+            const heading = previewProducts?.headings[index] || key;
+            return {
+              name: heading,
+              selector: (row) => row[key]?.value || "-",
+              cell: (row) => {
+                const hasError = row[key]?.error;
+                return (
+                  <div
+                    className={`${styles.cell} ${
+                      hasError ? styles.errorCell : ""
+                    }`}
+                  >
+                    {Array.isArray(row[key]?.value)
+                      ? row[key]?.value?.join()
+                      : row[key]?.value || "-"}
+                  </div>
+                );
+              },
+              width: `${calculateColumnWidth(
+                previewProducts?.entriesWithoutErrors,
+                key,
+                heading
+              )}px`,
+              style: {
+                textAlign: "left",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              },
+            };
+          }
+        )
       : [];
 
   // const handleFileChange = (event) => {
@@ -79,21 +87,35 @@ function PreviewFile() {
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
-      dispatch(addBulkProducts(bulkFormData));
+
+      dispatch(previewBulkProducts(bulkFormData)).then((response) => {
+        if (response?.meta.requestStatus === "fulfilled") {
+          navigate("/supplier/preview-file");
+        }
+      });
     }
   };
 
   const handleSubmit = async () => {
-    const filteredData = previewProducts?.mainContent?.filter((item) => {
-      // Check if any field has error == true in the current item
-      return Object.values(item).some((field) => field.error === false);
+    const payloadData = previewProducts?.entriesWithoutErrors?.map((ele) => {
+      return {
+        ...ele,
+        supplier_id: {
+          value: sessionStorage.getItem("_id"),
+        },
+      };
+    });
+    dispatch(bulkUpload(payloadData))?.then((response) => {
+      if (response?.meta.requestStatus === "fulfilled") {
+        // navigate("/supplier/product"); // Change this to your desired route
+      }
     });
   };
 
   if (
     !previewProducts ||
-    !previewProducts?.mainContent ||
-    previewProducts?.mainContent?.length === 0
+    !previewProducts?.entriesWithoutErrors ||
+    previewProducts?.entriesWithoutErrors?.length === 0
   ) {
     return (
       <>
@@ -147,7 +169,7 @@ function PreviewFile() {
         <div className={styles.tableContainer}>
           <DataTable
             columns={columns}
-            data={previewProducts.mainContent}
+            data={previewProducts.entriesWithoutErrors}
             fixedHeader
             fixedHeaderScrollHeight="calc(100vh - 140px)"
             responsive
@@ -250,8 +272,8 @@ const calculateColumnWidth = (data, key, minWidth = 120, padding = 20) => {
 };
 
 const columns =
-  previewProducts?.mainContent && previewProducts?.mainContent.length > 0
-    ? Object.keys(previewProducts?.mainContent[0]).map((key, index) => ({
+  previewProducts?.entriesWithoutErrors && previewProducts?.entriesWithoutErrors.length > 0
+    ? Object.keys(previewProducts?.entriesWithoutErrors[0]).map((key, index) => ({
         name: previewProducts?.headings[index] || key,
         selector: (row) => row[key]?.value || "-",
         cell: (row) => {
@@ -268,8 +290,8 @@ const columns =
           );
         },
         minWidth: `${
-          calculateColumnWidth(previewProducts?.mainContent, key) +
-          (previewProducts?.mainContent.some((row) => row[key]?.error) ? 50 : 0)
+          calculateColumnWidth(previewProducts?.entriesWithoutErrors, key) +
+          (previewProducts?.entriesWithoutErrors.some((row) => row[key]?.error) ? 50 : 0)
         }px`,
         style: {
           whiteSpace: "nowrap",
@@ -284,7 +306,7 @@ const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
 
 function PreviewFile() {
 
-  if (!previewProducts || !previewProducts?.mainContent || previewProducts?.mainContent.length === 0) {
+  if (!previewProducts || !previewProducts?.entriesWithoutErrors || previewProducts?.entriesWithoutErrors.length === 0) {
     return <div className={styles.container}>
     <div className={styles.tableContainer}>
       <DataTable
@@ -303,7 +325,7 @@ function PreviewFile() {
         <DataTable
           title="Bulk Upload Preview"
           columns={columns}
-          data={previewProducts?.mainContent}
+          data={previewProducts?.entriesWithoutErrors}
           fixedHeader
           fixedHeaderScrollHeight="calc(100vh - 120px)"
           responsive
