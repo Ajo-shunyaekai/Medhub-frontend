@@ -60,7 +60,6 @@ console.log('filterCategory',filterCategory)
             const fetchData = async () => {
                 setLoading(true); // Set loading true before fetch
                 const marketType = active === 'product' ? 'new' : 'secondary';
-                console.log('filterCategory',filterCategory)
                 const { category, subCategory, level3Category } = filterCategory || {};
                 const response = await dispatch(
                     // fetchProductsList(`product?market=${marketType}&page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${searchKey || ''}&category=${filterCategory || ''}`)
