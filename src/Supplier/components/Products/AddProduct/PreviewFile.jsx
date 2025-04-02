@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   bulkUpload,
+  csvDownload,
   previewBulkProducts,
 } from "../../../../redux/reducers/productSlice";
 
@@ -80,6 +81,16 @@ function PreviewFile() {
 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
+  };
+
+  const handleCSVDownload = () => {
+    dispatch(csvDownload(previewProducts?.entriesWithErrors)).then(
+      (response) => {
+        if (response?.meta.requestStatus === "fulfilled") {
+          navigate("/supplier/preview-file");
+        }
+      }
+    );
   };
 
   const handleBulkUpload = () => {
