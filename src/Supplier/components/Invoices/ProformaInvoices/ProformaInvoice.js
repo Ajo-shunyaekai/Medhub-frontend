@@ -154,8 +154,8 @@ const ProformaInvoice = ({socket}) => {
         
                 setFormData(prevFormData => ({
                     ...prevFormData,
-                    poId: data.purchaseOrder_id,
-                    description : data.additional_instructions,
+                    poId: data?.purchaseOrder_id,
+                    description : data?.additional_instructions,
                     supplierId: data?.supplier_id,
                     supplierName: data?.supplier_name,
                     supplierEmail: data?.supplier_email,
@@ -300,19 +300,19 @@ const ProformaInvoice = ({socket}) => {
         if(validateForm()) {
             setLoading(true)
             setDateError('');
-            const updatedOrderItems = orderItems.map(item => ({
+            const updatedOrderItems = orderItems?.map(item => ({
                 ...item,
                 unit_tax: item?.medicine_details?.unit_tax,
                 est_delivery_days: item?.est_delivery_days,
             }));
     
-            const  buyerDetails = inquiryDetails.buyer_details[0];
-            const buyerCountryCode = buyerDetails.contact_person_country_code || '';
-            const buyerMobileNumber = buyerDetails.contact_person_mobile || '';
+            const  buyerDetails = inquiryDetails?.buyer_details[0];
+            const buyerCountryCode = buyerDetails?.contact_person_country_code || '';
+            const buyerMobileNumber = buyerDetails?.contact_person_mobile || '';
             const formattedBuyerPhoneNumber = formatPhoneNumber(buyerMobileNumber, buyerCountryCode);
-            const supplierDetails = inquiryDetails.supplier_details[0];
-            const supplierCountryCode = supplierDetails.contact_person_country_code || '';
-            const supplierMobileNumber = supplierDetails.contact_person_mobile_no || '';
+            const supplierDetails = inquiryDetails?.supplier_details[0];
+            const supplierCountryCode = supplierDetails?.contact_person_country_code || '';
+            const supplierMobileNumber = supplierDetails?.contact_person_mobile_no || '';
             const formattedSupplierPhoneNumber = formatPhoneNumber(supplierMobileNumber, supplierCountryCode);
     
             const obj = {
@@ -445,11 +445,11 @@ const ProformaInvoice = ({socket}) => {
         }
     };
     
-    const grandTotalAmount = orderItems.reduce((total, item) => {
+    const grandTotalAmount = orderItems?.reduce((total, item) => {
         return total + (parseFloat(item?.total_amount) || 0);
     }, 0);
 
-    const roundedGrandTotalAmount = parseFloat(grandTotalAmount.toFixed(2));
+    const roundedGrandTotalAmount = parseFloat(grandTotalAmount?.toFixed(2));
 
     const formatPhoneNumber = (phoneNumber, countryCode) => {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
@@ -496,7 +496,7 @@ const ProformaInvoice = ({socket}) => {
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     useEffect(()=>{
-        const grandTotalCalc = orderItems.reduce((accumulator, item) => {
+        const grandTotalCalc = orderItems?.reduce((accumulator, item) => {
             // setGrandTotal(accumulator + (item?.total_amount || 0))
             return accumulator + (Number.parseInt(item?.total_amount || 0) || 0);
         }, 0)
@@ -887,7 +887,7 @@ const ProformaInvoice = ({socket}) => {
                     </div>
                 </div>
                 <div className={styles['create-invoice-section']}>
-                    {orderItems.map((item, index) => {
+                    {orderItems?.map((item, index) => {
                         return (
                             <div className={styles['form-item-container']} key={item.id}>
                             <div className={styles['create-invoice-div-container']}>
