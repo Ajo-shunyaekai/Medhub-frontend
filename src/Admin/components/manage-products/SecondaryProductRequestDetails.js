@@ -53,7 +53,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
 
     useEffect(() => {
         const obj = {
-            medicine_id: medId,
+            product_id: medId,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
 
@@ -69,7 +69,7 @@ const SecondaryProductRequestDetails = ({socket}) => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
-            medicine_id            : medicineId ,
+            product_id             : medicineId ,
             supplier_id            : medicineDetails?.supplier.supplier_id,
             supplier_email         : medicineDetails?.supplier.supplier_email,
             supplier_name          : medicineDetails?.supplier.supplier_name,

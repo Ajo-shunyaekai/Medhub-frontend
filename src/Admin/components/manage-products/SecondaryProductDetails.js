@@ -56,7 +56,7 @@ const SecondaryProductDetails = () => {
         // }
 
         const obj = {
-            medicine_id: medId,
+            product_id: medId,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
 

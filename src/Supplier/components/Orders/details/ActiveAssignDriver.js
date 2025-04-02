@@ -31,7 +31,7 @@ const ActiveAssignDriver = ({ productList = [] }) => {
                             <td className='tables-td'>
                                 <div className="table-g-section-content">
                                     <span className="table-g-driver-name">Product ID</span>
-                                    <span className="table-g-not-names">{order.medicine_id || order.product_id}</span>
+                                    <span className="table-g-not-names">{order.product_id || order.product_id}</span>
                                 </div>
                             </td>
                             <td className='tables-td-cont'>

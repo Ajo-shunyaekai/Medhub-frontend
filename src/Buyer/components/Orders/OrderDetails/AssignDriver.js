@@ -37,7 +37,7 @@ const AssignDriver = ({orderItems}) => {
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">{item.medicine_id || item.product_id }</span>
+                                            <span className="table-g-not-names">{item.product_id || item.product_id }</span>
                                         </div>
                                     </td>
                                     <td className='tables-td-cont' >

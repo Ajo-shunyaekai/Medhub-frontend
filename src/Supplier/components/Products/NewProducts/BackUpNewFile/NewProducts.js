@@ -33,7 +33,7 @@ const NewProduct = ({ productList, currentPage, totalItems, itemsPerPage, handle
                                                 <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`} alt="Medicine" />
                                             </div>
                                             <div className='buy-product-card-first-button-container'>
-                                                <Link to={`/supplier/product-details/${product.medicine_id}`}>
+                                                <Link to={`/supplier/product-details/${product.product_id}`}>
                                                     <div className='buy-product-card-first-send-button'>
                                                         View Details
                                                     </div>

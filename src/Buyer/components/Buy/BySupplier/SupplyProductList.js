@@ -39,8 +39,8 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
             const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
             const linkTo =
               product.medicine_type === 'new'
-                ? `/buyer/medicine-details/${product.medicine_id}`
-                : `/buyer/market-product-details/${product.medicine_id}`;
+                ? `/buyer/medicine-details/${product.product_id}`
+                : `/buyer/market-product-details/${product.product_id}`;
             return (
               <div key={product.id} className='supply-product-list-container'>
                 <div className='supply-product-left-container'>

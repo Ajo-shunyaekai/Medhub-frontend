@@ -53,7 +53,7 @@ const SecondaryProductDetails = () => {
             // }
  
             const obj = {
-                medicine_id: medId,
+                product_id: medId,
                 // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
  
@@ -97,7 +97,7 @@ const SecondaryProductDetails = () => {
                                     {medicineDetails?.composition}
                                 </p> */}
                             </div>
-                            <Link to={`/supplier/edit-secondary-product/${medicineDetails?.medicine_id}`}>
+                            <Link to={`/supplier/edit-secondary-product/${medicineDetails?.product_id}`}>
                                 <div className="product-details-sec-one-right">
                                     <button className='product-details-send-btn'>Edit</button>
                                 </div>

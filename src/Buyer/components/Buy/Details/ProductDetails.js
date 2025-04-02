@@ -170,7 +170,7 @@ const handleSubmit = (values, { resetForm }) => {
     buyerId,
     buyer_id          : buyerIdSessionStorage || buyerIdLocalStorage,
     medId             : id,
-    medicine_id       : productDetail?.medicine_id,
+    product_id       : productDetail?.product_id,
     supplier_id       : productDetail?.userDetails?.supplier_id,
     quantity_required : values?.quantityRequired,
     target_price      : values?.targetPrice,

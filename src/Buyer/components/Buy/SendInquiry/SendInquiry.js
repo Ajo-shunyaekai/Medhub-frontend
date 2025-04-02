@@ -125,7 +125,7 @@ const SendInquiry = ({socket}) => {
           list_id                : supplierData.list_id || "",
           item_details           : selectedItemDetails.map(item => ({
             item_id              : item._id || "",
-            medicine_id          : item.medicine_id || "",
+            product_id          : item.product_id || "",
             unit_price           : item.unit_price || "",
             quantity_required    : item.quantity_required || "",
             est_delivery_days    : item.est_delivery_days || "",
