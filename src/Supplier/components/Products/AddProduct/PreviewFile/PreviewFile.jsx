@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { bulkUpload, previewBulkProducts } from "../../../../../redux/reducers/productSlice";
+import {
+  bulkUpload,
+  csvDownload,
+  previewBulkProducts,
+} from "../../../../../redux/reducers/productSlice";
 
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
@@ -16,7 +20,7 @@ function PreviewFile() {
   const { previewProducts } = useSelector((state) => state?.productReducer);
 
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
-  
+
   const calculateColumnWidth = (data, key, heading, minWidth = 120) => {
     const headingWidth = heading.length * 10;
     const maxContentWidth = Math.max(
@@ -31,6 +35,16 @@ function PreviewFile() {
 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
+  };
+
+  const handleCSVDownload = () => {
+    dispatch(csvDownload(previewProducts?.entriesWithErrors)).then(
+      (response) => {
+        if (response?.meta.requestStatus === "fulfilled") {
+          navigate("/supplier/preview-file");
+        }
+      }
+    );
   };
 
   const handleBulkUpload = () => {
@@ -59,6 +73,8 @@ function PreviewFile() {
     dispatch(bulkUpload(payloadData))?.then((response) => {
       if (response?.meta.requestStatus === "fulfilled") {
         setHasErrorEntries(false);
+        previewProducts?.entriesWithErrors?.length == 0 &&
+          navigate("/supplier/product");
       }
     });
   };
@@ -72,7 +88,10 @@ function PreviewFile() {
 
         {previewProducts?.entriesWithoutErrors?.length > 0 && (
           <div className={styles.container}>
-            <div className={`alert alert-success ${styles.successContainer}`} role="alert">
+            <div
+              className={`alert alert-success ${styles.successContainer}`}
+              role="alert"
+            >
               {previewProducts.entriesWithoutErrorsCount} successfully uploaded
               <div className={styles.buttonGroup}>
                 <button className={styles.uploadButton} onClick={handleSubmit}>
@@ -82,12 +101,18 @@ function PreviewFile() {
             </div>
             <div className={styles.tableContainer}>
               <DataTable
-                columns={Object.keys(previewProducts?.entriesWithoutErrors[0]).map((key, index) => {
+                columns={Object.keys(
+                  previewProducts?.entriesWithoutErrors[0]
+                ).map((key, index) => {
                   const heading = previewProducts?.headings[index] || key;
                   return {
                     name: heading,
                     selector: (row) => row[key]?.value || "-",
-                    width: `${calculateColumnWidth(previewProducts?.entriesWithoutErrors, key, heading)}px`,
+                    width: `${calculateColumnWidth(
+                      previewProducts?.entriesWithoutErrors,
+                      key,
+                      heading
+                    )}px`,
                   };
                 })}
                 data={previewProducts.entriesWithoutErrors}
@@ -101,47 +126,63 @@ function PreviewFile() {
 
         {previewProducts?.entriesWithErrors?.length > 0 && (
           <div className={styles.container}>
-            <div className={`alert alert-danger ${styles.successContainer}`} role="alert">
-              {previewProducts.entriesWithErrorsCount} errors have been identified
+            <div
+              className={`alert alert-danger ${styles.successContainer}`}
+              role="alert"
+            >
+              {previewProducts.entriesWithErrorsCount} errors have been
+              identified
               <div className={styles.buttonGroup}>
-                <button className={styles.uploadButton} onClick={() => setOpen(true)}>
+                <button
+                  className={styles.uploadButton}
+                  onClick={() => setOpen(true)}
+                >
                   Re-Upload
                 </button>
-                <button className={styles.uploadButton}>
+                <button
+                  className={styles.uploadButton}
+                  onClick={handleCSVDownload}
+                >
                   Download
                 </button>
               </div>
             </div>
             <div className={styles.tableContainer}>
               <DataTable
-                columns={Object.keys(previewProducts?.entriesWithErrors[0]).map((key, index) => {
-                  const heading = previewProducts?.headings[index] || key;
-                  return {
-                    name: heading,
-                    selector: (row) => row[key]?.value || "-",
-                    width: `${calculateColumnWidth(previewProducts?.entriesWithErrors, key, heading)}px`,
-                    style: {
-                      textAlign: "left",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    },
-                    cell: (row) => {
-                      const hasError = row[key]?.error;
-                      return (
-                        <div
-                          className={`${styles.cell} ${
-                            hasError ? styles.errorCell : ""
-                          }`}
-                        >
-                          {Array.isArray(row[key]?.value)
-                            ? row[key]?.value?.join()
-                            : row[key]?.value || "-"}
-                        </div>
-                      );
-                    },
-                  };
-                })}
+                columns={Object.keys(previewProducts?.entriesWithErrors[0]).map(
+                  (key, index) => {
+                    const heading = previewProducts?.headings[index] || key;
+                    return {
+                      name: heading,
+                      selector: (row) => row[key]?.value || "-",
+                      width: `${calculateColumnWidth(
+                        previewProducts?.entriesWithErrors,
+                        key,
+                        heading
+                      )}px`,
+                      style: {
+                        textAlign: "left",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      },
+                      cell: (row) => {
+                        const hasError = row[key]?.error;
+                        return (
+                          <div
+                            className={`${styles.cell} ${
+                              hasError ? styles.errorCell : ""
+                            }`}
+                          >
+                            {Array.isArray(row[key]?.value)
+                              ? row[key]?.value?.join()
+                              : row[key]?.value || "-"}
+                          </div>
+                        );
+                      },
+                    };
+                  }
+                )}
                 data={previewProducts.entriesWithErrors}
                 fixedHeader
                 pagination
