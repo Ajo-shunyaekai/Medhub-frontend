@@ -302,7 +302,7 @@ const ProformaInvoice = ({socket}) => {
             setDateError('');
             const updatedOrderItems = orderItems?.map(item => ({
                 ...item,
-                unit_tax: item?.medicine_details?.unit_tax,
+                unit_tax: item?.medicine_details?.general?.unit_tax,
                 est_delivery_days: item?.est_delivery_days,
             }));
     
