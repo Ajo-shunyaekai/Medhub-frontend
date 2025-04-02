@@ -447,7 +447,7 @@ const EditCreatePO = ({socket}) => {
         }
         if(validateForm()) {
             setLoading(true)
-            const supplierId = poDetails?.supplier_id;  
+            const supplierId = poDetails?.supplier_id || poDetails?.supplier_details[0]?.supplier_id;  
             const enquiryId  = poDetails?.enquiry_id;    
     
             const obj = {
@@ -457,6 +457,7 @@ const EditCreatePO = ({socket}) => {
                 enquiry_id       : enquiryId,
                 data             : formData
             };  
+            
             postRequestWithToken('buyer/purchaseorder/edit-po', obj, async (response) => {
                 if (response.code === 200) {
                     toast(response.message, {type: 'success'})
