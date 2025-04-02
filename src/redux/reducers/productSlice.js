@@ -121,6 +121,31 @@ export const bulkUpload = createAsyncThunk(
   }
 );
 
+export const csvDownload = createAsyncThunk(
+  "product/csvDownload",
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiRequests?.postReqCSVDownload(
+        "product/csv-download",
+        { products: values },
+        `Products.csv`
+      );
+      if (response.code !== 200) {
+        toast(response?.message, { type: "error" });
+        return rejectWithValue(response?.message || "Unknown error");
+      }
+      const { data, message } = await response;
+      toast.success(message);
+
+      return data;
+      // return rejectWithValue(response?.data?.err);
+    } catch (error) {
+      //   toast.error("An error occurred while logging in");
+      return rejectWithValue(error?.response?.data || "Unknown error");
+    }
+  }
+);
+
 export const previewBulkProducts = createAsyncThunk(
   "product/previewBulkProducts",
   async (values, { rejectWithValue }) => {
