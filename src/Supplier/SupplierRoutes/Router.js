@@ -140,7 +140,7 @@ const SupplierLogistics = lazy(() =>
   import("../components/Orders/SupplierLogistics/SupplierLogistics")
 )
 const PreviewFile = lazy(() => 
-  import("../components/Products/AddProduct/PreviewFile.jsx")
+  import("../components/Products/AddProduct/PreviewFile/PreviewFile.jsx")
 )
  
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
