@@ -134,12 +134,12 @@ const Product = () => {
                             Secondary Market
                         </div>
                     </div>
-                    {showButtonGroup && (
+                    {/* {showButtonGroup && (
                         <div className={styles.buttonGroup}>
                             <button className={styles.uploadButton}>Download (.csv)</button>
                             <button className={styles.uploadButton} onClick={() => setOpen(true)}>Update Product</button>
                         </div>
-                    )}
+                    )} */}
                 </div>
                 {loading ? (
                     <Loader />

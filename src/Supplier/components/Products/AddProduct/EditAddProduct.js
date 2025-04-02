@@ -75,7 +75,8 @@ const EditAddProduct = ({ placeholder }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, productDetail } = useSelector(
+  const [loading, setLoading] = useState(false);
+  const { productDetail } = useSelector(
     (state) => state?.productReducer
   );
   const formik = useFormik({
@@ -83,7 +84,7 @@ const EditAddProduct = ({ placeholder }) => {
     validationSchema: editProductValidationSchema,
     onSubmit: (values) => {
       // Custom submit handler with e.preventDefault()
-
+      setLoading(true)
       const formData = new FormData();
 
       // Append fields as usual
@@ -161,7 +162,9 @@ const EditAddProduct = ({ placeholder }) => {
       dispatch(editProduct({ id, values: formData })).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
           navigate(`/supplier/product-details/${id}`); // Change this to your desired route
+          setLoading(false)
         }
+        setLoading(false)
       });
     },
   });
@@ -542,6 +545,10 @@ const EditAddProduct = ({ placeholder }) => {
       });
     }
   }, [productDetail]); // Add formik to the dependency array
+
+  const handleCancel = () => {
+    navigate(`/supplier/product-details/${id}`)
+  }
 
   return (
     <div className={styles.container}>
@@ -7546,7 +7553,7 @@ const EditAddProduct = ({ placeholder }) => {
                                 <input
                                   className={styles.formInput}
                                   type="text"
-                                  placeholder="Enter Quantity From"
+                                  placeholder="Quantity From"
                                   // autoComplete="off"
                                   name={`productPricingDetails.${index}.quantityFrom`}
                                   value={
@@ -7567,7 +7574,7 @@ const EditAddProduct = ({ placeholder }) => {
                               <input
                                 className={styles.formInput}
                                 type="text"
-                                placeholder="Enter Quantity From"
+                                placeholder="Quantity From"
                                 // autoComplete="off"
                                 name={`productPricingDetails.${index}.quantityTo`}
                                 value={
@@ -8022,9 +8029,13 @@ const EditAddProduct = ({ placeholder }) => {
 
           {/* Start button section */}
           <div className={styles.buttonContainer}>
-            <button className={styles.buttonCancel}>Cancel</button>
-            <button className={styles.buttonSubmit} type="submit">
-              Submit
+            <button className={styles.buttonCancel} onClick={handleCancel}>Cancel</button>
+            <button className={styles.buttonSubmit} type="submit" disabled={loading}>
+            {loading ? (
+                    <div className='loading-spinner'></div>
+                ) : (
+                    'Submit'
+                )}
             </button>
           </div>
 
