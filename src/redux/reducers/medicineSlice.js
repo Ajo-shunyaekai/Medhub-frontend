@@ -27,7 +27,7 @@ export const fetchMedicineyDataRedux = createAsyncThunk(
   "medicine/fetchMedicineyDataRedux",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${values?.medicine_id}`, values)
+      const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${values?.product_id}`, values)
       return response.result 
     } catch (error) {
       // Log and pass the error

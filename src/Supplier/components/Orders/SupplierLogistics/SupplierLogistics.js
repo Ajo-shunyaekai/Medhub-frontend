@@ -381,7 +381,7 @@ const SupplierLogistics = ({socket}) => {
     if (!orderData?.items) return [];
 
     return orderData.items.map((item) => ({
-      value: item.medicine_id,
+      value: item.product_id,
       label: item.medicine_name,
       quantity: item.quantity_required,
       strength: item.strength,
@@ -557,7 +557,7 @@ const SupplierLogistics = ({socket}) => {
 
 
   const getSelectedProductDetails = (productId) => {
-    return orderData?.items?.find((item) => item.medicine_id === productId);
+    return orderData?.items?.find((item) => item.product_id === productId);
   };
 
   return (

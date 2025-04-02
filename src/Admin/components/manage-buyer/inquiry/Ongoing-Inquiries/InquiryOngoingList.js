@@ -7,7 +7,7 @@ import moment from "moment-timezone";
 // Static data array
 const staticItems = [
   {
-    medicine_id: 'MED001',
+    product_id: 'MED001',
     medicine_details: { medicine_name: 'Paracetamol' },
     quantity_required: 50,
     unit_price: 10.5,
@@ -17,7 +17,7 @@ const staticItems = [
     created_at: '2024-09-10T10:00:00Z'
   },
   {
-    medicine_id: 'MED002',
+    product_id: 'MED002',
     medicine_details: { medicine_name: 'Ibuprofen' },
     quantity_required: 100,
     unit_price: 12,
@@ -61,7 +61,7 @@ const InquiryOngoingList = ({ items, inquiryDetails }) => {
               <td className='tables-td'>
                 <div className="table-g-section-content">
                   <span className="table-g-driver-name">Product ID</span>
-                  <span className="table-g-not-names">{item.medicine_id}</span>
+                  <span className="table-g-not-names">{item.product_id}</span>
                 </div>
               </td>
               <td className='tables-td-cont'>

@@ -58,7 +58,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
         }
 
         const obj = {
-            medicine_id : medicineId,
+            product_id : medicineId,
             admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
@@ -75,7 +75,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
-            medicine_id            : medicineId ,
+            product_id             : medicineId ,
             supplier_id            : medicineDetails?.supplier.supplier_id,
             supplier_email         : medicineDetails?.supplier.supplier_email,
             supplier_name          : medicineDetails?.supplier.supplier_name,

@@ -68,7 +68,7 @@ const InquiryProductList = ({ orderItems, quotationItems, handleAccept, handleRe
                                 <td className='tables-tds'>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product ID</span>
-                                        <span className="table-g-not-names">{item.product_id || item.medicine_id || item.productId}</span>
+                                        <span className="table-g-not-names">{item.product_id || item.product_id || item.productId}</span>
                                     </div>
                                 </td>
                                 <td className='tables-tds-cont'>

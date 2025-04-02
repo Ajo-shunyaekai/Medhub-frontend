@@ -97,7 +97,7 @@ const InquiryRequestDetails = ({socket}) => {
         setLoading(true)
         const transformedQuotationItems = quotationItems.map(item => ({
             itemId: item._id,
-            medicine_id: item.medicine_id,
+            product_id: item.product_id,
             est_delivery_days: item.est_delivery_days,
             counter_price: item.counterPrice?.toString(),
             unit_price: item.unit_price,
