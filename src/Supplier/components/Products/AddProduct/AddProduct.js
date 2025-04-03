@@ -921,23 +921,23 @@ const AddProduct = ({ placeholder }) => {
                       type="text"
                       placeholder="Enter Tax in percentage"
                       // autoComplete="off"
-                      name="tax"
-                      value={values.tax}
+                      name="unit_tax"
+                      value={values.unit_tax}
                       // onChange={handleChange}
                       // onChange={(e) =>
                       //   handleInputChange(e, setFieldValue, 8, "number")
                       // }
                       onChange={(e) =>
                         handleInputChange(e, setFieldValue, 9, "decimal", [
-                          "tax",
+                          "unit_tax",
                         ])
                       }
                       onBlur={handleBlur}
                     />
                     <Tooltip content="Unit Tax of the product"></Tooltip>
                   </div>
-                  {touched.tax && errors.tax && (
-                    <span className={styles.error}>{errors.tax}</span>
+                  {touched.unit_tax && errors.unit_tax && (
+                    <span className={styles.error}>{errors.unit_tax}</span>
                   )}
                 </div>
 
@@ -6531,7 +6531,7 @@ const AddProduct = ({ placeholder }) => {
                     <Field
                       name={`productPricingDetails.${index}.deliveryTime`}
                       type="text"
-                      placeholder="Enter Est. Delivery Time"
+                      placeholder="Enter Est. Delivery Time in days"
                       className={styles.formInput}
                       onInput={(e) => {
                         e.target.value = e.target.value

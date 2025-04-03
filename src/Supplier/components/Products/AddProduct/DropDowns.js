@@ -163,9 +163,10 @@ export const initialValues = {
   volumn: "",
   volumeUnit: "",
   dimension: "",
+  dimensionUnit: "",
   weight: "",
   unit: "",
-  tax: "",
+  unit_tax: "",
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -173,6 +174,8 @@ export const initialValues = {
   sku: "",
   stock: "",
   stockQuantity: "",
+  quantityFrom: "",
+  quantityTo: "",
   countries: [],
   date: "",
   complianceFile: [],
@@ -198,12 +201,10 @@ export const initialValues = {
     {
       country: "",
       quantity: "",
-      placeholder: "Enter Quantity",
     },
   ],
   productPricingDetails: [
     {
-      quantity: "",
       quantityFrom: "",
       quantityTo: "",
       price: "",
@@ -358,7 +359,7 @@ export const addProductValidationSchema = Yup.object({
   // dimension: Yup.string().required("Product Dimension is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
-  tax: Yup.string().required("Tax Percentage is required."),
+  unit_tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1276,7 +1277,7 @@ export const editProductValidationSchema = Yup.object({
   quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
-  tax: Yup.string().required("Tax Percentage is required."),
+  unit_tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1364,13 +1365,13 @@ export const editProductValidationSchema = Yup.object({
       Yup.object({
         // quantity: Yup.string().required("Quantity is required."),
         quantityFrom: Yup.number()
-        .typeError("Quantity From must be a number.")
-        .required("Quantity From is required.")
-        .positive("Quantity From must be greater than 0"),
+          .typeError("Quantity From must be a number.")
+          .required("Quantity From is required.")
+          .positive("Quantity From must be greater than 0"),
         quantityTo: Yup.number()
-        .typeError("Quantity To must be a number.")
-        .required("Quantity To is required.")
-        .positive("Quantity To must be greater than 0"),
+          .typeError("Quantity To must be a number.")
+          .required("Quantity To is required.")
+          .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
