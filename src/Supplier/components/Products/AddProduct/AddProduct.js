@@ -970,7 +970,7 @@ const AddProduct = ({ placeholder }) => {
                     <Tooltip
                       content="The type of product packaging (e.g., bottle, tube, jar,
                       pump, blister
-                      <br /> pack, strip, pouches, soft case, hard case,
+                       pack, strip, pouches, soft case, hard case,
                       backpack, case )."
                     ></Tooltip>
                   </div>
