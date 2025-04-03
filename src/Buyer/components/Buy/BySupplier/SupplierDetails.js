@@ -109,7 +109,7 @@ const SupplierDetails = () => {
       return;
     }
 
-    const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary market' : '';
+    const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary' : '';
 
     const obj = {
       supplier_id: supplierId,
