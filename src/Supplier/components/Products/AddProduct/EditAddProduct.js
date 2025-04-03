@@ -379,7 +379,7 @@ const EditAddProduct = ({ placeholder }) => {
         dimensionUnit: general?.dimensionUnit || "",
         weight: general?.weight || "",
         unit: general?.unit || "",
-        tax: general?.tax || "",
+        unit_tax: general?.unit_tax || "",
         packageType: general?.packageType || "",
         packageMaterial: general?.packageMaterial || "",
         packageMaterialIfOther: general?.packageMaterialIfOther || "",
@@ -1346,8 +1346,8 @@ const EditAddProduct = ({ placeholder }) => {
                     type="text"
                     placeholder="Enter Tax in percentage"
                     // autoComplete="off"
-                    name="tax"
-                    value={formik?.values?.tax}
+                    name="unit_tax"
+                    value={formik?.values?.unit_tax}
                     // onChange={formik?.handleChange}
                     onChange={(e) =>
                       handleInputChange(e, formik.setFieldValue, 9, "decimal")
@@ -1356,8 +1356,8 @@ const EditAddProduct = ({ placeholder }) => {
                   />
                   <Tooltip content="Unit Tax of the product"></Tooltip>
                 </div>
-                {formik.touched.tax && formik.errors.tax && (
-                  <span className={styles.error}>{formik.errors.tax}</span>
+                {formik.touched.unit_tax && formik.errors.unit_tax && (
+                  <span className={styles.error}>{formik.errors.unit_tax}</span>
                 )}
               </div>
               <div className={styles.productContainer}>
@@ -7644,7 +7644,7 @@ const EditAddProduct = ({ placeholder }) => {
                           <Field
                             name={`productPricingDetails.${index}.deliveryTime`}
                             type="text"
-                            placeholder="Enter Est. Delivery Time"
+                            placeholder="Enter Est. Delivery Time in days"
                             className={styles.formInput}
                           />
                           <span className={styles.error}>
