@@ -273,9 +273,9 @@ const AddProduct = ({ placeholder }) => {
     <div className={styles.container}>
       <div className={styles.headContainer}>
         <span className={styles.heading}>Add Products</span>
-        <button onClick={() => setOpen(true)} className={styles.bulkButton}>
+        {/* <button onClick={() => setOpen(true)} className={styles.bulkButton}>
           Bulk Upload
-        </button>
+        </button> */}
       </div>
       <Formik
         initialValues={initialValues}

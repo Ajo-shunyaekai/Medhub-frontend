@@ -203,16 +203,18 @@ const DetailsBuyerRequest = () => {
                                                     )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
+                                                <a href={`mailto:${buyerDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
                                                     <MailOutlineIcon
-                                                        data-tooltip-id={buyerDetails?.buyer_email ? "my-tooltip-2" : null}
+                                                        data-tooltip-id={buyerDetails?.contact_person_email ? "my-tooltip-2" : null}
                                                         className='buyer-details-left-inner-icon'
                                                     />
-                                                    {buyerDetails?.buyer_email && (
+                                                    </a>
+                                                    {buyerDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"
                                                             place="bottom"
                                                             effect="solid"
-                                                            content={buyerDetails.buyer_email}
+                                                            content={buyerDetails.contact_person_email}
                                                         />
                                                     )}
                                                 </div>

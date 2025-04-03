@@ -9,7 +9,11 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
 
   const [currenttPage, setCurrenttPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth >= 1590 ? 4 : 3);
-
+console.log('productsData',productsData)
+// Helper function to add spaces before capital letters
+const formatCategory = (str) => {
+  return str.replace(/([A-Z])/g, ' $1').trim();
+};
   // Sample data for demonstration
   const productList = [
     { id: 1, name: 'Product 1', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
@@ -37,10 +41,8 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
         {productsData && productsData.length > 0 ? (
           productsData.map((product, i) => {
             const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
-            const linkTo =
-              product.medicine_type === 'new'
-                ? `/buyer/medicine-details/${product.product_id}`
-                : `/buyer/market-product-details/${product.product_id}`;
+            const linkTo = `/buyer/product-details/${product._id}`
+                
             return (
               <div key={product.id} className='supply-product-list-container'>
                 <div className='supply-product-left-container'>
@@ -58,29 +60,29 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
                 </div>
                 <div className='supply-product-right-container'>
                   <div className='supply-product-right-first-heading-section'>
-                    <div className='supply-product-right-container-main-heading'>{product.medicine_name}</div>
-                    <div className='supply-product-right-container-main-text'>{product.strength.includes('mg') ? product.strength : `${product.strength}mg`}</div>
+                    <div className='supply-product-right-container-main-heading'>{product?.general?.name}</div>
+                    {/* <div className='supply-product-right-container-main-text'>{product?.strength?.includes('mg') ? product?.strength : `${product?.strength}mg`}</div> */}
                   </div>
                   <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Country of Origin</div>
-                    <div className='supply-product-right-container-text'>{product.country_of_origin}</div>
+                    <div className='supply-product-right-container-head'>Category</div>
+                    <div className='supply-product-right-container-text'>{formatCategory(product?.category)}</div>
                   </div>
                   <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Stocked in</div>
-                    <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
+                    <div className='supply-product-right-container-head'>Sub Category</div>
+                    <div className='supply-product-right-container-stockedin'>{product?.categoryObject.subCategory}</div>
                   </div>
                   <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Dossier Type</div>
-                    <div className='supply-product-right-container-text'>{product.dossier_type}</div>
+                    <div className='supply-product-right-container-head'>Total Quantity</div>
+                    <div className='supply-product-right-container-text'>{product.general?.quantity}</div>
                   </div>
                   <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Dossier Status</div>
-                    <div className='supply-product-right-container-text'>{product.dossier_status}</div>
+                    <div className='supply-product-right-container-head'>Stock Status</div>
+                    <div className='supply-product-right-container-text'>{product.inventoryDetails[0]?.stock}</div>
                   </div>
-                  <div className='supply-product-right-first-section'>
+                  {/* <div className='supply-product-right-first-section'>
                     <div className='supply-product-right-container-head'>GMP Approvals</div>
                     <div className='supply-product-right-container-text'>{product.gmp_approvals}</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             );
