@@ -5,6 +5,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
+import moment from 'moment/moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
@@ -231,8 +232,12 @@ const renderFiles = (files, type) => {
                                         ? supplierDetails?.account_accepted_date 
                                         : supplierDetails?.account_status === 2 
                                         ? supplierDetails?.account_rejected_date 
-                                        : " "}
+                                        : "NA"}
                                     </div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Account Created Date :</div>
+                                    <div className='buyer-details-inner-text'>{moment(supplierDetails?.createdAt).format("DD-MM-YYYY")}</div>
                                 </div>
                             <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name :</div>
