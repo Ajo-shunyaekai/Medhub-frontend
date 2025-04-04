@@ -91,7 +91,7 @@ const InquiryProductList = ({ items, setCounterChecked, setAcceptChecked, setQuo
                             </td>
                             <td className='tables-td-cont'>
                                 <div className="table-second-container">
-                                    <span className="table-g-section">G</span>
+                                    <span className="table-g-section">{item?.medicine_details?.general?.name?.charAt(0).toUpperCase()}</span>
                                     <div className="table-g-section-content">
                                         <span className="table-g-driver-name">Product Name</span>
                                         <span className="table-g-not-name">{item?.medicine_details?.medicine_name || item?.medicine_details?.general?.name}</span>

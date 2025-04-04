@@ -40,7 +40,7 @@ const formatCategory = (str) => {
       <div className='supplier-product-card-main-section'>
         {productsData && productsData.length > 0 ? (
           productsData.map((product, i) => {
-            const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
+            const firstImage = Array.isArray(product?.general?.image) ? product.general?.image[0] : null;
             const linkTo = `/buyer/product-details/${product._id}`
                 
             return (
@@ -48,7 +48,7 @@ const formatCategory = (str) => {
                 <div className='supply-product-left-container'>
                   <div className='supply-product-left-image-cont'>
                     <img
-                      src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}
+                      src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${firstImage}`}
                       alt='Product'
                     />
                   </div>

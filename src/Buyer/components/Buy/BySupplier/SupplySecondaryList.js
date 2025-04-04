@@ -50,13 +50,14 @@ const SupplySecondaryList = ({ productsData, totalProducts, currentPage, product
 
         {productsData?.length > 0 ? (
           productsData?.map((product, i) => {
-            const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
+            // const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
+            const firstImage = Array.isArray(product?.general?.image) ? product.general?.image[0] : null;
             const linkTo = `/buyer/product-details/${product._id}`
             return (
               <div key={product.id} className='supply-product-list-container'>
                 <div className='supply-product-left-container'>
                   <div className='supply-product-left-image-cont'>
-                    <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`} alt='Product' />
+                    <img src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${firstImage}`} alt='Product' />
                   </div>
                   <Link to={linkTo}>
                     <div className='supply-product-left-button-cont'>
