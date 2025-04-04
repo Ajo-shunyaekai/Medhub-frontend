@@ -64,7 +64,7 @@ const PurchasedOrderDetails = () => {
         <div className={styles['purchased-template-design']}>
             <div className={styles['purchased-scroll-wrapper']}>
                 <div className={styles['purchased-template-download']}>
-                    <div className={styles['purchased-template-button']} onClick={handleDownload}>Download</div>
+                    <button className={styles['purchased-template-button']} onClick={handleDownload}>Download</button>
                 </div>
                 <div id='po-content' style={{ maxWidth: '800px', margin: 'auto auto 10rem', padding: '30px', border: '1px solid #eee', fontSize: '16px', lineHeight: '24px', color: '#555', backgroundColor: '#FFFFFF' }}>
                     <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '30px', margin: '0px 0px 20px 0px' }}>Purchase Order</div>

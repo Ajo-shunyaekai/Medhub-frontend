@@ -1,0 +1,307 @@
+.mySupplierMainContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+.mySupplierMainContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.mySupplierMainHead {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.mySupplierMainSection {
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  border-radius: 4px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.mySupplierCardSection {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.mySupplierCardFirstUpparSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
+}
+
+.mySupplierImageSection {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mySupplierImageSection img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.mySupplierCardContentSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mySupplierNameHead {
+  color: #5e676f;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.mySupplierCardFirstSection {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 100%
+}
+
+.mySupplierInnerCardSection {
+  flex: 1;
+  min-width: 0; 
+}
+
+.mySupplierCardHeading {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mySupplierCardText {
+  width: 100%;
+  color: #99a0ac;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.mySupplierCardButton {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.mySupplierCardButtonDetails {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 14px;
+  cursor: pointer !important;
+}
+
+.mySupplierError {
+  width: 100%;
+  text-align: left !important;
+  color: #5e676f !important;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  justify-content: left !important;
+  align-items: start !important;
+}
+
+.mySupplierPaginationSectionMain {
+  margin-bottom: 8rem;
+}
+
+.mySupplierDescription {
+  font-size: 14px;
+}
+
+/* .mySupplierMainContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  width: 100%;
+  max-width: 90%;
+  height: 100vh;
+  overflow: scroll;
+  background-attachment: fixed;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin: auto;
+}
+.mySupplierMainContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.mySupplierMainHead {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.mySupplierMainSection {
+  background: linear-gradient(to left, #f5f5f7, #e1f2ff);
+  border-radius: 4px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.mySupplierCardSection {
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+.mySupplierCardFirstUpparSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.mySupplierImageSection {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  overflow: hidden;
+  width: 100px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+}
+.mySupplierImageSection img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.mySupplierCardContentSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.mySupplierNameHead {
+  color: #5e676f;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.mySupplierCardFirstSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.mySupplierInnerCardSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mySupplierCardHeading {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mySupplierCardText {
+  width: 100%;
+  color: #99a0ac;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.mySupplierCardButton {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mySupplierCardButtonDetails {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  font-size: 14px;
+  cursor: pointer !important;
+}
+
+.mySupplierError {
+  width: 100%;
+  text-align: center;
+  color: #5e676f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mySupplierPaginationSectionMain {
+  margin-bottom: 8rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .mySupplierCardFirstSection {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .mySupplierCardSection {
+    padding: 15px;
+  }
+  .mySupplierCardFirstSection {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+  }
+} */

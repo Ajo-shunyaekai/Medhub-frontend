@@ -8,13 +8,12 @@ import { Link } from 'react-router-dom';
 const SupplyProductList = ({ productsData, totalProducts, currentPage, productsPerPage, handleProductPageChange }) => {
 
   const [currenttPage, setCurrenttPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth >= 1590 ? 4 : 3);
-console.log('productsData',productsData)
-// Helper function to add spaces before capital letters
-const formatCategory = (str) => {
-  return str.replace(/([A-Z])/g, ' $1').trim();
-};
-  // Sample data for demonstration
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+
+  const formatCategory = (str) => {
+    return str.replace(/([A-Z])/g, ' $1').trim();
+  };
+
   const productList = [
     { id: 1, name: 'Product 1', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
     { id: 2, name: 'Product 2', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
@@ -23,13 +22,17 @@ const formatCategory = (str) => {
     { id: 5, name: 'Product 5', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
     // Add more product data as needed
   ];
+
   const indexOfLastItem = currenttPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+
   const handlePageChange = (pageNumber) => setCurrenttPage(pageNumber);
+
   const handleResize = () => {
-    setItemsPerPage(window.innerWidth >= 1590 ? 4 : 3);
+    setItemsPerPage(4);
   };
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -52,38 +55,47 @@ const formatCategory = (str) => {
                       alt='Product'
                     />
                   </div>
-                  <Link to={linkTo}>
-                    <div className='supply-product-left-button-cont'>
-                      <span className='supply-product-left-button-details'>View Details</span>
-                    </div>
-                  </Link>
                 </div>
+
                 <div className='supply-product-right-container'>
                   <div className='supply-product-right-first-heading-section'>
                     <div className='supply-product-right-container-main-heading'>{product?.general?.name}</div>
                     {/* <div className='supply-product-right-container-main-text'>{product?.strength?.includes('mg') ? product?.strength : `${product?.strength}mg`}</div> */}
                   </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Category</div>
-                    <div className='supply-product-right-container-text'>{formatCategory(product?.category)}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Sub Category</div>
-                    <div className='supply-product-right-container-stockedin'>{product?.categoryObject.subCategory}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Total Quantity</div>
-                    <div className='supply-product-right-container-text'>{product.general?.quantity}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Stock Status</div>
-                    <div className='supply-product-right-container-text'>{product.inventoryDetails[0]?.stock}</div>
+
+                  <div className='supply-product-inner-right-container'>
+                    <div className='supply-product-inner-child'>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Total Quantity</div>
+                        <div className='supply-product-right-container-text'>{product.general?.quantity}</div>
+                      </div>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Stock Status</div>
+                        <div className='supply-product-right-container-text'>{product.inventoryDetails[0]?.stock}</div>
+                      </div>
+                    </div>
+
+                    <div className='supply-product-inner-child'>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Category</div>
+                        <div className='supply-product-right-container-text'>{formatCategory(product?.category)}</div>
+                      </div>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Sub Category</div>
+                        <div className='supply-product-right-container-stockedin'>{product?.categoryObject.subCategory}</div>
+                      </div>
+                    </div>
                   </div>
                   {/* <div className='supply-product-right-first-section'>
                     <div className='supply-product-right-container-head'>GMP Approvals</div>
                     <div className='supply-product-right-container-text'>{product.gmp_approvals}</div>
                   </div> */}
                 </div>
+                <Link to={linkTo}>
+                  <div className='supply-product-left-button-cont'>
+                    <span className='supply-product-left-button-details'>View Details</span>
+                  </div>
+                </Link>
               </div>
             );
           })
