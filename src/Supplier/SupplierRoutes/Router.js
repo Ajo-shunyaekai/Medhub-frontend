@@ -142,6 +142,9 @@ const SupplierLogistics = lazy(() =>
 const PreviewFile = lazy(() => 
   import("../components/Products/AddProduct/PreviewFile/PreviewFile.jsx")
 )
+const Error = lazy(() => 
+  import("../components/SharedComponents/Error/Error.jsx")
+)
  
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
@@ -725,6 +728,14 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error socket={socket} />
+      </Suspense>
+    ),
+  }
 ]);
 function Router() {
   return <RouterProvider router={router} />;

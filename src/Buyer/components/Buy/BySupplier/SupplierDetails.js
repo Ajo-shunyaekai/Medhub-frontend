@@ -26,7 +26,7 @@ const SupplierDetails = () => {
   const [productList, setProductList] = useState([])
   const [totalProducts, setTotalProducts] = useState()
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 3;
+  const productsPerPage = 4;
 
   const getActiveButtonFromPath = (path) => {
     if (path.includes('/products')) {

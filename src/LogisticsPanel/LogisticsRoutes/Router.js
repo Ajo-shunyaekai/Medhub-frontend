@@ -50,6 +50,9 @@ const PendingOrder = lazy(() =>
 const OngoingOrder = lazy(() =>
   import("../components/Orders/OngoingOrders/OngoingOrders")
 );
+const Error = lazy(() =>
+  import("../components/SharedComponents/Error/Error")
+);
 
 // Routes
 const router = createBrowserRouter([
@@ -170,6 +173,14 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error />
+      </Suspense>
+    ),
+  }
 ]);
 
 function Router() {

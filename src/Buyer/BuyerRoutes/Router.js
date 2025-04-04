@@ -178,6 +178,9 @@ const LogisticsForm = lazy(() =>
 const SubscriptionInvoiceDetails = lazy(() =>
   import("../components/Subscription/SubscriptionInvoiceDetails.js")
 );
+const Error = lazy(() =>
+  import("../components/SharedComponents/Error/Error.jsx")
+);
 // const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
@@ -892,6 +895,14 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error socket={socket} />
+      </Suspense>
+    ),
+  }
 ]);
  
 function Router() {
