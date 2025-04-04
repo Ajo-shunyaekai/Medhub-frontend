@@ -163,7 +163,7 @@ const SellerPurchasedOrderDetails = () => {
                                   <p style={{ fontWeight: 500, fontSize: '13px' }}>{item?.counter_price || item?.target_price} USD</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
-                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.medicine_details?.unit_tax}%</p>
+                                  <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.medicine_details?.unit_tax ?? '0'}%</p>
                                 </td>
                                 <td style={{ paddingBlock: '12px', textAlign: 'end' }}>
                                   <p style={{ fontWeight: 500, fontSize: '13px' }}>{item.total_amount.toFixed(2)} USD </p>

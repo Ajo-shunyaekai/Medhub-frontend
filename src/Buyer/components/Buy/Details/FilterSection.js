@@ -47,18 +47,18 @@ const FilterSection = ({
       ],
       handler: handleDeliveryTime,
     },
-    {
-      key: 'stockedIn',
-      label: 'Stocked In',
-      options: countryAvailable.length > 0
-        ? countryAvailable.map((country) => ({ value: country, label: country }))
-        : [
-            { value: 'Åland Islands', label: 'Åland Islands' },
-            { value: 'Luxembourg', label: 'Luxembourg' },
-            { value: 'American Samoa', label: 'American Samoa' },
-          ],
-      handler: handleStockedIn,
-    },
+    // {
+    //   key: 'stockedIn',
+    //   label: 'Stocked In',
+    //   options: countryAvailable.length > 0
+    //     ? countryAvailable.map((country) => ({ value: country, label: country }))
+    //     : [
+    //         { value: 'Åland Islands', label: 'Åland Islands' },
+    //         { value: 'Luxembourg', label: 'Luxembourg' },
+    //         { value: 'American Samoa', label: 'American Samoa' },
+    //       ],
+    //   handler: handleStockedIn,
+    // },
     {
       key: 'totalQuantity',
       label: 'Total Quantity',
