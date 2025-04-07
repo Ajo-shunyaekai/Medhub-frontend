@@ -17,7 +17,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
     const getCategorySchema = (category) => {
         if (!category) return null;
         return (
-            categoryArrays.find((cat) => cat.name === category.label)?.schema || null
+            categoryArrays.find((cat) => cat.name === category)?.schema || null
         );
     };
 
@@ -48,7 +48,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
 
     const handleApply = () => {
         const filterData = {
-            category: selectedCategory?.value || '',
+            category: getCategorySchema(selectedCategory?.value) || '',
             subCategory: selectedSubCategory?.value || '',
             level3Category: selectedLevel3Category?.value || '',
         };
