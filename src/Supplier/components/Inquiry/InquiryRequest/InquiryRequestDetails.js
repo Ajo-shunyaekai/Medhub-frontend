@@ -44,13 +44,7 @@ const InquiryRequestDetails = ({socket}) => {
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 enquiry_id: inquiryId
             }
- 
-            // postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setInquiryDetails(response?.result)
-            //     } else {
-            //     }
-            // })            
+            
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
                 return;
@@ -114,7 +108,7 @@ const InquiryRequestDetails = ({socket}) => {
             payment_terms: paymentTerms
         }
 
-        postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
+        postRequestWithToken('enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
  

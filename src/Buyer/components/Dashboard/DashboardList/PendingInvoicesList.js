@@ -100,14 +100,6 @@ const PendingInvoicesList = () => {
         limit: ordersPerPage,
       };
 
-      // postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
-      //     if (response.code === 200) {
-      //         setInvoiceList(response.result.data);
-      //         setTotalInvoices(response.result.totalItems);
-      //     } else {
-      //     }
-      //     setLoading(false);
-      // })
       try {
         const response = await apiRequests.getRequest(
           `order/get-all-invoice-list?filterKey=${"pending"}&pageNo=${currentPage}&pageSize=${ordersPerPage}`

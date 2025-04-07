@@ -137,24 +137,12 @@ const BuyerDetails = () => {
                 buyer_id: buyerId,
             }
 
-            // postRequestWithToken('admin/get-buyer-details', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setBuyerDetails(response.result)
-            //     } else {
-            //     }
-            // })
             try {
                 const response = await apiRequests.getRequest(`buyer/get-specific-buyer-details/${buyerId}`, obj);
                 if (response?.code !== 200) {
                     return;
                 }
                 setBuyerDetails(response?.result);
-                // postRequestWithToken(`buyer/get-specific-buyer-details/${buyerId}`, obj, async (response) => {
-                //     if (response.code === 200) {
-                //         setBuyerDetails(response?.result);
-                //     } else {
-                //     }
-                // })
             } catch (error) {
             }
         }

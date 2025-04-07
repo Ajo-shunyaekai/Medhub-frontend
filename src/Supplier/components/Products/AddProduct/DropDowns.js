@@ -18,7 +18,8 @@ export const packagingUnits = [
   { value: "Short ton", label: "Short ton" },
   { value: "Carat (ct)", label: "Carat (ct)" },
   { value: "Grain (gr)", label: "Grain (gr)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Milliton (mt)", label: "Milliton (mt)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const volumeUnits = [
   { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
@@ -30,15 +31,20 @@ export const volumeUnits = [
   { value: "Cubic inch (in³)", label: "Cubic inch (in³)" },
   { value: "Cubic foot (ft³)", label: "Cubic foot (ft³)" },
   { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Gallon (gal)", label: "Gallon (gal)" }, // Additional unit
+  { value: "Quart (qt)", label: "Quart (qt)" }, // Additional unit
+  { value: "Pint (pt)", label: "Pint (pt)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const dimensionUnits = [
   { value: "Millimeter (mm)", label: "Millimeter (mm)" },
   { value: "Centimeter (cm)", label: "Centimeter (cm)" },
-  { value: "Meter (m)", label: "Milliliter (m)" },
+  { value: "Meter (m)", label: "Meter (m)" }, // Fixed label
   { value: "Inch (in)", label: "Inch (in)" },
   { value: "Feet (ft)", label: "Feet (ft)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Yard (yd)", label: "Yard (yd)" }, // Additional unit
+  { value: "Mile (mi)", label: "Mile (mi)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingOptions = [
   { value: "Bottle", label: "Bottle" },

@@ -126,7 +126,7 @@ const BuySeller = ({ active }) => {
             return;
         }
 
-        postRequestWithToken('buyer/supplier/get-filter-values', { buyer_id: buyerId }, (response) => {
+        postRequestWithToken('supplier/get-filter-values', { buyer_id: buyerId }, (response) => {
             if (response.code === 200) {
                 setCountryOrigin(response.result[0].country);
             } else {

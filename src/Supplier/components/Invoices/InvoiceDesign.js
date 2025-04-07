@@ -39,12 +39,6 @@ function InvoiceDesign() {
                 supplier_id : supplierIdSessionStorage || supplierIdLocalStorage
             };
  
-            // postRequestWithToken('invoice/invoice-details', obj, (response) => {
-            //     if (response.code === 200) {
-            //         setInvoiceDetails(response.result);
-            //     } else {
-            //     }
-            // });
             const response = await apiRequests.getRequest(`invoice/get-specific-invoice-details/${invoiceId}`, obj);
             if (response?.code !== 200) {
                 return;
