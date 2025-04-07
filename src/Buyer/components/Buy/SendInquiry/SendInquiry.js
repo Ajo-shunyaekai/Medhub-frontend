@@ -248,7 +248,10 @@ const SendInquiry = ({socket}) => {
                         </label>
                       </div>
                       <div className='send-enquiry-inner-image'>
-                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' />
+                        <img 
+                          // src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' 
+                          src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`} alt='Product' 
+                          />
                       </div>
                       <div className='send-enquiry-inner-content'>
                         <div className='send-enquiry-inner-top-container'>

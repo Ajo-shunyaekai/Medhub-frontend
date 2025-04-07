@@ -79,6 +79,7 @@ const EditAddProduct = ({ placeholder }) => {
   const { productDetail } = useSelector(
     (state) => state?.productReducer
   );
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: editProductValidationSchema,
@@ -193,6 +194,12 @@ const EditAddProduct = ({ placeholder }) => {
   const [pediatricianRecommended, setPediatricianRecommended] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const parseDate = (value) => {
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+  };
+  
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -781,7 +788,8 @@ const EditAddProduct = ({ placeholder }) => {
                       placeholder="dd/MM/yyyy"
                       name="purchasedOn"
                       maxDate={new Date()}
-                      value={formik?.values?.purchasedOn}
+                      // value={formik?.values?.purchasedOn}
+                      value={parseDate(formik?.values?.purchasedOn)}
                       onChange={(date) => {
                         formik.setFieldValue("purchasedOn", date); // This updates Formik's value
                       }}
@@ -7245,7 +7253,8 @@ const EditAddProduct = ({ placeholder }) => {
                     placeholder="dd/MM/yyyy"
                     name="date"
                     maxDate={new Date()}
-                    value={formik?.values?.date}
+                    // value={formik?.values?.date}
+                    value={parseDate(formik.values.date)}
                     onChange={(date) => {
                       formik.setFieldValue("date", date); // This updates Formik's value
                     }}
@@ -7773,7 +7782,8 @@ const EditAddProduct = ({ placeholder }) => {
                         format="dd/MM/yyyy"
                         placeholder="dd/MM/yyyy"
                         name={`cNCFileNDate.${index}.date`}
-                        value={ele?.date}
+                        // value={ele?.date}
+                        value={parseDate(ele?.date)}
                         minDate={new Date()}
                         onChange={(e) => {
                           // formik?.handleChange(e);

@@ -8,9 +8,12 @@ import { Link } from 'react-router-dom';
 const SupplyProductList = ({ productsData, totalProducts, currentPage, productsPerPage, handleProductPageChange }) => {
 
   const [currenttPage, setCurrenttPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(window.innerWidth >= 1590 ? 4 : 3);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
-  // Sample data for demonstration
+  const formatCategory = (str) => {
+    return str.replace(/([A-Z])/g, ' $1').trim();
+  };
+
   const productList = [
     { id: 1, name: 'Product 1', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
     { id: 2, name: 'Product 2', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
@@ -19,13 +22,17 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
     { id: 5, name: 'Product 5', country: 'Dubai', stocked: 450, dossierType: 'EU CTU', dossierStatus: 'Ready to file', gmpApprovals: 'GU EMP' },
     // Add more product data as needed
   ];
+
   const indexOfLastItem = currenttPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+
   const handlePageChange = (pageNumber) => setCurrenttPage(pageNumber);
+
   const handleResize = () => {
-    setItemsPerPage(window.innerWidth >= 1590 ? 4 : 3);
+    setItemsPerPage(4);
   };
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -36,52 +43,59 @@ const SupplyProductList = ({ productsData, totalProducts, currentPage, productsP
       <div className='supplier-product-card-main-section'>
         {productsData && productsData.length > 0 ? (
           productsData.map((product, i) => {
-            const firstImage = Array.isArray(product?.medicine_image) ? product.medicine_image[0] : null;
-            const linkTo =
-              product.medicine_type === 'new'
-                ? `/buyer/medicine-details/${product.product_id}`
-                : `/buyer/market-product-details/${product.product_id}`;
+            const firstImage = Array.isArray(product?.general?.image) ? product.general?.image[0] : null;
+            const linkTo = `/buyer/product-details/${product._id}`
+                
             return (
               <div key={product.id} className='supply-product-list-container'>
                 <div className='supply-product-left-container'>
                   <div className='supply-product-left-image-cont'>
                     <img
-                      src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${firstImage}`}
+                      src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${firstImage}`}
                       alt='Product'
                     />
                   </div>
-                  <Link to={linkTo}>
-                    <div className='supply-product-left-button-cont'>
-                      <span className='supply-product-left-button-details'>View Details</span>
-                    </div>
-                  </Link>
                 </div>
+
                 <div className='supply-product-right-container'>
                   <div className='supply-product-right-first-heading-section'>
-                    <div className='supply-product-right-container-main-heading'>{product.medicine_name}</div>
-                    <div className='supply-product-right-container-main-text'>{product.strength.includes('mg') ? product.strength : `${product.strength}mg`}</div>
+                    <div className='supply-product-right-container-main-heading'>{product?.general?.name}</div>
+                    {/* <div className='supply-product-right-container-main-text'>{product?.strength?.includes('mg') ? product?.strength : `${product?.strength}mg`}</div> */}
                   </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Country of Origin</div>
-                    <div className='supply-product-right-container-text'>{product.country_of_origin}</div>
+
+                  <div className='supply-product-inner-right-container'>
+                    <div className='supply-product-inner-child'>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Total Quantity</div>
+                        <div className='supply-product-right-container-text'>{product.general?.quantity}</div>
+                      </div>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Stock Status</div>
+                        <div className='supply-product-right-container-text'>{product.inventoryDetails[0]?.stock}</div>
+                      </div>
+                    </div>
+
+                    <div className='supply-product-inner-child'>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Category</div>
+                        <div className='supply-product-right-container-text'>{formatCategory(product?.category)}</div>
+                      </div>
+                      <div className='supply-product-right-first-section'>
+                        <div className='supply-product-right-container-head'>Sub Category</div>
+                        <div className='supply-product-right-container-stockedin'>{product?.categoryObject.subCategory}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Stocked in</div>
-                    <div className='supply-product-right-container-stockedin'>{product.stocked_in?.join(', ')}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Dossier Type</div>
-                    <div className='supply-product-right-container-text'>{product.dossier_type}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
-                    <div className='supply-product-right-container-head'>Dossier Status</div>
-                    <div className='supply-product-right-container-text'>{product.dossier_status}</div>
-                  </div>
-                  <div className='supply-product-right-first-section'>
+                  {/* <div className='supply-product-right-first-section'>
                     <div className='supply-product-right-container-head'>GMP Approvals</div>
                     <div className='supply-product-right-container-text'>{product.gmp_approvals}</div>
-                  </div>
+                  </div> */}
                 </div>
+                <Link to={linkTo}>
+                  <div className='supply-product-left-button-cont'>
+                    <span className='supply-product-left-button-details'>View Details</span>
+                  </div>
+                </Link>
               </div>
             );
           })

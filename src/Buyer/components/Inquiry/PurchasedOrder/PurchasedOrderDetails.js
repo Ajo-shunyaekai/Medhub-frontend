@@ -3,16 +3,16 @@ import styles from "./PurchasedOrderDetails.module.css";
 import html2pdf from "html2pdf.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { postRequestWithToken } from "../../../../api/Requests";
-
+ 
 const PurchasedOrderDetails = () => {
   const { purchaseOrderId } = useParams();
   const navigate = useNavigate();
-
+ 
   const buyerIdSessionStorage = sessionStorage.getItem("buyer_id");
   const buyerIdLocalStorage = localStorage.getItem("buyer_id");
-
+ 
   const [poDetails, setPoDetails] = useState();
-
+ 
   useEffect(() => {
     if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
       navigate("/buyer/login");
@@ -22,7 +22,7 @@ const PurchasedOrderDetails = () => {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
       purchaseOrder_id: purchaseOrderId,
     };
-
+ 
     postRequestWithToken(
       "purchaseorder/get-po-details",
       obj,
@@ -34,7 +34,7 @@ const PurchasedOrderDetails = () => {
       }
     );
   }, []);
-
+ 
   const orderItems =
     poDetails?.order_items?.map((item) => ({
       ...item,
@@ -42,7 +42,7 @@ const PurchasedOrderDetails = () => {
       unit_tax: parseFloat(item.medicine_details?.unit_tax || "0"),
       total_amount: parseFloat(item.total_amount),
     })) || [];
-
+ 
   const totalAmount = orderItems.reduce(
     (sum, item) => sum + item.total_amount,
     0
@@ -53,7 +53,7 @@ const PurchasedOrderDetails = () => {
     return sum + itemTotalAmount * unitTaxRate;
   }, 0);
   const grandTotal = totalAmount + totalTaxAmount;
-
+ 
   const handleDownload = () => {
     const element = document.getElementById("po-content");
     const options = {
@@ -63,10 +63,10 @@ const PurchasedOrderDetails = () => {
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
-
+ 
     html2pdf().from(element).set(options).save();
   };
-
+ 
   return (
     <div className={styles["purchased-template-design"]}>
       <div className={styles["purchased-scroll-wrapper"]}>
@@ -685,5 +685,5 @@ const PurchasedOrderDetails = () => {
     </div>
   );
 };
-
+ 
 export default PurchasedOrderDetails;

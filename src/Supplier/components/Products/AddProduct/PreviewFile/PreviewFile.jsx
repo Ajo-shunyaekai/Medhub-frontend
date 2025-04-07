@@ -5,12 +5,12 @@ import {
   csvDownload,
   previewBulkProducts,
 } from "../../../../../redux/reducers/productSlice";
-
+ 
 import DataTable from "react-data-table-component";
 import styles from "./PreviewFile.module.css";
 import FileUploadModal from "../../../SharedComponents/FileUploadModal/FileUploadModal";
 import { useNavigate } from "react-router-dom";
-
+ 
 function PreviewFile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,9 +19,9 @@ function PreviewFile() {
   const [hasErrorEntries, setHasErrorEntries] = useState(false);
   const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false); // New state to track error-free data upload status
   const { previewProducts } = useSelector((state) => state?.productReducer);
-
+ 
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
-
+ 
   const calculateColumnWidth = (data, key, heading, minWidth = 120) => {
     const headingWidth = heading.length * 10;
     const maxContentWidth = Math.max(
@@ -33,11 +33,11 @@ function PreviewFile() {
     );
     return Math.max(minWidth, maxContentWidth);
   };
-
+ 
   const handleSelectFile = (file) => {
     setSelectedFile(file);
   };
-
+ 
   const handleCSVDownload = () => {
     dispatch(csvDownload(previewProducts?.entriesWithErrors)).then(
       (response) => {
@@ -47,13 +47,13 @@ function PreviewFile() {
       }
     );
   };
-
+ 
   const handleBulkUpload = () => {
     if (selectedFile) {
       const bulkFormData = new FormData();
       bulkFormData.append("supplier_id", sessionStorage.getItem("_id"));
       bulkFormData.append("csvfile", selectedFile);
-
+ 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
           setIsErrorFreeDataUploaded(false); // Mark that the error-free data is uploaded successfully
@@ -62,7 +62,7 @@ function PreviewFile() {
       });
     }
   };
-
+ 
   const handleSubmit = async () => {
     const payloadData = previewProducts?.entriesWithoutErrors?.map((ele) => {
       return {
@@ -81,14 +81,14 @@ function PreviewFile() {
       }
     });
   };
-
+ 
   return (
     <>
       <div className={styles.previewContainer}>
         <div className={styles.tableHeader}>
           <h4>Products Preview</h4>
         </div>
-
+ 
         {!isErrorFreeDataUploaded &&
           previewProducts?.entriesWithoutErrors?.length > 0 && (
             <div className={styles.container}>
@@ -131,7 +131,7 @@ function PreviewFile() {
               </div>
             </div>
           )}
-
+ 
         {previewProducts?.entriesWithErrors?.length > 0 && (
           <div className={styles.container}>
             <div
@@ -209,7 +209,7 @@ function PreviewFile() {
           </div>
         )}
       </div>
-
+ 
       {open && (
         <FileUploadModal
           onClose={() => setOpen(false)}
@@ -223,5 +223,5 @@ function PreviewFile() {
     </>
   );
 }
-
+ 
 export default PreviewFile;

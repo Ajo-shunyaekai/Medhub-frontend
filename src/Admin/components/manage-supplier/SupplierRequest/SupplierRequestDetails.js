@@ -211,11 +211,13 @@ const SupplierRequestDetails = () => {
                                                         />
                                                     )}
                                                 </div>
-                                                <div className='buyer-details-left-inner-email-button'>
-                                                    <MailOutlineIcon
-                                                        data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
-                                                        className='buyer-details-left-inner-icon'
-                                                    />
+                                                <div className='buyer-details-left-inner-email-button' >
+                                                   <a href={`mailto:${supplierDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
+                                                        <MailOutlineIcon
+                                                            data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
+                                                            className='buyer-details-left-inner-icon'
+                                                        />
+                                                    </a>
                                                     {supplierDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"

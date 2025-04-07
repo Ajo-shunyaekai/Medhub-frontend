@@ -1,0 +1,49 @@
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f6;
+  text-align: center;
+}
+
+.errorCode {
+  font-size: 120px;
+  font-weight: bold;
+  color: #282f86;
+  animation: float 3s ease-in-out infinite;
+}
+
+.errorMessage {
+  font-size: 22px;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+.homeButton {
+  background-color: #282f86;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.homeButton:hover {
+  background-color: #282f86;
+}

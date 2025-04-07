@@ -98,7 +98,7 @@ const ApprovedBuyer = () => {
                                             <div className='table-text-color'>{buyer.buyer_country_code} {buyer.buyer_mobile || '879812341'}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-2'>
-                                            <div className='rejected-table-text-color'>{buyer.buyer_email || 'puremed@gmail.com'}</div>
+                                            <div className='rejected-table-text-color'>{buyer.contact_person_email || 'puremed@gmail.com'}</div>
                                         </div>
                                         <div className='rejected-table-row-item rejected-table-order-1'>
                                             <div className='rejected-table-text-color'>

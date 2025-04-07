@@ -16,6 +16,18 @@ const SupplierDetails = () => {
   const navigate = useNavigate();
   const { supplierId } = useParams()
 
+  const [activeTab, setActiveTab] = useState('');
+  const [supplier, setSupplier] = useState()
+  const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
+  const [totalOrders, setTotalOrders] = useState()
+  const [currentOrderPage, setCurrentOrderPage] = useState(1)
+  const ordersPerPage = 3;
+
+  const [productList, setProductList] = useState([])
+  const [totalProducts, setTotalProducts] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 4;
+
   const getActiveButtonFromPath = (path) => {
     if (path.includes('/products')) {
       return 'products';
@@ -35,10 +47,12 @@ const SupplierDetails = () => {
       case 'products':
         navigate(`/buyer/supplier-details/${supplierId}/products`);
         setActiveTab('products');
+        setCurrentPage(1)
         break;
       case 'secondary':
         navigate(`/buyer/supplier-details/${supplierId}/secondary`);
         setActiveTab('secondary');
+        setCurrentPage(1)
         break;
       case 'orders':
         navigate(`/buyer/supplier-details/${supplierId}/orders`);
@@ -50,17 +64,6 @@ const SupplierDetails = () => {
     }
   };
 
-  const [activeTab, setActiveTab] = useState('');
-  const [supplier, setSupplier] = useState()
-  const [buyerSupplierOrder, setBuyerSupplierOrder] = useState([])
-  const [totalOrders, setTotalOrders] = useState()
-  const [currentOrderPage, setCurrentOrderPage] = useState(1)
-  const ordersPerPage = 3;
-
-  const [productList, setProductList] = useState([])
-  const [totalProducts, setTotalProducts] = useState()
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 3;
 
   const handleProductPageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -109,7 +112,7 @@ const SupplierDetails = () => {
       return;
     }
 
-    const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary market' : '';
+    const medicineType = activeButton === 'products' ? 'new' : activeButton === 'secondary' ? 'secondary' : '';
 
     const obj = {
       supplier_id: supplierId,
