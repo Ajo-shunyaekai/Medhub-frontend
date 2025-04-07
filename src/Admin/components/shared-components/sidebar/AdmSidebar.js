@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./sidebar.module.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import order_list from "../../../assets/Images/dashboard/order_list.svg";
@@ -11,20 +11,25 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import TocOutlinedIcon from "@mui/icons-material/TocOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import LocalMallOutlinedIcon from "@mui/icons-material/LocalMallOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import Box from "@mui/material/Box";
-import Badge from '@mui/material/Badge';
+import Badge from "@mui/material/Badge";
 import Drawer from "@mui/material/Drawer";
 import moment from "moment";
 
-
-const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick }) => {
-  const navigate = useNavigate()
+const AdmSidebar = ({
+  children,
+  dragWindow,
+  notificationList,
+  count,
+  handleClick,
+}) => {
+  const navigate = useNavigate();
   const [isDropOpen, setIsDropOpen] = useState(false);
   const [isSellerOpen, setIsSellerOpen] = useState(false);
   const [isManageOpen, setIsManageOpen] = useState(false);
@@ -32,7 +37,6 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
   const [isIconOpen, setIsIconOpen] = useState(false);
   const [isBuyerIconOpen, setIsBuyerIconOpen] = useState(false);
   const [isProductIconOpen, setIsProductIconOpen] = useState(false);
-
 
   const toggleDropdown = () => {
     setIsDropOpen(!isDropOpen);
@@ -46,7 +50,6 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
     setIsDropOpen(false);
     setIsManageOpen(false);
     setIsIconOpen(!isIconOpen);
-
   };
 
   const toggleManageDropdown = () => {
@@ -71,11 +74,11 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
       setIsFullScreen(isCurrentlyFullScreen);
     };
 
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
 
     // Cleanup the event listener on component unmount
     return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
     };
   }, []);
 
@@ -120,9 +123,9 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -166,13 +169,12 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
     setOpen(newOpen);
   };
 
-
   const handleSignout = () => {
     setIsProfileOpen(!isProfileOpen);
-    localStorage.clear()
-    sessionStorage.clear()
-    navigate('/admin/login')
-  }
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/admin/login");
+  };
 
   const toggleAccordion = () => {
     setIsDropdown(!isDropdown);
@@ -235,101 +237,260 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               </Link>
             </div>
           )}
-          <div className={styles.dropdown} style={{ marginTop: '8px' }}>
-            <div className={styles.dropdownToggle} onClick={toggleSellerDropdown}>
-              <LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} />
-              <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Supplier
-                {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+          <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+            <div
+              className={styles.dropdownToggle}
+              onClick={toggleSellerDropdown}
+            >
+              <LocalMallOutlinedIcon
+                style={{ color: "#14bae4", fontSize: "20px" }}
+              />
+              <div
+                className={styles.dropdownText}
+                style={{ display: isOpen ? "block" : "none" }}
+              >
+                Manage Supplier
+                {isIconOpen ? (
+                  <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                ) : (
+                  <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+                )}
               </div>
             </div>
             {isOpen && isSellerOpen && (
               <div className={styles.dropdownContent}>
-                <Link to="/admin/supplier-request" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/supplier-request"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Supplier Requests</div>
                 </Link>
-                <Link to="/admin/approved-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/approved-supplier"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Approved Supplier</div>
                 </Link>
-                <Link to="/admin/rejected-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/rejected-supplier"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Rejected Supplier </div>
                 </Link>
 
-                <Link to="/admin/supplier-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Supplier Transaction</div>
+                <Link
+                  to="/admin/supplier-transaction"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
+                  <div className={styles.sidebar_text}>
+                    Supplier Transaction
+                  </div>
                 </Link>
-                <Link to="/admin/manage-seller/feedback" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/manage-seller/feedback"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="#"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
             )}
           </div>
 
-          <div className={styles.dropdown} style={{ marginTop: '8px' }}>
+          <div className={styles.dropdown} style={{ marginTop: "8px" }}>
             <div className={styles.dropdownToggle} onClick={toggleDropdown}>
               <LocalShippingOutlinedIcon
                 style={{ color: "#31c971", fontSize: "20px" }}
               />
-              <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Buyer
-                {isBuyerIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+              <div
+                className={styles.dropdownText}
+                style={{ display: isOpen ? "block" : "none" }}
+              >
+                Manage Buyer
+                {isBuyerIconOpen ? (
+                  <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                ) : (
+                  <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+                )}
               </div>
-
             </div>
             {isOpen && isDropOpen && (
               <div className={styles.dropdownContent}>
-                <Link to="/admin/buyer-request" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/buyer-request"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Buyer Requests</div>
                 </Link>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="#"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Approved Buyer</div>
                 </Link>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="#"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Rejected Buyer </div>
                 </Link>
-                <Link to="/admin/buyer-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/buyer-transaction"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Buyer Transaction</div>
                 </Link>
-                <Link to="/admin/manage-buyer/feedback" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="/admin/manage-buyer/feedback"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Support</div>
                 </Link>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                <Link
+                  to="#"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
                   <div className={styles.sidebar_text}>Invoices </div>
                 </Link>
               </div>
             )}
           </div>
-          <div className={styles.dropdown} style={{ marginTop: '8px' }}>
-            <div className={styles.dropdownToggle} onClick={toggleManageDropdown}>
-              <DescriptionOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} />
-              <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Products </div>
-              {isProductIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
-
+          <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+            <div
+              className={styles.dropdownToggle}
+              onClick={toggleManageDropdown}
+            >
+              <DescriptionOutlinedIcon
+                style={{ color: "#f4c414", fontSize: "20px" }}
+              />
+              <div
+                className={styles.dropdownText}
+                style={{ display: isOpen ? "block" : "none" }}
+              >
+                Manage Products{" "}
+              </div>
+              {isProductIconOpen ? (
+                <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+              ) : (
+                <KeyboardArrowDownOutlinedIcon style={{ color: "#5e676f" }} />
+              )}
             </div>
             {isOpen && isManageOpen && (
               <div className={styles.dropdownContent}>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Approved Products
-                  </div>
-                </Link>
-                <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
-                  <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                  <div className={styles.sidebar_text}>Rejected Products
-                  </div>
+                <Link
+                  to="/admin/products/new"
+                  className={styles.sidebar_text}
+                  activeclassname={styles.active}
+                >
+                  <FiberManualRecordIcon
+                    style={{
+                      color: "#d3d3d3",
+                      fontSize: "12px",
+                      marginLeft: "10px",
+                    }}
+                  />
+                  <div className={styles.sidebar_text}>Products</div>
                 </Link>
               </div>
             )}
@@ -340,10 +501,10 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
           </Link> */}
 
-          <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
+          {/* <Link to="#" className={styles.sidebar_text} activeclassname={styles.active}>
             <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
-          </Link>
+          </Link> */}
         </div>
       </Box>
     </Box>
@@ -368,28 +529,26 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
     };
   }, []); // Empty dependency array to run this effect only once on mount
 
-
   const handleNavigation = (notificationId, event, eventId, linkId) => {
     const eventRoutes = {
-      addnewmedicinerequest: '/admin/product-requests/newproduct',
-      addsecondarymedicinerequest: '/admin/product-requests/secondary',
-      editnewmedicinerequest: '/admin/product-update-requests/newproduct',
-      editsecondarymedicinerequest: '/admin/product-update-requests/secondary',
-      buyerregistration: '/admin/buyer-request',
-      supplierregistration: '/admin/supplier-request',
+      addnewmedicinerequest: "/admin/product-requests/newproduct",
+      addsecondarymedicinerequest: "/admin/product-requests/secondary",
+      editnewmedicinerequest: "/admin/product-update-requests/newproduct",
+      editsecondarymedicinerequest: "/admin/product-update-requests/secondary",
+      buyerregistration: "/admin/buyer-request",
+      supplierregistration: "/admin/supplier-request",
     };
 
-    const route = eventRoutes[event] || '/admin/';
+    const route = eventRoutes[event] || "/admin/";
     setIsNotificationOpen(false);
     navigate(route);
     // handleClick(notificationId, event); // Uncomment this if needed
   };
 
-
   const handleNotificationNavigate = () => {
-    setIsNotificationOpen(false)
-    navigate(`/admin/notification-list`)
-  }
+    setIsNotificationOpen(false);
+    navigate(`/admin/notification-list`);
+  };
   // ======================
   return (
     <>
@@ -425,7 +584,10 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                 onClick={toggleSearchBar}
               />
               <div ref={notificationRef}>
-                <Badge badgeContent={count > 9 ? '9+' : count} color="secondary">
+                <Badge
+                  badgeContent={count > 9 ? "9+" : count}
+                  color="secondary"
+                >
                   <NotificationsNoneOutlinedIcon
                     className={styles.nav_icon_color}
                     onClick={NotificationDropdown}
@@ -438,24 +600,36 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                         {notificationList && notificationList.length > 0 ? (
                           notificationList.slice(0, 5).map((data, i) => {
                             // Split the message into heading and content
-                            const words = data.message.split(' ');
-                            const heading = words.slice(0, 2).join(' '); // First two words
-                            const content = words.slice(2).join(' '); // Remaining content
+                            const words = data.message.split(" ");
+                            const heading = words.slice(0, 2).join(" "); // First two words
+                            const content = words.slice(2).join(" "); // Remaining content
 
                             return (
                               <div
                                 key={data.notification_id}
                                 className={styles.noti_profile_wrapper}
                                 onClick={() =>
-                                  handleNavigation(data.notification_id, data.event, data.event_id, data.link_id)
+                                  handleNavigation(
+                                    data.notification_id,
+                                    data.event,
+                                    data.event_id,
+                                    data.link_id
+                                  )
                                 }
                               >
                                 <div className={styles.noti_profile_text}>
-                                  <span className={styles.noti_heading}>{heading}</span>
-                                  <span className={styles.noti_head_content}>
-                                    {content.length > 100 ? `${content.slice(0, 100)}...` : content}
+                                  <span className={styles.noti_heading}>
+                                    {heading}
                                   </span>
-                                  <span className={styles.noti_profile}> {moment(data.createdAt).fromNow()}</span>
+                                  <span className={styles.noti_head_content}>
+                                    {content.length > 100
+                                      ? `${content.slice(0, 100)}...`
+                                      : content}
+                                  </span>
+                                  <span className={styles.noti_profile}>
+                                    {" "}
+                                    {moment(data.createdAt).fromNow()}
+                                  </span>
                                 </div>
                               </div>
                             );
@@ -483,7 +657,6 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                     </div>
                   </div>
                 )}
-
               </div>
               <div ref={profileRef}>
                 <AccountCircleOutlinedIcon
@@ -499,7 +672,7 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                           to="#"
                           onClick={() => setIsProfileOpen(false)} // Close dropdown on click
                         >
-                          {sessionStorage?.email || 'admin@gmail.com'}
+                          {sessionStorage?.email || "admin@gmail.com"}
                         </Link>
                       </div>
                       <div className={styles.profile_wrapper_mid}>
@@ -530,7 +703,6 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                   onClick={toggleDrawer(true)}
                 />
               </div>
-
             </div>
           </div>
         </div>
@@ -549,140 +721,383 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
       {/*Desktop Sidebar code start from here */}
       <div className={styles.sidebar_container}>
         {isIcon ? (
-          <div style={{ width: isOpen ? "200px" : "50px" }} className={styles.sidebar}>
-            <Link to="/admin" className={styles.sidebar_text} activeclassname={styles.active}>
-              <div className={styles.icon}><HomeOutlinedIcon style={{ color: '#282f86', fontSize: '20px' }} /></div>
-              <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Dashboard</div>
+          <div
+            style={{ width: isOpen ? "200px" : "50px" }}
+            className={styles.sidebar}
+          >
+            <Link
+              to="/admin"
+              className={styles.sidebar_text}
+              activeclassname={styles.active}
+            >
+              <div className={styles.icon}>
+                <HomeOutlinedIcon
+                  style={{ color: "#282f86", fontSize: "20px" }}
+                />
+              </div>
+              <div
+                style={{ display: isOpen ? "block" : "none" }}
+                className={styles.sidebar_text}
+              >
+                Dashboard
+              </div>
             </Link>
 
             <div className={styles.mobile_order_btn}>
               {isDropdown && isOpen && (
                 <div className={styles.accordion_content}>
-                  <Link to="/admin/alotted-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '160px' }}>
-                    <img src={order_list} alt="order icon" style={{ paddingRight: '15px', }} />
+                  <Link
+                    to="/admin/alotted-order"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                    style={{ width: "160px" }}
+                  >
+                    <img
+                      src={order_list}
+                      alt="order icon"
+                      style={{ paddingRight: "15px" }}
+                    />
                     Active Orders
                   </Link>
 
-                  <Link to="/admin/active-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '160px' }}>
-                    <img src={order_list} alt="order icon" style={{ paddingRight: '15px', }} />
+                  <Link
+                    to="/admin/active-order"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                    style={{ width: "160px" }}
+                  >
+                    <img
+                      src={order_list}
+                      alt="order icon"
+                      style={{ paddingRight: "15px" }}
+                    />
                     Completed Orders
                   </Link>
 
-                  <Link to="/admin/complete-order" className={styles.sidebar_text} activeclassname={styles.active} style={{ width: '160px' }}>
-                    <img src={order_list} alt="order icon" style={{ paddingRight: '15px', }} />
+                  <Link
+                    to="/admin/complete-order"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                    style={{ width: "160px" }}
+                  >
+                    <img
+                      src={order_list}
+                      alt="order icon"
+                      style={{ paddingRight: "15px" }}
+                    />
                     Pending Orders
                   </Link>
                 </div>
               )}
             </div>
             {/* =========================== */}
-            <div className={styles.dropdown} style={{ marginTop: '8px' }}>
-              <div className={styles.dropdownToggle} onClick={toggleSellerDropdown}>
-                <LocalMallOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} />
-                <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Supplier
-                  {isIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+              <div
+                className={styles.dropdownToggle}
+                onClick={toggleSellerDropdown}
+              >
+                <LocalMallOutlinedIcon
+                  style={{ color: "#14bae4", fontSize: "20px" }}
+                />
+                <div
+                  className={styles.dropdownText}
+                  style={{ display: isOpen ? "block" : "none" }}
+                >
+                  Manage Supplier
+                  {isIconOpen ? (
+                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f" }}
+                    />
+                  )}
                 </div>
               </div>
               {isOpen && isSellerOpen && (
                 <div className={styles.dropdownContent}>
-                  <Link to="/admin/supplier-request" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/supplier-request"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Supplier Requests</div>
                   </Link>
-                  <Link to="/admin/approved-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/approved-supplier"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Approved Supplier</div>
                   </Link>
-                  <Link to="/admin/rejected-supplier" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Rejected Supplier </div>
+                  <Link
+                    to="/admin/rejected-supplier"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <div className={styles.sidebar_text}>
+                      Rejected Supplier{" "}
+                    </div>
                   </Link>
-                  <Link to="/admin/supplier-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Supplier Transaction</div>
+                  <Link
+                    to="/admin/supplier-transaction"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <div className={styles.sidebar_text}>
+                      Supplier Transaction
+                    </div>
                   </Link>
-                  <Link to="/admin/supplier-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/supplier-inquiry"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Inquiry</div>
                   </Link>
-                  <Link to="/admin/supplier-order" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/supplier-order"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
-                  <Link to="/admin/supplier-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/supplier-invoice"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
-                  <Link to="/admin/supplier-support" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/supplier-support"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
-
                 </div>
               )}
             </div>
             {/* =========================== */}
-            <div className={styles.dropdown} style={{ marginTop: '8px' }}>
+            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
               <div className={styles.dropdownToggle} onClick={toggleDropdown}>
                 <LocalShippingOutlinedIcon
                   style={{ color: "#31c971", fontSize: "20px" }}
                 />
-                <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Buyer
-                  {isBuyerIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+                <div
+                  className={styles.dropdownText}
+                  style={{ display: isOpen ? "block" : "none" }}
+                >
+                  Manage Buyer
+                  {isBuyerIconOpen ? (
+                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f" }}
+                    />
+                  )}
                 </div>
-
               </div>
               {isOpen && isDropOpen && (
                 <div className={styles.dropdownContent}>
-                  <Link to="/admin/buyer-request" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-request"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Buyer Requests</div>
                   </Link>
-                  <Link to="/admin/approved-buyer" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/approved-buyer"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Approved Buyer</div>
                   </Link>
-                  <Link to="/admin/rejected-buyer" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/rejected-buyer"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Rejected Buyer </div>
                   </Link>
-                  <Link to="/admin/buyer-transaction" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-transaction"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Buyer Transaction</div>
                   </Link>
-                  <Link to="/admin/buyer-inquiry" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-inquiry"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Inquiry</div>
                   </Link>
-                  <Link to="/admin/buyer-order" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-order"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Order</div>
                   </Link>
-                  <Link to="/admin/buyer-invoice" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-invoice"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Invoices </div>
                   </Link>
-                  <Link to="/admin/buyer-support" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
+                  <Link
+                    to="/admin/buyer-support"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
                     <div className={styles.sidebar_text}>Support</div>
                   </Link>
-
                 </div>
               )}
             </div>
 
             {/* ===================== */}
-            <div className={styles.dropdown} style={{ marginTop: '8px' }}>
-              <div className={styles.dropdownToggle} onClick={toggleManageDropdown}>
-                <DescriptionOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} />
-                <div className={styles.dropdownText} style={{ display: isOpen ? "block" : "none" }}>Manage Products
-                  {isProductIconOpen ? <KeyboardArrowUpOutlinedIcon style={{ color: '#5e676f' }} /> : <KeyboardArrowDownOutlinedIcon style={{ color: '#5e676f' }} />}
+            <div className={styles.dropdown} style={{ marginTop: "8px" }}>
+              <div
+                className={styles.dropdownToggle}
+                onClick={toggleManageDropdown}
+              >
+                <DescriptionOutlinedIcon
+                  style={{ color: "#f4c414", fontSize: "20px" }}
+                />
+                <div
+                  className={styles.dropdownText}
+                  style={{ display: isOpen ? "block" : "none" }}
+                >
+                  Manage Products
+                  {isProductIconOpen ? (
+                    <KeyboardArrowUpOutlinedIcon style={{ color: "#5e676f" }} />
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon
+                      style={{ color: "#5e676f" }}
+                    />
+                  )}
                 </div>
-
               </div>
               {isOpen && isManageOpen && (
                 <div className={styles.dropdownContent}>
-                  <Link to="/admin/product-requests" className={styles.sidebar_text} activeclassname={styles.active}>
+                  {/* <Link to="/admin/product-requests" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Product Requests
                     </div>
@@ -691,17 +1106,26 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Product Update Requests
                     </div>
+                  </Link> */}
+                  <Link
+                    to="/admin/products/new"
+                    className={styles.sidebar_text}
+                    activeclassname={styles.active}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "#d3d3d3",
+                        fontSize: "12px",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    <div className={styles.sidebar_text}>Products</div>
                   </Link>
-                  <Link to="/admin/approved-product" className={styles.sidebar_text} activeclassname={styles.active}>
-                    <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
-                    <div className={styles.sidebar_text}>Approved Products
-                    </div>
-                  </Link>
-                  <Link to="/admin/rejected-product" className={styles.sidebar_text} activeclassname={styles.active}>
+                  {/* <Link to="/admin/rejected-product" className={styles.sidebar_text} activeclassname={styles.active}>
                     <FiberManualRecordIcon style={{ color: '#d3d3d3', fontSize: '12px', marginLeft: "10px" }} />
                     <div className={styles.sidebar_text}>Rejected Products
                     </div>
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
@@ -712,16 +1136,15 @@ const AdmSidebar = ({ children, dragWindow, notificationList, count, handleClick
               <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Products</div>
             </Link> */}
 
-            <Link to="#" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
+            {/* <Link to="#" id="last_sidebar" className={styles.sidebar_text} activeclassname={styles.active}>
               <div className={styles.icon}><ManageAccountsOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
               <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Manage Commission</div>
-            </Link>
-
-
-
+            </Link> */}
           </div>
-        ) : ''}
-        <main style={{ marginTop: isSearchVisible ? '30px' : '0' }}>
+        ) : (
+          ""
+        )}
+        <main style={{ marginTop: isSearchVisible ? "30px" : "0" }}>
           <Outlet />
         </main>
       </div>

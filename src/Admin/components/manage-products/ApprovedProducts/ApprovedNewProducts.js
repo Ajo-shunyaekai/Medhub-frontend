@@ -75,7 +75,7 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                             </div> */}
 
                                             <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                                <Link to={`/admin/product-details/${product.product_id}`}>
+                                                <Link to={`/admin/product-details/${product?._id}`}>
                                                     <div className='rejected-table rejected-table-view'>
                                                         <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                     </div>

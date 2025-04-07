@@ -2,11 +2,11 @@ import styles from "./productdetail.module.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
-import RenderProductFiles from "../RenderProductFiles";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
-import CloseIcon from "../../../assets/images/Icon.svg";
+import CloseIcon from "../../../assets/Images/Icon.svg";
+import RenderProductFiles from "./RenderProductFiles";
+import { fetchProductDetail } from "../../../../redux/reducers/productSlice";
 Modal.setAppElement("#root");
 
 const ProductDetails = () => {
@@ -49,7 +49,7 @@ const ProductDetails = () => {
     <div className={styles.container}>
       <span className={styles.heading}>Product Details</span>
       <div className={styles.section}>
-        <div className={styles.mainContainer}>
+        {/* <div className={styles.mainContainer}>
           <div className={styles.InnerContainer}>
             <span className={styles.medicineName}>
               {productDetail?.general?.name}
@@ -61,7 +61,7 @@ const ProductDetails = () => {
               Edit
             </Link>
           </div>
-        </div>
+        </div> */}
 
         {/* Start Secondar Market section */}
         {(productDetail?.secondayMarketDetails?.purchasedOn ||
