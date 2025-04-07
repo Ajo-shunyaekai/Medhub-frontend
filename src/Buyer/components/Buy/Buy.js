@@ -15,42 +15,42 @@ const Buy = () => {
     const [filterCategory, setFilterCategory] = useState('');
     const [isOpen, setIsOpen] = useState(false); // State to control accordion
 
-    // const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
-    //     const crumbs = [{ name: 'Buy', path: '/buyer/buy/by-supplier' }];
-    //     switch (pathname) {
-    //         case '/buyer/buy/by-supplier':
-    //             crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
-    //             break;
-    //         case '/buyer/buy/by-product':
-    //             crumbs.push({ name: 'Category', path: '/buyer/buy/by-product' });
-    //             if (selectedCategory) {
-    //                 crumbs.push({ name: selectedCategory, path: `/buyer/buy/by-product/${selectedCategory}` });
-    //             }
-    //             if (filterCategory) {
-    //                 crumbs.push({ name: filterCategory, path: `/buyer/buy/by-product` });
-    //             }
-    //             break;
-    //         case '/buyer/buy/secondary-market':
-    //             crumbs.push({ name: 'Secondary Market', path: '/buyer/buy/secondary-market' });
-    //             if (selectedCategory) {
-    //                 crumbs.push({ name: selectedCategory, path: `/buyer/buy/secondary-market/${selectedCategory}` });
-    //             }
-    //             if (filterCategory) {
-    //                 crumbs.push({ name: filterCategory, path: `/buyer/buy/secondary-market` });
-    //             }
-    //             break;
-    //         default:
-    //             crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
-    //     }
-    //     return crumbs;
-    // };
+    const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
+        const crumbs = [{ name: 'Buy', path: '/buyer/buy/by-supplier' }];
+        switch (pathname) {
+            case '/buyer/buy/by-supplier':
+                crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
+                break;
+            case '/buyer/buy/by-product':
+                crumbs.push({ name: 'Category', path: '/buyer/buy/by-product' });
+                if (selectedCategory) {
+                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/by-product/${selectedCategory}` });
+                }
+                if (filterCategory) {
+                    crumbs.push({ name: filterCategory, path: `/buyer/buy/by-product` });
+                }
+                break;
+            case '/buyer/buy/secondary-market':
+                crumbs.push({ name: 'Secondary Market', path: '/buyer/buy/secondary-market' });
+                if (selectedCategory) {
+                    crumbs.push({ name: selectedCategory, path: `/buyer/buy/secondary-market/${selectedCategory}` });
+                }
+                if (filterCategory) {
+                    crumbs.push({ name: filterCategory, path: `/buyer/buy/secondary-market` });
+                }
+                break;
+            default:
+                crumbs.push({ name: 'Supplier', path: '/buyer/buy/by-supplier' });
+        }
+        return crumbs;
+    };
 
     const [breadcrumbs, setBreadcrumbs] = useState([]);
 
-    // useEffect(() => {
-    //     const crumbs = getBreadCrumbs(location.pathname, selectedCategory, filterCategory);
-    //     setBreadcrumbs(crumbs);
-    // }, [location.pathname, selectedCategory, filterCategory]);
+    useEffect(() => {
+        const crumbs = getBreadCrumbs(location.pathname, selectedCategory, filterCategory);
+        setBreadcrumbs(crumbs);
+    }, [location.pathname, selectedCategory, filterCategory]);
 
     const handleBreadcrumbClick = (path) => {
         navigate(path);
