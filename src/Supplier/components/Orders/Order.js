@@ -82,28 +82,13 @@ const Order = () => {
             page_no      : currentPage, 
             limit        : ordersPerPage,
         }
- 
-        // postRequestWithToken('supplier/order/supplier-order-list', obj, async (response) => {
-        //     if (response.code === 200) {
-        //         setOrderList(response.result.data)
-        //         setTotalOrders(response.result.totalItems)
-        //     } else {
-        //         toast(response.message, {type:'error'})
-        //     }
-        //     setLoading(false);
-        //   })
+
         try {
             const response = await apiRequests.getRequest(`order/get-all-order-list?filterKey=${activeLink}&pageNo=${currentPage}&pageSize=${ordersPerPage}`)
             if (response.code === 200) {
                 setOrderList(response.result.data)
                 setTotalOrders(response.result.totalItems)
             }
-            // postRequestWithToken(`order/get-all-order-list?filterKey=${activeLink}&pageNo=${currentPage}&pageSize=${ordersPerPage}`, obj, async (response) => {
-            //     if (response.code == 200) {
-            //         setOrderList(response.result.data)
-            //         setTotalOrders(response.result.totalItems)
-            //     }
-            // })
         } catch (error) {
             toast(error.message, {type:'error'})
         } finally{

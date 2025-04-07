@@ -17,6 +17,7 @@ function PreviewFile() {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [hasErrorEntries, setHasErrorEntries] = useState(false);
+  const [isErrorFreeDataUploaded, setIsErrorFreeDataUploaded] = useState(false); // New state to track error-free data upload status
   const { previewProducts } = useSelector((state) => state?.productReducer);
 
   const hasRowError = (row) => Object.values(row).some((cell) => cell?.error);
@@ -55,7 +56,8 @@ function PreviewFile() {
 
       dispatch(previewBulkProducts(bulkFormData)).then((response) => {
         if (response?.meta.requestStatus === "fulfilled") {
-          navigate("/supplier/preview-file");
+          setIsErrorFreeDataUploaded(false); // Mark that the error-free data is uploaded successfully
+          // navigate("/supplier/preview-file");
         }
       });
     }
@@ -73,6 +75,7 @@ function PreviewFile() {
     dispatch(bulkUpload(payloadData))?.then((response) => {
       if (response?.meta.requestStatus === "fulfilled") {
         setHasErrorEntries(false);
+        setIsErrorFreeDataUploaded(true); // Mark that the error-free data is uploaded successfully
         previewProducts?.entriesWithErrors?.length == 0 &&
           navigate("/supplier/product");
       }
@@ -86,43 +89,48 @@ function PreviewFile() {
           <h4>Products Preview</h4>
         </div>
 
-        {previewProducts?.entriesWithoutErrors?.length > 0 && (
-          <div className={styles.container}>
-            <div
-              className={`alert alert-success ${styles.successContainer}`}
-              role="alert"
-            >
-              {previewProducts.entriesWithoutErrorsCount} successfully uploaded
-              <div className={styles.buttonGroup}>
-                <button className={styles.uploadButton} onClick={handleSubmit}>
-                  Submit
-                </button>
+        {!isErrorFreeDataUploaded &&
+          previewProducts?.entriesWithoutErrors?.length > 0 && (
+            <div className={styles.container}>
+              <div
+                className={`alert alert-success ${styles.successContainer}`}
+                role="alert"
+              >
+                {previewProducts.entriesWithoutErrorsCount} successfully
+                uploaded
+                <div className={styles.buttonGroup}>
+                  <button
+                    className={styles.uploadButton}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+              <div className={styles.tableContainer}>
+                <DataTable
+                  columns={Object.keys(
+                    previewProducts?.entriesWithoutErrors[0]
+                  ).map((key, index) => {
+                    const heading = previewProducts?.headings[index] || key;
+                    return {
+                      name: heading,
+                      selector: (row) => row[key]?.value || "-",
+                      width: `${calculateColumnWidth(
+                        previewProducts?.entriesWithoutErrors,
+                        key,
+                        heading
+                      )}px`,
+                    };
+                  })}
+                  data={previewProducts.entriesWithoutErrors}
+                  fixedHeader
+                  pagination
+                  responsive
+                />
               </div>
             </div>
-            <div className={styles.tableContainer}>
-              <DataTable
-                columns={Object.keys(
-                  previewProducts?.entriesWithoutErrors[0]
-                ).map((key, index) => {
-                  const heading = previewProducts?.headings[index] || key;
-                  return {
-                    name: heading,
-                    selector: (row) => row[key]?.value || "-",
-                    width: `${calculateColumnWidth(
-                      previewProducts?.entriesWithoutErrors,
-                      key,
-                      heading
-                    )}px`,
-                  };
-                })}
-                data={previewProducts.entriesWithoutErrors}
-                fixedHeader
-                pagination
-                responsive
-              />
-            </div>
-          </div>
-        )}
+          )}
 
         {previewProducts?.entriesWithErrors?.length > 0 && (
           <div className={styles.container}>

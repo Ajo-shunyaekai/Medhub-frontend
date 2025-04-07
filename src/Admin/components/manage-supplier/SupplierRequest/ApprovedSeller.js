@@ -47,15 +47,7 @@ const ApprovedSeller = () => {
                     pageNo      : currentPage, 
                     pageSize    : listPerPage,
                 }
-        
-                // postRequestWithToken('admin/get-supplier-list', obj, async (response) => {
-                //     if (response.code === 200) {
-                //         setSellerList(response.result.data)
-                //         setTotalSellers(response.result.totalItems)
-                //     } else {
-                //     }
-                //     setLoading(false);
-                // })
+
                 const response = await apiRequests.getRequest(`supplier/get-all-suppliers-list?filterKey=${'accepted'}&filterValue=${filterValue}&pageNo=${currentPage}&pageSize=${listPerPage}`);
                 if (response?.code !== 200) {
                     return;
