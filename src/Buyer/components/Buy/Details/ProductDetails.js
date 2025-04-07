@@ -191,6 +191,7 @@ const ProductDetails = () => {
       target_price: values?.targetPrice,
       quantity: values?.selectedQuantity,
       unit_price: values?.price,
+      unit_tax : productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
 

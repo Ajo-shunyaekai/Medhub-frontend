@@ -318,7 +318,7 @@ const CreatePO = ({ socket }) => {
       setLoading(true);
       const updatedOrderItems = orderItems.map((item) => {
         const est_delivery_days = item.est_delivery_days;
-        const unitTax = item.medicine_details.unit_tax || 0;
+        const unitTax = item.medicine_details?.general?.unit_tax || 0;
         const totalPrice =
           (item?.counter_price || item?.target_price) * item.quantity_required;
         const totalTax = totalPrice * (unitTax / 100);
@@ -327,6 +327,7 @@ const CreatePO = ({ socket }) => {
 
         return {
           ...item,
+          unit_tax: unitTax,
           totalAmount: totalAmount,
         };
       });
@@ -334,6 +335,7 @@ const CreatePO = ({ socket }) => {
         ...formData,
         orderItems: updatedOrderItems,
       };
+    
       const obj = {
         buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
         enquiry_id: inquiryId,
@@ -936,7 +938,6 @@ const CreatePO = ({ socket }) => {
           </div>
           {orderItems?.map((item, index) => {
             const unitTax = item?.medicine_details?.general?.unit_tax || 0;
-            console.log('unitTax',unitTax)
             const totalPrice =
               (item?.counter_price || item?.target_price) *
               item.quantity_required;
