@@ -39,7 +39,7 @@ const PurchasedOrderDetails = () => {
     poDetails?.order_items?.map((item) => ({
       ...item,
       unit_price: parseFloat(item.unit_price),
-      unit_tax: parseFloat(item.medicine_details?.unit_tax || "0"),
+      unit_tax: parseFloat(item.medicine_details?.general?.unit_tax || "0"),
       total_amount: parseFloat(item.total_amount),
     })) || [];
 
@@ -48,7 +48,7 @@ const PurchasedOrderDetails = () => {
     0
   );
   const totalTaxAmount = orderItems.reduce((sum, item) => {
-    const unitTaxRate = parseFloat(item.unit_tax || "0") / 100;
+    const unitTaxRate = parseFloat(item.unit_tax || item.medicine_details?.general?.unit_tax  || "0") / 100;
     const itemTotalAmount = parseFloat(item.total_amount);
     return sum + itemTotalAmount * unitTaxRate;
   }, 0);
@@ -520,7 +520,7 @@ const PurchasedOrderDetails = () => {
                                         fontSize: "13px",
                                       }}
                                     >
-                                      {item.medicine_details?.unit_tax ?? "0"}%
+                                      {item.medicine_details?.general?.unit_tax ?? "0"}%
                                     </p>
                                   </td>
                                   <td

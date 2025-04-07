@@ -935,7 +935,8 @@ const CreatePO = ({ socket }) => {
             </div>
           </div>
           {orderItems?.map((item, index) => {
-            const unitTax = item.medicine_details.unit_tax || 0;
+            const unitTax = item?.medicine_details?.general?.unit_tax || 0;
+            console.log('unitTax',unitTax)
             const totalPrice =
               (item?.counter_price || item?.target_price) *
               item.quantity_required;
@@ -1012,7 +1013,7 @@ const CreatePO = ({ socket }) => {
                       type="text"
                       name={`orderItems[${index}].unitTax`}
                       placeholder="Enter Unit Tax"
-                      value={item?.medicine_details?.unit_tax || 0}
+                      value={item?.medicine_details?.general?.unit_tax || 0}
                       readOnly
                     />
                     {errors.orderItems?.[index]?.unitTax && (

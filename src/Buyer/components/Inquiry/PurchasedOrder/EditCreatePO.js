@@ -829,7 +829,7 @@ const EditCreatePO = ({ socket }) => {
                     type="text"
                     name={`orderItems[${index}].unitTax`}
                     placeholder="Enter Unit Tax"
-                    value={item?.medicine_details?.unit_tax || 0}
+                    value={item?.medicine_details?.general?.unit_tax || 0}
                     readOnly
                   />
                   {errors.orderItems?.[index]?.unitTax && (

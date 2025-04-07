@@ -1122,7 +1122,7 @@ const ProformaInvoice = ({ socket }) => {
                     type="text"
                     name={`UnitPrice-${item.id}`}
                     placeholder="Enter Tax%"
-                    value={item?.medicine_details?.unit_tax || 0}
+                    value={item?.medicine_details?.general?.unit_tax || 0}
                     readOnly
                   />
                 </div>
