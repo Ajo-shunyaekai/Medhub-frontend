@@ -11,12 +11,12 @@ const Support = () => {
     const navigate = useNavigate()
     const [feedbackVisible, setFeedbackVisible] = useState(true);
     const [complaintVisible, setComplaintVisible] = useState(false);
-    const [activeButton, setActiveButton] = useState('feedback');
+    const [activeButton, setActiveButton] = useState('enquiry');
 
     const toggleFeedbackForm = () => {
         setFeedbackVisible(true);
         setComplaintVisible(false);
-        setActiveButton('feedback');
+        setActiveButton('enquiry');
     };
 
     const toggleComplaintForm = () => {
@@ -179,7 +179,7 @@ const Support = () => {
                         <div className={styles['support-btn-container']}>
                             <div onClick={toggleFeedbackForm}>
                                 <div className={`${styles['support-btn']} ${activeButton === 'feedback' && styles.active}`}>
-                                    Feedback
+                                    Enquiry
                                 </div>
                             </div>
                             <div onClick={toggleComplaintForm}>
@@ -198,7 +198,7 @@ const Support = () => {
                         {
                             feedbackVisible && (
                                 <div className={styles['form-main-container']}>
-                                    <div className={styles['form-heading']}>Feedback Form</div>
+                                    <div className={styles['form-heading']}>Enquiry Form</div>
                                     <form className={styles['form-main-form-section']} onSubmit={handleSubmit}>
                                         <div className={styles['form-container']}>
                                             <div className={styles['form-support-main-section']}>
@@ -215,7 +215,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your Feedback"
+                                                        placeholder="Enter your Enquiry"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={feedback}

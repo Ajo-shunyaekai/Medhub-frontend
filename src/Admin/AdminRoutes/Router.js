@@ -726,7 +726,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "feedback",
+            path: "enquiry",
             element: (
               <Suspense fallback={<Loader />}>
                 <BuyerFeedback socket={socket} />
@@ -816,7 +816,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "buyer-feedback-details/:supportId",
+        path: "buyer-enquiry-details/:supportId",
         element: (
           <Suspense fallback={<Loader />}>
             <BuyerFeedbackDetails socket={socket} />
@@ -959,7 +959,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "feedback",
+            path: "enquiry",
             element: (
               <Suspense fallback={<Loader />}>
                 <SellerFeedback socket={socket} />
@@ -1057,7 +1057,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "supplier-feedback-details/:supportId",
+        path: "supplier-enquiry-details/:supportId",
         element: (
           <Suspense fallback={<Loader />}>
             <SellerFeedbackDetails socket={socket} />
