@@ -32,8 +32,8 @@ const Order = () => {
                 return 'completed';
             case '/logistics/order/pending':
                 return 'pending';
-            case '/logistics/order/ongoing':
-                return 'ongoing';
+            // case '/logistics/order/ongoing':
+            //     return 'ongoing';
             default:
                 return 'pending';
         }
@@ -53,9 +53,9 @@ const Order = () => {
             case 'pending':
                 navigate('pending');
                 break;
-            case 'ongoing':
-                navigate('ongoing');
-                break;
+            // case 'ongoing':
+            //     navigate('ongoing');
+            //     break;
             default:
                 navigate('pending');
         }
@@ -113,11 +113,10 @@ const Order = () => {
                             <img src={order_list} alt="order icon" />
                             <div>Pending Requests</div>
                         </div>
-
-                        <div onClick={() => handleLinkClick('ongoing')} className={activeLink === 'ongoing' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
+                        {/* <div onClick={() => handleLinkClick('ongoing')} className={activeLink === 'ongoing' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
                             <div>Ongoing Requests</div>
-                        </div>
+                        </div> */}
                         <div onClick={() => handleLinkClick('active')} className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
                             <div>Active Requests</div>
