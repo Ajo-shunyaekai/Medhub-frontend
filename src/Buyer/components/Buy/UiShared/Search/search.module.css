@@ -16,8 +16,8 @@
   font-weight: 450;
 }
 
-.searchSection{
-   cursor: pointer !important;;
+.searchSection {
+  cursor: pointer !important;
   position: absolute;
   background-color: #5e676f;
   right: 28%;
@@ -40,5 +40,5 @@
 @media screen and (max-width: 991px) {
   .searchInput {
     width: 46vw;
-    }
   }
+}
