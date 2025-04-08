@@ -17,7 +17,7 @@ const Buy = () => {
     subCategory: "",
     level3Category: "",
   });
-  const [isOpen, setIsOpen] = useState(false); // State to control accordion
+  const [isOpen, setIsOpen] = useState(true); // State to control accordion
 
   const getBreadCrumbs = (pathname, selectedCategory, filterCategory) => {
     const crumbs = [{ name: "Buy", path: "/buyer/buy/by-supplier" }];
@@ -34,13 +34,22 @@ const Buy = () => {
           });
         }
         if (filterCategory?.category) {
-          crumbs.push({ name: filterCategory?.category, path: `/buyer/buy/by-product` });
+          crumbs.push({
+            name: filterCategory?.category,
+            path: `/buyer/buy/by-product`,
+          });
         }
         if (filterCategory?.subCategory) {
-          crumbs.push({ name: filterCategory?.subCategory, path: `/buyer/buy/by-product` });
+          crumbs.push({
+            name: filterCategory?.subCategory,
+            path: `/buyer/buy/by-product`,
+          });
         }
         if (filterCategory?.level3Category) {
-          crumbs.push({ name: filterCategory?.level3Category, path: `/buyer/buy/by-product` });
+          crumbs.push({
+            name: filterCategory?.level3Category,
+            path: `/buyer/buy/by-product`,
+          });
         }
         break;
       case "/buyer/buy/secondary-market":
@@ -55,13 +64,22 @@ const Buy = () => {
           });
         }
         if (filterCategory?.category) {
-          crumbs.push({ name: filterCategory?.category, path: `/buyer/buy/secondary-market` });
+          crumbs.push({
+            name: filterCategory?.category,
+            path: `/buyer/buy/secondary-market`,
+          });
         }
         if (filterCategory?.subCategory) {
-          crumbs.push({ name: filterCategory?.subCategory, path: `/buyer/buy/secondary-market` });
+          crumbs.push({
+            name: filterCategory?.subCategory,
+            path: `/buyer/buy/secondary-market`,
+          });
         }
         if (filterCategory?.level3Category) {
-          crumbs.push({ name: filterCategory?.level3Category, path: `/buyer/buy/secondary-market` });
+          crumbs.push({
+            name: filterCategory?.level3Category,
+            path: `/buyer/buy/secondary-market`,
+          });
         }
         break;
       default:
@@ -121,13 +139,13 @@ const Buy = () => {
   };
 
   const toggleAccordion = () => {
-    setIsOpen(!isOpen); // Toggle the accordion state
+    setIsOpen(true); // Toggle the accordion state
   };
 
   return (
     <>
       <div className={styles.main}>
-        <div className={styles.heading}>Buy</div>
+        {/* <div className={styles.heading}>Buy</div> */}
 
         {/* Render breadcrumbs */}
         <div className={styles.breadcrumbSection}>
@@ -176,29 +194,30 @@ const Buy = () => {
             </div>
           </div>
           {/* Conditionally render the filter button */}
-          {(activeButton === "product" || activeButton === "market") && (
+          {/* {(activeButton === "product" || activeButton === "market") && (
             <div className={styles.innerSection}>
               <button className={styles.filterButton} onClick={toggleAccordion}>
                 <HiOutlineFilter className={styles.filterIcon} />
               </button>
             </div>
-          )}
+          )} */}
         </div>
 
-        {/* Render AccordionFilter only when filter is relevant */}
-        {(activeButton === "product" || activeButton === "market") && (
+        {/* {(activeButton === "product" || activeButton === "market") && (
           <AccordionFilter
             isOpen={isOpen}
             toggleAccordion={toggleAccordion}
             setFilterCategory={setFilterCategory}
           />
-        )}
+        )} */}
 
         {activeButton === "seller" && <BuySeller active={activeButton} />}
         {activeButton === "product" && (
           <div>
             <BuyProduct
               active={activeButton}
+              isOpen={isOpen}
+              toggleAccordion={toggleAccordion}
               filterCategory={filterCategory}
               setFilterCategory={setFilterCategory}
             />
@@ -208,6 +227,8 @@ const Buy = () => {
           <div>
             <Buy2ndMarket
               active={activeButton}
+              isOpen={isOpen}
+              toggleAccordion={toggleAccordion}
               filterCategory={filterCategory}
               setFilterCategory={setFilterCategory}
             />
