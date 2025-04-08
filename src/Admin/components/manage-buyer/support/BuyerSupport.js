@@ -19,8 +19,8 @@ const SellerSupport = () => {
         switch (path) {
             case '/admin/buyer-support/complaint':
                 return 'complaint';
-            case '/admin/buyer-support/feedback':
-                return 'feedback';
+            case '/admin/buyer-support/enquiry':
+                return 'enquiry';
                 case '/admin/buyer-support/edit-profile':
                     return 'editprofile';
             default:
@@ -36,8 +36,8 @@ const SellerSupport = () => {
             case 'complaint':
                 navigate('/admin/buyer-support/complaint');
                 break;
-            case 'feedback':
-                navigate('/admin/buyer-support/feedback');
+            case 'enquiry':
+                navigate('/admin/buyer-support/enquiry');
                 break;
                 case 'editprofile':
                     navigate('/admin/buyer-support/edit-profile');
@@ -66,7 +66,7 @@ const SellerSupport = () => {
         const obj = {
             admin_id  : adminIdSessionStorage || adminIdLocalStorage,
             filterKey : 'buyer',
-            supportType : activeLink,
+            supportType : activeLink == "enquiry" ? "feedback" : activeLink,
             pageNo    : currentPage, 
             pageSize  : listPerPage,
         }
@@ -100,11 +100,11 @@ const SellerSupport = () => {
                             <div className={styles.supportHead}>Complaint</div>
                         </div>
                         <div
-                            onClick={() => handleLinkClick('feedback')}
-                            className={`${activeLink === 'feedback' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
+                            onClick={() => handleLinkClick('enquiry')}
+                            className={`${activeLink === 'enquiry' ? styles.active : ''} ${styles['invoice-wrapper-left-text']}`}
                         >
                             <DescriptionOutlinedIcon className={styles['invoice-wrapper-left-icons']} />
-                            <div className={styles.supportHead}>Feedback</div>
+                            <div className={styles.supportHead}>Enquiry</div>
                         </div>
                         <div
                             onClick={() => handleLinkClick('editprofile')}
@@ -123,7 +123,7 @@ const SellerSupport = () => {
                             totalItems ={totalItems}
                             listPerPage={listPerPage}
                         />}
-                        {activeLink === 'feedback' && 
+                        {activeLink === 'enquiry' && 
                         <BuyerFeedback 
                             supportList = {supportList}
                             handlePageChange = {handlePageChange}

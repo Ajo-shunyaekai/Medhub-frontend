@@ -319,7 +319,7 @@ const AdmSidebar = ({
                   </div>
                 </Link>
                 <Link
-                  to="/admin/manage-seller/feedback"
+                  to="/admin/manage-seller/enquiry"
                   className={styles.sidebar_text}
                   activeclassname={styles.active}
                 >

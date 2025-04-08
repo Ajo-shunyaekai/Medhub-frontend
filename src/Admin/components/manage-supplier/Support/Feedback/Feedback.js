@@ -32,21 +32,21 @@ const Feedback = ({ supportList, handlePageChange, currentPage, totalItems, list
                             </thead>
                             <tbody className={styles.bordered}>
                                 {supportList?.length > 0 ? (
-                                    supportList.map((feedback, index) => (
+                                    supportList.map((enquiry, index) => (
                                         <div className={styles['complaint-table-row-container']} key={index}>
                                             <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                                <div className={styles['complaint-table-text-color']}>{feedback.support_id || 'ID Not Provided'}</div>
+                                                <div className={styles['complaint-table-text-color']}>{enquiry.support_id || 'ID Not Provided'}</div>
                                             </div>
                                             <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-1']}`}>
-                                                <div className={styles['complaint-table-text-color']}>{feedback.order_id || 'Order ID Not Provided'}</div>
+                                                <div className={styles['complaint-table-text-color']}>{enquiry.order_id || 'Order ID Not Provided'}</div>
                                             </div>
                                             <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-order-2']}`}>
                                                 <div className={`${styles['complaint-table-text-color']} ${styles['truncated-text']}`}>
-                                                    {feedback.reason || 'Reason Not Provided'}
+                                                    {enquiry.reason || 'Reason Not Provided'}
                                                 </div>
                                             </div>
                                             <div className={`${styles['complaint-table-row-item']} ${styles['complaint-table-btn']} ${styles['complaint-table-order-1']}`}>
-                                                <Link to={`/admin/supplier-feedback-details/${feedback.support_id}`}>
+                                                <Link to={`/admin/supplier-enquiry-details/${enquiry.support_id}`}>
                                                     <div className={`${styles['complaint-table']} ${styles['complaint-table-view']}`}>
                                                         <RemoveRedEyeOutlinedIcon className={styles['table-icon']} />
                                                     </div>
