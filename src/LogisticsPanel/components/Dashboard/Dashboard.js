@@ -57,6 +57,12 @@ const Dashboard = () => {
                                 <div className="logistics-top-container">
                                 {/* <Link to="/logistics/pending-orders"> */}
                                         <div className="logistics-top-content-section">
+                                            <div className="logistics-top-head">Total Orders</div>
+                                            <div className="logistics-top-text">
+                                                {dashboardData?.total || 0}
+                                            </div>
+                                        </div>
+                                        <div className="logistics-top-content-section">
                                             <div className="logistics-top-head">Pending Orders</div>
                                             <div className="logistics-top-text">
                                                 {dashboardData?.pending || 0}

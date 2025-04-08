@@ -10,6 +10,12 @@ import Badge from '@mui/material/Badge';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import TocOutlinedIcon from '@mui/icons-material/TocOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
+import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
+import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import CarCrashOutlinedIcon from '@mui/icons-material/CarCrashOutlined';
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
@@ -239,7 +245,7 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                                 {isProfileOpen && (
                                     <div className={styles.profile_dropdown}>
                                         <div className={styles.profile_wrapper}>
-                                            <div className={styles.profile_text}>
+                                            {/* <div className={styles.profile_text}>
                                                 <Link
                                                     to="#"
                                                     onClick={() => setIsProfileOpen(false)}
@@ -247,16 +253,14 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                                                     {localStorage.getItem('buyer_name') ||
                                                         sessionStorage.getItem('buyer_name')}
                                                 </Link>
-                                            </div>
+                                            </div> */}
                                             <div className={styles.profile_wrapper_mid}>
-                                                <div>
                                                     <Link
                                                         to="/logistics/profile"
                                                         onClick={() => setIsProfileOpen(false)}
                                                     >
                                                         <div className={styles.profile_text}>Profile</div>
                                                     </Link>
-                                                </div>
                                             </div>
                                             <div
                                                 className={styles.profile_sign_out}
@@ -301,6 +305,30 @@ const Sidebar = ({  notificationList, count, handleClick }) => {
                         <Link to="/logistics/order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
                             <div className={styles.icon}><TocOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
                             <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Orders</div>
+                        </Link>
+                        <Link to="/logistics/pickup-order" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><LocalShippingOutlinedIcon style={{ color: '#f4c414', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Pickup Orders</div>
+                        </Link>
+                        <Link to="/logistics/inventory" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><WarehouseOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Inventory/Warehouse</div>
+                        </Link>
+                        <Link to="/logistics/add-vehicle" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><AddCircleOutlineOutlinedIcon style={{ color: '#14bae4', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Add Vehicle</div>
+                        </Link>
+                        <Link to="/logistics/vehicle-list" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><CarCrashOutlinedIcon style={{ color: '#31c971', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Vehicle List</div>
+                        </Link>
+                        <Link to="/logistics/shipment" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><FlightTakeoffOutlinedIcon style={{ color: '#f54394', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Shipment</div>
+                        </Link>
+                        <Link to="/logistics/tracking" className={`${styles.sidebar_text} ${styles.desktop_order_btn}`} activeclassname={styles.active}>
+                            <div className={styles.icon}><TimelineOutlinedIcon style={{ color: '#ff4545', fontSize: '20px' }} /></div>
+                            <div style={{ display: isOpen ? "block" : "none" }} className={styles.sidebar_text}>Tracking</div>
                         </Link>
                     </ div> : ''
                 }
