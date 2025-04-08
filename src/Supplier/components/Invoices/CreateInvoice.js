@@ -138,6 +138,10 @@ const CreateInvoice = ({ socket }) => {
             data.buyer?.buyer_country_code || ""
           }-${data.buyer?.buyer_mobile || ""}`;
 
+          // Parse bank details
+        const bankDetailsArray = data?.supplier?.bank_details?.split(",") || [];
+        const [bankName, accountNo, sortCode] = bankDetailsArray.map((v) => v.trim());
+
           // const vatPercentage = 20;
           // const vatAmount = parseFloat(data.total_due_amount) * (vatPercentage / 100);
           // const totalPayableAmount = (parseFloat(data.total_due_amount) + vatAmount).toFixed(2);
@@ -184,6 +188,9 @@ const CreateInvoice = ({ socket }) => {
             orderItems: data?.items,
             grandTotal: data?.pending_amount,
             // totalPayableAmount: data?.pending_amount,
+            bankName: bankName || "",
+            accountNo: accountNo || "",
+            sortCode: sortCode || "",
           }));
         } else {
         }
