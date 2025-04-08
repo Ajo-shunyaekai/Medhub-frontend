@@ -9,7 +9,7 @@ import {
 import SearchSection from "../UiShared/Search/Search"; // Updated import
 import FilterSection from "../Details/FilterSection";
 import ProductButton from "./ProductButton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import CloseIcon from "../../../assets/images/Icon.svg";
 import { toast, ToastContainer } from "react-toastify";
@@ -65,6 +65,8 @@ const ProductDetails = () => {
   });
   const itemsPerPage = 5;
 
+  const searchTimeoutRef = useRef(null);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -75,21 +77,46 @@ const ProductDetails = () => {
     }
   }, [id]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await dispatch(
+  //       fetchOtherSupplierProductsList(
+  //         `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+  //           searchKey || ""
+  //         }`
+  //       )
+  //     );
+  //     if (response.meta.requestStatus === "fulfilled") {
+  //       setMedicineList(response?.payload?.products || []);
+  //       setTotalitems(response?.payload?.totalItems || 0);
+  //     } else {
+  //       setMedicineList([]);
+  //       setTotalitems(0);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [id, dispatch, currentPage, searchKey]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await dispatch(
-        fetchOtherSupplierProductsList(
-          `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
-            searchKey || ""
-          }`
-        )
-      );
-      if (response.meta.requestStatus === "fulfilled") {
-        setMedicineList(response?.payload?.products || []);
-        setTotalitems(response?.payload?.totalItems || 0);
-      } else {
-        setMedicineList([]);
-        setTotalitems(0);
+      try {
+          const response = await dispatch(
+            fetchOtherSupplierProductsList(
+              `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+                searchKey || ""
+              }`
+            )
+          );
+          if (response.meta.requestStatus === "fulfilled") {
+            setMedicineList(response?.payload?.products || []);
+            setTotalitems(response?.payload?.totalItems || 0);
+          } else {
+            setMedicineList([]);
+            setTotalitems(0);
+          }
+      } catch (error) {
+      } finally {
+          setLoading(false);
       }
     };
     fetchData();
@@ -100,26 +127,48 @@ const ProductDetails = () => {
     return productDetail[productDetail.category]?.[property];
   };
 
-  const handleInputChange = (e) => {
-    // setInputValue(e.target.value);
-    const input = e.target.value;
-    // if(input.length <= 10) {
-    setInputValue(e.target.value);
+  // const handleInputChange = (e) => {
+  //   // setInputValue(e.target.value);
+  //   const input = e.target.value;
+  //   // if(input.length <= 10) {
+  //   setInputValue(e.target.value);
 
-    if (e.target.value === "") {
-      setSearchKey("");
+  //   if (e.target.value === "") {
+  //     setSearchKey("");
+  //   }
+  // };
+  // const handleProductSearch = () => {
+  //   setSearchKey(inputValue);
+  //   setCurrentPage(1);
+  // };
+
+  // const handleKeyDown = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleProductSearch();
+  //   }
+  // };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
     }
-  };
-  const handleProductSearch = () => {
-    setSearchKey(inputValue);
-    setCurrentPage(1);
+    searchTimeoutRef.current = setTimeout(() => {
+        setSearchKey(e.target.value);
+        setCurrentPage(1);
+    }, 500);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleProductSearch();
+    if (e.key === 'Enter') {
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        setSearchKey(inputValue);
+        setCurrentPage(1);
     }
   };
+
   // Filter handlers (minimal implementation, adjust as per your needs)
   const handlePriceRange = (selectedValues) => {
     setFilters((prev) => ({ ...prev, price: selectedValues }));
@@ -3680,7 +3729,7 @@ const ProductDetails = () => {
         <SearchSection
           inputValue={inputValue}
           handleInputChange={handleInputChange}
-          handleProductSearch={handleProductSearch}
+          // handleProductSearch={handleProductSearch}
           handleKeyDown={handleKeyDown}
           placeholder="Search Products"
         />
