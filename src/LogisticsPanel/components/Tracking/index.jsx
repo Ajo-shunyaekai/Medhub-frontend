@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './TrackingForm/TrackingForm.module.css';
 import Tracking from "./TrackingForm/TrackingForm";
 import TrackingTimeline from './TrackingDetails/TrackingTimeline';
+import Section from '../UI/Section';
 
 const trackingData = [
   { status: "Delivered", location: "Ahmedabad, GJ", date: "27th Aug 2021", time: "2:30 PM" },
@@ -13,10 +14,10 @@ const trackingData = [
 
 const index = () => {
   return (
-    <div className={styles.mainContainer}>
+    <Section classes={styles.trackingMainContainer}>
       <Tracking/>
       <TrackingTimeline trackingData={trackingData} />
-    </div>
+    </Section>
   )
 }
 

@@ -9,7 +9,7 @@ const Tracking = () => {
       <div className="order-main-container">
         <div className={`${styles.orderName}`}>Tracking</div>
         <form>
-            <div className={`${styles.section} mt-4 container`}>
+            <div className={`${styles.section} mt-4`}>
                 <span className={styles.formHead}>Track Order</span>
                 <center className={styles.formSection}>
                     <div className={styles.productContainer}>

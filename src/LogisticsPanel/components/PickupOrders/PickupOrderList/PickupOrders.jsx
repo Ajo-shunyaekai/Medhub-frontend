@@ -5,6 +5,7 @@ import ActiveOrder from "../../Orders/ActiveOrders/ActiveOrder";
 import { toast } from "react-toastify";
 import { apiRequests } from "../../../../api";
 import "./PickupOrders.css";
+import Section from "../../UI/Section";
 
 const PickupOrders = () => {
   const navigate                        = useNavigate();
@@ -48,7 +49,7 @@ const PickupOrders = () => {
 
   return (
     <>
-      <div className="order-main-container">
+      <Section classes="pickup-order-main-container">
         <div className="order-name">Pickup Order's</div>
         <div className="order-container-right container mt-3">
           <div responsive="xl" className="order-table-responsive">
@@ -62,7 +63,7 @@ const PickupOrders = () => {
             />
           </div>
         </div>
-      </div>
+      </Section>
     </>
   );
 };
