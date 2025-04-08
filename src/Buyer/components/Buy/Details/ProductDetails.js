@@ -100,23 +100,23 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const response = await dispatch(
-            fetchOtherSupplierProductsList(
-              `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
-                searchKey || ""
-              }`
-            )
-          );
-          if (response.meta.requestStatus === "fulfilled") {
-            setMedicineList(response?.payload?.products || []);
-            setTotalitems(response?.payload?.totalItems || 0);
-          } else {
-            setMedicineList([]);
-            setTotalitems(0);
-          }
+        const response = await dispatch(
+          fetchOtherSupplierProductsList(
+            `product/get-other-products/${id}?page_no=${currentPage}&page_size=${itemsPerPage}&search_key=${
+              searchKey || ""
+            }`
+          )
+        );
+        if (response.meta.requestStatus === "fulfilled") {
+          setMedicineList(response?.payload?.products || []);
+          setTotalitems(response?.payload?.totalItems || 0);
+        } else {
+          setMedicineList([]);
+          setTotalitems(0);
+        }
       } catch (error) {
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     fetchData();
@@ -151,21 +151,21 @@ const ProductDetails = () => {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
+      clearTimeout(searchTimeoutRef.current);
     }
     searchTimeoutRef.current = setTimeout(() => {
-        setSearchKey(e.target.value);
-        setCurrentPage(1);
+      setSearchKey(e.target.value);
+      setCurrentPage(1);
     }, 500);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-        if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-        setSearchKey(inputValue);
-        setCurrentPage(1);
+    if (e.key === "Enter") {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+      setSearchKey(inputValue);
+      setCurrentPage(1);
     }
   };
 
@@ -173,19 +173,18 @@ const ProductDetails = () => {
   const handlePriceRange = (selectedValues) => {
     setFilters((prev) => ({ ...prev, price: selectedValues }));
   };
-  
+
   const handleDeliveryTime = (selectedValues) => {
     setFilters((prev) => ({ ...prev, deliveryTime: selectedValues }));
   };
-  
+
   const handleStockedIn = (selectedValues) => {
     setFilters((prev) => ({ ...prev, stockedIn: selectedValues }));
   };
-  
+
   const handleQuantity = (selectedValues) => {
     setFilters((prev) => ({ ...prev, totalQuantity: selectedValues }));
   };
-  
 
   // const handleReset = () => {
   //   const dataToFilter = productDetail?.data || [productDetail] || [];
@@ -240,7 +239,7 @@ const ProductDetails = () => {
       target_price: values?.targetPrice,
       quantity: values?.selectedQuantity,
       unit_price: values?.price,
-      unit_tax : productDetail?.general?.unit_tax,
+      unit_tax: productDetail?.general?.unit_tax,
       est_delivery_time: values?.deliveryTime,
     };
 
@@ -275,8 +274,18 @@ const ProductDetails = () => {
     });
   };
 
+  // Create a ref for the container to scroll
+  const containerRef = useRef(null);
+
+  // Scroll to the top of the component when the id changes
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [id]);
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
       {/* <span className={styles.heading}>Product ID : </span> */}
       <div className={styles.section}>
         <div className={styles.ProductMainContainer}>
@@ -3725,14 +3734,17 @@ const ProductDetails = () => {
           </div>
         )}
         {/* End the product inventory section */}
-
-        <SearchSection
-          inputValue={inputValue}
-          handleInputChange={handleInputChange}
-          // handleProductSearch={handleProductSearch}
-          handleKeyDown={handleKeyDown}
-          placeholder="Search Products"
-        />
+      </div>
+      <div className={styles.section}>
+        <div className={styles.ProductMainContainer2}>
+          <SearchSection
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
+            // handleProductSearch={handleProductSearch}
+            handleKeyDown={handleKeyDown}
+            placeholder="Search Products"
+          />
+        </div>
 
         {/* <FilterSection
           countryAvailable={
