@@ -26,7 +26,7 @@ const LogisticsForm = ({socket}) => {
   const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
   const buyerIdLocalStorage = localStorage.getItem('buyer_id');
   const [orderDetails, setOrderDetails] = useState()
-
+  const [loading, setLoading] = useState(false);
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -83,7 +83,7 @@ const LogisticsForm = ({socket}) => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-
+        setLoading(true)
         if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
@@ -124,7 +124,7 @@ const LogisticsForm = ({socket}) => {
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
         if (response.meta.requestStatus === "fulfilled") {
-
+          setLoading(false)
           socket.emit('bookLogistics', {
             supplierId : orderDetails?.supplier_id, 
             orderId  : orderId,
@@ -137,6 +137,7 @@ const LogisticsForm = ({socket}) => {
             navigate(`/buyer/order-details/${orderId}`);
           }, 500);
         }
+        setLoading(false)
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -314,6 +315,9 @@ const LogisticsForm = ({socket}) => {
     }
   }, [updatedAddress, address]);
 
+  const handleCancel = () => {
+    navigate(`/buyer/order-details/${orderId}`);
+  }
 
   return (
     <div className={styles.container}>
@@ -739,11 +743,18 @@ const LogisticsForm = ({socket}) => {
           <button
             type="submit"
             className={styles["logistic-submit"]}
-            disabled={formik.isSubmitting}
+            // disabled={formik.isSubmitting}
+            disabled={loading}
           >
-            Request Supplier for Further Details
+            
+            {loading ? (
+                <div className='loading-spinner'></div>
+            ) : (
+                'Request Supplier for Further Details'
+            )}
+
           </button>
-          <div className={styles["logistic-cancel"]}>Cancel</div>
+          <div className={styles["logistic-cancel"]} onClick={handleCancel}>Cancel</div>
         </div>
       </form>
     </div>

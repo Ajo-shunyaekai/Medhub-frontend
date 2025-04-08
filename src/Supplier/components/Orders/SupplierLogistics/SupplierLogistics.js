@@ -32,8 +32,7 @@ const SupplierLogistics = ({socket}) => {
   );
   const { orderData } = useSelector((state) => state?.orderReducer);
 
-
-
+  const [loading, setLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState()
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -169,7 +168,7 @@ const SupplierLogistics = ({socket}) => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-
+        setLoading(true)
         if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
@@ -244,6 +243,7 @@ const SupplierLogistics = ({socket}) => {
         );
 
         if (response.meta.requestStatus === "fulfilled") {
+          setLoading(false)
           socket.emit('shipmentDetailsSubmitted', {
             buyerId : orderDetails?.buyer_id, 
             orderId  : orderId,
@@ -255,6 +255,7 @@ const SupplierLogistics = ({socket}) => {
             navigate(`/supplier/active-orders-details/${orderId}`);
           }, 500);
         }
+        setLoading(false)
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -559,6 +560,10 @@ const SupplierLogistics = ({socket}) => {
   const getSelectedProductDetails = (productId) => {
     return orderData?.items?.find((item) => item.product_id === productId);
   };
+
+  const handleCancel = () => {
+    navigate(`/supplier/active-orders-details/${orderId}`);
+  }
 
   return (
     <div className={styles.container}>
@@ -1280,10 +1285,17 @@ const SupplierLogistics = ({socket}) => {
           </div>
         </div>
         <div className={styles["logistic-Button-Section"]}>
-          <button type="submit" className={styles["logistic-submit"]}>
-            Submit
+          <button type="submit" 
+          className={styles["logistic-submit"]}
+          disabled={loading}
+          >
+            {loading ? (
+                <div className='loading-spinner'></div>
+            ) : (
+                'Submit'
+            )}
           </button>
-          <div className={styles["logistic-cancel"]}>Cancel</div>
+          <div className={styles["logistic-cancel"]} onClick={handleCancel} >Cancel</div>
         </div>
       </form>
     </div>
