@@ -13,6 +13,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import moment from 'moment/moment';
+import Section from "../../UI/Section";
 
 const VehicleList = () => {
   const navigate                        = useNavigate();
@@ -56,7 +57,7 @@ const VehicleList = () => {
 
   return (
     <>
-      <div className="order-main-container">
+      <Section classes={"vehicle-main-container"}>
         <div className="order-name">List of Vehicle's</div>
         <div className="order-container-right container mt-3">
           <div responsive="xl" className="order-table-responsive">
@@ -161,7 +162,7 @@ const VehicleList = () => {
           </div >
           </div>
         </div>
-      </div>
+      </Section>
     </>
   );
 };

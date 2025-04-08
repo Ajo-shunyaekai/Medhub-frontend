@@ -2,7 +2,7 @@ import React from "react";
 
 const TrackingTimeline = ({ trackingData }) => {
   return (
-    <div className="container mt-4 mb-5 bg-white p-4 shadow rounded">
+    <div className="mt-4 mb-5 bg-white p-4 shadow rounded">
       <h5 className="mb-4">Tracking History</h5>
       <div className="position-relative border-start border-3 border-secondary ms-4">
         {trackingData.map((event, index) => (

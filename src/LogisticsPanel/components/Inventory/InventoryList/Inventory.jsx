@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./inventory.module.css";
 import Select from "react-select";
 import CloseIcon from "@mui/icons-material/Close";
+import Section from "../../UI/Section";
 
 const Inventory = () => {
   const [product, setProduct] = useState([
@@ -53,7 +54,7 @@ const Inventory = () => {
 
   return (
     <>
-      <div className={"order-main-container"}>
+      <Section classes={styles.inventoryMainContainer}>
         <div className={styles.orderName}>Inventory</div>
         <form>
           <div className={`${styles.section} mt-4`}>
@@ -499,7 +500,7 @@ const Inventory = () => {
             <buttton className={styles.logisticsCancel}>Cancel</buttton>
           </div>
         </form>
-      </div>
+      </Section>
     </>
   );
 };

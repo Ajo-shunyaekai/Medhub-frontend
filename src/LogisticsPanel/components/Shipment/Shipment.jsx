@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./Shipment.module.css";
+import Section from "../UI/Section";
 
 const Shipment = () => {
   return (
     <>
-    <div className={"order-main-container"}>
+    <Section classes={styles.shipmentMainContainer}>
       <div className={styles.orderName}>Shipment</div>
       <form>
         <div className={`${styles.section} mt-4`}>
@@ -260,7 +261,7 @@ const Shipment = () => {
           <buttton className={styles.logisticsCancel}>Cancel</buttton>
         </div>
       </form>
-    </div>
+    </Section>
   </>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './AddVehicle.module.css';
 import Select from "react-select";
+import Section from "../../UI/Section";
 
 const AddVehicle = () => {
 
@@ -17,7 +18,7 @@ const AddVehicle = () => {
 
   return (
     <>
-      <div className={"order-main-container"}>
+      <Section classes={styles.AddVehileMainContainer}>
         <div className={styles.orderName}>Add Vehicle</div>
         <form>
           <div className={`${styles.section} mt-4`}>
@@ -253,7 +254,7 @@ const AddVehicle = () => {
             </buttton>
           </div>
         </form>
-      </div>
+      </Section>
     </>
   );
 };

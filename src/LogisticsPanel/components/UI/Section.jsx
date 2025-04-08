@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./Section.module.css";
 
-function Section({ children, ...props }) {
+function Section({ children, classes, ...props }) {
   return (
-    <section className={`${styles.container}`} {...props}>
+    <section className={`${styles.container} ${classes}`.trim()} {...props}>
       {children}
     </section>
   );

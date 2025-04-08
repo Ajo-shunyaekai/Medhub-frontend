@@ -10,6 +10,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../api';
+import Section from '../UI/Section';
 
 
 const Order = () => {
@@ -102,7 +103,7 @@ const Order = () => {
     return (
         <>
 
-            <div className='order-main-container'>
+            <Section classes='orders-main-container'>
                 <div className="order-name">
                     Logistics Requests
                 </div>
@@ -176,7 +177,7 @@ const Order = () => {
                         </div>
                     </div>
                 </div>
-            </div >
+            </Section >
 
         </>
     )
