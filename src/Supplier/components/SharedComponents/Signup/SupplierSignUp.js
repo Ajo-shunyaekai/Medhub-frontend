@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
@@ -70,7 +72,51 @@ const SupplierSignUp = ({ socket }) => {
     const [certificatePreviews, setcertificatePreviews] = useState([]);
     const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([])
     const [logoPreviews, setlogoPreviews] = useState([]);
-
+    const [certificateSections, setCertificateSections] = useState([{
+        taxRegPreviews: [],
+        expiryDate: null
+      }]);
+      const handleDateChange = (date, index) => {
+        // Update the specific section's expiry date
+        const updatedSections = [...certificateSections];
+        updatedSections[index].expiryDate = date;
+        setCertificateSections(updatedSections);
+    
+        // Basic validation for the specific section
+        if (!date) {
+          setErrors(prev => ({
+            ...prev,
+            [`expiryDate_${index}`]: 'Expiry date is required'
+          }));
+        } else {
+          setErrors(prev => ({
+            ...prev,
+            [`expiryDate_${index}`]: ''
+          }));
+        }
+      };
+    
+      const addNewSection = () => {
+        setCertificateSections(prev => [...prev, {
+          taxRegPreviews: [],
+          expiryDate: null
+        }]);
+      };
+    
+      const removeSection = (index) => {
+        if (certificateSections.length > 1) {
+          const updatedSections = certificateSections.filter((_, i) => i !== index);
+          setCertificateSections(updatedSections);
+          
+          // Clean up errors for removed section
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors[`taxImage_${index}`];
+            delete newErrors[`expiryDate_${index}`];
+            return newErrors;
+          });
+        }
+      };
     const defaultFormData = {
         companyType: '',
         companyName: '',
@@ -103,6 +149,7 @@ const SupplierSignUp = ({ socket }) => {
         medicalCertificateImage: null,
         medicalCertificateType: 'medicalCertificate',
         terms: '',
+        expiryDate: null,
         registrationNo: '',
         vatRegistrationNo: '',
         locality: '',
@@ -131,7 +178,7 @@ const SupplierSignUp = ({ socket }) => {
             setFormData({ ...formData, country: selectedOption });
         }
     };
-
+   
     const handleStateChange = (selectedOption) => {
         setSelectedState(selectedOption || '');
         setSelectedCity('');
@@ -1192,26 +1239,81 @@ const SupplierSignUp = ({ socket }) => {
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={tradeLicensePreviews} setFilePreviews={setTradeLicensePreviews} imageType="license" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.licenseImage && <div className='signup__errors'>{errors.licenseImage}</div>}
                                             </div>
-                                            <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>Upload Tax Registration Certificate<span className='labelstamp'>*</span></label>
+                                            {/* <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Upload Certificates<span className='labelstamp'>*</span></label>
 
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={taxRegPreviews} setFilePreviews={setTaxRegPreviews} imageType="tax"
                                                     reset={resetUploaders} allowMultiple={true}
-                                                    // showTooltip={true}
-                                                    // tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA (Wholesale Distributor Authorisation)."
+                                                      showTooltip={true}
+                                                    tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA (Wholesale Distributor Authorisation)."
                                                 />
-
-
-                                                {/* <CertificateUploader/> */}
+                                                 <CertificateUploader/>
                                                 {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
-                                            </div>
-                                          
-                                            <div className='signup-form-section-div'>
+                                            </div> */}
+<div className='signup-document-section'>
+     
+      
+        <button 
+        className='signup-document-head'
+          onClick={addNewSection}
+         
+        >
+          Add
+        </button>
+    
+      
+      {certificateSections.map((section, index) => (
+        <div key={index} className='document-inner-section'>
+          <div className='signup-form-section-div'>
+            <label className='signup-form-section-label'>
+              Upload Certificate<span className='labelstamp'>*</span>
+            </label>
+            <CertificateUploader
+              onUploadStatusChange={(status) => handleImageUpload(status, index)}
+              filePreviews={section.taxRegPreviews}
+              setFilePreviews={(files) => setTaxRegPreviews(files, index)}
+              reset={resetUploaders}
+              allowMultiple={false}
+              showTooltip={true}
+              tooltipMessage="Certificate could be any company based compliance certificates: ISO, Heath and Safety, WDA."
+            />
+            {errors.taxImage && <div className='signup__errors'>{errors.taxImage}</div>}
+          </div>
+          
+          <div className='signup-form-section-div'>
+            <label className='signup-form-section-label'>
+              Expiry Date<span className='labelstamp'>*</span>
+            </label>
+            <DatePicker
+              className='signup-form-section-input'
+              selected={section.expiryDate}
+              onChange={(date) => handleDateChange(date, index)}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd/MM/yyyy"
+              minDate={new Date()}
+              showYearDropdown
+              scrollableYearDropdown
+              disabledKeyboardNavigation={false}
+            />
+          </div>
+
+          {certificateSections.length > 1 && (
+            <button
+              onClick={() => removeSection(index)}
+             className='document-cross-button'
+            >
+              ×
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+                                            {/* <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Upload a Certificate<span className='labelstamp'>*</span></label>
                                                
                                                 <ImageUploader onUploadStatusChange={handleImageUpload} filePreviews={certificatePreviews} setFilePreviews={setcertificatePreviews} imageType="certificate" reset={resetUploaders} allowMultiple={true} />
                                                 {errors.certificateImage && <div className='signup__errors'>{errors.certificateImage}</div>}
-                                            </div>
+                                            </div> */}
                                             {selectedCompanyType?.value === "medical practitioner" && (
                                                 <div className='signup-form-section-div'>
                                                     <label className='signup-form-section-label'>Upload a Medical Practitioner Certificate<span className='labelstamp'>*</span></label>
