@@ -79,13 +79,13 @@ const ProductCard = ({
                                             <div className={styles.section}>
                                                 <span className={styles.head}>Purchased On</span>
                                                 <span className={styles.text}>
-                                                    {formatDate(medicine?.secondayMarketDetails?.purchasedOn)}
+                                                    {formatDate(medicine?.secondaryMarketDetails?.purchasedOn)}
                                                 </span>
                                             </div>
                                             <div className={styles.section}>
                                                 <span className={styles.head}>Condition</span>
                                                 <span className={styles.text}>
-                                                    {medicine?.secondayMarketDetails?.condition || 'N/A'}
+                                                    {medicine?.secondaryMarketDetails?.condition || 'N/A'}
                                                 </span>
                                             </div>
                                         </>

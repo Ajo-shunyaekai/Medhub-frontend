@@ -43,8 +43,8 @@ const ProductDetails = () => {
   const { productDetail } = useSelector((state) => state?.productReducer || {});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const pdfFile =
-    productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
-    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
+    productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
+    productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
@@ -294,65 +294,65 @@ const ProductDetails = () => {
           </span>
         </div>
         {/* Start Secondar Market section */}
-        {(productDetail?.secondayMarketDetails?.purchasedOn ||
-          productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
-          productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length >
+        {(productDetail?.secondaryMarketDetails?.purchasedOn ||
+          productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
+          productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length >
             0 ||
-          productDetail?.secondayMarketDetails?.condition) && (
+          productDetail?.secondaryMarketDetails?.condition) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>
               Secondary Market Information
             </span>
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
-                {productDetail?.secondayMarketDetails?.purchasedOn && (
+                {productDetail?.secondaryMarketDetails?.purchasedOn && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Purchased on</span>
                     <span className={styles.medicineText}>
                       {String(
                         new Date(
-                          productDetail?.secondayMarketDetails?.purchasedOn
+                          productDetail?.secondaryMarketDetails?.purchasedOn
                         )?.getDate()
                       ).padStart(2, "0")}
                       /
                       {String(
                         new Date(
-                          productDetail?.secondayMarketDetails?.purchasedOn
+                          productDetail?.secondaryMarketDetails?.purchasedOn
                         )?.getMonth() + 1
                       ).padStart(2, "0")}
                       /
                       {new Date(
-                        productDetail?.secondayMarketDetails?.purchasedOn
+                        productDetail?.secondaryMarketDetails?.purchasedOn
                       )?.getFullYear()}
                     </span>
                   </div>
                 )}
-                {productDetail?.secondayMarketDetails?.condition && (
+                {productDetail?.secondaryMarketDetails?.condition && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Condition</span>
                     <span className={styles.medicineText}>
-                      {productDetail?.secondayMarketDetails?.condition}
+                      {productDetail?.secondaryMarketDetails?.condition}
                     </span>
                   </div>
                 )}
               </div>
-              {(productDetail?.secondayMarketDetails?.countryAvailable?.length >
+              {(productDetail?.secondaryMarketDetails?.countryAvailable?.length >
                 0 ||
-                productDetail?.secondayMarketDetails?.minimumPurchaseUnit) && (
+                productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
                 <div className={styles.mainSection}>
-                  {productDetail?.secondayMarketDetails?.countryAvailable
+                  {productDetail?.secondaryMarketDetails?.countryAvailable
                     ?.length > 0 && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
                         Country Available in
                       </span>
                       <span className={styles.medicineText}>
-                        {productDetail?.secondayMarketDetails?.countryAvailable?.map(
+                        {productDetail?.secondaryMarketDetails?.countryAvailable?.map(
                           (country, index) => (
                             <span key={index}>
                               {country}
                               {index !==
-                                productDetail?.secondayMarketDetails
+                                productDetail?.secondaryMarketDetails
                                   ?.countryAvailable.length -
                                   1 && ", "}
                             </span>
@@ -362,7 +362,7 @@ const ProductDetails = () => {
                     </div>
                   )}
 
-                  {productDetail?.secondayMarketDetails
+                  {productDetail?.secondaryMarketDetails
                     ?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>
@@ -370,7 +370,7 @@ const ProductDetails = () => {
                       </span>
                       <span className={styles.medicineText}>
                         {
-                          productDetail?.secondayMarketDetails
+                          productDetail?.secondaryMarketDetails
                             ?.minimumPurchaseUnit
                         }
                       </span>
@@ -379,7 +379,7 @@ const ProductDetails = () => {
                 </div>
               )}
 
-              {productDetail?.secondayMarketDetails?.purchaseInvoiceFile
+              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile
                 ?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
@@ -3748,7 +3748,7 @@ const ProductDetails = () => {
 
         {/* <FilterSection
           countryAvailable={
-            productDetail?.secondayMarketDetails?.countryAvailable || []
+            productDetail?.secondaryMarketDetails?.countryAvailable || []
           }
           handlePriceRange={handlePriceRange}
           handleDeliveryTime={handleDeliveryTime}
