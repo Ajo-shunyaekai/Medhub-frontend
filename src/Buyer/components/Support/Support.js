@@ -103,7 +103,7 @@ const Support = () => {
                     message,
                     images: feedbackImages,
                     type: 'feedback',
-                    endpoint: 'order/submit-feedback',
+                    endpoint: 'support/submit-feedback',
                     resetForm: () => {
                         setSubject('');
                         setMessage('');
@@ -131,7 +131,7 @@ const Support = () => {
                     message: compMessage,
                     images: compImages,
                     type: 'complaint',
-                    endpoint: 'order/submit-complaint',
+                    endpoint: 'support/submit-complaint',
                     resetForm: () => {
                         setCompSubject('');
                         setCompMessage('');
