@@ -1024,7 +1024,7 @@ const SupplierSignUp = ({ socket }) => {
                                                 <span
                                                         className="email-info-icon"
                                                         data-tooltip-id="company-name-tooltip"
-                                                        data-tooltip-content="Enter Mehub Global Sales Person Name"
+                                                        data-tooltip-content="Provide Medhub Global Sales Person Name"
                                                     >
                                                         <img src={Information} className='tooltip-icons' alt='information' />
                                                     </span>
