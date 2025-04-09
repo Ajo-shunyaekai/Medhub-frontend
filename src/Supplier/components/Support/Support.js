@@ -203,7 +203,7 @@ const Support = () => {
                                                 <div className={styles['form-cont-input-sec']}>
                                                     <input
                                                         type="text"
-                                                        placeholder="Enter your Order Id"
+                                                        placeholder="Enter subject"
                                                         className={styles['form-input']}
                                                         value={orderId}
                                                         onChange={(e) => { setOrderId(e.target.value); setOrderIdError('') }}
@@ -213,7 +213,7 @@ const Support = () => {
 
                                                 <div className={styles['form-support-textarea']}>
                                                     <textarea
-                                                        placeholder="Enter your Enquiry"
+                                                        placeholder="Enter message"
                                                         className={styles['form-textarea']}
                                                         rows={4}
                                                         value={feedback}
