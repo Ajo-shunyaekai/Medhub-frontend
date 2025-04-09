@@ -15,6 +15,12 @@ const Buy2ndMarket = ({
   setFilterCategory,
   isOpen,
   toggleAccordion,
+  selectedCategory,
+  setSelectedCategory,
+  selectedSubCategory,
+  setSelectedSubCategory,
+  selectedLevel3Category,
+  setSelectedLevel3Category,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -131,6 +137,12 @@ const Buy2ndMarket = ({
               isOpen={isOpen}
               toggleAccordion={toggleAccordion}
               setFilterCategory={setFilterCategory}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              selectedSubCategory={selectedSubCategory}
+              setSelectedSubCategory={setSelectedSubCategory}
+              selectedLevel3Category={selectedLevel3Category}
+              setSelectedLevel3Category={setSelectedLevel3Category}
             />
           )}
           <ProductCard

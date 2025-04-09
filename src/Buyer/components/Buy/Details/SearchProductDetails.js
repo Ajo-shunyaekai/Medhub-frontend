@@ -27,8 +27,8 @@ const SearchProductDetails = () => {
   const itemsPerPage = 2;
 
   const pdfFile =
-    productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.[0] ||
-    productDetail?.data?.[0]?.secondayMarketDetails?.purchaseInvoiceFile?.[0];
+    productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.[0] ||
+    productDetail?.data?.[0]?.secondaryMarketDetails?.purchaseInvoiceFile?.[0];
   const pdfUrl = pdfFile
     ? `${process.env.REACT_APP_SERVER_URL}/uploads/products/${pdfFile}`
     : "https://morth.nic.in/sites/default/files/dd12-13_0.pdf";
@@ -145,15 +145,15 @@ const SearchProductDetails = () => {
 
   const secondaryFieldsConfig = [
     {
-      key: "secondayMarketDetails.condition",
+      key: "secondaryMarketDetails.condition",
       label: "Condition",
-      render: (item) => item?.secondayMarketDetails?.condition || "N/A",
+      render: (item) => item?.secondaryMarketDetails?.condition || "N/A",
     },
     {
-      key: "secondayMarketDetails.countryAvailable",
+      key: "secondaryMarketDetails.countryAvailable",
       label: "Country Available",
       render: (item) =>
-        item?.secondayMarketDetails?.countryAvailable?.join(", ") || "N/A",
+        item?.secondaryMarketDetails?.countryAvailable?.join(", ") || "N/A",
     },
   ];
 
@@ -165,52 +165,52 @@ const SearchProductDetails = () => {
         </div>
 
         {/* Secondary Market Section */}
-        {(productDetail?.secondayMarketDetails?.purchasedOn ||
-          productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
-          productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length > 0 ||
-          productDetail?.secondayMarketDetails?.condition) && (
+        {(productDetail?.secondaryMarketDetails?.purchasedOn ||
+          productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
+          productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length > 0 ||
+          productDetail?.secondaryMarketDetails?.condition) && (
           <div className={styles.mainContainer}>
             <span className={styles.innerHead}>Secondary Market Information</span>
             <div className={styles.innerSection}>
               <div className={styles.mainSection}>
-                {productDetail?.secondayMarketDetails?.purchasedOn && (
+                {productDetail?.secondaryMarketDetails?.purchasedOn && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Purchased on</span>
                     <span className={styles.medicineText}>
                       {String(
-                        new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getDate()
+                        new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getDate()
                       ).padStart(2, "0")}
                       /
                       {String(
-                        new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getMonth() + 1
+                        new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getMonth() + 1
                       ).padStart(2, "0")}
                       /
-                      {new Date(productDetail?.secondayMarketDetails?.purchasedOn)?.getFullYear()}
+                      {new Date(productDetail?.secondaryMarketDetails?.purchasedOn)?.getFullYear()}
                     </span>
                   </div>
                 )}
-                {productDetail?.secondayMarketDetails?.condition && (
+                {productDetail?.secondaryMarketDetails?.condition && (
                   <div className={styles.medicinesSection}>
                     <span className={styles.medicineHead}>Condition</span>
                     <span className={styles.medicineText}>
-                      {productDetail?.secondayMarketDetails?.condition}
+                      {productDetail?.secondaryMarketDetails?.condition}
                     </span>
                   </div>
                 )}
               </div>
-              {(productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 ||
-                productDetail?.secondayMarketDetails?.minimumPurchaseUnit) && (
+              {(productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 ||
+                productDetail?.secondaryMarketDetails?.minimumPurchaseUnit) && (
                 <div className={styles.mainSection}>
-                  {productDetail?.secondayMarketDetails?.countryAvailable?.length > 0 && (
+                  {productDetail?.secondaryMarketDetails?.countryAvailable?.length > 0 && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>Country Available in</span>
                       <span className={styles.medicineText}>
-                        {productDetail?.secondayMarketDetails?.countryAvailable?.map(
+                        {productDetail?.secondaryMarketDetails?.countryAvailable?.map(
                           (country, index) => (
                             <span key={index}>
                               {country}
                               {index !==
-                                productDetail?.secondayMarketDetails?.countryAvailable.length - 1 &&
+                                productDetail?.secondaryMarketDetails?.countryAvailable.length - 1 &&
                                 ", "}
                             </span>
                           )
@@ -218,17 +218,17 @@ const SearchProductDetails = () => {
                       </span>
                     </div>
                   )}
-                  {productDetail?.secondayMarketDetails?.minimumPurchaseUnit && (
+                  {productDetail?.secondaryMarketDetails?.minimumPurchaseUnit && (
                     <div className={styles.medicinesSection}>
                       <span className={styles.medicineHead}>Minimum Purchase Unit</span>
                       <span className={styles.medicineText}>
-                        {productDetail?.secondayMarketDetails?.minimumPurchaseUnit}
+                        {productDetail?.secondaryMarketDetails?.minimumPurchaseUnit}
                       </span>
                     </div>
                   )}
                 </div>
               )}
-              {productDetail?.secondayMarketDetails?.purchaseInvoiceFile?.length > 0 && (
+              {productDetail?.secondaryMarketDetails?.purchaseInvoiceFile?.length > 0 && (
                 <div className={styles.mainPurchaseSection}>
                   <button
                     className={styles.PurcahseButton}
@@ -383,7 +383,7 @@ const SearchProductDetails = () => {
 
         {/* Filter Section */}
         <FilterSection
-          countryAvailable={productDetail?.secondayMarketDetails?.countryAvailable || []}
+          countryAvailable={productDetail?.secondaryMarketDetails?.countryAvailable || []}
           handlePriceRange={handlePriceRange}
           handleDeliveryTime={handleDeliveryTime}
           handleStockedIn={handleStockedIn}
