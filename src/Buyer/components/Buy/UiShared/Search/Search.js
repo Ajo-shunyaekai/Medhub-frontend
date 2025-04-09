@@ -1,13 +1,13 @@
 import SearchIcon from '../../../../assets/images/Buy/search-icon.svg';
 import styles from './search.module.css';
 
-const SearchSection = ({ inputValue, handleInputChange, handleProductSearch, handleKeyDown }) => {
+const SearchSection = ({ inputValue, handleInputChange, handleProductSearch, handleKeyDown, placeholder }) => {
     return (
         <div className={styles.searchContainer}>
             <input 
                 className={styles.searchInput}
                 type='text'
-                placeholder='Search Seller'
+                placeholder={`${placeholder || "Search"}`}
                 value={inputValue}
                 onChange={(e) => handleInputChange(e)}
                 onKeyDown={handleKeyDown}

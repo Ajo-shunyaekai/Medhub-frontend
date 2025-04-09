@@ -35,7 +35,6 @@ const ActiveOrdersDetails = ({ socket }) => {
                 setOrderDetails(response.result);
             }
         } catch (error) {
-            console.log('error in order details api');
         }
     }
 

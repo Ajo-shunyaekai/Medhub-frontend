@@ -96,6 +96,38 @@ const SupSidebar = ({ children, dragWindow,
         setIsNotificationOpen(false); // Close notification dropdown if open
     };
  
+    const handleSignout = () => {
+        setIsProfileOpen(!isProfileOpen);
+        localStorage.clear()
+        sessionStorage.clear()
+        navigate('/supplier/login')
+    }
+
+    const handleProfileClick = (event) => {
+        event.stopPropagation();
+        setIsProfileOpen(false); // Close the dropdown first
+        setTimeout(() => {
+            navigate(`/supplier/profile/${sessionStorage?.getItem("_id")}`); // Navigate after dropdown closes
+        }, 0);
+    };
+
+    const handleSubscriptionClick = (event) => {
+        event.stopPropagation();
+        setIsProfileOpen(false);
+        setTimeout(() => {
+            navigate("/supplier/subscription");
+        }, 0);
+    };
+    
+    const handleSignOutClick = (event) => {
+        event.stopPropagation();
+        handleSignout(); // Your logout function
+        setIsProfileOpen(false);
+        // setTimeout(() => {
+        //     navigate("supplier/login");
+        // }, 0);
+    };
+
     const handleClickOutside = (event) => {
         // Close dropdowns if clicking outside
         if (
@@ -239,12 +271,7 @@ const SupSidebar = ({ children, dragWindow,
     }, []); // Empty dependency array to run this effect only once on mount
     // ======================
  
-    const handleSignout = () => {
-        setIsProfileOpen(!isProfileOpen);
-        localStorage.clear()
-        sessionStorage.clear()
-        navigate('/supplier/login')
-    }
+    
  
     const updateStatusApi = (id) => {
     }
@@ -404,36 +431,43 @@ const SupSidebar = ({ children, dragWindow,
                                             </div>
                                             <div className={styles.profile_wrapper_mid}>
                                                 <div>
-                                                    <Link
+                                                    {/* <Link
                                                         to={`/supplier/profile/${sessionStorage?.getItem("_id")}`}
                                                         onClick={() => setIsProfileOpen(false)} // Close dropdown on click
-                                                    >
-                                                        <div className={styles.profile_text}>Profile</div>
-                                                    </Link>
+                                                    > */}
+                                                        <div className={styles.profile_text} onMouseDown={handleProfileClick}>Profile</div>
+                                                    {/* </Link> */}
                                                 </div>
  
                                                 <div>
-                                                    <Link
+                                                    {/* <Link
                                                         to="/supplier/subscription"
                                                         onClick={() => setIsProfileOpen(false)}
-                                                    >
-                                                        <div className={styles.profile_text}>Subscription</div>
-                                                    </Link>
+                                                    > */}
+                                                        <div className={styles.profile_text} onMouseDown={handleSubscriptionClick}>Subscription</div>
+                                                    {/* </Link> */}
                                                 </div>
                                             </div>
  
                                             <div
                                                 className={styles.profile_sign_out}
-                                                onClick={() => {
-                                                    handleSignout();
-                                                    setIsProfileOpen(false); // Close dropdown on sign out
-                                                }}
+                                                // onClick={() => {
+                                                //     handleSignout();
+                                                //     setIsProfileOpen(false); // Close dropdown on sign out
+                                                // }}
+                                                onMouseDown={handleSignOutClick}
                                             >
                                                 Sign out
                                             </div>
                                         </div>
                                     </div>
                                 )}
+                                {/* <MenuOutlinedIcon
+                                    className={styles.nav_icon_color_two_3}
+                                    onClick={toggleDrawer(true)}
+                                /> */}
+                            </div>
+                            <div ref={profileRef}>
                                 <MenuOutlinedIcon
                                     className={styles.nav_icon_color_two_3}
                                     onClick={toggleDrawer(true)}

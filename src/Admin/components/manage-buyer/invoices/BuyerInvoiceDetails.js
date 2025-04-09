@@ -43,13 +43,11 @@ function BuyerInvoiceDetails() {
             //     if (response.code === 200) {
             //         setInvoiceDetails(response.result);
             //     } else {
-            //         console.log('error in order details api');
             //     }
             // });
             try {
                 const response = await apiRequests.getRequest(`invoice/get-specific-invoice-details/${obj?.invoice_id}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-invoice-details api', response);
                     return;
                 }
                 setInvoiceDetails(response.result);
@@ -57,11 +55,9 @@ function BuyerInvoiceDetails() {
                 //     if (response.code === 200) {
                 //         setInvoiceDetails(response.result);
                 //     } else {
-                //         console.log('error in invoice details api');
                 //     }
                 // });
             } catch (error) {
-                console.log('error in get-invoice-details api', error);
             }
         }
         fetchData()

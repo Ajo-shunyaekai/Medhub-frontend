@@ -53,7 +53,6 @@ const TotalApprovedRequest = () => {
                 setRequestList(response.result.data)
                 setTotalRequests(response.result.totalItems)
             } else {
-               console.log('error in get-buyer-reg-req-list api',response);
             }
             setLoading(false);
         })

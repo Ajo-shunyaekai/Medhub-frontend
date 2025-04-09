@@ -31,11 +31,8 @@ const SupplierLogistics = ({socket}) => {
     (state) => state?.addressReducer
   );
   const { orderData } = useSelector((state) => state?.orderReducer);
-  console.log("ORDERDATA", orderData);
-  console.log("supplierId", supplierId);
 
-
-
+  const [loading, setLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState()
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -170,11 +167,9 @@ const SupplierLogistics = ({socket}) => {
     // validateOnChange: false,
     onSubmit: async (values) => {
       try {
-        console.log("FOrm", values);
         let apiPayload;
-
+        setLoading(true)
         if (address?.length > 1) {
-          console.log("if");
           // Use displayAddress data when using existing address
           apiPayload = {
             order_id: orderId,
@@ -209,7 +204,6 @@ const SupplierLogistics = ({socket}) => {
             },
           };
         } else {
-          console.log("else");
           // Use form values when creating new address
           apiPayload = {
             order_id: orderId,
@@ -243,14 +237,13 @@ const SupplierLogistics = ({socket}) => {
             },
           };
         }
-        console.log("apiPayload", apiPayload);
 
         const response = await dispatch(
           submitPickupDetails({ obj: apiPayload })
         );
 
         if (response.meta.requestStatus === "fulfilled") {
-          console.log('RESPONSE',response.meta.requestStatus)
+          setLoading(false)
           socket.emit('shipmentDetailsSubmitted', {
             buyerId : orderDetails?.buyer_id, 
             orderId  : orderId,
@@ -262,6 +255,7 @@ const SupplierLogistics = ({socket}) => {
             navigate(`/supplier/active-orders-details/${orderId}`);
           }, 500);
         }
+        setLoading(false)
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -388,7 +382,7 @@ const SupplierLogistics = ({socket}) => {
     if (!orderData?.items) return [];
 
     return orderData.items.map((item) => ({
-      value: item.medicine_id,
+      value: item.product_id,
       label: item.medicine_name,
       quantity: item.quantity_required,
       strength: item.strength,
@@ -483,10 +477,8 @@ const SupplierLogistics = ({socket}) => {
   const handlSameAsRegisteredAddress = async (event) => {
     const isChecked = event.target.checked;
     setIsRegAddressChecked(!isRegAddressChecked);
-    console.log("Function calleds", event.target.checked);
     try {
       if (isChecked) {
-        console.log("addressData", address);
         resetForminlValues(address);
       } else {
         formik.setValues({
@@ -557,7 +549,6 @@ const SupplierLogistics = ({socket}) => {
                   setOrderDetails(response.result);
               }
           } catch (error) {
-              console.log('error in order details api');
           }
       }
   
@@ -565,17 +556,14 @@ const SupplierLogistics = ({socket}) => {
           fetchData()
       }, [orderId]);
 
-  console.log("displayAddress", displayAddress);
-  console.log("updatedAddress", updatedAddress);
-  console.log("ADDRESS", address);
-  console.log(
-    "rderData?.buyer_logistics_data",
-    orderData?.buyer_logistics_data
-  );
 
   const getSelectedProductDetails = (productId) => {
-    return orderData?.items?.find((item) => item.medicine_id === productId);
+    return orderData?.items?.find((item) => item.product_id === productId);
   };
+
+  const handleCancel = () => {
+    navigate(`/supplier/active-orders-details/${orderId}`);
+  }
 
   return (
     <div className={styles.container}>
@@ -748,7 +736,6 @@ const SupplierLogistics = ({socket}) => {
             if (Object.keys(formik.errors).length === 0) {
               formik.handleSubmit();
             } else {
-              console.log("errors", Object.keys(formik.errors));
               toast.error("Please fill all required fields correctly");
             }
           }
@@ -1298,10 +1285,17 @@ const SupplierLogistics = ({socket}) => {
           </div>
         </div>
         <div className={styles["logistic-Button-Section"]}>
-          <button type="submit" className={styles["logistic-submit"]}>
-            Submit
+          <button type="submit" 
+          className={styles["logistic-submit"]}
+          disabled={loading}
+          >
+            {loading ? (
+                <div className='loading-spinner'></div>
+            ) : (
+                'Submit'
+            )}
           </button>
-          <div className={styles["logistic-cancel"]}>Cancel</div>
+          <div className={styles["logistic-cancel"]} onClick={handleCancel} >Cancel</div>
         </div>
       </form>
     </div>

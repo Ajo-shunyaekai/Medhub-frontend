@@ -130,7 +130,6 @@ const AdminSidebar = () => {
             if (response.code === 200) {
                 setRefresh(true)
             } else {
-                console.log('error in order details api');
             }
         });
     }
@@ -150,7 +149,6 @@ const AdminSidebar = () => {
                     setNotificationList(response.result.data);
                     setCount(response.result.totalItems || 0)
                 } else {
-                    console.log('error in order details api');
                 }
             });
       };
@@ -190,7 +188,6 @@ const AdminSidebar = () => {
     });
 
     socket.on('newMedicineEditRequest', (message) => {
-        console.log(`medicine request: ${message}`);
         
         const link = `${process.env.REACT_APP_ADMIN_URL}/notification-list`;
         showNotification('New Medicine Edit Approval Request', {
@@ -245,10 +242,10 @@ const AdminSidebar = () => {
                   <Route path="/admin/supplier-transaction" element={<SellerTransaction />} />
                   <Route path="/admin/buyer-transaction" element={<BuyerTransaction />} />
                   <Route path="/admin/supplier-support/complaint" element={<SellerSupport />} />
-                  <Route path="/admin/supplier-support/feedback" element={<SellerSupport />} />
+                  <Route path="/admin/supplier-support/enquiry" element={<SellerSupport />} />
                   <Route path="/admin/supplier-support" element={<Navigate to="/admin/supplier-support/complaint" />} />
                   <Route path="/admin/complaint" element={<Complaint />} />
-                  <Route path="/admin/feedback" element={<Feedback />} />
+                  <Route path="/admin/enquiry" element={<Feedback />} />
                   <Route path="/admin/supplier-invoice/paid" element={<SellerInvoice/>} />
                   <Route path="/admin/supplier-invoice/pending" element={<SellerInvoice/>} />
                   <Route path="/admin/supplier-invoice/proforma" element={<SellerInvoice/>} />
@@ -275,12 +272,12 @@ const AdminSidebar = () => {
                   {/* Start the product navigate route */}
                   
                   <Route path="/admin/date-range" element={<DateRange/>} />
-                  <Route path="/admin/buyer-feedback-details/:supportId" element={<BuyerFeedbackDetails/>} />
+                  <Route path="/admin/buyer-enquiry-details/:supportId" element={<BuyerFeedbackDetails/>} />
                   <Route path="/admin/buyer-complaint-details/:supportId" element={<BuyerComplaintDetails/>} />
                   <Route path="/admin/buyer-transaction-details/:invoiceId" element={<BuyerTransactionDetails/>} />
                   
                   <Route path="/admin/supplier-transaction-details/:invoiceId" element={<SellerTransactionDetails/>} />
-                  <Route path="/admin/supplier-feedback-details/:supportId" element={<SellerFeedbackDetails/>} />
+                  <Route path="/admin/supplier-enquiry-details/:supportId" element={<SellerFeedbackDetails/>} />
                   <Route path="/admin/supplier-complaint-details/:supportId" element={<SellerComplaintDetails/>} />
                   <Route path="/admin/rejected-product/newproduct" element={<RejectedProduct/>} />
                   <Route path="/admin/rejected-product/secondary" element={<RejectedProduct/>} />
@@ -323,10 +320,10 @@ const AdminSidebar = () => {
                   <Route path="/admin/buyer-paid" element={<BuyerPaid/>} />
                   {/* <Route path="/admin/supplier-invoice/proforma" element={<SellerInvoice/>} /> */}
                   <Route path="/admin/buyer-support/complaint" element={<BuyerSupport/>} />
-                  <Route path="/admin/buyer-support/feedback" element={<BuyerSupport/>} />
+                  <Route path="/admin/buyer-support/enquiry" element={<BuyerSupport/>} />
                   <Route path="/admin/buyer-support" element={<Navigate to="/admin/buyer-support/complaint" />} />
                   <Route path="/admin/buyer-complaint" element={<BuyerComplaint/>} />
-                  <Route path="/admin/buyer-feedback" element={<BuyerFeedback/>} />    
+                  <Route path="/admin/buyer-enquiry" element={<BuyerFeedback/>} />    
                   <Route path="/admin/buyer-details/:buyerId" element={<BuyerDetails />} />   
                   {/* start the seller inquiry route  */}
                   <Route path="/admin/supplier-inquiry/inquiry" element={<SellerInquiry />} />

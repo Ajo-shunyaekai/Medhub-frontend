@@ -46,7 +46,7 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                                 <div className='rejected-table-text-color'>{product?.userDetails?.supplier_id || 'N/A'}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-1'>
-                                                <div className='rejected-table-text-color'>{product?.medicine_id || 'N/A'}</div>
+                                                <div className='rejected-table-text-color'>{product?.product_id || 'N/A'}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-1'>
                                                 <div className='rejected-table-text-color'>{product?.general?.upc || 'N/A'}</div>
@@ -75,7 +75,7 @@ const ApprovedNewProducts = ({ productList, totalProducts, currentPage, listPerP
                                             </div> */}
 
                                             <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                                <Link to={`/admin/product-details/${product.medicine_id}`}>
+                                                <Link to={`/admin/product-details/${product?._id}`}>
                                                     <div className='rejected-table rejected-table-view'>
                                                         <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                     </div>

@@ -107,29 +107,18 @@ const CompleteInvoicesList = () => {
         page_no: currentPage,
         limit: ordersPerPage,
       };
-
-      // postRequestWithToken('order/get-invoice-list-all-users', obj, async (response) => {
-      //     if (response.code === 200) {
-      //         setInvoiceList(response.result.data);
-      //         setTotalInvoices(response.result.totalItems);
-      //     } else {
-      //         console.log('error in order list api', response);
-      //     }
-      //     setLoading(false);
-      // })
+      
       try {
         const response = await apiRequests.getRequest(
           `order/get-all-invoice-list?filterKey=${"paid"}&pageNo=${currentPage}&pageSize=${ordersPerPage}`
         );
         if (response?.code !== 200) {
-          console.log("error in invoice list api", response);
           return;
         }
 
         setInvoiceList(response.result.data);
         setTotalInvoices(response.result.totalItems);
       } catch (error) {
-        console.log("Error in get-invoice-list API", error);
       } finally {
         setLoading(false);
       }

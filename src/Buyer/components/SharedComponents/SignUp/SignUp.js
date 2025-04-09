@@ -23,6 +23,7 @@ import { ClipLoader } from 'react-spinners';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { apiRequests } from '../../../../api/index';
 import TermsAndConditions from '../../../../Policies/Terms&Conditions';
+import categoryArrays from '../../../../utils/Category';
 
 
 const MultiSelectOption = ({ children, ...props }) => (
@@ -72,6 +73,8 @@ const SignUp = ({ socket }) => {
     const [certificatePreviews, setcertificatePreviews] = useState([]);
     const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([])
     const [logoPreviews, setlogoPreviews] = useState([]);
+    const [category, setCategory] = useState([])
+
  const [certificateSections, setCertificateSections] = useState([{
         taxRegPreviews: [],
         expiryDate: null
@@ -117,6 +120,7 @@ const SignUp = ({ socket }) => {
           });
         }
       };
+
     const defaultFormData = {
         companyType: '',
         companyName: '',
@@ -222,6 +226,14 @@ const SignUp = ({ socket }) => {
     useEffect(() => {
         const options = countryList().getData();
         setCountries(options);
+    }, []);
+
+    useEffect(() => {
+        const categoryOptions = categoryArrays?.map(cat => ({
+            value: cat.name,
+            label: cat.name
+        }));
+        setCategory(categoryOptions)
     }, []);
 
     const companyTypeOptions = [
@@ -504,12 +516,10 @@ const SignUp = ({ socket }) => {
             if (phoneNumber && isValidPhoneNumber(value)) {
                 // Format the phone number in E.164 format (international standard)
 
-                console.log(phoneNumber.countryCallingCode);
                 const countryCode = phoneNumber.countryCallingCode
                 const nationalNumber = phoneNumber.nationalNumber
                 // const formattedNumber = phoneNumber.format('E.164');
                 const formattedNumber = `+${countryCode} ${nationalNumber}`
-                console.log(formattedNumber);
                 // Update form data with the formatted number
                 setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
             } else {
@@ -620,7 +630,7 @@ const SignUp = ({ socket }) => {
         }
         if (!formData.yearlyPurchaseValue) formErrors.yearlyPurchaseValue = 'Yearly Purchase Value is Required';
         if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
-        if (!formData.interestedIn) formErrors.interestedIn = 'Interested in  is Required';
+        if (!formData.interestedIn) formErrors.interestedIn = 'Interested In  is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         if (!formData.description) formErrors.description = 'Description is Required';
         if (formData.description.length > 1000) formErrors.description = 'Description cannot exceed 1000 characters';
@@ -629,7 +639,7 @@ const SignUp = ({ socket }) => {
         if (!formData.licenseImage) formErrors.licenseImage = 'License Image is Required';
         if (!formData.certificateImage) formErrors.certificateImage = 'Certificate Image is Required';
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'Tax/VAT Registration No. is Required';
         // if (!formData.medicalCertificate) formErrors.medicalCertificate = 'Medical Certificate Image is Required';
         if (selectedCompanyType?.value === "medical practitioner" && !formData.medicalCertificateImage) {
             formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
@@ -733,17 +743,14 @@ const SignUp = ({ socket }) => {
                 Array.from(formData.medicalCertificateImage).forEach(file => formDataToSend.append('medical_practitioner_image', file));
             }
 
-            console.log(`\n FORM DATA FOR API PAYLOAD OF REGISTER BUYER : \n${formDataToSend}`)
 
 
-            console.log(`formDataToSend ${formDataToSend}`)
             try {
                 const response = await apiRequests?.postRequestWithFile(`auth/register`, formDataToSend, "Buyer")
                 if (response?.code !== 200) {
                     // setButtonLoading(false)
                     setLoading(false)
                     toast(response.message, { type: 'error' })
-                    console.log('error in buyer/register api');
                     return
                 }
                 // handleCancel()
@@ -765,7 +772,6 @@ const SignUp = ({ socket }) => {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, { type: 'error' })
-                console.log('error in buyer/register api');
 
             } finally {
 
@@ -903,15 +909,25 @@ const SignUp = ({ socket }) => {
                                                 {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>Tax/VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <div className='signup-tooltip-class'>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="vatRegistrationNo"
-                                                    placeholder="Enter VAT Registration Number"
+                                                    placeholder="Enter Tax/VAT Registration Number"
                                                     value={formData.vatRegistrationNo}
                                                     onChange={handleChange}
                                                 />
+                                                 <span
+                                                        className="email-info-icon"
+                                                        data-tooltip-id="company-name-tooltip"
+                                                        data-tooltip-content="Provide your Tax/VAT Registration Number"
+                                                    >
+                                                        <img src={Information} className='tooltip-icons' alt='information' />
+                                                    </span>
+                                                    <Tooltip id="company-name-tooltip" />
+                                                    </div>
                                                 {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
@@ -1129,7 +1145,7 @@ const SignUp = ({ socket }) => {
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Interested In<span className='labelstamp'>*</span></label>
                                                 <MultiSelectDropdown
-                                                    options={options}
+                                                    options={category}
                                                     value={selectedOptions}
                                                     onChange={handleMultiSelectChange}
                                                 />

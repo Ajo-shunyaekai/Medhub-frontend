@@ -100,10 +100,8 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
     };
 
     // const handleContactInput = (value) => {
-    //     console.log(value);
     //     // Clean the phone number value (remove non-numeric characters)
     //     const cleanedValue = value.replace(/[^0-9]/g, '');
-    //     console.log(cleanedValue);
     //     handleInputChange('contact', cleanedValue);
     // };
 
@@ -124,7 +122,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
             const phoneRegex = /^[0-9]{10,15}$/;
             if (phoneRegex.test(value.replace(/\D/g, ''))) { // Remove non-digits for regex test
                 const formattedNumber = formatPhoneNumber(value);
-                console.log('formattedNumber',formattedNumber);
                 handleInputChange('contact', formattedNumber );
                 // setFormData(prevState => ({ ...prevState, [name]: formattedNumber }));
             } else {
@@ -319,7 +316,6 @@ const CustomOrderModal = ({ isOpen, onClose, onSubmit,setLoading,loading,setIsMo
                                     countryid={countryid}
                                     stateid={stateid}
                                     // onChange={(e) => {
-                                    //     console.log(e);
                                     // }}
                                     onChange={handleCityChange}
                                     placeHolder="Select City"

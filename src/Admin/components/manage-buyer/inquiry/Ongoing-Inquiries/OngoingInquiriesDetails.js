@@ -49,7 +49,6 @@ const OngoingInquiriesDetails = () => {
             if (response.code === 200) {
                 setInquiryDetails(response?.result)
             } else {
-                console.log('error in order list api', response);
             }
         })
     }, [])

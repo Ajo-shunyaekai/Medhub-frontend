@@ -44,7 +44,7 @@ const SecondaryMarket = ({
                     </div>
                     <div className="buy-product-card-first-button-container">
                       <Link
-                        to={`/supplier/secondary-product-details/${product.medicine_id}`}
+                        to={`/supplier/secondary-product-details/${product.product_id}`}
                       >
                         <div className="buy-product-card-first-send-button">
                           View Details

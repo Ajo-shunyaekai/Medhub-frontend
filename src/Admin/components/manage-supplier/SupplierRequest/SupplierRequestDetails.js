@@ -117,14 +117,12 @@ const SupplierRequestDetails = () => {
             try {
                 const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
                 if (response?.code !== 200) {
-                    console.log('error in get-supplier-details api', response);
                     return;
                 }
                 setSupplierDetails(response?.result);
                 setSalesPersonName(response?.result?.sales_person_name)
                 
             } catch (error) {
-                console.log('error in get-supplier-details api', error);
             }
         }
         getSupplierdetails()
@@ -140,7 +138,6 @@ const SupplierRequestDetails = () => {
             action: action,
             sales_person_name: salesPersonName
         }
-        console.log('salesPersonName',salesPersonName)
         // if(salesPersonName == '' || salesPersonName == null) {
         //     return toast('Sales Person is required',{ type: 'error' })
         // }
@@ -167,7 +164,6 @@ const SupplierRequestDetails = () => {
                 // setSupplierDetails(response.result)
             } else {
                 setLoading(false);
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })
@@ -215,11 +211,13 @@ const SupplierRequestDetails = () => {
                                                         />
                                                     )}
                                                 </div>
-                                                <div className='buyer-details-left-inner-email-button'>
-                                                    <MailOutlineIcon
-                                                        data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
-                                                        className='buyer-details-left-inner-icon'
-                                                    />
+                                                <div className='buyer-details-left-inner-email-button' >
+                                                   <a href={`mailto:${supplierDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
+                                                        <MailOutlineIcon
+                                                            data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
+                                                            className='buyer-details-left-inner-icon'
+                                                        />
+                                                    </a>
                                                     {supplierDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"

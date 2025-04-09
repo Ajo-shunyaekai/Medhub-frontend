@@ -58,14 +58,12 @@ const PendingInvoicesList = () => {
 
         if (response?.code !== 200) {
           toast(response.message, { type: "error" });
-          console.log("Error in invoice list API", response);
           return;
         }
 
         setInvoiceList(response.result.data);
         setTotalInvoices(response.result.totalItems);
       } catch (error) {
-        console.log("Error in get-invoice-list API", error);
       } finally {
         setLoading(false);
       }

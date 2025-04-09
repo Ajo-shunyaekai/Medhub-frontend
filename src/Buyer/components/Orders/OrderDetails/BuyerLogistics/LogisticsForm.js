@@ -26,7 +26,7 @@ const LogisticsForm = ({socket}) => {
   const buyerIdSessionStorage = sessionStorage.getItem('buyer_id');
   const buyerIdLocalStorage = localStorage.getItem('buyer_id');
   const [orderDetails, setOrderDetails] = useState()
-
+  const [loading, setLoading] = useState(false);
   const [displayAddress, setDisplayAddress] = useState(address?.[0] || {});
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -83,7 +83,7 @@ const LogisticsForm = ({socket}) => {
     onSubmit: async (values) => {
       try {
         let apiPayload;
-
+        setLoading(true)
         if (address?.length > 1) {
           // Use displayAddress data when using existing address
           apiPayload = {
@@ -121,11 +121,10 @@ const LogisticsForm = ({socket}) => {
             extra_services: values.extraServices,
           };
         }
-console.log('apiPayload',apiPayload)
         const response = await dispatch(bookLogistics({ obj: apiPayload }));
 
         if (response.meta.requestStatus === "fulfilled") {
-
+          setLoading(false)
           socket.emit('bookLogistics', {
             supplierId : orderDetails?.supplier_id, 
             orderId  : orderId,
@@ -138,6 +137,7 @@ console.log('apiPayload',apiPayload)
             navigate(`/buyer/order-details/${orderId}`);
           }, 500);
         }
+        setLoading(false)
       } catch (error) {
         toast.error("Something went wrong!");
         console.error("Logistics submission error:", error);
@@ -247,10 +247,8 @@ console.log('apiPayload',apiPayload)
   const handlSameAsRegisteredAddress = async (event) => {
     const isChecked = event.target.checked;
     setIsRegAddressChecked(!isRegAddressChecked);
-    console.log("Function calleds", event.target.checked);
     try {
       if (isChecked) {
-        console.log("addressData", address);
         resetForminlValues(address);
       } else {
         formik.setValues({
@@ -280,7 +278,6 @@ console.log('apiPayload',apiPayload)
       // setIsLoading(false);
     }
   };
-  console.log("ADDRESS", address);
 
   const fetchData = async () => {
           if (!buyerIdSessionStorage && !buyerIdLocalStorage) {
@@ -297,7 +294,6 @@ console.log('apiPayload',apiPayload)
                   setOrderDetails(response.result);
               }
           } catch (error) {
-              console.log('error in order details api');
           }
       }
   
@@ -319,8 +315,9 @@ console.log('apiPayload',apiPayload)
     }
   }, [updatedAddress, address]);
 
-  console.log("displayAddress", displayAddress);
-  console.log("updatedAddress", updatedAddress);
+  const handleCancel = () => {
+    navigate(`/buyer/order-details/${orderId}`);
+  }
 
   return (
     <div className={styles.container}>
@@ -746,11 +743,18 @@ console.log('apiPayload',apiPayload)
           <button
             type="submit"
             className={styles["logistic-submit"]}
-            disabled={formik.isSubmitting}
+            // disabled={formik.isSubmitting}
+            disabled={loading}
           >
-            Request Supplier for Further Details
+            
+            {loading ? (
+                <div className='loading-spinner'></div>
+            ) : (
+                'Request Supplier for Further Details'
+            )}
+
           </button>
-          <div className={styles["logistic-cancel"]}>Cancel</div>
+          <div className={styles["logistic-cancel"]} onClick={handleCancel}>Cancel</div>
         </div>
       </form>
     </div>

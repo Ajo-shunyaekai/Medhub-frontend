@@ -53,7 +53,7 @@ const SecondaryProductDetails = () => {
             // }
  
             const obj = {
-                medicine_id: medId,
+                product_id: medId,
                 // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
  
@@ -62,7 +62,6 @@ const SecondaryProductDetails = () => {
             //         setMedicineDetails(response?.result?.data)
             //         setInvoiceImage(response?.result?.data?.invoice_image[0])
             //     } else {
-            //         console.log('error in med details api');
             //     }
             // })
             try {
@@ -77,18 +76,15 @@ const SecondaryProductDetails = () => {
                 //         setMedicineDetails(response?.result?.data)
                 //         setInvoiceImage(response?.result?.data?.invoice_image[0])
                 //     } else {
-                //         console.log('error in med details api');
                 //     }
                 // })
             } catch (error) {
-                console.log('error in medicine list api',error);
             }
         }
         fetchData()
     }, [])
     return (
         <>
-            {console.log("showModal state:", showModal)}
             <div className='main-product-details-container'>
                 <div className="product-details-cover">
                     <div className='product-details-container-main'>
@@ -101,7 +97,7 @@ const SecondaryProductDetails = () => {
                                     {medicineDetails?.composition}
                                 </p> */}
                             </div>
-                            <Link to={`/supplier/edit-secondary-product/${medicineDetails?.medicine_id}`}>
+                            <Link to={`/supplier/edit-secondary-product/${medicineDetails?.product_id}`}>
                                 <div className="product-details-sec-one-right">
                                     <button className='product-details-send-btn'>Edit</button>
                                 </div>

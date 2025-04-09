@@ -390,6 +390,10 @@ overflow-wrap: break-word;
     width: 24px;
 }
 
+.buyer-details-left-inner-icon {
+    color: white;
+}
+
 /* Style the table container */
 .supply-table {
     width: 100% !important;

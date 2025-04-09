@@ -42,7 +42,6 @@ const BuyerTransaction = () => {
                 setTransactionList(response.result.data)
                 setTotalList(response.result.totalItems)
             } else {
-               console.log('error in transaction-list api',response);
             }
             setLoading(false);
         })

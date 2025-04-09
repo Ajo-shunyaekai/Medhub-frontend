@@ -58,7 +58,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
         }
 
         const obj = {
-            medicine_id : medicineId,
+            product_id : medicineId,
             admin_id    : adminIdSessionStorage || adminIdLocalStorage ,
             // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
         }
@@ -68,7 +68,6 @@ const EditUpdateSecondaryDetails = ({socket}) => {
                 setMedicineDetails(response?.result)
                 setInvoiceImage(response?.result?.invoice_image[0])
             } else {
-                console.log('error in med details api');
             }
         })
     }, [])
@@ -76,7 +75,7 @@ const EditUpdateSecondaryDetails = ({socket}) => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id               : adminIdSessionStorage || adminIdLocalStorage ,
-            medicine_id            : medicineId ,
+            product_id             : medicineId ,
             supplier_id            : medicineDetails?.supplier.supplier_id,
             supplier_email         : medicineDetails?.supplier.supplier_email,
             supplier_name          : medicineDetails?.supplier.supplier_name,
@@ -113,7 +112,6 @@ const EditUpdateSecondaryDetails = ({socket}) => {
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-               console.log('error in accept-reject-supplier api',response);
                toast(response.message, {type: 'error'})
             }
         })
@@ -121,7 +119,6 @@ const EditUpdateSecondaryDetails = ({socket}) => {
 
     return (
         <>
-            {console.log("showModal state:", showModal)}
             <div className='main-product-details-container'>
                 <div className="product-details-cover">
                     <div className='product-details-container-main'>

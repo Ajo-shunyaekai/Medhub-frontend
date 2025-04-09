@@ -18,7 +18,8 @@ export const packagingUnits = [
   { value: "Short ton", label: "Short ton" },
   { value: "Carat (ct)", label: "Carat (ct)" },
   { value: "Grain (gr)", label: "Grain (gr)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Milliton (mt)", label: "Milliton (mt)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const volumeUnits = [
   { value: "Cubic meter (m³)", label: "Cubic meter (m³)" },
@@ -30,15 +31,20 @@ export const volumeUnits = [
   { value: "Cubic inch (in³)", label: "Cubic inch (in³)" },
   { value: "Cubic foot (ft³)", label: "Cubic foot (ft³)" },
   { value: "Cubic yard (yd³)", label: "Cubic yard (yd³)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Gallon (gal)", label: "Gallon (gal)" }, // Additional unit
+  { value: "Quart (qt)", label: "Quart (qt)" }, // Additional unit
+  { value: "Pint (pt)", label: "Pint (pt)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const dimensionUnits = [
   { value: "Millimeter (mm)", label: "Millimeter (mm)" },
   { value: "Centimeter (cm)", label: "Centimeter (cm)" },
-  { value: "Meter (m)", label: "Milliliter (m)" },
+  { value: "Meter (m)", label: "Meter (m)" }, // Fixed label
   { value: "Inch (in)", label: "Inch (in)" },
   { value: "Feet (ft)", label: "Feet (ft)" },
-]?.sort((a, b) => a?.label?.localeCompare(b?.label));
+  { value: "Yard (yd)", label: "Yard (yd)" }, // Additional unit
+  { value: "Mile (mi)", label: "Mile (mi)" }, // Additional unit
+].sort((a, b) => a?.label?.localeCompare(b?.label));
 
 export const packagingOptions = [
   { value: "Bottle", label: "Bottle" },
@@ -163,8 +169,10 @@ export const initialValues = {
   volumn: "",
   volumeUnit: "",
   dimension: "",
+  dimensionUnit: "",
   weight: "",
   unit: "",
+  unit_tax: "",
   packageType: "",
   packageMaterial: "",
   packageMaterialIfOther: "",
@@ -172,6 +180,8 @@ export const initialValues = {
   sku: "",
   stock: "",
   stockQuantity: "",
+  quantityFrom: "",
+  quantityTo: "",
   countries: [],
   date: "",
   complianceFile: [],
@@ -197,12 +207,12 @@ export const initialValues = {
     {
       country: "",
       quantity: "",
-      placeholder: "Enter Quantity",
     },
   ],
   productPricingDetails: [
     {
-      quantity: "",
+      quantityFrom: "",
+      quantityTo: "",
       price: "",
       deliveryTime: "",
     },
@@ -355,6 +365,7 @@ export const addProductValidationSchema = Yup.object({
   // dimension: Yup.string().required("Product Dimension is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
+  unit_tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -441,7 +452,9 @@ export const addProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.string().required("Quantity is required."),
+        quantityFrom: Yup.string().required("Quantity From is required."),
+        quantityTo: Yup.string().required("Quantity To is required."),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")
@@ -1270,6 +1283,7 @@ export const editProductValidationSchema = Yup.object({
   quantity: Yup.number().required("Product Quantity is required."),
   weight: Yup.number().required("Product Weight is required."),
   unit: Yup.string().required("Product Weight Unit is required."),
+  unit_tax: Yup.string().required("Tax Percentage is required."),
   // packageType: Yup.string().required("Product Packaging Type is required."),
   // packageMaterial: Yup.string().required(
   //   "Product Packaging Material is required."
@@ -1355,7 +1369,15 @@ export const editProductValidationSchema = Yup.object({
   productPricingDetails: Yup.array()
     .of(
       Yup.object({
-        quantity: Yup.string().required("Quantity is required."),
+        // quantity: Yup.string().required("Quantity is required."),
+        quantityFrom: Yup.number()
+          .typeError("Quantity From must be a number.")
+          .required("Quantity From is required.")
+          .positive("Quantity From must be greater than 0"),
+        quantityTo: Yup.number()
+          .typeError("Quantity To must be a number.")
+          .required("Quantity To is required.")
+          .positive("Quantity To must be greater than 0"),
         price: Yup.number()
           .typeError("Cost Per Price must be a number.")
           .required("Cost Per Price is required.")

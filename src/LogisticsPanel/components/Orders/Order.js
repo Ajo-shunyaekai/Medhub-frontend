@@ -10,6 +10,7 @@ import { postRequestWithToken } from '../../../api/Requests';
 import Loader from '../SharedComponents/Loader/Loader';
 import { toast } from 'react-toastify';
 import { apiRequests } from '../../../api';
+import Section from '../UI/Section';
 
 
 const Order = () => {
@@ -32,8 +33,8 @@ const Order = () => {
                 return 'completed';
             case '/logistics/order/pending':
                 return 'pending';
-            case '/logistics/order/ongoing':
-                return 'ongoing';
+            // case '/logistics/order/ongoing':
+            //     return 'ongoing';
             default:
                 return 'pending';
         }
@@ -53,9 +54,9 @@ const Order = () => {
             case 'pending':
                 navigate('pending');
                 break;
-            case 'ongoing':
-                navigate('ongoing');
-                break;
+            // case 'ongoing':
+            //     navigate('ongoing');
+            //     break;
             default:
                 navigate('pending');
         }
@@ -90,7 +91,6 @@ const Order = () => {
                 
             } catch (error) {
                 toast(error.message, {type:'error'})
-                console.log('error in order list api',error);
             } finally{
                 setLoading(false);
             }
@@ -103,7 +103,7 @@ const Order = () => {
     return (
         <>
 
-            <div className='order-main-container'>
+            <Section classes='orders-main-container'>
                 <div className="order-name">
                     Logistics Requests
                 </div>
@@ -114,11 +114,10 @@ const Order = () => {
                             <img src={order_list} alt="order icon" />
                             <div>Pending Requests</div>
                         </div>
-
-                        <div onClick={() => handleLinkClick('ongoing')} className={activeLink === 'ongoing' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
+                        {/* <div onClick={() => handleLinkClick('ongoing')} className={activeLink === 'ongoing' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
                             <div>Ongoing Requests</div>
-                        </div>
+                        </div> */}
                         <div onClick={() => handleLinkClick('active')} className={activeLink === 'active' ? 'active order-left-wrapper' : 'order-left-wrapper'}>
                             <img src={order_list} alt="order icon" />
                             <div>Active Requests</div>
@@ -178,7 +177,7 @@ const Order = () => {
                         </div>
                     </div>
                 </div>
-            </div >
+            </Section >
 
         </>
     )

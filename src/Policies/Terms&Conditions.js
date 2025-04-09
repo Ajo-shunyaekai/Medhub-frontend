@@ -9,7 +9,6 @@ const TermsAndConditions = ({ setShowTnC, setIsChecked }) => {
     const closeModal = () => setIsModalOpen(false);
     const [accepted, setAccepted] = useState(false);
     const handleAccept = () => {
-        console.log("here", setIsChecked);
         if (setIsChecked) {
             setIsChecked(true);
         } else {

@@ -72,7 +72,7 @@ const CancelInquiryList = () => {
             comment: text
         };
  
-        postRequestWithToken("buyer/enquiry/cancel-enquiry", obj, async (response) => {
+        postRequestWithToken("enquiry/cancel-enquiry", obj, async (response) => {
         if (response.code === 200) {
             toast(response.message, { type: "success" });
             setTimeout(() => {
@@ -83,7 +83,6 @@ const CancelInquiryList = () => {
         } else {
             setLoading(true)
             toast(response.message, { type: "error" });
-            console.log("error in cancel-enquiry api", response);
         }
       }
     );
@@ -98,17 +97,9 @@ const CancelInquiryList = () => {
             const obj = {
                 buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
                 enquiry_id: inquiryId,
-            };
-            // postRequestWithToken("buyer/enquiry/enquiry-details", obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setInquiryDetails(response?.result);
-            //     } else {
-            //         console.log("error in order list api", response);
-            //     }
-            // });           
+            };      
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in order list api', response);
                 return;
             }
             setInquiryDetails(response?.result);
@@ -116,7 +107,6 @@ const CancelInquiryList = () => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result);
             //     } else {
-            //         console.log("error in order list api", response);
             //     }
             // });           
         }

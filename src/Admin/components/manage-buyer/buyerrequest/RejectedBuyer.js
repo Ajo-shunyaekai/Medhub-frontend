@@ -47,7 +47,6 @@ const RejectedBuyer = () => {
                 setBuyerList(response.result.data)
                 setTotalBuyers(response.result.totalItems)
             } else {
-               console.log('error in get-buyer-list list api',response);
             }
             setLoading(false);
         })
@@ -99,7 +98,7 @@ const RejectedBuyer = () => {
                                         <div className='table-text-color'>{buyer.buyer_country_code} {buyer.buyer_mobile || 'Not Provided'}</div>
                                     </div>
                                     <div className='rejected-table-row-item rejected-table-order-2'>
-                                        <div className='rejected-table-text-color'>{buyer.buyer_email || 'Not Provided'}</div>
+                                        <div className='rejected-table-text-color'>{buyer.contact_person_email || 'Not Provided'}</div>
                                     </div>
                                     <div className='rejected-table-row-item rejected-table-order-1'>
                                         <div className='rejected-table-text-color'>

@@ -9,11 +9,9 @@ export const getRequestTest = async(URL)=>{
     try {
         const response = await axios.get(URL)
 
-        console.log(`response of get request : ${response?.data}`)
         
     } catch (error) {
         // return callback({code : 500, message : 'Connection faild, please start node server'});        
-        console.log(`Error in get request: ${error}  `)
     }
 
 }

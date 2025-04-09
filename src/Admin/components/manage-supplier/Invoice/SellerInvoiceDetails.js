@@ -41,7 +41,6 @@ function SellerInvoiceDetails() {
                     setInvoiceDetails(response.result);
                 }
             } catch (error) {
-                console.log('error in invoice details api');
             }
         }
         fetchData()

@@ -139,6 +139,12 @@ const EditProfile = lazy(() =>
 const SupplierLogistics = lazy(() => 
   import("../components/Orders/SupplierLogistics/SupplierLogistics")
 )
+const PreviewFile = lazy(() => 
+  import("../components/Products/AddProduct/PreviewFile/PreviewFile.jsx")
+)
+const Error = lazy(() => 
+  import("../components/SharedComponents/Error/Error.jsx")
+)
  
 const socket = io.connect(process.env.REACT_APP_SERVER_URL);
  
@@ -173,7 +179,6 @@ export const NotificationProvider = ({ children }) => {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
-        console.log("Error in fetching notifications");
       }
     });
   };
@@ -186,7 +191,6 @@ export const NotificationProvider = ({ children }) => {
       if (response.code === 200) {
         setInvoiceCount(response.result);
       } else {
-        console.log("Error in fetching invoice count");
       }
     });
   };
@@ -206,7 +210,6 @@ export const NotificationProvider = ({ children }) => {
         if (response.code === 200) {
           setRefresh(true);
         } else {
-          console.log("Error in updating notification status");
         }
       }
     );
@@ -516,6 +519,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "preview-file",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PreviewFile />
+          </Suspense>
+        ),
+      },
+      {
         // path: "product-details/:medicineId",
         path: "product-details/:id",
         element: (
@@ -717,6 +728,14 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error socket={socket} />
+      </Suspense>
+    ),
+  }
 ]);
 function Router() {
   return <RouterProvider router={router} />;

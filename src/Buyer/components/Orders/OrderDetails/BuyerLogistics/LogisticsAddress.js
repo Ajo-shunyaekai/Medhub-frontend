@@ -92,7 +92,6 @@ const LogisticsAddress = () => {
     // navigate(-1);
     navigate(`/buyer/logistics-form/${orderId}/${buyerId}`)
   };
-  console.log("selectedAddress", selectedAddress);
 
   const handleEdit = () => {
     const updatedAdd =
@@ -103,7 +102,6 @@ const LogisticsAddress = () => {
 
   const handleDeleteAddress = async() => {
       const deleteApi = await dispatch(deleteAddress({ addressId:selectedAddress, userId: buyerId }))
-      console.log('deleteApi',deleteApi)
 
       if(deleteApi.meta.requestStatus === "fulfilled") {
         dispatch(fetchAddressListRedux(buyerId));

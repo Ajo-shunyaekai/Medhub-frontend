@@ -160,10 +160,6 @@ const useFileUpload = (
     } else {
       // we will remove from old and new array
       setFilesNew([]);
-      console.log(
-        "ele to string in old",
-        JSON.stringify(initialValues?.complianceFile)
-      );
       const indexToRemove = initialValues?.complianceFileNew?.findIndex(
         (ele, index) => JSON.stringify(ele) == file
       );

@@ -22,7 +22,6 @@ export const fetchUserData = createAsyncThunk(
       return data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -41,7 +40,6 @@ export const fetchCurrentSubscription = createAsyncThunk(
       return data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -62,7 +60,6 @@ export const createSubscriptionSession = createAsyncThunk(
       }
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -77,14 +74,9 @@ export const saveSubscriptionPayment = createAsyncThunk(
         userType: obj?.userType,
         obj,
       });
-      console.log(
-        "Response of saveSubscriptionPayment",
-        response?.data?.subscriptionDetails
-      );
       return response?.data?.subscriptionDetails;
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -102,7 +94,6 @@ export const sendSubscriptionPaymentEmail = createAsyncThunk(
       });
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }

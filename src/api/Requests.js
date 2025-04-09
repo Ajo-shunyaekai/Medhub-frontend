@@ -27,8 +27,6 @@ export const getRequest = async (URL, requestData, callback) => {
             withCredentials: true, // Ensure credentials are sent
         });
 
-        console.log('GET Request URL:', URL);
-        console.log('Response:', response.data);
 
         return callback(response.data);
 

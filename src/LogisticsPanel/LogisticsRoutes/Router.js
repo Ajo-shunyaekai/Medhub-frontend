@@ -1,3 +1,102 @@
+import React, { Suspense, lazy } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Loader from "../components/SharedComponents/Loader/Loader";
+
+const AddVehicle        = lazy(() => import("../components/Vehicle/index"));
+const ActiveOrder       = lazy(() => import("../components/Orders/ActiveOrders/ActiveOrder"));
+const CompleteOrder     = lazy(() => import("../components/Orders/CompletedOrders/CompleteOrder"));
+const Dashboard         = lazy(() => import("../components/Dashboard/index"));
+const Inventory         = lazy(() => import("../components/Inventory/index"));
+const LogisticsLayout   = lazy(() => import("../components/SharedComponents/LogisticsLayout"));
+// const Layout            = lazy(() => import("../components/SharedComponents/layout"));
+// const Login             = lazy(() => import("../components/SharedComponents/Login/Login"));
+const Login             = lazy(() => import("../components/Login/Login"));
+const LogisticsDetails  = lazy(() => import("../components/Orders/OrderDetails/LogisticsDetails"));
+const OngoingOrder      = lazy(() => import("../components/Orders/OngoingOrders/OngoingOrders"));
+const Orders            = lazy(() => import("../components/Orders/index"));
+const PickupOrders      = lazy(() => import("../components/PickupOrders/index"));
+const PickupDetails     = lazy(() => import("../components/PickupOrders/PickupOrderDetails/PickupOrderDetails"));
+const PendingOrder      = lazy(() => import("../components/Orders/PendingOrders/PendingOrders"));
+const Profile           = lazy(() => import("../components/SharedComponents/Profile/profile"));
+const Shipment          = lazy(() => import("../components/Shipment/index"));
+const Tracking          = lazy(() => import("../components/Tracking/index"));
+const VehicleList       = lazy(() => import("../components/Vehicle/VehicleList/VehicleLIst"));
+
+const router = createBrowserRouter([
+  {
+    path    : "/logistics/login",
+    element : <Login />,
+  },
+  {
+    path     : "/logistics",
+    // element  : <Layout />,
+    element  : <LogisticsLayout />,
+    children : [
+      {
+        index   : true,
+        element: <Dashboard />
+      },
+      {
+        path     : "order",
+        element  : <Orders />,
+        children : [
+          { path : "active",     element: <ActiveOrder /> },
+          { path : "completed",  element: <CompleteOrder /> },
+          { path : "pending",    element: <PendingOrder /> },
+          // { path : "ongoing",    element: <OngoingOrder /> },
+        ],
+      },
+      {
+        path    : "logistics-details/:requestId",
+        element : <LogisticsDetails />,
+      },
+      {
+        path    : "pickup-order",
+        element : <PickupOrders />,
+      },
+      {
+        path    : "pickup-order-details/:requestId",
+        element : <PickupDetails />,
+      },
+      {
+        path    : "inventory",
+        element : <Inventory />,
+      },
+      {
+        path    : "add-vehicle",
+        element : <AddVehicle />,
+      },
+      {
+        path    : "vehicle-list",
+        element : <VehicleList />,
+      },
+      {
+        path    : "shipment",
+        element : <Shipment />,
+      },
+      {
+        path    : "tracking",
+        element : <Tracking />,
+      },
+      {
+        path    : "profile",
+        element : <Profile />,
+      },
+    ],
+  },
+]);
+
+function Router() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
+}
+
+export default Router;
+
+/*
 import React, {
   useEffect,
   useState,
@@ -49,6 +148,9 @@ const PendingOrder = lazy(() =>
 );
 const OngoingOrder = lazy(() =>
   import("../components/Orders/OngoingOrders/OngoingOrders")
+);
+const Error = lazy(() =>
+  import("../components/SharedComponents/Error/Error")
 );
 
 // Routes
@@ -170,10 +272,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error />
+      </Suspense>
+    ),
+  }
 ]);
 
 function Router() {
   return <RouterProvider router={router} />;
 }
 
-export default Router;
+export default Router;*/

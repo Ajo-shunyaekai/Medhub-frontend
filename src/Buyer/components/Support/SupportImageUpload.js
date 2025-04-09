@@ -21,31 +21,25 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
     //     const files = Array.from(event.target.files);
     //     let newImages = [...images];
 
-    //     console.log("Selected files:", files);
-    //     console.log("Current images:", images);
 
     //     if (newImages.length + files.length > maxImages) {
     //         setErrorMessage(`You can upload up to ${maxImages} images in total.`);
-    //         console.log(`Error: You can upload up to ${maxImages} images in total.`);
     //         return;
     //     }
 
     //     for (let i = 0; i < files.length; i++) {
     //         const file = files[i];
-    //         console.log("Processing file:", file);
 
     //         if (file) {
     //             const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
 
     //             if (!isValidType) {
     //                 setErrorMessage('Invalid file type. Only PNG, JPEG, and JPG are allowed.');
-    //                 console.log('Error: Invalid file type.');
     //                 return;
     //             }
 
     //             if (file.size > maxSingleFileSize) {
     //                 setErrorMessage('File size exceeds the limit of 1MB.');
-    //                 console.log('Error: File size exceeds the limit of 1MB.');
     //                 return;
     //             }
 
@@ -55,14 +49,12 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
 
     //     setErrorMessage(''); 
     //     setImages(newImages);
-    //     console.log("Updated images:", newImages);
     // };
 
     // const handleImageRemove = (index) => {
     //     const updatedImages = [...images];
     //     updatedImages.splice(index, 1);
     //     setImages(updatedImages);
-    //     console.log("Image removed. Updated images:", updatedImages);
     // };
 
     // const handleImageClick = () => {
@@ -74,7 +66,6 @@ const ImageUploaders = ({images, setImages, ErrorMessage, clearImageError}) => {
     //     setShowModal(true);
     // };
 
-    // console.log('images',images);
 
     // return (
     //     <>

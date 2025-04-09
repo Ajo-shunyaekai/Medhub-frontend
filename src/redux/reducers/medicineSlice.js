@@ -15,11 +15,9 @@ export const fetchMedicineListRedux = createAsyncThunk(
   async (url, { rejectWithValue }) => {
     try {
       const response = await apiRequests.getRequest(url)
-      console.log('response', response)
       return response.result.data; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -29,11 +27,10 @@ export const fetchMedicineyDataRedux = createAsyncThunk(
   "medicine/fetchMedicineyDataRedux",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${values?.medicine_id}`, values)
+      const response = await apiRequests.getRequest(`medicine/get-specific-medicine-details/${values?.product_id}`, values)
       return response.result 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }

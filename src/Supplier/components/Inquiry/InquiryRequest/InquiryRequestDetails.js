@@ -44,17 +44,9 @@ const InquiryRequestDetails = ({socket}) => {
                 supplier_id: supplierIdSessionStorage || supplierIdLocalStorage,
                 enquiry_id: inquiryId
             }
- 
-            // postRequestWithToken('supplier/enquiry/enquiry-details', obj, async (response) => {
-            //     if (response.code === 200) {
-            //         setInquiryDetails(response?.result)
-            //     } else {
-            //         console.log('error in order list api', response);
-            //     }
-            // })            
+            
             const response = await apiRequests.getRequest(`enquiry/get-specific-enquiry-details/${inquiryId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in order list api', response);
                 return;
             }
             setInquiryDetails(response?.result);
@@ -62,7 +54,6 @@ const InquiryRequestDetails = ({socket}) => {
             //     if (response.code === 200) {
             //         setInquiryDetails(response?.result)
             //     } else {
-            //         console.log('error in order list api', response);
             //     }
             // })            
         }
@@ -98,12 +89,13 @@ const InquiryRequestDetails = ({socket}) => {
             return;
         }
         setLoading(true)
-        const transformedQuotationItems = quotationItems.map(item => ({
+        const transformedQuotationItems = quotationItems?.map(item => ({
             itemId: item._id,
-            medicine_id: item.medicine_id,
+            product_id: item.product_id,
             est_delivery_days: item.est_delivery_days,
             counter_price: item.counterPrice?.toString(),
             unit_price: item.unit_price,
+            unit_tax: item.unit_tax,
             quantity_required: item.quantity_required,
             target_price: item.target_price,
             accepted: item.accepted
@@ -117,7 +109,7 @@ const InquiryRequestDetails = ({socket}) => {
             payment_terms: paymentTerms
         }
 
-        postRequestWithToken('supplier/enquiry/submit-quotation', obj, async (response) => {
+        postRequestWithToken('enquiry/submit-quotation', obj, async (response) => {
             if (response.code === 200) {
                 toast(response.message, { type: 'success' })
  
@@ -134,7 +126,6 @@ const InquiryRequestDetails = ({socket}) => {
             } else {
                 setLoading(false)
                 toast(response.message, { type: 'error' })
-                console.log('error in enquiry/submit-quotation api', response);
             }
         })
     }

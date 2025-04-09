@@ -32,14 +32,13 @@ const AssignDriver = ({orderItems, orderDetails}) => {
                 <tbody>
                 {
                     currentOrders?.map((item,i) => {
-                        console.log("ITEM",item);
                         
                         return (
                                 <tr>
                                     <td className='tables-td'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">{item.medicine_id}</span>
+                                            <span className="table-g-not-names">{item.product_id}</span>
                                         </div>
                                     </td>
                                     <td className='tables-td-cont' >

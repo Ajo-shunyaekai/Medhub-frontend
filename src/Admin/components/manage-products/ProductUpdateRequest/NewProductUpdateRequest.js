@@ -45,7 +45,7 @@ const NewProductUpdateRequest = ({ productList, totalProducts, currentPage, list
                                                 <div className='rejected-table-text-color'>{product?.supplier_id}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-1'>
-                                                <div className='rejected-table-text-color'>{product?.medicine_id}</div>
+                                                <div className='rejected-table-text-color'>{product?.product_id}</div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-order-2'>
                                                 <div className='table-text-color'>{product?.medicine_name}</div>
@@ -70,7 +70,7 @@ const NewProductUpdateRequest = ({ productList, totalProducts, currentPage, list
                                                 </div>
                                             </div>
                                             <div className='rejected-table-row-item rejected-table-btn rejected-table-order-1'>
-                                                <Link to={`/admin/edit-product-details/${product?.medicine_id}`}>
+                                                <Link to={`/admin/edit-product-details/${product?.product_id}`}>
                                                     <div className='rejected-table rejected-table-view'>
                                                         <RemoveRedEyeOutlinedIcon className="table-icon" />
                                                     </div>

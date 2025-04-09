@@ -3,7 +3,7 @@ import Select from 'react-select';
 import styles from './category.module.css';
 import categoryArrays from '../../../../../utils/Category';
 
-const AccordionFilter = ({ isOpen, toggleAccordion }) => {
+const AccordionFilter = ({ isOpen, toggleAccordion, setFilterCategory }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
     const [selectedLevel3Category, setSelectedLevel3Category] = useState(null);
@@ -17,7 +17,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion }) => {
     const getCategorySchema = (category) => {
         if (!category) return null;
         return (
-            categoryArrays.find((cat) => cat.name === category.label)?.schema || null
+            categoryArrays.find((cat) => cat.name === category)?.schema || null
         );
     };
 
@@ -47,11 +47,12 @@ const AccordionFilter = ({ isOpen, toggleAccordion }) => {
     };
 
     const handleApply = () => {
-        console.log('Applied Filters:', {
-            category: selectedCategory?.value,
-            subCategory: selectedSubCategory?.value,
-            level3Category: selectedLevel3Category?.value,
-        });
+        const filterData = {
+            category: getCategorySchema(selectedCategory?.value) || '',
+            subCategory: selectedSubCategory?.value || '',
+            level3Category: selectedLevel3Category?.value || '',
+        };
+        setFilterCategory(filterData); 
         // Add your apply filter logic here
     };
 
@@ -59,7 +60,7 @@ const AccordionFilter = ({ isOpen, toggleAccordion }) => {
         setSelectedCategory(null);
         setSelectedSubCategory(null);
         setSelectedLevel3Category(null);
-        console.log('Filters reset');
+        setFilterCategory(null)
     };
 
     const isFilterSelected = selectedCategory || selectedSubCategory || selectedLevel3Category;

@@ -21,7 +21,6 @@ export const fetchUserData = createAsyncThunk(
       return response?.user || response?.data; // Return the actual user data or fallback
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -125,7 +124,6 @@ export const registerUser = createAsyncThunk(
 
       if (response?.code !== 200) {
         toast(response.message, { type: "error" });
-        console.log("error in supplier/register api");
         return rejectWithValue(
           response.message || "Error occured with registration"
         );

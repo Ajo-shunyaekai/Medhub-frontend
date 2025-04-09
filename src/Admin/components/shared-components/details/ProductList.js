@@ -68,7 +68,7 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     <td className='tables-tds'>
                                         <div className="table-g-section-content">
                                             <span className="table-g-driver-name">Product ID</span>
-                                            <span className="table-g-not-names">{item.product_id || item.medicine_id || item.productId}</span>
+                                            <span className="table-g-not-names">{item.product_id || item.product_id || item.productId}</span>
                                         </div>
                                     </td>
                                     <td className='tables-tds-cont' >
@@ -119,8 +119,8 @@ const ProductList = ({ orderItems, quotationItems, handleAccept, handleReject, i
                                     )}
                                     {/* <td className='tables-tds'>
                                 <div className="table-g-section-content-button">
-                                    <span className="table-g-not-name-button" onClick={() => handleAccept(item.medicine_id, item._id)}>Accept</span>
-                                    <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.medicine_id, item._id)}>Reject</span>
+                                    <span className="table-g-not-name-button" onClick={() => handleAccept(item.product_id, item._id)}>Accept</span>
+                                    <span className="table-g-not-reject-buttons" onClick={() => handleReject(item.product_id, item._id)}>Reject</span>
                                 </div>
                         </td> */}
 

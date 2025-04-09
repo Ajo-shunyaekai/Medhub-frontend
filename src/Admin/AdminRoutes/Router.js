@@ -273,8 +273,8 @@ const RejectedSecondaryProducts = lazy(() =>
 const ProductDetails = lazy(() =>
   import("../components/manage-products/ProductDetails")
 );
-const ProductRequestDetails = lazy(() =>
-  import("../components/manage-products/ProductRequestDetails")
+const ProductDetailsNew = lazy(() =>
+  import("../components/manage-products/product/Products")
 );
 const SecondaryProductRequestDetails = lazy(() =>
   import("../components/manage-products/SecondaryProductRequestDetails")
@@ -339,7 +339,6 @@ export function NotificationProvider({ children }) {
         setNotificationList(response.result.data);
         setCount(response.result.totalItems);
       } else {
-        console.log("Error in fetching notifications");
       }
     });
   };
@@ -359,7 +358,6 @@ export function NotificationProvider({ children }) {
         if (response.code === 200) {
           setRefresh(true);
         } else {
-          console.log("Error in updating notification status");
         }
       }
     );
@@ -728,7 +726,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "feedback",
+            path: "enquiry",
             element: (
               <Suspense fallback={<Loader />}>
                 <BuyerFeedback socket={socket} />
@@ -818,7 +816,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "buyer-feedback-details/:supportId",
+        path: "buyer-enquiry-details/:supportId",
         element: (
           <Suspense fallback={<Loader />}>
             <BuyerFeedbackDetails socket={socket} />
@@ -961,7 +959,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "feedback",
+            path: "enquiry",
             element: (
               <Suspense fallback={<Loader />}>
                 <SellerFeedback socket={socket} />
@@ -1059,7 +1057,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "supplier-feedback-details/:supportId",
+        path: "supplier-enquiry-details/:supportId",
         element: (
           <Suspense fallback={<Loader />}>
             <SellerFeedbackDetails socket={socket} />
@@ -1120,7 +1118,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "approved-product",
+        path: "products",
         element: (
           <Suspense fallback={<Loader />}>
             <ApprovedProducts socket={socket} />
@@ -1128,7 +1126,7 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "newproduct",
+            path: "new",
             element: (
               <Suspense fallback={<Loader />}>
                 <ApprovedNewProducts socket={socket} />
@@ -1172,29 +1170,29 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "product-details/:medicineId",
+        path: "product-details/:id",
         element: (
           <Suspense fallback={<Loader />}>
-            <ProductDetails socket={socket} />
+            <ProductDetailsNew socket={socket} />
           </Suspense>
         ),
       },
-      {
-        path: "product-request-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <ProductRequestDetails socket={socket} />
-          </Suspense>
-        ),
-      },
-      {
-        path: "secondary-product-request-details/:medicineId",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SecondaryProductRequestDetails socket={socket} />
-          </Suspense>
-        ),
-      },
+      // {
+      //   path: "product-request-details/:id",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <ProductDetailsNew socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
+      // {
+      //   path: "product-request-details/:medicineId",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <SecondaryProductRequestDetails socket={socket} />
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "edit-product-details/:medicineId",
         element: (

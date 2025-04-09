@@ -5,7 +5,6 @@ import logo from '../../assets/images/navibluelogo.svg';
 import html2pdf from 'html2pdf.js';
 
 const SubscriptionInvoiceDetails = ({ title, service, details }) => {
-    console.log(details)
     const handleDownload = () => {
         const invoiceElement = document.getElementById('invoiceToDownload');
         const options = {

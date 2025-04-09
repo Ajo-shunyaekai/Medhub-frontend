@@ -5,6 +5,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import 'react-responsive-modal/styles.css';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
+import moment from 'moment/moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import { postRequestWithToken } from '../../../api/Requests';
 import { toast } from 'react-toastify';
@@ -104,13 +105,11 @@ const renderFiles = (files, type) => {
         try {
             const response = await apiRequests.getRequest(`supplier/get-specific-supplier-details/${supplierId}`, obj);
             if (response?.code !== 200) {
-                console.log('error in get-supplier-details api', response);
                 return;
             }
             setSupplierDetails(response?.result);
          
         } catch (error) {
-            console.log('error in get-supplier-details api', error);
         }
     }
         getSupplierDeatils()
@@ -130,7 +129,6 @@ const renderFiles = (files, type) => {
                     navigate('/admin/supplier-request')
                 },1000)
             } else {
-               console.log('error in accept-reject-supplier api',response);
                toast(response.message, {type: 'error'})
             }
         })
@@ -174,10 +172,12 @@ const renderFiles = (files, type) => {
                                                     )}
                                                 </div>
                                                 <div className='buyer-details-left-inner-email-button'>
+                                                <a href={`mailto:${supplierDetails?.contact_person_email}`} target="_blank" rel="noopener noreferrer">
                                                     <MailOutlineIcon
                                                         data-tooltip-id={supplierDetails?.contact_person_email ? "my-tooltip-2" : null}
                                                         className='buyer-details-left-inner-icon'
                                                     />
+                                                    </a>
                                                     {supplierDetails?.contact_person_email && (
                                                         <ReactTooltip
                                                             id="my-tooltip-2"
@@ -232,8 +232,12 @@ const renderFiles = (files, type) => {
                                         ? supplierDetails?.account_accepted_date 
                                         : supplierDetails?.account_status === 2 
                                         ? supplierDetails?.account_rejected_date 
-                                        : " "}
+                                        : "NA"}
                                     </div>
+                                </div>
+                                <div className='buyer-details-inner-section'>
+                                    <div className='buyer-details-inner-head'>Account Created Date :</div>
+                                    <div className='buyer-details-inner-text'>{moment(supplierDetails?.createdAt).format("DD-MM-YYYY")}</div>
                                 </div>
                             <div className='buyer-details-inner-section'>
                                     <div className='buyer-details-inner-head'>Sales Person Name :</div>

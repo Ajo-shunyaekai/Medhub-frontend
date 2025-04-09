@@ -1,664 +1,675 @@
 /* style filter section code */
 .searchDetailsSection {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
 }
 
 .mainContainerFilter {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
-    color: #fff;
-    padding: 12px;
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  color: #fff;
+  padding: 12px;
 }
 
 .innerSectionFilter {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }
 
 .mainSectionFilter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    width: 100%;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
 }
 
 .medicinesSectionFilter {
-    position: relative;
+  position: relative;
 }
 
 .PurcahseButtonFilter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  min-width: 160px;
 }
 
 .filterDropdownContentFilter {
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    color: #5e676f;
-    display: flex;
-    flex-direction: column;
-    font-size: 14px;
-    padding: 14px;
-    padding-left: 14px !important;
-    position: absolute;
-    row-gap: 12px;
-    top: 140%;
-    width: 250px;
-    height: 150px;
-    cursor: pointer !important;
-    overflow: scroll;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  color: #5e676f;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  padding: 14px;
+  padding-left: 14px !important;
+  position: absolute;
+  row-gap: 12px;
+  top: 140%;
+  width: 250px;
+  height: 150px;
+  cursor: pointer !important;
+  overflow: scroll;
 }
 
-.filterDropdownContentFilter::-webkit-scrollbar{
-    display: none !important;
+.filterDropdownContentFilter::-webkit-scrollbar {
+  display: none !important;
 }
 .filterOptionFilter {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .medicineTextFilter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer !important;
 }
 
-.mainPurchaseSectionFilter {}
+.mainPurchaseSectionFilter {
+}
 
 .ResetButton {
-    border: 1px solid #d3d3d3;
-    border-radius: 4px;
-    cursor: pointer !important;
-    display: flex;
-    background-color: transparent;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    justify-content: center;
-    padding: 0;
-    width: 100px;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  cursor: pointer !important;
+  display: flex;
+  background-color: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  justify-content: center;
+  padding: 0;
+  width: 100px;
 }
 
 /* End filter section code */
 
 /* Style Medicine cards */
-.cardExternalContainer{
-    margin-bottom: 50rem !important;
+.cardExternalContainer {
+  margin-bottom: 50rem !important;
 }
 /* End Medicine cards */
 
 /* Style Product details */
-.cardHeading{
-    font-size: 22px !important;
-    font-weight: 500 !important;
+.cardHeading {
+  font-size: 22px !important;
+  font-weight: 500 !important;
 }
 .ProductMainContainer {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 26px 30px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 1000; /* Keeps it above other elements */
-    
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 26px 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Keeps it above other elements */
+}
+
+.ProductMainContainer2 {
+  background-color: #f9f9fa;
+  border-radius: 4px;
+  /* box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important; */
+  padding: 26px 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Keeps it above other elements */
 }
 
 .container {
-    width: 100%;
-    max-width: 94%;
-    height: 100vh;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2.6rem;
-    overflow: scroll;
-    scrollbar-width: none;
-    background-attachment: fixed;
+  width: 100%;
+  max-width: 94%;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+  overflow: scroll;
+  scrollbar-width: none;
+  background-attachment: fixed;
 }
 
 .container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .heading {
-    font-size: 20px;
-    font-weight: 600;
-    padding-top: 5px;
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 5px;
 }
 
 .innerHead {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .mainContainer {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative; /* Prevents unintended overlap */
-    z-index: 1;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative; /* Prevents unintended overlap */
+  z-index: 1;
 }
 
 .mainFixedContainer {
-    position: fixed;
-    width: 100%;
-    max-width: 82%;
-    z-index: 99999999;
+  position: fixed;
+  width: 100%;
+  max-width: 82%;
+  z-index: 99999999;
 }
 
 .mainManufacturerContainer {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .innerSection {
-    width: 100%;
-    display: flex;
-    gap: 20px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
 }
 
 .InnerContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    /* background-color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  /* background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
     padding: 26px 30px; */
 }
 
 .medicineName {
-    color: #5e676f;
-    font-size: 28px;
-    font-weight: 500;
+  color: #5e676f;
+  font-size: 28px;
+  font-weight: 500;
 }
 
 .editButton {
-    background: linear-gradient(270deg, #00dcff, #0075ce);
-    border: none !important;
-    outline: none !important;
-    border-radius: 4px;
-    color: #fff !important;
-    cursor: pointer !important;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    padding: 6px 16px;
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border: none !important;
+  outline: none !important;
+  border-radius: 4px;
+  color: #fff !important;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 6px 16px;
 }
 
 .editButton:hover {
-    color: #fff !important;
+  color: #fff !important;
 }
 
 .mainSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .medicinesSection {
-    display: flex;
-    align-items: baseline;
-    gap: 10px
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .medicineHead {
-    font-size: 14px;
-    font-weight: 500;
-    width: 250px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 250px;
 }
 
 .medicineHeadings {
-    font-size: 14px;
-    font-weight: 500;
-    width: 75%;
+  font-size: 14px;
+  font-weight: 500;
+  width: 75%;
 }
 
 .medicineText {
-    width: 50%;
-    color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
+  width: 50%;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .medicineTexts {
-    width: 75%;
-    color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
+  width: 75%;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .medicineContent {
-    color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 100%;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
 }
 
 .medicineDescriptionContent {
-    color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 100%;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  width: 100%;
 }
 
 .medicineDescriptionContent img {
-    width: 180px;
-    height: auto;
+  width: 180px;
+  height: auto;
 }
 
 .innerMainSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .innerInventorySection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .inventorySection {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .inventorySection {
-    width: 100%;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
 
 .inventoryContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
 }
 
 .inventoryHead {
-    font-size: 14px;
-    font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .inventoryInput {
-    background-color: #fff !important;
-    border: none !important;
-    border-radius: 4px !important;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    color: #99a0ac;
-    font-size: 14px;
-    font-weight: 500;
-    outline: none !important;
-    padding: 12px !important;
-    position: relative !important;
-    width: 100% !important;
+  background-color: #fff !important;
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  color: #99a0ac;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none !important;
+  padding: 12px !important;
+  position: relative !important;
+  width: 100% !important;
 }
-.errorText{
-    font-size: 12px;
-    color: red;
+.errorText {
+  font-size: 12px;
+  color: red;
 }
 /* Style the manufacturer container */
 .manufacturerMainContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .manufacturerContainer {
-    display: flex;
-    width: 100%;
-    gap: 20px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
 }
 
 .manufacturersection {
-    width: 100%;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
 }
 
 .manufacturerDescriptionSection {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 /* End the manufacturer container */
 .productImageSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
 }
 
 .imageContainer {
-    width: 24%;
-    height: 240px;
-    overflow: hidden;
+  width: 24%;
+  height: 240px;
+  overflow: hidden;
 }
 
 .imageSection {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 /* Start form container */
-.formSection{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.fromContainer{
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+.fromContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
-.buttonContainer{
-    display: flex
-    ;
-        justify-content: center;
-        gap: 20px;
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
-.submitButton{
-    background: linear-gradient(to left, #00dcff, #0075ce);
-    color: white;
-    outline: none !important;
-    border: none !important;
-    padding: 6px 22px;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer !important;
+.submitButton {
+  background: linear-gradient(to left, #00dcff, #0075ce);
+  color: white;
+  outline: none !important;
+  border: none !important;
+  padding: 6px 22px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer !important;
 }
-.cancelButton{
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-    background-color: #ffffff;
-    border: 1px solid #5e676f;
-    color: #5e676f;
-    padding: 6px 22px;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer !important;
+.cancelButton {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff;
+  border: 1px solid #5e676f;
+  color: #5e676f;
+  padding: 6px 22px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer !important;
 }
 
 /* End form container */
 /* Start the additional Information Container */
 
 .addtionalContainer {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 26px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .additionalSection {
-    display: flex;
-    width: 100%;
-    gap: 20px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
 }
 
 .additionalInnerSection {
-    display: flex;
-    width: 100%;
-    gap: 10px;
+  display: flex;
+  width: 100%;
+  gap: 10px;
 }
 
 .additionalUploadSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .additionalImageSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .additionalImageSec {
-    width: 24%;
-    height: 240px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 24%;
+  height: 240px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .additionalInnerImage {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .additionalImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .additionalLink {
-    cursor: pointer !important;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgb(40, 47, 134) !important;
+  cursor: pointer !important;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(40, 47, 134) !important;
 }
 
 /* End the additional information container */
 
 /* Style category section */
 .textareaContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .textareaSection {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .textareaInnerSection {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
 }
 
 .medicinesFileSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .innerComplianceSection {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    justify-content: start;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: start;
 }
 
 .uploadFileSection {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
 }
 
 .uploadFileContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .productIcon {
-    width: 30px;
-    height: auto;
+  width: 30px;
+  height: auto;
 }
 
 .uploadImage {
-    width: 100px;
-    height: auto;
+  width: 100px;
+  height: auto;
 }
 
 .complianceIcon {
-    width: 50px;
-    height: auto;
+  width: 50px;
+  height: auto;
 }
 
 .complianceImage {
-    width: 150px;
-    height: auto;
+  width: 150px;
+  height: auto;
 }
 
-.mainPurchaseSection {}
+.mainPurchaseSection {
+}
 
 .PurcahseButton {
-    align-items: center;
-    background: linear-gradient(270deg, #00dcff, #0075ce);
-    border: none !important;
-    border-radius: 4px;
-    color: #fff;
-    column-gap: 8px;
-    cursor: pointer !important;
-    display: flex;
-    font-size: 14px;
-    justify-content: center;
-    outline: none !important;
-    padding: 6px 0;
-    width: 168px;
+  align-items: center;
+  background: linear-gradient(270deg, #00dcff, #0075ce);
+  border: none !important;
+  border-radius: 4px;
+  color: #fff;
+  column-gap: 8px;
+  cursor: pointer !important;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  outline: none !important;
+  padding: 6px 0;
+  width: 168px;
 }
 
 /* End category section */
 
 /* Start the modal */
 .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    width: 80%;
-    height: 80%;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  width: 80%;
+  height: 80%;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .closeButton {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
-    padding: 8px;
-    border: none !important;
-    cursor: pointer !important;
-    float: right;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px -1px #32325d40, 0 1px 3px -1px #0000004d !important;
+  padding: 8px;
+  border: none !important;
+  cursor: pointer !important;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .closeImg {
-    width: 10px;
-    cursor: pointer !important;
+  width: 10px;
+  cursor: pointer !important;
 }
 
 .pdfIframe {
-    width: 100%;
-    height: 90%;
-    border: none;
+  width: 100%;
+  height: 90%;
+  border: none;
 }
-
 
 /* End the modal */
 
 .complianceSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-@media(max-width:1400px) {
-    .container {
-        max-width: 100%;
-    }
+@media (max-width: 1400px) {
+  .container {
+    max-width: 100%;
+  }
 
-    .PurcahseButton {
-        padding: 6px 0px;
-        width: 140px;
-        font-size: 12.5px;
-    }
+  .PurcahseButton {
+    padding: 6px 0px;
+    width: 140px;
+    font-size: 12.5px;
+  }
 }
 
-
-@media(max-width:1200px) {
-    .medicineHead {
-        width: 200px;
-    }
+@media (max-width: 1200px) {
+  .medicineHead {
+    width: 200px;
+  }
 }
-
 
 /* End Product details */

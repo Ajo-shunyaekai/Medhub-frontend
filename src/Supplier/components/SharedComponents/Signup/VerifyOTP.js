@@ -71,7 +71,6 @@ const VerifyOTP = ({ step, setStep }) => {
           usertype: "Supplier",
         };
         setLoading(true)
-        console.log("OTP submitted:", payloadData);
         const response = await apiRequests.postRequest(
           "auth/verify-otp",
           payloadData

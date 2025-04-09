@@ -178,6 +178,9 @@ const LogisticsForm = lazy(() =>
 const SubscriptionInvoiceDetails = lazy(() =>
   import("../components/Subscription/SubscriptionInvoiceDetails.js")
 );
+const Error = lazy(() =>
+  import("../components/SharedComponents/Error/Error.jsx")
+);
 // const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 const socket = io.connect(process.env.REACT_APP_SERVER_URL, {
@@ -244,7 +247,6 @@ export function NotificationProvider({ children }) {
       (response) => {
         if (response.code === 200) {
           // setRefresh(true);
-          // console.log("Notification status updated");
           fetchNotifications(); // Refresh notifications after updating
         } else {
           console.error("Error updating notification status");
@@ -893,6 +895,14 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Error socket={socket} />
+      </Suspense>
+    ),
+  }
 ]);
  
 function Router() {

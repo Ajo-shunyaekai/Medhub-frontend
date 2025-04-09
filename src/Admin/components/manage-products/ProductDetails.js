@@ -46,7 +46,7 @@ const ProductDetails = () => {
             // }
  
             const obj = {
-                medicine_id: medId,
+                product_id: medId,
                 // buyer_id    :supplierIdSessionStorage || supplierIdLocalStorage 
             }
  
@@ -54,7 +54,6 @@ const ProductDetails = () => {
             //     if (response.code === 200) {
             //         setMedicineDetails(response.result.data)
             //     } else {
-            //         console.log('error in med details api');
             //     }
             // })
             try {
@@ -67,11 +66,9 @@ const ProductDetails = () => {
                 //     if (response.code === 200) {
                 //         setMedicineDetails(response.result)
                 //     } else {
-                //         console.log('error in med details api');
                 //     }
                 // })
             } catch (error) {
-                console.log('error in medicine list api',error);
             }
         }
         fetchData()
@@ -94,7 +91,7 @@ const ProductDetails = () => {
                                     {medicineDetails?.composition}
                                 </p> */}
                             </div>
-                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}>
+                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.product_id}`}>
                                 <div className="product-details-sec-one-right">
                                     <button className='product-details-send-btn'>Accept</button>
                                 </div>

@@ -593,7 +593,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
     };
 
     const handleSubmit = (e) => {
-        console.log('yes');
         e.preventDefault();
         if (validateForm()) {
             setLoading(true)
@@ -655,7 +654,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                     setRefresh(true)
                     onClose()
                     // toast(response.message, { type: 'error' })
-                    console.log('error in order detailsssss api');
                 }
             }); 
         }  else {
@@ -938,7 +936,6 @@ const OrderCustomModal = ({ show, onClose, buyerData, logiscticsData, orderId, b
                                 countryid={countryid}
                                 stateid={stateid}
                                 onChange={(e) => {
-                                    console.log(e);
                                 }}
                                 placeHolder="Select City"
                             /> */}

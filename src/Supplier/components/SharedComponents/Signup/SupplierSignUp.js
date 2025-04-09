@@ -21,6 +21,7 @@ import { InputMask } from '@react-input/mask';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import TermsAndConditions from '../../../../Policies/Terms&Conditions';
+import categoryArrays from '../../../../utils/Category';
 
 
 const MultiSelectOption = ({ children, ...props }) => (
@@ -72,6 +73,8 @@ const SupplierSignUp = ({ socket }) => {
     const [certificatePreviews, setcertificatePreviews] = useState([]);
     const [medicalPractitionerPreview, setMedicalPractiotionerPreview] = useState([])
     const [logoPreviews, setlogoPreviews] = useState([]);
+    const [category, setCategory] = useState([])
+
     const [certificateSections, setCertificateSections] = useState([{
         taxRegPreviews: [],
         expiryDate: null
@@ -117,6 +120,7 @@ const SupplierSignUp = ({ socket }) => {
           });
         }
       };
+  
     const defaultFormData = {
         companyType: '',
         companyName: '',
@@ -131,6 +135,7 @@ const SupplierSignUp = ({ socket }) => {
         bankdetails: '',
         delivertime: '',
         tags: '',
+        categories: [],
         originCountry: '',
         operationCountries: [],
         companyLicenseNo: '',
@@ -218,6 +223,14 @@ const SupplierSignUp = ({ socket }) => {
     useEffect(() => {
         const options = countryList().getData();
         setCountries(options);
+    }, []);
+
+    useEffect(() => {
+        const categoryOptions = categoryArrays?.map(cat => ({
+            value: cat.name,
+            label: cat.name
+        }));
+        setCategory(categoryOptions)
     }, []);
 
     const companyTypeOptions = [
@@ -508,6 +521,7 @@ const SupplierSignUp = ({ socket }) => {
         if (formData.email && !validateEmail(formData.email)) formErrors.email = 'Invalid Email ID';
         if (!formData.originCountry) formErrors.originCountry = 'Country of Origin is Required';
         if (!formData.operationCountries.length) formErrors.operationCountries = 'Country of Operation is Required';
+        if (!formData.categories.length) formErrors.categories = 'Trade In Category is Required';
         if (!formData.companyLicenseNo) formErrors.companyLicenseNo = 'Company License No. is Required';
         // if (!formData.companyLicenseExpiry) formErrors.companyLicenseExpiry = 'Company License Expiry Date is Required';
         // License expiry date validation
@@ -541,10 +555,9 @@ const SupplierSignUp = ({ socket }) => {
                 }
             }
         }
-        if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
+        // if (!formData.companyTaxNo) formErrors.companyTaxNo = 'Company Tax No. is Required';
         // if (!isChecked) formErrors.terms = 'You must agree to the terms and conditions';
         // if (!formData.bankdetails) formErrors.bankdetails = 'Bank Details are Required';
-        console.log('ormData.bankdetails', formData.bankdetails)
         if (!formData.bankdetails) {
             formErrors.bankdetails = 'Bank Details are Required';
         } else {
@@ -591,14 +604,13 @@ const SupplierSignUp = ({ socket }) => {
             formErrors.medicalCertificateImage = 'Medical Certificate Image is Required';
         }
         if (!formData.registrationNo) formErrors.registrationNo = 'Registration No. is Required';
-        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'VAT Registration No. is Required';
+        if (!formData.vatRegistrationNo) formErrors.vatRegistrationNo = 'Tax/VAT Registration No. is Required';
         if (!formData.activityCode) formErrors.activityCode = 'Business/Trade Activity is Required';
 
 
         if (!formData.locality) formErrors.locality = 'Locality is Required';
         if (!formData.country) formErrors.country = 'Country is Required';
 
-        console.log('Validation Errors:', formErrors);
         setErrors(formErrors);
 
         return Object.keys(formErrors).length === 0;
@@ -656,6 +668,20 @@ const SupplierSignUp = ({ socket }) => {
         }));
     };
 
+    const handleCategoriesChange = (selectedOptions) => {
+        const selectedLabels = selectedOptions?.map(option => option.label) || [];
+
+        setFormData({
+            ...formData,
+            categories: selectedOptions
+        });
+
+        setErrors(prevState => ({
+            ...prevState,
+            categories: selectedLabels.length === 0 ? 'Trade In Category is Required' : ''
+        }));
+    };
+
     const getDropdownButtonLabel = ({ placeholderButtonLabel, value }) => {
         if (value && value.length) {
             return value.map(country => country.label).join(', ');
@@ -689,7 +715,6 @@ const SupplierSignUp = ({ socket }) => {
 
     const handleSubmit = async () => {
         const isFormValid = await validateForm();
-        console.log('Is Form Valid:', isFormValid);
         if (isFormValid) {
             if (!isChecked) {
                 toast("You must agree to the terms and conditions", { type: 'error' });
@@ -699,6 +724,10 @@ const SupplierSignUp = ({ socket }) => {
             const formDataToSend = new FormData();
             const countryLabels = formData.operationCountries.map(country => {
                 return country ? country.label : '';
+            }) || [];
+
+            const categoryLabels = formData.categories?.map(category => {
+                return category ? category.label : '';
             }) || [];
 
             formDataToSend.append('supplier_type', formData.companyType?.label);
@@ -723,6 +752,7 @@ const SupplierSignUp = ({ socket }) => {
             formDataToSend.append('registration_no', formData.registrationNo);
             formDataToSend.append('vat_reg_no', formData.vatRegistrationNo);
             countryLabels.forEach(item => formDataToSend.append('country_of_operation[]', item));
+            categoryLabels.forEach(item => formDataToSend.append('categories[]', item));
             formDataToSend.append('tax_no', formData.companyTaxNo);
             formDataToSend.append('activity_code', formData.activityCode);
 
@@ -748,7 +778,6 @@ const SupplierSignUp = ({ socket }) => {
                 if (response?.code !== 200) {
                     setLoading(false)
                     toast(response.message, { type: 'error' })
-                    console.log('error in supplier/register api');
                     return;
                 }
                 // handleCancel()
@@ -767,7 +796,6 @@ const SupplierSignUp = ({ socket }) => {
                 // setButtonLoading(false)
                 setLoading(false)
                 toast(error.message, { type: 'error' })
-                console.log('error in buyer/register api');
 
             }
         } else {
@@ -849,15 +877,25 @@ const SupplierSignUp = ({ socket }) => {
                                                 {errors.registrationNo && <div className='signup__errors'>{errors.registrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
-                                                <label className='signup-form-section-label'>VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <label className='signup-form-section-label'>Tax/VAT Registration Number<span className='labelstamp'>*</span></label>
+                                                <div className='signup-tooltip-class'>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
                                                     name="vatRegistrationNo"
-                                                    placeholder="Enter VAT Registration Number"
+                                                    placeholder="Enter Tax/VAT Registration Number"
                                                     value={formData.vatRegistrationNo}
                                                     onChange={handleChange}
                                                 />
+                                                <span
+                                                        className="email-info-icon"
+                                                        data-tooltip-id="company-name-tooltip"
+                                                        data-tooltip-content="Provide your Tax/VAT Registration Number"
+                                                    >
+                                                        <img src={Information} className='tooltip-icons' alt='information' />
+                                                    </span>
+                                                    <Tooltip id="company-name-tooltip" />
+                                                    </div>
                                                 {errors.vatRegistrationNo && <div className='signup__errors'>{errors.vatRegistrationNo}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
@@ -974,6 +1012,7 @@ const SupplierSignUp = ({ socket }) => {
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Sales Person Name</label>
+                                                <div className='signup-tooltip-class'>
                                                 <input
                                                     className='signup-form-section-input'
                                                     type="text"
@@ -982,6 +1021,15 @@ const SupplierSignUp = ({ socket }) => {
                                                     value={formData.salesPersonName}
                                                     onChange={handleChange}
                                                 />
+                                                <span
+                                                        className="email-info-icon"
+                                                        data-tooltip-id="company-name-tooltip"
+                                                        data-tooltip-content="Enter Mehub Global Sales Person Name"
+                                                    >
+                                                        <img src={Information} className='tooltip-icons' alt='information' />
+                                                    </span>
+                                                    <Tooltip id="company-name-tooltip" />
+                                                </div>
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Country of Origin<span className='labelstamp'>*</span></label>
@@ -1033,7 +1081,7 @@ const SupplierSignUp = ({ socket }) => {
 
                                                 {errors.companyLicenseExpiry && <div className='signup__errors'>{errors.companyLicenseExpiry}</div>}
                                             </div>
-                                            <div className='signup-form-section-div'>
+                                            {/* <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Company Tax No.<span className='labelstamp'>*</span></label>
                                                 <input
                                                     className='signup-form-section-input'
@@ -1044,7 +1092,7 @@ const SupplierSignUp = ({ socket }) => {
                                                     onChange={handleChange}
                                                 />
                                                 {errors.companyTaxNo && <div className='signup__errors'>{errors.companyTaxNo}</div>}
-                                            </div>
+                                            </div> */}
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>Tags<span className='labelstamp'>*</span></label>
                                                 <input
@@ -1056,6 +1104,20 @@ const SupplierSignUp = ({ socket }) => {
                                                     onChange={handleChange}
                                                 />
                                                 {errors.tags && <div className='signup__errors'>{errors.tags}</div>}
+                                            </div>
+                                            <div className='signup-form-section-div'>
+                                                <label className='signup-form-section-label'>Categories you Trade In<span className='labelstamp'>*</span></label>
+                                                {category.length > 0 && (
+                                                    < MultiSelectDropdown
+                                                        className='signup-forms-sections-select custom-multi-select'
+                                                        options={category}
+                                                        value={formData.categories}
+                                                        onChange={handleCategoriesChange}
+                                                        getDropdownButtonLabel={getDropdownButtonLabel}
+                                                        style={{ width: '100%!important' }}
+                                                    />
+                                                )}
+                                                {errors.categories && <div className='signup__errors'>{errors.categories}</div>}
                                             </div>
                                             <div className='signup-form-section-div'>
                                                 <label className='signup-form-section-label'>About Company<span className='labelstamp'>*</span></label>

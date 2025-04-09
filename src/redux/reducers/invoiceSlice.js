@@ -18,7 +18,6 @@ export const fetchInvoiceListRedux = createAsyncThunk(
       return response.result; 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }
@@ -32,7 +31,6 @@ export const fetchInvoiceDataRedux = createAsyncThunk(
       return response.result 
     } catch (error) {
       // Log and pass the error
-      console.log("API error:", error);
       return rejectWithValue(error?.response?.data || error.message);
     }
   }

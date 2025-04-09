@@ -65,7 +65,6 @@ const SendInquiry = ({socket}) => {
         setRefreshTrigger(prev => !prev);
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in order list api', response);
       }
     });
   };
@@ -103,7 +102,6 @@ const SendInquiry = ({socket}) => {
 
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in order list api', response);
       }
     });
   }, [currentPage, refreshTrigger]);
@@ -127,8 +125,9 @@ const SendInquiry = ({socket}) => {
           list_id                : supplierData.list_id || "",
           item_details           : selectedItemDetails.map(item => ({
             item_id              : item._id || "",
-            medicine_id          : item.medicine_id || "",
+            product_id           : item.product_id || "",
             unit_price           : item.unit_price || "",
+            unit_tax             : item.unit_tax || "",
             quantity_required    : item.quantity_required || "",
             est_delivery_days    : item.est_delivery_days || "",
             target_price         : item.target_price || "",
@@ -137,7 +136,6 @@ const SendInquiry = ({socket}) => {
         });
       } 
     });
-// console.log('suplierId',supplier);
 
     const enquiryPayload = {
       buyer_id: buyerIdSessionStorage || buyerIdLocalStorage,
@@ -185,7 +183,6 @@ const SendInquiry = ({socket}) => {
       
       } else {
         toast(response.message, { type: "error" });
-        console.log('error in send-enquiry api', response);
       }
       setButtonLoading(false)
     });
@@ -252,7 +249,10 @@ const SendInquiry = ({socket}) => {
                         </label>
                       </div>
                       <div className='send-enquiry-inner-image'>
-                        <img src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' />
+                        <img 
+                          // src={`${process.env.REACT_APP_SERVER_URL}uploads/medicine/product_files/${product?.medicine_image[0]}`} alt='Product' 
+                          src={`${process.env.REACT_APP_SERVER_URL}uploads/products/${product?.medicine_image[0]}`} alt='Product' 
+                          />
                       </div>
                       <div className='send-enquiry-inner-content'>
                         <div className='send-enquiry-inner-top-container'>

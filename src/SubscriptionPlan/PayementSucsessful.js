@@ -45,7 +45,6 @@ const PaymentSuccessful = () => {
     });
   };
 
-  console.log("user, subscriptionDetails", user, subscriptionDetails);
 
   // Function to send the payment email (send PDF to backend API)
   const sendPaymentEmail = async (pdfBlob) => {

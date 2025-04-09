@@ -45,14 +45,13 @@ const ProductRequestDetails = ({ socket }) => {
 
     useEffect(() => {
         const obj = {
-            medicine_id: medId,
+            product_id: medId,
         }
 
         postRequest('buyer/medicine/medicine-details', obj, async (response) => {
             if (response.code === 200) {
                 setMedicineDetails(response.result.data)
             } else {
-                console.log('error in med details api');
             }
         })
     }, [])
@@ -60,7 +59,7 @@ const ProductRequestDetails = ({ socket }) => {
     const handleAcceptReject = (action) => {
         const obj = {
             admin_id: adminIdSessionStorage || adminIdLocalStorage,
-            medicine_id: medicineId,
+            product_id: medicineId,
             supplier_id: medicineDetails?.supplier.supplier_id,
             supplier_email: medicineDetails?.supplier.supplier_email,
             supplier_name: medicineDetails?.supplier.supplier_name,
@@ -96,7 +95,6 @@ const ProductRequestDetails = ({ socket }) => {
             } else {
                 setLoading(false);
                 setRejectLoading(false);
-                console.log('error in accept-reject-supplier api', response);
                 toast(response.message, { type: 'error' })
             }
         })
@@ -117,7 +115,7 @@ const ProductRequestDetails = ({ socket }) => {
                                     {medicineDetails?.composition}
                                 </p> */}
                             </div>
-                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.medicine_id}`}> */}
+                            {/* <Link to={`/supplier/edit-product/${medicineDetails?.product_id}`}> */}
                             <div className="product-details-sec-one-right">
                                 {/* <button className='product-details-send-btn'>Accept</button> */}
                                 <div
